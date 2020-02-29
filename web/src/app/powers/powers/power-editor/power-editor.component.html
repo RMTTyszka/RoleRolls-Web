@@ -1,0 +1,34 @@
+<div>
+  <form [formGroup]="form" *ngIf="!isLoading">
+  <div fxLayout="row wrap" fxLayoutGap="2%">
+    <mat-form-field fxFlex="100" fxFlex.gt-xs="48">
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field fxFlex="100" fxFlex.gt-xs="48">
+      <select matNativeControl placeholder="Category">
+        <option  [value]=null>
+        </option>
+        <option *ngFor="let category of powerCategories" [value]="category">
+          {{category}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
+      <input matInput placeholder="Description" formControlName="description">
+    </mat-form-field>
+    </div>
+  </form>
+  <div *ngIf="action === 'update'">
+    <mat-label>Races</mat-label>
+      <div fxLayout="row wrap" fxLayoutGap="2%">
+      <mat-card *ngFor="let race of races" fxFlex="50" fxFlex.gt-xs="25">
+        <mat-card-title>{{race.name}}</mat-card-title>
+      </mat-card>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <button mat-button (click)="save()">Save</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="delete()">Delete</button>
+  </div>
+</div>

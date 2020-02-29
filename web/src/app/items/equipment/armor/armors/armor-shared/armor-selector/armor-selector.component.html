@@ -1,0 +1,5 @@
+<form [formGroup]="form">
+  <div formGroupName="armor">
+    <p-autoComplete (completeMethod)="search($event.query)" placeholder="Armor" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true" formControlName="name"></p-autoComplete>
+  </div>
+</form>

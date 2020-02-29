@@ -1,0 +1,24 @@
+<div [hidden]="isLoading" class="mat-elevation-z8">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field>
+      <input matInput type="text" [(ngModel)]="filter" (keydown.enter)="updateFilter()">
+    </mat-form-field>
+    <mat-icon class="clickable" (click)="create()">add</mat-icon>
+  </div>
+  <p>{{filter}}</p>
+  <div fxLayout="row wrap">
+    <mat-card *ngFor="let record of displayData" class="listCard clickable" (click)="edit(record)">
+      <mat-card-title >
+        {{record.name}}
+      </mat-card-title>
+      <mat-card-subtitle>
+      </mat-card-subtitle>
+      <mat-card-content>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"
+                 [length]="0"
+                 [pageSize]="10" showFirstLastButtons (page)="updateDisplayData()"></mat-paginator>
+</div>

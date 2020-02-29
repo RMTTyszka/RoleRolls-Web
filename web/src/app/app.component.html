@@ -1,0 +1,27 @@
+<div>
+
+  <h1 routerLink='home' class="font-base">
+    {{title | titlecase}}
+  </h1>
+
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink=''>Party</a>
+    <a mat-tab-link routerLink='encounters'>Encounters</a>
+    <a mat-tab-link routerLink='combat'>Combat</a>
+    <a mat-tab-link routerLink='heroes'>Heroes</a>
+    <a mat-tab-link routerLink='items'>Items</a>
+    <a mat-tab-link routerLink='monsters'>Monsters</a>
+    <!-- <a mat-tab-link routerLink=''>Models</a> -->
+    <a mat-tab-link routerLink='races'>Races</a>
+    <a mat-tab-link routerLink='roles'>Roles</a>
+    <a mat-tab-link routerLink='powers'>Powers</a>
+    <a mat-tab-link routerLink='players'>Players</a>
+    <a mat-tab-link routerLink='tests'>Tests</a>
+
+    <a routerLink='rolls'>Make Rolls</a>
+  </nav>
+  <br/>
+
+  <router-outlet fxLayout="column"></router-outlet>
+</div>
+

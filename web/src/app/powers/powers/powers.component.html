@@ -1,0 +1,21 @@
+<div fxLayout="column" fxFlex="100" fxLayoutAlign="space-between stretch">
+  <mat-icon (click)="add()">
+    add
+  </mat-icon>
+  <div fxLayout="row wrap">
+    <mat-card *ngFor="let power of displayData" fxFlex="100" fxFlex.gt-xs="25" class="listCard clickable" (click)="edit(power)">
+      <mat-card-title >
+        {{power.name}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{power.category}}
+      </mat-card-subtitle>
+      <mat-card-content>
+        <!-- Role: {{monster.role.name}} -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"
+  [length]="0"
+  [pageSize]="10" showFirstLastButtons (page)="updateDisplayData()"></mat-paginator>
+</div>

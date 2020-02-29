@@ -1,0 +1,24 @@
+<div>
+  <form [formGroup]="form" fxLayout="column" fxLayoutAlign="start start">
+    <div fxFlex="50">
+      <mat-form-field>
+        <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field>
+        <input type="number" matInput placeholder="Level" formControlName="level">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field *ngFor="let monster of monsters.controls; let i = index" formArrayName="monsters">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <input fxFlex="50" matInput placeholder="Monster" [formControlName]="i">
+          <button fxFlex="50" matButton>Remove</button>
+
+        </div>
+      </mat-form-field>
+    </div>
+      <button (click)="addMonster()" type="button">Add Monster</button>
+  </form>
+</div>

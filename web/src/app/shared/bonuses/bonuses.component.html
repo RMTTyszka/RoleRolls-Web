@@ -1,0 +1,20 @@
+<div [formGroup]="form" fxLayout="row wrap">
+  <h4 fxFlex="90">Bonuses</h4>
+  <mat-icon fxFlex="10" class="clickable" (click)="addBonuses()" matTooltip="add bonuses">add</mat-icon>
+  <div formArrayName="bonuses" fxFlex="100" fxLayout="row wrap">
+    <div fxFlex="100" fxLayout="row" *ngFor="let bonus of bonuses.controls; let i = index" >
+      <div [formGroupName]="i" fxFlex="100" fxLayout="row">
+        <mat-form-field fxFlex="auto" class="pr-12">
+          <input matInput placeholder="Property" formControlName="property" readonly>
+        </mat-form-field>
+        <mat-form-field fxFlex="auto" class="pr-12">
+          <input matInput placeholder="Level" formControlName="level">
+        </mat-form-field>
+        <mat-form-field fxFlex="auto" class="pr-12">
+          <input matInput placeholder="Bonus" formControlName="bonus">
+        </mat-form-field>
+        <mat-icon mat-font-icon="fa-icon" class="fa" class="clickable" (click)="removeBonus(i)" matTooltip="add bonus" matTooltip="remove bonus">clear</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<button (click)= "clickTest()">Test</button>
+<div class="left">
+  <table>
+    <tr>
+      <td>
+        <button>Search Hero</button>
+      </td>
+      <td>
+        <button>Search Monster</button>
+      </td>
+    </tr>
+    <tr>
+      <input type="radio" name="typeOfRoll" [(ngModel)]="isAttack" value="true">
+      <label>Attack</label>
+      <input type="radio" name="typeOfRoll" [(ngModel)]="isAttack" value="false">
+      <label>Skill/Attribute</label>
+    </tr>
+  </table>
+  <table>
+
+    <tr>
+      <th>Dice Size</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="size" />
+      </td>
+    </tr>
+    <tr>
+      <th>Points</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="points" />
+      </td>
+      <td>
+        <button (click)="getLevel()">Calculate</button>
+      </td>
+    </tr>
+    <tr>
+      <th>Level / Attacks</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="level" />
+      </td>
+    </tr>
+    <tr>
+      <th>Bonus Dice</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="bonusDice" />
+      </td>
+    </tr>
+    <tr>
+      <th>Bonus</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="hitBonus" />
+      </td>
+    </tr>
+    <tr>
+      <th>CD</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]="cd" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="5">
+        <button (click)='getRoll()'>Roll</button>
+      </td>
+    </tr>
+    <tr *ngFor="let roll of rolls; let i = index">
+      <td colspan="1">roll {{i+1}}: {{roll}}
+      </td>
+      <td *ngIf="bonusDice > 0">
+        <button *ngIf="bonusDice > 0" (click)="addBDice(i)">Roll bDice</button>
+      </td>
+      <ng-container *ngIf="bonusDice === 0">
+        <td *ngIf="hits[i] === 1">Hit</td>
+        <td *ngIf="hits[i] === 0">Miss</td>
+      </ng-container>
+    </tr>
+  </table>
+</div>
+<ng-container *ngIf="totalHits > 0">
+  <table>
+    <tr>
+      <td>
+        <button>Search Hero</button>
+      </td>
+      <td>
+        <button>Search Monster</button>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <th>Hits</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='totalHits' />
+      </td>
+    </tr>
+    <tr>
+      <th>Weapon Damage</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='weapDamage' />
+      </td>
+    </tr>
+    <tr>
+      <th>Attr Level</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='attribute' />
+      </td>
+    </tr>
+    <tr>
+      <th>Damage Bonus</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='damageBonus' />
+      </td>
+    </tr>
+    <tr>
+      <th>Bonus Mod</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='bonusMod' />
+      </td>
+    </tr>
+    <tr>
+      <th>Attr Mod</th>
+      <td>
+        <input class="numInput" type="text" [(ngModel)]='attrMod' />
+      </td>
+    </tr>
+    <tr><td><button (click)="getDamages()">Get Damages</button></td></tr>
+
+  </table>
+  <table *ngIf="damages?.length > 0">
+    <tr *ngFor="let damage of damages">
+      <th>Damage</th>
+      <td>{{damage}}</td>
+    </tr>
+  </table>
+</ng-container>

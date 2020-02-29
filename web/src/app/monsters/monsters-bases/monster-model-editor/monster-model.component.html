@@ -1,0 +1,258 @@
+<div
+  *ngIf="!isLoading"
+  class="main-content"
+  fxFlex="100"
+  class="monster-background p-8 overflow-scroll"
+>
+  <form [formGroup]="form">
+    <div class="header">
+      <div
+        class="general_information"
+        fxLayout="row wrap"
+        fxLayoutAlign="space-between center"
+      >
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
+          <input matInput placeholder="Name" formControlName="name" />
+        </mat-form-field>
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
+          <input
+            readonly
+            matInput
+            placeholder="Race"
+            [value]="form.get('race').value.name"
+            (click)="selectRace()"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
+          <input
+            readonly
+            matInput
+            placeholder="Role"
+            [value]="form.get('role').value.name"
+            (click)="selectRole()"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-tab-group>
+      <mat-tab label="Properties">
+        <!-- Attributes Start -->
+        <div
+          *ngIf="!attributesIsLoading"
+          class="attributes"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between flex-end"
+        >
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
+            <p fxFlex="auto" class="monster-titles text-center">Attributes</p>
+            <button
+              mat-raised-button
+              class="text-right mr-8"
+              (click)="resetAttrinutes()"
+            >
+              reset
+            </button>
+            <p class="text-right monster-remaining-points-positive">
+              Remaining Points:
+              {{ totalPointsAttributes - getTotalAttributes() }}
+            </p>
+          </div>
+          <div
+            fxFlex="100"
+            fxFlex.gt-sm="33"
+            *ngFor="let attr of attributes"
+            fxLayout="row wrap"
+            fxLayoutAlign="flex-start center"
+          >
+            <mat-card class="m-4 p-8 monster-card" fxLayout="row" fxFlex="100">
+              <div
+                fxFlex="initial"
+                fxLayout="row wrap"
+                fxLayoutAlign="start stretch"
+              >
+                <div fxFlex="100" fxLayout="row" fxLayoutAlign="center start">
+                  <h4 class="m-0 text-center"></h4>
+                  {{ attr | titlecase }}
+                </div>
+                <mat-table
+                  #table
+                  [dataSource]="[attr]"
+                  fxFlex="100"
+                  class="monster-card-table"
+                >
+                  <ng-container matColumnDef="base">
+                    <mat-header-cell *matHeaderCellDef class="pr-4">
+                      Base
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let attr" class="pr-4">
+                      {{ form.get(attr + "Base").value }}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="race">
+                    <mat-header-cell *matHeaderCellDef class="pr-4">
+                      Race
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let attr" class="pr-4">
+                      {{ form.get(attr + "Race").value }}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="role">
+                    <mat-header-cell *matHeaderCellDef class="pr-4">
+                      Role
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let attr" class="pr-4">
+                      {{ form.get(attr + "Role").value }}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="attribute">
+                    <mat-header-cell
+                      *matHeaderCellDef
+                      class="p-0"
+                      fxLayoutAlign="center center"
+                    >
+                      Points
+                    </mat-header-cell>
+                    <mat-cell
+                      *matCellDef="let attr"
+                      class="p-0"
+                      style="border: 1px solid maroon"
+                      fxLayoutAlign="center center"
+                    >
+                      {{ form.get('attributes.' + attr).value }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row
+                    *matHeaderRowDef="['base', 'race', 'role', 'attribute']"
+                  ></mat-header-row>
+                  <mat-row
+                    *matRowDef="
+                      let row;
+                      columns: ['base', 'race', 'role', 'attribute']
+                    "
+                  ></mat-row>
+                </mat-table>
+              </div>
+              <!-- total + buttons -->
+              <div
+                fxFlex="auto"
+                fxLayout="column"
+                fxLayoutAlign="space-between stretch"
+                class="pr-8"
+              >
+                <div
+                  fxFlex="50"
+                  fxLayout="column"
+                  fxLayoutAlign="center stretch"
+                  fxFlexFill
+                >
+                  <p
+                    class="m-0 total-property-p monster-main-value"
+                    [matTooltip]="
+                      dataService.getRollDicesInfo(
+                        form.get(attr + 'Total')?.value
+                      )
+                    "
+                  >
+                    {{ form.get(attr + "Total").value }}
+                  </p>
+                </div>
+                <div
+                  fxFlex="50"
+                  fxLayout="row"
+                  fxLayoutAlign="space-around stretch"
+                  fxFlexFill
+                >
+                  <button
+                    fxFlex="50"
+                    mat-raised-button
+                    (click)="increaseProperty(attr)"
+                    class="clickable property-button"
+                    [disabled]="
+                      getTotalAttributes() >= totalPointsAttributes ||
+                      form.get('attributes.' + attr).value >= maxPropertyValue
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <button
+                    fxFlex="50"
+                    mat-raised-button
+                    (click)="decreaseProperty(attr)"
+                    class="clickable property-button"
+                    [disabled]="form.get('attributes.' + attr).value <= 0"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <!-- Attributes End -->
+        <!-- Skill start -->
+        <div
+          *ngIf="!skillsIsLoading"
+          class="skills"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-around center"
+        >
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="end stretch">
+            <p fxFlex="auto" class="monster-titles text-center">Skills</p>
+            <button
+              mat-raised-button
+              class="text-center mr-8"
+              (click)="resetSkills()"
+            >
+              reset
+            </button>
+            <p class="text-right monster-remaining-points-positive">
+              Remaining Points: {{ totalPointsSkills - selectedSkills.length }}
+            </p>
+          </div>
+          <mat-button-toggle-group
+            [multiple]="true"
+            fxLayout="row wrap"
+            fxLayoutAlign="start center"
+          >
+            <mat-button-toggle
+              fxFlex="25"
+              fxFlex.gt-sm="10"
+              *ngFor="let skill of skills"
+              (click)="addSkill(skill)"
+              [checked]="skillIsSelected(skill)"
+              [disabled]="
+                selectedSkills.controls.length >= totalPointsSkills &&
+                !skillIsSelected(skill)
+              "
+            >
+              {{ skill }}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <div
+            fxFlex="25"
+            fxFlex.gt-sm="10"
+            *ngFor="let skill of skills"
+            fxLayout="row wrap"
+            fxLayoutAlign="end center"
+          >
+            <button fxFlex="100" mat-raised-button></button>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Bonuses">
+        <loh-bonuses
+          [form]="form"
+          (bonusChanged)="calculateTotalProperty($event)"
+        ></loh-bonuses>
+      </mat-tab>
+    </mat-tab-group>
+    <div *ngIf="true">
+      <div class="actions">
+        <button type="button" (click)="save()">Save</button>
+        <button type="button" (click)="delete()">Delete</button>
+      </div>
+    </div>
+  </form>
+</div>

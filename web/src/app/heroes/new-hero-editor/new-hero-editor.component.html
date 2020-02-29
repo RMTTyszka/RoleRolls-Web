@@ -1,0 +1,65 @@
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId"
+               (loaded)="loaded($event)">
+  <form form [formGroup]="form" *ngIf="!isLoading">
+    <p-tabView>
+      <p-tabPanel header="General">
+        <div  fxFlex="row wrap" fxLayoutAlign="start start">
+          <div fxFlex.gt-md="33" fxFlex="100">
+            <p-fieldset legend="Hero">
+              <input type="text" pInputText placeholder="Name" formControlName="name">
+              <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
+              <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
+              <label>Remaining Points: {{totalAttributesInitialPoints - usedAttributesBasePoints}}</label>
+              <div class="ui-inputgroup">
+                <button (click)="resetAttrs()" pButton pTooltip="reset" type="button" icon="pi pi-times-circle" class="ui-button-raised ui-button-secondary"></button>
+                <input type="text" readonly pInputText placeholder="ATTRIBUTES" class="input-centered-placeholder">
+                <button *ngIf="!attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = true" pButton type="button" icon="pi pi-angle-double-right" class="ui-button-raised ui-button-secondary"></button>
+                <button *ngIf="attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = false" pButton type="button" icon="pi pi-angle-double-left" class="ui-button-raised ui-button-secondary"></button>
+              </div>
+              <div class="ui-inputgroup">
+                <button (click)="removeLevel()" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
+                <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder">
+                <button (click)="addLevel()" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
+                <span class="ui-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
+              </div>
+              <div formGroupName="baseAttributes">
+                <div class="ui-inputgroup" *ngFor="let attr of attributes">
+                  <button (click)="removeAttr(attr)" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
+                  <input type="text" readonly pInputText [placeholder]="attr" class="input-centered-placeholder">
+                  <button (click)="addAttr(attr)" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
+                  <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{totalAttribute(attr)}}</span>
+                  <ng-container *ngIf="attributeDetailsIsOpened">
+                    <span class="ui-inputgroup-addon"  pTooltip="base points">{{baseAttribute(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: azure" pTooltip="bonus points">{{bonusPointsAttribute(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: lightgreen" pTooltip="race bonus">{{raceAttributeBonus(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: lightsalmon" pTooltip="role bonus">{{roleAttributeBonus(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: darkkhaki" pTooltip="bonuses"></span>
+                  </ng-container>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+          <div fxFlex.gt-md="33" fxFlex="100">
+            <p-fieldset legend="Equipment">
+              <loh-equipment [form]="form"></loh-equipment>
+            </p-fieldset>
+          </div>
+          <div fxFlex.gt-md="33" fxFlex="100">
+            <p-fieldset legend="Stats">
+              <form [formGroup]="form">
+                <loh-hero-stats></loh-hero-stats>
+              </form>
+            </p-fieldset>
+          </div>
+          <div>
+          </div>
+
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Inventory">
+        <loh-hero-inventory></loh-hero-inventory>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</loh-cm-editor>
+<p-toast position="top-right"></p-toast>

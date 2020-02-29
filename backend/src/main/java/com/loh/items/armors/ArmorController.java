@@ -1,0 +1,90 @@
+package com.loh.items.armors;
+
+
+import com.loh.items.armors.armorModel.ArmorModel;
+import com.loh.items.armors.armorModel.ArmorModelRepository;
+import com.loh.shared.BaseCrudResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@CrossOrigin
+@Controller    // This means that this class is a Controller
+@RequestMapping(path="/armors",  produces = "application/json; charset=UTF-8")
+public class ArmorController {
+
+    @Autowired
+    private ArmorModelRepository repository;
+
+    @GetMapping(path="/allPaged")
+    public @ResponseBody
+    Iterable<ArmorModel> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+
+        Pageable paged = PageRequest.of(skipCount, maxResultCount);
+        if (filter.isEmpty() || filter == null) {
+            return repository.findAll(paged);
+        }
+        return repository.findAllByNameIgnoreCaseContaining(filter, paged);
+    }
+    @GetMapping(path="/allFiltered")
+    public @ResponseBody
+    Iterable<ArmorModel> getAllFiltered(@RequestParam String filter) {
+        // This returns a JSON or XML with the users
+        if (filter.isEmpty() || filter == null) {
+            return repository.findAll();
+        }
+        return repository.findAllByNameIgnoreCaseContaining(filter);
+    }
+    @GetMapping(path="/find")
+    public @ResponseBody
+    ArmorModel getArmor(@RequestParam UUID id) {
+
+        ArmorModel armor = repository.findById(id).get();
+
+        return armor;
+
+    }
+    @GetMapping(path="/getNew")
+    public @ResponseBody
+    ArmorModel getNewArmor() {
+        return new ArmorModel();
+    }
+    @PutMapping(path="/update")
+    public @ResponseBody
+    BaseCrudResponse<ArmorModel> updateArmor(@RequestBody ArmorModel Armor) {
+
+        return saveAndGetArmorBaseCrudResponse(Armor);
+    }
+
+    private BaseCrudResponse<ArmorModel> saveAndGetArmorBaseCrudResponse(ArmorModel Armor) {
+        ArmorModel updatedArmor = repository.save(Armor);
+        BaseCrudResponse response = new BaseCrudResponse<ArmorModel>();
+        response.Success = true;
+        response.Entity = updatedArmor;
+        return response;
+    }
+
+    @PostMapping(path="/create")
+    public @ResponseBody
+    BaseCrudResponse<ArmorModel> addArmor(@RequestBody ArmorModel Armor) {
+
+        return saveAndGetArmorBaseCrudResponse(Armor);
+    }
+    @DeleteMapping(path="/delete")
+    public @ResponseBody
+    BaseCrudResponse<ArmorModel> deleteArmor(@RequestParam UUID id) {
+
+        ArmorModel Armor = repository.findById(id).get();
+        BaseCrudResponse response = new BaseCrudResponse();
+        repository.deleteById(id);
+        response.Success = true;
+        response.Entity = Armor;
+
+        return response;
+    }
+
+}

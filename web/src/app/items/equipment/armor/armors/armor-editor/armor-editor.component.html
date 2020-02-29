@@ -1,0 +1,7 @@
+<loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
+  <ng-container></ng-container>
+  <form form [formGroup]="form" *ngIf="!isLoading">
+    <input type="text" pInputText placeholder="Name" formControlName="name">
+    <loh-base-armor-selector [form]="form"></loh-base-armor-selector>
+  </form>
+</loh-cm-editor>

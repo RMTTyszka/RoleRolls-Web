@@ -1,0 +1,4 @@
+<div class="ui-inputgroup" *ngFor="let stat of stats">
+  <input type="text" readonly pInputText [placeholder]="stat">
+  <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{this.form.get(stat).value}}</span>
+</div>

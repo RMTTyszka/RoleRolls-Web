@@ -1,0 +1,272 @@
+<div *ngIf="!isLoading">
+  <form [formGroup]="form">
+    <div fxLayout="row" fxLayoutAlign="flex-start center">
+      <div fxLayout="column"  fxFlex="nogrow">
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <p fxFlex="10">Weapon</p>
+          <p fxFlex="10">Damage</p>
+          <p fxFlex="10">modBon</p>
+          <p fxFlex="10">modAttr</p>
+          <p fxFlex="10">attacks</p>
+          <p fxFlex="10">modHit</p>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Two Small Weapons</span>
+          <input fxFlex="10" placeholder="damage" formControlName="twoSWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="twoSWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="twoSWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="twoSWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="twoSWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Two Medium Weapons</span>
+          <input fxFlex="10" placeholder="damage" formControlName="twoMWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="twoMWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="twoMWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="twoMWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="twoMWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Two Handed Weapon</span>
+          <input fxFlex="10" placeholder="damage" formControlName="oneHWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="oneHWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="oneHWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="oneHWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="oneHWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">One Small Weapon</span>
+          <input fxFlex="10" placeholder="damage" formControlName="oneSWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="oneSWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="oneSWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="oneSWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="oneSWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">One Medium Weapon</span>
+          <input fxFlex="10" placeholder="damage" formControlName="oneMWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="oneMWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="oneMWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="oneMWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="oneMWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">One Handed Heavy Weapon</span>
+          <input fxFlex="10" placeholder="damage" formControlName="onehHWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="onehHWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="onehHWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="onehHWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="onehHWHIT" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Two Handed Medium Weapon</span>
+          <input fxFlex="10" placeholder="damage" formControlName="twohMWDAM" />
+          <input fxFlex="10" placeholder="modBon" formControlName="twohMWMBON" />
+          <input fxFlex="10" placeholder="modAttr" formControlName="twohMWMATTR" />
+          <input fxFlex="10" placeholder="attacks" formControlName="twohMWATS" />
+          <input fxFlex="10" placeholder="modHit" formControlName="twohMWHIT" />
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="auto">
+          <div fxLayout="row" fxLayoutAlign="flex-start center">
+              <p fxFlex="10">damagePerArmor</p>
+              <p fxFlex="10">Def</p>
+              <p fxFlex="10">evade</p>
+              <p fxFlex="10">base</p>
+            </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Light A</span>
+          <input fxFlex="10" placeholder="def" formControlName="defLA" />
+          <input fxFlex="10" placeholder="evade" formControlName="evLA" />
+          <input fxFlex="10" placeholder="base" formControlName="baseLA" />
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-start center">
+            <span fxFlex="10">Medium A</span>
+            <input fxFlex="10" placeholder="def" formControlName="defMA" />
+            <input fxFlex="10" placeholder="evade" formControlName="evMA" />
+            <input fxFlex="10" placeholder="base" formControlName="baseMA" />
+          </div>
+          <div fxLayout="row" fxLayoutAlign="flex-start center">
+          <span fxFlex="10">Heavy A</span>
+          <input fxFlex="10" placeholder="def" formControlName="defHA" />
+          <input fxFlex="10" placeholder="evade" formControlName="evHA" />
+          <input fxFlex="10" placeholder="base" formControlName="baseHA" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <div [hidden]="true">
+    <div fxLayout="row wrap">
+      <h5>2 Small</h5>
+      <p fxFlex="auto" *ngFor="let twoswdam of twoSmallWeapons; let i = index">
+        {{twoswdam.total}}
+      </p>
+    </div>
+    <div fxLayout="row wrap">
+      <h5>2 Med</h5>
+      <p fxFlex="auto" *ngFor="let twoswdam of twoMediumWeapons; let i = index">
+        {{twoswdam.total}}
+      </p>
+    </div>
+    <div fxLayout="row wrap">
+      <h5>one Heavy 2h</h5>
+      <p fxFlex="auto" *ngFor="let oneHeavy of oneHeavyWeapon; let i = index">
+        {{oneHeavy.total}}
+      </p>
+    </div>
+    <div fxLayout="row wrap">
+      <h5>one Small</h5>
+      <p fxFlex="auto" *ngFor="let oneSmall of oneSmallWeapon; let i = index">
+        {{oneSmall.total}}
+      </p>
+    </div>
+    <div fxLayout="row wrap">
+      <h5>one Med</h5>
+      <p fxFlex="auto" *ngFor="let oneMedium of oneMediumWeapon; let i = index">
+        {{oneMedium.total}}
+      </p>
+    </div>
+    <div fxLayout="row wrap">
+      <h5>one Heavy 1h</h5>
+      <p fxFlex="auto" *ngFor="let onehandHeavy of onehandedHeavyWeapon; let i = index">
+        {{onehandHeavy.total}}
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div > 
+  <div fxLayout="row wrap" >
+    <h5>2 Small</h5>
+    <p fxFlex="auto" *ngFor="let twoswdam of damagePerArmortwoSmallWeapons; let i = index">
+      <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span> 
+      <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span> 
+      <span style="color: red" *ngIf="i >= 40">{{twoswdam }}</span> |
+    </p>
+  </div>
+      <div fxLayout="row wrap">
+        <h5>2 Med</h5>
+        <p fxFlex="auto" *ngFor="let twoswdam of damagePerArmortwoMediumWeapons; let i = index">
+          <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{twoswdam }}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>one Heavy 2h</h5>
+        <p fxFlex="auto" *ngFor="let oneHeavy of damagePerArmoroneHeavyWeapon; let i = index">
+          <span style="color: blue" *ngIf="i < 20">{{oneHeavy }}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneHeavy }}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{oneHeavy }}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>one Small</h5>
+        <p fxFlex="auto" *ngFor="let oneSmall of damagePerArmoroneSmallWeapon; let i = index">
+          <span style="color: blue" *ngIf="i < 20">{{oneSmall }}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneSmall }}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{oneSmall }}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>one Med</h5>
+        <p fxFlex="auto" *ngFor="let oneMedium of damagePerArmoroneMediumWeapon; let i = index">
+          <span style="color: blue" *ngIf="i < 20">{{oneMedium}}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneMedium}}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{oneMedium}}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>one Heavy 1h</h5>
+        <p fxFlex="auto" *ngFor="let onehandHeavy of damagePerArmoronehandedHeavyWeapon; let i = index">
+          <span style="color: blue" *ngIf="i <= 20">{{onehandHeavy }}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{onehandHeavy }}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{onehandHeavy }}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>One twohanded Medium </h5>
+        <p fxFlex="auto" *ngFor="let twohandMedium of damagePerArmoronehandedHeavyWeapon; let i = index">
+          <span style="color: blue" *ngIf="i <= 20">{{twohandMedium }}</span> 
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twohandMedium }}</span> 
+          <span style="color: red" *ngIf="i >= 40">{{twohandMedium }}</span> |
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>PvsAim </h5>
+        <p fxFlex="auto" *ngFor="let pv of pvs; let i = index">
+          <span>{{pv }}</span> 
+        </p>
+      </div>
+      <div fxLayout="row wrap">
+        <h5>Pvs </h5>
+        <p fxFlex="auto" *ngFor="let pv of realPvs; let i = index">
+          <span>{{pv.life }}</span> <br>
+          <span>{{pv.moral }}</span> 
+        </p>
+      </div>
+    </div>
+    
+          <div fxLayout="row wrap">
+            <h5>2 Small</h5>
+            <p fxFlex="auto">
+              {{total(damagePerArmortwoSmallWeapons)}} |
+            </p>
+          </div>
+          <div fxLayout="row wrap">
+            <h5>2 Med</h5>
+            <p fxFlex="auto">
+                {{total(damagePerArmortwoMediumWeapons)}} |
+              </p>
+            </div>
+            <div fxLayout="row wrap">
+              <h5>one Heavy 2h</h5>
+              <p fxFlex="auto">
+                {{total(damagePerArmoroneHeavyWeapon)}} |
+              </p>
+            </div>
+            <div fxLayout="row wrap">
+              <h5>one Small</h5>
+              <p fxFlex="auto">
+                {{total(damagePerArmoroneSmallWeapon)}} |
+              </p>
+            </div>
+            <div fxLayout="row wrap">
+              <h5>one Med</h5>
+              <p fxFlex="auto">
+                {{total(damagePerArmoroneMediumWeapon)}} |
+              </p>
+            </div>
+            <div fxLayout="row wrap">
+              <h5>one Heavy 1h</h5>
+              <p fxFlex="auto">
+                {{total(damagePerArmoronehandedHeavyWeapon)}} |
+            </p>
+          </div>
+            <div fxLayout="row wrap">
+              <h5>twohanded Medium</h5>
+              <p fxFlex="auto">
+                {{total(damagePerArmortwohandedMediumWeapon)}} |
+            </p>
+          </div>
+            <div fxLayout="row wrap">
+              <h5>Armor Light</h5>
+              <p fxFlex="auto">
+                {{total(ARMORlight)}} |
+            </p>
+          </div>
+            <div fxLayout="row wrap">
+              <h5>Armor Medium</h5>
+              <p fxFlex="auto">
+                {{total(ARMORmedium)}} |
+            </p>
+          </div>
+            <div fxLayout="row wrap">
+              <h5>Armor Heavy</h5>
+              <p fxFlex="auto">
+                {{total(ARMORheavy)}} |
+            </p>
+          </div>

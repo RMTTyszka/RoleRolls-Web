@@ -1,0 +1,58 @@
+[
+	{
+		"category": "Thievery",
+		"skills": [
+			"openLocks",
+			"steal",
+			"operateTrap"
+		]
+	},
+	{
+		"category": "Athletics",
+		"skills": [
+			"jump",
+			"climb",
+			"sports"
+		]
+	},
+	{
+		"category": "Communication",
+		"skills": [
+			"diplomacy",
+			"intimidate",
+			"bluff"
+		]
+	},
+	{
+		"category": "Knowlege",
+		"skills": [
+			"arcane",
+			"religion",
+			"nature"
+		]
+	},
+	{
+		"category": "Perception",
+		"skills": [
+			"perceive",
+			"feeling",
+			"search"
+		]
+	},
+	{
+		"category": "Manoeuvre",
+		"skills": [
+			"hide",
+			"stealth",
+			"acrobacy"
+		]
+	},
+	{
+		"category": "Treatment",
+		"skills": [
+			"wounds",
+			"toxicity",
+			"curse"
+		]
+	}
+]
