@@ -6,8 +6,9 @@ import javax.persistence.Embeddable;
 public class Bonus  {
 
 
-	public Bonus() {};
-	public Bonus(String prop, Integer val) {
+	public Bonus() {}
+
+    public Bonus(String prop, Integer val) {
 		this.property = prop;
 		this.bonus = val;
 	}

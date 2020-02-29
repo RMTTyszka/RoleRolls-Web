@@ -3,9 +3,9 @@ package com.loh.creatures.heroes;
 
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
-import com.loh.items.armors.armorCategories.ArmorCategoryEnum;
 import com.loh.items.armors.ArmorInstance;
 import com.loh.items.armors.ArmorRepository;
+import com.loh.items.armors.armorTypes.ArmorType;
 import com.loh.items.weapons.WeaponInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -61,7 +61,7 @@ public class HeroController {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
         Hero hero = new Hero();
-        ArmorInstance armor = armorRepository.findByArmorModel_BaseArmor_Category_ArmorCategoryEnum(ArmorCategoryEnum.None);
+        ArmorInstance armor = armorRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
         hero.getEquipment().setArmor(armor);
         hero.getInventory().addItem(armor);
         return hero;

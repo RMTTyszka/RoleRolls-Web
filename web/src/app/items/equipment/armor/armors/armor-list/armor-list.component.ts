@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/api';
 import {ModalEntityAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
-import {ArmorModel} from '../../../../../shared/models/Armor.model';
 import {ArmorEditorComponent} from '../armor-editor/armor-editor.component';
 import {ArmorService} from '../armor.service';
+import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-list',

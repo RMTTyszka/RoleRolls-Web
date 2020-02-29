@@ -9,34 +9,29 @@ import lombok.Setter;
 public class ArmorCategory extends Entity {
 
     public ArmorCategory(){
-        Type = ArmorType.Light;
+        armorType = ArmorType.Light;
         defense = 0;
-        Evasion = 0;
-        BaseDefense = 0;
+        evasion = 0;
+        baseDefense = 0;
     }
 
-    public ArmorCategory(ArmorCategoryEnum armorCategoryEnum, ArmorType type, int defense, int evasion, int baseDefense) {
-        Type = type;
+    public ArmorCategory(ArmorType armorType, int defense, int evasion, int baseDefense) {
+        this.armorType = armorType;
         this.defense = defense;
-        Evasion = evasion;
-        BaseDefense = baseDefense;
-        this.armorCategoryEnum = armorCategoryEnum;
+        this.evasion = evasion;
+        this.baseDefense = baseDefense;
     }
     @Getter @Setter
-    private ArmorType Type;
+    private ArmorType armorType;
 
     @Getter @Setter
     private int defense;
 
     @Getter @Setter
-    private int Evasion;
+    private int evasion;
 
     @Getter @Setter
-    private int BaseDefense;
-
-    @Getter @Setter
-    private ArmorCategoryEnum armorCategoryEnum;
-
+    private int baseDefense;
 
 }
 

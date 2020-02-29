@@ -4,6 +4,8 @@ package com.loh.creatures;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 @Embeddable
 public class Attributes {
@@ -52,6 +54,10 @@ public class Attributes {
         }
 
         return 0;
+    }
+    public static List<String> getList() {
+        return Arrays.asList("strength", "agility", "vitality", "wisdom","intuition","charisma");
+
     }
 
 

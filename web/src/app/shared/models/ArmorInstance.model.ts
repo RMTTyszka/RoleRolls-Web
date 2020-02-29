@@ -1,8 +1,7 @@
-import {Entity} from './Entity.model';
-import {ArmorModel} from './Armor.model';
-import {ItemInstance} from './ItemInstance.model';
+import { EquipableInstance } from './EquipableInstance.model';
+import { ArmorModel } from './ArmorModel.model';
 
-export class ArmorInstance extends ItemInstance {
+export class ArmorInstance extends EquipableInstance {
 
   public armorModel: ArmorModel;
   public isArmor = true;

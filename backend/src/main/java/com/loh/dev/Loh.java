@@ -1,4 +1,4 @@
-package com.loh.Dev;
+package com.loh.dev;
 
 public class Loh {
 

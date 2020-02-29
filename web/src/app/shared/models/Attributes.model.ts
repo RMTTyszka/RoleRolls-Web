@@ -12,3 +12,12 @@ export class Attributes {
   intuitionBonusPoints = 0;
   charismaBonusPoints = 0;
 }
+
+export enum AttributeEnum {
+  strength = 'strength',
+  agility = 'agility',
+  vitality = 'vitality',
+  wisdom = 'wisdom',
+  intuition = 'intuition',
+  charisma = 'charisma'
+}

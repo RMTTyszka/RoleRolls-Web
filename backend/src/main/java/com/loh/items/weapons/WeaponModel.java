@@ -1,70 +1,22 @@
 package com.loh.items.weapons;
 
 import com.loh.items.Equipable;
+import com.loh.items.EquipableSlot;
+import com.loh.items.weapons.baseWeapon.BaseWeapon;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class WeaponModel extends Equipable {
-	
-	private String weaponName;
-	
-	private Integer numberOfHands;
-	
-	private String hitAttribute;
-	
-	private String damageAttribute;
-	
-	private Integer attributeMod;
-	private Integer bonusMod;
 
-	public String getWeaponName() {
-		return weaponName;
-	}
+	@Getter @Setter
+	protected EquipableSlot slot = EquipableSlot.MainHand;
+	@Getter @Setter	@ManyToOne
+	private BaseWeapon baseWeapon = new BaseWeapon();
 
-	public void setWeaponName(String weaponName) {
-		this.weaponName = weaponName;
-	}
-
-	public Integer getNumberOfHands() {
-		return numberOfHands;
-	}
-
-	public void setNumberOfHands(Integer numberOfHands) {
-		this.numberOfHands = numberOfHands;
-	}
-
-	public String getDamageAttribute() {
-		return damageAttribute;
-	}
-
-	public void setDamageAttribute(String damageAttribute) {
-		this.damageAttribute = damageAttribute;
-	}
-
-	public String getHitAttribute() {
-		return hitAttribute;
-	}
-
-	public void setHitAttribute(String hitAttribute) {
-		this.hitAttribute = hitAttribute;
-	}
-
-	public Integer getAttributeMod() {
-		return attributeMod;
-	}
-
-	public void setAttributeMod(Integer attributeMod) {
-		this.attributeMod = attributeMod;
-	}
-
-	public Integer getBonusMod() {
-		return bonusMod;
-	}
-
-	public void setBonusMod(Integer bonusMod) {
-		this.bonusMod = bonusMod;
-	}
-
-
+	@Getter @Setter
+	private boolean isStatic = false;
 }

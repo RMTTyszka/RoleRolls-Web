@@ -1,27 +1,24 @@
 package com.loh.creatures.monsters;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 import com.loh.adventures.Enviroment;
+import com.loh.creatures.Attributes;
 import com.loh.race.Race;
 import com.loh.role.Role;
-import com.loh.shared.OldAttributes;
 import com.loh.shared.Bonus;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class MonsterBase {
 	
 	private String name;
-	private OldAttributes oldAttributes;
+	@Getter
+	@Setter
+	private Attributes oldAttributes;
 	
 	@ElementCollection
 	private List<String> mainSkills;
@@ -67,13 +64,6 @@ public class MonsterBase {
 	}
 	public void setRole(Role role) {
 		this.role = role;
-	}
-	
-	public OldAttributes getOldAttributes() {
-		return oldAttributes;
-	}
-	public void setOldAttributes(OldAttributes oldAttributes) {
-		this.oldAttributes = oldAttributes;
 	}
 
 	@Id

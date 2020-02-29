@@ -1,6 +1,6 @@
 package com.loh.creatures;
 
-import com.loh.Dev.Loh;
+import com.loh.dev.Loh;
 import com.loh.creatures.heroes.equipment.Equipment;
 import com.loh.creatures.heroes.inventory.Inventory;
 import com.loh.race.Race;
