@@ -1,0 +1,127 @@
+Skip to content
+Why GitHub? 
+Enterprise
+Explore 
+Marketplace
+Pricing 
+
+Search
+
+Sign in
+Sign up
+12 133 58 dsyer/spring-boot-angular
+ Code  Issues 5  Pull requests 0  Projects 0  Insights
+Join GitHub today
+GitHub is home to over 28 million developers working together to host and review code, manage projects, and build software together.
+
+spring-boot-angular/.gitignore
+555160b  on 10 Jul 2018
+@dsyer dsyer Add back needed js file
+@dsyer @angular-cli
+     
+69 lines (58 sloc)  788 Bytes
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+*.apt_generated
+*.classpath
+*.factorypath
+*.project
+*.settings
+*.springBeans
+*.sts4-cache/
+
+### Eclipse template
+*.pydevproject
+**.metadata
+**bin/
+**tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+*.settings/
+*.loadpath
+*.recommenders
+*.log
+
+# Eclipse Core
+*.project
+
+
+### IntelliJ IDEA ###
+*.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+**/nbproject/private/
+**/build/
+**/nbbuild/
+**/dist/
+**/nbdist/
+*.nb-gradle/# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+**/target
+**/dist
+**/tmp
+**/out-tsc
+
+# dependencies
+**/node
+**/node_modules
+**node/
+
+# IDEs and editors
+**/.idea
+*.project
+*.classpath
+*.c9/
+*.launch
+*.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+*.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+� 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
+server/.metadata/version.ini
+server/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+server/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/server-config.json
+server/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
+/server/.metadata
