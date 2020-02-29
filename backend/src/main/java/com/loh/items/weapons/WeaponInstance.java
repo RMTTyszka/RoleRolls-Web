@@ -13,5 +13,5 @@ import javax.persistence.ManyToOne;
 public class WeaponInstance extends EquipableInstance {
 
     @Getter @Setter @ManyToOne
-    private WeaponModel weapon;
+    private WeaponModel weaponModel;
 }

@@ -15,7 +15,7 @@ public class BaseWeapon extends Entity {
     private WeaponCategory category;
 
     @Getter @Setter
-    private boolean Static;
+    private boolean isStatic;
     @Getter @Setter
     private String name;
 }

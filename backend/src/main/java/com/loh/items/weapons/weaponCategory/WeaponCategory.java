@@ -7,7 +7,7 @@ import lombok.Setter;
 @javax.persistence.Entity
 public class WeaponCategory extends Entity {
     @Getter @Setter
-    private WeaponType Type;
+    private WeaponType weaponType;
     @Getter @Setter
     private WeaponHandleType handleType;
     @Getter @Setter
