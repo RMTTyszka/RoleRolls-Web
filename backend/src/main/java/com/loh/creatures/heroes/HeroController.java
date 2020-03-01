@@ -2,11 +2,14 @@ package com.loh.creatures.heroes;
 
 
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
+import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
 import com.loh.items.armors.ArmorInstance;
 import com.loh.items.armors.ArmorRepository;
 import com.loh.items.armors.armorTypes.ArmorType;
+import com.loh.items.weapons.weaponCategory.WeaponType;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
+import com.loh.items.weapons.weaponInstance.WeaponInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,8 @@ public class HeroController {
 
     @Autowired
     private ArmorRepository armorRepository;
+    @Autowired
+    private WeaponInstanceRepository weaponInstanceRepository;
     @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
@@ -62,7 +67,14 @@ public class HeroController {
         //	System.out.println(io.swagger.util.Json.pretty(monster));
         Hero hero = new Hero();
         ArmorInstance armor = armorRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
+        WeaponInstance weapon = weaponInstanceRepository.findByWeaponModel_BaseWeapon_Category_WeaponType(WeaponType.None);
         hero.getEquipment().setArmor(armor);
+        try {
+            hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return hero;
     }
     @PutMapping(path="/update")

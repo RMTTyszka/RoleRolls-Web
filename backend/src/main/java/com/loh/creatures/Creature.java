@@ -1,5 +1,6 @@
 package com.loh.creatures;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loh.dev.Loh;
 import com.loh.creatures.heroes.equipment.Equipment;
 import com.loh.creatures.heroes.inventory.Inventory;
@@ -76,8 +77,8 @@ public class Creature extends Entity {
         return 5 + 4 * level +  (level  + 2) * getTotalAttributes().vitality;
     }
 
-    @Getter @Setter @Transient
-    private Attacker attacker;
+    @Getter @Setter @Transient @JsonIgnore
+    protected Attacker attacker;
 
     public Integer getAttributeLevel(String attr) {
         return

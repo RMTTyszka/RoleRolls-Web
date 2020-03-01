@@ -47,13 +47,13 @@ public class Equipment extends Entity {
 		return Arrays.asList(this.mainWeapon, this.armor);
 	}
 
-	public void EquipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+	public void equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
 		this.setMainWeapon(weapon);
 		if (gripType != null) {
 			this.setMainWeaponGripType(gripType);
 		}
 	}
-	public void EquipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+	public void equipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
 		this.setOffWeapon(weapon);
 		if (gripType != null) {
 			this.setOffWeaponGripType(gripType);
