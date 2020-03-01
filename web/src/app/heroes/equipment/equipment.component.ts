@@ -37,12 +37,18 @@ export class EquipmentComponent implements OnInit {
   get inventory(): Inventory {
     return this.form.get(this.inventoryControlName).value;
   }
+  get equipment(): Equipment {
+    return this.form.get(this.controlName).value;
+  }
 
   armorSelected(armor: ArmorInstance) {
-    const selectedEntity = this.inventory.items.find(r => r.id === armor.id);
-    const form = new FormGroup({});
-    createForm(form , selectedEntity);
-    this.form.setControl(this.controlName + '.armor', form);
+    debugger
+    const selectedArmor = this.inventory.items.find(r => r.id === armor.id);
+    const removedArmor = this.equipment.armor;
+    const armorForm = new FormGroup({});
+    createForm(armorForm , selectedArmor);
+    this.equipment.armor = armorForm.getRawValue() as ArmorInstance;
+    this.inventory.items.splice(this.inventory.items.indexOf(selectedArmor), 1);
   }
 
 }

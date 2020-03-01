@@ -1,6 +1,7 @@
-package com.loh.items.weapons;
+package com.loh.items.weapons.weaponInstance;
 
 import com.loh.items.EquipableInstance;
+import com.loh.items.weapons.weaponModel.WeaponModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +15,5 @@ public class WeaponInstance extends EquipableInstance {
 
     @Getter @Setter @ManyToOne
     private WeaponModel weaponModel;
+
 }

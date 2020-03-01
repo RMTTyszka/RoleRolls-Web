@@ -7,8 +7,8 @@ import com.loh.adventures.EnviromentRepository;
 import com.loh.context.PlayerRepository;
 import com.loh.items.armors.armorModel.ArmorModel;
 import com.loh.items.armors.armorModel.ArmorModelRepository;
-import com.loh.items.weapons.WeaponModel;
-import com.loh.items.weapons.WeaponRepository;
+import com.loh.items.weapons.weaponModel.WeaponModel;
+import com.loh.items.weapons.weaponInstance.WeaponInstanceRepository;
 import com.loh.powers.Power;
 import com.loh.powers.PowerInstance;
 import com.loh.powers.PowerRepository;
@@ -55,7 +55,7 @@ public class Application {
 	@Autowired
 	ArmorModelRepository armorRepo;
 	@Autowired
-	WeaponRepository weaponRepo;
+	WeaponInstanceRepository weaponRepo;
 	@Autowired
 	EncounterRepository encounterRepo;
 	@Autowired
@@ -142,9 +142,9 @@ public class Application {
 			roleRepo.save(role);
 			return role;
 		} else if (type.equals(WeaponModel.class)) {
-			WeaponModel weapon = createAndFill(WeaponModel.class);
+/*			WeaponModel weapon = createAndFill(WeaponModel.class);
 			weaponRepo.save(weapon);
-			return weapon;
+			return weapon;*/
 		}else if (type.equals(ArmorModel.class)) {
 			ArmorModel armor = createAndFill(ArmorModel.class);
 			armorRepo.save(armor );

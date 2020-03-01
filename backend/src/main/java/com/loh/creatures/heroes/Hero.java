@@ -15,6 +15,7 @@ public class Hero extends Creature {
 
 
     public Hero(){
+        super();
         id = UUID.randomUUID();
         level = 1;
         baseAttributes = new Attributes(8);

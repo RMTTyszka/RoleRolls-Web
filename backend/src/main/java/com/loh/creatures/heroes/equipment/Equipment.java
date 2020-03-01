@@ -1,8 +1,8 @@
 package com.loh.creatures.heroes.equipment;
 
-import com.loh.items.*;
+import com.loh.items.EquipableInstance;
 import com.loh.items.armors.ArmorInstance;
-import com.loh.items.weapons.WeaponInstance;
+import com.loh.items.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +30,11 @@ public class Equipment extends Entity {
 	@OneToOne @Getter @Setter
 	private WeaponInstance offWeapon;
 
+	@Getter
+	private GripType mainWeaponGripType;
+	@Getter
+	private GripType offWeaponGridType;
+
 	public Integer getDefense() {
 		return armor.getArmorModel().getDefense();
 	}
@@ -40,6 +45,44 @@ public class Equipment extends Entity {
 	public List<EquipableInstance> listOfEquipment() {
 
 		return Arrays.asList(this.mainWeapon, this.armor);
+	}
+
+	public void EquipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+		this.setMainWeapon(weapon);
+		if (gripType != null) {
+			this.setMainWeaponGripType(gripType);
+		}
+	}
+	public void EquipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+		this.setOffWeapon(weapon);
+		if (gripType != null) {
+			this.setOffWeaponGripType(gripType);
+		}
+	}
+
+	private void setMainWeaponGripType(GripType gripType) throws Exception {
+		if (GripService.validateGripType(this.getMainWeapon(), gripType)) {
+			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(this.getMainWeapon(), this.getOffWeapon(), gripType);
+			if (correctedGripType.shouldUnequipOffWeapon) {
+				this.quicklyUnequipOffWeapon();
+			}
+			this.mainWeaponGripType = correctedGripType.gripType;
+		};
+	}
+	private void setOffWeaponGripType(GripType gripType) throws Exception {
+		if (GripService.validateGripType(this.getOffWeapon(), gripType)) {
+			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(this.getOffWeapon(), this.getMainWeapon(), gripType);
+			if (correctedGripType.shouldUnequipOffWeapon) {
+				this.quicklyUnequipMainWeapon();
+			}
+			this.offWeaponGridType = correctedGripType.gripType;
+		};
+	}
+	private void quicklyUnequipOffWeapon() {
+		this.setOffWeapon(null);
+	}
+	private void quicklyUnequipMainWeapon() {
+		this.setMainWeapon(null);
 	}
 
 }

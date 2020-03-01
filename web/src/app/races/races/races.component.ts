@@ -22,7 +22,7 @@ export class RacesComponent extends BaseListComponent<Race> implements OnInit {
   }
 
   ngOnInit() {
-    this.getAll();
+    this.getAllFiltered();
   }
 
   create() {

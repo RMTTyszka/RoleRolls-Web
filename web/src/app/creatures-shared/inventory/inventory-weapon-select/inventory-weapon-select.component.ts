@@ -10,7 +10,8 @@ import { Inventory } from 'src/app/shared/models/Inventory.model';
   styleUrls: ['./inventory-weapon-select.component.css']
 })
 export class InventoryWeaponSelectComponent implements OnInit {
-  armorFormName = 'mainWeapon';
+  weaponFormName = 'mainWeapon';
+  placeholder = 'Main Weapon';
   @Output() weaponSelected = new EventEmitter<WeaponInstance>();
   constructor() {}
 
@@ -22,7 +23,7 @@ export class InventoryWeaponSelectComponent implements OnInit {
   search = (filter: string, items: Array<WeaponInstance>) => items
       .filter((item: WeaponInstance) => item.name.includes(filter)
         || item.weaponModel.name.includes(filter)
-        || item.weaponModel.weaponName.includes(filter))
+        || item.weaponModel.baseWeapon.name.includes(filter))
       .map(item => item.name)
   itemSelected(selectedWeapon: WeaponInstance) {
     this.weaponSelected.next(selectedWeapon);

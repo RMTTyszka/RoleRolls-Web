@@ -11,6 +11,11 @@ import java.util.List;
 public class Attributes {
     @Transient
     public static String Strength = "strength";
+    public static String Agility = "agility";
+    public static String Vitality = "vitality";
+    public static String Wisdom = "wisdom";
+    public static String Intuition = "intuition";
+    public static String Charisma = "charisma";
     public Integer strength;
     public Integer agility;
     public Integer vitality;

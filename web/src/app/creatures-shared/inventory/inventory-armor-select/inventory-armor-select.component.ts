@@ -11,6 +11,7 @@ import { isArmor } from 'src/app/shared/utils/isItem';
 })
 export class InventoryArmorSelectComponent implements OnInit {
   armorFormName = 'armor';
+  placeholder = 'Armor';
   @Output() armorSelected = new EventEmitter<ArmorInstance>();
   constructor() {}
 

@@ -1,4 +1,4 @@
-package com.loh.items.weapons;
+package com.loh.items.weapons.weaponModel;
 
 import com.loh.items.Equipable;
 import com.loh.items.EquipableSlot;

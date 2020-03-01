@@ -6,7 +6,7 @@ import com.loh.creatures.heroes.inventory.InventoryRepository;
 import com.loh.items.armors.ArmorInstance;
 import com.loh.items.armors.ArmorRepository;
 import com.loh.items.armors.armorTypes.ArmorType;
-import com.loh.items.weapons.WeaponInstance;
+import com.loh.items.weapons.weaponInstance.WeaponInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -63,7 +63,6 @@ public class HeroController {
         Hero hero = new Hero();
         ArmorInstance armor = armorRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
         hero.getEquipment().setArmor(armor);
-        hero.getInventory().addItem(armor);
         return hero;
     }
     @PutMapping(path="/update")

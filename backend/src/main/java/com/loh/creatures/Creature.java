@@ -13,6 +13,11 @@ import javax.persistence.*;
 
 @MappedSuperclass
 public class Creature extends Entity {
+
+    public Creature() {
+        this.attacker = new Attacker(this);
+    }
+
     @Embedded
     @Getter @Setter
     @AttributeOverrides
@@ -70,6 +75,9 @@ public class Creature extends Entity {
     public Integer life() {
         return 5 + 4 * level +  (level  + 2) * getTotalAttributes().vitality;
     }
+
+    @Getter @Setter @Transient
+    private Attacker attacker;
 
     public Integer getAttributeLevel(String attr) {
         return

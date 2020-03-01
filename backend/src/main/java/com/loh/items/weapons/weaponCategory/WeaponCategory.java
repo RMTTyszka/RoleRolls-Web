@@ -10,12 +10,15 @@ public class WeaponCategory extends Entity {
     private WeaponType weaponType;
     @Getter @Setter
     private WeaponHandleType handleType;
-    @Getter @Setter
-    private String hitAttribute;
-    @Getter @Setter
-    private String damageAttribute;
-    @Getter @Setter
-    private Integer damageAttributeModifier;
-    @Getter @Setter
-    private Integer damageMagicBonusModifier;
+
+
+    public WeaponCategory(){
+        weaponType = WeaponType.Light;
+        handleType = WeaponHandleType.OneHanded;
+    }
+
+    public WeaponCategory(WeaponType weaponType, WeaponHandleType handleType) {
+        this.weaponType = weaponType;
+        this.handleType = handleType;
+    }
 }

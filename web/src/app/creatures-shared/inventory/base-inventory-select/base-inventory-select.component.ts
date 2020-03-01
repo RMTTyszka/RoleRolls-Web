@@ -15,6 +15,7 @@ export class BaseInventorySelectComponent implements OnInit {
   equipmentForm: FormGroup;
   @Input() inventoryFormName = 'inventory';
   @Input() equipmentFormName = 'equipment';
+  @Input() placeholder: string;
   @Input() itemFormName: string;
   @Input() filter: (inventoryForm: FormGroup) => Array<ItemInstance>;
   @Input() search: (filter: string, items: Array<ItemInstance>) => Array<string>;
@@ -28,6 +29,7 @@ export class BaseInventorySelectComponent implements OnInit {
     this.inventoryForm = this.formGroupDirective.form.get(this.inventoryFormName) as FormGroup;
     this.equipmentForm = this.formGroupDirective.form.get(this.equipmentFormName) as FormGroup;
     this.itemForm = this.equipmentForm.get(this.itemFormName) as FormGroup;
+    debugger
     this.items = this.filter(this.inventoryForm);
   }
 

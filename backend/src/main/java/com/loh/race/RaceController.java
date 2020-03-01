@@ -22,6 +22,12 @@ public class RaceController {
 	private RaceRepository repository;
 
 
+	@GetMapping(path="/all")
+	public @ResponseBody
+	Iterable<Race> getAll() {
+		return repository.findAll();
+	}
+
 	@GetMapping(path="/allPaged")
 	public @ResponseBody
 	Iterable<Race> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {

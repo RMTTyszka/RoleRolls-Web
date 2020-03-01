@@ -4,5 +4,6 @@ public enum WeaponType {
     Light,
     Medium,
     Heavy,
+    Shield,
     None
 }
