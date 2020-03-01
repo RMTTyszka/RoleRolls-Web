@@ -1,11 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
-import {BaseArmor} from '../../../../../../shared/models/BaseArmor.model';
-import {BaseArmorService} from '../../../baseArmor/base-armor.service';
 import {map, tap} from 'rxjs/operators';
 import {createForm} from '../../../../../../shared/EditorExtension';
-import {ArmorModel} from '../../../../../../shared/models/Armor.model';
 import {ArmorService} from '../../armor.service';
+import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-selector',

@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseEntityService} from '../../../../shared/base-entity-service';
-import {ArmorModel} from '../../../../shared/models/Armor.model';
+import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
 
 @Injectable({
   providedIn: 'root'

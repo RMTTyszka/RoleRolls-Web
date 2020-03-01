@@ -206,9 +206,9 @@
 		<level name="Maven: io.springfox:springfox-swagger-ui:2.7.0" value="project"/>
 		<level name="Maven: io.swagger:swagger-models:1.5.16" value="project"/>
 		<level name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" value="project"/>
-		<level name="Maven: io.swagger:swagger-codegen:2.1.1" value="project"/>
-		<level name="Maven: io.swagger:swagger-parser:1.0.8" value="project"/>
-		<level name="Maven: io.swagger:swagger-compat-spec-parser:1.0.8" value="project"/>
+		<level name="Maven: io.swagger:swagger-codegen:2.2.2" value="project"/>
+		<level name="Maven: io.swagger:swagger-parser:1.0.26" value="project"/>
+		<level name="Maven: io.swagger:swagger-compat-spec-parser:1.0.26" value="project"/>
 		<level name="Maven: com.github.fge:json-schema-validator:2.2.3" value="project"/>
 		<level name="Maven: joda-time:joda-time:2.9.9" value="project"/>
 		<level name="Maven: com.github.fge:json-schema-core:1.2.1" value="project"/>
@@ -224,12 +224,10 @@
 		<level name="Maven: org.apache.httpcomponents:httpclient:4.5.5" value="project"/>
 		<level name="Maven: org.apache.httpcomponents:httpcore:4.4.9" value="project"/>
 		<level name="Maven: commons-codec:commons-codec:1.11" value="project"/>
-		<level name="Maven: io.swagger:swagger-core:1.5.0" value="project"/>
-		<level name="Maven: org.apache.commons:commons-lang3:3.7" value="project"/>
-		<level name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.6" value="project"/>
+		<level name="Maven: io.swagger:swagger-core:1.5.12" value="project"/>
 		<level name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.6" value="project"/>
 		<level name="Maven: com.samskivert:jmustache:1.14" value="project"/>
-		<level name="Maven: commons-io:commons-io:2.3" value="project"/>
+		<level name="Maven: commons-io:commons-io:2.4" value="project"/>
 		<level name="Maven: org.apache.maven:maven-plugin-tools-api:2.0" value="project"/>
 		<level name="Maven: org.apache.maven:maven-project:2.0" value="project"/>
 		<level name="Maven: org.apache.maven:maven-profile:2.0" value="project"/>
@@ -257,7 +255,8 @@
 		<level name="Maven: classworlds:classworlds:1.1-alpha-2" value="project"/>
 		<level name="Maven: org.codehaus.plexus:plexus-archiver:1.0-alpha-7" value="project"/>
 		<level name="Maven: org.slf4j:slf4j-ext:1.7.25" value="project"/>
-		<level name="Maven: commons-lang:commons-lang:2.4" value="project"/>
+		<level name="Maven: org.slf4j:slf4j-simple:1.7.25" value="project"/>
+		<level name="Maven: org.apache.commons:commons-lang3:3.7" value="project"/>
 		<level name="Maven: commons-cli:commons-cli:1.2" value="project"/>
 		<level name="Maven: org.projectlombok:lombok:1.18.6" value="project"/>
 	</levels>

@@ -20,7 +20,7 @@ export class RolesListComponent extends BaseListComponent<Role> implements  OnIn
    }
 
   ngOnInit() {
-    this.getAll();
+    this.getAllFiltered();
   }
 
   create() {

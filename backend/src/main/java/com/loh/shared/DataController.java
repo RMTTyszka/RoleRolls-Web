@@ -1,13 +1,10 @@
 package com.loh.shared;
 
-import java.util.List;
-
+import com.loh.creatures.Attributes;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @CrossOrigin
@@ -23,17 +20,17 @@ public class DataController {
 			
 		}
 		// This returns a JSON or XML with the users
-		return OldAttributes.getList();
+		return Attributes.getList();
 	}
 	@GetMapping(path="/skills")
 	public @ResponseBody List<String> getAllSkills() {
 		// This returns a JSON or XML with the users
-		return OldSkills.getList();
+		return Attributes.getList();
 	}
 	@GetMapping(path="/configs")
 	public @ResponseBody List<String> getConfigs() {
 		// This returns a JSON or XML with the users
-		return OldSkills.getList();
+		return Attributes.getList();
 	}
 	@GetMapping(path="/levelDetails")
 	public @ResponseBody LevelDetails getNextLevel(@RequestParam Integer level) {

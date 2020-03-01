@@ -1,7 +1,5 @@
 package com.loh.combat;
 
-import com.loh.items.weapons.WeaponModel;
-import com.loh.shared.OldCreature;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 @CrossOrigin
@@ -21,7 +17,7 @@ public class CombatController {
 	
 
 	protected Random random = new Random();
-
+/*
 	public void fullAttack (OldCreature attacker, OldCreature target, CombatActionDto dto) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		WeaponModel mainWeapon = attacker.getEquipment().getMainWeapon().getWeapon();
 		WeaponModel offWeapon = attacker.getEquipment().getOffWeapon().getWeapon();
@@ -60,9 +56,9 @@ public class CombatController {
 		dto.setMainWeaponBonus(mainBonus);
 		dto.setOffWeaponBonus(offBonus);
 		dto.setMainWeaponRolls(mainRolls);
-		dto.setOffWeaponRolls(offRolls);
+		dto.setOffWeaponRolls(offRolls);*//*
 	}
-	
+	*/
 	@GetMapping(path="/fullAttack")
 	public @ResponseBody CombatActionDto getFullAttack(Integer attackerId, Integer targetId) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 /*		Monster attacker = monsterRepo.findById(attackerId).get();

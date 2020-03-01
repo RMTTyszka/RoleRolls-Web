@@ -12,10 +12,10 @@ public class PowerInstance {
 	
 	private Integer totalUses;
 	
-	public PowerInstance() {};
+	public PowerInstance() {}
 
 
-	public Integer getTotalUses() {
+    public Integer getTotalUses() {
 		return totalUses;
 	}
 
