@@ -17,9 +17,18 @@ export class BaseWeaponsListComponent implements OnInit {
     {
       header: 'Name',
       property: 'name'
-    },    {
+    },
+    {
       header: 'Weapon Type',
       property: 'category.weaponType'
+    },
+    {
+      header: 'Hit Attribute',
+      property: 'hitAttribute'
+    },
+    {
+      header: 'Damage Attribute',
+      property: 'damageAttribute'
     }
   ];
 

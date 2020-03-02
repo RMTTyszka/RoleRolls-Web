@@ -4,7 +4,6 @@ import { BaseWeapon } from 'src/app/shared/models/BaseWeapon.model';
 import { ModalEntityAction } from 'src/app/shared/dtos/ModalEntityData';
 import { FormGroup } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
-import { BaseArmor } from 'src/app/shared/models/BaseArmor.model';
 
 @Component({
   selector: 'loh-base-weapons-editor',
@@ -35,7 +34,7 @@ export class BaseWeaponsEditorComponent implements OnInit {
     this.isLoading = !hasLoaded;
   }
 
-  saved(baseWeapon: BaseArmor) {
+  saved(baseWeapon: BaseWeapon) {
     this.ref.close(baseWeapon);
   }
   deleted(baseWeapon: BaseWeapon) {

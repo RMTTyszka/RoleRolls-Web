@@ -1,8 +1,6 @@
-package com.loh.items.armors;
+package com.loh.items.armors.armorModel;
 
 
-import com.loh.items.armors.armorModel.ArmorModel;
-import com.loh.items.armors.armorModel.ArmorModelRepository;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +12,8 @@ import java.util.UUID;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/armors",  produces = "application/json; charset=UTF-8")
-public class ArmorController {
+@RequestMapping(path="/armorModels",  produces = "application/json; charset=UTF-8")
+public class ArmorModelController {
 
     @Autowired
     private ArmorModelRepository repository;

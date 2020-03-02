@@ -28,6 +28,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
 import { ToastModule } from 'primeng/toast';
+import { AttributeSelectComponent } from './attribute-select/attribute-select.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -49,9 +51,12 @@ import { ToastModule } from 'primeng/toast';
     MatButtonToggleModule,
     MatBadgeModule,
     MatButtonModule,
-    ButtonModule,
+
+    // PrimeNg
     TableModule,
     ToastModule,
+    DropdownModule,
+    ButtonModule,
 
   ],
   declarations: [
@@ -60,7 +65,8 @@ import { ToastModule } from 'primeng/toast';
     EditorModalComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
-    CmEditorComponent
+    CmEditorComponent,
+    AttributeSelectComponent
   ],
   exports: [
     FormsModule,
@@ -85,15 +91,18 @@ import { ToastModule } from 'primeng/toast';
     AccordionModule,
     ButtonModule,
 
+    // PrimeNg
     TableModule,
     ToastModule,
+    DropdownModule,
 
     BonusesComponent,
     EditorModalComponent,
     PropertyPickerComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
-    CmEditorComponent
+    CmEditorComponent,
+    AttributeSelectComponent
   ],
   providers: [
   ],
