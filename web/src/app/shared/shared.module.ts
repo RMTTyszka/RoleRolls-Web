@@ -24,7 +24,10 @@ import {ButtonModule} from 'primeng/button';
 import { ClickStopPropagationDirective } from './directives/click-stop-propagation.directive';
 import { CmGridComponent } from './components/cm-grid/cm-grid.component';
 import {TableModule} from 'primeng/table';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [
@@ -47,7 +50,8 @@ import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
     MatBadgeModule,
     MatButtonModule,
     ButtonModule,
-    TableModule
+    TableModule,
+    ToastModule,
 
   ],
   declarations: [
@@ -82,7 +86,7 @@ import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
     ButtonModule,
 
     TableModule,
-
+    ToastModule,
 
     BonusesComponent,
     EditorModalComponent,

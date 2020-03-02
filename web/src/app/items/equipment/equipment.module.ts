@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {BaseArmorModule} from './armor/baseArmor/base-armor.module';
 import {ArmorModule} from './armor/armors/armor.module';
+import { WeaponsModule } from './weapons/weapons.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {ArmorModule} from './armor/armors/armor.module';
     ReactiveFormsModule,
     DropdownModule,
     BaseArmorModule,
-    ArmorModule
+    ArmorModule,
+    WeaponsModule
   ],
   exports: [
   ],

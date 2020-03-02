@@ -8,6 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import {CommonModule} from '@angular/common';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -26,7 +27,7 @@ import {CommonModule} from '@angular/common';
     SharedModule,
     DeviceDetectorModule.forRoot()
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

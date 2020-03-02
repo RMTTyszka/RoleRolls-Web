@@ -2,10 +2,12 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {BaseEntityService} from '../../base-entity-service';
 import {Entity} from '../../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {take, takeUntil} from 'rxjs/operators';
-import {Subject, Subscription} from 'rxjs';
+import {take, takeUntil, catchError} from 'rxjs/operators';
+import {Subject, Subscription, Observable, of} from 'rxjs';
 import {ModalEntityAction} from '../../dtos/ModalEntityData';
 import { createForm } from '../../EditorExtension';
+import { MessageService } from 'primeng/api';
+import { BaseCrudResponse } from '../../models/BaseCrudResponse';
 
 @Component({
   selector: 'loh-cm-editor',
@@ -19,6 +21,8 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   entity: T;
   public isLoading = true;
   @Input() entityId: string;
+  @Input() disableSave = false;
+  @Input() disableDelete = false;
   @Input() action: ModalEntityAction;
   @Input() service: BaseEntityService<T>;
   @Input() requiredFields: string[] = [];
@@ -28,7 +32,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   @Output() loaded = new EventEmitter<boolean>();
   constructor(
     private fb: FormBuilder,
-
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -107,20 +111,39 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
     const entity: T = this.form.getRawValue();
     /*console.log(JSON.stringify(entity));*/
     console.log(entity);
+    let subscription: Observable<BaseCrudResponse<T>>;
     if (this.action === ModalEntityAction.create) {
-      this.service.create(entity).subscribe(response => {
-        this.saved.next(response.entity);
-      });
+      subscription = this.service.create(entity);
     } else if (this.action === ModalEntityAction.update) {
-      this.service.update(entity).subscribe(response => {
-        this.saved.next(response.entity);
-      });
+      subscription = this.service.update(entity);
     }
+    subscription.pipe(
+      catchError((err, caught ) => {
+        this.messageService.add({severity: 'error', detail: err.error.message});
+        return of<BaseCrudResponse<T>>();
+      })
+    ).subscribe(response => {
+      let messageType = '';
+      if (response.success) {
+        this.saved.next(response.entity);
+        messageType = 'success';
+      } else {
+        messageType = 'error';
+      }
+      this.messageService.add({severity: messageType, summary: '', detail: response.message})
+    });
 
   }
   delete() {
     this.service.delete(this.entity).subscribe(resp => {
-      this.deleted.next(resp.entity);
+      let messageType = '';
+      if (resp.success) {
+        messageType = 'success';
+        this.deleted.next(resp.entity);
+      } else {
+        messageType = 'error';
+      }
+      this.messageService.add({severity: messageType, summary: '', detail: resp.message})
     });
   }
 
