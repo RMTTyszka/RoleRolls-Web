@@ -2,7 +2,8 @@ import {Entity} from './Entity.model';
 
 export class Item extends Entity {
 
-  public level: number;
-  public description: string;
-  public bonus: number;
+  public level = 1;
+  public description = '';
+  public bonus = 0;
+  public name = '';
 }

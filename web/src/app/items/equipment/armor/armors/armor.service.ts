@@ -7,7 +7,7 @@ import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
 })
 export class ArmorService extends BaseEntityService<ArmorModel> {
 
-  path = 'armors';
+  path = 'armorModels';
 
   constructor(
     injector: Injector

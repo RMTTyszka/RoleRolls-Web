@@ -10,9 +10,9 @@ export class ItemMaterial {
 }
 
 export class Equipable extends Item {
-  specialName: string;
+  specialName = '';
   slot: EquipableSlot;
-  bonuses: Bonus[];
-  material: ItemMaterial;
-  power: Power;
+  bonuses: Bonus[] = [];
+  material: ItemMaterial = new ItemMaterial();
+  power: Power = new Power();
 }

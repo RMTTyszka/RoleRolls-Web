@@ -14,11 +14,6 @@ public class DataController {
 	@GetMapping(path="/attributes")
 	public @ResponseBody List<String> getAllAttributes() {
 		
-		for (int i = 0; i < 10; i++) {
-			LevelDetails x = new LevelDetails(i + 1);
-			System.out.println(x.expToNextLevel);
-			
-		}
 		// This returns a JSON or XML with the users
 		return Attributes.getList();
 	}
