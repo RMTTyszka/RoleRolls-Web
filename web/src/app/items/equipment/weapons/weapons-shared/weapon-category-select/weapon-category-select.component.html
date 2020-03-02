@@ -1,0 +1,3 @@
+<form [formGroup]="form">
+  <p-dropdown [options]="weaponCategories" optionLabel="weaponType" formControlName="weaponCategorySelection" (onChange)="onChange($event.value)"></p-dropdown>
+</form>

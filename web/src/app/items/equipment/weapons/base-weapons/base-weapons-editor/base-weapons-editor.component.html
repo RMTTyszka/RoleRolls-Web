@@ -1,0 +1,7 @@
+<loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form"
+[action]="action" (loaded)="loaded($event)" [disableSave]="entity.isStatic" [disableDelete]="entity.isStatic">
+  <form form [formGroup]="form" *ngIf="!isLoading">
+    <input type="text" pInputText placeholder="Name" formControlName="name" autofocus>
+    <loh-weapon-category-select [form]="form"></loh-weapon-category-select>
+  </form>
+</loh-cm-editor>
