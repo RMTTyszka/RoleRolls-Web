@@ -56,6 +56,13 @@ public class Role extends DefaultEntity {
     	skillPoints = 0;
 	}
 
+	public Role(String name, List<Bonus> bonuses, Integer skillPoints) {
+		this.name = name;
+		this.bonuses = bonuses;
+		this.skillPoints = skillPoints;
+		this.setSystemDefault(true);
+	}
+
 	public Integer getAttributeLevel(String attr) {
 		Optional<Bonus> existingBonus = bonuses.stream().filter(bonus -> bonus.getProperty() == attr).findFirst();
 		return existingBonus.isPresent() ? existingBonus.get().getLevel() : 0;

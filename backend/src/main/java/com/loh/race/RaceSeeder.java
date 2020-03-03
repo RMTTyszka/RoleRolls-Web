@@ -29,11 +29,26 @@ public class RaceSeeder {
             Race dwarf = new Race("Dwarf", bonuses, null, null);
             raceRepository.save(dwarf);
         }
+        if (raceRepository.findByNameAndSystemDefaultTrue("Orc") == null) {
+            List<Bonus> bonuses = new ArrayList<>();
+            bonuses.add(new Bonus(Attributes.Strength, 8));
+            bonuses.add(new Bonus(Attributes.Wisdom, -2));
+            Race dwarf = new Race("Orc", bonuses, null, null);
+            raceRepository.save(dwarf);
+        }
         if (raceRepository.findByNameAndSystemDefaultTrue("Gnome") == null) {
             List<Bonus> bonuses = new ArrayList<>();
             bonuses.add(new Bonus(Attributes.Wisdom, 8));
             bonuses.add(new Bonus(Attributes.Strength, -2));
             Race race = new Race("Gnome", bonuses, null, null);
+            raceRepository.save(race);
+        }
+        if (raceRepository.findByNameAndSystemDefaultTrue("Draekar") == null) {
+            List<Bonus> bonuses = new ArrayList<>();
+            bonuses.add(new Bonus(Attributes.Strength, 4));
+            bonuses.add(new Bonus(Attributes.Vitality, 4));
+            bonuses.add(new Bonus(Attributes.Intuition, -2));
+            Race race = new Race("Draekar", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Daennan") == null) {
