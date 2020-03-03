@@ -61,8 +61,7 @@ public class Attributes {
         return 0;
     }
     public static List<String> getList() {
-        return Arrays.asList("strength", "agility", "vitality", "wisdom","intuition","charisma");
-
+        return Arrays.asList(Strength, Agility, Vitality, Wisdom, Intuition, Charisma);
     }
 
 

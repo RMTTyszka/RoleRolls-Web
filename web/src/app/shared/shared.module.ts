@@ -24,7 +24,12 @@ import {ButtonModule} from 'primeng/button';
 import { ClickStopPropagationDirective } from './directives/click-stop-propagation.directive';
 import { CmGridComponent } from './components/cm-grid/cm-grid.component';
 import {TableModule} from 'primeng/table';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
+import { ToastModule } from 'primeng/toast';
+import { AttributeSelectComponent } from './attribute-select/attribute-select.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -46,8 +51,12 @@ import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
     MatButtonToggleModule,
     MatBadgeModule,
     MatButtonModule,
+
+    // PrimeNg
+    TableModule,
+    ToastModule,
+    DropdownModule,
     ButtonModule,
-    TableModule
 
   ],
   declarations: [
@@ -56,7 +65,8 @@ import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
     EditorModalComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
-    CmEditorComponent
+    CmEditorComponent,
+    AttributeSelectComponent
   ],
   exports: [
     FormsModule,
@@ -81,15 +91,18 @@ import { CmEditorComponent } from './components/cm-editor/cm-editor.component';
     AccordionModule,
     ButtonModule,
 
+    // PrimeNg
     TableModule,
-
+    ToastModule,
+    DropdownModule,
 
     BonusesComponent,
     EditorModalComponent,
     PropertyPickerComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
-    CmEditorComponent
+    CmEditorComponent,
+    AttributeSelectComponent
   ],
   providers: [
   ],

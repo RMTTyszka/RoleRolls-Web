@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import {BaseArmorListComponent} from './armor/baseArmor/base-armor-list/base-armor-list.component';
 import {EquipmentComponent} from './equipment.component';
 import {ArmorListComponent} from './armor/armors/armor-list/armor-list.component';
+import { BaseWeaponsListComponent } from './weapons/base-weapons/base-weapons-list/base-weapons-list.component';
+import { BaseWeaponsEditorComponent } from './weapons/base-weapons/base-weapons-editor/base-weapons-editor.component';
+import { WeaponModelListComponent } from './weapons/weapon-models/weapon-model-list/weapon-model-list.component';
 
 const routes: Routes = [
   {
@@ -13,6 +16,12 @@ const routes: Routes = [
       },
       {
         path: 'armor', component: ArmorListComponent
+      },
+      {
+        path: 'baseWeapon', component: BaseWeaponsListComponent
+      },
+      {
+        path: 'weapon', component: WeaponModelListComponent
       }
     ]
   }

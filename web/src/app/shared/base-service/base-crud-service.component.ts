@@ -1,10 +1,10 @@
 import { OnInit, Injector } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, of} from 'rxjs';
 import { Entity } from '../models/Entity.model';
 import { LOH_API } from '../../loh.api';
 import {PagedAndFilteredDto} from '../dtos/PagedAndFilteredDto';
-import {tap} from 'rxjs/operators';
+import {tap, catchError} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import { isNullOrUndefined } from 'util';
 
@@ -57,8 +57,12 @@ export class BaseCrudServiceComponent<T extends Entity> implements OnInit {
   }
   update(entity: T): Observable<BaseCrudResponse<T>> {
     return this.http.put<BaseCrudResponse<T>>( this.serverUrl + this.path + '/update', entity).pipe(
-      tap((response: BaseCrudResponse<T>) => this.entityUpdated.next(response.entity))
-    );
+      tap((response: BaseCrudResponse<T>) => {
+        if (!response.success) {
+        } else {
+        this.entityUpdated.next(response.entity);
+        }
+      }))
     }
   delete(entity: T): Observable<BaseCrudResponse<T>> {
     const options = {

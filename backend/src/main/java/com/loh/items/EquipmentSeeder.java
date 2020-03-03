@@ -104,10 +104,12 @@ public class EquipmentSeeder {
 			WeaponCategory mediumWeapon = new WeaponCategory(WeaponType.Medium, WeaponHandleType.OneHanded);
 			WeaponCategory heavyWeapon = new WeaponCategory(WeaponType.Heavy, WeaponHandleType.TwoHanded);
 			WeaponCategory noWeapon = new WeaponCategory(WeaponType.None, WeaponHandleType.OneHanded);
+			WeaponCategory shield = new WeaponCategory(WeaponType.Shield, WeaponHandleType.OneHanded);
 			weaponCategoryRepository.save(lightWeapon);
 			weaponCategoryRepository.save(mediumWeapon);
 			weaponCategoryRepository.save(heavyWeapon);
 			weaponCategoryRepository.save(noWeapon);
+			weaponCategoryRepository.save(shield);
 		}
 		if (baseWeaponRepository.count() <= 0){
 			WeaponCategory heavy = weaponCategoryRepository.findWeaponCategoryByWeaponType(WeaponType.Heavy);

@@ -6,6 +6,7 @@ import com.loh.shared.Bonuses;
 import com.loh.shared.IHaveBonuses;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,13 +15,14 @@ import java.util.List;
 public class Equipable extends Items implements IHaveBonuses {
 
 	@Getter @Setter
-	protected String SpecialName;
+	protected String specialName;
 
 	@Getter @Setter
 	protected EquipableSlot slot;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable()
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	@Getter @Setter
 	protected List<Bonus> bonuses = new Bonuses();
 

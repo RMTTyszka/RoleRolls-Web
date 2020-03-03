@@ -1,5 +1,6 @@
 package com.loh.items.weapons.baseWeapon;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.loh.items.weapons.weaponCategory.WeaponCategory;
 import com.loh.shared.Entity;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class BaseWeapon extends Entity {
     @Setter
     private WeaponCategory category;
 
-    @Getter @Setter
+    @Getter @Setter @JsonProperty("isStatic")
     private boolean isStatic;
     @Getter @Setter
     private String name;

@@ -22,8 +22,9 @@ export class InventoryWeaponSelectComponent implements OnInit {
 
   search = (filter: string, items: Array<WeaponInstance>) => items
       .filter((item: WeaponInstance) => item.name.includes(filter)
-        || item.weaponModel.name.includes(filter)
-        || item.weaponModel.baseWeapon.name.includes(filter))
+        || item.weaponModel.baseWeapon.name.includes(filter)
+        || item.weaponModel.description.includes(filter)
+        || item.weaponModel.specialName.includes(filter))
       .map(item => item.name)
   itemSelected(selectedWeapon: WeaponInstance) {
     this.weaponSelected.next(selectedWeapon);
