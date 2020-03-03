@@ -1,9 +1,11 @@
 package com.loh.powers;
 
+import com.loh.shared.DefaultEntity;
+
 import javax.persistence.Entity;
 
 @Entity
-public class Power extends com.loh.shared.Entity {
+public class Power extends DefaultEntity {
 
 	private PowerCategory category;
 	

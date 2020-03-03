@@ -10,5 +10,6 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, UUID> {
 
     List<Role> findAllByNameIgnoreCaseContaining(String name);
     List<Role> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
+    Role findByNameAndSystemDefaultTrue(String name);
 
 }

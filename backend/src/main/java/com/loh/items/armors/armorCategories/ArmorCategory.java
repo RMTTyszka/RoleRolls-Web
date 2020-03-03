@@ -1,12 +1,12 @@
 package com.loh.items.armors.armorCategories;
 
 import com.loh.items.armors.armorTypes.ArmorType;
-import com.loh.shared.Entity;
+import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 @javax.persistence.Entity
-public class ArmorCategory extends Entity {
+public class ArmorCategory extends DefaultEntity {
 
     public ArmorCategory(){
         armorType = ArmorType.Light;

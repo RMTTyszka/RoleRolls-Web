@@ -1,6 +1,7 @@
 package com.loh.role;
 
 import com.loh.shared.Bonus;
+import com.loh.shared.DefaultEntity;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 
 @Entity
-public class Role extends com.loh.shared.Entity {
+public class Role extends DefaultEntity {
 	
 
 	public String getName() {
@@ -53,6 +54,13 @@ public class Role extends com.loh.shared.Entity {
     	name = "";
     	bonuses = new ArrayList<>();
     	skillPoints = 0;
+	}
+
+	public Role(String name, List<Bonus> bonuses, Integer skillPoints) {
+		this.name = name;
+		this.bonuses = bonuses;
+		this.skillPoints = skillPoints;
+		this.setSystemDefault(true);
 	}
 
 	public Integer getAttributeLevel(String attr) {

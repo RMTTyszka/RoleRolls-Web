@@ -1,21 +1,19 @@
 package com.loh.items.armors.baseArmor;
 
 import com.loh.items.armors.armorCategories.ArmorCategory;
-import com.loh.shared.Entity;
+import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.ManyToOne;
 
 @javax.persistence.Entity
-public class BaseArmor extends Entity {
+public class BaseArmor extends DefaultEntity {
 
     @ManyToOne
     @Getter @Setter
     private ArmorCategory category;
 
-    @Getter @Setter
-    private boolean Static;
     @Getter @Setter
     private String name;
 
@@ -25,14 +23,14 @@ public class BaseArmor extends Entity {
 
     public BaseArmor() {
         name = "";
-        Static = false;
+        setSystemDefault(false);
         category = new ArmorCategory();
     }
 
     public static BaseArmor DefaultBaseArmor(String name, ArmorCategory category){
         BaseArmor baseArmor = new BaseArmor(category);
         baseArmor.name = name;
-        baseArmor.Static = true;
+        baseArmor.setSystemDefault(true);
         return baseArmor;
     }
 }

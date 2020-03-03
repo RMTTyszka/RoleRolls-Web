@@ -78,7 +78,7 @@ public class BaseArmorController {
 
         BaseArmor baseArmor = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
-        if (!baseArmor.isStatic()){
+        if (!baseArmor.isSystemDefault()){
             repository.deleteById(id);
             response.Success = true;
             response.Entity = baseArmor;

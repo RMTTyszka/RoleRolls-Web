@@ -5,7 +5,7 @@ import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
 import com.loh.items.armors.ArmorInstance;
-import com.loh.items.armors.ArmorRepository;
+import com.loh.items.armors.ArmorInstanceRepository;
 import com.loh.items.armors.armorTypes.ArmorType;
 import com.loh.items.weapons.weaponCategory.WeaponType;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
@@ -29,7 +29,7 @@ public class HeroController {
     private HeroRepository heroRepository;
 
     @Autowired
-    private ArmorRepository armorRepository;
+    private ArmorInstanceRepository armorInstanceRepository;
     @Autowired
     private WeaponInstanceRepository weaponInstanceRepository;
     @Autowired
@@ -66,7 +66,7 @@ public class HeroController {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
         Hero hero = new Hero();
-        ArmorInstance armor = armorRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
+        ArmorInstance armor = armorInstanceRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
         WeaponInstance weapon = weaponInstanceRepository.findByWeaponModel_BaseWeapon_Category_WeaponType(WeaponType.None);
         hero.getEquipment().setArmor(armor);
         try {
@@ -81,7 +81,7 @@ public class HeroController {
     public @ResponseBody
     Hero updateHero(@RequestBody Hero heroDto) {
 
-        armorRepository.save(heroDto.getEquipment().getArmor());
+        armorInstanceRepository.save(heroDto.getEquipment().getArmor());
         equipmentRepository.save(heroDto.getEquipment());
         return heroRepository.save(heroDto);
     }
@@ -91,7 +91,7 @@ public class HeroController {
     Hero createHero(@RequestBody Hero heroDto) {
 
 
-        heroDto.getEquipment().setArmor(armorRepository.save(heroDto.getEquipment().getArmor()));
+        heroDto.getEquipment().setArmor(armorInstanceRepository.save(heroDto.getEquipment().getArmor()));
         heroDto.setEquipment(equipmentRepository.save(heroDto.getEquipment()));
         heroDto.setInventory(inventoryRepository.save(heroDto.getInventory()));
         return heroRepository.save(heroDto);

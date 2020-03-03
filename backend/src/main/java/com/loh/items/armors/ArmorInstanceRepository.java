@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.UUID;
 
 
-public interface ArmorRepository extends PagingAndSortingRepository<ArmorInstance, UUID> {
+public interface ArmorInstanceRepository extends PagingAndSortingRepository<ArmorInstance, UUID> {
     ArmorInstance findByArmorModel_BaseArmor_Category_ArmorType(ArmorType category);
 }
