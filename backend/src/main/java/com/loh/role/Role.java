@@ -1,6 +1,7 @@
 package com.loh.role;
 
 import com.loh.shared.Bonus;
+import com.loh.shared.DefaultEntity;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 
 @Entity
-public class Role extends com.loh.shared.Entity {
+public class Role extends DefaultEntity {
 	
 
 	public String getName() {

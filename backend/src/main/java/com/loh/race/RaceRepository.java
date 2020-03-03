@@ -15,4 +15,6 @@ public interface RaceRepository extends PagingAndSortingRepository<Race, UUID> {
 	List<Race> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
 
 	List<Race> findByPowersId(int powerId);
+
+	Race findByNameAndSystemDefaultTrue(String name);
 }

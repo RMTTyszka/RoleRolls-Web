@@ -2,6 +2,7 @@ package com.loh.race;
 
 import com.loh.powers.Power;
 import com.loh.shared.Bonus;
+import com.loh.shared.DefaultEntity;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-public class Race extends com.loh.shared.Entity {
+public class Race extends DefaultEntity {
 	
 	private String name;
 	
@@ -66,6 +67,14 @@ public class Race extends com.loh.shared.Entity {
 		bonuses = new ArrayList<Bonus>();
 		powers = new ArrayList<Power>();
 		traits = new ArrayList<String>();
+	}
+
+	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits) {
+		this.name = name;
+		this.bonuses = bonuses;
+		this.powers = powers;
+		this.traits = traits;
+		this.setSystemDefault(true);
 	}
 
 	public Integer getAttributeLevel(String attr) {

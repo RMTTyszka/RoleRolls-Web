@@ -55,7 +55,7 @@ public class BaseWeaponController {
     public @ResponseBody
     BaseCrudResponse<BaseWeapon> update(@RequestBody BaseWeapon baseWeapon) {
         BaseCrudResponse response = new BaseCrudResponse<BaseWeapon>();
-        boolean isStatic = repository.findById(baseWeapon.getId()).get().isStatic();
+        boolean isStatic = repository.findById(baseWeapon.getId()).get().isSystemDefault();
         if (isStatic) {
             response.Success = false;
             response.Entity = baseWeapon;
@@ -91,7 +91,7 @@ public class BaseWeaponController {
 
         BaseWeapon baseWeapon = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
-        if (!baseWeapon.isStatic()){
+        if (!baseWeapon.isSystemDefault()){
             repository.deleteById(id);
             response.Success = true;
             response.Entity = baseWeapon;

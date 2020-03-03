@@ -1,6 +1,6 @@
 package com.loh.items;
 
-import com.loh.shared.Entity;
+import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 
 
 @MappedSuperclass
-public class Items extends Entity {
+public class Items extends DefaultEntity {
 
 	@Getter @Setter
 	protected Integer level = 1;
