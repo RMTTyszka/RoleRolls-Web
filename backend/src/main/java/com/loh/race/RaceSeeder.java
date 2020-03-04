@@ -110,5 +110,9 @@ public class RaceSeeder {
             Race elf = new Race("Human", null, null, null);
             raceRepository.save(elf);
         }
+        if (raceRepository.findByNameAndSystemDefaultTrue("Dummy") == null) {
+            Race race = new Race("Dummy", null, null, null);
+            raceRepository.save(race);
+        }
     }
 }

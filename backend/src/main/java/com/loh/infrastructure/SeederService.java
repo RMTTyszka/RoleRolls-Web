@@ -1,5 +1,6 @@
 package com.loh.infrastructure;
 
+import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.items.armors.ArmorSeeder;
 import com.loh.items.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;
@@ -19,14 +20,16 @@ public class SeederService {
 	private ArmorSeeder armorSeeder;
 	@Autowired
 	private WeaponSeeder weaponSeeder;
+	@Autowired
+	private HeroSeeder heroSeeder;
 
-	
 	@EventListener
-	public void seed(ContextRefreshedEvent event) {
+	public void seed(ContextRefreshedEvent event) throws Exception {
 		raceSeeder.seed();
 		armorSeeder.seed();
 		weaponSeeder.seed();
 		roleSeeder.seed();
+		heroSeeder.seed();
 	}
 
 }

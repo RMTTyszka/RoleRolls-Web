@@ -16,15 +16,18 @@ public class ArmorModel extends Equipable {
 
 	public ArmorModel(){
 	}
+
+	public ArmorModel(String name, BaseArmor baseArmor) {
+		this.baseArmor = baseArmor;
+		this.name = name;
+	}
+
 	@Getter @Setter
 	protected EquipableSlot slot = EquipableSlot.Chest;
 
 	@ManyToOne
 	@Getter @Setter
 	private BaseArmor baseArmor = new BaseArmor();
-
-	@Getter @Setter
-	private boolean isStatic = false;
 
 	public java.lang.Integer getDefense() {
 		return baseArmor.getCategory().getDefense() * bonus + baseArmor.getCategory().getBaseDefense() + Bonuses.GetBonus(bonuses, Properties.Defense);

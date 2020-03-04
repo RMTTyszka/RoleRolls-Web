@@ -8,5 +8,5 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class DefaultEntity extends Entity {
     @Getter @Setter
-    private boolean systemDefault;
+    protected boolean systemDefault;
 }

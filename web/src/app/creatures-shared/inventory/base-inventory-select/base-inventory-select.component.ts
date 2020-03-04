@@ -29,7 +29,6 @@ export class BaseInventorySelectComponent implements OnInit {
     this.inventoryForm = this.formGroupDirective.form.get(this.inventoryFormName) as FormGroup;
     this.equipmentForm = this.formGroupDirective.form.get(this.equipmentFormName) as FormGroup;
     this.itemForm = this.equipmentForm.get(this.itemFormName) as FormGroup;
-    debugger
     this.items = this.filter(this.inventoryForm);
   }
 

@@ -2,6 +2,7 @@ package com.loh.items.armors;
 
 import com.loh.items.armors.armorCategories.ArmorCategory;
 import com.loh.items.armors.armorCategories.ArmorCategoryRepository;
+import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.armors.armorModel.ArmorModel;
 import com.loh.items.armors.armorModel.ArmorModelRepository;
 import com.loh.items.armors.armorTypes.ArmorType;
@@ -39,31 +40,75 @@ public class ArmorSeeder {
             ArmorCategory medium = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.Medium);
             ArmorCategory light = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.Light);
             ArmorCategory noneArmor = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.None);
-            BaseArmor fullPlate = BaseArmor.DefaultBaseArmor("Full Plate", heavy);
-            BaseArmor chainMail = BaseArmor.DefaultBaseArmor("Chain Mail", medium);
-            BaseArmor leatherArmor = BaseArmor.DefaultBaseArmor("Leather Armor", light);
+            for (String armorName: DefaultArmors.lightArmors) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, light);
+                baseArmorRepository.save(armor);
+            }
+            for (String armorName: DefaultArmors.mediumArmors) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, medium);
+                baseArmorRepository.save(armor);
+            }
+            for (String armorName: DefaultArmors.heavyArmors) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, heavy);
+                baseArmorRepository.save(armor);
+            }
+
             BaseArmor empty = BaseArmor.DefaultBaseArmor("None Armor", noneArmor);
-            baseArmorRepository.save(fullPlate);
-            baseArmorRepository.save(chainMail);
-            baseArmorRepository.save(leatherArmor);
+            BaseArmor dummyHeavyArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyHeavyArmor, heavy);
+            BaseArmor dummyMediumArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyMediumArmor, medium);
+            BaseArmor dummyLightArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyLightArmor, light);
+            BaseArmor dummyNoneArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyNoneArmor, noneArmor);
             baseArmorRepository.save(empty);
+
+            baseArmorRepository.save(dummyHeavyArmor);
+            baseArmorRepository.save(dummyMediumArmor);
+            baseArmorRepository.save(dummyLightArmor);
+            baseArmorRepository.save(dummyNoneArmor);
         }
         if (armorModelRepository.count() <= 0){
-            BaseArmor baseNoneArmor = baseArmorRepository.findByCategory_ArmorType(ArmorType.None);
-            ArmorModel noneArmor = new ArmorModel();
-            noneArmor.setSystemDefault(true);
-            noneArmor.setBaseArmor(baseNoneArmor);
-            noneArmor.setName("None Armor");
-            armorModelRepository.save(noneArmor);
-        }
-        if (armorInstanceRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None) == null) {
-            ArmorInstance armor = new ArmorInstance();
-            ArmorModel noArmor = armorModelRepository.findArmorByBaseArmor_Category_ArmorType(ArmorType.None);
-            armor.setArmorModel(noArmor);
-            armor.setName(noArmor.getName());
-            armorInstanceRepository.save(armor);
-        }
+            BaseArmor baseNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue("None Armor");
 
+            for (String armorName: DefaultArmors.lightArmors) {
+                BaseArmor baseLightArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
+                ArmorModel armor = new ArmorModel("Common " + armorName, baseLightArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+            for (String armorName: DefaultArmors.mediumArmors) {
+                BaseArmor baseMediumArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
+                ArmorModel armor = new ArmorModel("Common " + armorName, baseMediumArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+            for (String armorName: DefaultArmors.heavyArmors) {
+                BaseArmor baseHeavyArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
+                ArmorModel armor = new ArmorModel("Common " + armorName, baseHeavyArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+
+            ArmorModel noneArmor = new ArmorModel("None Armor", baseNoneArmor);
+            noneArmor.setSystemDefault(true);
+            armorModelRepository.save(noneArmor);
+
+            BaseArmor baseDummyLightArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyLightArmor);
+            BaseArmor baseDummyMediumArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyMediumArmor);
+            BaseArmor baseDummyHeavyArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyHeavyArmor);
+            BaseArmor baseDummyNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyNoneArmor);
+            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyNoneArmor, baseDummyNoneArmor);
+            ArmorModel dummyLightArmor = new ArmorModel(DefaultArmors.dummyLightArmor, baseDummyLightArmor);
+            ArmorModel dummyMediumArmor = new ArmorModel(DefaultArmors.dummyMediumArmor, baseDummyMediumArmor);
+            ArmorModel dummyHeavyArmor = new ArmorModel(DefaultArmors.dummyHeavyArmor, baseDummyHeavyArmor);
+            dummyNoneArmor.setSystemDefault(true);
+            dummyLightArmor.setSystemDefault(true);
+            dummyMediumArmor.setSystemDefault(true);
+            dummyHeavyArmor.setSystemDefault(true);
+
+            armorModelRepository.save(dummyNoneArmor);
+            armorModelRepository.save(dummyLightArmor);
+            armorModelRepository.save(dummyMediumArmor);
+            armorModelRepository.save(dummyHeavyArmor);
+        }
 
     }
 }
