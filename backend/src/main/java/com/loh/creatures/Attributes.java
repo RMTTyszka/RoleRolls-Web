@@ -47,6 +47,16 @@ public class Attributes {
         charisma = value;
     }
 
+    public Attributes(Integer strength, Integer agility, Integer vitality, Integer wisdom, Integer intuition, Integer charisma) throws Exception {
+        this.strength = strength;
+        this.agility = agility;
+        this.vitality = vitality;
+        this.wisdom = wisdom;
+        this.intuition = intuition;
+        this.charisma = charisma;
+        this.validate();
+    }
+
     public Integer getAttributeLevel(String attr) {
         try {
             Field field = this.getClass().getDeclaredField(attr);
@@ -62,6 +72,16 @@ public class Attributes {
     }
     public static List<String> getList() {
         return Arrays.asList(Strength, Agility, Vitality, Wisdom, Intuition, Charisma);
+    }
+
+    public void validate() throws Exception {
+        if (!isTotalValid()) {
+            throw new Exception("Base Total Attributes cannot be above 70");
+        }
+    }
+
+    private boolean isTotalValid() {
+        return strength + agility + vitality + wisdom + intuition + charisma <= 70;
     }
 
 

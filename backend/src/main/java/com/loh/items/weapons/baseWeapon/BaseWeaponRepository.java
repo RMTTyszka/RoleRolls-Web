@@ -11,4 +11,5 @@ public interface BaseWeaponRepository extends PagingAndSortingRepository<BaseWea
     List<BaseWeapon> findAllByNameIgnoreCaseContaining(String name);
     List<BaseWeapon> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
     BaseWeapon findByCategory_WeaponType(WeaponType type);
+    BaseWeapon findByNameAndSystemDefaultTrue(String name);
 }

@@ -87,5 +87,10 @@ public class RoleSeeder {
             Role role = new Role("Witchdoctor", bonuses, null);
             roleRepository.save(role);
         }
+        if (roleRepository.findByNameAndSystemDefaultTrue("Dummy") == null) {
+            List<Bonus> bonuses = new ArrayList<>();
+            Role role = new Role("Dummy", bonuses, null);
+            roleRepository.save(role);
+        }
     }
 }

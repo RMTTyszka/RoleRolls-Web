@@ -12,11 +12,16 @@ import javax.persistence.ManyToOne;
 @Entity
 public class WeaponModel extends Equipable {
 
+	public WeaponModel() {
+	}
+
+	public WeaponModel(String name, BaseWeapon baseWeapon) {
+		this.baseWeapon = baseWeapon;
+		this.name = name;
+	}
+
 	@Getter @Setter
 	protected EquipableSlot slot = EquipableSlot.MainHand;
 	@Getter @Setter	@ManyToOne
 	private BaseWeapon baseWeapon = new BaseWeapon();
-
-	@Getter @Setter
-	private boolean isStatic = false;
 }

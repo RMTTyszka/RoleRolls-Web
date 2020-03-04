@@ -1,4 +1,4 @@
-package com.loh.items.armors;
+package com.loh.items.armors.armorInstance;
 
 import com.loh.items.EquipableInstance;
 import com.loh.items.armors.armorModel.ArmorModel;
@@ -17,4 +17,13 @@ public class ArmorInstance extends EquipableInstance {
     private ArmorModel armorModel;
     @Transient
     public boolean isArmor = true;
+
+    public ArmorInstance() {
+    }
+
+    public ArmorInstance(ArmorModel armorModel, Integer level) {
+        this.armorModel = armorModel;
+        this.setName(armorModel.getName());
+        this.setLevel(level);
+    }
 }
