@@ -1,4 +1,4 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [hasDelete]=false
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [hasDelete]=false (saved)=created($event)
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-fieldset legend="Hero">

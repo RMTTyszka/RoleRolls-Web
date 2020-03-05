@@ -16,4 +16,12 @@ public class WeaponInstance extends EquipableInstance {
     @Getter @Setter @ManyToOne
     private WeaponModel weaponModel;
 
+    public WeaponInstance() {
+    }
+
+    public WeaponInstance(WeaponModel weaponModel, Integer level) {
+        this.weaponModel = weaponModel;
+        this.setLevel(level);
+        this.setName(this.weaponModel.getName());
+    }
 }

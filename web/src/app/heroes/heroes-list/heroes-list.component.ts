@@ -42,7 +42,13 @@ export class HeroesListComponent extends BaseListComponent<NewHero> implements O
       data: {
         action: ModalEntityAction.create
       }
-    }).onClose.subscribe();
+    }).onClose.subscribe((createdHero: NewHero) => {
+      if (createdHero) {
+        this.service.getEntity(createdHero.id).subscribe((hero: NewHero) => {
+          this.updateHero(hero);
+        })
+      }
+    });
    }
    updateHero(entity) {
     this.dialogService.open(NewHeroEditorComponent, {

@@ -61,9 +61,9 @@ public class WeaponModelController {
     private BaseCrudResponse<WeaponModel> saveAndGetWeaponBaseCrudResponse(WeaponModel weapon) {
         WeaponModel updatedWeapon = repository.save(weapon);
         BaseCrudResponse response = new BaseCrudResponse<WeaponModel>();
-        response.Success = true;
-        response.Message = "Successfully Created Weapon";
-        response.Entity = updatedWeapon;
+        response.success = true;
+        response.message = "Successfully Created Weapon";
+        response.entity = updatedWeapon;
         return response;
     }
 
@@ -79,8 +79,8 @@ public class WeaponModelController {
 
         WeaponModel weapon = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
-        response.Success = true;
-        response.Entity = weapon;
+        response.success = true;
+        response.entity = weapon;
 
         repository.deleteById(id);
         return response;

@@ -10,4 +10,6 @@ public class DefaultArmors {
     public static String dummyMediumArmor = "Dummy Medium Armor";
     public static String dummyHeavyArmor = "Dummy Heavy Armor";
     public static String dummyNoneArmor = "Dummy None Armor";
+
+    public static String NoneArmor = "None Armor";
 }

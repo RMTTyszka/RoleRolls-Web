@@ -66,7 +66,7 @@ public class ArmorSeeder {
             baseArmorRepository.save(dummyNoneArmor);
         }
         if (armorModelRepository.count() <= 0){
-            BaseArmor baseNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue("None Armor");
+            BaseArmor baseNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
 
             for (String armorName: DefaultArmors.lightArmors) {
                 BaseArmor baseLightArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
@@ -87,7 +87,7 @@ public class ArmorSeeder {
                 armorModelRepository.save(armor);
             }
 
-            ArmorModel noneArmor = new ArmorModel("None Armor", baseNoneArmor);
+            ArmorModel noneArmor = new ArmorModel(DefaultArmors.NoneArmor, baseNoneArmor);
             noneArmor.setSystemDefault(true);
             armorModelRepository.save(noneArmor);
 

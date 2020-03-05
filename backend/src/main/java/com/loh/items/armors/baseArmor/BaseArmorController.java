@@ -61,8 +61,8 @@ public class BaseArmorController {
     private BaseCrudResponse<BaseArmor> saveAndGetBaseArmorBaseCrudResponse(BaseArmor baseArmor) {
         BaseArmor updatedBaseArmor = repository.save(baseArmor);
         BaseCrudResponse response = new BaseCrudResponse<BaseArmor>();
-        response.Success = true;
-        response.Entity = updatedBaseArmor;
+        response.success = true;
+        response.entity = updatedBaseArmor;
         return response;
     }
 
@@ -80,12 +80,12 @@ public class BaseArmorController {
         BaseCrudResponse response = new BaseCrudResponse();
         if (!baseArmor.isSystemDefault()){
             repository.deleteById(id);
-            response.Success = true;
-            response.Entity = baseArmor;
+            response.success = true;
+            response.entity = baseArmor;
         } else {
-            response.Success = false;
-            response.Message = "cannot delete default base armorModel";
-            response.Entity = baseArmor;
+            response.success = false;
+            response.message = "cannot delete default base armorModel";
+            response.entity = baseArmor;
         }
 
         return response;

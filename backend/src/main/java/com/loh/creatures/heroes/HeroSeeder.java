@@ -47,7 +47,7 @@ public class HeroSeeder {
             hero.setRace(race);
             hero.setRole(role);
             ArmorModel lightArmorModel = armorModelRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyLightArmor);
-            ArmorInstance armor = armorInstanceService.InstantiateArmor(lightArmorModel, 1);
+            ArmorInstance armor = armorInstanceService.instantiateArmor(lightArmorModel, 1);
             armorInstanceRepository.save(armor);
             hero.getEquipment().equipArmor(armor);
             hero.getInventory().addItem(armor);

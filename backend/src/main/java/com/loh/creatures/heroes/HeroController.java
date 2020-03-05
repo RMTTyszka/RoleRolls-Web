@@ -2,14 +2,12 @@ package com.loh.creatures.heroes;
 
 
 import com.loh.creatures.heroes.inventory.NewHeroDto;
-import com.loh.items.weapons.weaponInstance.WeaponInstance;
+import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -41,11 +39,6 @@ public class HeroController {
     Hero getHero(@RequestParam UUID id) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         // This returns a JSON or XML with the users
         Hero hero = heroRepository.findById(id).get();
-        WeaponInstance weapon = new WeaponInstance();
-        weapon.setName("Minha arma");
-        hero.getInventory().addItem(weapon);
-        System.out.println(hero.getDefense());
-        System.out.println(hero.getEvasion());
         return hero;
     }
     @GetMapping(path="/getNew")
@@ -58,26 +51,37 @@ public class HeroController {
     }
     @PutMapping(path="/update")
     public @ResponseBody
-    Hero updateHero(@RequestBody Hero heroDto) {
-        return heroService.update(heroDto);
+    BaseCrudResponse<Hero> updateHero(@RequestBody Hero heroDto) {
+        Hero hero =  heroService.update(heroDto);
+        BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully updated hero", hero);
+        return output;
     }
 
     @PostMapping(path="/create")
     public @ResponseBody
-    Hero createHero(@RequestBody NewHeroDto heroDto) {
+    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto){
 
-        return heroService.create(heroDto.name, heroDto.race, heroDto.role);
+        try {
+            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role);
+            BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
+            return output;
+        } catch (Exception e) {
+            return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
+        }
 
     }
 
     @DeleteMapping(path="/delete")
     public @ResponseBody
-    JsonObject deleteHero(@RequestParam UUID id) {
+    BaseCrudResponse<Hero> deleteHero(@RequestParam UUID id) {
 
-        heroRepository.deleteById(id);
+        try {
+            heroRepository.deleteById(id);
+            return new BaseCrudResponse<Hero>(true, "Successfully deleted hero", null);
+        } catch (Exception e) {
+            return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
+        }
 
-        return Json.createObjectBuilder()
-                .add("text", "hero deleted with success").build();
     }
 
     static Specification<Hero> containsName(String name) {

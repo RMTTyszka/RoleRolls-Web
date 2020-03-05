@@ -164,4 +164,7 @@ export class NewHeroEditorComponent  implements OnInit {
   get role() {
     return this.form.get('role') as FormGroup;
   }
+  deleted() {
+    this.ref.close(true);
+  }
 }

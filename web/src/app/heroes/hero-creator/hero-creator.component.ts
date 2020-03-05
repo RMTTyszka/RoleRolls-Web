@@ -4,6 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { Race } from 'src/app/shared/models/Race.model';
 import { Role } from 'src/app/shared/models/Role.model';
 import { ModalEntityAction } from 'src/app/shared/dtos/ModalEntityData';
+import { DynamicDialogRef } from 'primeng/api';
+import { Hero } from 'src/app/shared/models/Hero.model';
 
 @Component({
   selector: 'loh-hero-creator',
@@ -16,6 +18,7 @@ export class HeroCreatorComponent implements OnInit {
   public isLoading = true;
   constructor(
     public service: NewHeroService,
+    public ref: DynamicDialogRef,
   ) { }
 
   ngOnInit() {
@@ -28,6 +31,9 @@ export class HeroCreatorComponent implements OnInit {
   }
   roleSelected(race: Role) {
     console.log(this.form);
+  }
+  created(hero: Hero) {
+    this.ref.close(hero);
   }
 
 }
