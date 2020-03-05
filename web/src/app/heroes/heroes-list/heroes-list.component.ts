@@ -9,6 +9,7 @@ import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.compone
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';
 import {NewHero} from '../../shared/models/NewHero.model';
+import { HeroCreatorComponent } from '../hero-creator/hero-creator.component';
 
 @Component({
   selector: 'loh-heroes-list',
@@ -34,7 +35,7 @@ export class HeroesListComponent extends BaseListComponent<NewHero> implements O
    }
 
    addNewHero() {
-    this.dialogService.open(NewHeroEditorComponent, {
+    this.dialogService.open(HeroCreatorComponent, {
       header: 'Hero',
       width: '100vw',
       height: '100vh',

@@ -24,11 +24,12 @@ export class NewHeroEditorComponent  implements OnInit {
   public entity: NewHero;
   public entityId: string;
   public attributeDetailsIsOpened = false;
-  private: MessageService
+  private: MessageService;
   constructor(
     public service: NewHeroService,
     private dataService: DataService,
-    public ref: DynamicDialogRef, public config: DynamicDialogConfig,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
     private messageService: MessageService
   ) {
     this.action = config.data.action;

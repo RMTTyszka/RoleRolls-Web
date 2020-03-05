@@ -21,6 +21,7 @@ import { HeroStatsComponent } from './hero-stats/hero-stats.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
+import { HeroCreatorComponent } from './hero-creator/hero-creator.component';
 
 const routes: Routes = [
   {path: '', component: HeroesGatewayComponent}
@@ -43,7 +44,7 @@ const routes: Routes = [
     AutoCompleteModule,
     CreaturesSharedModule
   ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent],
-  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent]
+  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, HeroCreatorComponent],
+  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent, HeroCreatorComponent]
 })
 export class HeroesModule { }

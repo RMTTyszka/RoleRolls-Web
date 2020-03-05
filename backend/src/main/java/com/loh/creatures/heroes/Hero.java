@@ -24,6 +24,18 @@ public class Hero extends Creature {
         equipment = new Equipment();
         inventory = new Inventory();
     }
+    public Hero(String name, Race race, Role role){
+        super();
+        id = UUID.randomUUID();
+        level = 1;
+        baseAttributes = new Attributes(8);
+        bonusAttributes = new Attributes();
+        this.name = name;
+        this.race = race;
+        this.role = role;
+        equipment = new Equipment();
+        inventory = new Inventory();
+    }
     public Hero(String name){
         super();
         id = UUID.randomUUID();

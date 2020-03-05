@@ -1,15 +1,8 @@
 package com.loh.creatures.heroes;
 
 
-import com.loh.creatures.heroes.equipment.EquipmentRepository;
-import com.loh.creatures.heroes.equipment.GripType;
-import com.loh.creatures.heroes.inventory.InventoryRepository;
-import com.loh.items.armors.armorInstance.ArmorInstance;
-import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
-import com.loh.items.armors.armorTypes.ArmorType;
-import com.loh.items.weapons.weaponCategory.WeaponType;
+import com.loh.creatures.heroes.inventory.NewHeroDto;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
-import com.loh.items.weapons.weaponInstance.WeaponInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -27,15 +20,10 @@ import static org.springframework.data.jpa.domain.Specification.where;
 public class HeroController {
     @Autowired
     private HeroRepository heroRepository;
+    @Autowired
+    private HeroService heroService;
 
-    @Autowired
-    private ArmorInstanceRepository armorInstanceRepository;
-    @Autowired
-    private WeaponInstanceRepository weaponInstanceRepository;
-    @Autowired
-    private EquipmentRepository equipmentRepository;
-    @Autowired
-    private InventoryRepository inventoryRepository;
+
 
     @GetMapping(path="/allFiltered")
     public @ResponseBody
@@ -62,39 +50,24 @@ public class HeroController {
     }
     @GetMapping(path="/getNew")
     public @ResponseBody
-    Hero getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    NewHeroDto getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
-        Hero hero = new Hero();
-        ArmorInstance armor = armorInstanceRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
-        WeaponInstance weapon = weaponInstanceRepository.findByWeaponModel_BaseWeapon_Category_WeaponType(WeaponType.None);
-        hero.getEquipment().setArmor(armor);
-        try {
-            hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        NewHeroDto hero = new NewHeroDto();
         return hero;
     }
     @PutMapping(path="/update")
     public @ResponseBody
     Hero updateHero(@RequestBody Hero heroDto) {
-
-        armorInstanceRepository.save(heroDto.getEquipment().getArmor());
-        equipmentRepository.save(heroDto.getEquipment());
-        return heroRepository.save(heroDto);
+        return heroService.update(heroDto);
     }
 
     @PostMapping(path="/create")
     public @ResponseBody
-    Hero createHero(@RequestBody Hero heroDto) {
+    Hero createHero(@RequestBody NewHeroDto heroDto) {
 
+        return heroService.create(heroDto.name, heroDto.race, heroDto.role);
 
-        heroDto.getEquipment().setArmor(armorInstanceRepository.save(heroDto.getEquipment().getArmor()));
-        heroDto.setEquipment(equipmentRepository.save(heroDto.getEquipment()));
-        heroDto.setInventory(inventoryRepository.save(heroDto.getInventory()));
-        return heroRepository.save(heroDto);
     }
 
     @DeleteMapping(path="/delete")
