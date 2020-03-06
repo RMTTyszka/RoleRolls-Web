@@ -57,14 +57,14 @@ public class BaseWeaponController {
         BaseCrudResponse response = new BaseCrudResponse<BaseWeapon>();
         boolean isStatic = repository.findById(baseWeapon.getId()).get().isSystemDefault();
         if (isStatic) {
-            response.Success = false;
-            response.Entity = baseWeapon;
-            response.setMessage("Cannot Update Default Base Weapons");
+            response.success = false;
+            response.entity = baseWeapon;
+            response.message = "Cannot Update Default Base Weapons";
             return response;
         }
         BaseWeapon updatedBaseArmor = repository.save(baseWeapon);
-        response.Success = true;
-        response.Entity = updatedBaseArmor;
+        response.success = true;
+        response.entity = updatedBaseArmor;
         return response;
     }
 
@@ -74,13 +74,13 @@ public class BaseWeaponController {
         BaseCrudResponse response = new BaseCrudResponse<BaseWeapon>();
         try {
             BaseWeapon createdBaseArmor = repository.save(baseWeapon);
-            response.Success = true;
-            response.Message = "Successfully Created";
-            response.Entity = createdBaseArmor;
+            response.success = true;
+            response.message = "Successfully Created";
+            response.entity = createdBaseArmor;
             return response;
         } catch (Exception e) {
-            response.setSuccess(false);
-            response.setMessage(e.getMessage());
+            response.success = false;
+            response.message = e.getMessage();
             return response;
         }
 
@@ -93,12 +93,12 @@ public class BaseWeaponController {
         BaseCrudResponse response = new BaseCrudResponse();
         if (!baseWeapon.isSystemDefault()){
             repository.deleteById(id);
-            response.Success = true;
-            response.Entity = baseWeapon;
+            response.success = true;
+            response.entity = baseWeapon;
         } else {
-            response.Success = false;
-            response.Message = "cannot delete default base armorModel";
-            response.Entity = baseWeapon;
+            response.success = false;
+            response.message = "cannot delete default base armorModel";
+            response.entity = baseWeapon;
         }
 
         return response;

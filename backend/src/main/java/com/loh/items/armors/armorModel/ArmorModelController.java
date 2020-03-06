@@ -61,8 +61,8 @@ public class ArmorModelController {
     private BaseCrudResponse<ArmorModel> saveAndGetArmorBaseCrudResponse(ArmorModel Armor) {
         ArmorModel updatedArmor = repository.save(Armor);
         BaseCrudResponse response = new BaseCrudResponse<ArmorModel>();
-        response.Success = true;
-        response.Entity = updatedArmor;
+        response.success = true;
+        response.entity = updatedArmor;
         return response;
     }
 
@@ -79,8 +79,8 @@ public class ArmorModelController {
         ArmorModel Armor = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
         repository.deleteById(id);
-        response.Success = true;
-        response.Entity = Armor;
+        response.success = true;
+        response.entity = Armor;
 
         return response;
     }
