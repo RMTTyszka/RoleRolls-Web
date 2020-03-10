@@ -17,4 +17,8 @@ public class ItemInstance extends Entity {
     private Integer level;
     @Getter @Setter
     private String name;
+
+    public Integer getBonus() {
+      return level / 2;
+    }
 }

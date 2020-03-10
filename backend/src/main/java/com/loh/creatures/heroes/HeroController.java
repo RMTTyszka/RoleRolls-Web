@@ -53,11 +53,6 @@ public class HeroController {
     Hero getHero(@RequestParam UUID id) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         // This returns a JSON or XML with the users
         Hero hero = heroRepository.findById(id).get();
-        WeaponInstance weapon = new WeaponInstance();
-        weapon.setName("Minha arma");
-        hero.getInventory().addItem(weapon);
-        System.out.println(hero.getDefense());
-        System.out.println(hero.getEvasion());
         return hero;
     }
     @GetMapping(path="/getNew")

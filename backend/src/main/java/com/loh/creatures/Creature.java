@@ -68,15 +68,22 @@ public class Creature extends Entity {
     protected Inventory inventory;
 
     public Integer getDefense() {
-        return equipment.getDefense() + getAttributeLevel(Attributes.Strength);
+        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
     public Integer getEvasion() {
         return 10 + equipment.getEvasion();
     }
-    public Integer life() {
+    public Integer getLife() {
         return 5 + 4 * level +  (level  + 2) * getTotalAttributes().vitality;
     }
 
+/*    public WeaponAttributes getMainWeaponAttributes() {
+        return new WeaponAttributes(
+                equipment.getMainWeaponGripType(),
+                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                equipment.getMainWeapon().getBonus());
+    }*/
     @Getter @Setter @Transient @JsonIgnore
     protected Attacker attacker;
 

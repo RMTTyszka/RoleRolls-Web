@@ -1,11 +1,11 @@
 package com.loh.items.weapons.weaponCategory;
 
-import com.loh.shared.DefaultEntity;
+import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 @javax.persistence.Entity
-public class WeaponCategory extends DefaultEntity {
+public class WeaponCategory extends Entity {
     @Getter @Setter
     private WeaponType weaponType;
     @Getter @Setter

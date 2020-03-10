@@ -18,6 +18,13 @@ public class ArmorInstance extends EquipableInstance {
     @Transient
     public boolean isArmor = true;
 
+    public Integer getDefense() {
+        return armorModel.getDefense(getBonus());
+    }
+    public Integer getEvasion() {
+        return armorModel.getEvasion(getBonus());
+    }
+
     public ArmorInstance() {
     }
 

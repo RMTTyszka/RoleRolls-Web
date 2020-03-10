@@ -4,6 +4,7 @@ import com.loh.items.weapons.weaponCategory.WeaponType;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
 
 public class GripService {
+
     public static boolean validateGripType(WeaponInstance weapon, GripType gripType) {
         if (isBareHanded(weapon)) return true;
         if (gripType == null) return true;
@@ -14,16 +15,16 @@ public class GripService {
     }
 
     private static boolean isBareHanded(WeaponInstance weapon) {
-        return weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.None;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.None;
     }
     private static boolean isHeavyWeapon(WeaponInstance weapon) {
-        return weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Heavy;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Heavy;
     }
     private static boolean isMediumWeapon(WeaponInstance weapon) {
-        return weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Medium;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Medium;
     }
     private static boolean isLightWeapon(WeaponInstance weapon) {
-        return weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Light;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Light;
     }
 
     public static CorrectedGripType getCorrectedGripType(WeaponInstance newWeapon, WeaponInstance offWeapon, GripType gripType) throws Exception {

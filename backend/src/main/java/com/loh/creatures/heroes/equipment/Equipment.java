@@ -33,10 +33,10 @@ public class Equipment extends Entity {
 	private GripType offWeaponGridType;
 
 	public Integer getDefense() {
-		return armor.getArmorModel().getDefense();
+		return armor.getDefense();
 	}
 	public Integer getEvasion() {
-		return armor.getArmorModel().getEvasion();
+		return armor.getEvasion();
 	}
 	@Transient
 	public List<EquipableInstance> listOfEquipment() {
