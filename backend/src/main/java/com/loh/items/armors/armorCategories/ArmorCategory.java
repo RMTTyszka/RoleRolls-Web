@@ -1,37 +1,40 @@
 package com.loh.items.armors.armorCategories;
 
-import com.loh.items.armors.armorTypes.ArmorType;
-import com.loh.shared.DefaultEntity;
 import lombok.Getter;
-import lombok.Setter;
 
-@javax.persistence.Entity
-public class ArmorCategory extends DefaultEntity {
+import java.util.Arrays;
+import java.util.List;
 
-    public ArmorCategory(){
-        armorType = ArmorType.Light;
-        defense = 0;
-        evasion = 0;
-        baseDefense = 0;
-    }
+public enum ArmorCategory  {
 
-    public ArmorCategory(ArmorType armorType, int defense, int evasion, int baseDefense) {
-        this.armorType = armorType;
-        this.defense = defense;
-        this.evasion = evasion;
-        this.baseDefense = baseDefense;
-    }
-    @Getter @Setter
-    private ArmorType armorType;
+    None, Light, Medium, Heavy;
 
-    @Getter @Setter
+    @Getter
     private int defense;
-
-    @Getter @Setter
-    private int evasion;
-
-    @Getter @Setter
+    @Getter
+    private int dodge;
+    @Getter
     private int baseDefense;
+
+    static {
+        None.defense = 0;
+        Light.defense = 1;
+        Medium.defense = 2;
+        Heavy.defense = 3;
+
+        None.baseDefense = 0;
+        Light.baseDefense = 1;
+        Medium.baseDefense = 3;
+        Heavy.baseDefense = 4;
+
+        None.dodge = 1;
+        Light.dodge = 1;
+        Medium.dodge = 0;
+        Heavy.dodge = -1;
+    }
+    public static List<ArmorCategory> getList() {
+        return Arrays.asList(None, Light, Medium, Heavy);
+    }
 
 }
 

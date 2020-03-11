@@ -19,7 +19,7 @@ public class Equipment extends Entity {
 	}
 	
 	@OneToOne @Getter @Setter
-	private ArmorInstance armor;
+	private ArmorInstance armor = new ArmorInstance();
 
 	@OneToOne @Getter @Setter
 	private WeaponInstance mainWeapon;
@@ -33,18 +33,14 @@ public class Equipment extends Entity {
 	private GripType offWeaponGridType;
 
 	public Integer getDefense() {
-		if (armor != null) {
-			return armor.getArmorModel().getDefense();
-		} else {
-			return 0;
-		}
+		return armor.getDefense();
 	}
 	public Integer getEvasion() {
-		if (armor != null) {
-			return armor.getArmorModel().getEvasion();
-		} else {
-			return 0;
-		}	}
+		return armor.getEvasion();
+	}
+	public Integer getDodge() {
+		return armor.getDodge();
+	}
 	@Transient
 	public List<EquipableInstance> listOfEquipment() {
 

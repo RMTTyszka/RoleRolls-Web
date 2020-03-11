@@ -1,11 +1,9 @@
 package com.loh.items.armors;
 
 import com.loh.items.armors.armorCategories.ArmorCategory;
-import com.loh.items.armors.armorCategories.ArmorCategoryRepository;
 import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.armors.armorModel.ArmorModel;
 import com.loh.items.armors.armorModel.ArmorModelRepository;
-import com.loh.items.armors.armorTypes.ArmorType;
 import com.loh.items.armors.baseArmor.BaseArmor;
 import com.loh.items.armors.baseArmor.BaseArmorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,45 +17,29 @@ public class ArmorSeeder {
     @Autowired
     private ArmorInstanceRepository armorInstanceRepository;
     @Autowired
-    private ArmorCategoryRepository armorCategoryRepository;
-    @Autowired
     private BaseArmorRepository baseArmorRepository;
 
     public void seed() {
 
-        if (armorCategoryRepository.count() <= 0) {
-            ArmorCategory lightArmor = new ArmorCategory(ArmorType.Light, 1, 1, 1);
-            ArmorCategory mediumArmor = new ArmorCategory(ArmorType.Medium, 2, 0, 3);
-            ArmorCategory heavyArmor = new ArmorCategory(ArmorType.Heavy, 3, -1, 4);
-            ArmorCategory noArmor = new ArmorCategory(ArmorType.None, 0, 1, 0);
-            armorCategoryRepository.save(lightArmor);
-            armorCategoryRepository.save(mediumArmor);
-            armorCategoryRepository.save(heavyArmor);
-            armorCategoryRepository.save(noArmor);
-        }
         if (baseArmorRepository.count() <= 0){
-            ArmorCategory heavy = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.Heavy);
-            ArmorCategory medium = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.Medium);
-            ArmorCategory light = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.Light);
-            ArmorCategory noneArmor = armorCategoryRepository.findArmorCategoryByArmorType(ArmorType.None);
             for (String armorName: DefaultArmors.lightArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, light);
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Light);
                 baseArmorRepository.save(armor);
             }
             for (String armorName: DefaultArmors.mediumArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, medium);
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Medium);
                 baseArmorRepository.save(armor);
             }
             for (String armorName: DefaultArmors.heavyArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, heavy);
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Heavy);
                 baseArmorRepository.save(armor);
             }
 
-            BaseArmor empty = BaseArmor.DefaultBaseArmor("None Armor", noneArmor);
-            BaseArmor dummyHeavyArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyHeavyArmor, heavy);
-            BaseArmor dummyMediumArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyMediumArmor, medium);
-            BaseArmor dummyLightArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyLightArmor, light);
-            BaseArmor dummyNoneArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyNoneArmor, noneArmor);
+            BaseArmor empty = BaseArmor.DefaultBaseArmor("None Armor",  ArmorCategory.None);
+            BaseArmor dummyNoneArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyNoneArmor,  ArmorCategory.None);
+            BaseArmor dummyLightArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyLightArmor, ArmorCategory.Light);
+            BaseArmor dummyMediumArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyMediumArmor, ArmorCategory.Medium);
+            BaseArmor dummyHeavyArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyHeavyArmor, ArmorCategory.Heavy);
             baseArmorRepository.save(empty);
 
             baseArmorRepository.save(dummyHeavyArmor);

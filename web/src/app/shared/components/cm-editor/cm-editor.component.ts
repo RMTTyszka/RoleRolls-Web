@@ -128,6 +128,10 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
       if (response.success) {
         this.saved.next(response.entity);
         messageType = 'success';
+        const newForm = new FormGroup({});
+        createForm(newForm, response.entity);
+        this.form.patchValue(newForm);
+
       } else {
         messageType = 'error';
       }

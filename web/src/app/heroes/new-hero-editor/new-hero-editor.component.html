@@ -1,4 +1,4 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId"
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted($event)
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-tabView>

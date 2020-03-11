@@ -13,15 +13,16 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("Weapon")
 public class WeaponInstance extends EquipableInstance {
 
-    @Getter @Setter @ManyToOne
-    private WeaponModel weaponModel;
-
     public WeaponInstance() {
     }
 
     public WeaponInstance(WeaponModel weaponModel, Integer level) {
         this.weaponModel = weaponModel;
+        this.setName(weaponModel.getName());
         this.setLevel(level);
-        this.setName(this.weaponModel.getName());
     }
+
+    @Getter @Setter @ManyToOne
+    private WeaponModel weaponModel;
+
 }
