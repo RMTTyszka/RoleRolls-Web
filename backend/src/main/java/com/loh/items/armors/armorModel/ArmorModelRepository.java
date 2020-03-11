@@ -11,7 +11,6 @@ import java.util.UUID;
 public interface ArmorModelRepository extends PagingAndSortingRepository<ArmorModel, UUID> {
     List<ArmorModel> findAllByNameIgnoreCaseContaining(String name);
     List<ArmorModel> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
-    ArmorModel findTop1ArmorByBaseArmor_Category_ArmorType(ArmorType type);
     ArmorModel findByNameAndSystemDefaultTrue(String name);
     ArmorModel findByName(String name);
 }

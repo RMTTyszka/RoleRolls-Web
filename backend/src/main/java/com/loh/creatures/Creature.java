@@ -68,10 +68,13 @@ public class Creature extends Entity {
     protected Inventory inventory;
 
     public Integer getDefense() {
-        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
+        return equipment.getDefense() + getAttributeModifier(Attributes.Vitality);
     }
     public Integer getEvasion() {
-        return 10 + equipment.getEvasion();
+        return 10 + equipment.getEvasion() +  getAttributeModifier(Attributes.Agility);
+    }
+    public Integer getDodge() {
+        return equipment.getDodge();
     }
     public Integer getLife() {
         return 5 + 4 * level +  (level  + 2) * getTotalAttributes().vitality;

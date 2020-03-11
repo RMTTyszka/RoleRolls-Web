@@ -4,9 +4,9 @@ package com.loh.creatures.heroes;
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
+import com.loh.items.armors.armorCategories.ArmorCategory;
 import com.loh.items.armors.armorInstance.ArmorInstance;
 import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
-import com.loh.items.armors.armorTypes.ArmorType;
 import com.loh.items.weapons.weaponCategory.WeaponType;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.weapons.weaponInstance.WeaponInstanceRepository;
@@ -61,7 +61,7 @@ public class HeroController {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
         Hero hero = new Hero();
-        ArmorInstance armor = armorInstanceRepository.findByArmorModel_BaseArmor_Category_ArmorType(ArmorType.None);
+        ArmorInstance armor = armorInstanceRepository.findByArmorModel_BaseArmor_Category(ArmorCategory.None.None);
         WeaponInstance weapon = weaponInstanceRepository.findByWeaponModel_BaseWeapon_Category_WeaponType(WeaponType.None);
         hero.getEquipment().setArmor(armor);
         try {

@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 @javax.persistence.Entity
 public class BaseArmor extends DefaultEntity {
 
-    @ManyToOne
     @Getter @Setter
     private ArmorCategory category;
 
@@ -24,7 +23,7 @@ public class BaseArmor extends DefaultEntity {
     public BaseArmor() {
         name = "";
         setSystemDefault(false);
-        category = new ArmorCategory();
+        category = ArmorCategory.Light;
     }
 
     public static BaseArmor DefaultBaseArmor(String name, ArmorCategory category){

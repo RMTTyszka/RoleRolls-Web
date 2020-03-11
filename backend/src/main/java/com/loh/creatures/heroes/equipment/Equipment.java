@@ -38,6 +38,9 @@ public class Equipment extends Entity {
 	public Integer getEvasion() {
 		return armor.getEvasion();
 	}
+	public Integer getDodge() {
+		return armor.getDodge();
+	}
 	@Transient
 	public List<EquipableInstance> listOfEquipment() {
 

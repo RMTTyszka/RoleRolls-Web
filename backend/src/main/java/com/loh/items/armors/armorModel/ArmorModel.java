@@ -33,7 +33,10 @@ public class ArmorModel extends Equipable {
 		return baseArmor.getCategory().getDefense() * bonusModifier + baseArmor.getCategory().getBaseDefense() + Bonuses.GetBonus(bonuses, Properties.Defense);
 	}
 	public java.lang.Integer getEvasion(Integer bonusModifier) {
-		return baseArmor.getCategory().getEvasion() + bonusModifier + Bonuses.GetBonus(bonuses, Properties.Evasion);
+		return bonusModifier + Bonuses.GetBonus(bonuses, Properties.Evasion);
+	}
+	public java.lang.Integer getDodge() {
+		return baseArmor.getCategory().getDodge() + Bonuses.GetBonus(bonuses, Properties.Dodge);
 	}
 
 }
