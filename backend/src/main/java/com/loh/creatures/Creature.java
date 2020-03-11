@@ -67,6 +67,9 @@ public class Creature extends Entity {
     @Getter @Setter @OneToOne
     protected Inventory inventory;
 
+    public Integer getHit() {
+        return equipment.getDefense() + getAttributeModifier(Attributes.Vitality);
+    }
     public Integer getDefense() {
         return equipment.getDefense() + getAttributeModifier(Attributes.Vitality);
     }
@@ -77,16 +80,19 @@ public class Creature extends Entity {
         return equipment.getDodge();
     }
     public Integer getLife() {
-        return 5 + 4 * level +  (level  + 2) * getTotalAttributes().vitality;
+        return 5 + 4 * level +  (level  + 2) * getAttributeModifier(Attributes.Vitality);
+    }
+    public Integer getMoral() {
+        return 5 + 4 * level +  (level  + 2) * getAttributeModifier(Attributes.Vitality) / 2;
     }
 
-/*    public WeaponAttributes getMainWeaponAttributes() {
+    public WeaponAttributes getMainWeaponAttributes() {
         return new WeaponAttributes(
                 equipment.getMainWeaponGripType(),
-                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                getAttributeModifier(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                getAttributeModifier(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
                 equipment.getMainWeapon().getBonus());
-    }*/
+    }
     @Getter @Setter @Transient @JsonIgnore
     protected Attacker attacker;
 
