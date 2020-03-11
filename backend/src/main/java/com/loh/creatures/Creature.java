@@ -93,6 +93,13 @@ public class Creature extends Entity {
                 getAttributeModifier(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
                 equipment.getMainWeapon().getBonus());
     }
+    public WeaponAttributes getOffWeaponAttributes() {
+        return equipment.getOffWeapon() != null ? new WeaponAttributes(
+                equipment.getOffWeaponGridType(),
+                getAttributeModifier(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                getAttributeModifier(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                equipment.getOffWeapon().getBonus()) : null;
+    }
     @Getter @Setter @Transient @JsonIgnore
     protected Attacker attacker;
 
