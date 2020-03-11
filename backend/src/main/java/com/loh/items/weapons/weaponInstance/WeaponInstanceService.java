@@ -1,5 +1,6 @@
 package com.loh.items.weapons.weaponInstance;
 
+import com.loh.items.weapons.weaponCategory.WeaponType;
 import com.loh.items.weapons.weaponModel.WeaponModel;
 import com.loh.items.weapons.weaponModel.WeaponModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,24 @@ public class WeaponInstanceService {
     @Autowired
     WeaponModelRepository weaponModelRepository;
 
-    public WeaponInstance InstantiateWeapon(UUID weaponModelId, Integer level) {
-        WeaponModel weaponModel = weaponModelRepository.findById(weaponModelId).get();
-        return InstantiateWeapon(weaponModel, level);
+    public WeaponInstance instantiateWeapon (UUID armorModelId, Integer level) {
+        WeaponModel weaponModel = weaponModelRepository.findById(armorModelId).get();
+        return instantiateWeapon(weaponModel, level);
     }
-    public WeaponInstance InstantiateWeapon(WeaponModel weaponModel, Integer level) {
+    public WeaponInstance instantiateWeapon(WeaponModel weaponModel, Integer level) {
         WeaponInstance weapon = new WeaponInstance(weaponModel, level);
+        return weapon;
+    }
+
+    public WeaponInstance save(WeaponInstance weaponInstance) {
+        this.weaponInstanceRepository.save(weaponInstance);
+        return weaponInstance;
+    }
+
+    public WeaponInstance instantiateNoneWeapon() {
+        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Category_WeaponType(WeaponType.None);
+        WeaponInstance weapon = instantiateWeapon(weaponModel, 1);
+        weaponInstanceRepository.save(weapon);
         return weapon;
     }
 }

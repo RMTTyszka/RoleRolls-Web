@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface WeaponModelRepository extends PagingAndSortingRepository<WeaponModel, UUID> {
     List<WeaponModel> findAllByNameIgnoreCaseContaining(String name);
     List<WeaponModel> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
+    WeaponModel findTop1ByBaseWeapon_Category_WeaponType(WeaponType type);
     WeaponModel findArmorByBaseWeapon_Category_WeaponType(WeaponType type);
     WeaponModel findByNameAndSystemDefaultTrue(String name);
 }

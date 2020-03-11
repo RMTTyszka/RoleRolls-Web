@@ -22,6 +22,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   public isLoading = true;
   @Input() entityId: string;
   @Input() disableSave = false;
+  @Input() hasDelete = true;
   @Input() disableDelete = false;
   @Input() action: ModalEntityAction;
   @Input() service: BaseEntityService<T>;
@@ -134,7 +135,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
       } else {
         messageType = 'error';
       }
-      this.messageService.add({severity: messageType, summary: '', detail: response.message})
+      this.messageService.add({severity: messageType, summary: '', detail: response.message});
     });
 
   }
@@ -147,7 +148,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
       } else {
         messageType = 'error';
       }
-      this.messageService.add({severity: messageType, summary: '', detail: resp.message})
+      this.messageService.add({severity: messageType, summary: '', detail: resp.message});
     });
   }
 

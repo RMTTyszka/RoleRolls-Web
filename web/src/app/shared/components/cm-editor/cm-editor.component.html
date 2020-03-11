@@ -4,6 +4,6 @@
 <ng-content select="[footer]"></ng-content>
 <div>
   <button pButton type="button" label="Save" (click)="save()" [disabled]="disableSave"></button>
-  <button pButton type="button" label="Delete" (click)="delete()" [disabled]="disableDelete"></button>
+  <button *ngIf="hasDelete"  pButton type="button" label="Delete" (click)="delete()" [disabled]="disableDelete"></button>
   <!--<button pButton type="button" label="Cancel"></button>-->
 </div>
