@@ -65,7 +65,7 @@ public class HeroSeeder {
             hero.getInventory().addItem(armor);
 
             WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
-            WeaponInstance weapon = weaponInstanceService.InstantiateWeapon(lightWeaponModel, 1);
+            WeaponInstance weapon = weaponInstanceService.instantiateWeapon(lightWeaponModel, 1);
             weaponInstanceRepository.save(weapon);
             hero.getEquipment().equipMainWeapon(weapon, GripType.OneLightWeapon);
             hero.getInventory().addItem(weapon);

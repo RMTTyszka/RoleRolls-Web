@@ -1,8 +1,8 @@
 package com.loh.items.armors.armorInstance;
 
+import com.loh.items.armors.DefaultArmors;
 import com.loh.items.armors.armorModel.ArmorModel;
 import com.loh.items.armors.armorModel.ArmorModelRepository;
-import com.loh.items.armors.armorTypes.ArmorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class ArmorInstanceService {
         return armor;
     }
     public ArmorInstance instantiateNoneArmor() {
-        ArmorModel armorModel = armorModelRepository.findTop1ArmorByBaseArmor_Category_ArmorType(ArmorType.None);
+        ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
         ArmorInstance armor = instantiateArmor(armorModel, 1);
         armorInstanceRepository.save(armor);
         return armor;
