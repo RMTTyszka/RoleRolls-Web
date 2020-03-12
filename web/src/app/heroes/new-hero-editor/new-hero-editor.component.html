@@ -9,6 +9,12 @@
               <input type="text" pInputText placeholder="Name" formControlName="name">
               <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
               <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
+              <div class="ui-inputgroup">
+                <button (click)="removeLevel()" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
+                <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder">
+                <button (click)="addLevel()" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
+                <span class="ui-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
+              </div>
               <label>Remaining Points: {{totalAttributesInitialPoints - usedAttributesBasePoints}}</label>
               <div class="ui-inputgroup">
                 <button (click)="resetAttrs()" pButton pTooltip="reset" type="button" icon="pi pi-times-circle" class="ui-button-raised ui-button-secondary"></button>
@@ -16,25 +22,22 @@
                 <button *ngIf="!attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = true" pButton type="button" icon="pi pi-angle-double-right" class="ui-button-raised ui-button-secondary"></button>
                 <button *ngIf="attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = false" pButton type="button" icon="pi pi-angle-double-left" class="ui-button-raised ui-button-secondary"></button>
               </div>
-              <div class="ui-inputgroup">
-                <button (click)="removeLevel()" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
-                <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder">
-                <button (click)="addLevel()" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
-                <span class="ui-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
-              </div>
+
               <div formGroupName="baseAttributes">
                 <div class="ui-inputgroup" *ngFor="let attr of attributes">
                   <button (click)="removeAttr(attr)" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
                   <input type="text" readonly pInputText [placeholder]="attr" class="input-centered-placeholder">
                   <button (click)="addAttr(attr)" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
-                  <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{totalAttribute(attr)}}</span>
+                  <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold; min-width: 30px" pTooltip="total">{{totalAttribute(attr)}}</span>
                   <ng-container *ngIf="attributeDetailsIsOpened">
                     <span class="ui-inputgroup-addon"  pTooltip="base points">{{baseAttribute(attr)}}</span>
-                    <span class="ui-inputgroup-addon" style="background-color: azure" pTooltip="bonus points">{{bonusPointsAttribute(attr)}}</span>
-                    <span class="ui-inputgroup-addon" style="background-color: lightgreen" pTooltip="race bonus">{{raceAttributeBonus(attr)}}</span>
-                    <span class="ui-inputgroup-addon" style="background-color: lightsalmon" pTooltip="role bonus">{{roleAttributeBonus(attr)}}</span>
-                    <span class="ui-inputgroup-addon" style="background-color: darkkhaki" pTooltip="bonuses"></span>
+                    <span class="ui-inputgroup-addon" style="background-color: azure; min-width: 30px" pTooltip="bonus points">{{bonusPointsAttribute(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: lightgreen; min-width: 30px" pTooltip="race bonus">{{raceAttributeBonus(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: lightsalmon; min-width: 30px" pTooltip="role bonus">{{roleAttributeBonus(attr)}}</span>
+                    <span class="ui-inputgroup-addon" style="background-color: darkkhaki; min-width: 30px" pTooltip="bonuses"></span>
                   </ng-container>
+                  <span class="ui-inputgroup-addon" style="background-color: azure; min-width: 46px" pTooltip="level">{{attributeLevel(attr)}}</span>
+                  <span class="ui-inputgroup-addon" style="background-color: azure; min-width: 46px" pTooltip="Bonus Dice">{{attributeBonusDice(attr)}}</span>
                 </div>
               </div>
             </p-fieldset>

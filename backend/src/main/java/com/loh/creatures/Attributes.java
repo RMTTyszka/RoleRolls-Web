@@ -2,14 +2,12 @@ package com.loh.creatures;
 
 
 import javax.persistence.Embeddable;
-import javax.persistence.Transient;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
 @Embeddable
 public class Attributes {
-    @Transient
     public static String Strength = "strength";
     public static String Agility = "agility";
     public static String Vitality = "vitality";
@@ -57,7 +55,7 @@ public class Attributes {
         this.validate();
     }
 
-    public Integer getAttributeLevel(String attr) {
+    public Integer getAttributePoints(String attr) {
         try {
             Field field = this.getClass().getDeclaredField(attr);
             field.setAccessible(true);

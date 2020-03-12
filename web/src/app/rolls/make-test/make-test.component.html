@@ -1,0 +1,7 @@
+<form [formGroup]="form">
+  <input type="text" pInputText pKeyFilter="num" placeholder="Level" formControlName="level">
+  <input type="text" pInputText pKeyFilter="num" placeholder="Bonus" formControlName="bonus">
+  <input type="text" pInputText pKeyFilter="num" placeholder="Difficulty" formControlName="difficulty">
+  <input type="text" pInputText pKeyFilter="num" placeholder="Complexity" formControlName="complexity">
+  <button pButton type="button" label="Click" (click)="makeTest()"></button>
+</form>

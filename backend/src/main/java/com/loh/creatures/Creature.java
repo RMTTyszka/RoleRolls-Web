@@ -68,51 +68,51 @@ public class Creature extends Entity {
     protected Inventory inventory;
 
     public Integer getHit() {
-        return equipment.getDefense() + getAttributeModifier(Attributes.Vitality);
+        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
     public Integer getDefense() {
-        return equipment.getDefense() + getAttributeModifier(Attributes.Vitality);
+        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
     public Integer getEvasion() {
-        return 10 + equipment.getEvasion() +  getAttributeModifier(Attributes.Agility);
+        return 10 + equipment.getEvasion() +  getAttributeLevel(Attributes.Agility);
     }
     public Integer getDodge() {
         return equipment.getDodge();
     }
     public Integer getLife() {
-        return 5 + 4 * level +  (level  + 2) * getAttributeModifier(Attributes.Vitality);
+        return 5 + 4 * level +  (level  + 2) * getAttributeLevel(Attributes.Vitality);
     }
     public Integer getMoral() {
-        return 5 + 4 * level +  (level  + 2) * getAttributeModifier(Attributes.Vitality) / 2;
+        return 5 + 4 * level +  (level  + 2) * getAttributeLevel(Attributes.Vitality) / 2;
     }
 
     public WeaponAttributes getMainWeaponAttributes() {
         return new WeaponAttributes(
                 equipment.getMainWeaponGripType(),
-                getAttributeModifier(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getAttributeModifier(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
                 equipment.getMainWeapon().getBonus());
     }
     public WeaponAttributes getOffWeaponAttributes() {
         return equipment.getOffWeapon() != null ? new WeaponAttributes(
                 equipment.getOffWeaponGridType(),
-                getAttributeModifier(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getAttributeModifier(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
                 equipment.getOffWeapon().getBonus()) : null;
     }
     @Getter @Setter @Transient @JsonIgnore
     protected Attacker attacker;
 
-    public Integer getAttributeLevel(String attr) {
+    public Integer getAttributePoints(String attr) {
         return
-                baseAttributes.getAttributeLevel(attr)
-                + bonusAttributes.getAttributeLevel(attr)
-                + race.getAttributeLevel(attr)
-                + role.getAttributeLevel(attr);
+                baseAttributes.getAttributePoints(attr)
+                + bonusAttributes.getAttributePoints(attr)
+                + race.getAttributePoints(attr)
+                + role.getAttributePoints(attr);
     }
 
-    public Integer getAttributeModifier(String attr) {
-        return Loh.getModifier(getAttributeLevel(attr));
+    public Integer getAttributeLevel(String attr) {
+        return Loh.getLevel(getAttributePoints(attr));
     }
 
     @Transient

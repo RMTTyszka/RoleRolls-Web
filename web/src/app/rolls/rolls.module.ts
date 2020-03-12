@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 import { RollsService } from './rolls.service';
 import { RollsComponent } from './rolls.component';
 import { SharedModule } from '../shared/shared.module';
+import {RollsRoutingModule} from './rolls-routing.module';
+import { MakeTestComponent } from './make-test/make-test.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    RollsRoutingModule
   ],
-  declarations: [RollsComponent],
+  declarations: [RollsComponent, MakeTestComponent],
   providers: [
     RollsService
   ]

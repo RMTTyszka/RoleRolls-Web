@@ -29,7 +29,7 @@ public class HeroController {
 
         Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())));
         for (Hero hero : heroes) {
-            System.out.println(hero.getAttributeModifier("strength"));
+            System.out.println(hero.getAttributeLevel("strength"));
         }
         return heroes;
     }

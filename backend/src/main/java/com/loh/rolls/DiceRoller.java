@@ -14,7 +14,7 @@ public class DiceRoller {
 
     public RollResult makeTest(Integer level, Integer bonus, Integer difficulty) {
 
-        Integer numberOfRolls = Loh.getModifier(level);
+        Integer numberOfRolls = Loh.getLevel(level);
         List<Integer> rolls = new ArrayList<>();
         Integer successes = 0;
         Integer bonusDice = getBonusDiceRoll(level);

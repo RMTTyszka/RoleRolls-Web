@@ -63,7 +63,7 @@ public class Role extends DefaultEntity {
 		this.setSystemDefault(true);
 	}
 
-	public Integer getAttributeLevel(String attr) {
+	public Integer getAttributePoints(String attr) {
 		Optional<Bonus> existingBonus = bonuses.stream().filter(bonus -> bonus.getProperty() == attr).findFirst();
 		return existingBonus.isPresent() ? existingBonus.get().getLevel() : 0;
 	}
