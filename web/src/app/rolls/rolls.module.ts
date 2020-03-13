@@ -5,12 +5,24 @@ import { RollsComponent } from './rolls.component';
 import { SharedModule } from '../shared/shared.module';
 import {RollsRoutingModule} from './rolls-routing.module';
 import { MakeTestComponent } from './make-test/make-test.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {InputTextModule} from 'primeng/inputtext';
+import {KeyFilterModule} from 'primeng/keyfilter';
+import {InputMaskModule} from 'primeng/inputmask';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    RollsRoutingModule
+    RollsRoutingModule,
+
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    FormsModule,
+    InputTextModule,
+    KeyFilterModule,
+    InputMaskModule
   ],
   declarations: [RollsComponent, MakeTestComponent],
   providers: [

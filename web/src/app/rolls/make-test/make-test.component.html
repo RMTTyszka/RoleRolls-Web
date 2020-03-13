@@ -1,7 +1,35 @@
 <form [formGroup]="form">
-  <input type="text" pInputText pKeyFilter="num" placeholder="Level" formControlName="level">
-  <input type="text" pInputText pKeyFilter="num" placeholder="Bonus" formControlName="bonus">
-  <input type="text" pInputText pKeyFilter="num" placeholder="Difficulty" formControlName="difficulty">
-  <input type="text" pInputText pKeyFilter="num" placeholder="Complexity" formControlName="complexity">
-  <button pButton type="button" label="Click" (click)="makeTest()"></button>
+  <div fxLayout="column" fxLayoutGap="16px">
+    <span class="ui-float-label"><input type="text" id="level" pInputText pKeyFilter="num" formControlName="level"><label for="level">Level</label> </span>
+    <span class="ui-float-label"><input type="text" id="bonus" pInputText pKeyFilter="num" formControlName="bonus"><label for="bonus">Bonus</label></span>
+    <span class="ui-float-label">
+      <p-inputMask mask="99/9" type="text" id="complexity" formControlName="difficulty"></p-inputMask>
+      <label for="complexity">Difficulty</label>
+    </span>
+    <button pButton type="button" label="Click" (click)="makeTest()"></button>
+  </div>
+  <div>
+    <input type="text" pInputText readonly formControlName="success" placeholder="Success">
+    <div fxLayout="row" formArrayName="rolls">
+      <div *ngFor="let roll of rolls.controls; let i=index">
+        <input type="text" pInputText readonly [formControlName]="i">
+      </div>
+      <div fxLayout="column" fxLayoutAlign="initial initial">
+        <span>Bonus Dice Value</span>
+        <input type="text" pInputText formControlName="bonusDice">
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="initial initial">
+      <span>Successes</span>
+      <input type="text" pInputText formControlName="successes">
+    </div>
+    <div fxLayout="column">
+      <span>Critical Successes</span>
+      <input type="text" pInputText formControlName="criticalSuccesses">
+    </div>
+    <div fxLayout="column">
+      <span>Critical Failures</span>
+      <input type="text" pInputText formControlName="criticalFailures">
+    </div>
+  </div>
 </form>
