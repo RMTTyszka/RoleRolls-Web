@@ -1,0 +1,9 @@
+.criticalFailureResult {
+  background-color: lightpink;
+  color: crimson;
+}.criticalSuccessResult {
+  background-color: #97D197;
+  color: #fafafa;
+}.normalResult {
+  background-color: khaki;
+}

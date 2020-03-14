@@ -10,6 +10,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputMaskModule} from 'primeng/inputmask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CardModule} from 'primeng/card';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormsModule,
     InputTextModule,
     KeyFilterModule,
-    InputMaskModule
+    InputMaskModule,
+    CardModule
   ],
   declarations: [RollsComponent, MakeTestComponent],
   providers: [
