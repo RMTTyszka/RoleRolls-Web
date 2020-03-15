@@ -7,10 +7,12 @@ import com.loh.creatures.heroes.inventory.Inventory;
 import com.loh.race.Race;
 import com.loh.role.Role;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
+@DiscriminatorValue("Hero")
 public class Hero extends Creature {
 
 

@@ -13,6 +13,8 @@ public class RollResult {
     @Getter
     private Integer bonusDice;
     @Getter
+    private Integer rollSuccesses;
+    @Getter
     private Integer successes;
     @Getter
     private Integer criticalSuccesses;
@@ -23,10 +25,11 @@ public class RollResult {
     @Getter
     private Integer complexity;
 
-    public RollResult(boolean success, List<Integer> rolls, Integer bonusDice, Integer successes, Integer criticalSuccesses, Integer criticalFailures, Integer difficulty, Integer complexity) {
+    public RollResult(boolean success, List<Integer> rolls, Integer bonusDice, Integer rollSuccesses, Integer criticalSuccesses, Integer criticalFailures, Integer successes, Integer difficulty, Integer complexity) {
         this.success = success;
         this.rolls = rolls;
         this.bonusDice = bonusDice;
+        this.rollSuccesses = rollSuccesses;
         this.successes = successes;
         this.criticalSuccesses = criticalSuccesses;
         this.criticalFailures = criticalFailures;

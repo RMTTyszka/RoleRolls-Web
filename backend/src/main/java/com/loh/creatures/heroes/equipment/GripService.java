@@ -1,6 +1,6 @@
 package com.loh.creatures.heroes.equipment;
 
-import com.loh.items.weapons.weaponCategory.WeaponType;
+import com.loh.items.weapons.weaponCategory.WeaponCategory;
 import com.loh.items.weapons.weaponInstance.WeaponInstance;
 
 public class GripService {
@@ -15,16 +15,16 @@ public class GripService {
     }
 
     private static boolean isBareHanded(WeaponInstance weapon) {
-        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.None;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory() == WeaponCategory.None;
     }
     private static boolean isHeavyWeapon(WeaponInstance weapon) {
-        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Heavy;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory() == WeaponCategory.Heavy;
     }
     private static boolean isMediumWeapon(WeaponInstance weapon) {
-        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Medium;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory() == WeaponCategory.Medium;
     }
     private static boolean isLightWeapon(WeaponInstance weapon) {
-        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() == WeaponType.Light;
+        return weapon != null && weapon.getWeaponModel().getBaseWeapon().getCategory() == WeaponCategory.Light;
     }
 
     public static CorrectedGripType getCorrectedGripType(WeaponInstance newWeapon, WeaponInstance offWeapon, GripType gripType) throws Exception {
@@ -46,7 +46,7 @@ public class GripService {
         }
         if (isHeavyWeapon(newWeapon)) {
             if (gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon) {
-                return new CorrectedGripType(gripType, offWeapon.getWeaponModel().getBaseWeapon().getCategory().getWeaponType() != WeaponType.Shield);
+                return new CorrectedGripType(gripType, offWeapon.getWeaponModel().getBaseWeapon().getCategory() != WeaponCategory.Shield);
             }
         }
 

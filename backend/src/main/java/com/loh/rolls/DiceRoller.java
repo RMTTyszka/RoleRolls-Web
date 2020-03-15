@@ -18,7 +18,7 @@ public class DiceRoller {
         List<Integer> rolls = new ArrayList<>();
         Integer criticalSuccesses = 0;
         Integer criticalFailures = 0;
-        Integer successes = 0;
+        Integer rollSuccesses = 0;
         Integer bonusDice = getBonusDiceRoll(level);
         boolean bonusDiceConsumed = false;
 
@@ -26,23 +26,24 @@ public class DiceRoller {
             Integer roll = getRoll(20);
             rolls.add(roll);
             if (roll == 20) {
-                successes++;
+                rollSuccesses++;
                 criticalSuccesses++;
             }
             else if (roll == 1) {
                 criticalFailures++;
             }
             else if (roll + bonus >= difficulty) {
-                successes++;
+                rollSuccesses++;
             }
             else if (!bonusDiceConsumed && roll + bonus + bonusDice >= difficulty) {
-                successes++;
+                rollSuccesses++;
                 bonusDiceConsumed = true;
             }
         }
-        boolean success = successes >= complexity;
+        boolean success = rollSuccesses >= complexity;
+        Integer successes = rollSuccesses / complexity;
 
-        return new RollResult(success, rolls, bonusDice, successes, criticalSuccesses, criticalFailures, difficulty, complexity);
+        return new RollResult(success, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
     }
 
     public Integer getBonusDice(Integer level) {

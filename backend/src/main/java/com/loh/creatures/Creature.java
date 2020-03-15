@@ -1,6 +1,8 @@
 package com.loh.creatures;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.loh.combat.AttackDetails;
+import com.loh.combat.AttackService;
 import com.loh.dev.Loh;
 import com.loh.creatures.heroes.equipment.Equipment;
 import com.loh.creatures.heroes.inventory.Inventory;
@@ -12,7 +14,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "CreatureType")
 public class Creature extends Entity {
 
     public Creature() {
@@ -162,6 +166,9 @@ public class Creature extends Entity {
     }
 
 
+    public AttackDetails fullAttack(Creature target, AttackService service) {
+        return service.fullAttack(this, target);
+    }
 
 
 

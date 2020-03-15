@@ -1,5 +1,8 @@
 package com.loh.combat;
 
+import com.loh.creatures.Creature;
+import com.loh.creatures.CreatureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,13 +11,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
+import java.util.UUID;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/combat",  produces = "application/json; charset=UTF-8")
 public class CombatController {
 	
-	
+
+	@Autowired
+	private CreatureRepository creatureRepository;
+	@Autowired
+	private AttackService attackService;
 
 	protected Random random = new Random();
 /*
@@ -67,7 +75,18 @@ public class CombatController {
 		
 		fullAttack(attacker, target, dto);
 		return dto;*/
-return null;
+		return null;
+	}
+	@GetMapping(path="/getAttackRoll")
+	public @ResponseBody CombatActionDto getAttackRoll(UUID attackerId, UUID targetId, boolean isFullAttack) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		Creature attacker = creatureRepository.findById(attackerId).get();
+		Creature target = creatureRepository.findById(targetId).get();
+		CombatActionDto dto = new CombatActionDto();
+		if (isFullAttack) {
+			dto.attackDetail = attacker.fullAttack(target, attackService);
+		}
+
+		return dto;
 	}
 	
 	
