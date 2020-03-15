@@ -167,4 +167,11 @@ export class NewHeroEditorComponent  implements OnInit {
   deleted() {
     this.ref.close(true);
   }
+
+  attributeLevel(attr: string) {
+    return Math.floor((this.totalAttribute(attr) + 4) / 5);
+  }
+  attributeBonusDice(attr: string) {
+    return '1d' + (this.totalAttribute(attr) + 5) % 5 * 4;
+  }
 }

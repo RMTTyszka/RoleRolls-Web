@@ -1,0 +1,46 @@
+<form [formGroup]="form" flexLayout="row" flexLayoutAlign="space-between stretch">
+  <p-card  fxFlex="50" header="Stats">
+    <div fxLayout="column" fxLayoutGap="16px">
+      <span class="ui-float-label"><input type="text" id="level" pInputText pKeyFilter="pint" maxlength="2" formControlName="level"><label for="level">Level</label> </span>
+      <span class="ui-float-label"><input type="text" id="bonus" pInputText pKeyFilter="int" maxLength="3" formControlName="bonus"><label for="bonus">Bonus</label></span>
+      <span class="ui-float-label">
+      <p-inputMask mask="99/9" type="text" id="complexity" formControlName="difficulty"></p-inputMask>
+      <label for="complexity">Difficulty</label>
+    </span>
+      <button pButton type="button" label="Roll" (click)="makeTest()"></button>
+    </div>
+  </p-card>
+  <p-card  fxFlex="50" *ngIf="hasRollResult" header="Result">
+    <div>
+      <div>
+        <div class="ui-inputgroup">
+          <button *ngIf="success" pButton type="button" icon="pi pi-check" class="ui-button-success" disabled></button>
+          <button *ngIf="!success" pButton type="button" icon="pi pi-times" class="ui-button-danger" disabled></button>
+          <input type="text" pInputText readonly formControlName="successesMessage" placeholder="Success">
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <span fxFlex="100">Rolls</span>
+        <div formArrayName="rolls" fxLayout="row wrap" fxLayoutAlign="start center"  fxFlex="33">
+          <input *ngFor="let roll of rolls.controls; let i=index" fxFlex="33" type="text" pInputText readonly [formControlName]="i" [ngClass]="getRollColor(roll.value)" style="max-width: 31px;">
+        </div>
+        <div fxLayout="column" fxLayoutAlign="initial initial"  fxFlex="100">
+          <span>Bonus Dice Value</span>
+          <input type="text" pInputText formControlName="bonusDice" readonly>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="initial initial">
+        <span>Successes</span>
+        <input type="text" pInputText formControlName="successes" readonly>
+      </div>
+      <div fxLayout="column">
+        <span>Critical Successes</span>
+        <input type="text" pInputText formControlName="criticalSuccesses" readonly>
+      </div>
+      <div fxLayout="column">
+        <span>Critical Failures</span>
+        <input type="text" pInputText formControlName="criticalFailures" readonly>
+      </div>
+    </div>
+  </p-card>
+</form>

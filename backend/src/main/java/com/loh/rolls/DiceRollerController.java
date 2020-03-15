@@ -1,0 +1,21 @@
+package com.loh.rolls;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin
+@Controller    // This means that this class is a Controller
+@RequestMapping(path="/roll",  produces = "application/json; charset=UTF-8")
+public class DiceRollerController {
+    @Autowired
+    DiceRoller diceRoller;
+
+    @GetMapping(path="/makeTest")
+    public @ResponseBody
+    RollResult makeRoll(@RequestParam Integer level, @RequestParam Integer bonus, @RequestParam Integer difficulty, @RequestParam Integer complexity) {
+
+        // This returns a JSON or XML with the users
+        return diceRoller.makeTest(level, bonus, difficulty, complexity);
+    }
+}
