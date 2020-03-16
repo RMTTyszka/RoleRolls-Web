@@ -1,24 +1,18 @@
 package com.loh.items.weapons.weaponCategory;
 
-import com.loh.shared.Entity;
 import lombok.Getter;
-import lombok.Setter;
 
-@javax.persistence.Entity
-public class WeaponCategory extends Entity {
-    @Getter @Setter
-    private WeaponType weaponType;
-    @Getter @Setter
+import java.util.Arrays;
+import java.util.List;
+
+public enum WeaponCategory {
+
+    None, Light, Medium, Heavy, Shield;
+
+    @Getter
     private WeaponHandleType handleType;
 
-
-    public WeaponCategory(){
-        weaponType = WeaponType.Light;
-        handleType = WeaponHandleType.OneHanded;
-    }
-
-    public WeaponCategory(WeaponType weaponType, WeaponHandleType handleType) {
-        this.weaponType = weaponType;
-        this.handleType = handleType;
+    public static List<WeaponCategory> getList() {
+        return Arrays.asList(None, Light, Medium, Heavy, Shield);
     }
 }

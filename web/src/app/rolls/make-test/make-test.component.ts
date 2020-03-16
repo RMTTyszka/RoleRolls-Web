@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {MakeTestService} from './make-test.service';
-import {RollResult} from '../../shared/models/RollResult.model';
+import {TestResult} from '../../shared/models/RollResult.model';
 
 @Component({
   selector: 'loh-make-test',
@@ -27,6 +27,7 @@ export class MakeTestComponent implements OnInit {
         success: [],
         bonusDice: [],
         successes: [],
+        rollSuccesses: [],
         successesMessage: []
       });
   }
@@ -44,11 +45,12 @@ export class MakeTestComponent implements OnInit {
       this.form.get('level').value,
       this.form.get('bonus').value || 0,
       (this.form.get('difficulty').value as String).split('/')[0],
-      (this.form.get('difficulty').value as String).split('/')[1]).subscribe((rollResult: RollResult) => {
+      (this.form.get('difficulty').value as String).split('/')[1]).subscribe((rollResult: TestResult) => {
         this.form.get('successesMessage').setValue(rollResult.success ? 'Success' : 'Failure');
         this.form.get('success').setValue(rollResult.success);
         this.form.get('criticalSuccesses').setValue(rollResult.criticalSuccesses);
         this.form.get('criticalFailures').setValue(rollResult.criticalFailures);
+        this.form.get('rollSuccesses').setValue(rollResult.successes);
         this.form.get('successes').setValue(rollResult.successes);
         this.form.get('bonusDice').setValue(rollResult.bonusDice);
         this.rolls.clear();

@@ -9,13 +9,14 @@ import { RolesSelectModalComponent } from 'src/app/roles/roles-shared/roles-sele
 import { FormGroup } from '@angular/forms';
 import { Race } from 'src/app/shared/models/Race.model';
 import { Bonus } from 'src/app/shared/models/Bonus.model';
+import {NewHero} from '../../shared/models/NewHero.model';
 
 @Component({
   selector: 'loh-heroes-editor',
   templateUrl: './heroes-editor.component.html',
   styleUrls: ['./heroes-editor.component.scss']
 })
-export class HeroesEditorComponent extends BaseCreatorComponent<Hero> implements OnInit, OnDestroy {
+export class HeroesEditorComponent extends BaseCreatorComponent<NewHero> implements OnInit, OnDestroy {
   attributes: string[] = [];
   skills: string[] = [];
   totalInitialAttributePoints: number;

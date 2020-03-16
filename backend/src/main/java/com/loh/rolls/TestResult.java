@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class RollResult {
+public class TestResult {
 
     @Getter
     private boolean success;
@@ -12,6 +12,8 @@ public class RollResult {
     private List<Integer> rolls;
     @Getter
     private Integer bonusDice;
+    @Getter
+    private Integer rollSuccesses;
     @Getter
     private Integer successes;
     @Getter
@@ -23,10 +25,11 @@ public class RollResult {
     @Getter
     private Integer complexity;
 
-    public RollResult(boolean success, List<Integer> rolls, Integer bonusDice, Integer successes, Integer criticalSuccesses, Integer criticalFailures, Integer difficulty, Integer complexity) {
+    public TestResult(boolean success, List<Integer> rolls, Integer bonusDice, Integer rollSuccesses, Integer criticalSuccesses, Integer criticalFailures, Integer successes, Integer difficulty, Integer complexity) {
         this.success = success;
         this.rolls = rolls;
         this.bonusDice = bonusDice;
+        this.rollSuccesses = rollSuccesses;
         this.successes = successes;
         this.criticalSuccesses = criticalSuccesses;
         this.criticalFailures = criticalFailures;

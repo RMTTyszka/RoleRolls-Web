@@ -13,7 +13,7 @@ public class DiceRollerController {
 
     @GetMapping(path="/makeTest")
     public @ResponseBody
-    RollResult makeRoll(@RequestParam Integer level, @RequestParam Integer bonus, @RequestParam Integer difficulty, @RequestParam Integer complexity) {
+    TestResult makeRoll(@RequestParam Integer level, @RequestParam Integer bonus, @RequestParam Integer difficulty, @RequestParam Integer complexity) {
 
         // This returns a JSON or XML with the users
         return diceRoller.makeTest(level, bonus, difficulty, complexity);

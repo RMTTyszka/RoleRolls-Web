@@ -3,6 +3,7 @@ import {Race} from './Race.model';
 import {Role} from './Role.model';
 import {Equipment} from './Equipment.model';
 import {Inventory} from './Inventory.model';
+import {WeaponAttributes} from './WeaponAttributes.model';
 
 export class BaseAttributes {
     strength: number;
@@ -47,5 +48,6 @@ export class BaseAttributes {
     inventory: Inventory;
     defense: number;
     evasion: number;
+    mainWeaponAttributes = new WeaponAttributes();
   }
 

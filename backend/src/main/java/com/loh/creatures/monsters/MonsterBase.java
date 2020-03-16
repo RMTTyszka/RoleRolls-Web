@@ -5,6 +5,7 @@ import com.loh.creatures.Attributes;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Bonus;
+import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,28 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class MonsterBase {
+public class MonsterBase extends DefaultEntity {
 	
 	private String name;
 	@Getter
 	@Setter
-	private Attributes oldAttributes;
+	private Attributes attributes;
 	
 	@ElementCollection
-	private List<String> mainSkills;
+	@Getter
+	@Setter	private List<String> mainSkills;
 	
-	public List<String> getMainSkills() {
-		return mainSkills;
-	}
-	public void setMainSkills(List<String> mainSkills) {
-		this.mainSkills = mainSkills;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public List<Enviroment> getEnviroment() {
 		return enviroment;
 	}

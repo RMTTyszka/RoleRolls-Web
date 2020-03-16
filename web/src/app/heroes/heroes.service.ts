@@ -1,18 +1,22 @@
 import { Injectable, Injector } from '@angular/core';
 import { BaseEntityService } from '../shared/base-entity-service';
 import { Hero } from '../shared/models/Hero.model';
+import {NewHero} from '../shared/models/NewHero.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HeroesService extends BaseEntityService<Hero> {
-  path = 'heroes';
+export class HeroesService extends BaseEntityService<NewHero> {
+  path = 'hero';
   constructor(
     injector: Injector
   ) {
-    super(injector, Hero);
+    super(injector, NewHero);
    }
 
+   getAllDummies() {
+    return this.getAllFiltered('Dummy');
+   }
 
 
    static getTotalAttributeBonusPoints(level: number) {
@@ -31,4 +35,5 @@ export class HeroesService extends BaseEntityService<Hero> {
    static getMaximumSkillsBonusPoints(level: number) {
      return Number(level) + 2;
    }
+
 }

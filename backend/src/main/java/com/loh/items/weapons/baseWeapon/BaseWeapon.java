@@ -5,11 +5,8 @@ import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.ManyToOne;
-
 @javax.persistence.Entity
 public class BaseWeapon extends DefaultEntity {
-    @ManyToOne
     @Getter
     @Setter
     private WeaponCategory category;
@@ -27,7 +24,7 @@ public class BaseWeapon extends DefaultEntity {
     public BaseWeapon() {
         name = "";
         setSystemDefault(false);
-        category = new WeaponCategory();
+        category = WeaponCategory.None;
     }
 
     public static BaseWeapon DefaultBaseWeapon(String name, WeaponCategory category, String hitAtribute, String damageAttribute){
