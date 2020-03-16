@@ -2,11 +2,13 @@ package com.loh.combat;
 
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.equipment.GripType;
-import com.loh.items.weapons.weaponInstance.WeaponInstance;
 import com.loh.rolls.DiceRoller;
-import com.loh.rolls.RollResult;
+import com.loh.rolls.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AttackService {
@@ -15,16 +17,74 @@ public class AttackService {
     private DiceRoller roller;
 
     public AttackDetails fullAttack(Creature attacker, Creature target) {
-        AttackDetails attackOutput =  new AttackDetails();
 
-        return attackOutput;
+        AttackResult mainWeaponAttackResult = mainWeaponAttack(attacker, target);
+        AttackResult offWeaponAttackResult = null;
+        if (attacker.getEquipment().getMainWeaponGripType() == GripType.TwoWeaponsLight || attacker.getEquipment().getMainWeaponGripType() == GripType.TwoWeaponsMedium) {
+            offWeaponAttackResult = offWeaponAttack(attacker, target);
+        }
+
+        AttackDetails attackDetails = new AttackDetails(mainWeaponAttackResult, offWeaponAttackResult, target.getEvasion(), target.getDefense());
+        return attackDetails;
 
     }
 
-    private AttackResult attack(WeaponInstance weapon,Integer numberOfAttacks, Integer hitBonus, Integer damageBonus, Integer evasion, GripType gripType, Integer defense) {
-        AttackResult output = new AttackResult();
-        RollResult attackTest = roller.makeTest(numberOfAttacks, hitBonus, evasion, gripType.getAttackComplexity());
+    private AttackResult offWeaponAttack(Creature attacker, Creature target) {
+        Integer hitBonus = attacker.getOffWeaponAttributes().getHitBonus();
+        Integer damageBonus = attacker.getOffWeaponAttributes().getDamageBonus();
+        Integer weaponDamage = attacker.getOffWeaponAttributes().getDamage();
+        Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+        AttackResult attackResult = attack(
+                weaponDamage,
+                hitAttributePoints,
+                hitBonus,
+                damageBonus,
+                target.getEvasion(),
+                attacker.getOffWeaponAttributes().getAttackComplexity(),
+                target.getDodge(),
+                target.getDefense()
+        );
 
+        return attackResult;
+    }
+
+    private AttackResult attack(Integer weaponDamage,Integer hitAttributePoints, Integer hitBonus, Integer damageBonus, Integer evasion, Integer complexity, Integer dodge, Integer defense) {
+        TestResult attackTest = roller.makeTest(hitAttributePoints, hitBonus, evasion, complexity);
+        List<Integer> damages = new ArrayList<>();
+
+        for (int attackIndex = 0; attackIndex < attackTest.getSuccesses() - dodge; attackIndex++) {
+            damages.add(getDamage(weaponDamage, damageBonus, defense));
+        }
+        AttackResult output = new AttackResult(
+                attackTest.getSuccesses(),
+                attackTest.getCriticalSuccesses(),
+                attackTest.getCriticalFailures(),
+                damages,
+                attackTest.getRolls()
+        );
         return output;
+    }
+
+    private AttackResult mainWeaponAttack(Creature attacker, Creature target) {
+        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus();
+        Integer damageBonus = attacker.getMainWeaponAttributes().getDamageBonus();
+        Integer weaponDamage = attacker.getMainWeaponAttributes().getDamage();
+        Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+        AttackResult attackResult = attack(
+                weaponDamage,
+                hitAttributePoints,
+                hitBonus,
+                damageBonus,
+                target.getEvasion(),
+                attacker.getMainWeaponAttributes().getAttackComplexity(),
+                target.getDodge(),
+                target.getDefense()
+        );
+
+        return attackResult;
+    }
+    private Integer getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
+        Integer damageRoll = roller.getRoll(weaponDamage);
+        return damageRoll + damageBonus - defense;
     }
 }

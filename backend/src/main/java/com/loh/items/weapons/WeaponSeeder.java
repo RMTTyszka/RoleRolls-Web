@@ -48,7 +48,7 @@ public class WeaponSeeder {
 
         }
         if (weaponModelRepository.count() <= 0){
-            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategory(WeaponCategory.None);
+            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "Bare hands");
             WeaponModel noneModel = new WeaponModel("Bare Hands", baseNoneWeapon);
             noneModel.setSystemDefault(true);
             weaponModelRepository.save(noneModel);

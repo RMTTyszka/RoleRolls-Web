@@ -1,13 +1,43 @@
 package com.loh.combat;
 
-import java.util.ArrayList;
+import lombok.Getter;
+
 import java.util.List;
 
 public class AttackDetails {
-    private List<Integer> mainWeaponHits = new ArrayList<>();
-    private List<Integer> offWeaponHits = new ArrayList<>();
-    private List<Integer> mainWeaponRolls = new ArrayList<>();
-    private List<Integer> offWeaponRolls = new ArrayList<>();
-    private List<Integer> mainWeaponDamages = new ArrayList<>();
-    private List<Integer> offWeaponDamages = new ArrayList<>();
+    @Getter
+    private Integer mainWeaponHits;
+    @Getter
+    private Integer mainWeaponCriticalHits;
+    @Getter
+    private Integer mainWeaponCriticalMisses;
+    @Getter
+    private Integer offWeaponHits;
+    @Getter
+    private List<Integer> mainWeaponRolls;
+    @Getter
+    private List<Integer> offWeaponRolls;
+    @Getter
+    private List<Integer> mainWeaponDamages;
+    @Getter
+    private List<Integer> offWeaponDamages;
+    @Getter
+    private Integer evasion;
+    @Getter
+    private Integer defense;
+
+    public AttackDetails(AttackResult mainWeaponAttackResult, AttackResult offWeaponAttackResult, Integer evasion, Integer defense) {
+        mainWeaponHits = mainWeaponAttackResult.getHits();
+        mainWeaponCriticalHits = mainWeaponAttackResult.getCriticalHits();
+        mainWeaponCriticalMisses = mainWeaponAttackResult.getCriticalMisses();
+        mainWeaponRolls = mainWeaponAttackResult.getRolls();
+        mainWeaponDamages = mainWeaponAttackResult.getDamages();
+
+        if (offWeaponAttackResult != null) {
+            //TODO
+        }
+
+        this.defense = defense;
+        this.evasion = evasion;
+    }
 }

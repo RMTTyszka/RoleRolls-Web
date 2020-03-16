@@ -4,10 +4,7 @@ import com.loh.creatures.Creature;
 import com.loh.creatures.CreatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
@@ -78,13 +75,16 @@ public class CombatController {
 		return null;
 	}
 	@GetMapping(path="/getAttackRoll")
-	public @ResponseBody CombatActionDto getAttackRoll(UUID attackerId, UUID targetId, boolean isFullAttack) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public @ResponseBody CombatActionDto getAttackRoll(@RequestParam UUID attackerId, @RequestParam UUID targetId, @RequestParam boolean isFullAttack) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		Creature attacker = creatureRepository.findById(attackerId).get();
 		Creature target = creatureRepository.findById(targetId).get();
-		CombatActionDto dto = new CombatActionDto();
+		AttackDetails attackDetails;
 		if (isFullAttack) {
-			dto.attackDetail = attacker.fullAttack(target, attackService);
+			attackDetails = attacker.fullAttack(target, attackService);
+		} else {
+			attackDetails = attacker.fullAttack(target, attackService);
 		}
+		CombatActionDto dto = new CombatActionDto(attackDetails, 0, 0, 0);
 
 		return dto;
 	}

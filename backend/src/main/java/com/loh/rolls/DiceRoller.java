@@ -12,14 +12,14 @@ public class DiceRoller {
 
     private Random random = new Random();
 
-    public RollResult makeTest(Integer level, Integer bonus, Integer difficulty, Integer complexity) {
+    public TestResult makeTest(Integer points, Integer bonus, Integer difficulty, Integer complexity) {
 
-        Integer numberOfRolls = Loh.getLevel(level);
+        Integer numberOfRolls = Loh.getLevel(points);
         List<Integer> rolls = new ArrayList<>();
         Integer criticalSuccesses = 0;
         Integer criticalFailures = 0;
         Integer rollSuccesses = 0;
-        Integer bonusDice = getBonusDiceRoll(level);
+        Integer bonusDice = getBonusDiceRoll(points);
         boolean bonusDiceConsumed = false;
 
         for (int i = 0; i < numberOfRolls; i++) {
@@ -43,7 +43,7 @@ public class DiceRoller {
         boolean success = rollSuccesses >= complexity;
         Integer successes = rollSuccesses / complexity;
 
-        return new RollResult(success, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
+        return new TestResult(success, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
     }
 
     public Integer getBonusDice(Integer level) {

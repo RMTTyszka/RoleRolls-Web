@@ -1,17 +1,25 @@
 package com.loh.creatures;
 
 import com.loh.creatures.heroes.equipment.GripType;
+import lombok.Getter;
 
 public class WeaponAttributes {
-    public Integer damage;
-    public Integer damageBonus;
-    public Integer attackComplexity;
-    public Integer hitBonus;
+    @Getter
+    private Integer damage;
+    @Getter
+    private Integer damageBonus;
+    @Getter
+    private Integer numberOfAttacker;
+    @Getter
+    private Integer attackComplexity;
+    @Getter
+    private Integer hitBonus;
 
     public WeaponAttributes(GripType gripType, Integer damageAttributeBonus, Integer hitAttributeBonus, Integer weaponMagicBonus) {
         damage = gripType.getDamage();
         damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus;
         attackComplexity = gripType.getAttackComplexity();
+        numberOfAttacker = hitAttributeBonus / gripType.getAttackComplexity();
         hitBonus = gripType.getHit() + hitAttributeBonus;
     }
 }

@@ -4,6 +4,7 @@ import { Race } from './Race.model';
 import { Role } from './Role.model';
 import { Bonus } from './Bonus.model';
 import { Skills } from './Skills.model';
+import {WeaponAttributes} from './WeaponAttributes.model';
 
 export class Hero extends Entity {
   name = '';
@@ -22,5 +23,6 @@ export class Hero extends Entity {
   totalAttributesBonusPoints = 0;
   totalSkillsBonusPoints = 0;
   maxLife = 0;
+  mainWeaponAttributes = new WeaponAttributes();
 
 }
