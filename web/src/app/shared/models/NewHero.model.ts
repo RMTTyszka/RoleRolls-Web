@@ -49,5 +49,6 @@ export class BaseAttributes {
     defense: number;
     evasion: number;
     mainWeaponAttributes = new WeaponAttributes();
+    offWeaponAttributes = new WeaponAttributes();
   }
 

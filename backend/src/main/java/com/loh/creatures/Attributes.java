@@ -76,10 +76,21 @@ public class Attributes {
         if (!isTotalValid()) {
             throw new Exception("Base Total Attributes cannot be above 70");
         }
+        if (!isValuesValid()) {
+            throw new Exception("Base Attribute higher than 14");
+        }
     }
 
     private boolean isTotalValid() {
         return strength + agility + vitality + wisdom + intuition + charisma <= 70;
+    }
+    private boolean isValuesValid() {
+        return strength <= 14 &&
+                agility <= 14 &&
+                vitality <= 14 &&
+                wisdom <= 14 &&
+                intuition <= 14 &&
+                charisma <= 14;
     }
 
 
