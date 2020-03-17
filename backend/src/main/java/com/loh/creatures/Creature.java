@@ -3,9 +3,10 @@ package com.loh.creatures;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loh.combat.AttackDetails;
 import com.loh.combat.AttackService;
-import com.loh.dev.Loh;
 import com.loh.creatures.heroes.equipment.Equipment;
 import com.loh.creatures.heroes.inventory.Inventory;
+import com.loh.dev.Loh;
+import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Entity;
@@ -13,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @javax.persistence.Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -168,6 +170,29 @@ public class Creature extends Entity {
 
     public AttackDetails fullAttack(Creature target, AttackService service) {
         return service.fullAttack(this, target);
+    }
+
+    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository weaponInstanceRepository) {
+        level++;
+        bonusAttributes.levelUp(Attributes.Agility);
+        bonusAttributes.levelUp(Attributes.Strength);
+        bonusAttributes.levelUp(Attributes.Vitality);
+        bonusAttributes.levelUp(Attributes.Charisma);
+        bonusAttributes.levelUp(Attributes.Intuition);
+        bonusAttributes.levelUp(Attributes.Wisdom);
+        equipment.getMainWeapon().levelUp(weaponInstanceRepository);
+        weaponInstanceRepository.save(equipment.getMainWeapon());
+        if (equipment.getOffWeapon() != null) {
+            equipment.getOffWeapon().levelUp(weaponInstanceRepository);
+        }
+        equipment.getArmor().levelUp(weaponInstanceRepository);
+        creatureRepository.save(this);
+    }
+    public void levelUp(List<String> attributesToLevel) {
+        level++;
+        for (String attribute: attributesToLevel) {
+            bonusAttributes.levelUp(attribute);
+        }
     }
 
 

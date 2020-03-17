@@ -21,4 +21,9 @@ public class ItemInstance extends Entity {
     public Integer getBonus() {
       return level / 2;
     }
+
+    public void levelUp(ItemInstanceRepository itemInstanceRepository) {
+        level++;
+        itemInstanceRepository.save(this);
+    }
 }
