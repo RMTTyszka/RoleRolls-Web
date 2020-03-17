@@ -1,12 +1,10 @@
 package com.loh.items.armors.armorInstance;
 
+import com.loh.items.ItemInstanceRepository;
 import com.loh.items.armors.armorCategories.ArmorCategory;
-import org.springframework.data.repository.PagingAndSortingRepository;
-
-import java.util.UUID;
 
 
-public interface ArmorInstanceRepository extends PagingAndSortingRepository<ArmorInstance, UUID> {
+public interface ArmorInstanceRepository extends ItemInstanceRepository {
     ArmorInstance findByArmorModel_BaseArmor_Category(ArmorCategory category);
     ArmorInstance findByName(String name);
 }

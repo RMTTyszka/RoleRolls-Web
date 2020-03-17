@@ -6,8 +6,7 @@ import com.loh.combat.AttackService;
 import com.loh.creatures.heroes.equipment.Equipment;
 import com.loh.creatures.heroes.inventory.Inventory;
 import com.loh.dev.Loh;
-import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
-import com.loh.items.weapons.weaponInstance.WeaponInstanceRepository;
+import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Entity;
@@ -173,7 +172,7 @@ public class Creature extends Entity {
         return service.fullAttack(this, target);
     }
 
-    public void levelUpforTest(WeaponInstanceRepository weaponInstanceRepository, ArmorInstanceRepository armorInstanceRepository) {
+    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository weaponInstanceRepository) {
         level++;
         bonusAttributes.levelUp(Attributes.Agility);
         bonusAttributes.levelUp(Attributes.Strength);
@@ -181,14 +180,13 @@ public class Creature extends Entity {
         bonusAttributes.levelUp(Attributes.Charisma);
         bonusAttributes.levelUp(Attributes.Intuition);
         bonusAttributes.levelUp(Attributes.Wisdom);
-        equipment.getMainWeapon().levelUp();
+        equipment.getMainWeapon().levelUp(weaponInstanceRepository);
         weaponInstanceRepository.save(equipment.getMainWeapon());
         if (equipment.getOffWeapon() != null) {
-            equipment.getOffWeapon().levelUp();
-            weaponInstanceRepository.save(equipment.getOffWeapon());
+            equipment.getOffWeapon().levelUp(weaponInstanceRepository);
         }
-        equipment.getArmor().levelUp();
-        armorInstanceRepository.save(equipment.getArmor());
+        equipment.getArmor().levelUp(weaponInstanceRepository);
+        creatureRepository.save(this);
     }
     public void levelUp(List<String> attributesToLevel) {
         level++;
