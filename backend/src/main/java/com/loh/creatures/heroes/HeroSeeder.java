@@ -2,6 +2,7 @@ package com.loh.creatures.heroes;
 
 import com.loh.creatures.Attributes;
 import com.loh.creatures.DefaultHeroes;
+import com.loh.creatures.LevelUpService;
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
@@ -49,6 +50,8 @@ public class HeroSeeder {
     EquipmentRepository equipmentRepository;
     @Autowired
     InventoryRepository inventoryRepository;
+    @Autowired
+    LevelUpService levelUpService;
 
     public void seed() throws Exception {
         if (heroRepository.findByName(DefaultHeroes.OneLightWeapon) == null) {
@@ -57,6 +60,7 @@ public class HeroSeeder {
 
             WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
             equipWeapon(hero, lightWeaponModel, true, GripType.OneLightWeapon);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon) == null) {
             Hero hero = new Hero(DefaultHeroes.OneMediumWeapon);
@@ -64,6 +68,7 @@ public class HeroSeeder {
 
             WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
             equipWeapon(hero, weaponModel, true, GripType.OneMediumWeapon);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon) == null) {
             Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon);
@@ -71,6 +76,7 @@ public class HeroSeeder {
 
             WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
             equipWeapon(hero, weaponModel, true, GripType.TwoHandedHeavyWeapon);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons) == null) {
             Hero hero = new Hero(DefaultHeroes.TwoLightWeapons);
@@ -80,6 +86,7 @@ public class HeroSeeder {
             equipWeapon(hero, weaponModel, true, GripType.TwoWeaponsLight);
             WeaponModel offWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
             equipWeapon(hero, offWeaponModel, false, GripType.TwoWeaponsLight);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons) == null) {
             Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons);
@@ -89,6 +96,7 @@ public class HeroSeeder {
             equipWeapon(hero, weaponModel, true, GripType.TwoWeaponsMedium);
             WeaponModel offWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
             equipWeapon(hero, offWeaponModel, false, GripType.TwoWeaponsMedium);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.LightArmor) == null) {
             Hero hero = new Hero(DefaultHeroes.LightArmor);
@@ -96,6 +104,7 @@ public class HeroSeeder {
 
             WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
             equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.MediumArmor) == null) {
             Hero hero = new Hero(DefaultHeroes.MediumArmor);
@@ -103,6 +112,7 @@ public class HeroSeeder {
 
             WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
             equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
+            heroRepository.save(hero);
         }
         if (heroRepository.findByName(DefaultHeroes.HeavyArmor) == null) {
             Hero hero = new Hero(DefaultHeroes.HeavyArmor);
@@ -110,6 +120,10 @@ public class HeroSeeder {
 
             WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
             equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
+            levelUpService.levelUpForTest(hero);
+            levelUpService.levelUpForTest(hero);
+            levelUpService.levelUpForTest(hero);
+            heroRepository.save(hero);
         }
     }
 
@@ -127,7 +141,6 @@ public class HeroSeeder {
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         inventoryRepository.save(hero.getInventory());
         equipmentRepository.save(hero.getEquipment());
-        heroRepository.save(hero);
     }
 
     private void equipArmor(Hero hero, String dummyMediumArmor) throws Exception {
