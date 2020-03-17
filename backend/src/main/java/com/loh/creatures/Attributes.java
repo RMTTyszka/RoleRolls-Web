@@ -58,7 +58,7 @@ public class Attributes {
         try {
             Field field = this.getClass().getDeclaredField(attribute);
             field.setAccessible(true);
-            field.setInt(this, field.getInt(this) + 1);
+            field.set(this, (Integer) field.get(this) + 1);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
