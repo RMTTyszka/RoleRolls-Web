@@ -22,15 +22,15 @@ public class Attributes {
     public Integer charisma;
 
     public Attributes GetSumOfAttributes(Attributes attributes){
-        Attributes totalAttribuute = new Attributes();
-        totalAttribuute.agility = agility + attributes.agility;
-        totalAttribuute.strength = strength + attributes.strength;
-        totalAttribuute.vitality = vitality + attributes.vitality;
-        totalAttribuute.wisdom = wisdom + attributes.wisdom;
-        totalAttribuute.intuition = intuition + attributes.intuition;
-        totalAttribuute.charisma = charisma + attributes.charisma;
+        Attributes totalAttribute = new Attributes();
+        totalAttribute.agility = agility + attributes.agility;
+        totalAttribute.strength = strength + attributes.strength;
+        totalAttribute.vitality = vitality + attributes.vitality;
+        totalAttribute.wisdom = wisdom + attributes.wisdom;
+        totalAttribute.intuition = intuition + attributes.intuition;
+        totalAttribute.charisma = charisma + attributes.charisma;
 
-        return totalAttribuute;
+        return totalAttribute;
     }
 
     public Attributes(){
@@ -53,6 +53,17 @@ public class Attributes {
         this.intuition = intuition;
         this.charisma = charisma;
         this.validate();
+    }
+    public void levelUp(String attribute) {
+        try {
+            Field field = this.getClass().getDeclaredField(attribute);
+            field.setAccessible(true);
+            field.setInt(this, field.getInt(this) + 1);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getAttributePoints(String attr) {

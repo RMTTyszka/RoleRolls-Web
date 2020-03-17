@@ -21,4 +21,8 @@ public class ItemInstance extends Entity {
     public Integer getBonus() {
       return level / 2;
     }
+
+    public void levelUp() {
+        level++;
+    }
 }
