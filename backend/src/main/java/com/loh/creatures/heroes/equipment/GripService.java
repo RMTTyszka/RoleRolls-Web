@@ -45,9 +45,10 @@ public class GripService {
             return new CorrectedGripType(GripType.OneMediumWeapon, false);
         }
         if (isHeavyWeapon(newWeapon)) {
-            if (gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon) {
+            if ((gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon) && offWeapon != null) {
                 return new CorrectedGripType(gripType, offWeapon.getWeaponModel().getBaseWeapon().getCategory() != WeaponCategory.Shield);
             }
+            return new CorrectedGripType(gripType, false);
         }
 
         throw new Exception("GridType and Weapon are not compatible");
