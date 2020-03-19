@@ -10,4 +10,8 @@ public class DefaultHeroes {
     public static String LightArmor= "Light Armor Dummy";
     public static String MediumArmor = "Medium Armor Dummy";
     public static String HeavyArmor = "Heavy Armor Dummy";
+
+    public static String getNameWithLevel(String heroName, Integer level) {
+        return heroName + " level " + level;
+    }
 }

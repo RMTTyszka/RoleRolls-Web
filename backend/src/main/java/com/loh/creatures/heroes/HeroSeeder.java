@@ -22,6 +22,7 @@ import com.loh.race.Race;
 import com.loh.race.RaceRepository;
 import com.loh.role.Role;
 import com.loh.role.RoleRepository;
+import com.loh.shared.Bonus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +56,8 @@ public class HeroSeeder {
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
-            if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.OneLightWeapon + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.OneLightWeapon + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
@@ -64,8 +65,8 @@ public class HeroSeeder {
                 hero = heroRepository.save(hero);
                 levelUpForTest(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.OneMediumWeapon + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.OneMediumWeapon + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
@@ -73,8 +74,8 @@ public class HeroSeeder {
                 hero = heroRepository.save(hero);
                 levelUpForTest(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
@@ -82,8 +83,8 @@ public class HeroSeeder {
                 hero = heroRepository.save(hero);
                 levelUpForTest(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.TwoLightWeapons + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.TwoLightWeapons + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
@@ -93,8 +94,8 @@ public class HeroSeeder {
                 hero = heroRepository.save(hero);
                 levelUpForTest(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
@@ -104,19 +105,19 @@ public class HeroSeeder {
                 hero = heroRepository.save(hero);
                 levelUpForTest(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.LightArmor + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.LightArmor + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.LightArmor + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.LightArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyLightArmor);
 
                 equipeNoneWeaponAndApplyLevels(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.MediumArmor + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.MediumArmor + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.MediumArmor + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.MediumArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeaponAndApplyLevels(level, hero);
             }
-            if (heroRepository.findByName(DefaultHeroes.HeavyArmor + "Level " + level) == null) {
-                Hero hero = new Hero(DefaultHeroes.HeavyArmor + "Level " + level);
+            if (heroRepository.findByName(DefaultHeroes.HeavyArmor + " Level " + level) == null) {
+                Hero hero = new Hero(DefaultHeroes.HeavyArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeaponAndApplyLevels(level, hero);
             }
@@ -132,7 +133,12 @@ public class HeroSeeder {
     }
 
     private void levelUpForTest(int level, Hero hero) throws Exception {
-
+        hero.getBonuses().add(new Bonus(Attributes.Strength, 2, 0));
+        hero.getBonuses().add(new Bonus(Attributes.Agility, 2, 0));
+        hero.getBonuses().add(new Bonus(Attributes.Vitality, 2, 0));
+        hero.getBonuses().add(new Bonus(Attributes.Wisdom, 2, 0));
+        hero.getBonuses().add(new Bonus(Attributes.Intuition, 2, 0));
+        hero.getBonuses().add(new Bonus(Attributes.Charisma, 2, 0));
         for (int levelUps = 1; levelUps < level; levelUps++) {
             levelUpService.levelUpForTest(hero);
         }

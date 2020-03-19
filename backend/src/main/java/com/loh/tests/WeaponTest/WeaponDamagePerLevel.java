@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 
 @Entity
-public class WeaponDamagePerLevel {
+public class WeaponDamagePerLevel extends com.loh.shared.Entity {
     @Getter @Setter
     private GripType gripType;
     @Getter @Setter

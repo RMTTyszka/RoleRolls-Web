@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {TestsService} from '../tests.service';
 
 export interface IDamage {
   damage: number;
@@ -49,8 +50,13 @@ export class WeaponsTestComponent implements OnInit {
 
   isLoading = true;
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private testService: TestsService
   ) { }
+
+  makeWeaponTest() {
+    this.testService.makeWeaponTest().subscribe();
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -142,9 +148,8 @@ export class WeaponsTestComponent implements OnInit {
     return Math.floor(lvl / 2);
   }
   getAttr(lvl): number {
-
-
-    return 4 + Math.floor((lvl + 1) / 5) + Math.floor((lvl + 4) / 5) - 1;
+    const attributeLevel = 4 + Math.floor((lvl + 1) / 5) + Math.floor((lvl + 4) / 5) - 1;
+    return attributeLevel;
   }
   getAttks(lvl, attks: number, wep = 1) {
 
@@ -166,7 +171,7 @@ export class WeaponsTestComponent implements OnInit {
 
 
     for (let x = 0; x < 20; x++) {
-      this.twoSmallWeapons.push(this.getDamage(this.form.get('twoSWDAM').value,
+     /* this.twoSmallWeapons.push(this.getDamage(this.form.get('twoSWDAM').value,
         this.form.get('twoSWMBON').value,
         this.form.get('twoSWMATTR').value,
         this.form.get('twoSWATS').value,
@@ -183,14 +188,14 @@ export class WeaponsTestComponent implements OnInit {
         this.form.get('oneHWMATTR').value,
         this.form.get('oneHWATS').value,
         this.form.get('oneHWHIT').value,
-        x + 1, 1));
+        x + 1, 1));*/
       this.oneSmallWeapon.push(this.getDamage(this.form.get('oneSWDAM').value,
         this.form.get('oneSWMBON').value,
         this.form.get('oneSWMATTR').value,
         this.form.get('oneSWATS').value,
         this.form.get('oneSWHIT').value,
         x + 1, 1));
-      this.oneMediumWeapon.push(this.getDamage(this.form.get('oneMWDAM').value,
+     /* this.oneMediumWeapon.push(this.getDamage(this.form.get('oneMWDAM').value,
         this.form.get('oneMWMBON').value,
         this.form.get('oneMWMATTR').value,
         this.form.get('oneMWATS').value,
@@ -207,7 +212,7 @@ export class WeaponsTestComponent implements OnInit {
         this.form.get('twohMWMATTR').value,
         this.form.get('twohMWATS').value,
         this.form.get('twohMWHIT').value,
-        x + 1, 1));
+        x + 1, 1));*/
     }
   }
 
@@ -246,7 +251,7 @@ export class WeaponsTestComponent implements OnInit {
     this.ARMORlight = [];
     this.ARMORmedium = [];
     this.ARMORheavy = [];
-    this.calculateDamageFordamagePerArmor(this.twoSmallWeapons,
+   /* this.calculateDamageFordamagePerArmor(this.twoSmallWeapons,
       this.form.get('defLA').value, this.form.controls.baseLA.value,
       this.form.controls.evLA.value,
       this.damagePerArmortwoSmallWeapons,
@@ -292,14 +297,14 @@ export class WeaponsTestComponent implements OnInit {
       this.form.get('defHA').value, this.form.controls.baseHA.value,
       this.form.controls.evHA.value,
       this.damagePerArmoroneHeavyWeapon,
-      this.ARMORheavy);
+      this.ARMORheavy);*/
 
     this.calculateDamageFordamagePerArmor(this.oneSmallWeapon,
       this.form.get('defLA').value, this.form.controls.baseLA.value,
       this.form.controls.evLA.value,
       this.damagePerArmoroneSmallWeapon,
       this.ARMORlight);
-    this.calculateDamageFordamagePerArmor(this.oneSmallWeapon,
+    /*this.calculateDamageFordamagePerArmor(this.oneSmallWeapon,
       this.form.get('defMA').value, this.form.controls.baseMA.value,
       this.form.controls.evMA.value,
       this.damagePerArmoroneSmallWeapon,
@@ -356,7 +361,7 @@ export class WeaponsTestComponent implements OnInit {
       this.form.get('defHA').value, this.form.controls.baseHA.value,
       this.form.controls.evHA.value,
       this.damagePerArmortwohandedMediumWeapon,
-      this.ARMORheavy);
+      this.ARMORheavy);*/
 
   }
 

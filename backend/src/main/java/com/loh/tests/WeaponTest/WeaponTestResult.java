@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class WeaponTestResult {
+public class WeaponTestResult extends com.loh.shared.Entity {
 
     @Getter @Setter
     private GripType gripType;
@@ -18,4 +21,16 @@ public class WeaponTestResult {
     private Integer level;
     @Getter @Setter
     private Integer damage;
+
+    @Transient
+    public List<Integer> damages = new ArrayList<>();
+
+    public WeaponTestResult(GripType gripType, ArmorCategory armorCategory, Integer level) {
+        this.gripType = gripType;
+        this.armorCategory = armorCategory;
+        this.level = level;
+    }
+
+    public WeaponTestResult() {
+    }
 }

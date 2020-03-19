@@ -9,11 +9,13 @@ import com.loh.dev.Loh;
 import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
+import com.loh.shared.Bonus;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @javax.persistence.Entity
@@ -73,6 +75,12 @@ public class Creature extends Entity {
     @Getter @Setter @OneToOne
     protected Inventory inventory;
 
+    @ElementCollection
+    @CollectionTable()
+    @Getter
+    @Setter
+    private List<Bonus> bonuses = new ArrayList<>();
+
     public Integer getHit() {
         return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
@@ -114,7 +122,8 @@ public class Creature extends Entity {
                 baseAttributes.getAttributePoints(attr)
                 + bonusAttributes.getAttributePoints(attr)
                 + race.getAttributePoints(attr)
-                + role.getAttributePoints(attr);
+                + role.getAttributePoints(attr)
+                + bonuses.stream().filter(bonus -> bonus.getProperty() == attr).map(e -> e.getLevel()).reduce(0 , (a ,b) -> a + b).intValue();
     }
 
     public Integer getAttributeLevel(String attr) {
@@ -186,13 +195,26 @@ public class Creature extends Entity {
             equipment.getOffWeapon().levelUp(weaponInstanceRepository);
         }
         equipment.getArmor().levelUp(weaponInstanceRepository);
+        if (level % 5 == 0) {
+            bonuses.add(new Bonus(Attributes.Strength, 1, 0));
+            bonuses.add(new Bonus(Attributes.Agility, 1, 0));
+            bonuses.add(new Bonus(Attributes.Vitality, 1, 0));
+            bonuses.add(new Bonus(Attributes.Wisdom, 1, 0));
+            bonuses.add(new Bonus(Attributes.Intuition, 1, 0));
+            bonuses.add(new Bonus(Attributes.Charisma, 1, 0));
+        }
         creatureRepository.save(this);
+
     }
     public void levelUp(List<String> attributesToLevel) {
         level++;
         for (String attribute: attributesToLevel) {
             bonusAttributes.levelUp(attribute);
         }
+    }
+
+    public Integer getInateLevelBonus(Integer attributePoints) {
+        return (attributePoints - 5) / 5 * 2;
     }
 
 
