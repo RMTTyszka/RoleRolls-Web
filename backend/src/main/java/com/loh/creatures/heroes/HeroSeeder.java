@@ -22,7 +22,6 @@ import com.loh.race.Race;
 import com.loh.race.RaceRepository;
 import com.loh.role.Role;
 import com.loh.role.RoleRepository;
-import com.loh.shared.Bonus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +55,9 @@ public class HeroSeeder {
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
+            if (level == 20) {
+                System.out.println("dsad");
+            }
             if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneLightWeapon + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
@@ -132,16 +134,8 @@ public class HeroSeeder {
         levelUpForTest(level, hero);
     }
 
-    private void levelUpForTest(int level, Hero hero) throws Exception {
-        hero.getBonuses().add(new Bonus(Attributes.Strength, 2, 0));
-        hero.getBonuses().add(new Bonus(Attributes.Agility, 2, 0));
-        hero.getBonuses().add(new Bonus(Attributes.Vitality, 2, 0));
-        hero.getBonuses().add(new Bonus(Attributes.Wisdom, 2, 0));
-        hero.getBonuses().add(new Bonus(Attributes.Intuition, 2, 0));
-        hero.getBonuses().add(new Bonus(Attributes.Charisma, 2, 0));
-        for (int levelUps = 1; levelUps < level; levelUps++) {
-            levelUpService.levelUpForTest(hero);
-        }
+    private void levelUpForTest(int level, Hero hero) {
+        levelUpService.levelUpForTest(hero, level);
     }
 
     private void equipWeapon(Hero hero, WeaponModel weaponModel, boolean isMainWeapon, GripType gripType) throws Exception {

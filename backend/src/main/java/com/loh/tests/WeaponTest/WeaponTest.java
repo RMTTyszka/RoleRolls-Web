@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,31 +28,67 @@ public class WeaponTest {
     private final Integer NumberOfAttacks = 1000;
     public void test() {
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Light);
+        weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Medium);
+        weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Heavy);
         for (int level = 1; level < 21; level++) {
 
+            List<Hero> heroes = new ArrayList<>();
             Hero oneLightHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneLightWeapon, level));
             Hero oneMediumHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneMediumWeapon, level));
             Hero oneHeavyHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneHeavyWeapon, level));
             Hero twoLightsHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.TwoLightWeapons, level));
             Hero twoMediumHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.TwoMediumWeapons, level));
+
+            heroes.add(oneLightHero);
+            heroes.add(oneMediumHero);
+            heroes.add(oneHeavyHero);
+            heroes.add(twoLightsHero);
+            heroes.add(twoMediumHero);
             Hero targetLight = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.LightArmor, level));
             Hero targetMedium= heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.MediumArmor, level));
             Hero targetHeavy = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.HeavyArmor, level));
-            if (level == 6) {
-                System.out.println("s");
-            }
-            WeaponTestResult oneLightWeaponLightArmorTestResult = new WeaponTestResult(oneLightHero.getEquipment().getMainWeaponGripType(), targetLight.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
-            for (int numberOfAttacks = 0; numberOfAttacks < NumberOfAttacks; numberOfAttacks++) {
-                AttackDetails attackDetails = attackService.fullAttack(oneLightHero, targetLight);
-                if (attackDetails.getMainWeaponHits() > 0) {
-                    oneLightWeaponLightArmorTestResult.damages.add(attackDetails.getMainWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
-                }
-            }
-            oneLightWeaponLightArmorTestResult.setDamage(oneLightWeaponLightArmorTestResult.damages.stream().reduce(0, (a, b) -> a + b).intValue() / NumberOfAttacks);
-            weaponTestResultRepository.save(oneLightWeaponLightArmorTestResult);
-            System.out.println(oneLightWeaponLightArmorTestResult.getDamage());
-            //System.out.println(oneLightWeaponLightArmorTestResult.damages.size());
 
+            for (Hero hero: heroes
+            ) {
+                List<Integer> lightHits = new ArrayList<>();
+                List<Integer> mediumHits = new ArrayList<>();
+                List<Integer> heavyHits = new ArrayList<>();
+
+                WeaponTestResult lightArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetLight.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
+                WeaponTestResult mediumArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetMedium.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
+                WeaponTestResult heavyArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetHeavy.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
+                if (level == 20) {
+                    System.out.println("dsa");
+                }
+                for (int attackNumber = 0; attackNumber < NumberOfAttacks; attackNumber++) {
+                    performAttack(hero, targetLight, lightHits, lightArmorTestResult);
+                    performAttack(hero, targetMedium, mediumHits, mediumArmorTestResult);
+                    performAttack(hero, targetHeavy, heavyHits, heavyArmorTestResult);
+                }
+                lightArmorTestResult.setDamage(NumberOfAttacks);
+                mediumArmorTestResult.setDamage(NumberOfAttacks);
+                heavyArmorTestResult.setDamage(NumberOfAttacks);
+                weaponTestResultRepository.save(lightArmorTestResult);
+                weaponTestResultRepository.save(mediumArmorTestResult);
+                weaponTestResultRepository.save(heavyArmorTestResult);
+                //System.out.println(mediumHits.stream().reduce(0, (a,b) -> a + b).doubleValue()/ mediumHits.size() / hero.getAttributeLevel(Attributes.Agility)  + " " + hero.getAttributeLevel(Attributes.Agility) + " " + mediumArmorTestResult.getDamage());
+                //System.out.println(oneLightWeaponLightArmorTestResult.getDamage());
+                //System.out.println(lightHits.stream().reduce(0, (a,b) -> a + b).doubleValue()/ lightHits.size() / oneLightHero.getAttributeLevel(Attributes.Agility)  + " " + oneLightHero.getAttributeLevel(Attributes.Agility) + " " + oneLightWeaponLightArmorTestResult.getDamage());
+                //System.out.println(heavyHits.stream().reduce(0, (a,b) -> a + b).doubleValue()/ heavyHits.size() / oneLightHero.getAttributeLevel(Attributes.Agility)  + " " + oneLightHero.getAttributeLevel(Attributes.Agility) + " " + oneLightWeaponLightArmorTestResult.getDamage());
+                //System.out.println(oneLightWeaponLightArmorTestResult.damages.size());
+            }
+
+        }
+    }
+
+    private void performAttack(Hero oneLightHero, Hero targetLight, List<Integer> hits, WeaponTestResult weaponTestResult) {
+        AttackDetails attackDetails = attackService.fullAttack(oneLightHero, targetLight);
+        hits.add(attackDetails.getMainWeaponHits());
+        if (attackDetails.getMainWeaponHits() > 0) {
+            weaponTestResult.damages.add(attackDetails.getMainWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
+        }
+        if (attackDetails.getOffWeaponHits() != null && attackDetails.getOffWeaponHits() > 0) {
+            weaponTestResult.damages.add(attackDetails.getOffWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
         }
     }
 

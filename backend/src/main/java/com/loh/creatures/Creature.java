@@ -1,6 +1,5 @@
 package com.loh.creatures;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loh.combat.AttackDetails;
 import com.loh.combat.AttackService;
 import com.loh.creatures.heroes.equipment.Equipment;
@@ -24,7 +23,7 @@ import java.util.List;
 public class Creature extends Entity {
 
     public Creature() {
-        this.attacker = new Attacker(this);
+        this.bonuses = new ArrayList<>();
     }
 
     @Embedded
@@ -79,7 +78,7 @@ public class Creature extends Entity {
     @CollectionTable()
     @Getter
     @Setter
-    private List<Bonus> bonuses = new ArrayList<>();
+    private List<Bonus> bonuses;
 
     public Integer getHit() {
         return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
@@ -88,7 +87,7 @@ public class Creature extends Entity {
         return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
     public Integer getEvasion() {
-        return 10 + equipment.getEvasion() +  getAttributeLevel(Attributes.Agility);
+        return 10 + equipment.getEvasion() +  getAttributeLevel(Attributes.Agility) + getEvasionInnateBonus();
     }
     public Integer getDodge() {
         return equipment.getDodge();
@@ -114,16 +113,15 @@ public class Creature extends Entity {
                 getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
                 equipment.getOffWeapon().getBonus()) : null;
     }
-    @Getter @Setter @Transient @JsonIgnore
-    protected Attacker attacker;
 
     public Integer getAttributePoints(String attr) {
-        return
-                baseAttributes.getAttributePoints(attr)
-                + bonusAttributes.getAttributePoints(attr)
-                + race.getAttributePoints(attr)
-                + role.getAttributePoints(attr)
-                + bonuses.stream().filter(bonus -> bonus.getProperty() == attr).map(e -> e.getLevel()).reduce(0 , (a ,b) -> a + b).intValue();
+        Integer base = baseAttributes.getAttributePoints(attr);
+        Integer attributeBonusPoints = bonusAttributes.getAttributePoints(attr);
+        Integer raceAttribute = race.getAttributePoints(attr);
+        Integer roleAttribute = role.getAttributePoints(attr);
+        Integer bonusAttribute =  bonuses.stream().filter(bonus -> bonus.getProperty().equals(attr)).map(e -> e.getLevel()).reduce(0 , (a ,b) -> a + b).intValue();
+        Integer equipmentBonus =  equipment.getBonusLevel(attr);
+        return  base + attributeBonusPoints + raceAttribute + roleAttribute + bonusAttribute + equipmentBonus;
     }
 
     public Integer getAttributeLevel(String attr) {
@@ -181,30 +179,29 @@ public class Creature extends Entity {
         return service.fullAttack(this, target);
     }
 
-    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository weaponInstanceRepository) {
-        level++;
-        bonusAttributes.levelUp(Attributes.Agility);
-        bonusAttributes.levelUp(Attributes.Strength);
-        bonusAttributes.levelUp(Attributes.Vitality);
-        bonusAttributes.levelUp(Attributes.Charisma);
-        bonusAttributes.levelUp(Attributes.Intuition);
-        bonusAttributes.levelUp(Attributes.Wisdom);
-        equipment.getMainWeapon().levelUp(weaponInstanceRepository);
-        weaponInstanceRepository.save(equipment.getMainWeapon());
-        if (equipment.getOffWeapon() != null) {
-            equipment.getOffWeapon().levelUp(weaponInstanceRepository);
+    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository weaponInstanceRepository, Integer level) {
+        for (int levelUp = this.level; levelUp <= level ; levelUp++) {
+            bonusAttributes.levelUp(Attributes.Agility);
+            bonusAttributes.levelUp(Attributes.Strength);
+            bonusAttributes.levelUp(Attributes.Vitality);
+            bonusAttributes.levelUp(Attributes.Charisma);
+            bonusAttributes.levelUp(Attributes.Intuition);
+            bonusAttributes.levelUp(Attributes.Wisdom);
+            equipment.getMainWeapon().levelUp(weaponInstanceRepository);
+            weaponInstanceRepository.save(equipment.getMainWeapon());
+            if (equipment.getOffWeapon() != null) {
+                equipment.getOffWeapon().levelUp(weaponInstanceRepository);
+            }
+            equipment.getArmor().levelUp(weaponInstanceRepository);
         }
-        equipment.getArmor().levelUp(weaponInstanceRepository);
-        if (level % 5 == 0) {
-            bonuses.add(new Bonus(Attributes.Strength, 1, 0));
-            bonuses.add(new Bonus(Attributes.Agility, 1, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, 1, 0));
-            bonuses.add(new Bonus(Attributes.Wisdom, 1, 0));
-            bonuses.add(new Bonus(Attributes.Intuition, 1, 0));
-            bonuses.add(new Bonus(Attributes.Charisma, 1, 0));
-        }
+        bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Vitality, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Wisdom, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Intuition, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Charisma, (level / 5) * 5, 0));
+        this.level = level;
         creatureRepository.save(this);
-
     }
     public void levelUp(List<String> attributesToLevel) {
         level++;
@@ -215,6 +212,9 @@ public class Creature extends Entity {
 
     public Integer getInateLevelBonus(Integer attributePoints) {
         return (attributePoints - 5) / 5 * 2;
+    }
+    public Integer getEvasionInnateBonus() {
+        return level/2;
     }
 
 

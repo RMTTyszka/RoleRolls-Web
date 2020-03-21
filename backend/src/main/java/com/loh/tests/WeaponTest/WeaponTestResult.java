@@ -19,8 +19,13 @@ public class WeaponTestResult extends com.loh.shared.Entity {
     private ArmorCategory armorCategory;
     @Getter @Setter
     private Integer level;
-    @Getter @Setter
+
+    @Getter
     private Integer damage;
+
+    public void setDamage(Integer numberOfAttacks) {
+        damage =  damages.stream().reduce(0, (a, b) -> a + b).intValue() / numberOfAttacks;
+    }
 
     @Transient
     public List<Integer> damages = new ArrayList<>();
