@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {TestsService} from '../tests.service';
+import {MessageService} from 'primeng/api';
 
 export interface IDamage {
   damage: number;
@@ -51,11 +52,12 @@ export class WeaponsTestComponent implements OnInit {
   isLoading = true;
   constructor(
     private fb: FormBuilder,
-    private testService: TestsService
+    private testService: TestsService,
+    private messageService: MessageService
   ) { }
 
   makeWeaponTest() {
-    this.testService.makeWeaponTest().subscribe();
+    this.testService.makeWeaponTest().subscribe(() => this.messageService.add({severity: 'success', detail: 'completed'}), (error: any) => this.messageService.add({severity: 'error', detail: error.message}));
   }
 
   ngOnInit() {
@@ -189,9 +191,6 @@ export class WeaponsTestComponent implements OnInit {
         this.form.get('oneHWATS').value,
         this.form.get('oneHWHIT').value,
         x + 1, 1));
-      if (x == 19) {
-        debugger
-      }
       this.oneSmallWeapon.push(this.getDamage(this.form.get('oneSWDAM').value,
         this.form.get('oneSWMBON').value,
         this.form.get('oneSWMATTR').value,

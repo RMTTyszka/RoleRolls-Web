@@ -23,11 +23,11 @@ public enum GripType {
     private Integer attackComplexity;
 
     static {
-        OneLightWeapon.hit = -1;
-        OneMediumWeapon.hit = 2;
+        OneLightWeapon.hit = -3;
+        OneMediumWeapon.hit = 1;
         TwoHandedHeavyWeapon.hit = 3;
-        TwoWeaponsLight.hit = -2;
-        TwoWeaponsMedium.hit = 0;
+        TwoWeaponsLight.hit = 0;
+        TwoWeaponsMedium.hit = 1;
         OneHandedHeavyWeapon.hit = -1;
         TwoHandedMediumWeapon.hit = 2;
 
