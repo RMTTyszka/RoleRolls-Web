@@ -68,6 +68,9 @@ public class WeaponTest {
                 lightArmorTestResult.setDamage(NumberOfAttacks);
                 mediumArmorTestResult.setDamage(NumberOfAttacks);
                 heavyArmorTestResult.setDamage(NumberOfAttacks);
+                lightArmorTestResult.setHitsPercentage();
+                mediumArmorTestResult.setHitsPercentage();
+                heavyArmorTestResult.setHitsPercentage();
                 weaponTestResultRepository.save(lightArmorTestResult);
                 weaponTestResultRepository.save(mediumArmorTestResult);
                 weaponTestResultRepository.save(heavyArmorTestResult);
@@ -86,9 +89,13 @@ public class WeaponTest {
         hits.add(attackDetails.getMainWeaponHits());
         if (attackDetails.getMainWeaponHits() > 0) {
             weaponTestResult.damages.add(attackDetails.getMainWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
+            weaponTestResult.setHits(attackDetails.getMainWeaponHits());
+            weaponTestResult.setNumberOfAttacks(attackDetails.getMainWeaponNumberOfAttacks());
         }
         if (attackDetails.getOffWeaponHits() != null && attackDetails.getOffWeaponHits() > 0) {
             weaponTestResult.damages.add(attackDetails.getOffWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
+            weaponTestResult.setHits(weaponTestResult.getHits() + attackDetails.getOffWeaponHits());
+            weaponTestResult.setNumberOfAttacks(weaponTestResult.getNumberOfAttacks() + attackDetails.getOffWeaponNumberOfAttacks());
         }
     }
 

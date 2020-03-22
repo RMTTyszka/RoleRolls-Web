@@ -60,7 +60,8 @@ public class AttackService {
                 attackTest.getCriticalSuccesses(),
                 attackTest.getCriticalFailures(),
                 damages,
-                attackTest.getRolls()
+                attackTest.getRolls(),
+                attackTest.getNumberOfRolls()
         );
         return output;
     }

@@ -43,7 +43,7 @@ public class DiceRoller {
         boolean success = rollSuccesses >= complexity;
         Integer successes = rollSuccesses / complexity;
 
-        return new TestResult(success, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
+        return new TestResult(success, numberOfRolls, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
     }
 
     public Integer getBonusDice(Integer level) {

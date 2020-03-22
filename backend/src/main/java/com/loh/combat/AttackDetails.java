@@ -6,11 +6,15 @@ import java.util.List;
 
 public class AttackDetails {
     @Getter
+    private Integer mainWeaponNumberOfAttacks;
+    @Getter
     private Integer mainWeaponHits;
     @Getter
     private Integer mainWeaponCriticalHits;
     @Getter
     private Integer mainWeaponCriticalMisses;
+    @Getter
+    private Integer offWeaponNumberOfAttacks;
     @Getter
     private Integer offWeaponCriticalHits;
     @Getter
@@ -36,6 +40,7 @@ public class AttackDetails {
         mainWeaponCriticalMisses = mainWeaponAttackResult.getCriticalMisses();
         mainWeaponRolls = mainWeaponAttackResult.getRolls();
         mainWeaponDamages = mainWeaponAttackResult.getDamages();
+        mainWeaponNumberOfAttacks = mainWeaponAttackResult.getNumberOfAttacks();
 
         if (offWeaponAttackResult != null) {
             offWeaponHits = offWeaponAttackResult.getHits();
@@ -43,6 +48,7 @@ public class AttackDetails {
             offWeaponCriticalMisses = offWeaponAttackResult.getCriticalMisses();
             offWeaponRolls = offWeaponAttackResult.getRolls();
             offWeaponDamages = offWeaponAttackResult.getDamages();
+            offWeaponNumberOfAttacks = offWeaponAttackResult.getNumberOfAttacks();
         }
 
         this.defense = defense;
