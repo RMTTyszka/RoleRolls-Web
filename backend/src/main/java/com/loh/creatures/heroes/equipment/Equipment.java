@@ -17,6 +17,13 @@ public class Equipment extends Entity {
 
 	public Equipment(){
 	}
+	public Integer getBonusLevel(String property) {
+		Integer armorBonus = armor.getBonusLevel(property);
+		Integer weaponBonus = mainWeapon.getBonusLevel(property);
+		Integer offWeaponBonus = offWeapon != null ? offWeapon.getBonusLevel(property) : 0;
+
+		return armorBonus + weaponBonus + offWeaponBonus;
+	}
 	
 	@OneToOne @Getter @Setter
 	private ArmorInstance armor = new ArmorInstance();
@@ -70,7 +77,8 @@ public class Equipment extends Entity {
 				this.quicklyUnequipOffWeapon();
 			}
 			this.mainWeaponGripType = correctedGripType.gripType;
-		};
+			this.offWeaponGridType = correctedGripType.offWeaponRipType;
+		}
 	}
 	private void setOffWeaponGripType(GripType gripType) throws Exception {
 		if (GripService.validateGripType(this.getOffWeapon(), gripType)) {
@@ -79,6 +87,7 @@ public class Equipment extends Entity {
 				this.quicklyUnequipMainWeapon();
 			}
 			this.offWeaponGridType = correctedGripType.gripType;
+			this.mainWeaponGripType = correctedGripType.offWeaponRipType;
 		};
 	}
 	private void quicklyUnequipOffWeapon() {

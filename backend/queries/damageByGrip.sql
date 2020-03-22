@@ -1,0 +1,1 @@
+SELECT SUM(damage),grip_type FROM loh.weapon_test_result group by grip_type order by grip_type

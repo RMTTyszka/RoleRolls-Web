@@ -1,0 +1,1 @@
+SELECT SUM(damage), avg(hits_percentage),grip_type,armor_category FROM loh.weapon_test_result group by grip_type, armor_category order by grip_type, armor_category

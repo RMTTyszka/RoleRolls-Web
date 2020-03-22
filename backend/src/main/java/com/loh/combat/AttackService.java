@@ -30,17 +30,17 @@ public class AttackService {
     }
 
     private AttackResult offWeaponAttack(Creature attacker, Creature target) {
-        Integer hitBonus = attacker.getOffWeaponAttributes().getHitBonus();
         Integer damageBonus = attacker.getOffWeaponAttributes().getDamageBonus();
         Integer weaponDamage = attacker.getOffWeaponAttributes().getDamage();
         Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+        Integer hitBonus = attacker.getOffWeaponAttributes().getHitBonus() + attacker.getInateLevelBonus(hitAttributePoints);
         AttackResult attackResult = attack(
                 weaponDamage,
                 hitAttributePoints,
                 hitBonus,
                 damageBonus,
                 target.getEvasion(),
-                attacker.getOffWeaponAttributes().getAttackComplexity(),
+                attacker.getOffWeaponAttributes().getAttackComplexity() + 1,
                 target.getDodge(),
                 target.getDefense()
         );
@@ -56,20 +56,21 @@ public class AttackService {
             damages.add(getDamage(weaponDamage, damageBonus, defense));
         }
         AttackResult output = new AttackResult(
-                attackTest.getSuccesses(),
+                attackTest.getSuccesses() - dodge,
                 attackTest.getCriticalSuccesses(),
                 attackTest.getCriticalFailures(),
                 damages,
-                attackTest.getRolls()
+                attackTest.getRolls(),
+                attackTest.getNumberOfRolls()
         );
         return output;
     }
 
     private AttackResult mainWeaponAttack(Creature attacker, Creature target) {
-        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus();
         Integer damageBonus = attacker.getMainWeaponAttributes().getDamageBonus();
         Integer weaponDamage = attacker.getMainWeaponAttributes().getDamage();
         Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus() + attacker.getInateLevelBonus(hitAttributePoints);
         AttackResult attackResult = attack(
                 weaponDamage,
                 hitAttributePoints,
@@ -85,6 +86,8 @@ public class AttackService {
     }
     private Integer getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
         Integer damageRoll = roller.getRoll(weaponDamage);
-        return damageRoll + damageBonus - defense;
+         damageRoll = weaponDamage / 2;
+        Integer damage = damageRoll + damageBonus - defense;
+        return damage > 0 ? damage : 1;
     }
 }

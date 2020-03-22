@@ -1,4 +1,5 @@
 <div *ngIf="!isLoading">
+  <button (click)="makeWeaponTest()">makeTest</button>
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutAlign="flex-start center">
       <div fxLayout="column"  fxFlex="nogrow">
@@ -138,78 +139,78 @@
 </div>
 
 
-<div > 
+<div >
   <div fxLayout="row wrap" >
     <h5>2 Small</h5>
     <p fxFlex="auto" *ngFor="let twoswdam of damagePerArmortwoSmallWeapons; let i = index">
-      <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span> 
-      <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span> 
+      <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span>
+      <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span>
       <span style="color: red" *ngIf="i >= 40">{{twoswdam }}</span> |
     </p>
   </div>
       <div fxLayout="row wrap">
         <h5>2 Med</h5>
         <p fxFlex="auto" *ngFor="let twoswdam of damagePerArmortwoMediumWeapons; let i = index">
-          <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span> 
+          <span style="color: blue" *ngIf="i < 20">{{twoswdam }}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twoswdam }}</span>
           <span style="color: red" *ngIf="i >= 40">{{twoswdam }}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>one Heavy 2h</h5>
         <p fxFlex="auto" *ngFor="let oneHeavy of damagePerArmoroneHeavyWeapon; let i = index">
-          <span style="color: blue" *ngIf="i < 20">{{oneHeavy }}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneHeavy }}</span> 
+          <span style="color: blue" *ngIf="i < 20">{{oneHeavy }}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneHeavy }}</span>
           <span style="color: red" *ngIf="i >= 40">{{oneHeavy }}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>one Small</h5>
         <p fxFlex="auto" *ngFor="let oneSmall of damagePerArmoroneSmallWeapon; let i = index">
-          <span style="color: blue" *ngIf="i < 20">{{oneSmall }}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneSmall }}</span> 
+          <span style="color: blue" *ngIf="i < 20">{{oneSmall }}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneSmall }}</span>
           <span style="color: red" *ngIf="i >= 40">{{oneSmall }}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>one Med</h5>
         <p fxFlex="auto" *ngFor="let oneMedium of damagePerArmoroneMediumWeapon; let i = index">
-          <span style="color: blue" *ngIf="i < 20">{{oneMedium}}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneMedium}}</span> 
+          <span style="color: blue" *ngIf="i < 20">{{oneMedium}}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{oneMedium}}</span>
           <span style="color: red" *ngIf="i >= 40">{{oneMedium}}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>one Heavy 1h</h5>
         <p fxFlex="auto" *ngFor="let onehandHeavy of damagePerArmoronehandedHeavyWeapon; let i = index">
-          <span style="color: blue" *ngIf="i <= 20">{{onehandHeavy }}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{onehandHeavy }}</span> 
+          <span style="color: blue" *ngIf="i <= 20">{{onehandHeavy }}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{onehandHeavy }}</span>
           <span style="color: red" *ngIf="i >= 40">{{onehandHeavy }}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>One twohanded Medium </h5>
         <p fxFlex="auto" *ngFor="let twohandMedium of damagePerArmoronehandedHeavyWeapon; let i = index">
-          <span style="color: blue" *ngIf="i <= 20">{{twohandMedium }}</span> 
-          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twohandMedium }}</span> 
+          <span style="color: blue" *ngIf="i <= 20">{{twohandMedium }}</span>
+          <span style="color: green" *ngIf="i < 40 && i >= 20">{{twohandMedium }}</span>
           <span style="color: red" *ngIf="i >= 40">{{twohandMedium }}</span> |
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>PvsAim </h5>
         <p fxFlex="auto" *ngFor="let pv of pvs; let i = index">
-          <span>{{pv }}</span> 
+          <span>{{pv }}</span>
         </p>
       </div>
       <div fxLayout="row wrap">
         <h5>Pvs </h5>
         <p fxFlex="auto" *ngFor="let pv of realPvs; let i = index">
           <span>{{pv.life }}</span> <br>
-          <span>{{pv.moral }}</span> 
+          <span>{{pv.moral }}</span>
         </p>
       </div>
     </div>
-    
+
           <div fxLayout="row wrap">
             <h5>2 Small</h5>
             <p fxFlex="auto">

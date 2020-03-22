@@ -21,13 +21,13 @@ public class LevelUpService {
     @Autowired
     ItemInstanceRepository itemInstanceRepository;
 
-    public void levelUpForTest(UUID creatureId) {
+    public void levelUpForTest(UUID creatureId, Integer level) {
         Creature creature = creatureRepository.findById(creatureId).get();
 
-        levelUpForTest(creature);
+        levelUpForTest(creature, level);
     }
 
-    public void levelUpForTest(Creature creature) {
-        creature.levelUpforTest(creatureRepository, itemInstanceRepository);
+    public void levelUpForTest(Creature creature, Integer level) {
+        creature.levelUpforTest(creatureRepository, itemInstanceRepository, level);
     }
 }

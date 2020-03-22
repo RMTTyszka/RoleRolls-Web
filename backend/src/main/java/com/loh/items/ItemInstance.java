@@ -26,4 +26,8 @@ public class ItemInstance extends Entity {
         level++;
         itemInstanceRepository.save(this);
     }
+    public void levelUpForTest(ItemInstanceRepository itemInstanceRepository) {
+        level++;
+        itemInstanceRepository.save(this);
+    }
 }

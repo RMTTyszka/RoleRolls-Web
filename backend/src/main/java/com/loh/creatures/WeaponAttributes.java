@@ -9,8 +9,6 @@ public class WeaponAttributes {
     @Getter
     private Integer damageBonus;
     @Getter
-    private Integer numberOfAttacker;
-    @Getter
     private Integer attackComplexity;
     @Getter
     private Integer hitBonus;
@@ -19,7 +17,6 @@ public class WeaponAttributes {
         damage = gripType.getDamage();
         damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus;
         attackComplexity = gripType.getAttackComplexity();
-        numberOfAttacker = hitAttributeBonus / gripType.getAttackComplexity();
         hitBonus = gripType.getHit() + hitAttributeBonus;
     }
 }

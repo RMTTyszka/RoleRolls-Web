@@ -22,7 +22,7 @@ public class ArmorInstance extends EquipableInstance {
         return armorModel.getDefense(getBonus());
     }
     public Integer getEvasion() {
-        return armorModel.getEvasion(getBonus());
+        return armorModel.getEvasion();
     }
     public Integer getDodge() {
         return armorModel.getDodge();

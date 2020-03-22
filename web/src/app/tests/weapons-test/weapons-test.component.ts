@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {TestsService} from '../tests.service';
+import {MessageService} from 'primeng/api';
 
 export interface IDamage {
   damage: number;
@@ -49,8 +51,14 @@ export class WeaponsTestComponent implements OnInit {
 
   isLoading = true;
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private testService: TestsService,
+    private messageService: MessageService
   ) { }
+
+  makeWeaponTest() {
+    this.testService.makeWeaponTest().subscribe(() => this.messageService.add({severity: 'success', detail: 'completed'}), (error: any) => this.messageService.add({severity: 'error', detail: error.message}));
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -142,9 +150,8 @@ export class WeaponsTestComponent implements OnInit {
     return Math.floor(lvl / 2);
   }
   getAttr(lvl): number {
-
-
-    return 4 + Math.floor((lvl + 1) / 5) + Math.floor((lvl + 4) / 5) - 1;
+    const attributeLevel = 4 + Math.floor((lvl + 1) / 5) + Math.floor((lvl + 4) / 5) - 1;
+    return attributeLevel;
   }
   getAttks(lvl, attks: number, wep = 1) {
 

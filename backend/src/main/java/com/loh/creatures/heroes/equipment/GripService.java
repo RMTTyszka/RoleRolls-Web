@@ -30,25 +30,29 @@ public class GripService {
     public static CorrectedGripType getCorrectedGripType(WeaponInstance newWeapon, WeaponInstance offWeapon, GripType gripType) throws Exception {
         if (isBareHanded(newWeapon)) return new CorrectedGripType(gripType);
         if (isLightWeapon(newWeapon)) {
-            if (isLightWeapon(offWeapon) || isMediumWeapon(offWeapon)) {
-                return new CorrectedGripType(GripType.TwoWeaponsLight);
+            if (isLightWeapon(offWeapon)) {
+                return new CorrectedGripType(GripType.TwoWeaponsLight, false, GripType.TwoWeaponsLight);
+            } else if (isMediumWeapon(offWeapon)) {
+                return new CorrectedGripType(GripType.TwoWeaponsLight, false, GripType.TwoWeaponsMedium);
             }
             return new CorrectedGripType(GripType.OneLightWeapon);
         }
         if (isMediumWeapon(newWeapon)) {
-            if (isMediumWeapon(offWeapon) || isLightWeapon(offWeapon)) {
-                return new CorrectedGripType(GripType.TwoWeaponsMedium);
+            if (isMediumWeapon(offWeapon)) {
+                return new CorrectedGripType(GripType.TwoWeaponsMedium, false, GripType.TwoWeaponsMedium);
+            } else if (isLightWeapon(offWeapon)) {
+                return new CorrectedGripType(GripType.TwoWeaponsMedium, false, GripType.TwoWeaponsLight);
             }
             if (gripType == GripType.TwoHandedMediumWeapon) {
-                return new CorrectedGripType(GripType.TwoHandedMediumWeapon, true);
+                return new CorrectedGripType(GripType.TwoHandedMediumWeapon, true, null);
             }
-            return new CorrectedGripType(GripType.OneMediumWeapon, false);
+            return new CorrectedGripType(GripType.OneMediumWeapon, false, null);
         }
         if (isHeavyWeapon(newWeapon)) {
             if ((gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon) && offWeapon != null) {
-                return new CorrectedGripType(gripType, offWeapon.getWeaponModel().getBaseWeapon().getCategory() != WeaponCategory.Shield);
+                return new CorrectedGripType(gripType, offWeapon.getWeaponModel().getBaseWeapon().getCategory() != WeaponCategory.Shield, null);
             }
-            return new CorrectedGripType(gripType, false);
+            return new CorrectedGripType(gripType, false, null);
         }
 
         throw new Exception("GridType and Weapon are not compatible");
