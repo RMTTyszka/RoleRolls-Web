@@ -1,11 +1,11 @@
-package com.loh.items.weapons;
+package com.loh.items.equipable.weapons;
 
 import com.loh.creatures.Attributes;
-import com.loh.items.weapons.baseWeapon.BaseWeapon;
-import com.loh.items.weapons.baseWeapon.BaseWeaponRepository;
-import com.loh.items.weapons.weaponCategory.WeaponCategory;
-import com.loh.items.weapons.weaponModel.WeaponModel;
-import com.loh.items.weapons.weaponModel.WeaponModelRepository;
+import com.loh.items.equipable.weapons.baseWeapon.BaseWeapon;
+import com.loh.items.equipable.weapons.baseWeapon.BaseWeaponRepository;
+import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
+import com.loh.items.equipable.weapons.weaponModel.WeaponModel;
+import com.loh.items.equipable.weapons.weaponModel.WeaponModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

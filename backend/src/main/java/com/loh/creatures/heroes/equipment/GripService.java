@@ -1,7 +1,7 @@
 package com.loh.creatures.heroes.equipment;
 
-import com.loh.items.weapons.weaponCategory.WeaponCategory;
-import com.loh.items.weapons.weaponInstance.WeaponInstance;
+import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
+import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 
 public class GripService {
 

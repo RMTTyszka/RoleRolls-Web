@@ -2,7 +2,7 @@ package com.loh.infrastructure;
 
 import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.items.armors.ArmorSeeder;
-import com.loh.items.weapons.WeaponSeeder;
+import com.loh.items.equipable.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;
 import com.loh.role.RoleSeeder;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.loh.items.weapons.weaponInstance;
+package com.loh.items.equipable.weapons.weaponInstance;
 
-import com.loh.items.weapons.weaponCategory.WeaponCategory;
+import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

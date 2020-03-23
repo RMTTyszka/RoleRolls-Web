@@ -1,4 +1,4 @@
-package com.loh.items.weapons;
+package com.loh.items.equipable.weapons;
 
 public class DefaultWeapons {
 

@@ -1,7 +1,7 @@
-package com.loh.items.weapons.weaponInstance;
+package com.loh.items.equipable.weapons.weaponInstance;
 
 import com.loh.items.EquipableInstance;
-import com.loh.items.weapons.weaponModel.WeaponModel;
+import com.loh.items.equipable.weapons.weaponModel.WeaponModel;
 import lombok.Getter;
 import lombok.Setter;
 

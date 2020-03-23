@@ -1,6 +1,6 @@
-package com.loh.items.weapons.baseWeapon;
+package com.loh.items.equipable.weapons.baseWeapon;
 
-import com.loh.items.weapons.weaponCategory.WeaponCategory;
+import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

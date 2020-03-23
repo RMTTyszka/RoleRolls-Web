@@ -1,4 +1,4 @@
-package com.loh.items.weapons.weaponModel;
+package com.loh.items.equipable.weapons.weaponModel;
 
 
 import com.loh.shared.BaseCrudResponse;

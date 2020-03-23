@@ -2,7 +2,7 @@ package com.loh.creatures.heroes.equipment;
 
 import com.loh.items.EquipableInstance;
 import com.loh.items.armors.armorInstance.ArmorInstance;
-import com.loh.items.weapons.weaponInstance.WeaponInstance;
+import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
