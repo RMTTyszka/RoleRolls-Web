@@ -13,4 +13,11 @@ public class GloveModel extends Equipable {
     @Getter
     @Setter
     protected EquipableSlot slot = EquipableSlot.Hands;
+
+    public GloveModel() {
+    }
+
+    public GloveModel(String name) {
+        this.name = name;
+    }
 }

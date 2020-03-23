@@ -12,4 +12,11 @@ public class BaseGlove extends DefaultEntity {
     @Getter
     @Setter
     private String name;
+
+    public BaseGlove() {
+    }
+
+    public BaseGlove(String name) {
+        this.name = name;
+    }
 }
