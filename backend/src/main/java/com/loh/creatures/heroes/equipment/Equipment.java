@@ -4,6 +4,7 @@ import com.loh.items.EquipableInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.belts.beltInstances.BeltInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
+import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
@@ -23,8 +24,10 @@ public class Equipment extends Entity {
 		Integer armorBonus = armor.getBonusLevel(property);
 		Integer weaponBonus = mainWeapon.getBonusLevel(property);
 		Integer offWeaponBonus = offWeapon != null ? offWeapon.getBonusLevel(property) : 0;
-
-		return armorBonus + weaponBonus + offWeaponBonus;
+		Integer beltBonus = belt.getBonusLevel(property);
+		Integer gloveBonus = gloves.getBonusLevel(property);
+		Integer headBonus = headpiece.getBonusLevel(property);
+		return armorBonus + weaponBonus + offWeaponBonus + beltBonus + gloveBonus + headBonus;
 	}
 	
 	@OneToOne @Getter @Setter
@@ -39,6 +42,8 @@ public class Equipment extends Entity {
 	private GloveInstance gloves;
 	@OneToOne @Getter @Setter
 	private BeltInstance belt;
+	@OneToOne @Getter @Setter
+	private HeadpieceInstance headpiece;
 
 	@Getter
 	private GripType mainWeaponGripType;
@@ -80,6 +85,9 @@ public class Equipment extends Entity {
 	}
 	public void equipBelt(BeltInstance belt) {
 		this.setBelt(belt);
+	}
+	public void equipHeadpiece(HeadpieceInstance headpiece) {
+		this.setHeadpiece(headpiece);
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {

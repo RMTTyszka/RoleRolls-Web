@@ -52,6 +52,22 @@ public class Creature extends Entity {
                     @AttributeOverride(name="charisma", column = @Column(name="bonus_charisma") )})
     protected Attributes bonusAttributes;
 
+
+    public Resistances getResistances() {
+        Integer globalResistanceBonus = getBonusLevel(Properties.Resistance) + equipment.getHeadpiece().getBonus();
+        Integer fear = getBonusLevel(Resistances.Fear);
+        fear += globalResistanceBonus;
+        Integer health = getBonusLevel(Resistances.Health);
+        health += globalResistanceBonus;
+        Integer magic = getBonusLevel(Resistances.Magic);
+        magic += globalResistanceBonus;
+        Integer physical = getBonusLevel(Resistances.Physical);
+        physical += globalResistanceBonus;
+        Integer reflex = getBonusLevel(Resistances.Reflex);
+        reflex += globalResistanceBonus;
+        return new Resistances(fear, health, magic, physical, reflex);
+    }
+
     @Transient
     protected Attributes totalAttributes;
     protected Attributes getTotalAttributes(){
@@ -210,6 +226,7 @@ public class Creature extends Entity {
             equipment.getArmor().levelUpForTest(itemInstanceRepository);
             equipment.getGloves().levelUpForTest(itemInstanceRepository);
             equipment.getBelt().levelUpForTest(itemInstanceRepository);
+            equipment.getHeadpiece().levelUpForTest(itemInstanceRepository);
         }
         bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0));
         bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0));
