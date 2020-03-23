@@ -5,6 +5,8 @@ import {Equipment} from '../../shared/models/Equipment.model';
 import {map, tap} from 'rxjs/operators';
 import {Inventory} from '../../shared/models/Inventory.model';
 import {ArmorInstance} from '../../shared/models/ArmorInstance.model';
+import {WeaponInstance} from '../../shared/models/WeaponInstance.model';
+import {GloveInstance} from '../../shared/models/GloveInstance.model';
 
 @Component({
   selector: 'loh-equipment',
@@ -41,14 +43,33 @@ export class EquipmentComponent implements OnInit {
     return this.form.get(this.controlName).value;
   }
 
+  findItem(id: string) {
+    return this.inventory.items.find(r => r.id === id);
+  }
+
   armorSelected(armor: ArmorInstance) {
-    debugger
-    const selectedArmor = this.inventory.items.find(r => r.id === armor.id);
+    const selectedArmor = this.findItem(armor.id);
     const removedArmor = this.equipment.armor;
     const armorForm = new FormGroup({});
     createForm(armorForm , selectedArmor);
     this.equipment.armor = armorForm.getRawValue() as ArmorInstance;
     this.inventory.items.splice(this.inventory.items.indexOf(selectedArmor), 1);
+  }
+  mainWeaponSelected(weapon: WeaponInstance) {
+    const selectedWeapon = this.findItem(weapon.id);
+    const removedWeapon = this.equipment.mainWeapon;
+    const weaponForm = new FormGroup({});
+    createForm(weaponForm , selectedWeapon);
+    this.equipment.mainWeapon = weaponForm.getRawValue() as WeaponInstance;
+    this.inventory.items.splice(this.inventory.items.indexOf(selectedWeapon), 1);
+  }
+  glovesSelected(gloves: GloveInstance) {
+    const selectedGloves = this.findItem(gloves.id);
+    const removedGloves = this.equipment.gloves;
+    const glovesForm = new FormGroup({});
+    createForm(glovesForm , selectedGloves);
+    this.equipment.gloves = glovesForm.getRawValue() as GloveInstance;
+    this.inventory.items.splice(this.inventory.items.indexOf(selectedGloves), 1);
   }
 
 }

@@ -6,11 +6,12 @@ import {FieldsetModule} from 'primeng/fieldset';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BaseInventorySelectComponent } from './inventory/base-inventory-select/base-inventory-select.component';
 import { InventoryWeaponSelectComponent } from './inventory/inventory-weapon-select/inventory-weapon-select.component';
+import { InventoryGlovesSelectComponent } from './inventory/inventory-glove-select/inventory-gloves-select.component';
 
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent],
+  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent],
   exports: [
     InventoryArmorSelectComponent, InventoryWeaponSelectComponent
   ],
