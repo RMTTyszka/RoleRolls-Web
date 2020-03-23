@@ -2,6 +2,7 @@ package com.loh.infrastructure;
 
 import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.items.equipable.armors.ArmorSeeder;
+import com.loh.items.equipable.belts.BeltsSeeder;
 import com.loh.items.equipable.gloves.GlovesSeeder;
 import com.loh.items.equipable.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;
@@ -24,6 +25,8 @@ public class SeederService {
 	@Autowired
 	private GlovesSeeder glovesSeeder;
 	@Autowired
+	private BeltsSeeder beltsSeeder;
+	@Autowired
 	private HeroSeeder heroSeeder;
 
 	@EventListener
@@ -32,6 +35,7 @@ public class SeederService {
 		armorSeeder.seed();
 		weaponSeeder.seed();
 		glovesSeeder.seed();
+		beltsSeeder.seed();
 		roleSeeder.seed();
 		heroSeeder.seed();
 	}

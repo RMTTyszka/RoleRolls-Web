@@ -8,7 +8,7 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 })
 export class HeroStatsComponent implements OnInit {
 
-  stats: string[] = ['defense', 'evasion', 'life', 'moral', 'dodge', 'specialAttack'];
+  stats: string[] = ['defense', 'evasion', 'life', 'moral', 'dodge', 'specialAttack', 'magicDefense'];
   form: FormGroup;
   constructor(
     private formDirective: FormGroupDirective

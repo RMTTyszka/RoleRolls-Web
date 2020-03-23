@@ -2,6 +2,7 @@ package com.loh.creatures.heroes.equipment;
 
 import com.loh.items.EquipableInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
+import com.loh.items.equipable.belts.beltInstances.BeltInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
@@ -36,6 +37,8 @@ public class Equipment extends Entity {
 	private WeaponInstance offWeapon;
 	@OneToOne @Getter @Setter
 	private GloveInstance gloves;
+	@OneToOne @Getter @Setter
+	private BeltInstance belt;
 
 	@Getter
 	private GripType mainWeaponGripType;
@@ -74,6 +77,9 @@ public class Equipment extends Entity {
 	}
 	public void equipGloves(GloveInstance gloves) {
 		this.setGloves(gloves);
+	}
+	public void equipBelt(BeltInstance belt) {
+		this.setBelt(belt);
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {
