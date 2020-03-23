@@ -1,4 +1,4 @@
-package com.loh.items.equipable.belts.gloveInstances;
+package com.loh.items.equipable.belts.beltInstances;
 
 
 import com.loh.shared.BaseCrudController;

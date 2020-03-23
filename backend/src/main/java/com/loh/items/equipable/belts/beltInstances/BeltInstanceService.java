@@ -1,8 +1,8 @@
-package com.loh.items.equipable.belts.gloveInstances;
+package com.loh.items.equipable.belts.beltInstances;
 
 import com.loh.items.equipable.belts.baseBelts.DefaultBelts;
-import com.loh.items.equipable.belts.gloveModels.BeltModel;
-import com.loh.items.equipable.belts.gloveModels.BeltModelsRepository;
+import com.loh.items.equipable.belts.beltModels.BeltModel;
+import com.loh.items.equipable.belts.beltModels.BeltModelsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ public class BeltInstanceService {
     @Autowired
     BeltModelsRepository beltModelsRepository;
 
-    public BeltInstance instantiateGloves(UUID armorModelId, Integer level) {
+    public BeltInstance instantiateBelt(UUID armorModelId, Integer level) {
         BeltModel beltModel = beltModelsRepository.findById(armorModelId).get();
-        return instantiateGloves(beltModel, level);
+        return instantiateBelt(beltModel, level);
     }
-    public BeltInstance instantiateGloves(BeltModel beltModel, Integer level) {
+    public BeltInstance instantiateBelt(BeltModel beltModel, Integer level) {
         BeltInstance weapon = new BeltInstance(beltModel, level);
         return weapon;
     }
@@ -30,15 +30,15 @@ public class BeltInstanceService {
         return weaponInstance;
     }
 
-    public BeltInstance instantiateNoneGlove() {
-        BeltModel beltModel = beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoGloves);
-        BeltInstance gloves = instantiateGloves(beltModel, 1);
+    public BeltInstance instantiateNoneBelt() {
+        BeltModel beltModel = beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoBelt);
+        BeltInstance gloves = instantiateBelt(beltModel, 1);
         beltInstanceRepository.save(gloves);
         return gloves;
     }
-    public BeltInstance instantiateDummyGlove() {
-        BeltModel beltModel = beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyGloves);
-        BeltInstance gloves = instantiateGloves(beltModel, 1);
+    public BeltInstance instantiateDummyBelt() {
+        BeltModel beltModel = beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyBelt);
+        BeltInstance gloves = instantiateBelt(beltModel, 1);
         beltInstanceRepository.save(gloves);
         return gloves;
     }

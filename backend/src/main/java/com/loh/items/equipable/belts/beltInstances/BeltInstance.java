@@ -1,7 +1,7 @@
-package com.loh.items.equipable.belts.gloveInstances;
+package com.loh.items.equipable.belts.beltInstances;
 
 import com.loh.items.EquipableInstance;
-import com.loh.items.equipable.belts.gloveModels.BeltModel;
+import com.loh.items.equipable.belts.beltModels.BeltModel;
 import lombok.Getter;
 import lombok.Setter;
 

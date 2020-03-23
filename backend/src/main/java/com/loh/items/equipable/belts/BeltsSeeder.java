@@ -3,8 +3,8 @@ package com.loh.items.equipable.belts;
 import com.loh.items.equipable.belts.baseBelts.BaseBelt;
 import com.loh.items.equipable.belts.baseBelts.BaseBeltsRepository;
 import com.loh.items.equipable.belts.baseBelts.DefaultBelts;
-import com.loh.items.equipable.belts.gloveModels.BeltModel;
-import com.loh.items.equipable.belts.gloveModels.BeltModelsRepository;
+import com.loh.items.equipable.belts.beltModels.BeltModel;
+import com.loh.items.equipable.belts.beltModels.BeltModelsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +17,37 @@ public class BeltsSeeder {
     private BeltModelsRepository beltModelsRepository;
 
     public void seed() {
-        for(String baseGloveName : DefaultBelts.getList()) {
-            if (baseBeltsRepository.getByNameAndSystemDefaultTrue(baseGloveName) == null) {
-                BaseBelt baseBelt = new BaseBelt(baseGloveName);
+        for(String baseBeltName : DefaultBelts.getList()) {
+            if (baseBeltsRepository.getByNameAndSystemDefaultTrue(baseBeltName) == null) {
+                BaseBelt baseBelt = new BaseBelt(baseBeltName);
                 baseBelt.setSystemDefault(true);
                 baseBeltsRepository.save(baseBelt);
             }
         }
-        if (baseBeltsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyGloves) == null) {
-            BaseBelt baseBelt = new BaseBelt(DefaultBelts.DummyGloves);
+        if (baseBeltsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyBelt) == null) {
+            BaseBelt baseBelt = new BaseBelt(DefaultBelts.DummyBelt);
             baseBelt.setSystemDefault(true);
             baseBeltsRepository.save(baseBelt);
         }
-        if (baseBeltsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoGloves) == null) {
-            BaseBelt baseBelt = new BaseBelt(DefaultBelts.NoGloves);
+        if (baseBeltsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoBelt) == null) {
+            BaseBelt baseBelt = new BaseBelt(DefaultBelts.NoBelt);
             baseBelt.setSystemDefault(true);
             baseBeltsRepository.save(baseBelt);
         }
-        for(String baseGloveName : DefaultBelts.getList()) {
-            if (beltModelsRepository.getByNameAndSystemDefaultTrue("Common " + baseGloveName) == null) {
-                BeltModel beltModel = new BeltModel(baseGloveName);
+        for(String baseBeltName : DefaultBelts.getList()) {
+            if (beltModelsRepository.getByNameAndSystemDefaultTrue("Common " + baseBeltName) == null) {
+                BeltModel beltModel = new BeltModel(baseBeltName);
                 beltModel.setSystemDefault(true);
                 beltModelsRepository.save(beltModel);
             }
         }
-        if (beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyGloves) == null) {
-            BeltModel beltModel = new BeltModel(DefaultBelts.DummyGloves);
+        if (beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.DummyBelt) == null) {
+            BeltModel beltModel = new BeltModel(DefaultBelts.DummyBelt);
             beltModel.setSystemDefault(true);
             beltModelsRepository.save(beltModel);
         }
-        if (beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoGloves) == null) {
-            BeltModel beltModel = new BeltModel(DefaultBelts.NoGloves);
+        if (beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoBelt) == null) {
+            BeltModel beltModel = new BeltModel(DefaultBelts.NoBelt);
             beltModel.setSystemDefault(true);
             beltModelsRepository.save(beltModel);
         }

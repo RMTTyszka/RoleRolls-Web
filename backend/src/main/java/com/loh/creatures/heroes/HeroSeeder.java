@@ -12,6 +12,8 @@ import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceService;
 import com.loh.items.equipable.armors.armorModel.ArmorModel;
 import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.belts.beltInstances.BeltInstance;
+import com.loh.items.equipable.belts.beltInstances.BeltInstanceService;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstanceService;
 import com.loh.items.equipable.weapons.DefaultWeapons;
@@ -48,6 +50,8 @@ public class HeroSeeder {
     WeaponInstanceRepository weaponInstanceRepository;
     @Autowired
     GloveInstanceService gloveInstanceService;
+    @Autowired
+    BeltInstanceService beltInstanceService;
     @Autowired
     WeaponInstanceService weaponInstanceService;
     @Autowired
@@ -113,7 +117,6 @@ public class HeroSeeder {
                 WeaponModel offWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
                 equipWeapon(hero, offWeaponModel, false, GripType.TwoWeaponsMedium);
                 equipDummyEquipment(hero);
-
                 saveHeroAndLevelUp(hero, level);
 
             }
@@ -121,8 +124,7 @@ public class HeroSeeder {
                 Hero hero = new Hero(DefaultHeroes.LightArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyLightArmor);
                 equipeNoneWeapon(level, hero);
-                equipEmpty(level, hero);
-
+                equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
 
             }
@@ -130,7 +132,7 @@ public class HeroSeeder {
                 Hero hero = new Hero(DefaultHeroes.MediumArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeapon(level, hero);
-                equipEmpty(level, hero);
+                equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
 
             }
@@ -138,8 +140,7 @@ public class HeroSeeder {
                 Hero hero = new Hero(DefaultHeroes.HeavyArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeapon(level, hero);
-                equipEmpty(level, hero);
-
+                equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
             }
         }
@@ -159,12 +160,10 @@ public class HeroSeeder {
         GloveInstance gloves = gloveInstanceService.instantiateDummyGlove();
         hero.getEquipment().equipGloves(gloves);
         hero.getInventory().addItem(gloves);
-    }
-    private void equipEmpty(int level, Hero hero) throws Exception {
-        GloveInstance gloves = gloveInstanceService.instantiateDummyGlove();
-        hero.getEquipment().equipGloves(gloves);
-        hero.getInventory().addItem(gloves);
-        equipeNoneWeapon(level, hero);
+
+        BeltInstance beltInstance= beltInstanceService.instantiateDummyBelt();
+        hero.getEquipment().equipBelt(beltInstance);
+        hero.getInventory().addItem(beltInstance);
     }
 
     private void equipeNoneWeapon(int level, Hero hero) throws Exception {

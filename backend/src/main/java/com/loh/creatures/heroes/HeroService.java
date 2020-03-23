@@ -7,6 +7,8 @@ import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceService;
 import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.belts.beltInstances.BeltInstance;
+import com.loh.items.equipable.belts.beltInstances.BeltInstanceService;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstanceService;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
@@ -31,6 +33,8 @@ public class HeroService {
     @Autowired
     private GloveInstanceService gloveInstanceService;
     @Autowired
+    private BeltInstanceService beltInstanceService;
+    @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -44,12 +48,15 @@ public class HeroService {
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
         GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();
+        BeltInstance belt = beltInstanceService.instantiateNoneBelt();
         hero.getEquipment().equipArmor(armor);
         hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
         hero.getEquipment().equipGloves(gloves);
+        hero.getEquipment().equipBelt(belt);
         hero.getInventory().addItem(armor);
         hero.getInventory().addItem(weapon);
         hero.getInventory().addItem(gloves);
+        hero.getInventory().addItem(belt);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         hero = heroRepository.save(hero);

@@ -97,6 +97,9 @@ public class Creature extends Entity {
     public Integer getSpecialAttack() {
         return equipment.getGloves().getBonus() + getBonusLevel(Properties.SpecialAttack);
     }
+    public Integer getMagicDefense() {
+        return equipment.getBelt().getBonus() + getBonusLevel(Properties.MagicDefense);
+    }
 
     public Integer getBonusLevel(String property) {
         Integer creatureBonus = Bonuses.GetBonusLevel(bonuses, property);
@@ -206,6 +209,7 @@ public class Creature extends Entity {
             }
             equipment.getArmor().levelUpForTest(itemInstanceRepository);
             equipment.getGloves().levelUpForTest(itemInstanceRepository);
+            equipment.getBelt().levelUpForTest(itemInstanceRepository);
         }
         bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0));
         bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0));
