@@ -4,6 +4,7 @@ import {Role} from './Role.model';
 import {Equipment} from './Equipment.model';
 import {Inventory} from './Inventory.model';
 import {WeaponAttributes} from './WeaponAttributes.model';
+import {Resistances} from './Resistances.model';
 
 export class BaseAttributes {
     strength: number;
@@ -50,6 +51,7 @@ export class BaseAttributes {
     evasion: number;
     specialAttack: number;
     magicDefense: number;
+    resistances = new Resistances();
     mainWeaponAttributes = new WeaponAttributes();
     offWeaponAttributes = new WeaponAttributes();
   }
