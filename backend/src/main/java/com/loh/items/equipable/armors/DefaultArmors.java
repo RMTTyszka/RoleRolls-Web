@@ -1,4 +1,4 @@
-package com.loh.items.armors;
+package com.loh.items.equipable.armors;
 
 public class DefaultArmors {
 

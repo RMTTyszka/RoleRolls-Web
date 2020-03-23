@@ -1,6 +1,6 @@
 package com.loh.tests.WeaponTest;
 
-import com.loh.items.armors.armorCategories.ArmorCategory;
+import com.loh.items.equipable.armors.armorCategories.ArmorCategory;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.loh.creatures;
 
 import com.loh.items.ItemInstanceRepository;
-import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -20,4 +20,8 @@ public class Entity {
     @Setter
     @Column(columnDefinition = "BINARY(16)")
     protected UUID id;
+
+    @Getter
+    @Setter
+    protected String name;
 }

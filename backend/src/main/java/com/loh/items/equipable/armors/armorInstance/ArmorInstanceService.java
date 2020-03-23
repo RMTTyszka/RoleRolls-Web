@@ -1,8 +1,8 @@
-package com.loh.items.armors.armorInstance;
+package com.loh.items.equipable.armors.armorInstance;
 
-import com.loh.items.armors.DefaultArmors;
-import com.loh.items.armors.armorModel.ArmorModel;
-import com.loh.items.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.armors.DefaultArmors;
+import com.loh.items.equipable.armors.armorModel.ArmorModel;
+import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

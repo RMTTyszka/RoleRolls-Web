@@ -83,6 +83,18 @@ public class HeroController {
         }
 
     }
+    @DeleteMapping(path="/deleteAllDummies")
+    public @ResponseBody
+    BaseCrudResponse<Hero> deleteAllDummies() {
+
+        try {
+            heroRepository.deleteAllByNameContaining("Dummy");
+            return new BaseCrudResponse<Hero>(true, "Successfully deleted heroes", null);
+        } catch (Exception e) {
+            return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
+        }
+
+    }
 
     static Specification<Hero> containsName(String name) {
         if (name.isEmpty()) {

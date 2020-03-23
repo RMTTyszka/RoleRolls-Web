@@ -1,4 +1,4 @@
-package com.loh.items.armors.baseArmor;
+package com.loh.items.equipable.armors.baseArmor;
 
 
 import com.loh.shared.BaseCrudResponse;

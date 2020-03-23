@@ -6,12 +6,14 @@ import com.loh.creatures.LevelUpService;
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
-import com.loh.items.armors.DefaultArmors;
-import com.loh.items.armors.armorInstance.ArmorInstance;
-import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
-import com.loh.items.armors.armorInstance.ArmorInstanceService;
-import com.loh.items.armors.armorModel.ArmorModel;
-import com.loh.items.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.armors.DefaultArmors;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstanceService;
+import com.loh.items.equipable.armors.armorModel.ArmorModel;
+import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
+import com.loh.items.equipable.gloves.gloveInstances.GloveInstanceService;
 import com.loh.items.equipable.weapons.DefaultWeapons;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceRepository;
@@ -45,6 +47,8 @@ public class HeroSeeder {
     @Autowired
     WeaponInstanceRepository weaponInstanceRepository;
     @Autowired
+    GloveInstanceService gloveInstanceService;
+    @Autowired
     WeaponInstanceService weaponInstanceService;
     @Autowired
     EquipmentRepository equipmentRepository;
@@ -64,8 +68,9 @@ public class HeroSeeder {
 
                 WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
                 equipWeapon(hero, lightWeaponModel, true, GripType.OneLightWeapon);
-                hero = heroRepository.save(hero);
-                levelUpForTest(level, hero);
+                equipDummyEquipment(hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneMediumWeapon + " Level " + level);
@@ -73,8 +78,9 @@ public class HeroSeeder {
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
                 equipWeapon(hero, weaponModel, true, GripType.OneMediumWeapon);
-                hero = heroRepository.save(hero);
-                levelUpForTest(level, hero);
+                equipDummyEquipment(hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon + " Level " + level);
@@ -82,8 +88,9 @@ public class HeroSeeder {
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
                 equipWeapon(hero, weaponModel, true, GripType.TwoHandedHeavyWeapon);
-                hero = heroRepository.save(hero);
-                levelUpForTest(level, hero);
+                equipDummyEquipment(hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoLightWeapons + " Level " + level);
@@ -93,8 +100,9 @@ public class HeroSeeder {
                 equipWeapon(hero, weaponModel, true, GripType.TwoWeaponsLight);
                 WeaponModel offWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
                 equipWeapon(hero, offWeaponModel, false, GripType.TwoWeaponsLight);
-                hero = heroRepository.save(hero);
-                levelUpForTest(level, hero);
+                equipDummyEquipment(hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons + " Level " + level);
@@ -104,34 +112,64 @@ public class HeroSeeder {
                 equipWeapon(hero, weaponModel, true, GripType.TwoWeaponsMedium);
                 WeaponModel offWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
                 equipWeapon(hero, offWeaponModel, false, GripType.TwoWeaponsMedium);
-                hero = heroRepository.save(hero);
-                levelUpForTest(level, hero);
+                equipDummyEquipment(hero);
+
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.LightArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.LightArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyLightArmor);
+                equipeNoneWeapon(level, hero);
+                equipEmpty(level, hero);
 
-                equipeNoneWeaponAndApplyLevels(level, hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.MediumArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.MediumArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyMediumArmor);
-                equipeNoneWeaponAndApplyLevels(level, hero);
+                equipeNoneWeapon(level, hero);
+                equipEmpty(level, hero);
+                saveHeroAndLevelUp(hero, level);
+
             }
             if (heroRepository.findByName(DefaultHeroes.HeavyArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.HeavyArmor + " Level " + level);
                 equipArmor(hero, DefaultArmors.dummyHeavyArmor);
-                equipeNoneWeaponAndApplyLevels(level, hero);
+                equipeNoneWeapon(level, hero);
+                equipEmpty(level, hero);
+
+                saveHeroAndLevelUp(hero, level);
             }
         }
 
     }
 
-    private void equipeNoneWeaponAndApplyLevels(int level, Hero hero) throws Exception {
-        WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
-        equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
+    private void saveHeroAndLevelUp(Hero hero, Integer level) {
+        hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
+        hero.setInventory(inventoryRepository.save(hero.getInventory()));
+        inventoryRepository.save(hero.getInventory());
+        equipmentRepository.save(hero.getEquipment());
         hero = heroRepository.save(hero);
         levelUpForTest(level, hero);
+    }
+
+    private void equipDummyEquipment(Hero hero) {
+        GloveInstance gloves = gloveInstanceService.instantiateDummyGlove();
+        hero.getEquipment().equipGloves(gloves);
+        hero.getInventory().addItem(gloves);
+    }
+    private void equipEmpty(int level, Hero hero) throws Exception {
+        GloveInstance gloves = gloveInstanceService.instantiateDummyGlove();
+        hero.getEquipment().equipGloves(gloves);
+        hero.getInventory().addItem(gloves);
+        equipeNoneWeapon(level, hero);
+    }
+
+    private void equipeNoneWeapon(int level, Hero hero) throws Exception {
+        WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
+        equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
     }
 
     private void levelUpForTest(int level, Hero hero) {
@@ -148,10 +186,6 @@ public class HeroSeeder {
         }
         hero.getInventory().addItem(weapon);
 
-        hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
-        hero.setInventory(inventoryRepository.save(hero.getInventory()));
-        inventoryRepository.save(hero.getInventory());
-        equipmentRepository.save(hero.getEquipment());
     }
 
     private void equipArmor(Hero hero, String dummyMediumArmor) throws Exception {

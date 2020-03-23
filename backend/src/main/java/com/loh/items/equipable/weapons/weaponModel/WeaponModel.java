@@ -21,7 +21,7 @@ public class WeaponModel extends Equipable {
 	}
 
 	@Getter @Setter
-	protected EquipableSlot slot = EquipableSlot.MainHand;
+	protected EquipableSlot slot = EquipableSlot.Weapon;
 	@Getter @Setter	@ManyToOne
 	private BaseWeapon baseWeapon = new BaseWeapon();
 }

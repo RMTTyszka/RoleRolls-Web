@@ -17,4 +17,7 @@ export class TestsService {
   public makeWeaponTest() {
     return this.httpClient.get(this.serverUrl + this.weaponTestPath + '/makeTest');
   }
+  public test() {
+    this.httpClient.get(this.serverUrl + 'glovesModels' + '/getNew').subscribe();
+  }
 }

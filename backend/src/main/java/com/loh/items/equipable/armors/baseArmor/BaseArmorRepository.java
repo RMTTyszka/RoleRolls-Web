@@ -1,6 +1,5 @@
-package com.loh.items.armors.baseArmor;
+package com.loh.items.equipable.armors.baseArmor;
 
-import com.loh.items.armors.armorTypes.ArmorType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

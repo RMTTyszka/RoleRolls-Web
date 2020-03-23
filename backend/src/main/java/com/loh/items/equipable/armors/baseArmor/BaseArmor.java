@@ -1,11 +1,9 @@
-package com.loh.items.armors.baseArmor;
+package com.loh.items.equipable.armors.baseArmor;
 
-import com.loh.items.armors.armorCategories.ArmorCategory;
+import com.loh.items.equipable.armors.armorCategories.ArmorCategory;
 import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.ManyToOne;
 
 @javax.persistence.Entity
 public class BaseArmor extends DefaultEntity {

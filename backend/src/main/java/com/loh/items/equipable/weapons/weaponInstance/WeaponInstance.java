@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("Weapon")
 public class WeaponInstance extends EquipableInstance {
 
+
     public WeaponInstance() {
     }
 
