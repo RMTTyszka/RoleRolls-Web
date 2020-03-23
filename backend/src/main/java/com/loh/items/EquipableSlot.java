@@ -2,6 +2,12 @@ package com.loh.items;
 
 public enum EquipableSlot {
 
-	MainHand,
-	Chest
+	Weapon,
+	Chest,
+	Hands,
+	Arms,
+	Finger,
+	Neck,
+	Foots,
+	Waist
 }
