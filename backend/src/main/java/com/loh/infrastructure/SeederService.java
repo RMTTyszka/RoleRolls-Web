@@ -1,7 +1,7 @@
 package com.loh.infrastructure;
 
 import com.loh.creatures.heroes.HeroSeeder;
-import com.loh.items.armors.ArmorSeeder;
+import com.loh.items.equipable.armors.ArmorSeeder;
 import com.loh.items.equipable.gloves.GlovesSeeder;
 import com.loh.items.equipable.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;

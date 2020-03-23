@@ -1,7 +1,7 @@
-package com.loh.items.armors.armorInstance;
+package com.loh.items.equipable.armors.armorInstance;
 
 import com.loh.items.ItemInstanceRepository;
-import com.loh.items.armors.armorCategories.ArmorCategory;
+import com.loh.items.equipable.armors.armorCategories.ArmorCategory;
 
 
 public interface ArmorInstanceRepository extends ItemInstanceRepository {

@@ -3,12 +3,12 @@ package com.loh.creatures.heroes;
 import com.loh.creatures.heroes.equipment.EquipmentRepository;
 import com.loh.creatures.heroes.equipment.GripType;
 import com.loh.creatures.heroes.inventory.InventoryRepository;
-import com.loh.items.armors.DefaultArmors;
-import com.loh.items.armors.armorInstance.ArmorInstance;
-import com.loh.items.armors.armorInstance.ArmorInstanceRepository;
-import com.loh.items.armors.armorInstance.ArmorInstanceService;
-import com.loh.items.armors.armorModel.ArmorModel;
-import com.loh.items.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstanceService;
+import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
+import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
+import com.loh.items.equipable.gloves.gloveInstances.GloveInstanceService;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceService;
 import com.loh.race.Race;
@@ -29,6 +29,8 @@ public class HeroService {
     @Autowired
     private WeaponInstanceService weaponInstanceService;
     @Autowired
+    private GloveInstanceService gloveInstanceService;
+    @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -39,13 +41,15 @@ public class HeroService {
     public Hero create(String name, Race race, Role role) throws Exception {
         Hero hero = new Hero(name, race, role);
 
-        ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
+        GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();
         hero.getEquipment().equipArmor(armor);
         hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
+        hero.getEquipment().equipGloves(gloves);
         hero.getInventory().addItem(armor);
         hero.getInventory().addItem(weapon);
+        hero.getInventory().addItem(gloves);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         hero = heroRepository.save(hero);

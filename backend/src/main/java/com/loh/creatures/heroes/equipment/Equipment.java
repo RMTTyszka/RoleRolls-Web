@@ -1,7 +1,8 @@
 package com.loh.creatures.heroes.equipment;
 
 import com.loh.items.EquipableInstance;
-import com.loh.items.armors.armorInstance.ArmorInstance;
+import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
+import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
@@ -26,13 +27,15 @@ public class Equipment extends Entity {
 	}
 	
 	@OneToOne @Getter @Setter
-	private ArmorInstance armor = new ArmorInstance();
+	private ArmorInstance armor;
 
 	@OneToOne @Getter @Setter
 	private WeaponInstance mainWeapon;
 	
 	@OneToOne @Getter @Setter
 	private WeaponInstance offWeapon;
+	@OneToOne @Getter @Setter
+	private GloveInstance gloves;
 
 	@Getter
 	private GripType mainWeaponGripType;
@@ -68,6 +71,9 @@ public class Equipment extends Entity {
 	}
 	public void equipArmor(ArmorInstance armor) {
 		this.setArmor(armor);
+	}
+	public void equipGloves(GloveInstance gloves) {
+		this.setGloves(gloves);
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {

@@ -1,7 +1,7 @@
-package com.loh.items.armors.armorInstance;
+package com.loh.items.equipable.armors.armorInstance;
 
 import com.loh.items.EquipableInstance;
-import com.loh.items.armors.armorModel.ArmorModel;
+import com.loh.items.equipable.armors.armorModel.ArmorModel;
 import lombok.Getter;
 import lombok.Setter;
 

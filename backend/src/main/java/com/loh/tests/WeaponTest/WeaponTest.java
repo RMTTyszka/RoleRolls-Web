@@ -5,7 +5,7 @@ import com.loh.combat.AttackService;
 import com.loh.creatures.DefaultHeroes;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.heroes.HeroRepository;
-import com.loh.items.armors.armorCategories.ArmorCategory;
+import com.loh.items.equipable.armors.armorCategories.ArmorCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

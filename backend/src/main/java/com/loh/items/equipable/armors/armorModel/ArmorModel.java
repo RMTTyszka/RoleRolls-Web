@@ -1,8 +1,8 @@
-package com.loh.items.armors.armorModel;
+package com.loh.items.equipable.armors.armorModel;
 
 import com.loh.items.Equipable;
 import com.loh.items.EquipableSlot;
-import com.loh.items.armors.baseArmor.BaseArmor;
+import com.loh.items.equipable.armors.baseArmor.BaseArmor;
 import com.loh.shared.Bonuses;
 import com.loh.shared.Properties;
 import lombok.Getter;

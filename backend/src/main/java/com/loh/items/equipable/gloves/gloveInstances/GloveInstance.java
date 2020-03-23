@@ -16,4 +16,13 @@ public class GloveInstance extends EquipableInstance {
     @Getter
     @Setter @ManyToOne
     private GloveModel gloveModel;
+
+    public GloveInstance() {
+    }
+
+    public GloveInstance(GloveModel gloveModel, Integer level) {
+        this.gloveModel = gloveModel;
+        this.setLevel(level);
+        this.setName(gloveModel.getName());
+    }
 }

@@ -20,21 +20,35 @@ public class GlovesSeeder {
         for(String baseGloveName : DefaultGloves.getList()) {
             if (baseGloveRepository.getByNameAndSystemDefaultTrue(baseGloveName) == null) {
                 BaseGlove baseGlove = new BaseGlove(baseGloveName);
+                baseGlove.setSystemDefault(true);
                 baseGloveRepository.save(baseGlove);
             }
         }
         if (baseGloveRepository.getByNameAndSystemDefaultTrue(DefaultGloves.DummyGloves) == null) {
             BaseGlove baseGlove = new BaseGlove(DefaultGloves.DummyGloves);
+            baseGlove.setSystemDefault(true);
+            baseGloveRepository.save(baseGlove);
+        }
+        if (baseGloveRepository.getByNameAndSystemDefaultTrue(DefaultGloves.NoGloves) == null) {
+            BaseGlove baseGlove = new BaseGlove(DefaultGloves.NoGloves);
+            baseGlove.setSystemDefault(true);
             baseGloveRepository.save(baseGlove);
         }
         for(String baseGloveName : DefaultGloves.getList()) {
             if (gloveModelsRepository.getByNameAndSystemDefaultTrue("Common " + baseGloveName) == null) {
-                GloveModel baseGlove = new GloveModel(baseGloveName);
-                gloveModelsRepository.save(baseGlove);
+                GloveModel gloveModel = new GloveModel(baseGloveName);
+                gloveModel.setSystemDefault(true);
+                gloveModelsRepository.save(gloveModel);
             }
         }
         if (gloveModelsRepository.getByNameAndSystemDefaultTrue(DefaultGloves.DummyGloves) == null) {
             GloveModel gloveModel = new GloveModel(DefaultGloves.DummyGloves);
+            gloveModel.setSystemDefault(true);
+            gloveModelsRepository.save(gloveModel);
+        }
+        if (gloveModelsRepository.getByNameAndSystemDefaultTrue(DefaultGloves.NoGloves) == null) {
+            GloveModel gloveModel = new GloveModel(DefaultGloves.NoGloves);
+            gloveModel.setSystemDefault(true);
             gloveModelsRepository.save(gloveModel);
         }
     }

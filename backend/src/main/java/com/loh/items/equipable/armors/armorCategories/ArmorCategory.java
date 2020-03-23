@@ -1,4 +1,4 @@
-package com.loh.items.armors.armorCategories;
+package com.loh.items.equipable.armors.armorCategories;
 
 import lombok.Getter;
 
