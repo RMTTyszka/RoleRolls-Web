@@ -17,6 +17,6 @@ public class WeaponAttributes {
         damage = gripType.getDamage();
         damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus;
         attackComplexity = gripType.getAttackComplexity();
-        hitBonus = gripType.getHit() + hitAttributeBonus;
+        hitBonus = gripType.getHit() + hitAttributeBonus + weaponMagicBonus;
     }
 }

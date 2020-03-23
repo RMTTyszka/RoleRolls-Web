@@ -10,7 +10,7 @@ import {isGlove} from '../../../shared/utils/isItem';
   styleUrls: ['./inventory-gloves-select.component.css']
 })
 export class InventoryGlovesSelectComponent implements OnInit {
-  formName = 'glove';
+  formName = 'gloves';
   placeholder = 'Glove';
   @Output() gloveSelected = new EventEmitter<GloveInstance>();
   constructor() {}

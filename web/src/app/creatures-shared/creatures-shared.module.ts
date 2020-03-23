@@ -13,7 +13,7 @@ import { InventoryGlovesSelectComponent } from './inventory/inventory-glove-sele
 @NgModule({
   declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent],
   exports: [
-    InventoryArmorSelectComponent, InventoryWeaponSelectComponent
+    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent
   ],
   imports: [
     CommonModule,

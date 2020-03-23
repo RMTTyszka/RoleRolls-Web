@@ -9,7 +9,9 @@ import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Bonus;
+import com.loh.shared.Bonuses;
 import com.loh.shared.Entity;
+import com.loh.shared.Properties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -92,6 +94,17 @@ public class Creature extends Entity {
     public Integer getDodge() {
         return equipment.getDodge();
     }
+    public Integer getSpecialAttack() {
+        System.out.println(name);
+        return equipment.getGloves().getBonus() + getBonusLevel(Properties.SpecialAttack);
+    }
+
+    public Integer getBonusLevel(String property) {
+        Integer creatureBonus = Bonuses.GetBonusLevel(bonuses, property);
+        Integer equipmentBonus = equipment.getBonusLevel(property);
+        return creatureBonus + equipmentBonus;
+    }
+
     public Integer getLife() {
         return 5 + 4 * level +  (level  + 2) * getAttributeLevel(Attributes.Vitality);
     }
@@ -179,7 +192,7 @@ public class Creature extends Entity {
         return service.fullAttack(this, target);
     }
 
-    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository weaponInstanceRepository, Integer level) {
+    public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository itemInstanceRepository, Integer level) {
         for (int levelUp = this.level; levelUp <= level ; levelUp++) {
             bonusAttributes.levelUp(Attributes.Agility);
             bonusAttributes.levelUp(Attributes.Strength);
@@ -187,12 +200,13 @@ public class Creature extends Entity {
             bonusAttributes.levelUp(Attributes.Charisma);
             bonusAttributes.levelUp(Attributes.Intuition);
             bonusAttributes.levelUp(Attributes.Wisdom);
-            equipment.getMainWeapon().levelUp(weaponInstanceRepository);
-            weaponInstanceRepository.save(equipment.getMainWeapon());
+            equipment.getMainWeapon().levelUp(itemInstanceRepository);
+            itemInstanceRepository.save(equipment.getMainWeapon());
             if (equipment.getOffWeapon() != null) {
-                equipment.getOffWeapon().levelUp(weaponInstanceRepository);
+                equipment.getOffWeapon().levelUpForTest(itemInstanceRepository);
             }
-            equipment.getArmor().levelUp(weaponInstanceRepository);
+            equipment.getArmor().levelUpForTest(itemInstanceRepository);
+            equipment.getGloves().levelUpForTest(itemInstanceRepository);
         }
         bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0));
         bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0));
