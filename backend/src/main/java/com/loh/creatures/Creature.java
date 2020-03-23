@@ -95,7 +95,6 @@ public class Creature extends Entity {
         return equipment.getDodge();
     }
     public Integer getSpecialAttack() {
-        System.out.println(name);
         return equipment.getGloves().getBonus() + getBonusLevel(Properties.SpecialAttack);
     }
 
