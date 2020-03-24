@@ -18,6 +18,8 @@ import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstanceService;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstanceService;
+import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
+import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstanceService;
 import com.loh.items.equipable.weapons.DefaultWeapons;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceRepository;
@@ -56,6 +58,8 @@ public class HeroSeeder {
     BeltInstanceService beltInstanceService;
     @Autowired
     HeadpieceInstanceService headpieceInstanceService;
+    @Autowired
+    NeckAccessoryInstanceService neckAccessoryInstanceService;
     @Autowired
     WeaponInstanceService weaponInstanceService;
     @Autowired
@@ -172,6 +176,10 @@ public class HeroSeeder {
         HeadpieceInstance headpieceInstance= headpieceInstanceService.instantiateDummy();
         hero.getEquipment().equipHeadpiece(headpieceInstance);
         hero.getInventory().addItem(headpieceInstance);
+
+        NeckAccessoryInstance neckAccessoryInstance = neckAccessoryInstanceService.instantiateDummy();
+        hero.getEquipment().equipNeckAcessory(neckAccessoryInstance);
+        hero.getInventory().addItem(neckAccessoryInstance);
     }
 
     private void equipeNoneWeapon(int level, Hero hero) throws Exception {

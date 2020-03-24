@@ -9,6 +9,7 @@ import {WeaponInstance} from '../../shared/models/WeaponInstance.model';
 import {GloveInstance} from '../../shared/models/GloveInstance.model';
 import {BeltInstance} from '../../shared/models/BeltInstance.model';
 import {HeadpieceInstance} from '../../shared/models/HeadpieceInstance.model';
+import {NeckAccessoryInstance} from '../../shared/models/NeckAccessoryInstance.model';
 
 @Component({
   selector: 'loh-equipment',
@@ -88,6 +89,14 @@ export class EquipmentComponent implements OnInit {
     createForm(headpieceForm , selectedHeadpiece);
     this.equipment.headpiece = headpieceForm.getRawValue() as HeadpieceInstance;
     this.inventory.items.splice(this.inventory.items.indexOf(selectedHeadpiece), 1);
+  }
+  neckAccessorySelected(belt: NeckAccessoryInstance) {
+    const selectedItem = this.findItem(belt.id);
+    const removedItem = this.equipment.headpiece;
+    const formGroup = new FormGroup({});
+    createForm(formGroup , selectedItem);
+    this.equipment.neckAccessory = formGroup.getRawValue() as NeckAccessoryInstance;
+    this.inventory.items.splice(this.inventory.items.indexOf(selectedItem), 1);
   }
 
 }

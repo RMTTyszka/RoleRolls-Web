@@ -4,6 +4,7 @@ import { WeaponInstance } from './WeaponInstance.model';
 import {GloveInstance} from './GloveInstance.model';
 import {BeltInstance} from './BeltInstance.model';
 import {HeadpieceInstance} from './HeadpieceInstance.model';
+import {NeckAccessoryInstance} from './NeckAccessoryInstance.model';
 
 export class Equipment extends Entity {
   armor: ArmorInstance = null;
@@ -12,4 +13,5 @@ export class Equipment extends Entity {
   gloves: GloveInstance = new GloveInstance();
   belt: BeltInstance = new BeltInstance();
   headpiece: HeadpieceInstance = new HeadpieceInstance();
+  neckAccessory: NeckAccessoryInstance = new NeckAccessoryInstance();
 }

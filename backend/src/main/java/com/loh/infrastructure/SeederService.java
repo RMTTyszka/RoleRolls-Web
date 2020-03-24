@@ -5,6 +5,7 @@ import com.loh.items.equipable.armors.ArmorSeeder;
 import com.loh.items.equipable.belts.BeltsSeeder;
 import com.loh.items.equipable.gloves.GlovesSeeder;
 import com.loh.items.equipable.head.HeadpieceSeeder;
+import com.loh.items.equipable.neck.NeckAccessorySeeder;
 import com.loh.items.equipable.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;
 import com.loh.role.RoleSeeder;
@@ -30,6 +31,8 @@ public class SeederService {
 	@Autowired
 	private HeadpieceSeeder headpieceSeeder;
 	@Autowired
+	private NeckAccessorySeeder neckAccessorySeeder;
+	@Autowired
 	private HeroSeeder heroSeeder;
 
 	@EventListener
@@ -40,6 +43,7 @@ public class SeederService {
 		glovesSeeder.seed();
 		headpieceSeeder.seed();
 		beltsSeeder.seed();
+		neckAccessorySeeder.seed();
 		roleSeeder.seed();
 		heroSeeder.seed();
 	}

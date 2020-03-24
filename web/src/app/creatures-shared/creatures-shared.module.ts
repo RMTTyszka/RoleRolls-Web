@@ -10,13 +10,14 @@ import { InventoryGlovesSelectComponent } from './inventory/inventory-glove-sele
 import { InventoryBeltSelectComponent } from './inventory/inventory-belt-select/inventory-belt-select.component';
 import { InventoryHeadpieceSelectComponent } from './inventory/inventory-headpiece-select/inventory-headpiece-select.component';
 import { CreatureResistancesComponent } from './creature-resistances/creature-resistances.component';
+import { InventoryNeckaccesorySelectComponent } from './inventory/inventory-neckaccesory-select/inventory-neckaccesory-select.component';
 
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent],
+  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent],
   exports: [
-    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent
+    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent
   ],
   imports: [
     CommonModule,
