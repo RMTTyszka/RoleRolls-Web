@@ -10,6 +10,8 @@ import {GloveInstance} from '../../shared/models/GloveInstance.model';
 import {BeltInstance} from '../../shared/models/BeltInstance.model';
 import {HeadpieceInstance} from '../../shared/models/HeadpieceInstance.model';
 import {NeckAccessoryInstance} from '../../shared/models/NeckAccessoryInstance.model';
+import {RingHand, SelectedRing} from '../../creatures-shared/inventory/inventory-ring-select/inventory-ring-select.component';
+import {RingInstance} from '../../shared/models/RingInstance.model';
 
 @Component({
   selector: 'loh-equipment',
@@ -21,6 +23,7 @@ export class EquipmentComponent implements OnInit {
   @Input() form: FormGroup = this.createForm();
   @Input() controlName = 'equipment';
   @Input() inventoryControlName = 'inventory';
+  ringHand = RingHand;
   entity: Equipment;
   constructor() { }
 
@@ -96,6 +99,23 @@ export class EquipmentComponent implements OnInit {
     const formGroup = new FormGroup({});
     createForm(formGroup , selectedItem);
     this.equipment.neckAccessory = formGroup.getRawValue() as NeckAccessoryInstance;
+    this.inventory.items.splice(this.inventory.items.indexOf(selectedItem), 1);
+  }
+  ringSelected(selectedRing: SelectedRing) {
+    const selectedItem = this.findItem(selectedRing.ring.id);
+    let removedItem: RingInstance;
+    if (selectedRing.isRight) {
+      removedItem = this.equipment.ringRight;
+    } else if (selectedRing.isLeft) {
+      removedItem = this.equipment.ringLeft;
+    }
+    const formGroup = new FormGroup({});
+    createForm(formGroup , selectedItem);
+    if (selectedRing.isRight) {
+      this.equipment.ringRight = formGroup.getRawValue() as RingInstance;
+    } else if (selectedRing.isLeft) {
+      this.equipment.ringLeft = formGroup.getRawValue() as RingInstance;
+    }
     this.inventory.items.splice(this.inventory.items.indexOf(selectedItem), 1);
   }
 

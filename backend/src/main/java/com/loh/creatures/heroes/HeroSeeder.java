@@ -20,6 +20,8 @@ import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstanceService;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstanceService;
+import com.loh.items.equipable.rings.head.ringInstances.RingInstance;
+import com.loh.items.equipable.rings.head.ringInstances.RingInstanceService;
 import com.loh.items.equipable.weapons.DefaultWeapons;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceRepository;
@@ -61,6 +63,8 @@ public class HeroSeeder {
     @Autowired
     NeckAccessoryInstanceService neckAccessoryInstanceService;
     @Autowired
+    RingInstanceService ringInstanceService;
+    @Autowired
     WeaponInstanceService weaponInstanceService;
     @Autowired
     EquipmentRepository equipmentRepository;
@@ -76,6 +80,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneLightWeapon + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
@@ -86,6 +91,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneMediumWeapon + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
@@ -96,6 +102,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
@@ -106,6 +113,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoLightWeapons + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
@@ -118,6 +126,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
@@ -130,6 +139,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.LightArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.LightArmor + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyLightArmor);
                 equipeNoneWeapon(level, hero);
                 equipDummyEquipment(hero);
@@ -138,6 +148,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.MediumArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.MediumArmor + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeapon(level, hero);
                 equipDummyEquipment(hero);
@@ -146,6 +157,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.HeavyArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.HeavyArmor + " Level " + level);
+                hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeapon(level, hero);
                 equipDummyEquipment(hero);
@@ -178,8 +190,15 @@ public class HeroSeeder {
         hero.getInventory().addItem(headpieceInstance);
 
         NeckAccessoryInstance neckAccessoryInstance = neckAccessoryInstanceService.instantiateDummy();
-        hero.getEquipment().equipNeckAcessory(neckAccessoryInstance);
+        hero.getEquipment().equipNeckAccessory(neckAccessoryInstance);
         hero.getInventory().addItem(neckAccessoryInstance);
+
+        RingInstance ringRightInstance = ringInstanceService.instantiateDummy();
+        hero.getEquipment().equipRingRight(ringRightInstance);
+        hero.getInventory().addItem(ringRightInstance);
+        RingInstance ringLeftInstance = ringInstanceService.instantiateDummy();
+        hero.getEquipment().equipRingLeft(ringLeftInstance);
+        hero.getInventory().addItem(ringLeftInstance);
     }
 
     private void equipeNoneWeapon(int level, Hero hero) throws Exception {

@@ -15,6 +15,8 @@ import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstanceService;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstanceService;
+import com.loh.items.equipable.rings.head.ringInstances.RingInstance;
+import com.loh.items.equipable.rings.head.ringInstances.RingInstanceService;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceService;
 import com.loh.race.Race;
@@ -43,6 +45,8 @@ public class HeroService {
     @Autowired
     private NeckAccessoryInstanceService neckAccessoryInstanceService;
     @Autowired
+    private RingInstanceService ringInstanceService;
+    @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -59,18 +63,24 @@ public class HeroService {
         BeltInstance belt = beltInstanceService.instantiateNoneBelt();
         HeadpieceInstance headpiece = headpieceInstanceService.instantiateNone();
         NeckAccessoryInstance neckAccessory = neckAccessoryInstanceService.instantiateNone();
+        RingInstance ringRightInstance = ringInstanceService.instantiateNone();
+        RingInstance ringLeftInstance = ringInstanceService.instantiateNone();
         hero.getEquipment().equipArmor(armor);
         hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
         hero.getEquipment().equipGloves(gloves);
         hero.getEquipment().equipBelt(belt);
         hero.getEquipment().equipHeadpiece(headpiece);
-        hero.getEquipment().equipNeckAcessory(neckAccessory);
+        hero.getEquipment().equipNeckAccessory(neckAccessory);
+        hero.getEquipment().equipRingRight(ringRightInstance);
+        hero.getEquipment().equipRingLeft(ringLeftInstance);
         hero.getInventory().addItem(armor);
         hero.getInventory().addItem(weapon);
         hero.getInventory().addItem(gloves);
         hero.getInventory().addItem(belt);
         hero.getInventory().addItem(headpiece);
         hero.getInventory().addItem(neckAccessory);
+        hero.getInventory().addItem(ringRightInstance);
+        hero.getInventory().addItem(ringLeftInstance);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         hero = heroRepository.save(hero);

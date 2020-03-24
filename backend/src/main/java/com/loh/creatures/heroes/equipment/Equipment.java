@@ -6,6 +6,7 @@ import com.loh.items.equipable.belts.beltInstances.BeltInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
+import com.loh.items.equipable.rings.head.ringInstances.RingInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
@@ -46,6 +47,10 @@ public class Equipment extends Entity {
 	private HeadpieceInstance headpiece;
 	@OneToOne @Getter @Setter
 	private NeckAccessoryInstance neckAccessory;
+	@OneToOne @Getter @Setter
+	private RingInstance ringRight;
+	@OneToOne @Getter @Setter
+	private RingInstance ringLeft;
 
 	@Getter
 	private GripType mainWeaponGripType;
@@ -61,6 +66,7 @@ public class Equipment extends Entity {
 	public Integer getDodge() {
 		return armor.getDodge();
 	}
+
 	public List<EquipableInstance> getListOfEquipment() {
 		return Arrays.asList(this.mainWeapon, this.armor);
 	}
@@ -89,8 +95,14 @@ public class Equipment extends Entity {
 	public void equipHeadpiece(HeadpieceInstance headpiece) {
 		this.setHeadpiece(headpiece);
 	}
-	public void equipNeckAcessory(NeckAccessoryInstance neckAccessory) {
+	public void equipNeckAccessory(NeckAccessoryInstance neckAccessory) {
 		this.setNeckAccessory(neckAccessory);
+	}
+	public void equipRingRight(RingInstance ringInstance) {
+		this.setRingRight(ringInstance);
+	}
+	public void equipRingLeft(RingInstance ringInstance) {
+		this.setRingLeft(ringInstance);
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {
