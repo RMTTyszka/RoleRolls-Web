@@ -74,6 +74,8 @@ public class Creature extends Entity {
 
     @Getter @Setter
     private Integer manaSpent;
+    @Getter @Setter
+    private String specialPowerMainAttribute;
 
     @Transient
     protected Attributes totalAttributes;
@@ -122,6 +124,12 @@ public class Creature extends Entity {
     }
     public Integer getMagicDefense() {
         return equipment.getBelt().getBonus() + getBonusLevel(Properties.MagicDefense);
+    }
+    public Integer getSpecialPower() {
+        Integer attributeLevel = getAttributeLevel(specialPowerMainAttribute);
+        Integer ringRightBonus = equipment.getRingRight().getBonus() * 2;
+        Integer ringLeftBonus = equipment.getRingLeft().getBonus() * 2;
+        return attributeLevel + ringLeftBonus + ringRightBonus;
     }
 
     public Integer getBonusLevel(String property) {

@@ -48,6 +48,7 @@ export class BaseAttributes {
     equipment: Equipment;
     inventory: Inventory;
     mana: number;
+    specialPower: number;
     defense: number;
     evasion: number;
     specialAttack: number;
