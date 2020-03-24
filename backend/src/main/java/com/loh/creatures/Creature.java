@@ -117,19 +117,16 @@ public class Creature extends Entity {
         return 10 + equipment.getEvasion() +  getAttributeLevel(Attributes.Agility) + getEvasionInnateBonus();
     }
     public Integer getDodge() {
-        return equipment.getDodge();
+        return CreatureStatus.dodge(this);
     }
     public Integer getSpecialAttack() {
-        return equipment.getGloves().getBonus() + getBonusLevel(Properties.SpecialAttack);
+        return CreatureStatus.specialAttack(this);
     }
     public Integer getMagicDefense() {
-        return equipment.getBelt().getBonus() + getBonusLevel(Properties.MagicDefense);
+        return CreatureStatus.magicDefense(this);
     }
     public Integer getSpecialPower() {
-        Integer attributeLevel = getAttributeLevel(specialPowerMainAttribute);
-        Integer ringRightBonus = equipment.getRingRight().getBonus() * 2;
-        Integer ringLeftBonus = equipment.getRingLeft().getBonus() * 2;
-        return attributeLevel + ringLeftBonus + ringRightBonus;
+        return CreatureStatus.specialPower(this);
     }
 
     public Integer getBonusLevel(String property) {
@@ -139,10 +136,10 @@ public class Creature extends Entity {
     }
 
     public Integer getLife() {
-        return 5 + 4 * level +  (level  + 2) * getAttributeLevel(Attributes.Vitality);
+        return CreatureStatus.life(this);
     }
     public Integer getMoral() {
-        return 5 + 4 * level +  (level  + 2) * getAttributeLevel(Attributes.Vitality) / 2;
+        return CreatureStatus.moral(this);
     }
 
     public WeaponAttributes getMainWeaponAttributes() {
@@ -195,31 +192,10 @@ public class Creature extends Entity {
     public Integer getTotalAttributesBonusPoints(){
         return (level - 1) * 2;
     }
-    @Transient
-    protected Integer expToNextLevel;
+
     public Integer getExpToNextLevel(){
-        return calculateExpToNextLevel(level);
+        return CreatureLevel.calculateExpToNextLevel(level);
     }
-
-    public static Integer getExpToNextLevel(Integer level){
-        return calculateExpToNextLevel(level);
-    }
-    public static Integer calculateExpToNextLevel(Integer level) {
-        if (level > 1) {
-            return calculateExpToNextLevel(level - 1) +
-                    5 * x(level);
-        } else {
-            return 500;
-        }
-    }
-    public static Integer x (Integer level) {
-        if (level > 1) {
-            return x(level - 1) + 50 * (level - 1);
-        } else {
-            return 100;
-        }
-    }
-
 
     public AttackDetails fullAttack(Creature target, AttackService service) {
         return service.fullAttack(this, target);
