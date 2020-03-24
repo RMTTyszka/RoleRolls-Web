@@ -68,6 +68,13 @@ public class Creature extends Entity {
         return new Resistances(fear, health, magic, physical, reflex);
     }
 
+    public Integer getMana() {
+        return level / 5 + 1 + equipment.getNeckAccessory().getManaBonus();
+    }
+
+    @Getter @Setter
+    private Integer manaSpent;
+
     @Transient
     protected Attributes totalAttributes;
     protected Attributes getTotalAttributes(){

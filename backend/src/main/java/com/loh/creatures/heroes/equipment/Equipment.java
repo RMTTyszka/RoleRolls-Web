@@ -5,13 +5,13 @@ import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.belts.beltInstances.BeltInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
 import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
+import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +44,8 @@ public class Equipment extends Entity {
 	private BeltInstance belt;
 	@OneToOne @Getter @Setter
 	private HeadpieceInstance headpiece;
+	@OneToOne @Getter @Setter
+	private NeckAccessoryInstance neckAccessory;
 
 	@Getter
 	private GripType mainWeaponGripType;
@@ -59,9 +61,7 @@ public class Equipment extends Entity {
 	public Integer getDodge() {
 		return armor.getDodge();
 	}
-	@Transient
-	public List<EquipableInstance> listOfEquipment() {
-
+	public List<EquipableInstance> getListOfEquipment() {
 		return Arrays.asList(this.mainWeapon, this.armor);
 	}
 
@@ -88,6 +88,9 @@ public class Equipment extends Entity {
 	}
 	public void equipHeadpiece(HeadpieceInstance headpiece) {
 		this.setHeadpiece(headpiece);
+	}
+	public void equipNeckAcessory(NeckAccessoryInstance neckAccessory) {
+		this.setNeckAccessory(neckAccessory);
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {
