@@ -167,7 +167,8 @@ public class HeroSeeder {
 
     }
 
-    private void saveHeroAndLevelUp(Hero hero, Integer level) {
+    private void saveHeroAndLevelUp(Hero hero, Integer level) throws Exception {
+        setDummyAttributes(hero);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         inventoryRepository.save(hero.getInventory());
@@ -222,16 +223,19 @@ public class HeroSeeder {
 
     }
 
-    private void equipArmor(Hero hero, String dummyMediumArmor) throws Exception {
-        hero.setBaseAttributes(new Attributes(14, 14, 14, 12, 8, 8));
-        Race race = raceRepository.findByNameAndSystemDefaultTrue("Dummy");
-        Role role = roleRepository.findByNameAndSystemDefaultTrue("Dummy");
-        hero.setRace(race);
-        hero.setRole(role);
+    private void equipArmor(Hero hero, String dummyMediumArmor) {
+
         ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(dummyMediumArmor);
         ArmorInstance armor = armorInstanceService.instantiateArmor(armorModel, 1);
         armorInstanceRepository.save(armor);
         hero.getEquipment().equipArmor(armor);
         hero.getInventory().addItem(armor);
+    }
+    private void setDummyAttributes(Hero hero) throws Exception {
+        hero.setBaseAttributes(new Attributes(14, 14, 14, 14, 14, 14, true));
+        Race race = raceRepository.findByNameAndSystemDefaultTrue("Dummy");
+        Role role = roleRepository.findByNameAndSystemDefaultTrue("Dummy");
+        hero.setRace(race);
+        hero.setRole(role);
     }
 }

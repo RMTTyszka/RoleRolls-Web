@@ -54,6 +54,15 @@ public class Attributes {
         this.charisma = charisma;
         this.validate();
     }
+    public Attributes(Integer strength, Integer agility, Integer vitality, Integer wisdom, Integer intuition, Integer charisma, boolean isTest) throws Exception {
+        this.strength = strength;
+        this.agility = agility;
+        this.vitality = vitality;
+        this.wisdom = wisdom;
+        this.intuition = intuition;
+        this.charisma = charisma;
+        if (!isTest) this.validate();
+    }
     public void levelUp(String attribute) {
         try {
             Field field = this.getClass().getDeclaredField(attribute);
