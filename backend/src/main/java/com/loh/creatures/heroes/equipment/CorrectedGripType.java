@@ -1,9 +1,9 @@
 package com.loh.creatures.heroes.equipment;
 
 public class CorrectedGripType {
-    public CorrectedGripType(GripType gripType, boolean shouldUnequipOffWeapon, GripType offWeaponRipType) {
+    public CorrectedGripType(GripType gripType, boolean shouldUnequipOffWeapon, GripType offWeaponGripType) {
         this.gripType = gripType;
-        this.offWeaponRipType = offWeaponRipType;
+        this.offWeaponGripType = offWeaponGripType;
         this.shouldUnequipOffWeapon = shouldUnequipOffWeapon;
     }
     public CorrectedGripType(GripType gripType) {
@@ -12,6 +12,6 @@ public class CorrectedGripType {
     }
 
     public GripType gripType;
-    public GripType offWeaponRipType;
+    public GripType offWeaponGripType;
     public boolean shouldUnequipOffWeapon;
 }

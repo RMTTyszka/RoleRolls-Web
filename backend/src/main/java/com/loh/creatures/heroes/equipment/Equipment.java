@@ -106,23 +106,23 @@ public class Equipment extends Entity {
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {
-		if (GripService.validateGripType(this.getMainWeapon(), gripType)) {
-			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(this.getMainWeapon(), this.getOffWeapon(), gripType);
+		if (GripService.validateGripType(getMainWeapon(), gripType)) {
+			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getMainWeapon(), getOffWeapon(), gripType, getOffWeaponGridType());
 			if (correctedGripType.shouldUnequipOffWeapon) {
 				this.quicklyUnequipOffWeapon();
 			}
 			this.mainWeaponGripType = correctedGripType.gripType;
-			this.offWeaponGridType = correctedGripType.offWeaponRipType;
+			this.offWeaponGridType = correctedGripType.offWeaponGripType;
 		}
 	}
 	private void setOffWeaponGripType(GripType gripType) throws Exception {
-		if (GripService.validateGripType(this.getOffWeapon(), gripType)) {
-			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(this.getOffWeapon(), this.getMainWeapon(), gripType);
+		if (GripService.validateGripType(getOffWeapon(), gripType)) {
+			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getOffWeapon(), getMainWeapon(), gripType, getMainWeaponGripType());
 			if (correctedGripType.shouldUnequipOffWeapon) {
 				this.quicklyUnequipMainWeapon();
 			}
 			this.offWeaponGridType = correctedGripType.gripType;
-			this.mainWeaponGripType = correctedGripType.offWeaponRipType;
+			this.mainWeaponGripType = correctedGripType.offWeaponGripType;
 		};
 	}
 	private void quicklyUnequipOffWeapon() {

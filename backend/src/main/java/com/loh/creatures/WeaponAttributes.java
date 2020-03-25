@@ -13,10 +13,10 @@ public class WeaponAttributes {
     @Getter
     private Integer hitBonus;
 
-    public WeaponAttributes(GripType gripType, Integer damageAttributeBonus, Integer hitAttributeBonus, Integer weaponMagicBonus) {
+    public WeaponAttributes(GripType gripType, Integer damageAttributeBonus, Integer hitAttributeBonus, Integer weaponMagicBonus, GripType otherHandGripType) {
         damage = gripType.getDamage();
         damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus;
         attackComplexity = gripType.getAttackComplexity();
-        hitBonus = gripType.getHit() + hitAttributeBonus + weaponMagicBonus;
+        hitBonus = gripType.getHit() + hitAttributeBonus + weaponMagicBonus + (otherHandGripType != null ? otherHandGripType.getShieldHitBonus() : 0);
     }
 }
