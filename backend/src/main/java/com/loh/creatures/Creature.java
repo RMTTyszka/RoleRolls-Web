@@ -107,9 +107,6 @@ public class Creature extends Entity {
     @Setter
     private List<Bonus> bonuses;
 
-    public Integer getHit() {
-        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
-    }
     public Integer getDefense() {
         return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
     }
@@ -143,18 +140,20 @@ public class Creature extends Entity {
     }
 
     public WeaponAttributes getMainWeaponAttributes() {
-        return new WeaponAttributes(
+        return equipment.getMainWeapon() != null ? new WeaponAttributes(
                 equipment.getMainWeaponGripType(),
                 getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
                 getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
-                equipment.getMainWeapon().getBonus());
+                equipment.getMainWeapon().getBonus(),
+                equipment.getOffWeaponGridType()) : null;
     }
     public WeaponAttributes getOffWeaponAttributes() {
         return equipment.getOffWeapon() != null ? new WeaponAttributes(
                 equipment.getOffWeaponGridType(),
                 getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
                 getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
-                equipment.getOffWeapon().getBonus()) : null;
+                equipment.getOffWeapon().getBonus(),
+                equipment.getMainWeaponGripType()) : null;
     }
 
     public Integer getAttributePoints(String attr) {
