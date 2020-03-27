@@ -108,10 +108,10 @@ public class Creature extends Entity {
     private List<Bonus> bonuses;
 
     public Integer getDefense() {
-        return equipment.getDefense() + getAttributeLevel(Attributes.Vitality);
+        return CreatureStatus.defense(this);
     }
     public Integer getEvasion() {
-        return 10 + equipment.getEvasion() +  getAttributeLevel(Attributes.Agility) + getEvasionInnateBonus();
+        return CreatureStatus.evasion(this);
     }
     public Integer getDodge() {
         return CreatureStatus.dodge(this);
@@ -127,9 +127,12 @@ public class Creature extends Entity {
     }
 
     public Integer getBonusLevel(String property) {
-        Integer creatureBonus = Bonuses.GetBonusLevel(bonuses, property);
+        Integer creatureRaceBonus = Bonuses.GetInnateBonusLevel(getRace().getBonuses(), property);
+        Integer creatureRoleBonus = Bonuses.GetInnateBonusLevel(getRole().getBonuses(), property);
         Integer equipmentBonus = equipment.getBonusLevel(property);
-        return creatureBonus + equipmentBonus;
+        Integer creatureMagicalBonus = Bonuses.GetMagicalBonusLevel(bonuses, property);
+        Integer creatureMoralBonus = Bonuses.GetMoralBonusLevel(bonuses, property);
+        return creatureRaceBonus + creatureRoleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus;
     }
 
     public Integer getLife() {
@@ -139,11 +142,28 @@ public class Creature extends Entity {
         return CreatureStatus.moral(this);
     }
 
+    public Integer getMainWeaponHitBonus() {
+        if (equipment.getMainWeapon() != null) {
+            Integer attributeBonus =  getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            Integer bonuses = getBonusLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            return attributeBonus + bonuses;
+        }
+        return 0;
+    }
+    public Integer getOffWeaponHitBonus() {
+        if (equipment.getOffWeapon() != null) {
+            Integer attributeBonus =  getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            Integer bonuses = getBonusLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            return attributeBonus + bonuses;
+        }
+        return 0;
+    }
+
     public WeaponAttributes getMainWeaponAttributes() {
         return equipment.getMainWeapon() != null ? new WeaponAttributes(
                 equipment.getMainWeaponGripType(),
                 getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                getMainWeaponHitBonus(),
                 equipment.getMainWeapon().getBonus(),
                 equipment.getOffWeaponGridType()) : null;
     }
@@ -151,7 +171,7 @@ public class Creature extends Entity {
         return equipment.getOffWeapon() != null ? new WeaponAttributes(
                 equipment.getOffWeaponGridType(),
                 getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute()),
+                getOffWeaponHitBonus(),
                 equipment.getOffWeapon().getBonus(),
                 equipment.getMainWeaponGripType()) : null;
     }
@@ -161,9 +181,8 @@ public class Creature extends Entity {
         Integer attributeBonusPoints = bonusAttributes.getAttributePoints(attr);
         Integer raceAttribute = race.getAttributePoints(attr);
         Integer roleAttribute = role.getAttributePoints(attr);
-        Integer bonusAttribute =  bonuses.stream().filter(bonus -> bonus.getProperty().equals(attr)).map(e -> e.getLevel()).reduce(0 , (a ,b) -> a + b).intValue();
-        Integer equipmentBonus =  equipment.getBonusLevel(attr);
-        return  base + attributeBonusPoints + raceAttribute + roleAttribute + bonusAttribute + equipmentBonus;
+        Integer bonusAttribute = getBonusLevel(attr);
+        return  base + attributeBonusPoints + raceAttribute + roleAttribute + bonusAttribute;
     }
 
     public Integer getAttributeLevel(String attr) {

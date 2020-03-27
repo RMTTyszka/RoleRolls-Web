@@ -35,4 +35,10 @@ public class CreatureStatus {
     public static Integer moral(Creature creature) {
         return baseMoral + moralLevelMultiplier * creature.level + (creature.level  + 2) * creature.getAttributeLevel(Attributes.Intuition) / 2;
     }
+    public static Integer evasion(Creature creature) {
+        return 10 + creature.equipment.getEvasion() +  creature.getAttributeLevel(Attributes.Agility) + creature.getEvasionInnateBonus();
+    }
+    public static Integer defense(Creature creature) {
+        return creature.equipment.getDefense() + creature.getAttributeLevel(Attributes.Vitality);
+    }
 }

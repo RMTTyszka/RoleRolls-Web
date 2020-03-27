@@ -8,6 +8,7 @@ import com.loh.items.equipable.head.headpieceInstances.HeadpieceInstance;
 import com.loh.items.equipable.neck.neckAccessoryInstances.NeckAccessoryInstance;
 import com.loh.items.equipable.rings.head.ringInstances.RingInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
+import com.loh.shared.Bonuses;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,15 +23,18 @@ public class Equipment extends Entity {
 	public Equipment(){
 	}
 	public Integer getBonusLevel(String property) {
-		Integer armorBonus = armor.getBonusLevel(property);
-		Integer weaponBonus = mainWeapon.getBonusLevel(property);
-		Integer offWeaponBonus = offWeapon != null ? offWeapon.getBonusLevel(property) : 0;
-		Integer beltBonus = belt.getBonusLevel(property);
-		Integer gloveBonus = gloves.getBonusLevel(property);
-		Integer headBonus = headpiece.getBonusLevel(property);
-		return armorBonus + weaponBonus + offWeaponBonus + beltBonus + gloveBonus + headBonus;
+		Integer armorBonus = Bonuses.GetEquipmentBonusLevel(armor.getBonuses(), property);
+		Integer weaponBonus = mainWeapon != null ? Bonuses.GetEquipmentBonusLevel(mainWeapon.getBonuses(), property) : 0;
+		Integer offWeaponBonus = offWeapon != null ? Bonuses.GetEquipmentBonusLevel(offWeapon.getBonuses(), property) : 0;
+		Integer beltBonus = Bonuses.GetEquipmentBonusLevel(belt.getBonuses(), property);
+		Integer gloveBonus = Bonuses.GetEquipmentBonusLevel(gloves.getBonuses(), property);
+		Integer headBonus = Bonuses.GetEquipmentBonusLevel(headpiece.getBonuses(), property);
+		Integer neckBonus = Bonuses.GetEquipmentBonusLevel(neckAccessory.getBonuses(), property);
+		Integer ringRightBonus = Bonuses.GetEquipmentBonusLevel(ringRight.getBonuses(), property);
+		Integer ringLeftBonus = Bonuses.GetEquipmentBonusLevel(ringLeft.getBonuses(), property);
+		return armorBonus + weaponBonus + offWeaponBonus + beltBonus + gloveBonus + headBonus + neckBonus + ringLeftBonus + ringRightBonus;
 	}
-	
+
 	@OneToOne @Getter @Setter
 	private ArmorInstance armor;
 
@@ -68,7 +72,7 @@ public class Equipment extends Entity {
 	}
 
 	public List<EquipableInstance> getListOfEquipment() {
-		return Arrays.asList(this.mainWeapon, this.armor);
+		return Arrays.asList(mainWeapon, armor, offWeapon, belt, neckAccessory, headpiece, ringLeft, ringRight, gloves );
 	}
 
 	public void equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
