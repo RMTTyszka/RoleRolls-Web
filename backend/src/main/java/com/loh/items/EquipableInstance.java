@@ -19,7 +19,4 @@ public class EquipableInstance extends ItemInstance {
     @Setter
     private List<Bonus> bonuses = new ArrayList<>();
 
-    public Integer getBonusLevel(String property) {
-        return bonuses.stream().filter(bonus -> bonus.getProperty() == property).map(e -> e.getLevel()).reduce(0 , (a ,b) -> a + b).intValue();
-    }
 }
