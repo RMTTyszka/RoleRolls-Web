@@ -1,0 +1,1 @@
+  <p-autoComplete [(ngModel)]="hero" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
