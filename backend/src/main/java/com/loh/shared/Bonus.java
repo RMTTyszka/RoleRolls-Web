@@ -8,10 +8,11 @@ public class Bonus  {
 
 	public Bonus() {}
 
-    public Bonus(String prop, Integer level, Integer bonus) {
+    public Bonus(String prop, Integer level, Integer bonus, BonusType bonusType) {
 		this.property = prop;
 		this.level = level;
 		this.bonus = bonus;
+		this.bonusType = bonusType;
 	}
 	public String getProperty() {
 		return property;

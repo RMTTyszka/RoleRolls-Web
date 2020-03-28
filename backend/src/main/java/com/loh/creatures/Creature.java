@@ -8,10 +8,8 @@ import com.loh.dev.Loh;
 import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
-import com.loh.shared.Bonus;
-import com.loh.shared.Bonuses;
 import com.loh.shared.Entity;
-import com.loh.shared.Properties;
+import com.loh.shared.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -237,12 +235,12 @@ public class Creature extends Entity {
             equipment.getBelt().levelUpForTest(itemInstanceRepository);
             equipment.getHeadpiece().levelUpForTest(itemInstanceRepository);
         }
-        bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0));
-        bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0));
-        bonuses.add(new Bonus(Attributes.Vitality, (level / 5) * 5, 0));
-        bonuses.add(new Bonus(Attributes.Wisdom, (level / 5) * 5, 0));
-        bonuses.add(new Bonus(Attributes.Intuition, (level / 5) * 5, 0));
-        bonuses.add(new Bonus(Attributes.Charisma, (level / 5) * 5, 0));
+        bonuses.add(new Bonus(Attributes.Strength, (level / 5) * 5, 0, BonusType.Innate));
+        bonuses.add(new Bonus(Attributes.Agility, (level / 5) * 5, 0, BonusType.Innate));
+        bonuses.add(new Bonus(Attributes.Vitality, (level / 5) * 5, 0, BonusType.Innate));
+        bonuses.add(new Bonus(Attributes.Wisdom, (level / 5) * 5, 0, BonusType.Innate));
+        bonuses.add(new Bonus(Attributes.Intuition, (level / 5) * 5, 0, BonusType.Innate));
+        bonuses.add(new Bonus(Attributes.Charisma, (level / 5) * 5, 0, BonusType.Innate));
         this.level = level;
         creatureRepository.save(this);
     }

@@ -2,6 +2,7 @@ package com.loh.race;
 
 import com.loh.creatures.Attributes;
 import com.loh.shared.Bonus;
+import com.loh.shared.BonusType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,92 +18,92 @@ public class RaceSeeder {
     public void seed() {
         if (raceRepository.findByNameAndSystemDefaultTrue("Elf") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Agility, 4, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, -2, 0));
+            bonuses.add(new Bonus(Attributes.Agility, 4, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, -2, 0, BonusType.Innate));
             Race elf = new Race("Elf", bonuses, null, null);
             raceRepository.save(elf);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Dwarf") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Vitality, 4, 0));
-            bonuses.add(new Bonus(Attributes.Charisma, -2, 0));
+            bonuses.add(new Bonus(Attributes.Vitality, 4, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Charisma, -2, 0, BonusType.Innate));
             Race dwarf = new Race("Dwarf", bonuses, null, null);
             raceRepository.save(dwarf);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Orc") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Strength, 4, 0));
-            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0));
+            bonuses.add(new Bonus(Attributes.Strength, 4, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0, BonusType.Innate));
             Race dwarf = new Race("Orc", bonuses, null, null);
             raceRepository.save(dwarf);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Gnome") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Wisdom, 4, 0));
-            bonuses.add(new Bonus(Attributes.Strength, -2, 0));
+            bonuses.add(new Bonus(Attributes.Wisdom, 4, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Strength, -2, 0, BonusType.Innate));
             Race race = new Race("Gnome", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Draekar") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Strength, 2, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, 2, 0));
-            bonuses.add(new Bonus(Attributes.Intuition, -2, 0));
+            bonuses.add(new Bonus(Attributes.Strength, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Intuition, -2, 0, BonusType.Innate));
             Race race = new Race("Draekar", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Daennan") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0));
-            bonuses.add(new Bonus(Attributes.Intuition, 2, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, -2, 0));
+            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Intuition, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, -2, 0, BonusType.Innate));
             Race race = new Race("Daennan", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Rhassin") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Agility, 2, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, 2, 0));
-            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0));
+            bonuses.add(new Bonus(Attributes.Agility, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0, BonusType.Innate));
             Race race = new Race("Rhassin", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Goblin") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0));
-            bonuses.add(new Bonus(Attributes.Charisma, 2, 0));
-            bonuses.add(new Bonus(Attributes.Strength, -2, 0));
+            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Charisma, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Strength, -2, 0, BonusType.Innate));
             Race race = new Race("Goblin", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Halfling") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Agility, 2, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, 2, 0));
-            bonuses.add(new Bonus(Attributes.Strength, -2, 0));
+            bonuses.add(new Bonus(Attributes.Agility, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Strength, -2, 0, BonusType.Innate));
             Race race = new Race("Halfling", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Ku-Toa") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0));
-            bonuses.add(new Bonus(Attributes.Strength, 2, 0));
-            bonuses.add(new Bonus(Attributes.Agility, -2, 0));
+            bonuses.add(new Bonus(Attributes.Wisdom, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Strength, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Agility, -2, 0, BonusType.Innate));
             Race race = new Race("Ku-Toa", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Trolling") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Intuition, 2, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, 2, 0));
-            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0));
+            bonuses.add(new Bonus(Attributes.Intuition, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, 2, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Wisdom, -2, 0, BonusType.Innate));
             Race race = new Race("Trolling", bonuses, null, null);
             raceRepository.save(race);
         }
         if (raceRepository.findByNameAndSystemDefaultTrue("Tharian") == null) {
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses.add(new Bonus(Attributes.Intuition, 4, 0));
-            bonuses.add(new Bonus(Attributes.Vitality, -2, 0));
+            bonuses.add(new Bonus(Attributes.Intuition, 4, 0, BonusType.Innate));
+            bonuses.add(new Bonus(Attributes.Vitality, -2, 0, BonusType.Innate));
             Race race = new Race("Tharian", bonuses, null, null);
             raceRepository.save(race);
         }
