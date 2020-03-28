@@ -4,12 +4,16 @@ import { HeroesSelectModalComponent } from './heroes-select-modal/heroes-select-
 import { HeroSelectComponent } from './hero-select/hero-select.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
   imports: [
     CommonModule,
     AutoCompleteModule,
-    FormsModule
+    FormsModule,
+    OverlayPanelModule,
+    PanelModule
   ],
   declarations: [HeroesSelectModalComponent, HeroSelectComponent],
   entryComponents: [HeroesSelectModalComponent],

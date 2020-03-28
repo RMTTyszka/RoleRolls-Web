@@ -66,8 +66,9 @@ public class Creature extends Entity {
         return new Resistances(fear, health, magic, physical, reflex);
     }
 
-    public Integer getMana() {
-        return level / 5 + 1 + equipment.getNeckAccessory().getManaBonus();
+
+    public CreatureStatus getStatus() {
+        return new CreatureStatus(this);
     }
 
     @Getter @Setter
@@ -75,10 +76,16 @@ public class Creature extends Entity {
     @Getter @Setter
     private String specialPowerMainAttribute;
 
-    @Transient
-    protected Attributes totalAttributes;
-    protected Attributes getTotalAttributes(){
-        return bonusAttributes.GetSumOfAttributes(baseAttributes);
+    public Attributes getTotalAttributes(){
+        Attributes totalAttributes = bonusAttributes.GetSumOfAttributes(baseAttributes);
+        totalAttributes.strength += getAttributeLevel(Attributes.Strength);
+        totalAttributes.agility += getAttributeLevel(Attributes.Agility);
+        totalAttributes.vitality += getAttributeLevel(Attributes.Vitality);
+        totalAttributes.wisdom += getAttributeLevel(Attributes.Wisdom);
+        totalAttributes.intuition += getAttributeLevel(Attributes.Intuition);
+        totalAttributes.charisma += getAttributeLevel(Attributes.Charisma);
+
+        return totalAttributes;
     }
 
     @Getter @Setter
@@ -105,25 +112,6 @@ public class Creature extends Entity {
     @Setter
     private List<Bonus> bonuses;
 
-    public Integer getDefense() {
-        return CreatureStatus.defense(this);
-    }
-    public Integer getEvasion() {
-        return CreatureStatus.evasion(this);
-    }
-    public Integer getDodge() {
-        return CreatureStatus.dodge(this);
-    }
-    public Integer getSpecialAttack() {
-        return CreatureStatus.specialAttack(this);
-    }
-    public Integer getMagicDefense() {
-        return CreatureStatus.magicDefense(this);
-    }
-    public Integer getSpecialPower() {
-        return CreatureStatus.specialPower(this);
-    }
-
     public Integer getBonusLevel(String property) {
         Integer creatureRaceBonus = Bonuses.GetInnateBonusLevel(getRace().getBonuses(), property);
         Integer creatureRoleBonus = Bonuses.GetInnateBonusLevel(getRole().getBonuses(), property);
@@ -131,13 +119,6 @@ public class Creature extends Entity {
         Integer creatureMagicalBonus = Bonuses.GetMagicalBonusLevel(bonuses, property);
         Integer creatureMoralBonus = Bonuses.GetMoralBonusLevel(bonuses, property);
         return creatureRaceBonus + creatureRoleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus;
-    }
-
-    public Integer getLife() {
-        return CreatureStatus.life(this);
-    }
-    public Integer getMoral() {
-        return CreatureStatus.moral(this);
     }
 
     public Integer getMainWeaponHitBonus() {

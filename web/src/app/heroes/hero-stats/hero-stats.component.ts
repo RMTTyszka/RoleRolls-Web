@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {CreatureStatus} from '../../shared/models/CreatureStatus.model';
 
 @Component({
   selector: 'loh-hero-stats',
@@ -9,15 +10,13 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 export class HeroStatsComponent implements OnInit {
 
   stats: string[] = ['defense', 'evasion', 'life', 'moral', 'dodge', 'specialAttack', 'magicDefense', 'mana', 'specialPower'];
-  form: FormGroup;
+  @Input() status: CreatureStatus;
   constructor(
-    private formDirective: FormGroupDirective
   ) {
 
   }
 
   ngOnInit() {
-    this.form = this.formDirective.form;
   }
 
 }

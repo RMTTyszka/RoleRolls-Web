@@ -8,12 +8,12 @@ import java.util.List;
 
 @Embeddable
 public class Attributes {
-    public static String Strength = "strength";
-    public static String Agility = "agility";
-    public static String Vitality = "vitality";
-    public static String Wisdom = "wisdom";
-    public static String Intuition = "intuition";
-    public static String Charisma = "charisma";
+    public static final String Strength = "strength";
+    public static final String Agility = "agility";
+    public static final String Vitality = "vitality";
+    public static final String Wisdom = "wisdom";
+    public static final String Intuition = "intuition";
+    public static final String Charisma = "charisma";
     public Integer strength;
     public Integer agility;
     public Integer vitality;

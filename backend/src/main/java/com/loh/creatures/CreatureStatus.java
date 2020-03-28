@@ -1,44 +1,83 @@
 package com.loh.creatures;
 
 import com.loh.shared.Properties;
+import lombok.Getter;
 
 public class CreatureStatus {
 
-    public static Integer baseLife = 5;
-    public static Integer lifeLevelMultiplier = 4;
-    public static Integer baseMoral = 5;
-    public static Integer moralLevelMultiplier = 4;
+    @Getter
+    private Integer specialAttack;
+    @Getter
+    private Integer magicDefense;
+    @Getter
+    private Integer dodge;
+    @Getter
+    private Integer specialPower;
+    @Getter
+    private Integer life;
+    @Getter
+    private Integer moral;
+    @Getter
+    private Integer evasion;
+    @Getter
+    private Integer defense;
+    @Getter
+    private Integer mana;
 
-    public static Integer specialAttack(Creature creature) {
+    public CreatureStatus() {
+    }
+
+    public CreatureStatus(Creature creature) {
+        specialAttack = getSpecialAttack(creature);
+        this.magicDefense = getMagicDefense(creature);
+        this.dodge = getDodge(creature);
+        this.specialPower = getSpecialPower(creature);
+        this.life = getLife(creature);
+        this.moral = getMoral(creature);
+        this.evasion = getEvasion(creature);
+        this.defense = getDefense(creature);
+        this.mana = getMana(creature);
+    }
+
+    private static Integer baseLife = 5;
+    private static Integer lifeLevelMultiplier = 4;
+    private static Integer baseMoral = 5;
+    private static Integer moralLevelMultiplier = 4;
+
+
+    public static Integer getMana(Creature creature) {
+        return creature.level / 5 + 1 + creature.equipment.getNeckAccessory().getManaBonus();
+    }
+    public static Integer getSpecialAttack(Creature creature) {
         Integer gloveBonus = creature.equipment.getGloves().getBonus();
         Integer creatureBonus = creature.getBonusLevel(Properties.SpecialAttack);
         return gloveBonus + creatureBonus;
     }
-    public static Integer magicDefense(Creature creature) {
+    public static Integer getMagicDefense(Creature creature) {
         Integer beltBonus = creature.equipment.getBelt().getBonus();
         Integer creatureBonus = creature.getBonusLevel(Properties.MagicDefense);
         return beltBonus + creatureBonus;
     }
-    public static Integer dodge(Creature creature) {
+    public static Integer getDodge(Creature creature) {
         Integer dodge = creature.equipment.getDodge();
         return dodge;
     }
-    public static Integer specialPower(Creature creature) {
+    public static Integer getSpecialPower(Creature creature) {
         Integer attributeLevel = creature.getAttributeLevel(creature.getSpecialPowerMainAttribute());
         Integer ringRightBonus = creature.equipment.getRingRight().getBonus() * 2;
         Integer ringLeftBonus = creature.equipment.getRingLeft().getBonus() * 2;
         return attributeLevel + ringLeftBonus + ringRightBonus;
     }
-    public static Integer life(Creature creature) {
+    public static Integer getLife(Creature creature) {
         return baseLife + lifeLevelMultiplier * creature.level + (creature.level  + 2) * creature.getAttributeLevel(Attributes.Vitality);
     }
-    public static Integer moral(Creature creature) {
+    public static Integer getMoral(Creature creature) {
         return baseMoral + moralLevelMultiplier * creature.level + (creature.level  + 2) * creature.getAttributeLevel(Attributes.Intuition) / 2;
     }
-    public static Integer evasion(Creature creature) {
+    public static Integer getEvasion(Creature creature) {
         return 10 + creature.equipment.getEvasion() +  creature.getAttributeLevel(Attributes.Agility) + creature.getEvasionInnateBonus();
     }
-    public static Integer defense(Creature creature) {
+    public static Integer getDefense(Creature creature) {
         return creature.equipment.getDefense() + creature.getAttributeLevel(Attributes.Vitality);
     }
 }

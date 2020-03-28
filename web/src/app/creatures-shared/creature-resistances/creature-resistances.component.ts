@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {Resistances} from '../../shared/models/Resistances.model';
 
 @Component({
   selector: 'loh-creature-resistances',
@@ -8,17 +9,14 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 })
 export class CreatureResistancesComponent implements OnInit {
 
-  resistances: string[] = ['fear', 'health', 'magic', 'physical', 'reflex'];
-  form: FormGroup;
-  @Input() resistancesFormName = 'resistances'
+  resistancesList: string[] = ['fear', 'health', 'magic', 'physical', 'reflex'];
+  @Input() resistances: Resistances;;
   constructor(
-    private formDirective: FormGroupDirective
   ) {
 
   }
 
   ngOnInit() {
-    this.form = this.formDirective.form;
   }
 
 }

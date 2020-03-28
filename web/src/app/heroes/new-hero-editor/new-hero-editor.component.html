@@ -49,8 +49,8 @@
           </div>
           <div fxFlex.gt-md="33" fxFlex="100">
               <form [formGroup]="form">
-                <loh-hero-stats></loh-hero-stats>
-                <loh-creature-resistances></loh-creature-resistances>
+                <loh-hero-stats [status]="entity.status"></loh-hero-stats>
+                <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
               </form>
           </div>
           <div>

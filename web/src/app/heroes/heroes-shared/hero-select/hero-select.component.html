@@ -1,1 +1,20 @@
-  <p-autoComplete [(ngModel)]="hero" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
+
+<p-overlayPanel #heroOverlay>
+  <ng-container *ngIf="hero">
+    <p-panel [header]="hero.name">
+      <div>Race: {{hero.race.name}}</div>
+      <div>Role: {{hero.role.name}}</div>
+      <div>Strength: {{hero.totalAttributes.strength}}</div>
+      <div>Agility: {{hero.totalAttributes.agility}}</div>
+      <div>Vitality: {{hero.totalAttributes.vitality}}</div>
+      <div>Wisdom: {{hero.totalAttributes.wisdom}}</div>
+      <div>Intuition: {{hero.totalAttributes.intuition}}</div>
+      <div>Charisma: {{hero.totalAttributes.charisma}}</div>
+    </p-panel>
+  </ng-container>
+</p-overlayPanel>
+<div class="ui-inputgroup">
+  <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="hero ? heroOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
+  <p-autoComplete  [(ngModel)]="hero" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
+</div>
+

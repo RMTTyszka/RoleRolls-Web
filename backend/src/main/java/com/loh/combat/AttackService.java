@@ -24,7 +24,7 @@ public class AttackService {
             offWeaponAttackResult = offWeaponAttack(attacker, target);
         }
 
-        AttackDetails attackDetails = new AttackDetails(mainWeaponAttackResult, offWeaponAttackResult, target.getEvasion(), target.getDefense());
+        AttackDetails attackDetails = new AttackDetails(mainWeaponAttackResult, offWeaponAttackResult, target.getStatus().getEvasion(), target.getStatus().getDefense());
         return attackDetails;
 
     }
@@ -39,10 +39,10 @@ public class AttackService {
                 hitAttributePoints,
                 hitBonus,
                 damageBonus,
-                target.getEvasion(),
+                target.getStatus().getEvasion(),
                 attacker.getOffWeaponAttributes().getAttackComplexity() + 1,
-                target.getDodge(),
-                target.getDefense()
+                target.getStatus().getDodge(),
+                target.getStatus().getDefense()
         );
 
         return attackResult;
@@ -76,10 +76,10 @@ public class AttackService {
                 hitAttributePoints,
                 hitBonus,
                 damageBonus,
-                target.getEvasion(),
+                target.getStatus().getEvasion(),
                 attacker.getMainWeaponAttributes().getAttackComplexity(),
-                target.getDodge(),
-                target.getDefense()
+                target.getStatus().getDodge(),
+                target.getStatus().getDefense()
         );
 
         return attackResult;
