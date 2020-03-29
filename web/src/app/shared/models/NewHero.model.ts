@@ -5,6 +5,8 @@ import {Equipment} from './Equipment.model';
 import {Inventory} from './Inventory.model';
 import {WeaponAttributes} from './WeaponAttributes.model';
 import {Resistances} from './Resistances.model';
+import {Attributes} from './Attributes.model';
+import {CreatureStatus} from './CreatureStatus.model';
 
 export class BaseAttributes {
     strength: number;
@@ -35,9 +37,9 @@ export class BaseAttributes {
 
   export class NewHero extends Entity {
     id: string;
-    baseAttributes: BaseAttributes;
-    initialAttributes: InitialAttributes;
-    bonusAttributes: BonusAttributes;
+    baseAttributes: Attributes;
+    bonusAttributes: Attributes;
+    totalAttributes: Attributes;
     totalInitialPoint: number;
     maxInitialAttributePoints: number;
     maxAttributeBonusPoints: number;
@@ -47,12 +49,7 @@ export class BaseAttributes {
     role: Role;
     equipment: Equipment;
     inventory: Inventory;
-    mana: number;
-    specialPower: number;
-    defense: number;
-    evasion: number;
-    specialAttack: number;
-    magicDefense: number;
+    status: CreatureStatus = new CreatureStatus();
     resistances = new Resistances();
     mainWeaponAttributes = new WeaponAttributes();
     offWeaponAttributes = new WeaponAttributes();

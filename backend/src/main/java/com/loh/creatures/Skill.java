@@ -37,6 +37,6 @@ public class Skill extends Entity {
         return Arrays.asList("openLocks", "steal", "operateTrap", "jump", "climb",
                 "sports", "diplomacy", "bluff", "intimidate", "arcane","religion",
                 "nature","perceive","feeling","search","hide","stealth","acrobacy",
-                "wounds","toxicity","curse", "attack","evasion","specialAttack", "resistance");
+                "wounds","toxicity","curse", "attack","getEvasion","getSpecialAttack", "resistance");
     }
 }

@@ -31,7 +31,7 @@ public class CombatController {
 		List<Integer> offRolls = new ArrayList<>();
 		Integer mainBonus = attacker.getAttrMod(mainWeapon.getHitAttribute()) + mainWeapon.getBonus();
 		Integer offBonus = 0;
-		Integer evasion = target.evasion();
+		Integer getEvasion = target.getEvasion();
 		if (mainWeapon.getNumberOfHands() > 0) {
 			for (int x = 0; x < attacker.getAttrMod(mainWeapon.getHitAttribute()); x++) {
 				int roll = random.nextInt(20) + 1;
@@ -39,7 +39,7 @@ public class CombatController {
 				if (roll == 20) { hitsMain.add(1); continue; }
 				if (roll == 1) { hitsMain.add(-1); continue; }
 				roll += mainBonus;
-				if (roll >= evasion) hitsMain.add(0);
+				if (roll >= getEvasion) hitsMain.add(0);
 			}
 		}
 		List<Integer> hitsOff = new ArrayList<>();
@@ -52,12 +52,12 @@ public class CombatController {
 				if (roll == 20) { hitsOff.add(1); continue; }
 				if (roll == 1) { hitsOff.add(-1); continue; }
 				roll += offBonus;
-				if (roll >= evasion) hitsOff.add(0);
+				if (roll >= getEvasion) hitsOff.add(0);
 			}
 		}
 		dto.setMainWeaponHits(hitsMain);
 		dto.setOffWeaponHits(hitsOff);
-		dto.setEvasion(evasion);
+		dto.setEvasion(getEvasion);
 		dto.setMainWeaponBonus(mainBonus);
 		dto.setOffWeaponBonus(offBonus);
 		dto.setMainWeaponRolls(mainRolls);
