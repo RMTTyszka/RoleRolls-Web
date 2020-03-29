@@ -33,6 +33,18 @@ public class AttackDetails {
     private Integer evasion;
     @Getter
     private Integer defense;
+    @Getter
+    private Integer mainWeaponHitBonus;
+    @Getter
+    private Integer offWeaponHitBonus;
+
+
+
+    public Integer getTotalDamage() {
+        Integer mainWeaponDamage = mainWeaponDamages != null ? mainWeaponDamages.stream().reduce(0, (a, b) -> a + b).intValue() : 0;
+        Integer offWeaponDamage = offWeaponDamages != null ? offWeaponDamages.stream().reduce(0, (a, b) -> a + b).intValue() : 0;
+        return mainWeaponDamage + offWeaponDamage;
+    }
 
     public AttackDetails(AttackResult mainWeaponAttackResult, AttackResult offWeaponAttackResult, Integer evasion, Integer defense) {
         mainWeaponHits = mainWeaponAttackResult.getHits();
@@ -41,6 +53,7 @@ public class AttackDetails {
         mainWeaponRolls = mainWeaponAttackResult.getRolls();
         mainWeaponDamages = mainWeaponAttackResult.getDamages();
         mainWeaponNumberOfAttacks = mainWeaponAttackResult.getNumberOfAttacks();
+        this.mainWeaponHitBonus = mainWeaponAttackResult.getHitBonus();
 
         if (offWeaponAttackResult != null) {
             offWeaponHits = offWeaponAttackResult.getHits();
@@ -49,6 +62,7 @@ public class AttackDetails {
             offWeaponRolls = offWeaponAttackResult.getRolls();
             offWeaponDamages = offWeaponAttackResult.getDamages();
             offWeaponNumberOfAttacks = offWeaponAttackResult.getNumberOfAttacks();
+            this.offWeaponHitBonus = offWeaponAttackResult.getHitBonus();
         }
 
         this.defense = defense;

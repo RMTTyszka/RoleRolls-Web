@@ -232,11 +232,15 @@ public class Creature extends Entity {
         }
     }
 
-    public Integer getInateLevelBonus(Integer attributePoints) {
+    public Integer getInnateLevelBonus(Integer attributePoints) {
         return (attributePoints - 5) / 5 * 2;
     }
     public Integer getEvasionInnateBonus() {
         return level/2;
+    }
+
+    public void takeDamage(Integer damage) {
+
     }
 
 
