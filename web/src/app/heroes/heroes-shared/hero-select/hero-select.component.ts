@@ -17,7 +17,7 @@ import {OverlayPanel} from 'primeng/overlaypanel';
 export class HeroSelectComponent implements OnInit {
   @Output() heroSelected = new EventEmitter<NewHero>();
   result: NewHero[] = [];
-  hero: NewHero;
+  @Input() hero: NewHero;
   constructor(
     private service: NewHeroService,
   ) {

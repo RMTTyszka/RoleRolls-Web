@@ -37,16 +37,16 @@ export class BaseAttributes {
 
   export class NewHero extends Entity {
     id: string;
-    baseAttributes: Attributes;
-    bonusAttributes: Attributes;
-    totalAttributes: Attributes;
+    baseAttributes: Attributes = new Attributes();
+    bonusAttributes: Attributes = new Attributes();
+    totalAttributes: Attributes = new Attributes();
     totalInitialPoint: number;
     maxInitialAttributePoints: number;
     maxAttributeBonusPoints: number;
     totalAttributesBonusPoints: number;
     level: number;
-    race: Race;
-    role: Role;
+    race: Race = new Race();
+    role: Role = new Role();
     equipment: Equipment;
     inventory: Inventory;
     status: CreatureStatus = new CreatureStatus();

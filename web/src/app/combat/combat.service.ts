@@ -20,4 +20,8 @@ export class CombatService extends BaseCrudServiceComponent<CombatActionDto> {
       const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId).set('isFullAttack', 'true')
       return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/getAttackRoll', {params} );
   }
+  public fullAttack(attackerId: string, targetId: string): Observable<CombatActionDto> {
+      const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId);
+      return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', {params} );
+  }
 }

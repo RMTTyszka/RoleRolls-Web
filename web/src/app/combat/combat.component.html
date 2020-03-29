@@ -1,10 +1,22 @@
-<div>
-  <button (click)="simulateAttack()">
-  </button>
-  <loh-hero-select></loh-hero-select>
-  <loh-hero-select></loh-hero-select>
-  <loh-hero-select></loh-hero-select>
-  <loh-hero-select></loh-hero-select>
-
-  {{x | json}}
+<div fxLayout="row wrap">
+  <div fxFlex="50">
+    <div>Heroes</div>
+    <button pButton (click)="addHero()">Add Hero</button>
+    <div *ngFor="let hero of heroes; let i = index" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row">
+        <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
+        <button pButton (click)="heroFullAttack(i)">Attack</button>
+      </div>
+      <div fxLayout="row">
+        <span>Target</span>
+        <loh-hero-select (heroSelected)="heroTargetSelected($event, i)"></loh-hero-select>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="50">
+    <div>Enemies</div>
+  </div>
+  <div fxFlex="50">
+    {{x | json}}
+  </div>
 </div>
