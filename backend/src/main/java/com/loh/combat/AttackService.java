@@ -50,16 +50,18 @@ public class AttackService {
 
     private AttackResult attack(Integer weaponDamage,Integer hitAttributePoints, Integer hitBonus, Integer damageBonus, Integer evasion, Integer complexity, Integer dodge, Integer defense) {
         TestResult attackTest = roller.makeTest(hitAttributePoints, hitBonus, evasion, complexity);
-        List<Integer> damages = new ArrayList<>();
+        List<DamageResult> damageResults = new ArrayList<>();
 
         for (int attackIndex = 0; attackIndex < attackTest.getSuccesses() - dodge; attackIndex++) {
-            damages.add(getDamage(weaponDamage, damageBonus, defense));
+            DamageResult damageResult = getDamage(weaponDamage, damageBonus, defense);
+            damageResults.add(damageResult);
         }
+        DamageDetails damageDetails = new DamageDetails(damageResults, damageBonus);
         AttackResult output = new AttackResult(
                 attackTest.getSuccesses() - dodge,
                 attackTest.getCriticalSuccesses(),
                 attackTest.getCriticalFailures(),
-                damages,
+                damageDetails,
                 attackTest.getRolls(),
                 attackTest.getNumberOfRolls(),
                 hitBonus
@@ -85,10 +87,12 @@ public class AttackService {
 
         return attackResult;
     }
-    private Integer getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
+    private DamageResult getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
         Integer damageRoll = roller.getRoll(weaponDamage);
          damageRoll = weaponDamage / 2;
-        Integer damage = damageRoll + damageBonus - defense;
-        return damage > 0 ? damage : 1;
+        Integer crudDamage = damageRoll + damageBonus;
+        Integer reducedDamage = crudDamage - defense;
+        reducedDamage = Integer.max(reducedDamage, 1);
+        return new DamageResult(crudDamage, reducedDamage, damageBonus, defense);
     }
 }

@@ -4,6 +4,7 @@ import { CombatComponent } from './combat.component';
 import { Routes, RouterModule } from '@angular/router';
 import {HeroesSharedModule} from '../heroes/heroes-shared/heroes-shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 
 const routes: Routes = [
   {path: '', component: CombatComponent}
@@ -14,7 +15,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     HeroesSharedModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    CreaturesSharedModule
   ],
   declarations: [CombatComponent]
 })

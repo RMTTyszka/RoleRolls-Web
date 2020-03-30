@@ -17,6 +17,6 @@
     <div>Enemies</div>
   </div>
   <div fxFlex="50">
-    {{x | json}}
+    <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
   </div>
 </div>

@@ -1,0 +1,20 @@
+
+
+<p-panel header="Title">
+  <ng-container *ngIf="attackDetails.mainWeaponAttackResult">
+    <div  fxLayout="row" fxLayoutGap="12px">
+      <div>Rolls</div>
+      <div *ngFor="let roll of attackDetails.mainWeaponAttackResult.rolls">{{roll}}</div>
+    </div>
+    <div>Hit Bonus: {{attackDetails.mainWeaponAttackResult.hitBonus}}</div>
+    <div>Evasion: {{attackDetails.evasion}}</div>
+    <div>Hits: {{attackDetails.mainWeaponAttackResult.hits}}</div>
+    <div>Critical Hits: {{attackDetails.mainWeaponAttackResult.criticalHits}}</div>
+    <div>Critical Misses: {{attackDetails.mainWeaponAttackResult.criticalMisses}}</div>
+    <div>Crude Damages: </div><div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.crudeDamage}}</div>
+    <div>Damages Bonus: {{attackDetails.mainWeaponAttackResult.damageDetails.damageBonus}}</div>
+    <div>Damages: </div><div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.reducedDamage}}</div>
+    <div>Defense: {{attackDetails.defense}}</div>
+    <div>Total Damage: {{attackDetails.mainWeaponAttackResult.totalDamage}}</div>
+  </ng-container>
+</p-panel>

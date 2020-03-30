@@ -28,9 +28,6 @@ public class HeroController {
     Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter) {
 
         Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())));
-        for (Hero hero : heroes) {
-            System.out.println(hero.getAttributeLevel("strength"));
-        }
         return heroes;
     }
     // This returns a JSON or XML with the users

@@ -86,16 +86,16 @@ public class WeaponTest {
 
     private void performAttack(Hero oneLightHero, Hero targetLight, List<Integer> hits, WeaponTestResult weaponTestResult) {
         AttackDetails attackDetails = attackService.fullAttack(oneLightHero, targetLight);
-        hits.add(attackDetails.getMainWeaponHits());
-        if (attackDetails.getMainWeaponHits() > 0) {
-            weaponTestResult.damages.add(attackDetails.getMainWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
-            weaponTestResult.setHits(attackDetails.getMainWeaponHits());
-            weaponTestResult.setNumberOfAttacks(attackDetails.getMainWeaponNumberOfAttacks());
+        hits.add(attackDetails.getMainWeaponAttackResult().getHits());
+        if (attackDetails.getMainWeaponAttackResult().getHits() > 0) {
+            weaponTestResult.damages.add(attackDetails.getMainWeaponAttackResult().getTotalDamage());
+            weaponTestResult.setHits(attackDetails.getMainWeaponAttackResult().getHits());
+            weaponTestResult.setNumberOfAttacks(attackDetails.getMainWeaponAttackResult().getNumberOfAttacks());
         }
-        if (attackDetails.getOffWeaponHits() != null && attackDetails.getOffWeaponHits() > 0) {
-            weaponTestResult.damages.add(attackDetails.getOffWeaponDamages().stream().reduce(0, (a, b) -> a + b).intValue());
-            weaponTestResult.setHits(weaponTestResult.getHits() + attackDetails.getOffWeaponHits());
-            weaponTestResult.setNumberOfAttacks(weaponTestResult.getNumberOfAttacks() + attackDetails.getOffWeaponNumberOfAttacks());
+        if (attackDetails.getOffWeaponAttackResult().getHits() != null && attackDetails.getOffWeaponAttackResult().getHits() > 0) {
+            weaponTestResult.damages.add(attackDetails.getOffWeaponAttackResult().getTotalDamage());
+            weaponTestResult.setHits(weaponTestResult.getHits() + attackDetails.getOffWeaponAttackResult().getHits());
+            weaponTestResult.setNumberOfAttacks(weaponTestResult.getNumberOfAttacks() + attackDetails.getOffWeaponAttackResult().getNumberOfAttacks());
         }
     }
 

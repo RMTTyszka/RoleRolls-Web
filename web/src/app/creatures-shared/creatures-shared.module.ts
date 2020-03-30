@@ -12,19 +12,24 @@ import { InventoryHeadpieceSelectComponent } from './inventory/inventory-headpie
 import { CreatureResistancesComponent } from './creature-resistances/creature-resistances.component';
 import { InventoryNeckaccesorySelectComponent } from './inventory/inventory-neckaccesory-select/inventory-neckaccesory-select.component';
 import { InventoryRingSelectComponent } from './inventory/inventory-ring-select/inventory-ring-select.component';
+import { AttackDetailsComponent } from './attack-details/attack-details.component';
+import {PanelModule} from 'primeng/panel';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent],
+  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent],
   exports: [
-    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent
+    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent
   ],
   imports: [
     CommonModule,
     FieldsetModule,
     AutoCompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PanelModule,
+    FlexLayoutModule
   ]
 })
 export class CreaturesSharedModule { }

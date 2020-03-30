@@ -5,6 +5,8 @@ import { CombatService } from './combat.service';
 import {HeroesService} from '../heroes/heroes.service';
 import {Hero} from '../shared/models/Hero.model';
 import {NewHero} from '../shared/models/NewHero.model';
+import {AttackResult} from '../shared/models/AttackResult.model';
+import {AttackDetails} from '../shared/models/AttackDetails.model';
 
 @Component({
   selector: 'loh-combat',
@@ -12,7 +14,7 @@ import {NewHero} from '../shared/models/NewHero.model';
   styleUrls: ['./combat.component.css']
 })
 export class CombatComponent implements OnInit {
-  x;
+  attackDetails: AttackDetails;
   heroes: NewHero[] = [];
   monsters: NewHero[] = [];
   heroesTargets: NewHero[] = [];
@@ -28,7 +30,7 @@ export class CombatComponent implements OnInit {
   simulateAttack() {
     this._combatService.fullAttackSimulated(this.heroes[0].id, this.heroes[0].id).subscribe((val) => {
       console.log(val);
-      this.x = val;
+      this.attackDetails = val.attackDetails;
     });
   }
 
@@ -45,7 +47,7 @@ export class CombatComponent implements OnInit {
   heroFullAttack(index: number) {
     this._combatService.fullAttack(this.heroes[index].id, this.heroesTargets[index].id).subscribe((val) => {
       console.log(val);
-      this.x = val;
+      this.attackDetails = val.attackDetails;
     });
   }
 
