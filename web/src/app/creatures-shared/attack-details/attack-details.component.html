@@ -1,7 +1,6 @@
 
 
-<p-panel header="Title">
-  <ng-container *ngIf="attackDetails.mainWeaponAttackResult">
+<p-panel header="Main Weapon Attack" *ngIf="attackDetails.mainWeaponAttackResult">
     <div  fxLayout="row" fxLayoutGap="12px">
       <div>Rolls</div>
       <div *ngFor="let roll of attackDetails.mainWeaponAttackResult.rolls">{{roll}}</div>
@@ -11,10 +10,37 @@
     <div>Hits: {{attackDetails.mainWeaponAttackResult.hits}}</div>
     <div>Critical Hits: {{attackDetails.mainWeaponAttackResult.criticalHits}}</div>
     <div>Critical Misses: {{attackDetails.mainWeaponAttackResult.criticalMisses}}</div>
-    <div>Crude Damages: </div><div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.crudeDamage}}</div>
+    <div fxLayout="row" fxLayoutGap="8px">
+      <div>Crude Damages: </div>
+      <div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.crudeDamage}}</div>
+    </div>
     <div>Damages Bonus: {{attackDetails.mainWeaponAttackResult.damageDetails.damageBonus}}</div>
-    <div>Damages: </div><div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.reducedDamage}}</div>
+    <div fxLayout="row" fxLayoutGap="8px">
+      <div>Damages: </div>
+      <div *ngFor="let damageResult of attackDetails.mainWeaponAttackResult.damageDetails.damages">{{damageResult.reducedDamage}}</div>
+    </div>
     <div>Defense: {{attackDetails.defense}}</div>
     <div>Total Damage: {{attackDetails.mainWeaponAttackResult.totalDamage}}</div>
-  </ng-container>
+</p-panel>
+<p-panel header="Off Weapon Attack" *ngIf="attackDetails.offWeaponAttackResult">
+    <div  fxLayout="row" fxLayoutGap="12px">
+      <div>Rolls</div>
+      <div *ngFor="let roll of attackDetails.offWeaponAttackResult.rolls">{{roll}}</div>
+    </div>
+    <div>Hit Bonus: {{attackDetails.offWeaponAttackResult.hitBonus}}</div>
+    <div>Evasion: {{attackDetails.evasion}}</div>
+    <div>Hits: {{attackDetails.offWeaponAttackResult.hits}}</div>
+    <div>Critical Hits: {{attackDetails.offWeaponAttackResult.criticalHits}}</div>
+    <div>Critical Misses: {{attackDetails.offWeaponAttackResult.criticalMisses}}</div>
+    <div fxLayout="row" fxLayoutGap="8px">
+      <div>Crude Damages: </div>
+      <div *ngFor="let damageResult of attackDetails.offWeaponAttackResult.damageDetails.damages">{{damageResult.crudeDamage}}</div>
+    </div>
+    <div>Damages Bonus: {{attackDetails.offWeaponAttackResult.damageDetails.damageBonus}}</div>
+    <div fxLayout="row" fxLayoutGap="8px">
+      <div>Damages: </div>
+      <div *ngFor="let damageResult of attackDetails.offWeaponAttackResult.damageDetails.damages">{{damageResult.reducedDamage}}</div>
+    </div>
+    <div>Defense: {{attackDetails.defense}}</div>
+    <div>Total Damage: {{attackDetails.offWeaponAttackResult.totalDamage}}</div>
 </p-panel>

@@ -40,7 +40,7 @@ public class AttackService {
                 hitBonus,
                 damageBonus,
                 target.getStatus().getEvasion(),
-                attacker.getOffWeaponAttributes().getAttackComplexity() + 1,
+                attacker.getOffWeaponAttributes().getAttackComplexity(),
                 target.getStatus().getDodge(),
                 target.getStatus().getDefense()
         );

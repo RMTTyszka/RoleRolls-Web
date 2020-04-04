@@ -92,7 +92,7 @@ public class WeaponTest {
             weaponTestResult.setHits(attackDetails.getMainWeaponAttackResult().getHits());
             weaponTestResult.setNumberOfAttacks(attackDetails.getMainWeaponAttackResult().getNumberOfAttacks());
         }
-        if (attackDetails.getOffWeaponAttackResult().getHits() != null && attackDetails.getOffWeaponAttackResult().getHits() > 0) {
+        if (attackDetails.getOffWeaponAttackResult() != null && attackDetails.getOffWeaponAttackResult().getHits() != null && attackDetails.getOffWeaponAttackResult().getHits() > 0) {
             weaponTestResult.damages.add(attackDetails.getOffWeaponAttackResult().getTotalDamage());
             weaponTestResult.setHits(weaponTestResult.getHits() + attackDetails.getOffWeaponAttackResult().getHits());
             weaponTestResult.setNumberOfAttacks(weaponTestResult.getNumberOfAttacks() + attackDetails.getOffWeaponAttackResult().getNumberOfAttacks());
