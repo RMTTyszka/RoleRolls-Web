@@ -1,16 +1,31 @@
 package com.loh.context;
 
-import javax.persistence.*;
-import java.util.List;
+import com.loh.creatures.heroes.Hero;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Player extends com.loh.shared.Entity {
 
+	@Getter
+	@Setter
 	private String name;
-	
-	@ElementCollection
-	@CollectionTable()
-	private List<Campaign> campaign;
+
+	@ManyToMany
+	@Getter
+	@Setter
+	private Set<Campaign> campaigns = new HashSet<>();
+
+	@OneToMany
+	@Getter
+	@Setter
+	private Set<Hero> heroes = new HashSet<>();
 	
 	public Player() {
 		
@@ -18,14 +33,5 @@ public class Player extends com.loh.shared.Entity {
 	public Player(String name) {
 		this.name = name;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 
 }

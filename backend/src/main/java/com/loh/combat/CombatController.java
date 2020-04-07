@@ -29,6 +29,18 @@ public class CombatController {
 
 		return dto;
 	}
+	@GetMapping(path="/getInitiative")
+	public @ResponseBody CombatActionDto getInitiative(@RequestParam UUID attackerId, @RequestParam UUID targetId, @RequestParam boolean isFullAttack) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		AttackDetails attackDetails = combatService.processFullAttack(attackerId, targetId);
+		CombatActionDto dto = new CombatActionDto(attackDetails, 0, 0, 0);
+
+		return dto;
+	}
+	@PostMapping(path="/startCombat")
+	public @ResponseBody Combat getInitiative(@RequestBody Combat combat) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		Combat startedCombat = combatService.startCombat(combat);
+		return startedCombat;
+	}
 	
 	
 }

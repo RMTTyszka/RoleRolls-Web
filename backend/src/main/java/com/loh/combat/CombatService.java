@@ -10,12 +10,13 @@ import java.util.UUID;
 @Service
 public class CombatService {
 
-
     @Autowired
     private AttackService attackService;
 
     @Autowired
     private CreatureRepository creatureRepository;
+    @Autowired
+    private CombatRepository combatRepository;
 
     public AttackDetails processFullAttack(Creature attacker, Creature target) {
 
@@ -32,5 +33,10 @@ public class CombatService {
         creatureRepository.save(attacker);
 
         return attackDetails;
+    }
+
+    public Combat startCombat(Combat combat) {
+        combat = combatRepository.save(combat);
+        return combat;
     }
 }

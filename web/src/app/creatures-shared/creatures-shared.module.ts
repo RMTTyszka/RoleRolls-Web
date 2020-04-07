@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryArmorSelectComponent } from './inventory/inventory-armor-select/inventory-armor-select.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FieldsetModule} from 'primeng/fieldset';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BaseInventorySelectComponent } from './inventory/base-inventory-select/base-inventory-select.component';
 import { InventoryWeaponSelectComponent } from './inventory/inventory-weapon-select/inventory-weapon-select.component';
 import { InventoryGlovesSelectComponent } from './inventory/inventory-glove-select/inventory-gloves-select.component';
@@ -15,11 +15,13 @@ import { InventoryRingSelectComponent } from './inventory/inventory-ring-select/
 import { AttackDetailsComponent } from './attack-details/attack-details.component';
 import {PanelModule} from 'primeng/panel';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { CombatCreatureSelectComponent } from './combat-creature-select/combat-creature-select.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent],
+  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent],
   exports: [
     InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent
   ],
@@ -29,7 +31,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     AutoCompleteModule,
     ReactiveFormsModule,
     PanelModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DropdownModule,
+    FormsModule
   ]
 })
 export class CreaturesSharedModule { }

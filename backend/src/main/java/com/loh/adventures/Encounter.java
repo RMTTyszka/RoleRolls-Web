@@ -1,10 +1,11 @@
 package com.loh.adventures;
 
 import com.loh.creatures.heroes.Hero;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +13,15 @@ import java.util.List;
 public class Encounter extends com.loh.shared.Entity {
 
 	private Integer level;
-	
-	private String name;
-	
-	@ElementCollection
-	@CollectionTable()
+
+	@OneToMany
+	@Getter
+	@Setter
 	private List<Hero> monsters = new ArrayList<>();
 
-	@ElementCollection
-	@CollectionTable()
+	@OneToMany
+	@Getter
+	@Setter
 	private List<Enviroment> enviroments;
 
 	public List<Hero> getMonsters() {
@@ -31,13 +32,7 @@ public class Encounter extends com.loh.shared.Entity {
 		this.monsters = monsters;
 	}
 
-	public List<Enviroment> getEnviroments() {
-		return enviroments;
-	}
 
-	public void setEnviroments(List<Enviroment> enviroments) {
-		this.enviroments = enviroments;
-	}
 
 	public Integer getLevel() {
 		return level;
@@ -47,11 +42,4 @@ public class Encounter extends com.loh.shared.Entity {
 		this.level = level;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }

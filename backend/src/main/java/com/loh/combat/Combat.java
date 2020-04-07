@@ -1,6 +1,7 @@
 package com.loh.combat;
 
 import com.loh.creatures.heroes.Hero;
+import com.loh.creatures.monsters.Monster;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -13,9 +14,9 @@ public class Combat extends com.loh.shared.Entity {
 	private String name;
 	
 	@OneToMany
-	private List<Hero> monsters = new ArrayList<Hero>();
+	private List<Monster> monsters = new ArrayList<>();
 	@OneToMany
-	private List<Hero> heroes = new ArrayList<Hero>();
+	private List<Hero> heroes = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -23,11 +24,11 @@ public class Combat extends com.loh.shared.Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Hero> getMonsters() {
+	public List<Monster> getMonsters() {
 		return monsters;
 	}
 
-	public void setMonsters(List<Hero> monsters) {
+	public void setMonsters(List<Monster> monsters) {
 		this.monsters = monsters;
 	}
 	public List<Hero> getHeroes() {

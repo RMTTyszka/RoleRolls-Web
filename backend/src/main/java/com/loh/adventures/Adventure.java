@@ -1,17 +1,23 @@
 package com.loh.adventures;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Adventure extends com.loh.shared.Entity {
 
 	private String name;
 	
-	@ElementCollection
-	@CollectionTable()
-	private List<Place> places = new ArrayList<Place>();
+
+	@OneToMany
+	@Getter
+	@Setter
+	private Set<Place> places = new HashSet<>();
 
 	public String getName() {
 		return name;

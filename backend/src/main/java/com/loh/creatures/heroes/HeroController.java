@@ -4,6 +4,8 @@ package com.loh.creatures.heroes;
 import com.loh.creatures.heroes.inventory.NewHeroDto;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +28,12 @@ public class HeroController {
     @GetMapping(path="/allFiltered")
     public @ResponseBody
     Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter) {
-
-        Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())));
+        Pageable paged = PageRequest.of(0, 30);
+        Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())), paged).getContent();
         return heroes;
     }
+
+
     // This returns a JSON or XML with the users
     @GetMapping(path="/find")
     public @ResponseBody
