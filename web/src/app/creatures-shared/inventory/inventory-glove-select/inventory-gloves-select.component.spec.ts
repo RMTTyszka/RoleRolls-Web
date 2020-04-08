@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InventoryGlovesSelectComponent } from './inventory-gloves-select.component';
+import {InventoryGlovesSelectComponent} from './inventory-gloves-select.component';
 
 describe('InventoryGloveSelectComponent', () => {
   let component: InventoryGlovesSelectComponent;

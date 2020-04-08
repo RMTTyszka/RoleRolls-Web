@@ -1,8 +1,8 @@
-import { Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs';
-import { LOH_API } from '../loh.api';
-import { BaseCrudServiceComponent } from '../shared/base-service/base-crud-service.component';
-import { Power } from '../shared/models/Power.model';
+import {Injectable, Injector} from '@angular/core';
+import {Observable} from 'rxjs';
+import {LOH_API} from '../loh.api';
+import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
+import {Power} from '../shared/models/Power.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,8 +1,8 @@
-import { OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
-import { Entity } from '../models/Entity.model';
-import { BaseCrudServiceComponent } from '../base-service/base-crud-service.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import {AfterViewInit, Injector, OnInit, ViewChild} from '@angular/core';
+import {Entity} from '../models/Entity.model';
+import {BaseCrudServiceComponent} from '../base-service/base-crud-service.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog} from '@angular/material/dialog';
 
 export class BaseListComponent<T extends Entity> implements OnInit, AfterViewInit {
 

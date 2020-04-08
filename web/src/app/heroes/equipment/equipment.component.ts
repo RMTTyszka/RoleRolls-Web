@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {createForm} from '../../shared/EditorExtension';
 import {Equipment} from '../../shared/models/Equipment.model';
-import {map, tap} from 'rxjs/operators';
 import {Inventory} from '../../shared/models/Inventory.model';
 import {ArmorInstance} from '../../shared/models/ArmorInstance.model';
 import {WeaponInstance} from '../../shared/models/WeaponInstance.model';

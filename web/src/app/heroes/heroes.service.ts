@@ -1,6 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
-import { BaseEntityService } from '../shared/base-entity-service';
-import { Hero } from '../shared/models/Hero.model';
+import {Injectable, Injector} from '@angular/core';
+import {BaseEntityService} from '../shared/base-entity-service';
 import {NewHero} from '../shared/models/NewHero.model';
 
 @Injectable({

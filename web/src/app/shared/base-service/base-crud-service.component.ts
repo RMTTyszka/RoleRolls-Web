@@ -1,12 +1,12 @@
-import { OnInit, Injector } from '@angular/core';
+import {Injector, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable, Subject, of} from 'rxjs';
-import { Entity } from '../models/Entity.model';
-import { LOH_API } from '../../loh.api';
+import {Observable, Subject} from 'rxjs';
+import {Entity} from '../models/Entity.model';
+import {LOH_API} from '../../loh.api';
 import {PagedAndFilteredDto} from '../dtos/PagedAndFilteredDto';
-import {tap, catchError} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
-import { isNullOrUndefined } from 'util';
+import {isNullOrUndefined} from 'util';
 
 export class BaseCrudServiceComponent<T extends Entity> implements OnInit {
 

@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RolesListComponent } from './roles-list/roles-list.component';
-import { RolesEditorComponent } from './roles-editor/roles-editor.component';
-import { SharedModule } from '../shared/shared.module';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RolesListComponent} from './roles-list/roles-list.component';
+import {RolesEditorComponent} from './roles-editor/roles-editor.component';
+import {SharedModule} from '../shared/shared.module';
+import {RouterModule, Routes} from '@angular/router';
 
 export const routes: Routes = [
   {path: '', component: RolesListComponent},

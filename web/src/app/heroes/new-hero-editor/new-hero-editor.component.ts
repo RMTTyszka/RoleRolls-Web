@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NewHeroService} from '../new-hero.service';
 import {DynamicDialogConfig, DynamicDialogRef, MessageService} from 'primeng/api';
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
-import {FormArray, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {DataService} from '../../shared/data.service';
 import {NewHero} from '../../shared/models/NewHero.model';
 import {take} from 'rxjs/operators';

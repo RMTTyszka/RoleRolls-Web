@@ -1,10 +1,10 @@
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable} from 'rxjs';
-import { LOH_API } from '../loh.api';
-import { BaseCrudServiceComponent } from './base-service/base-crud-service.component';
-import { Entity } from './models/Entity.model';
-import { LevelDetails } from './dtos/LevelDetails';
+import {Injectable, Injector} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {LOH_API} from '../loh.api';
+import {BaseCrudServiceComponent} from './base-service/base-crud-service.component';
+import {Entity} from './models/Entity.model';
+import {LevelDetails} from './dtos/LevelDetails';
 
 @Injectable({
   providedIn: 'root'

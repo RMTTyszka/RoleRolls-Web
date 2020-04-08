@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseWeaponService } from '../base-weapon.service';
-import { BaseWeapon } from 'src/app/shared/models/BaseWeapon.model';
-import { ModalEntityAction } from 'src/app/shared/dtos/ModalEntityData';
-import { FormGroup } from '@angular/forms';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/api';
+import {Component, OnInit} from '@angular/core';
+import {BaseWeaponService} from '../base-weapon.service';
+import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
+import {ModalEntityAction} from 'src/app/shared/dtos/ModalEntityData';
+import {FormGroup} from '@angular/forms';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/api';
 
 @Component({
   selector: 'loh-base-weapons-editor',

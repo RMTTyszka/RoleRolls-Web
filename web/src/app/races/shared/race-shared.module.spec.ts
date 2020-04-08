@@ -1,4 +1,4 @@
-import { RaceSharedModule } from './race-shared.module';
+import {RaceSharedModule} from './race-shared.module';
 
 describe('SharedModule', () => {
   let sharedModule: RaceSharedModule;

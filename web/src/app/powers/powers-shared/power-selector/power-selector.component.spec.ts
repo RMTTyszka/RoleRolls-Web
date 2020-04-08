@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PowerSelectorComponent } from './power-selector.component';
+import {PowerSelectorComponent} from './power-selector.component';
 
 describe('PowerSelectorComponent', () => {
   let component: PowerSelectorComponent;

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CmGridComponent } from './cm-grid.component';
+import {CmGridComponent} from './cm-grid.component';
 
 describe('CbGridComponent', () => {
   let component: CmGridComponent;

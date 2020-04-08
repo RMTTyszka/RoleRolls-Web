@@ -1,8 +1,8 @@
-import { OnInit, Injector } from '@angular/core';
-import { BaseListComponent } from '../../base-list/base-list.component';
-import { Entity } from '../../models/Entity.model';
-import { MatDialogRef } from '@angular/material/dialog';
-import { BaseCrudServiceComponent } from '../../base-service/base-crud-service.component';
+import {Injector, OnInit} from '@angular/core';
+import {BaseListComponent} from '../../base-list/base-list.component';
+import {Entity} from '../../models/Entity.model';
+import {MatDialogRef} from '@angular/material/dialog';
+import {BaseCrudServiceComponent} from '../../base-service/base-crud-service.component';
 
 export class BaseSelectorComponent<T extends Entity> extends BaseListComponent<T> implements OnInit {
 

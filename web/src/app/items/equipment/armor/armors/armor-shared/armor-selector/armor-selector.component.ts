@@ -3,7 +3,7 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {map, tap} from 'rxjs/operators';
 import {createForm} from '../../../../../../shared/EditorExtension';
 import {ArmorService} from '../../armor.service';
-import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
+import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-selector',

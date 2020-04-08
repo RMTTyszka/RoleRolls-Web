@@ -1,8 +1,8 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { PowersService } from '../powers.service';
-import { BaseListComponent } from 'src/app/shared/base-list/base-list.component';
-import { Power } from 'src/app/shared/models/Power.model';
-import { PowerEditorComponent } from './power-editor/power-editor.component';
+import {Component, Injector, OnInit} from '@angular/core';
+import {PowersService} from '../powers.service';
+import {BaseListComponent} from 'src/app/shared/base-list/base-list.component';
+import {Power} from 'src/app/shared/models/Power.model';
+import {PowerEditorComponent} from './power-editor/power-editor.component';
 
 @Component({
   selector: 'loh-powers',

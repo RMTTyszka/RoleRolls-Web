@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BaseWeaponsListComponent } from './base-weapons-list.component';
+import {BaseWeaponsListComponent} from './base-weapons-list.component';
 
 describe('BaseWeaponsListComponent', () => {
   let component: BaseWeaponsListComponent;

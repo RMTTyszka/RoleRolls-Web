@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MonstersService } from '../monsters/monsters.service';
-import { Monster } from '../shared/models/Monster.model';
-import { CombatService } from './combat.service';
+import {Component, OnInit} from '@angular/core';
+import {CombatService} from './combat.service';
 import {HeroesService} from '../heroes/heroes.service';
-import {Hero} from '../shared/models/Hero.model';
 import {NewHero} from '../shared/models/NewHero.model';
-import {AttackResult} from '../shared/models/AttackResult.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
+import {Combat} from '../shared/models/Combat.model';
 
 @Component({
   selector: 'loh-combat',
@@ -14,11 +11,8 @@ import {AttackDetails} from '../shared/models/AttackDetails.model';
   styleUrls: ['./combat.component.css']
 })
 export class CombatComponent implements OnInit {
+  combat: Combat = new Combat();
   attackDetails: AttackDetails;
-  heroes: NewHero[] = [];
-  monsters: NewHero[] = [];
-  heroesTargets: NewHero[] = [];
-  monstersTargets: NewHero[] = [];
   constructor(
     private heroService: HeroesService,
     private _combatService: CombatService
@@ -34,6 +28,15 @@ export class CombatComponent implements OnInit {
     });
   }
 
+  get heroesTargets() {
+    return this.heroes.concat(this.monsters);
+  }
+  get heroes() {
+    return this.combat.heroes;
+  }
+  get monsters() {
+    return this.combat.monsters;
+  }
   heroSelected(hero: NewHero, i: number) {
     this.heroes.splice(i, 1, hero);
   }

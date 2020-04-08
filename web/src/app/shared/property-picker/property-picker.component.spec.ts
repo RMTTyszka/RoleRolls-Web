@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PropertyPickerComponent } from './property-picker.component';
+import {PropertyPickerComponent} from './property-picker.component';
 
 describe('PropertyPickerComponent', () => {
   let component: PropertyPickerComponent;

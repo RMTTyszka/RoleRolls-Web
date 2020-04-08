@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PowerManagementComponent } from './power-management.component';
+import {PowerManagementComponent} from './power-management.component';
 
 describe('PowerManagementComponent', () => {
   let component: PowerManagementComponent;

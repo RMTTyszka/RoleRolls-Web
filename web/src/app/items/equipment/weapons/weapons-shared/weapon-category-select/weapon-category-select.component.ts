@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { WeaponCategory, WeaponType } from 'src/app/shared/models/WeaponCategory.model';
-import { FormGroup, FormControl } from '@angular/forms';
-import { WeaponCategoryService } from '../weapon-category.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {WeaponCategory, WeaponType} from 'src/app/shared/models/WeaponCategory.model';
+import {FormControl, FormGroup} from '@angular/forms';
+import {WeaponCategoryService} from '../weapon-category.service';
 
 @Component({
   selector: 'loh-weapon-category-select',

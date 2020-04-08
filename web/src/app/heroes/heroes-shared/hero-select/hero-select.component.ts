@@ -1,13 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
-import {Race} from '../../../shared/models/Race.model';
-import {RaceService} from '../../../races/race-editor/race.service';
-import {map, tap} from 'rxjs/operators';
-import {createForm} from '../../../shared/EditorExtension';
-import {Hero} from '../../../shared/models/Hero.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {map} from 'rxjs/operators';
 import {NewHeroService} from '../../new-hero.service';
 import {NewHero} from '../../../shared/models/NewHero.model';
-import {OverlayPanel} from 'primeng/overlaypanel';
 
 @Component({
   selector: 'loh-hero-select',

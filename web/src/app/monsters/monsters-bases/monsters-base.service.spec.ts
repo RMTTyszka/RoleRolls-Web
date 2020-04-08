@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { MonstersBaseService } from './monsters-base.service';
+import {MonstersBaseService} from './monsters-base.service';
 
 describe('MonstersBaseService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

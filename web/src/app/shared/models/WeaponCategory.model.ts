@@ -1,5 +1,4 @@
-import { AttributeEnum } from './Attributes.model';
-import { Entity } from './Entity.model';
+import {Entity} from './Entity.model';
 
 export class WeaponCategory extends Entity {
     public weaponType: WeaponType;

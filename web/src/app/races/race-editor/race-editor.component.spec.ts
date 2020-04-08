@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RaceEditorComponent } from './race-editor.component';
+import {RaceEditorComponent} from './race-editor.component';
 
 describe('RaceEditorComponent', () => {
   let component: RaceEditorComponent;

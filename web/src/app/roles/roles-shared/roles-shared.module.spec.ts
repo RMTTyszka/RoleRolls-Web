@@ -1,4 +1,4 @@
-import { RolesSharedModule } from './roles-shared.module';
+import {RolesSharedModule} from './roles-shared.module';
 
 describe('RolesSharedModule', () => {
   let rolesSharedModule: RolesSharedModule;

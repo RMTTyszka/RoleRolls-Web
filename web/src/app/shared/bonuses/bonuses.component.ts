@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DataService } from '../data.service';
-import { MatDialog } from '@angular/material/dialog';
-import { PropertyPickerComponent, IPropertyPickerInput, IPropertyPickerOutput } from '../property-picker/property-picker.component';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Bonus } from '../models/Bonus.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DataService} from '../data.service';
+import {MatDialog} from '@angular/material/dialog';
+import {IPropertyPickerInput, IPropertyPickerOutput, PropertyPickerComponent} from '../property-picker/property-picker.component';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {Bonus} from '../models/Bonus.model';
 
 @Component({
   selector: 'loh-bonuses',

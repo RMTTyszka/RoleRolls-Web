@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ModalEntityAction} from '../../../../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/api';
 import {ArmorService} from '../armor.service';
-import { ArmorModel } from 'src/app/shared/models/ArmorModel.model';
+import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-editor',

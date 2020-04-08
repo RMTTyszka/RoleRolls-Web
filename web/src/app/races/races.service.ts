@@ -1,7 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 
-import { BaseCrudServiceComponent } from '../shared/base-service/base-crud-service.component';
-import { Race } from '../shared/models/Race.model';
+import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
+import {Race} from '../shared/models/Race.model';
 
 @Injectable({
   providedIn: 'root'

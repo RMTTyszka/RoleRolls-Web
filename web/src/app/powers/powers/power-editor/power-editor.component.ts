@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector, Inject } from '@angular/core';
-import { BaseCreatorComponent } from 'src/app/shared/base-creator/base-creator.component';
-import { Power, PowerCategory } from 'src/app/shared/models/Power.model';
-import { PowerService } from '../power.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Race } from 'src/app/shared/models/Race.model';
+import {Component, Inject, Injector, OnInit} from '@angular/core';
+import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {Power, PowerCategory} from 'src/app/shared/models/Power.model';
+import {PowerService} from '../power.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Race} from 'src/app/shared/models/Race.model';
 
 @Component({
   selector: 'loh-power-editor',

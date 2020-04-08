@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PowerEditorComponent } from './power-editor.component';
+import {PowerEditorComponent} from './power-editor.component';
 
 describe('PowerEditorComponent', () => {
   let component: PowerEditorComponent;

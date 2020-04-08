@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {CreatureStatus} from '../../shared/models/CreatureStatus.model';
 
 @Component({

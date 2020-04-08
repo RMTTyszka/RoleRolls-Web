@@ -1,7 +1,6 @@
-import { Entity } from '../models/Entity.model';
-import { ArmorInstance } from '../models/ArmorInstance.model';
-import { ItemInstance } from '../models/ItemInstance.model';
-import { WeaponInstance } from '../models/WeaponInstance.model';
+import {ArmorInstance} from '../models/ArmorInstance.model';
+import {ItemInstance} from '../models/ItemInstance.model';
+import {WeaponInstance} from '../models/WeaponInstance.model';
 import {GloveInstance} from '../models/GloveInstance.model';
 import {BeltInstance} from '../models/BeltInstance.model';
 import {HeadpieceInstance} from '../models/HeadpieceInstance.model';

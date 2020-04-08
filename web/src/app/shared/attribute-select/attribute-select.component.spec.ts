@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AttributeSelectComponent } from './attribute-select.component';
+import {AttributeSelectComponent} from './attribute-select.component';
 
 describe('AttributeSelectComponent', () => {
   let component: AttributeSelectComponent;

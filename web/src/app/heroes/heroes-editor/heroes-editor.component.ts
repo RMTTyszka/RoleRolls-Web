@@ -1,14 +1,13 @@
-import { Component, OnInit, Injector, Inject, OnDestroy } from '@angular/core';
-import { BaseCreatorComponent } from 'src/app/shared/base-creator/base-creator.component';
-import { Hero } from 'src/app/shared/models/Hero.model';
-import { HeroesService } from '../heroes.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DataService } from 'src/app/shared/data.service';
-import { RaceModalSelectorComponent } from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
-import { RolesSelectModalComponent } from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
-import { FormGroup } from '@angular/forms';
-import { Race } from 'src/app/shared/models/Race.model';
-import { Bonus } from 'src/app/shared/models/Bonus.model';
+import {Component, Inject, Injector, OnDestroy, OnInit} from '@angular/core';
+import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {HeroesService} from '../heroes.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {DataService} from 'src/app/shared/data.service';
+import {RaceModalSelectorComponent} from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
+import {RolesSelectModalComponent} from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
+import {FormGroup} from '@angular/forms';
+import {Race} from 'src/app/shared/models/Race.model';
+import {Bonus} from 'src/app/shared/models/Bonus.model';
 import {NewHero} from '../../shared/models/NewHero.model';
 
 @Component({

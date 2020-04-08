@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { WeaponsTestComponent } from './weapons-test/weapons-test.component';
-import { Routes, RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {WeaponsTestComponent} from './weapons-test/weapons-test.component';
+import {RouterModule, Routes} from '@angular/router';
+import {SharedModule} from '../shared/shared.module';
 
 export const routes: Routes = [
   {path: '', component: WeaponsTestComponent},

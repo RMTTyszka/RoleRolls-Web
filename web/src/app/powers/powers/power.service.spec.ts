@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { PowerService } from './power.service';
+import {PowerService} from './power.service';
 
 describe('PowerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

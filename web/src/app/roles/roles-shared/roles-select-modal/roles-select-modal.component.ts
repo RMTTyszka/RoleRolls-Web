@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { Role } from 'src/app/shared/models/Role.model';
-import { BaseSelectorComponent } from 'src/app/shared/base-selector/base-selector/base-selector.component';
-import { RolesService } from '../../roles.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import {Component, Injector, OnInit} from '@angular/core';
+import {Role} from 'src/app/shared/models/Role.model';
+import {BaseSelectorComponent} from 'src/app/shared/base-selector/base-selector/base-selector.component';
+import {RolesService} from '../../roles.service';
+import {MatDialogRef} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'loh-roles-selector',

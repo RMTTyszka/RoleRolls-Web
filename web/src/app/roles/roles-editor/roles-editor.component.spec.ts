@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RolesEditorComponent } from './roles-editor.component';
+import {RolesEditorComponent} from './roles-editor.component';
 
 describe('RolesEditorComponent', () => {
   let component: RolesEditorComponent;

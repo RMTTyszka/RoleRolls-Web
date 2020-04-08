@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormGroup, FormGroupDirective} from '@angular/forms';
+import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {Inventory} from '../../shared/models/Inventory.model';
 
 @Component({

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CombatCreatureSelectComponent } from './combat-creature-select.component';
+import {CombatCreatureSelectComponent} from './combat-creature-select.component';
 
 describe('CombatCreatureSelectComponent', () => {
   let component: CombatCreatureSelectComponent;
