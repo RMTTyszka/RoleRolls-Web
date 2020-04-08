@@ -15,6 +15,8 @@ public class CombatController {
 
 	@Autowired
 	private CombatService combatService;
+	@Autowired
+	private CombatRepository combatRepository;
 
 	@GetMapping(path="/fullAttack")
 	public @ResponseBody CombatActionDto getFullAttack(@RequestParam UUID attackerId, @RequestParam UUID targetId) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -40,6 +42,10 @@ public class CombatController {
 	public @ResponseBody Combat getInitiative(@RequestBody Combat combat) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		Combat startedCombat = combatService.startCombat(combat);
 		return startedCombat;
+	}
+	@GetMapping(path="/getCombat")
+	public @ResponseBody Combat getInitiative(@RequestParam UUID id) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		return combatRepository.findById(id).get();
 	}
 	
 	

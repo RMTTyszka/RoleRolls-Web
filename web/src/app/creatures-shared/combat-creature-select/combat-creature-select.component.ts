@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NewHero} from '../../shared/models/NewHero.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Hero} from '../../shared/models/NewHero.model';
+import {Creature} from '../../shared/models/Creature.model';
 
 @Component({
   selector: 'loh-combat-creature-select',
@@ -8,8 +9,9 @@ import {NewHero} from '../../shared/models/NewHero.model';
 })
 export class CombatCreatureSelectComponent implements OnInit {
 
-  @Input() creaturesOnCombat: NewHero[] = [];
-  selectedCreature: NewHero;
+  @Input() creaturesOnCombat: Creature[] = [];
+  selectedCreature: Creature;
+  @Output() creatureSelected = new EventEmitter<Creature>();
   constructor() { }
 
   ngOnInit() {

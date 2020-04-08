@@ -7,7 +7,7 @@ import {DialogService} from 'primeng/api';
 import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.component';
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';
-import {NewHero} from '../../shared/models/NewHero.model';
+import {Hero} from '../../shared/models/NewHero.model';
 
 @Component({
   selector: 'loh-heroes-list',
@@ -15,7 +15,7 @@ import {NewHero} from '../../shared/models/NewHero.model';
   styleUrls: ['./heroes-list.component.css'],
   providers: [DialogService]
 })
-export class HeroesListComponent extends BaseListComponent<NewHero> implements OnInit {
+export class HeroesListComponent extends BaseListComponent<Hero> implements OnInit {
 
   constructor(
     injector: Injector,
@@ -40,9 +40,9 @@ export class HeroesListComponent extends BaseListComponent<NewHero> implements O
       data: {
         action: ModalEntityAction.create
       }
-    }).onClose.subscribe((createdHero: NewHero) => {
+    }).onClose.subscribe((createdHero: Hero) => {
       if (createdHero) {
-        this.service.getEntity(createdHero.id).subscribe((hero: NewHero) => {
+        this.service.getEntity(createdHero.id).subscribe((hero: Hero) => {
           this.updateHero(hero);
         })
       }

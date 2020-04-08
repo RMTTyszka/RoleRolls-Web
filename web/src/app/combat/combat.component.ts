@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {CombatService} from './combat.service';
 import {HeroesService} from '../heroes/heroes.service';
-import {NewHero} from '../shared/models/NewHero.model';
+import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/Combat.model';
+import {Monster} from '../shared/models/Monster.model';
+import {Creature} from '../shared/models/Creature.model';
 
 @Component({
   selector: 'loh-combat',
@@ -13,6 +15,7 @@ import {Combat} from '../shared/models/Combat.model';
 export class CombatComponent implements OnInit {
   combat: Combat = new Combat();
   attackDetails: AttackDetails;
+  attackTargetsByIds: Map<string, string> = new Map<string, string>();
   constructor(
     private heroService: HeroesService,
     private _combatService: CombatService
@@ -21,14 +24,10 @@ export class CombatComponent implements OnInit {
   ngOnInit() {
   }
 
-  simulateAttack() {
-    this._combatService.fullAttackSimulated(this.heroes[0].id, this.heroes[0].id).subscribe((val) => {
-      console.log(val);
-      this.attackDetails = val.attackDetails;
-    });
-  }
-
   get heroesTargets() {
+    return this.monsters.concat(this.heroes);
+  }
+  get monsterTargets() {
     return this.heroes.concat(this.monsters);
   }
   get heroes() {
@@ -37,25 +36,31 @@ export class CombatComponent implements OnInit {
   get monsters() {
     return this.combat.monsters;
   }
-  heroSelected(hero: NewHero, i: number) {
-    this.heroes.splice(i, 1, hero);
+  heroSelected(hero: Hero, i: number) {
+    this.heroes[i] = hero;
   }
-  heroTargetSelected(hero: NewHero, i: number) {
-    this.heroesTargets.splice(i, 1, hero);
+  heroTargetSelected(hero: Hero, target: Creature) {
+    this.attackTargetsByIds[hero.id] = target.id;
   }
-  monsterSelected(hero: NewHero, i: number) {
-    this.monsters.splice(i, 1, hero);
+  monsterTargetSelected(monster: Monster, target: Creature) {
+    this.attackTargetsByIds[monster.id] = target.id;
+  }
+  monsterSelected(monster: Monster, i: number) {
+    this.monsters[i] = monster;
   }
 
-  heroFullAttack(index: number) {
-    this._combatService.fullAttack(this.heroes[index].id, this.heroesTargets[index].id).subscribe((val) => {
+  heroFullAttack(attacker: Creature) {
+    this._combatService.fullAttack(attacker.id,  this.attackTargetsByIds[attacker.id]).subscribe((val) => {
       console.log(val);
       this.attackDetails = val.attackDetails;
     });
   }
 
   addHero() {
-    this.heroes.push(new NewHero());
+    this.heroes.push(new Hero());
+  }
+  addMonster() {
+    this.monsters.push(new Monster());
   }
 
   y() {

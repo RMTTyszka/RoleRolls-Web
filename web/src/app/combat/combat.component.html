@@ -5,16 +5,27 @@
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
         <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
-        <button pButton (click)="heroFullAttack(i)">Attack</button>
+        <button pButton (click)="heroFullAttack(hero)">Attack</button>
       </div>
       <div fxLayout="row">
         <span>Target</span>
-        <loh-hero-select (heroSelected)="heroTargetSelected($event, i)"></loh-hero-select>
+        <loh-combat-creature-select [creaturesOnCombat]="heroesTargets" (creatureSelected)="heroTargetSelected(hero, $event)"></loh-combat-creature-select>
       </div>
     </div>
   </div>
   <div fxFlex="50">
     <div>Enemies</div>
+    <button pButton (click)="addMonster()">Add Monster</button>
+    <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row">
+        <loh-hero-select [hero]="monster" (heroSelected)="monsterSelected($event, i)"></loh-hero-select>
+        <button pButton (click)="heroFullAttack(monster)">Attack</button>
+      </div>
+      <div fxLayout="row">
+        <span>Target</span>
+        <loh-combat-creature-select [creaturesOnCombat]="monsterTargets" (creatureSelected)="monsterTargetSelected(monster, $event)"></loh-combat-creature-select>
+      </div>
+    </div>
   </div>
   <div fxFlex="50">
     <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>

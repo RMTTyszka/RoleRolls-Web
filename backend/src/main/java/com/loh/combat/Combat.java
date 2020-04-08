@@ -1,5 +1,6 @@
 package com.loh.combat;
 
+import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
 import lombok.Getter;
@@ -10,33 +11,53 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Combat extends com.loh.shared.Entity {
 
 	@OneToMany
+	@Getter
+	@Setter
 	private List<Monster> monsters = new ArrayList<>();
 	@OneToMany
+	@Getter
+	@Setter
 	private List<Hero> heroes = new ArrayList<>();
 
-	public List<Monster> getMonsters() {
-		return monsters;
-	}
+	@Getter
+	@Setter
+	private Integer currentInitiative;
 
 	@ElementCollection
 	@CollectionTable()
 	@Getter
-	@Setter
-	private List<Iniciative> iniciatives;
+	private List<Initiative> initiatives;
 
-	public void setMonsters(List<Monster> monsters) {
-		this.monsters = monsters;
+
+	public Creature currentCreatureTurn() {
+		return closest(currentInitiative, initiatives.stream().filter(e -> !e.isActed()).mapToInt(e -> e.getValue()).toArray());
 	}
-	public List<Hero> getHeroes() {
-		return heroes;
+
+	public void setInitiatives(List<Initiative> initiatives) {
+		Collections.sort(initiatives);
+		this.initiatives = initiatives;
 	}
-	public void setHeroes(List<Hero> heroes) {
-		this.heroes = heroes;
+	public int closest(int of, int[] in) {
+		int min = Integer.MAX_VALUE;
+		int closest = of;
+
+		for (int v : in) {
+			final int diff = Math.abs(v - of);
+
+			if (diff < min) {
+				min = diff;
+				closest = v;
+			}
+		}
+
+		return closest;
+
 	}
-}

@@ -1,7 +1,7 @@
-import {NewHero} from './NewHero.model';
+import {Hero} from './NewHero.model';
 
 export class Iniciative
 {
-  creature: NewHero;
+  creature: Hero;
   value: number;
 }

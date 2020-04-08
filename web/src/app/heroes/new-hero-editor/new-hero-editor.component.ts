@@ -4,7 +4,7 @@ import {DynamicDialogConfig, DynamicDialogRef, MessageService} from 'primeng/api
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DataService} from '../../shared/data.service';
-import {NewHero} from '../../shared/models/NewHero.model';
+import {Hero} from '../../shared/models/NewHero.model';
 import {take} from 'rxjs/operators';
 import {Race} from '../../shared/models/Race.model';
 import {Role} from '../../shared/models/Role.model';
@@ -21,7 +21,7 @@ export class NewHeroEditorComponent  implements OnInit {
   public form = new FormGroup({});
   public attributes: string[] = [];
   public isLoading = true;
-  public entity: NewHero;
+  public entity: Hero;
   public entityId: string;
   public attributeDetailsIsOpened = false;
   private: MessageService;
@@ -42,7 +42,7 @@ export class NewHeroEditorComponent  implements OnInit {
   ngOnInit() {
     this.service.onEntityChange.pipe(
       take(1)
-    ).subscribe((entity: NewHero) => {
+    ).subscribe((entity: Hero) => {
       console.log(entity);
       this.entity = entity;
     });

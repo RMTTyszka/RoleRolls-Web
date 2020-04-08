@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {NewHeroService} from '../../new-hero.service';
-import {NewHero} from '../../../shared/models/NewHero.model';
+import {Hero} from '../../../shared/models/NewHero.model';
 
 @Component({
   selector: 'loh-hero-select',
@@ -9,9 +9,9 @@ import {NewHero} from '../../../shared/models/NewHero.model';
   styleUrls: ['./hero-select.component.css']
 })
 export class HeroSelectComponent implements OnInit {
-  @Output() heroSelected = new EventEmitter<NewHero>();
-  result: NewHero[] = [];
-  @Input() hero: NewHero;
+  @Output() heroSelected = new EventEmitter<Hero>();
+  result: Hero[] = [];
+  @Input() hero: Hero;
   constructor(
     private service: NewHeroService,
   ) {
@@ -25,7 +25,7 @@ export class HeroSelectComponent implements OnInit {
       map(resp => resp.map(hero => hero))
     ).subscribe(response => this.result = response);
   }
-  selected(hero: NewHero) {
+  selected(hero: Hero) {
     this.hero = hero;
     this.heroSelected.emit(hero);
   }

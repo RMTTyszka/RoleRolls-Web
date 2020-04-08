@@ -22,7 +22,7 @@ import {DropdownModule} from 'primeng/dropdown';
 @NgModule({
   declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent],
   exports: [
-    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent
+    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent
   ],
   imports: [
     CommonModule,
