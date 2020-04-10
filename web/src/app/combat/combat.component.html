@@ -1,4 +1,6 @@
-<div fxLayout="row wrap">
+<div fxLayout="row wrap" *ngIf="hasLoaded">
+  <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()">save</button></p-toolbar>
+  <input fxFlex="100" pInputText [(ngModel)]="combat.name" placeholder="name">
   <div fxFlex="50">
     <div>Heroes</div>
     <button pButton (click)="addHero()">Add Hero</button>

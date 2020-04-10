@@ -3,16 +3,12 @@ package com.loh.items.equipable.gloves.baseGloves;
 
 import com.loh.items.equipable.gloves.gloveModels.GloveModel;
 import com.loh.items.equipable.gloves.gloveModels.GloveModelsRepository;
-import com.loh.items.equipable.weapons.weaponModel.WeaponModel;
 import com.loh.shared.BaseCrudController;
-import com.loh.shared.BaseCrudResponse;
+import com.loh.shared.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
@@ -20,6 +16,7 @@ import java.util.UUID;
 public class GloveModelsController extends BaseCrudController<GloveModel> {
 
     @Autowired
-    protected GloveModelsRepository repository;
-
+    public GloveModelsController(GloveModelsRepository repository) {
+        super(repository);
+    }
 }

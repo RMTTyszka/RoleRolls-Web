@@ -6,22 +6,44 @@ import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/Combat.model';
 import {Monster} from '../shared/models/Monster.model';
 import {Creature} from '../shared/models/Creature.model';
+import {isNullOrUndefined} from 'util';
+import {ActivatedRoute} from '@angular/router';
+import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
+import {Initiative} from '../shared/models/Iniciative.model';
+import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
 
 @Component({
   selector: 'loh-combat',
   templateUrl: './combat.component.html',
-  styleUrls: ['./combat.component.css']
+  styleUrls: ['./combat.component.css'],
 })
 export class CombatComponent implements OnInit {
   combat: Combat = new Combat();
   attackDetails: AttackDetails;
   attackTargetsByIds: Map<string, string> = new Map<string, string>();
+  hasLoaded = false;
   constructor(
     private heroService: HeroesService,
-    private _combatService: CombatService
+    private _combatService: CombatService,
+    private routeSnapshot: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    if (this.routeSnapshot.snapshot.params['id']) {
+      this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
+        this.combat = combat;
+        this.hasLoaded = true;
+      });
+    } else {
+      this.hasLoaded = true;
+    }
+  }
+
+  get isSaved(): boolean {
+    return  !isNullOrUndefined(this.combat.id);
+  }
+  get hasStarted() {
+    return this.combat.hasStarted;
   }
 
   get heroesTargets() {
@@ -37,7 +59,16 @@ export class CombatComponent implements OnInit {
     return this.combat.monsters;
   }
   heroSelected(hero: Hero, i: number) {
-    this.heroes[i] = hero;
+    if (this.isSaved) {
+      this._combatService.addHero(new AddHeroToCombatInput(this.combat.id, hero))
+        .subscribe((initiative: Initiative) => {
+          this.heroes[i] = hero;
+          this.combat.initiatives.push(initiative);
+        });
+    } else {
+      this.heroes[i] = hero;
+    }
+
   }
   heroTargetSelected(hero: Hero, target: Creature) {
     this.attackTargetsByIds[hero.id] = target.id;
@@ -46,7 +77,15 @@ export class CombatComponent implements OnInit {
     this.attackTargetsByIds[monster.id] = target.id;
   }
   monsterSelected(monster: Monster, i: number) {
-    this.monsters[i] = monster;
+    if (this.isSaved) {
+      this._combatService.addMonster(new AddMonsterToCombatInput(this.combat.id, monster))
+        .subscribe((initiative: Initiative) => {
+          this.monsters[i] = monster;
+          this.combat.initiatives.push(initiative);
+        });
+    } else {
+      this.monsters[i] = monster;
+    }
   }
 
   heroFullAttack(attacker: Creature) {
@@ -65,6 +104,10 @@ export class CombatComponent implements OnInit {
 
   y() {
     return this.heroes.map(e => e.name);
+  }
+
+  saveCombat() {
+    this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
   }
 }
 

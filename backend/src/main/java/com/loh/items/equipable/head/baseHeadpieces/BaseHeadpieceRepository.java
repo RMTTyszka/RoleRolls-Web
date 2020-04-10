@@ -1,9 +1,7 @@
 package com.loh.items.equipable.head.baseHeadpieces;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.loh.shared.BaseRepository;
 
-import java.util.UUID;
-
-public interface BaseHeadpieceRepository extends PagingAndSortingRepository<BaseHeadpiece, UUID> {
+public interface BaseHeadpieceRepository extends BaseRepository<BaseHeadpiece> {
     BaseHeadpiece getByNameAndSystemDefaultTrue(String name);
 }

@@ -1,6 +1,5 @@
 package com.loh.creatures.heroes.equipment;
 
-import com.loh.items.EquipableInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.belts.beltInstances.BeltInstance;
 import com.loh.items.equipable.gloves.gloveInstances.GloveInstance;
@@ -14,8 +13,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.OneToOne;
-import java.util.Arrays;
-import java.util.List;
 
 @javax.persistence.Entity
 public class Equipment extends Entity {
@@ -69,10 +66,6 @@ public class Equipment extends Entity {
 	}
 	public Integer getDodge() {
 		return armor.getDodge();
-	}
-
-	public List<EquipableInstance> getListOfEquipment() {
-		return Arrays.asList(mainWeapon, armor, offWeapon, belt, neckAccessory, headpiece, ringLeft, ringRight, gloves );
 	}
 
 	public void equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {

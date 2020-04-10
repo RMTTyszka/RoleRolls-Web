@@ -1,5 +1,6 @@
 package com.loh.combat;
 
+import com.loh.shared.BaseCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,14 @@ import java.util.UUID;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/combat",  produces = "application/json; charset=UTF-8")
-public class CombatController {
-	
+public class CombatController extends BaseCrudController<Combat> {
+	@Autowired
+	public CombatController(CombatRepository repository) {
+		super(repository);
+	}
 
 	@Autowired
 	private CombatService combatService;
-	@Autowired
-	private CombatRepository combatRepository;
 
 	@GetMapping(path="/fullAttack")
 	public @ResponseBody CombatActionDto getFullAttack(@RequestParam UUID attackerId, @RequestParam UUID targetId) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -38,14 +40,26 @@ public class CombatController {
 
 		return dto;
 	}
+
 	@PostMapping(path="/startCombat")
-	public @ResponseBody Combat getInitiative(@RequestBody Combat combat) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public @ResponseBody Combat startCombat(@RequestBody Combat combat) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		Combat startedCombat = combatService.startCombat(combat);
 		return startedCombat;
 	}
-	@GetMapping(path="/getCombat")
-	public @ResponseBody Combat getInitiative(@RequestParam UUID id) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-		return combatRepository.findById(id).get();
+
+	@PostMapping(path="/addHero")
+	public @ResponseBody Initiative addHero(@RequestBody AddHeroToCombatInput input) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		Combat combat = repository.findById(input.combatId).get();
+		Initiative initiative = combat.addHero(input.hero, combatService);
+		repository.save(combat);
+		return initiative;
+	}
+	@PostMapping(path="/addMonster")
+	public @ResponseBody Initiative addMonster(@RequestBody AddMonsterToCombatInput input) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		Combat combat = repository.findById(input.combatId).get();
+		Initiative initiative = combat.addMonster(input.monster, combatService);
+		repository.save(combat);
+		return initiative;
 	}
 	
 	

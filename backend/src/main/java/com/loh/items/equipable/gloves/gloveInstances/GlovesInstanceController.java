@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GlovesInstanceController extends BaseCrudController<GloveInstance> {
 
     @Autowired
-    protected GloveInstanceRepository repository;
-
+    public GlovesInstanceController(GloveInstanceRepository repository) {
+        super(repository);
+    }
 }

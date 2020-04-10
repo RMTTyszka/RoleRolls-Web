@@ -4,11 +4,14 @@ import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service
 import {Observable} from 'rxjs';
 import {HttpParams} from '@angular/common/http';
 import {Combat} from '../shared/models/Combat.model';
+import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
+import {Initiative} from '../shared/models/Iniciative.model';
+import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CombatService extends BaseCrudServiceComponent<CombatActionDto> {
+export class CombatService extends BaseCrudServiceComponent<Combat> {
 
   path = 'combat';
   constructor(
@@ -25,11 +28,18 @@ export class CombatService extends BaseCrudServiceComponent<CombatActionDto> {
       const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId);
       return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', {params} );
   }
-  public getCombat(id: string): Observable<CombatActionDto> {
+  public getCombat(id: string): Observable<Combat> {
       const params = new HttpParams().set('id', id);
-      return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/getCombat', {params} );
+      return this.http.get<Combat>(this.serverUrl + this.path + '/getCombat', {params} );
   }
   public startCombat(combat: Combat): Observable<CombatActionDto> {
       return this.http.post<CombatActionDto>(this.serverUrl + this.path + '/getCombat', {combat} );
+  }
+  public addHero(input: AddHeroToCombatInput): Observable<Initiative> {
+      return this.http.post<Initiative>(this.serverUrl + this.path + '/addHero', input );
+  }
+
+  public addMonster(input: AddMonsterToCombatInput) {
+    return this.http.post<Initiative>(this.serverUrl + this.path + '/addMonster', input );
   }
 }

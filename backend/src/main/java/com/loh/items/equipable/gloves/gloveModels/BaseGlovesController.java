@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BaseGlovesController extends BaseCrudController<BaseGlove> {
 
     @Autowired
-    protected BaseGloveRepository repository;
-
+    public BaseGlovesController(BaseGloveRepository repository) {
+        super(repository);
+    }
 }

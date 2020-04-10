@@ -5,9 +5,15 @@ import {RouterModule, Routes} from '@angular/router';
 import {HeroesSharedModule} from '../heroes/heroes-shared/heroes-shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
+import { CombatListComponent } from './combat-list/combat-list.component';
+import {SharedModule} from '../shared/shared.module';
+import {ToolbarModule} from 'primeng/toolbar';
+import {InputTextModule} from 'primeng/inputtext';
 
 const routes: Routes = [
-  {path: '', component: CombatComponent}
+  {path: '', component: CombatListComponent},
+  {path: 'manage-combat', component: CombatComponent},
+  {path: 'manage-combat/:id', component: CombatComponent},
 ];
 
 @NgModule({
@@ -16,8 +22,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     HeroesSharedModule,
     FlexLayoutModule,
-    CreaturesSharedModule
+    CreaturesSharedModule,
+    SharedModule,
+    ToolbarModule,
+    InputTextModule
   ],
-  declarations: [CombatComponent]
+  declarations: [CombatComponent, CombatListComponent]
 })
 export class CombatModule { }

@@ -1,9 +1,7 @@
 package com.loh.items.equipable.belts.baseBelts;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.loh.shared.BaseRepository;
 
-import java.util.UUID;
-
-public interface BaseBeltsRepository extends PagingAndSortingRepository<BaseBelt, UUID> {
+public interface BaseBeltsRepository extends BaseRepository<BaseBelt> {
     BaseBelt getByNameAndSystemDefaultTrue(String name);
 }

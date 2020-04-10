@@ -1,7 +1,8 @@
 import {Hero} from './NewHero.model';
+import {Creature} from './Creature.model';
 
-export class Iniciative
+export class Initiative
 {
-  creature: Hero;
+  creature: Creature;
   value: number;
 }

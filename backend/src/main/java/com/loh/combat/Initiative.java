@@ -27,4 +27,13 @@ public class Initiative implements Comparable<Initiative> {
         }
         return value.compareTo(initiative.value);
     }
+
+    public Initiative(Creature creature, Integer value) {
+        this.creature = creature;
+        this.value = value;
+        this.acted = false;
+    }
+
+    public Initiative() {
+    }
 }
