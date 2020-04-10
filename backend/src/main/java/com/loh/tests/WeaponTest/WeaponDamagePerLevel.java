@@ -1,6 +1,6 @@
 package com.loh.tests.WeaponTest;
 
-import com.loh.creatures.heroes.equipment.GripType;
+import com.loh.creatures.equipment.GripType;
 import com.loh.items.equipable.armors.armorCategories.ArmorCategory;
 import lombok.Getter;
 import lombok.Setter;

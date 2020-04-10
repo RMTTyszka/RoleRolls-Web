@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.equipment;
+package com.loh.creatures.equipment;
 
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.belts.beltInstances.BeltInstance;

@@ -9,6 +9,7 @@ import { CombatListComponent } from './combat-list/combat-list.component';
 import {SharedModule} from '../shared/shared.module';
 import {ToolbarModule} from 'primeng/toolbar';
 import {InputTextModule} from 'primeng/inputtext';
+import {MonstersSharedModule} from '../monsters/monsters-shared/monsters-shared.module';
 
 const routes: Routes = [
   {path: '', component: CombatListComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
     CreaturesSharedModule,
     SharedModule,
     ToolbarModule,
-    InputTextModule
+    InputTextModule,
+    MonstersSharedModule
   ],
   declarations: [CombatComponent, CombatListComponent]
 })

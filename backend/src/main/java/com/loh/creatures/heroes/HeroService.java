@@ -1,8 +1,8 @@
 package com.loh.creatures.heroes;
 
-import com.loh.creatures.heroes.equipment.EquipmentRepository;
-import com.loh.creatures.heroes.equipment.GripType;
-import com.loh.creatures.heroes.inventory.InventoryRepository;
+import com.loh.creatures.equipment.EquipmentRepository;
+import com.loh.creatures.equipment.GripType;
+import com.loh.creatures.inventory.InventoryRepository;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceService;

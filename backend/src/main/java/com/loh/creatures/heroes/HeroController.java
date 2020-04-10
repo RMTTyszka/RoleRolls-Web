@@ -1,7 +1,7 @@
 package com.loh.creatures.heroes;
 
 
-import com.loh.creatures.heroes.inventory.NewHeroDto;
+import com.loh.creatures.inventory.NewHeroDto;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

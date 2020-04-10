@@ -2,8 +2,8 @@ package com.loh.creatures;
 
 import com.loh.combat.AttackDetails;
 import com.loh.combat.AttackService;
-import com.loh.creatures.heroes.equipment.Equipment;
-import com.loh.creatures.heroes.inventory.Inventory;
+import com.loh.creatures.equipment.Equipment;
+import com.loh.creatures.inventory.Inventory;
 import com.loh.dev.Loh;
 import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;

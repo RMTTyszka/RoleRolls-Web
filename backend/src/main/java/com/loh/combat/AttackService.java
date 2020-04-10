@@ -1,7 +1,7 @@
 package com.loh.combat;
 
 import com.loh.creatures.Creature;
-import com.loh.creatures.heroes.equipment.GripType;
+import com.loh.creatures.equipment.GripType;
 import com.loh.rolls.DiceRoller;
 import com.loh.rolls.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;

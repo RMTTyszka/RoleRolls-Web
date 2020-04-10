@@ -12,6 +12,7 @@ export class CombatCreatureSelectComponent implements OnInit {
   @Input() creaturesOnCombat: Creature[] = [];
   selectedCreature: Creature;
   @Output() creatureSelected = new EventEmitter<Creature>();
+  @Input() placeholder: string;
   constructor() { }
 
   ngOnInit() {

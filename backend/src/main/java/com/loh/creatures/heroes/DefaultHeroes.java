@@ -1,4 +1,4 @@
-package com.loh.creatures;
+package com.loh.creatures.heroes;
 
 public class DefaultHeroes {
 

@@ -2,7 +2,7 @@ package com.loh.tests.WeaponTest;
 
 import com.loh.combat.AttackDetails;
 import com.loh.combat.AttackService;
-import com.loh.creatures.DefaultHeroes;
+import com.loh.creatures.heroes.DefaultHeroes;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.heroes.HeroRepository;
 import com.loh.items.equipable.armors.armorCategories.ArmorCategory;

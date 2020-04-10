@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.inventory;
+package com.loh.creatures.inventory;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;

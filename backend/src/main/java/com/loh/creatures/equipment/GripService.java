@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.equipment;
+package com.loh.creatures.equipment;
 
 import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
