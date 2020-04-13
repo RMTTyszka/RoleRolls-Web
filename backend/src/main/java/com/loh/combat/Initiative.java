@@ -25,7 +25,7 @@ public class Initiative implements Comparable<Initiative> {
         if (value == null || initiative.value == null) {
             return 0;
         }
-        return value.compareTo(initiative.value);
+        return initiative.value.compareTo(value);
     }
 
     public Initiative(Creature creature, Integer value) {

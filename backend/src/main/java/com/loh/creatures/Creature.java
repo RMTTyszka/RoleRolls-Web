@@ -243,6 +243,10 @@ public class Creature extends Entity {
 
     }
 
+    public Creature processEndOfTurn(CreatureRepository creatureRepository) {
+        return creatureRepository.save(this);
+    }
+
 
 
 }

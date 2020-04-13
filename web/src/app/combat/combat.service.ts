@@ -7,6 +7,7 @@ import {Combat} from '../shared/models/Combat.model';
 import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
 import {Initiative} from '../shared/models/Iniciative.model';
 import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
+import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,8 @@ export class CombatService extends BaseCrudServiceComponent<Combat> {
 
   public addMonster(input: AddMonsterToCombatInput) {
     return this.http.post<Initiative>(this.serverUrl + this.path + '/addMonster', input );
+  }
+  public endTurn(input: EndTurnInput) {
+    return this.http.post<Initiative>(this.serverUrl + this.path + '/endTurn', input );
   }
 }

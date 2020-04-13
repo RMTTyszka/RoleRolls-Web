@@ -11,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
 import {Initiative} from '../shared/models/Iniciative.model';
 import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
+import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
 
 @Component({
   selector: 'loh-combat',
@@ -81,11 +82,16 @@ export class CombatComponent implements OnInit {
       this._combatService.addMonster(new AddMonsterToCombatInput(this.combat.id, monster))
         .subscribe((initiative: Initiative) => {
           this.monsters[i] = monster;
-          this.combat.initiatives.push(initiative);
+          this.updateInitiative(initiative);
         });
     } else {
       this.monsters[i] = monster;
     }
+  }
+
+  private updateInitiative(initiative: Initiative) {
+    this.combat.initiatives.push(initiative);
+    this.combat.initiatives = this.combat.initiatives.sort((a, b) => b.value - a.value);
   }
 
   heroFullAttack(attacker: Creature) {
@@ -108,6 +114,13 @@ export class CombatComponent implements OnInit {
 
   saveCombat() {
     this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
+  }
+
+  endTurn() {
+    this._combatService.endTurn(new EndTurnInput(this.combat.id, this.combat.currentInitiative.creature.id))
+      .subscribe((nextInitiative: Initiative) => {
+        this.combat.currentInitiative.creature = nextInitiative.creature;
+      });
   }
 }
 

@@ -32,4 +32,8 @@
   <div fxFlex="50">
     <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
   </div>
+  <div fxFlex="50">
+    <loh-initiative [initiatives]="combat.initiatives" [currentCreatureId]="combat.currentInitiative.creature.id"></loh-initiative>
+    <button pButton label="endTurn" (click)="endTurn()"></button>
+  </div>
 </div>

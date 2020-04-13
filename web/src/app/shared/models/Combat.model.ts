@@ -8,7 +8,6 @@ export class Combat extends Entity{
   monsters: Array<Monster> = new Array<Monster>();
   heroes: Array<Hero> = new Array<Hero>();
   initiatives: Array<Initiative> = new Array<Initiative>();
-  currentInitiative: number;
   hasStarted: boolean;
-  currentCreatureTurn: Creature;
+  currentInitiative: Initiative;
 }

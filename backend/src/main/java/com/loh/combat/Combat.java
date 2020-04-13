@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -29,25 +28,27 @@ public class Combat extends com.loh.shared.Entity {
 
 	@Getter
 	@Setter
-	private Integer currentInitiative;
-	@Getter
-	@Setter
 	private boolean hasStarted;
 
 	@ElementCollection
 	@CollectionTable()
-	@Getter
 	private List<Initiative> initiatives;
 
-
-	public Creature getCurrentCreatureTurn() {
-		if (currentInitiative != null && this.initiatives != null) return initiatives.stream().filter(e -> !e.isActed()).sorted(Comparator.comparingInt(o -> Math.abs(o.getValue() - currentInitiative))).findFirst().get().getCreature();
+	public Initiative getCurrentInitiative() {
+		if (this.getInitiatives() != null) {
+			Initiative initiative = initiatives.stream().filter(e -> !e.isActed()).sorted().findFirst().orElse(null);
+			return initiative;
+		}
 		return null;
 	}
 
 	public void setInitiatives(List<Initiative> initiatives) {
 		Collections.sort(initiatives);
 		this.initiatives = initiatives;
+	}
+	public List<Initiative> getInitiatives() {
+		Collections.sort(initiatives);
+		return initiatives;
 	}
 
 	public Initiative addHero(Hero hero, CombatService combatService) {
@@ -59,24 +60,6 @@ public class Combat extends com.loh.shared.Entity {
 		this.initiatives.add(initiative);
 		return initiative;
 	}
-
-	public int closest(int of, int[] in) {
-		int min = Integer.MAX_VALUE;
-		int closest = of;
-
-		for (int v : in) {
-			final int diff = Math.abs(v - of);
-
-			if (diff < min) {
-				min = diff;
-				closest = v;
-			}
-		}
-
-		return closest;
-
-	}
-
 	public void addInitiative(Initiative initiative) {
 		initiatives.add(initiative);
 	}
@@ -84,5 +67,24 @@ public class Combat extends com.loh.shared.Entity {
 	public Initiative addMonster(Monster monster, CombatService combatService) {
 		this.monsters.add(monster);
 		return addInitiative(monster, combatService.rollForInitiative(monster));
+	}
+
+	public Initiative endTurn(Creature creature, CombatRepository combatRepository) {
+		Initiative initiative = this.initiatives.stream().filter(e -> e.getCreature().getId() == creature.getId()).findFirst().get();
+		initiative.setActed(true);
+		if (isLastTurn()) {
+			processLastTurn();
+		}
+		combatRepository.save(this);
+		return getCurrentInitiative();
+	}
+
+	private void processLastTurn() {
+		for (Initiative initiative : initiatives) {
+			initiative.setActed(false);
+		}
+	}
+	private boolean isLastTurn() {
+		return initiatives.stream().filter(i -> !i.isActed()).count() == 0;
 	}
 }

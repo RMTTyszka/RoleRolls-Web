@@ -61,6 +61,11 @@ public class CombatController extends BaseCrudController<Combat> {
 		repository.save(combat);
 		return initiative;
 	}
+	@PostMapping(path="/endTurn")
+	public @ResponseBody Initiative endTurn(@RequestBody FinishTurnInput input) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		Initiative initiative = combatService.endTurn(input.combatId, input.creatureId);
+		return initiative;
+	}
 	
 	
 }
