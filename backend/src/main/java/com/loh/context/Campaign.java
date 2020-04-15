@@ -1,42 +1,34 @@
 package com.loh.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-
 import com.loh.adventures.Adventure;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Campaign extends com.loh.shared.Entity {
 
+	@Getter
+	@Setter
 	private String name;
 	
 	@OneToOne
 	private Player master;
+
+	@ManyToMany
+	@Getter
+	@Setter
+	private Set<Player> players = new HashSet<>();
 	
-	@ElementCollection
-	@CollectionTable()
+	@OneToMany
+	@Getter
+	@Setter
 	private List<Adventure> adventures = new ArrayList<Adventure>();
 	
-	public Player getMaster() {
-		return master;
-	}
 
-	public void setMaster(Player master) {
-		this.master = master;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
 }

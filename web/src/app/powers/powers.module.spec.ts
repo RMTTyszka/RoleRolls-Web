@@ -1,4 +1,4 @@
-import { PowersModule } from './powers.module';
+import {PowersModule} from './powers.module';
 
 describe('PowersModule', () => {
   let powersModule: PowersModule;

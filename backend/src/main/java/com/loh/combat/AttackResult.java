@@ -12,21 +12,25 @@ public class AttackResult {
     @Getter
     private Integer criticalMisses;
     public Integer getTotalDamage() {
-        return damages.stream().reduce(0, (subtotal, damage) -> subtotal + damage);
-    };
+        return damageDetails.getDamages().stream().map(d -> d.getReducedDamage()).reduce(0, (subtotal, damage) -> subtotal + damage);
+    }
+
     @Getter
-    private List<Integer> damages;
+    private DamageDetails damageDetails;
     @Getter
     private List<Integer> rolls;
     @Getter
     private Integer numberOfAttacks;
+    @Getter
+    private Integer hitBonus;
 
-    public AttackResult(Integer hits, Integer criticalHits, Integer criticalMisses, List<Integer> damages, List<Integer> rolls, Integer numberOfAttacks) {
+    public AttackResult(Integer hits, Integer criticalHits, Integer criticalMisses, DamageDetails damageDetails, List<Integer> rolls, Integer numberOfAttacks, Integer hitBonus) {
         this.hits = hits;
         this.criticalHits = criticalHits;
         this.criticalMisses = criticalMisses;
-        this.damages = damages;
+        this.damageDetails = damageDetails;
         this.rolls = rolls;
         this.numberOfAttacks = numberOfAttacks;
+        this.hitBonus = hitBonus;
     }
 }

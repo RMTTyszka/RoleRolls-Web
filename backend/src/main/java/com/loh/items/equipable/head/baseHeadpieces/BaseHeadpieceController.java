@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BaseHeadpieceController extends BaseCrudController<BaseHeadpiece> {
 
     @Autowired
-    protected BaseHeadpieceRepository repository;
-
+    public BaseHeadpieceController(BaseHeadpieceRepository repository) {
+        super(repository);
+    }
 }

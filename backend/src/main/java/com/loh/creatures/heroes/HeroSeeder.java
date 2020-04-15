@@ -1,11 +1,10 @@
 package com.loh.creatures.heroes;
 
 import com.loh.creatures.Attributes;
-import com.loh.creatures.DefaultHeroes;
 import com.loh.creatures.LevelUpService;
-import com.loh.creatures.heroes.equipment.EquipmentRepository;
-import com.loh.creatures.heroes.equipment.GripType;
-import com.loh.creatures.heroes.inventory.InventoryRepository;
+import com.loh.creatures.equipment.EquipmentRepository;
+import com.loh.creatures.equipment.GripType;
+import com.loh.creatures.inventory.InventoryRepository;
 import com.loh.items.equipable.armors.DefaultArmors;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
@@ -75,9 +74,6 @@ public class HeroSeeder {
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
-            if (level == 20) {
-                System.out.println("dsad");
-            }
             if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneLightWeapon + " Level " + level);
                 hero.setSpecialPowerMainAttribute(Attributes.Agility);

@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { BaseWeaponService } from './base-weapon.service';
+import {BaseWeaponService} from './base-weapon.service';
 
 describe('BaseWeaponService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

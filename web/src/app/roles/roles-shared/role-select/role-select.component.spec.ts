@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RoleSelectComponent } from './role-select.component';
+import {RoleSelectComponent} from './role-select.component';
 
 describe('RoleSelectComponent', () => {
   let component: RoleSelectComponent;

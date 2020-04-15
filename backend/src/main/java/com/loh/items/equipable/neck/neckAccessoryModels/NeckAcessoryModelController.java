@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class NeckAcessoryModelController extends BaseCrudController<NeckAcessoryModel> {
 
     @Autowired
-    protected NeckAccessoryModelRepository repository;
-
+    public NeckAcessoryModelController(NeckAccessoryModelRepository repository) {
+        super(repository);
+    }
 }

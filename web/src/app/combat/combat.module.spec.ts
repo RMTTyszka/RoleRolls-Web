@@ -1,4 +1,4 @@
-import { CombatModule } from './combat.module';
+import {CombatModule} from './combat.module';
 
 describe('CombatModule', () => {
   let combatModule: CombatModule;

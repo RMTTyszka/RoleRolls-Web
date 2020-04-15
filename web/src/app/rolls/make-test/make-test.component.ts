@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {MakeTestService} from './make-test.service';
 import {TestResult} from '../../shared/models/RollResult.model';

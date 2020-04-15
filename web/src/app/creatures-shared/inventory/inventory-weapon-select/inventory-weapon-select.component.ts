@@ -1,8 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { isWeapon } from 'src/app/shared/utils/isItem';
-import { WeaponInstance } from 'src/app/shared/models/WeaponInstance.model';
-import { FormGroup } from '@angular/forms';
-import { Inventory } from 'src/app/shared/models/Inventory.model';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {isWeapon} from 'src/app/shared/utils/isItem';
+import {WeaponInstance} from 'src/app/shared/models/WeaponInstance.model';
+import {FormGroup} from '@angular/forms';
+import {Inventory} from 'src/app/shared/models/Inventory.model';
 
 @Component({
   selector: 'loh-inventory-weapon-select',

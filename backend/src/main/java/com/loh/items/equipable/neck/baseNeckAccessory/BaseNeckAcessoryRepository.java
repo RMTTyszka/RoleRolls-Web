@@ -1,9 +1,7 @@
 package com.loh.items.equipable.neck.baseNeckAccessory;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.loh.shared.BaseRepository;
 
-import java.util.UUID;
-
-public interface BaseNeckAcessoryRepository extends PagingAndSortingRepository<BaseNeckAccessory, UUID> {
+public interface BaseNeckAcessoryRepository extends BaseRepository<BaseNeckAccessory> {
     BaseNeckAccessory getByNameAndSystemDefaultTrue(String name);
 }

@@ -2,8 +2,8 @@
 <p-overlayPanel #heroOverlay>
   <ng-container *ngIf="hero">
     <p-panel [header]="hero.name">
-      <div>Race: {{hero.race.name}}</div>
-      <div>Role: {{hero.role.name}}</div>
+      <div>Race: {{hero.race?.name}}</div>
+      <div>Role: {{hero.role?.name}}</div>
       <div>Strength: {{hero.totalAttributes.strength}}</div>
       <div>Agility: {{hero.totalAttributes.agility}}</div>
       <div>Vitality: {{hero.totalAttributes.vitality}}</div>

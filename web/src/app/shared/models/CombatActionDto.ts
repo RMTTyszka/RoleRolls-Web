@@ -1,8 +1,6 @@
-import { Entity } from './Entity.model';
+import {Entity} from './Entity.model';
+import {AttackDetails} from './AttackDetails.model';
 
 export class CombatActionDto extends Entity {
-
-    mainWeaponHits: number[];
-    offWeaponHits: number[];
-
+  attackDetails: AttackDetails;
 }

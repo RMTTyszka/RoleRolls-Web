@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { PowerManagementService } from './power-management.service';
-import { Power } from 'src/app/shared/models/Power.model';
+import {Component, Input, OnInit, Output} from '@angular/core';
+import {PowerManagementService} from './power-management.service';
+import {Power} from 'src/app/shared/models/Power.model';
 
 
 @Component({

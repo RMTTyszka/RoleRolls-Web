@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from '../home/home.component';
-import {RollsComponent} from './rolls.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {MakeTestComponent} from './make-test/make-test.component';
 
 

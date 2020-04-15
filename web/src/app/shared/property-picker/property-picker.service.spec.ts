@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { PropertyPickerService } from './property-picker.service';
+import {PropertyPickerService} from './property-picker.service';
 
 describe('PropertyPickerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.equipment;
+package com.loh.creatures.equipment;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 

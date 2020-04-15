@@ -1,13 +1,15 @@
-import { OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
-import { Entity } from '../models/Entity.model';
-import { BaseCrudServiceComponent } from '../base-service/base-crud-service.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import {AfterViewInit, Injector, OnInit, ViewChild} from '@angular/core';
+import {Entity} from '../models/Entity.model';
+import {BaseCrudServiceComponent} from '../base-service/base-crud-service.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 
 export class BaseListComponent<T extends Entity> implements OnInit, AfterViewInit {
 
   isLoading = true;
-
+  useRoute = false;
+  route: string;
   data: T[] = [];
   displayData: T[] = [];
   filter: string;
@@ -15,11 +17,13 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
 
   protected dialog: MatDialog;
   protected editor: any;
+  protected router: Router;
   constructor(
     injector: Injector,
     protected service: BaseCrudServiceComponent<T>
   ) {
     this.dialog = injector.get(MatDialog);
+    this.router = injector.get(Router);
   }
 
   ngOnInit() {
@@ -46,25 +50,32 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
   }
 
   add() {
-    this.dialog.open(this.editor, {
-      maxHeight: '90vh',
-      minWidth: '90vw'
-    }).afterClosed().subscribe(() => {
-      this.getAll();
-    });
+    if (!this.useRoute) {
+      this.dialog.open(this.editor, {
+        maxHeight: '90vh',
+        minWidth: '90vw'
+      }).afterClosed().subscribe(() => {
+        this.getAll();
+      });
+    } else {
+      this.router.navigate([this.route]);
+    }
   }
 
   edit(entity?: T) {
+    if (!this.useRoute) {
+      const dialogRef = this.dialog.open(this.editor, {
+        maxHeight: '90vh',
+        minWidth: '90vw',
+        data: entity
+      });
 
-    const dialogRef = this.dialog.open(this.editor, {
-      maxHeight: '90vh',
-      minWidth: '90vw',
-      data: entity
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getAll();
-    });
+      dialogRef.afterClosed().subscribe(() => {
+        this.getAll();
+      });
+    } else {
+      this.router.navigate([this.route, {id: entity.id}]);
+    }
   }
 
   updateDisplayData() {

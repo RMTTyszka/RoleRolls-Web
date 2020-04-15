@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {Resistances} from '../../shared/models/Resistances.model';
 
 @Component({

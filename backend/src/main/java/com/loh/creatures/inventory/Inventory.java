@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.inventory;
+package com.loh.creatures.inventory;
 
 
 import com.loh.items.ItemInstance;

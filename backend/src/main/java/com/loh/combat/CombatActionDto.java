@@ -4,12 +4,12 @@ import lombok.Getter;
 
 public class CombatActionDto {
 	@Getter
-	private AttackDetails attackDetail;
+	private AttackDetails attackDetails;
 	@Getter
 	private Integer evasion;
 
-	public CombatActionDto(AttackDetails attackDetail, Integer mainWeaponBonus, Integer offWeaponBonus, Integer evasion) {
-		this.attackDetail = attackDetail;
+	public CombatActionDto(AttackDetails attackDetails, Integer mainWeaponBonus, Integer offWeaponBonus, Integer evasion) {
+		this.attackDetails = attackDetails;
 		this.evasion = evasion;
 	}
 }

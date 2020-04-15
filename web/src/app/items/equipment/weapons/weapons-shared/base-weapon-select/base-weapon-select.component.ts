@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BaseWeapon } from 'src/app/shared/models/BaseWeapon.model';
-import { BaseWeaponService } from '../../base-weapons/base-weapon.service';
-import { tap, map } from 'rxjs/operators';
-import { createForm } from 'src/app/shared/EditorExtension';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
+import {BaseWeaponService} from '../../base-weapons/base-weapon.service';
+import {map, tap} from 'rxjs/operators';
+import {createForm} from 'src/app/shared/EditorExtension';
 
 @Component({
   selector: 'loh-base-weapon-select',

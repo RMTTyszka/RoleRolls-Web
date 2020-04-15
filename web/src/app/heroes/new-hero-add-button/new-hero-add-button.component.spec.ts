@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewHeroAddButtonComponent } from './new-hero-add-button.component';
+import {NewHeroAddButtonComponent} from './new-hero-add-button.component';
 
 describe('NewHeroAddButtonComponent', () => {
   let component: NewHeroAddButtonComponent;

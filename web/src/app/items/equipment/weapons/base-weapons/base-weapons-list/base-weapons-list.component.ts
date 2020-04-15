@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseWeaponService } from '../base-weapon.service';
-import { BaseWeapon } from 'src/app/shared/models/BaseWeapon.model';
-import { BaseWeaponsEditorComponent } from '../base-weapons-editor/base-weapons-editor.component';
-import { CmColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
-import { DialogService } from 'primeng/api';
-import { ModalEntityAction, ModalEntityData } from 'src/app/shared/dtos/ModalEntityData';
+import {Component, OnInit} from '@angular/core';
+import {BaseWeaponService} from '../base-weapon.service';
+import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
+import {BaseWeaponsEditorComponent} from '../base-weapons-editor/base-weapons-editor.component';
+import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
+import {DialogService} from 'primeng/api';
+import {ModalEntityAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
 
 @Component({
   selector: 'loh-base-weapons-list',

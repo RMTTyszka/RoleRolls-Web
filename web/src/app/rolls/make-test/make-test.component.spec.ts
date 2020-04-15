@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MakeTestComponent } from './make-test.component';
+import {MakeTestComponent} from './make-test.component';
 
 describe('MakeTestComponent', () => {
   let component: MakeTestComponent;

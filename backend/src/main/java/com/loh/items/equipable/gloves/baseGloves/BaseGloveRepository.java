@@ -1,9 +1,7 @@
 package com.loh.items.equipable.gloves.baseGloves;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.loh.shared.BaseRepository;
 
-import java.util.UUID;
-
-public interface BaseGloveRepository extends PagingAndSortingRepository<BaseGlove, UUID> {
+public interface BaseGloveRepository extends BaseRepository<BaseGlove> {
     BaseGlove getByNameAndSystemDefaultTrue(String name);
 }

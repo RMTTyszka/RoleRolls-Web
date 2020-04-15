@@ -2,8 +2,8 @@ package com.loh.creatures;
 
 import com.loh.combat.AttackDetails;
 import com.loh.combat.AttackService;
-import com.loh.creatures.heroes.equipment.Equipment;
-import com.loh.creatures.heroes.inventory.Inventory;
+import com.loh.creatures.equipment.Equipment;
+import com.loh.creatures.inventory.Inventory;
 import com.loh.dev.Loh;
 import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
@@ -232,11 +232,19 @@ public class Creature extends Entity {
         }
     }
 
-    public Integer getInateLevelBonus(Integer attributePoints) {
+    public Integer getInnateLevelBonus(Integer attributePoints) {
         return (attributePoints - 5) / 5 * 2;
     }
     public Integer getEvasionInnateBonus() {
         return level/2;
+    }
+
+    public void takeDamage(Integer damage) {
+
+    }
+
+    public Creature processEndOfTurn(CreatureRepository creatureRepository) {
+        return creatureRepository.save(this);
     }
 
 

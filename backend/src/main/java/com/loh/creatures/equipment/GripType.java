@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.equipment;
+package com.loh.creatures.equipment;
 
 import lombok.Getter;
 
@@ -30,11 +30,11 @@ public enum GripType {
     private Integer shieldEvasionBonus;
 
     static {
-        OneLightWeapon.hit = -3;
+        OneLightWeapon.hit = -2;
         OneMediumWeapon.hit = 1;
         TwoHandedHeavyWeapon.hit = 3;
         TwoWeaponsLight.hit = 0;
-        TwoWeaponsMedium.hit = 1;
+        TwoWeaponsMedium.hit = 0;
         OneHandedHeavyWeapon.hit = -1;
         TwoHandedMediumWeapon.hit = 2;
         OneLightShield.hit = 0;
@@ -52,7 +52,7 @@ public enum GripType {
         OneMediumShield.damage = 8;
         OneHeavyShield.damage = 12;
 
-        OneLightWeapon.magicBonusModifier = 3;
+        OneLightWeapon.magicBonusModifier = 2;
         OneMediumWeapon.magicBonusModifier = 3;
         TwoHandedHeavyWeapon.magicBonusModifier = 4;
         TwoWeaponsLight.magicBonusModifier = 2;
@@ -63,7 +63,7 @@ public enum GripType {
         OneMediumShield.magicBonusModifier = 3;
         OneHeavyShield.magicBonusModifier = 4;
 
-        OneLightWeapon.attributeModifier = 2;
+        OneLightWeapon.attributeModifier = 3;
         OneMediumWeapon.attributeModifier = 3;
         TwoHandedHeavyWeapon.attributeModifier = 4;
         TwoWeaponsLight.attributeModifier = 2;

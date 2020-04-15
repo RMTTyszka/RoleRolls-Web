@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
-import { createForm } from 'src/app/shared/EditorExtension';
-import { ItemInstance } from 'src/app/shared/models/ItemInstance.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {createForm} from 'src/app/shared/EditorExtension';
+import {ItemInstance} from 'src/app/shared/models/ItemInstance.model';
 
 @Component({
   selector: 'loh-base-inventory-select',

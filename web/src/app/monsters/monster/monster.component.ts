@@ -1,11 +1,11 @@
-import { Component, OnInit, Injector, Inject } from '@angular/core';
-import { BaseCreatorComponent } from '../../shared/base-creator/base-creator.component';
-import { Monster } from '../../shared/models/Monster.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MonsterBaseSelectorComponent } from '../monsters-shared/monster-model-selector/monster-model-selector.component';
-import { MonsterModel } from 'src/app/shared/models/MonsterModel.model';
-import { MonsterService } from './monster.service';
-import { Bonus } from 'src/app/shared/models/Bonus.model';
+import {Component, Inject, Injector, OnInit} from '@angular/core';
+import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
+import {Monster} from '../../shared/models/Monster.model';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MonsterBaseSelectorComponent} from '../monsters-shared/monster-model-selector/monster-model-selector.component';
+import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
+import {MonsterService} from './monster.service';
+import {Bonus} from 'src/app/shared/models/Bonus.model';
 
 @Component({
   selector: 'loh-monster',

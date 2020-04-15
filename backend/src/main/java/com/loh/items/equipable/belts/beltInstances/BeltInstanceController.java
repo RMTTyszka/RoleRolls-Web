@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BeltInstanceController extends BaseCrudController<BeltInstance> {
 
     @Autowired
-    protected BeltInstanceRepository repository;
-
+    public BeltInstanceController(BeltInstanceRepository repository) {
+        super(repository);
+    }
 }

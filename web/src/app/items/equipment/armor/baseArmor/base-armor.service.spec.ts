@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { BaseArmorService } from './base-armor.service';
+import {BaseArmorService} from './base-armor.service';
 
 describe('BaseArmorService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

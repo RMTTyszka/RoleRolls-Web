@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TestResult} from '../../shared/models/RollResult.model';
 import {LOH_API} from '../../loh.api';
-import {FormBuilder} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'

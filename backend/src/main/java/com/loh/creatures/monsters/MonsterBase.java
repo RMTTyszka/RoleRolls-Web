@@ -56,9 +56,6 @@ public class MonsterBase extends DefaultEntity {
 		this.role = role;
 	}
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
 	@ManyToOne
 	private Race race;
 	@ManyToOne

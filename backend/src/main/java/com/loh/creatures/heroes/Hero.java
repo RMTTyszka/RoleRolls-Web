@@ -2,8 +2,8 @@ package com.loh.creatures.heroes;
 
 import com.loh.creatures.Attributes;
 import com.loh.creatures.Creature;
-import com.loh.creatures.heroes.equipment.Equipment;
-import com.loh.creatures.heroes.inventory.Inventory;
+import com.loh.creatures.equipment.Equipment;
+import com.loh.creatures.inventory.Inventory;
 import com.loh.race.Race;
 import com.loh.role.Role;
 

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WeaponCategorySelectComponent } from './weapon-category-select.component';
+import {WeaponCategorySelectComponent} from './weapon-category-select.component';
 
 describe('WeaponCategorySelectComponent', () => {
   let component: WeaponCategorySelectComponent;

@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ArmorSelectorComponent } from './armor-selector/armor-selector.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ArmorSelectorComponent} from './armor-selector/armor-selector.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-
 
 
 @NgModule({

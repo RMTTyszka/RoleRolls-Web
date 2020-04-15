@@ -1,14 +1,14 @@
-import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { RaceModalSelectorComponent } from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
-import { RolesSelectModalComponent } from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
-import { BaseCreatorComponent } from 'src/app/shared/base-creator/base-creator.component';
-import { MonsterModel } from 'src/app/shared/models/MonsterModel.model';
-import { Race } from 'src/app/shared/models/Race.model';
-import { Role } from 'src/app/shared/models/Role.model';
-import { MonsterBaseService } from './monster-model.service';
+import {Component, Inject, Injector, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormControl} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Subscription} from 'rxjs';
+import {RaceModalSelectorComponent} from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
+import {RolesSelectModalComponent} from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
+import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
+import {Race} from 'src/app/shared/models/Race.model';
+import {Role} from 'src/app/shared/models/Role.model';
+import {MonsterBaseService} from './monster-model.service';
 
 @Component({
   selector: 'loh-monster-model',

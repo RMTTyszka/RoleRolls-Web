@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HeroesSelectModalComponent } from './heroes-select-modal.component';
+import {HeroesSelectModalComponent} from './heroes-select-modal.component';
 
 describe('HeroesSelectModalComponent', () => {
   let component: HeroesSelectModalComponent;

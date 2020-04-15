@@ -1,6 +1,7 @@
 package com.loh.infrastructure;
 
 import com.loh.creatures.heroes.HeroSeeder;
+import com.loh.creatures.monsters.MonsterSeeder;
 import com.loh.items.equipable.armors.ArmorSeeder;
 import com.loh.items.equipable.belts.BeltsSeeder;
 import com.loh.items.equipable.gloves.GlovesSeeder;
@@ -37,6 +38,8 @@ public class SeederService {
 	private NeckAccessorySeeder neckAccessorySeeder;
 	@Autowired
 	private HeroSeeder heroSeeder;
+	@Autowired
+	private MonsterSeeder monsterSeeder;
 
 	@EventListener
 	public void seed(ContextRefreshedEvent event) throws Exception {
@@ -50,6 +53,7 @@ public class SeederService {
 		neckAccessorySeeder.seed();
 		roleSeeder.seed();
 		heroSeeder.seed();
+		monsterSeeder.seed();
 	}
 
 }

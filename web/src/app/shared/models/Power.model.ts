@@ -1,4 +1,4 @@
-import { Entity } from './Entity.model';
+import {Entity} from './Entity.model';
 
 export class Power extends Entity {
     name = '';

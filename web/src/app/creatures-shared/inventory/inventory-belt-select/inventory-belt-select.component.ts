@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Inventory} from '../../../shared/models/Inventory.model';
-import {isBelt, isGlove} from '../../../shared/utils/isItem';
+import {isBelt} from '../../../shared/utils/isItem';
 import {BeltInstance} from '../../../shared/models/BeltInstance.model';
 
 @Component({

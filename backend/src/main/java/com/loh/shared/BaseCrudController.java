@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 public class BaseCrudController<T extends Entity> {
+    public BaseCrudController(BaseRepository<T> repository) {
+        this.repository = repository;
+    }
+
     protected BaseRepository<T> repository;
 
     @GetMapping(path="/allPaged")
@@ -16,7 +20,8 @@ public class BaseCrudController<T extends Entity> {
 
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         if (filter.isEmpty() || filter == null) {
-            return repository.findAll(paged);
+            Iterable<T> list =  repository.findAll(paged);
+            return list;
         }
         return repository.findAllByNameIgnoreCaseContaining(filter, paged);
     }

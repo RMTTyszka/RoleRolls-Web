@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InventoryWeaponSelectComponent } from './inventory-weapon-select.component';
+import {InventoryWeaponSelectComponent} from './inventory-weapon-select.component';
 
 describe('InventoryWeaponSelectComponent', () => {
   let component: InventoryWeaponSelectComponent;

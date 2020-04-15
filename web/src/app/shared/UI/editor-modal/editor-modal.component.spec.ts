@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditorModalComponent } from './editor-modal.component';
+import {EditorModalComponent} from './editor-modal.component';
 
 describe('EditorModalComponent', () => {
   let component: EditorModalComponent;

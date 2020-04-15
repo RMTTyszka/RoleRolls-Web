@@ -1,6 +1,5 @@
-import {ItemInstance} from './ItemInstance.model';
-import { EquipableInstance } from './EquipableInstance.model';
-import { WeaponModel } from './WeaponModel.model';
+import {EquipableInstance} from './EquipableInstance.model';
+import {WeaponModel} from './WeaponModel.model';
 
 export class WeaponInstance extends EquipableInstance {
 

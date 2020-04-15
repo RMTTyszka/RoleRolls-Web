@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {HeadpieceInstance} from '../../../shared/models/HeadpieceInstance.model';
 import {FormGroup} from '@angular/forms';
 import {Inventory} from '../../../shared/models/Inventory.model';
 import {isHeadpiece} from '../../../shared/utils/isItem';

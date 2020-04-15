@@ -1,4 +1,4 @@
-import { MonstersSharedModule } from './monsters-shared.module';
+import {MonstersSharedModule} from './monsters-shared.module';
 
 describe('MonstersSharedModule', () => {
   let monstersSharedModule: MonstersSharedModule;

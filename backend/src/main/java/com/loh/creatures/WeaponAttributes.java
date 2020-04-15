@@ -1,6 +1,6 @@
 package com.loh.creatures;
 
-import com.loh.creatures.heroes.equipment.GripType;
+import com.loh.creatures.equipment.GripType;
 import lombok.Getter;
 
 public class WeaponAttributes {

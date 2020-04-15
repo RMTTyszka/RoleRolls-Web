@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RaceModalSelectorComponent } from './race-modal-selector.component';
+import {RaceModalSelectorComponent} from './race-modal-selector.component';
 
 describe('RaceSelectorComponent', () => {
   let component: RaceModalSelectorComponent;

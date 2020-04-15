@@ -1,7 +1,7 @@
 package com.loh.combat;
 
 import com.loh.creatures.Creature;
-import com.loh.creatures.heroes.equipment.GripType;
+import com.loh.creatures.equipment.GripType;
 import com.loh.rolls.DiceRoller;
 import com.loh.rolls.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +33,14 @@ public class AttackService {
         Integer damageBonus = attacker.getOffWeaponAttributes().getDamageBonus();
         Integer weaponDamage = attacker.getOffWeaponAttributes().getDamage();
         Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
-        Integer hitBonus = attacker.getOffWeaponAttributes().getHitBonus() + attacker.getInateLevelBonus(hitAttributePoints);
+        Integer hitBonus = attacker.getOffWeaponAttributes().getHitBonus() + attacker.getInnateLevelBonus(hitAttributePoints);
         AttackResult attackResult = attack(
                 weaponDamage,
                 hitAttributePoints,
                 hitBonus,
                 damageBonus,
                 target.getStatus().getEvasion(),
-                attacker.getOffWeaponAttributes().getAttackComplexity() + 1,
+                attacker.getOffWeaponAttributes().getAttackComplexity(),
                 target.getStatus().getDodge(),
                 target.getStatus().getDefense()
         );
@@ -50,18 +50,21 @@ public class AttackService {
 
     private AttackResult attack(Integer weaponDamage,Integer hitAttributePoints, Integer hitBonus, Integer damageBonus, Integer evasion, Integer complexity, Integer dodge, Integer defense) {
         TestResult attackTest = roller.makeTest(hitAttributePoints, hitBonus, evasion, complexity);
-        List<Integer> damages = new ArrayList<>();
+        List<DamageResult> damageResults = new ArrayList<>();
 
         for (int attackIndex = 0; attackIndex < attackTest.getSuccesses() - dodge; attackIndex++) {
-            damages.add(getDamage(weaponDamage, damageBonus, defense));
+            DamageResult damageResult = getDamage(weaponDamage, damageBonus, defense);
+            damageResults.add(damageResult);
         }
+        DamageDetails damageDetails = new DamageDetails(damageResults, damageBonus);
         AttackResult output = new AttackResult(
                 attackTest.getSuccesses() - dodge,
                 attackTest.getCriticalSuccesses(),
                 attackTest.getCriticalFailures(),
-                damages,
+                damageDetails,
                 attackTest.getRolls(),
-                attackTest.getNumberOfRolls()
+                attackTest.getNumberOfRolls(),
+                hitBonus
         );
         return output;
     }
@@ -70,7 +73,7 @@ public class AttackService {
         Integer damageBonus = attacker.getMainWeaponAttributes().getDamageBonus();
         Integer weaponDamage = attacker.getMainWeaponAttributes().getDamage();
         Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
-        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus() + attacker.getInateLevelBonus(hitAttributePoints);
+        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus() + attacker.getInnateLevelBonus(hitAttributePoints);
         AttackResult attackResult = attack(
                 weaponDamage,
                 hitAttributePoints,
@@ -84,10 +87,12 @@ public class AttackService {
 
         return attackResult;
     }
-    private Integer getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
+    private DamageResult getDamage(Integer weaponDamage, Integer damageBonus, Integer defense) {
         Integer damageRoll = roller.getRoll(weaponDamage);
          damageRoll = weaponDamage / 2;
-        Integer damage = damageRoll + damageBonus - defense;
-        return damage > 0 ? damage : 1;
+        Integer crudDamage = damageRoll + damageBonus;
+        Integer reducedDamage = crudDamage - defense;
+        reducedDamage = Integer.max(reducedDamage, 1);
+        return new DamageResult(crudDamage, reducedDamage, damageBonus, defense);
     }
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { EncountersService } from '../encounters.service';
-import { MatDialog } from '@angular/material/dialog';
-import { EncounterCreateEditComponent } from '../encounter-create-edit/encounter-create-edit.component';
-import { Encounter } from '../../shared/models/Encounter.model';
+import {Component, OnInit} from '@angular/core';
+import {EncountersService} from '../encounters.service';
+import {MatDialog} from '@angular/material/dialog';
+import {EncounterCreateEditComponent} from '../encounter-create-edit/encounter-create-edit.component';
+import {Encounter} from '../../shared/models/Encounter.model';
 
 @Component({
   selector: 'loh-encounters',

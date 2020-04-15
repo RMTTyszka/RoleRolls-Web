@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { MakeTestService } from './make-test.service';
+import {MakeTestService} from './make-test.service';
 
 describe('MakeTestService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '../data.service';
-import { SelectItem } from 'primeng/api';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {DataService} from '../data.service';
+import {SelectItem} from 'primeng/api';
+import {FormGroup, FormGroupDirective} from '@angular/forms';
 
 @Component({
   selector: 'loh-attribute-select',

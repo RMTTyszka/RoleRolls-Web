@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MonsterBaseListComponent } from './monster-model-list.component';
+import {MonsterBaseListComponent} from './monster-model-list.component';
 
 describe('MonsterBaseListComponent', () => {
   let component: MonsterBaseListComponent;

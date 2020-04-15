@@ -1,13 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
-import {Race} from '../../../shared/models/Race.model';
-import {RaceService} from '../../../races/race-editor/race.service';
-import {map, tap} from 'rxjs/operators';
-import {createForm} from '../../../shared/EditorExtension';
-import {Hero} from '../../../shared/models/Hero.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {map} from 'rxjs/operators';
 import {NewHeroService} from '../../new-hero.service';
-import {NewHero} from '../../../shared/models/NewHero.model';
-import {OverlayPanel} from 'primeng/overlaypanel';
+import {Hero} from '../../../shared/models/NewHero.model';
 
 @Component({
   selector: 'loh-hero-select',
@@ -15,9 +9,9 @@ import {OverlayPanel} from 'primeng/overlaypanel';
   styleUrls: ['./hero-select.component.css']
 })
 export class HeroSelectComponent implements OnInit {
-  @Output() heroSelected = new EventEmitter<NewHero>();
-  result: NewHero[] = [];
-  hero: NewHero;
+  @Output() heroSelected = new EventEmitter<Hero>();
+  result: Hero[] = [];
+  @Input() hero: Hero;
   constructor(
     private service: NewHeroService,
   ) {
@@ -31,7 +25,7 @@ export class HeroSelectComponent implements OnInit {
       map(resp => resp.map(hero => hero))
     ).subscribe(response => this.result = response);
   }
-  selected(hero: NewHero) {
+  selected(hero: Hero) {
     this.hero = hero;
     this.heroSelected.emit(hero);
   }

@@ -1,11 +1,11 @@
-import { OnInit, Injector, OnDestroy } from '@angular/core';
-import { Entity } from '../models/Entity.model';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { DataService } from '../data.service';
-import { BaseEntityService } from '../base-entity-service';
-import { Router } from '@angular/router';
+import {Injector, OnDestroy, OnInit} from '@angular/core';
+import {Entity} from '../models/Entity.model';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Subscription} from 'rxjs';
+import {DataService} from '../data.service';
+import {BaseEntityService} from '../base-entity-service';
+import {Router} from '@angular/router';
 
 export interface IEditorInput<T> {
   entity: T;

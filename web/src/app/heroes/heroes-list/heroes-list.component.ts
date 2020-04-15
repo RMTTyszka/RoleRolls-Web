@@ -1,15 +1,13 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { BaseListComponent } from 'src/app/shared/base-list/base-list.component';
-import { Hero } from 'src/app/shared/models/Hero.model';
-import { HeroesEditorComponent } from '../heroes-editor/heroes-editor.component';
-import { DataService } from 'src/app/shared/data.service';
-import { Router } from '@angular/router';
+import {Component, Injector, OnInit} from '@angular/core';
+import {BaseListComponent} from 'src/app/shared/base-list/base-list.component';
+import {HeroesEditorComponent} from '../heroes-editor/heroes-editor.component';
+import {DataService} from 'src/app/shared/data.service';
+import {Router} from '@angular/router';
 import {DialogService} from 'primeng/api';
 import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.component';
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';
-import {NewHero} from '../../shared/models/NewHero.model';
-import { HeroCreatorComponent } from '../hero-creator/hero-creator.component';
+import {Hero} from '../../shared/models/NewHero.model';
 
 @Component({
   selector: 'loh-heroes-list',
@@ -17,7 +15,7 @@ import { HeroCreatorComponent } from '../hero-creator/hero-creator.component';
   styleUrls: ['./heroes-list.component.css'],
   providers: [DialogService]
 })
-export class HeroesListComponent extends BaseListComponent<NewHero> implements OnInit {
+export class HeroesListComponent extends BaseListComponent<Hero> implements OnInit {
 
   constructor(
     injector: Injector,
@@ -35,16 +33,16 @@ export class HeroesListComponent extends BaseListComponent<NewHero> implements O
    }
 
    addNewHero() {
-    this.dialogService.open(HeroCreatorComponent, {
+    this.dialogService.open(NewHeroEditorComponent, {
       header: 'Hero',
       width: '100vw',
       height: '100vh',
       data: {
         action: ModalEntityAction.create
       }
-    }).onClose.subscribe((createdHero: NewHero) => {
+    }).onClose.subscribe((createdHero: Hero) => {
       if (createdHero) {
-        this.service.getEntity(createdHero.id).subscribe((hero: NewHero) => {
+        this.service.getEntity(createdHero.id).subscribe((hero: Hero) => {
           this.updateHero(hero);
         })
       }

@@ -1,4 +1,4 @@
-package com.loh.creatures.heroes.equipment;
+package com.loh.creatures.equipment;
 
 public class CorrectedGripType {
     public CorrectedGripType(GripType gripType, boolean shouldUnequipOffWeapon, GripType offWeaponGripType) {

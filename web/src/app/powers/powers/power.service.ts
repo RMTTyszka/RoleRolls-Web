@@ -1,6 +1,6 @@
-import { Injectable, Injector } from '@angular/core';
-import { Power } from 'src/app/shared/models/Power.model';
-import { BaseEntityService } from 'src/app/shared/base-entity-service';
+import {Injectable, Injector} from '@angular/core';
+import {Power} from 'src/app/shared/models/Power.model';
+import {BaseEntityService} from 'src/app/shared/base-entity-service';
 
 @Injectable({
   providedIn: 'root'

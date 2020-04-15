@@ -24,7 +24,7 @@ public enum ArmorCategory  {
 
         None.baseDefense = 0;
         Light.baseDefense = 2;
-        Medium.baseDefense = 4;
+        Medium.baseDefense = 3;
         Heavy.baseDefense = 4;
 
         None.dodge = 1;
