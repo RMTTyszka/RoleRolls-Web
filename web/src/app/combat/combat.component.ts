@@ -48,10 +48,10 @@ export class CombatComponent implements OnInit {
   }
 
   get heroesTargets() {
-    return this.monsters.concat(this.heroes);
+    return this._combatService.getHeroesTargets(this.combat);
   }
   get monsterTargets() {
-    return this.heroes.concat(this.monsters);
+    return this._combatService.getMonsterTargets(this.combat);
   }
   get heroes() {
     return this.combat.heroes;

@@ -1,4 +1,5 @@
 <div fxLayout="column">
+  <span>Initiative</span>
   <div *ngFor="let initiative of initiatives" fxLayout="row" [class]="isCurrentCreatureTurn(initiative.creature.id) ? 'current-initiative' : 'initiative-row'">
     <i *ngIf="isCurrentCreatureTurn(initiative.creature.id)" class="pi pi-caret-right" fxFlex="initial"></i>
     <i *ngIf="!isCurrentCreatureTurn(initiative.creature.id)" class="pi pi-caret-right hide-caret" fxFlex="initial"></i>

@@ -46,4 +46,11 @@ export class CombatService extends BaseCrudServiceComponent<Combat> {
   public endTurn(input: EndTurnInput) {
     return this.http.post<Initiative>(this.serverUrl + this.path + '/endTurn', input );
   }
+
+  public getHeroesTargets(combat: Combat) {
+    return combat.monsters.concat(combat.heroes);
+  }
+  getMonsterTargets(combat: Combat) {
+    return combat.heroes.concat(combat.monsters);
+  }
 }

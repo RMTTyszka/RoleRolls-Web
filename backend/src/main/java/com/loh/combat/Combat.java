@@ -37,6 +37,10 @@ public class Combat extends com.loh.shared.Entity {
 	public Initiative getCurrentInitiative() {
 		if (this.getInitiatives() != null) {
 			Initiative initiative = initiatives.stream().filter(e -> !e.isActed()).sorted().findFirst().orElse(null);
+			if (initiative == null) {
+				processLastTurn();
+				return getCurrentInitiative();
+			}
 			return initiative;
 		}
 		return null;

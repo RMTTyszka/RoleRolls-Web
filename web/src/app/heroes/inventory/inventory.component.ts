@@ -19,7 +19,7 @@ export class InventoryComponent implements OnInit {
   ngOnInit() {
     this.form = this.formGroupDirective.form.get(this.formGroupName) as FormGroup;
   }
-  get inventory(): Inventory{
+  get inventory(): Inventory {
     return this.form.value;
   }
 
