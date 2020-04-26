@@ -32,8 +32,6 @@ public class CombatService {
         Creature target = creatureRepository.findById(targetId).get();
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
 
-        target.takeDamage(attackDetails.getTotalDamage());
-
         creatureRepository.save(target);
         creatureRepository.save(attacker);
 
