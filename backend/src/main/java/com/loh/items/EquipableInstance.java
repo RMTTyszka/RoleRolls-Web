@@ -19,4 +19,7 @@ public class EquipableInstance extends ItemInstance {
     @Setter
     private List<Bonus> bonuses = new ArrayList<>();
 
+    public EquipableInstance() {
+        super();
+    }
 }

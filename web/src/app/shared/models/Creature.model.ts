@@ -25,4 +25,6 @@ export class Creature extends Entity {
   resistances = new Resistances();
   mainWeaponAttributes = new WeaponAttributes();
   offWeaponAttributes = new WeaponAttributes();
+  currentLife = 0;
+  currentMoral = 0;
 }

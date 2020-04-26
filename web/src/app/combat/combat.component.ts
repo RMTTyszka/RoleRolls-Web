@@ -12,20 +12,36 @@ import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput
 import {Initiative} from '../shared/models/Iniciative.model';
 import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
+import {DialogService} from 'primeng/api';
+import {CreatureType} from '../shared/models/creatures/CreatureType';
+
+export class CombatActionData {
+  currentTargets: Creature[] = [];
+  currentCreatureActing: Creature;
+}
+export class AttackInput {
+  attackerId: string;
+  targetId: string;
+}
 
 @Component({
   selector: 'loh-combat',
   templateUrl: './combat.component.html',
   styleUrls: ['./combat.component.css'],
+  providers: [DialogService]
 })
 export class CombatComponent implements OnInit {
   combat: Combat = new Combat();
   attackDetails: AttackDetails;
   attackTargetsByIds: Map<string, string> = new Map<string, string>();
   hasLoaded = false;
+  actionModalOpened = false;
+  creatureType = CreatureType;
+  combatActionData: CombatActionData = new CombatActionData();
   constructor(
     private heroService: HeroesService,
     private _combatService: CombatService,
+    private dialog: DialogService,
     private routeSnapshot: ActivatedRoute
   ) { }
 
@@ -94,10 +110,25 @@ export class CombatComponent implements OnInit {
     this.combat.initiatives = this.combat.initiatives.sort((a, b) => b.value - a.value);
   }
 
-  heroFullAttack(attacker: Creature) {
-    this._combatService.fullAttack(attacker.id,  this.attackTargetsByIds[attacker.id]).subscribe((val) => {
-      console.log(val);
+  heroFullAttack(attackInput: AttackInput) {
+    this._combatService.fullAttack(attackInput.attackerId, attackInput.targetId).subscribe((val) => {
       this.attackDetails = val.attackDetails;
+      const heroAsAttackerIndex = this.heroes.findIndex(hero => hero.id === this.attackDetails.attacker.id);
+      if (heroAsAttackerIndex >= 0) {
+        this.heroes[heroAsAttackerIndex] = this.attackDetails.attacker;
+      }
+      const heroAsTargetIndex = this.heroes.findIndex(hero => hero.id === this.attackDetails.target.id);
+      if (heroAsTargetIndex >= 0) {
+        this.heroes[heroAsTargetIndex] = this.attackDetails.target;
+      }
+      const monsterAsAttackerIndex = this.monsters.findIndex(monster => monster.id === this.attackDetails.attacker.id);
+      if (monsterAsAttackerIndex >= 0) {
+        this.monsters[monsterAsAttackerIndex] = this.attackDetails.attacker;
+      }
+      const monsterAsTargetIndex = this.monsters.findIndex(monster => monster.id === this.attackDetails.target.id);
+      if (monsterAsTargetIndex >= 0) {
+        this.monsters[monsterAsTargetIndex] = this.attackDetails.target;
+      }
     });
   }
 
@@ -120,7 +151,14 @@ export class CombatComponent implements OnInit {
     this._combatService.endTurn(new EndTurnInput(this.combat.id, this.combat.currentInitiative.creature.id))
       .subscribe((nextInitiative: Initiative) => {
         this.combat.currentInitiative.creature = nextInitiative.creature;
+        this.combatActionData.currentCreatureActing = nextInitiative.creature;
       });
+  }
+
+  openActionBar(creature: Creature, creatureType: CreatureType) {
+    this.combatActionData.currentTargets = creatureType === this.creatureType.Hero ? this.heroesTargets : this.monsterTargets;
+    this.combatActionData.currentCreatureActing = creature;
+    this.actionModalOpened = true;
   }
 }
 

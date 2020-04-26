@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 
 
 @MappedSuperclass
-public class Items extends DefaultEntity {
+public class Item extends DefaultEntity {
 
 	@Getter @Setter
 	protected String name;

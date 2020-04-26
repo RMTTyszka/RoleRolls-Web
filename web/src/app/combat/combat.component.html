@@ -5,13 +5,9 @@
     <div>Heroes</div>
     <button pButton (click)="addHero()" label="Add Hero"></button>
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="12px">
-      <div fxLayout="row">
+      <div fxLayout="row" fxLayoutGap="12px">
         <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
-        <button pButton (click)="heroFullAttack(hero)" label="Attack"></button>
-      </div>
-      <div fxLayout="row">
-        <span style="margin-right: 8px">Target</span>
-        <loh-combat-creature-select [creaturesOnCombat]="heroesTargets" (creatureSelected)="heroTargetSelected(hero, $event)"></loh-combat-creature-select>
+        <button pButton (click)="openActionBar(hero, this.creatureType.Hero)" label="Action"></button>
       </div>
     </div>
   </div>
@@ -19,13 +15,9 @@
     <div>Enemies</div>
     <button pButton (click)="addMonster()" label="Add Monster"></button>
     <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
-      <div fxLayout="row">
+      <div fxLayout="row" fxLayoutGap="12px">
         <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)"></loh-monster-select>
-        <button pButton (click)="heroFullAttack(monster)" label="Attack"></button>
-      </div>
-      <div fxLayout="row">
-        <span>Target</span>
-        <loh-combat-creature-select [creaturesOnCombat]="monsterTargets" (creatureSelected)="monsterTargetSelected(monster, $event)"></loh-combat-creature-select>
+        <button pButton (click)="openActionBar(monster, this.creatureType.Monster)" label="Action"></button>
       </div>
     </div>
   </div>
@@ -33,7 +25,13 @@
     <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
   </div>
   <div fxFlex="50" style="padding: 8px">
-    <loh-initiative [initiatives]="combat.initiatives" [currentCreatureId]="combat.currentInitiative.creature.id"></loh-initiative>
+    <loh-initiative [initiatives]="combat.initiatives" [currentCreatureId]="combat?.currentInitiative?.creature?.id"></loh-initiative>
     <button pButton label="endTurn" (click)="endTurn()"></button>
   </div>
 </div>
+
+<p-sidebar [(visible)]="actionModalOpened" position="right" [modal]="false">
+  <loh-combat-action-modal
+    (attackAction)="heroFullAttack($event)"
+    [combatData]="combatActionData"></loh-combat-action-modal>
+</p-sidebar>

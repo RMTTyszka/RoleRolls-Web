@@ -1,5 +1,6 @@
 package com.loh.combat;
 
+import com.loh.creatures.Creature;
 import lombok.Getter;
 
 public class AttackDetails {
@@ -14,6 +15,13 @@ public class AttackDetails {
     @Getter
     private Integer defense;
 
+    @Getter
+    private Creature attacker;
+    @Getter
+    private Creature target;
+
+
+
 
 
     public Integer getTotalDamage() {
@@ -22,10 +30,12 @@ public class AttackDetails {
         return mainWeaponDamage + offWeaponDamage;
     }
 
-    public AttackDetails(AttackResult mainWeaponAttackResult, AttackResult offWeaponAttackResult, Integer evasion, Integer defense) {
+    public AttackDetails(AttackResult mainWeaponAttackResult, AttackResult offWeaponAttackResult, Creature attacker, Creature target) {
         this.mainWeaponAttackResult = mainWeaponAttackResult;
         this.offWeaponAttackResult = offWeaponAttackResult;
-        this.defense = defense;
-        this.evasion = evasion;
+        this.defense = target.getStatus().getDefense();
+        this.evasion = target.getStatus().getEvasion();
+        this.attacker = attacker;
+        this.target = target;
     }
 }
