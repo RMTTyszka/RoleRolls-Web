@@ -18,6 +18,14 @@ import javax.persistence.OneToOne;
 public class Equipment extends Entity {
 
 	public Equipment(){
+		this.armor = new ArmorInstance();
+		this.mainWeapon = new WeaponInstance();
+		this.belt = new BeltInstance();
+		this.headpiece = new HeadpieceInstance();
+		this.neckAccessory = new NeckAccessoryInstance();
+		this.ringLeft = new RingInstance();
+		this.ringRight = new RingInstance();
+		this.gloves = new GloveInstance();
 	}
 	public Integer getBonusLevel(String property) {
 		Integer armorBonus = Bonuses.GetEquipmentBonusLevel(armor.getBonuses(), property);
@@ -65,7 +73,7 @@ public class Equipment extends Entity {
 		return armor.getEvasion();
 	}
 	public Integer getDodge() {
-		return armor.getDodge();
+		return armor != null ? armor.getDodge() : 0;
 	}
 
 	public void equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {

@@ -23,7 +23,15 @@ import java.util.List;
 public class Creature extends Entity {
 
     public Creature() {
+        level = 1;
+        this.baseAttributes = new Attributes();
+        this.bonusAttributes = new Attributes();
         this.bonuses = new ArrayList<>();
+        this.race = new Race();
+        this.role = new Role();
+        this.equipment = new Equipment();
+        setCurrentLife(getStatus().getLife());
+        setCurrentMoral(getStatus().getMoral());
     }
 
     @Embedded
@@ -70,11 +78,31 @@ public class Creature extends Entity {
     public CreatureStatus getStatus() {
         return new CreatureStatus(this);
     }
+    @Getter
+    private Integer currentLife;
+    @Getter
+    private Integer currentMoral;
+    public void setCurrentLife(Integer val) {
+        if (currentLife == null) {
+            currentLife = getStatus().getLife();
+        }
+        currentLife = val;
+        currentLife = Integer.max(currentLife, 0);
+        currentLife = Integer.min(currentLife, getStatus().getLife());
+    }
+    public void setCurrentMoral(Integer val) {
+        if (currentMoral == null) {
+            currentMoral = getStatus().getMoral();
+        }
+        currentMoral = val;
+        currentMoral = Integer.max(currentMoral, 0);
+        currentMoral = Integer.min(currentMoral, getStatus().getMoral());
 
+    }
     @Getter @Setter
     private Integer manaSpent;
     @Getter @Setter
-    private String specialPowerMainAttribute;
+    private String specialPowerMainAttribute = Attributes.Strength;
 
     public Attributes getTotalAttributes(){
         Attributes totalAttributes = bonusAttributes.GetSumOfAttributes(baseAttributes);
@@ -239,8 +267,19 @@ public class Creature extends Entity {
         return level/2;
     }
 
-    public void takeDamage(Integer damage) {
+    public Integer takeDamage(Integer damage) {
+        Integer reducedDamage = damage - getStatus().getDefense();
+        reducedDamage = Integer.max(reducedDamage, 1);
+        Integer remainingDamage = reducedDamage;
+        if (currentMoral > 0) {
+            remainingDamage -= currentMoral;
+            setCurrentMoral(currentMoral - reducedDamage);
+        }
+        if (remainingDamage > 0) {
+            setCurrentLife(currentLife - remainingDamage);
+        }
 
+        return reducedDamage;
     }
 
     public Creature processEndOfTurn(CreatureRepository creatureRepository) {

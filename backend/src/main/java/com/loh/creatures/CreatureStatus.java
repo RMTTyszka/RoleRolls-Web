@@ -15,8 +15,10 @@ public class CreatureStatus {
     private Integer specialPower;
     @Getter
     private Integer life;
+
     @Getter
     private Integer moral;
+
     @Getter
     private Integer evasion;
     @Getter
@@ -49,17 +51,17 @@ public class CreatureStatus {
         return creature.level / 5 + 1 + creature.equipment.getNeckAccessory().getManaBonus();
     }
     public static Integer getSpecialAttack(Creature creature) {
-        Integer gloveBonus = creature.equipment.getGloves().getBonus();
+        Integer gloveBonus = (creature.equipment != null && creature.equipment.getGloves() != null) ? creature.equipment.getGloves().getBonus() : 0;
         Integer creatureBonus = creature.getBonusLevel(Properties.SpecialAttack);
         return gloveBonus + creatureBonus;
     }
     public static Integer getMagicDefense(Creature creature) {
-        Integer beltBonus = creature.equipment.getBelt().getBonus();
+        Integer beltBonus = (creature.equipment != null && creature.equipment.getBelt() != null) ? creature.equipment.getBelt().getBonus() : 0;
         Integer creatureBonus = creature.getBonusLevel(Properties.MagicDefense);
         return beltBonus + creatureBonus;
     }
     public static Integer getDodge(Creature creature) {
-        Integer dodge = creature.equipment.getDodge();
+        Integer dodge = (creature.equipment != null) ? creature.equipment.getDodge() : 0;
         return dodge;
     }
     public static Integer getSpecialPower(Creature creature) {
@@ -80,4 +82,5 @@ public class CreatureStatus {
     public static Integer getDefense(Creature creature) {
         return creature.equipment.getDefense() + creature.getAttributeLevel(Attributes.Vitality);
     }
+
 }

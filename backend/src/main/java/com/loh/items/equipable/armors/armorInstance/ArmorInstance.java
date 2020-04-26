@@ -25,10 +25,12 @@ public class ArmorInstance extends EquipableInstance {
         return armorModel.getEvasion() + getBonus();
     }
     public Integer getDodge() {
-        return armorModel.getDodge();
+        return armorModel != null ? armorModel.getDodge() : 0;
     }
 
     public ArmorInstance() {
+        super();
+        armorModel = new ArmorModel();
     }
 
     public ArmorInstance(ArmorModel armorModel, Integer level) {

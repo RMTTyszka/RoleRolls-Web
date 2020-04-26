@@ -11,6 +11,10 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {InputTextModule} from 'primeng/inputtext';
 import {MonstersSharedModule} from '../monsters/monsters-shared/monsters-shared.module';
 import { InitiativeComponent } from './initiative/initiative.component';
+import { CombatActionModalComponent } from './action-modal/combat-action-modal.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {ReactiveFormsModule} from '@angular/forms';
+import {SidebarModule} from 'primeng/sidebar';
 
 const routes: Routes = [
   {path: '', component: CombatListComponent},
@@ -28,8 +32,12 @@ const routes: Routes = [
     SharedModule,
     ToolbarModule,
     InputTextModule,
-    MonstersSharedModule
+    MonstersSharedModule,
+    SelectButtonModule,
+    ReactiveFormsModule,
+    SidebarModule
   ],
-  declarations: [CombatComponent, CombatListComponent, InitiativeComponent]
+  declarations: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent],
+  entryComponents: [CombatActionModalComponent]
 })
 export class CombatModule { }

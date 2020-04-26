@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 public class ArmorModel extends Equipable {
 
 	public ArmorModel(){
+		super();
+		baseArmor = new BaseArmor();
 	}
 
 	public ArmorModel(String name, BaseArmor baseArmor) {
@@ -36,7 +38,7 @@ public class ArmorModel extends Equipable {
 		return Bonuses.GetBonus(bonuses, Properties.Evasion);
 	}
 	public java.lang.Integer getDodge() {
-		return baseArmor.getCategory().getDodge() + Bonuses.GetBonus(bonuses, Properties.Dodge);
+		return baseArmor != null ? baseArmor.getCategory().getDodge() + Bonuses.GetBonus(bonuses, Properties.Dodge) : 0;
 	}
 
 }

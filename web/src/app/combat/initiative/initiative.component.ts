@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Initiative} from '../../shared/models/Iniciative.model';
 import {Creature} from '../../shared/models/Creature.model';
 
@@ -11,6 +11,7 @@ export class InitiativeComponent implements OnInit {
 
   @Input() initiatives: Initiative[] = [];
   @Input() currentCreatureId: string;
+  @Output() currentCreatureOnTurnChanged = new EventEmitter<Creature>();
   constructor() { }
 
   ngOnInit() {

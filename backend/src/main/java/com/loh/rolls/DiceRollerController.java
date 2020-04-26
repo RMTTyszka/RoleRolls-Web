@@ -1,6 +1,5 @@
 package com.loh.rolls;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/roll",  produces = "application/json; charset=UTF-8")
 public class DiceRollerController {
-    @Autowired
-    DiceRoller diceRoller;
+    DiceRoller diceRoller = new DiceRoller();
 
     @GetMapping(path="/makeTest")
     public @ResponseBody

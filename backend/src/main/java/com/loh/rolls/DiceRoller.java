@@ -1,13 +1,11 @@
 package com.loh.rolls;
 
 import com.loh.dev.Loh;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Service
 public class DiceRoller {
 
     private Random random = new Random();

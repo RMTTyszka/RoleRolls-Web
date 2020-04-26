@@ -22,6 +22,10 @@ public class ItemInstance extends Entity {
       return level / 2;
     }
 
+    public ItemInstance() {
+        level = 1;
+    }
+
     public void levelUp(ItemInstanceRepository itemInstanceRepository) {
         level++;
         itemInstanceRepository.save(this);
