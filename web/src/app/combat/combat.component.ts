@@ -5,7 +5,7 @@ import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/Combat.model';
 import {Monster} from '../shared/models/Monster.model';
-import {Creature} from '../shared/models/Creature.model';
+import {Creature} from '../shared/models/creatures/Creature.model';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
 import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
@@ -14,6 +14,7 @@ import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToComba
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
 import {DialogService} from 'primeng/api';
 import {CreatureType} from '../shared/models/creatures/CreatureType';
+import {EffectType} from '../shared/models/effects/EffectType.model';
 
 export class CombatActionData {
   currentTargets: Creature[] = [];
@@ -38,6 +39,7 @@ export class CombatComponent implements OnInit {
   actionModalOpened = false;
   creatureType = CreatureType;
   combatActionData: CombatActionData = new CombatActionData();
+  effectType = EffectType;
   constructor(
     private heroService: HeroesService,
     private _combatService: CombatService,
@@ -160,5 +162,10 @@ export class CombatComponent implements OnInit {
     this.combatActionData.currentCreatureActing = creature;
     this.actionModalOpened = true;
   }
+
+  getEffect(creature: Creature, effectType: EffectType) {
+    return creature.effects.find(effect => effect.effectType === effectType) || null;
+  }
+
 }
 

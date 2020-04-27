@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CreatureStatus} from '../../shared/models/CreatureStatus.model';
+import {CreatureStatus} from '../../shared/models/creatures/CreatureStatus.model';
 
 @Component({
   selector: 'loh-hero-stats',

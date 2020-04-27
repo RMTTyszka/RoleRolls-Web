@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DynamicDialogConfig, DynamicDialogRef, SelectItem} from 'primeng/api';
-import {Creature} from '../../shared/models/Creature.model';
+import {Creature} from '../../shared/models/creatures/Creature.model';
 import {AttackInput, CombatActionData} from '../combat.component';
 import {CombatService} from '../combat.service';
 

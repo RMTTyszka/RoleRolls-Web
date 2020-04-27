@@ -1,17 +1,17 @@
 <div fxLayout="row wrap" *ngIf="hasLoaded">
   <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()" label="Save"></button></p-toolbar>
   <input fxFlex="100" pInputText [(ngModel)]="combat.name" placeholder="name">
-  <div fxFlex="50" style="padding: 8px">
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <div>Heroes</div>
     <button pButton (click)="addHero()" label="Add Hero"></button>
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="12px">
-      <div fxLayout="row" fxLayoutGap="12px">
+      <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="end center" fxFlex="70" fxFlex.gt-sm="100">
         <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
-        <button pButton (click)="openActionBar(hero, this.creatureType.Hero)" label="Action"></button>
+        <button pButton [disabled]="getEffect(hero, effectType.Death)" (click)="openActionBar(hero, this.creatureType.Hero)" label="Action"></button>
       </div>
     </div>
   </div>
-  <div fxFlex="50" style="padding: 8px">
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <div>Enemies</div>
     <button pButton (click)="addMonster()" label="Add Monster"></button>
     <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
@@ -21,10 +21,10 @@
       </div>
     </div>
   </div>
-  <div fxFlex="50" style="padding: 8px">
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
   </div>
-  <div fxFlex="50" style="padding: 8px">
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <loh-initiative [initiatives]="combat.initiatives" [currentCreatureId]="combat?.currentInitiative?.creature?.id"></loh-initiative>
     <button pButton label="endTurn" (click)="endTurn()"></button>
   </div>

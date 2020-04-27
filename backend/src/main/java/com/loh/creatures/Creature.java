@@ -5,6 +5,8 @@ import com.loh.combat.AttackService;
 import com.loh.creatures.equipment.Equipment;
 import com.loh.creatures.inventory.Inventory;
 import com.loh.dev.Loh;
+import com.loh.effects.EffectInstance;
+import com.loh.effects.EffectProcessor;
 import com.loh.items.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
@@ -87,7 +89,6 @@ public class Creature extends Entity {
             currentLife = getStatus().getLife();
         }
         currentLife = val;
-        currentLife = Integer.max(currentLife, 0);
         currentLife = Integer.min(currentLife, getStatus().getLife());
     }
     public void setCurrentMoral(Integer val) {
@@ -147,6 +148,15 @@ public class Creature extends Entity {
         Integer creatureMagicalBonus = Bonuses.GetMagicalBonusLevel(bonuses, property);
         Integer creatureMoralBonus = Bonuses.GetMoralBonusLevel(bonuses, property);
         return creatureRaceBonus + creatureRoleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus;
+    }
+
+    @ElementCollection
+    @CollectionTable()
+    @Getter
+    @Setter
+    private List<EffectInstance> effects;
+    public void addEffect(EffectInstance effect) {
+        EffectProcessor.processNewEffect(effects, effect);
     }
 
     public Integer getMainWeaponHitBonus() {
@@ -277,6 +287,10 @@ public class Creature extends Entity {
         }
         if (remainingDamage > 0) {
             setCurrentLife(currentLife - remainingDamage);
+        }
+
+        if (currentLife <= 0) {
+            this.addEffect(DeathProcessor.getDeathEffect(currentLife));
         }
 
         return reducedDamage;

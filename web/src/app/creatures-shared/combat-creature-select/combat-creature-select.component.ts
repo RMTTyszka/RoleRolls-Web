@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Hero} from '../../shared/models/NewHero.model';
-import {Creature} from '../../shared/models/Creature.model';
+import {Creature} from '../../shared/models/creatures/Creature.model';
 
 @Component({
   selector: 'loh-combat-creature-select',

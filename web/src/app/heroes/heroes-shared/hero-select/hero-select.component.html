@@ -16,6 +16,8 @@
   </ng-container>
 </p-overlayPanel>
 <div class="ui-inputgroup">
+  <span *ngIf="getEffect(effectType.Death)" class="ui-inputgroup-addon" style="max-height: 33px;" pTooltip="Dead"><i class="fas fa-skull"></i></span>
+  <span *ngIf="getEffect(effectType.Poison)" class="ui-inputgroup-addon" style="max-height: 33px; background-color: darkslateblue" pTooltip="Poisoned"><i class="fas fa-skull-crossbones"></i></span>
   <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="hero ? heroOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
   <p-autoComplete  [(ngModel)]="hero" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
 </div>

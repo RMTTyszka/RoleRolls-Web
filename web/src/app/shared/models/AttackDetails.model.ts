@@ -1,5 +1,5 @@
 import {AttackResult} from './AttackResult.model';
-import {Creature} from './Creature.model';
+import {Creature} from './creatures/Creature.model';
 
 export class AttackDetails {
   mainWeaponAttackResult = new AttackResult();
