@@ -261,6 +261,8 @@ public class Creature extends Entity {
         bonuses.add(new Bonus(Attributes.Intuition, (level / 5) * 5, 0, BonusType.Innate));
         bonuses.add(new Bonus(Attributes.Charisma, (level / 5) * 5, 0, BonusType.Innate));
         this.level = level;
+        this.currentLife = this.getStatus().getLife();
+        this.currentMoral = this.getStatus().getMoral();
         creatureRepository.save(this);
     }
     public void levelUp(List<String> attributesToLevel) {
