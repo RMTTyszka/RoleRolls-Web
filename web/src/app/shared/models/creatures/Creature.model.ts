@@ -1,12 +1,13 @@
-import {Attributes} from './Attributes.model';
-import {Race} from './Race.model';
-import {Role} from './Role.model';
-import {Equipment} from './Equipment.model';
-import {Inventory} from './Inventory.model';
+import {Attributes} from '../Attributes.model';
+import {Race} from '../Race.model';
+import {Role} from '../Role.model';
+import {Equipment} from '../Equipment.model';
+import {Inventory} from '../Inventory.model';
 import {CreatureStatus} from './CreatureStatus.model';
-import {Resistances} from './Resistances.model';
-import {WeaponAttributes} from './WeaponAttributes.model';
-import {Entity} from './Entity.model';
+import {Resistances} from '../Resistances.model';
+import {WeaponAttributes} from '../WeaponAttributes.model';
+import {Entity} from '../Entity.model';
+import {EffectInstance} from '../effects/EffectInstance.model';
 
 export class Creature extends Entity {
   baseAttributes: Attributes = new Attributes();
@@ -23,6 +24,7 @@ export class Creature extends Entity {
   inventory: Inventory;
   status: CreatureStatus = new CreatureStatus();
   resistances = new Resistances();
+  effects = new Array<EffectInstance>();
   mainWeaponAttributes = new WeaponAttributes();
   offWeaponAttributes = new WeaponAttributes();
   currentLife = 0;

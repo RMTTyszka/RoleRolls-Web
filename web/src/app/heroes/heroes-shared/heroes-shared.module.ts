@@ -6,15 +6,17 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {PanelModule} from 'primeng/panel';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    OverlayPanelModule,
-    PanelModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        OverlayPanelModule,
+        PanelModule,
+        TooltipModule
+    ],
   declarations: [HeroesSelectModalComponent, HeroSelectComponent],
   entryComponents: [HeroesSelectModalComponent],
   exports: [HeroesSelectModalComponent, HeroSelectComponent]

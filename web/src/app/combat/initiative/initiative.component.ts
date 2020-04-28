@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Initiative} from '../../shared/models/Iniciative.model';
-import {Creature} from '../../shared/models/Creature.model';
+import {Creature} from '../../shared/models/creatures/Creature.model';
 
 @Component({
   selector: 'loh-initiative',
