@@ -16,8 +16,12 @@
   </ng-container>
 </p-overlayPanel>
 <div class="ui-inputgroup">
-  <span *ngIf="getEffect(effectType.Death)" class="ui-inputgroup-addon" style="max-height: 33px;" pTooltip="Dead"><i class="fas fa-skull"></i></span>
-  <span *ngIf="getEffect(effectType.Poison)" class="ui-inputgroup-addon" style="max-height: 33px; background-color: darkslateblue" pTooltip="Poisoned"><i class="fas fa-skull-crossbones"></i></span>
+  <span *ngIf="getEffect(effectType.Death)" class="ui-inputgroup-addon small" style="max-height: 33px;" pTooltip="Dead"><i class="fas fa-skull" style="color: black"></i></span>
+  <span *ngIf="getEffect(effectType.Poison)" class="ui-inputgroup-addon small" style="max-height: 33px;" pTooltip="Poisoned"><i class="fas fa-skull-crossbones" style="color: darkslateblue"></i></span>
+  <span *ngIf="getEffect(effectType.Burn)" class="ui-inputgroup-addon small" style="max-height: 33px;" pTooltip="Burning"><i class="fas fa-fire-alt" style="color: darkred"></i></span>
+
+</div>
+<div class="ui-inputgroup">
   <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="hero ? heroOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
   <p-autoComplete  [(ngModel)]="hero" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
 </div>
