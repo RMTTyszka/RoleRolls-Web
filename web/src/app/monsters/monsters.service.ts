@@ -1,17 +1,17 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
 import {Monster} from '../shared/models/Monster.model';
+import {BaseEntityService} from '../shared/base-entity-service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MonstersService extends BaseCrudServiceComponent<Monster> {
+export class MonstersService extends BaseEntityService<Monster> {
   path = 'monsters';
   constructor(
 
     injector: Injector
   ) {
-    super(injector);
+    super(injector, Monster);
    }
 }

@@ -1,0 +1,28 @@
+
+<p-overlayPanel #creatureOverlay>
+  <ng-container *ngIf="creature">
+    <p-panel [header]="creature.name">
+      <div>Race: {{creature.race?.name}}</div>
+      <div>Role: {{creature.role?.name}}</div>
+      <div>Strength: {{creature.totalAttributes.strength}}</div>
+      <div>Agility: {{creature.totalAttributes.agility}}</div>
+      <div>Vitality: {{creature.totalAttributes.vitality}}</div>
+      <div>Wisdom: {{creature.totalAttributes.wisdom}}</div>
+      <div>Intuition: {{creature.totalAttributes.intuition}}</div>
+      <div>Charisma: {{creature.totalAttributes.charisma}}</div>
+      <div>Life: {{creature.currentLife}}</div>
+      <div>Moral: {{creature.currentMoral}}</div>
+    </p-panel>
+  </ng-container>
+</p-overlayPanel>
+<div class="ui-inputgroup">
+  <span *ngIf="getEffect(effectType.Death)" class="ui-inputgroup-addon small" style="max-height: 33px;" [pTooltip]="'Dead (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull" style="color: black"></i></span>
+  <span *ngIf="getEffect(effectType.Poison)" class="ui-inputgroup-addon small" style="max-height: 33px;" [pTooltip]="'Poisoned (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull-crossbones" style="color: darkslateblue"></i></span>
+  <span *ngIf="getEffect(effectType.Burn)" class="ui-inputgroup-addon small" style="max-height: 33px;" [pTooltip]="'Burning (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-fire-alt" style="color: darkred"></i></span>
+</div>
+<div class="ui-inputgroup">
+  <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="creature ? creatureOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
+  <p-autoComplete  [(ngModel)]="creature" field="name" (completeMethod)="search($event.query)" [placeholder]="placeholder" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
+  <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="openMasterTools()" pTooltip="Master Tools"><i class="fas fa-user-secret" ></i></span>
+</div>
+

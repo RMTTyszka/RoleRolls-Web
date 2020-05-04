@@ -17,13 +17,16 @@ import {PanelModule} from 'primeng/panel';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CombatCreatureSelectComponent} from './combat-creature-select/combat-creature-select.component';
 import {DropdownModule} from 'primeng/dropdown';
+import { CreatureBaseSelectComponent } from './creature-base-select/creature-base-select.component';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {TooltipModule} from 'primeng/tooltip';
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent],
-  exports: [
-    InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent
-  ],
+  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent],
+    exports: [
+        InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent
+    ],
   imports: [
     CommonModule,
     FieldsetModule,
@@ -32,7 +35,10 @@ import {DropdownModule} from 'primeng/dropdown';
     PanelModule,
     FlexLayoutModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    OverlayPanelModule,
+    TooltipModule
+
   ]
 })
 export class CreaturesSharedModule { }

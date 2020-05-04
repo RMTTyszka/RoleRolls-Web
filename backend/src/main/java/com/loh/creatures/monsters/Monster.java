@@ -2,6 +2,7 @@ package com.loh.creatures.monsters;
 
 import com.loh.creatures.Attributes;
 import com.loh.creatures.Creature;
+import com.loh.creatures.CreatureType;
 import com.loh.creatures.equipment.Equipment;
 import com.loh.creatures.inventory.Inventory;
 import com.loh.race.Race;
@@ -22,7 +23,10 @@ public class Monster extends Creature {
     @Getter
     @Setter
     private MonsterBase monsterBase;
-
+    @Override
+    protected CreatureType getCreatureType() {
+        return CreatureType.Monster;
+    }
     public Monster(){
         super();
         id = UUID.randomUUID();

@@ -36,6 +36,10 @@ public class Creature extends Entity {
         setCurrentMoral(getStatus().getMoral());
     }
 
+    protected CreatureType getCreatureType() {
+        return null;
+    }
+
     @Embedded
     @Getter @Setter
     @AttributeOverrides
@@ -155,8 +159,11 @@ public class Creature extends Entity {
     @Getter
     @Setter
     private List<EffectInstance> effects;
-    public void addEffect(EffectInstance effect) {
-        EffectProcessor.processNewEffect(effects, effect);
+    public void updateEffect(EffectInstance effect) {
+        effects = EffectProcessor.updateEffect(effects, effect);
+    }
+    public void removeEffect(EffectInstance effect) {
+        effects = EffectProcessor.removeEffect(effects, effect);
     }
 
     public Integer getMainWeaponHitBonus() {
@@ -292,7 +299,7 @@ public class Creature extends Entity {
         }
 
         if (currentLife <= 0) {
-            this.addEffect(DeathProcessor.getDeathEffect(currentLife));
+            this.updateEffect(DeathProcessor.getDeathEffect(currentLife));
         }
 
         return reducedDamage;

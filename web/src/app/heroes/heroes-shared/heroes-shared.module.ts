@@ -7,16 +7,21 @@ import {FormsModule} from '@angular/forms';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {PanelModule} from 'primeng/panel';
 import {TooltipModule} from 'primeng/tooltip';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {MasterToolsModule} from '../../masters/master-tools/master-tools.module';
+import {CreaturesSharedModule} from '../../creatures-shared/creatures-shared.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        AutoCompleteModule,
-        FormsModule,
-        OverlayPanelModule,
-        PanelModule,
-        TooltipModule
-    ],
+  imports: [
+    CommonModule,
+    AutoCompleteModule,
+    FormsModule,
+    PanelModule,
+    TooltipModule,
+    DynamicDialogModule,
+    MasterToolsModule,
+    CreaturesSharedModule
+  ],
   declarations: [HeroesSelectModalComponent, HeroSelectComponent],
   entryComponents: [HeroesSelectModalComponent],
   exports: [HeroesSelectModalComponent, HeroSelectComponent]

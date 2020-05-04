@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {CombatService} from './combat.service';
-import {HeroesService} from '../heroes/heroes.service';
 import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/Combat.model';
@@ -41,7 +40,6 @@ export class CombatComponent implements OnInit {
   combatActionData: CombatActionData = new CombatActionData();
   effectType = EffectType;
   constructor(
-    private heroService: HeroesService,
     private _combatService: CombatService,
     private dialog: DialogService,
     private routeSnapshot: ActivatedRoute

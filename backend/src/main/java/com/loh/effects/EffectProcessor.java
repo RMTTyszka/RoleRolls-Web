@@ -1,19 +1,27 @@
 package com.loh.effects;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EffectProcessor {
 
     
-    public static List<EffectInstance> processNewEffect(List<EffectInstance> effects, EffectInstance effect){
+    public static List<EffectInstance> updateEffect(List<EffectInstance> effects, EffectInstance effect){
         EffectInstance existingEffect = effects.stream().filter(e -> e.getEffectType() == effect.getEffectType()).findFirst().orElse(null);
         if (existingEffect != null) {
             existingEffect = processEffectLevelUp(existingEffect, effect.getLevel());
+            if (existingEffect.getLevel() <= 0) {
+                effects = removeEffect(effects, effect);
+            }
         } else {
             effects.add(effect);
         }
         return effects;
 
+    }
+    public static List<EffectInstance> removeEffect(List<EffectInstance> effects, EffectInstance effect){
+        effects = effects.stream().filter(e -> e.getEffectType() != effect.getEffectType()).collect(Collectors.toList());
+        return effects;
     }
     
     

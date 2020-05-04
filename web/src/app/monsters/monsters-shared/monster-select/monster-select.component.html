@@ -18,5 +18,6 @@
 <div class="ui-inputgroup">
   <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="monster ? monsterOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
   <p-autoComplete  [(ngModel)]="monster" field="name" (completeMethod)="search($event.query)" placeholder="Hero" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
+  <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="openMasterTools()" pTooltip="Master Tools"><i class="fas fa-user-secret" ></i></span>
 </div>
 

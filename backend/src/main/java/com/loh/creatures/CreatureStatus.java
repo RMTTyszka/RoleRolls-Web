@@ -3,8 +3,12 @@ package com.loh.creatures;
 import com.loh.shared.Properties;
 import lombok.Getter;
 
+import java.util.UUID;
+
 public class CreatureStatus {
 
+    @Getter
+    private UUID ownerId;
     @Getter
     private Integer specialAttack;
     @Getter
@@ -30,6 +34,7 @@ public class CreatureStatus {
     }
 
     public CreatureStatus(Creature creature) {
+        this.ownerId = creature.getId();
         specialAttack = getSpecialAttack(creature);
         this.magicDefense = getMagicDefense(creature);
         this.dodge = getDodge(creature);
