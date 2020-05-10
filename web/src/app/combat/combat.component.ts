@@ -174,24 +174,9 @@ export class CombatComponent implements OnInit, OnDestroy {
       });
   }
   heroFullAttack(attackInput: AttackInput) {
-    this._combatService.fullAttack(attackInput.attackerId, attackInput.targetId).subscribe((val) => {
+    this._combatService.fullAttack({ combatId: this.combat.id, attackerId: attackInput.attackerId, targetId: attackInput.targetId}).subscribe((val) => {
       this.attackDetails = val.attackDetails;
-      const heroAsAttackerIndex = this.heroes.findIndex(hero => hero.id === this.attackDetails.attacker.id);
-      if (heroAsAttackerIndex >= 0) {
-        this.heroes[heroAsAttackerIndex] = this.attackDetails.attacker;
-      }
-      const heroAsTargetIndex = this.heroes.findIndex(hero => hero.id === this.attackDetails.target.id);
-      if (heroAsTargetIndex >= 0) {
-        this.heroes[heroAsTargetIndex] = this.attackDetails.target;
-      }
-      const monsterAsAttackerIndex = this.monsters.findIndex(monster => monster.id === this.attackDetails.attacker.id);
-      if (monsterAsAttackerIndex >= 0) {
-        this.monsters[monsterAsAttackerIndex] = this.attackDetails.attacker;
-      }
-      const monsterAsTargetIndex = this.monsters.findIndex(monster => monster.id === this.attackDetails.target.id);
-      if (monsterAsTargetIndex >= 0) {
-        this.monsters[monsterAsTargetIndex] = this.attackDetails.target;
-      }
+      this._combatManagement.combatUpdated.next(val.combat);
     });
   }
 

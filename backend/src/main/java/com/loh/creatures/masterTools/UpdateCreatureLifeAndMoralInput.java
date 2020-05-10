@@ -2,7 +2,7 @@ package com.loh.creatures.masterTools;
 
 import java.util.UUID;
 
-public class UpdateCreatureLifeInput {
+public class UpdateCreatureLifeAndMoralInput {
     public UUID creatureId;
-    public Integer life;
+    public Integer value;
 }

@@ -31,7 +31,9 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
     this.creature = config.data.creature;
     this.entityService = config.data.service;
     this.form = this.fb.group({
-      life: [this.creature.currentLife]
+      life: [this.creature.currentLife],
+      moral: [this.creature.currentMoral],
+      healing: [0]
     });
   }
   ngOnDestroy(): void {
@@ -96,14 +98,35 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
       });
   }
   updateLife() {
-    this.updateCreatureToolService.updateLife({creatureId: this.creature.id, life: this.life})
+    this.updateCreatureToolService.updateLife({creatureId: this.creature.id, value: this.life})
       .subscribe((updatedCreature: Creature) => {
         this.form.get('life').setValue(updatedCreature.currentLife);
         this.entityService.onEntityChange.next(updatedCreature as T);
       });
   }
+  updateMoral() {
+    this.updateCreatureToolService.updateMoral({creatureId: this.creature.id, value: this.moral})
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('moral').setValue(updatedCreature.currentMoral);
+        this.entityService.onEntityChange.next(updatedCreature as T);
+      });
+  }
+  heal() {
+    this.updateCreatureToolService.heal({creatureId: this.creature.id, value: this.healing})
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('life').setValue(updatedCreature.currentLife);
+        this.form.get('moral').setValue(updatedCreature.currentMoral);
+        this.entityService.onEntityChange.next(updatedCreature as T);
+      });
+  }
 get life() {
     return this.form.get('life').value;
+}
+get moral() {
+    return this.form.get('moral').value;
+}
+get healing() {
+    return this.form.get('healing').value;
 }
 
   test() {
@@ -124,9 +147,24 @@ get life() {
   }
 
   updateFullLife() {
-    this.updateCreatureToolService.updateLife({creatureId: this.creature.id, life: 999999})
+    this.updateCreatureToolService.updateLife({creatureId: this.creature.id, value: 999999})
       .subscribe((updatedCreature: Creature) => {
         this.form.get('life').setValue(updatedCreature.currentLife);
+        this.entityService.onEntityChange.next(updatedCreature as T);
+      });
+  }
+  updateFullMoral() {
+    this.updateCreatureToolService.updateMoral({creatureId: this.creature.id, value: 999999})
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('moral').setValue(updatedCreature.currentMoral);
+        this.entityService.onEntityChange.next(updatedCreature as T);
+      });
+  }
+  fullyHeal() {
+    this.updateCreatureToolService.heal({creatureId: this.creature.id, value: 999999})
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('life').setValue(updatedCreature.currentLife);
+        this.form.get('moral').setValue(updatedCreature.currentMoral);
         this.entityService.onEntityChange.next(updatedCreature as T);
       });
   }

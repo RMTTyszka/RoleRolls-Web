@@ -9,6 +9,7 @@ import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRem
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
 import {Hero} from '../shared/models/NewHero.model';
 import {Monster} from '../shared/models/Monster.model';
+import {AttackInput} from '../shared/models/combat/AttackInput';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,8 @@ export class CombatService extends BaseCrudServiceComponent<Combat> {
       const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId).set('isFullAttack', 'true')
       return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/getAttackRoll', {params} );
   }
-  public fullAttack(attackerId: string, targetId: string): Observable<CombatActionDto> {
-      const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId);
-      return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', {params} );
+  public fullAttack(input: AttackInput): Observable<CombatActionDto> {
+      return this.http.post<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', input );
   }
   public getCombat(id: string): Observable<Combat> {
       const params = new HttpParams().set('id', id);

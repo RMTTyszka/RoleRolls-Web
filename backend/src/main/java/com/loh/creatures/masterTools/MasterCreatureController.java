@@ -17,8 +17,20 @@ public class MasterCreatureController {
     private MasterCreatureService masterCreatureService;
     @PostMapping(path="/updateLife")
     public @ResponseBody
-    Creature updateLife(@RequestBody UpdateCreatureLifeInput input) {
-        Creature creature = masterCreatureService.updateLife(input.creatureId, input.life);
+    Creature updateLife(@RequestBody UpdateCreatureLifeAndMoralInput input) {
+        Creature creature = masterCreatureService.updateLife(input.creatureId, input.value);
+        return creature;
+    }
+    @PostMapping(path="/updateMoral")
+    public @ResponseBody
+    Creature updateMoral(@RequestBody UpdateCreatureLifeAndMoralInput input) {
+        Creature creature = masterCreatureService.updateMoral(input.creatureId, input.value);
+        return creature;
+    }
+    @PostMapping(path="/heal")
+    public @ResponseBody
+    Creature heal(@RequestBody UpdateCreatureLifeAndMoralInput input) {
+        Creature creature = masterCreatureService.heal(input.creatureId, input.value);
         return creature;
     }
     @PostMapping(path="/removeEffect")

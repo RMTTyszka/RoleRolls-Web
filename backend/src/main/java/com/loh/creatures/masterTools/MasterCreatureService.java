@@ -19,6 +19,18 @@ public class MasterCreatureService {
         creatureRepository.save(creature);
         return creature;
     }
+    public Creature updateMoral(UUID creatureId, Integer value) {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.setCurrentMoral(value);
+        creatureRepository.save(creature);
+        return creature;
+    }
+    public Creature heal(UUID creatureId, Integer value) {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.heal(value);
+        creatureRepository.save(creature);
+        return creature;
+    }
     public Creature removeEffect(UUID creatureId, EffectInstance effect) {
         Creature creature = creatureRepository.findById(creatureId).get();
         creature.removeEffect(effect);

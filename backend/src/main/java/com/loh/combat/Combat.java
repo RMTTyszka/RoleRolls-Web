@@ -11,10 +11,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Combat extends com.loh.shared.Entity {
@@ -105,5 +102,10 @@ public class Combat extends com.loh.shared.Entity {
 	}
 	private boolean isLastTurn() {
 		return initiatives.stream().filter(i -> !i.isActed()).count() == 0;
+	}
+
+	public Creature findCreatureById(UUID id) {
+		Hero hero = heroes.stream().filter(h -> h.getId().equals(id)).findFirst().orElse(null);
+		return hero != null ? hero : monsters.stream().filter(m -> m.getId().equals(id)).findFirst().get();
 	}
 }

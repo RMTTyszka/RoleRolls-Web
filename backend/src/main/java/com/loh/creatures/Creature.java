@@ -285,7 +285,22 @@ public class Creature extends Entity {
     public Integer getEvasionInnateBonus() {
         return level/2;
     }
+    public void heal(Integer value) {
+        Integer lifeToHeal = getStatus().getLife() - currentLife;
+        Integer remainingValue = value;
+        if (lifeToHeal > 0) {
+            remainingValue -= lifeToHeal;
+            setCurrentLife(currentLife + value);
+        }
+        Integer moralToHeal = getStatus().getMoral() - currentMoral;
+        if (remainingValue > 0 && moralToHeal > 0) {
+            setCurrentMoral(currentMoral + remainingValue);
+        }
 
+        if (currentLife > 0) {
+            this.removeEffect(DeathProcessor.getDeathEffect(0));
+        }
+    }
     public Integer takeDamage(Integer damage) {
         Integer reducedDamage = damage - getStatus().getDefense();
         reducedDamage = Integer.max(reducedDamage, 1);
