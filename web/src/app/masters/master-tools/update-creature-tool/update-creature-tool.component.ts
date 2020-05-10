@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UpdateCreatureToolService} from './update-creature-tool.service';
 import {Creature} from '../../../shared/models/creatures/Creature.model';
 import {DynamicDialogConfig, DynamicDialogRef, MenuItem} from 'primeng/api';
@@ -6,18 +6,22 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {BaseEntityService} from '../../../shared/base-entity-service';
 import {TieredMenu} from 'primeng/primeng';
 import {EffectInstance} from '../../../shared/models/effects/EffectInstance.model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'loh-update-creature-tool',
   templateUrl: './update-creature-tool.component.html',
   styleUrls: ['./update-creature-tool.component.css']
 })
-export class UpdateCreatureToolComponent<T extends Creature> implements OnInit {
+export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, OnDestroy {
+
   creature: T;
   form: FormGroup;
   entityService: BaseEntityService<T>;
   effectOptions: MenuItem[] = [];
   public currentEffect: EffectInstance;
+  public unsubscriber = new Subject<void>();
   constructor(
     private readonly updateCreatureToolService: UpdateCreatureToolService,
     public ref: DynamicDialogRef,
@@ -30,8 +34,17 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit {
       life: [this.creature.currentLife]
     });
   }
-
+  ngOnDestroy(): void {
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
+  }
   ngOnInit() {
+    this.entityService.onEntityChange
+      .pipe(
+        takeUntil(this.unsubscriber)
+      ).subscribe(entity => {
+      this.creature = entity;
+    })
     this.effectOptions = [
       {
         label: 'Remove',
@@ -106,8 +119,15 @@ get life() {
     this.currentEffect.level = level;
     this.updateCreatureToolService.updateEffect({creatureId: this.creature.id, effect: this.currentEffect})
       .subscribe((creature: T) => {
-        this.creature = creature;
         this.entityService.onEntityChange.next(creature);
+      });
+  }
+
+  updateFullLife() {
+    this.updateCreatureToolService.updateLife({creatureId: this.creature.id, life: 999999})
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('life').setValue(updatedCreature.currentLife);
+        this.entityService.onEntityChange.next(updatedCreature as T);
       });
   }
 }

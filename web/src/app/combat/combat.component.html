@@ -4,20 +4,22 @@
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px" fxLayout="column" fxLayoutGap="12px">
     <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
      <div>Heroes</div>
-      <button pButton (click)="addHero()" label="Add Hero"></button>
+      <button pButton (click)="addHeroPlace()" label="Add Hero"></button>
     </div>
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row"fxLayoutAlign="start end" fxLayoutGap="12px">
         <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
         <button pButton [disabled]="getEffect(hero, effectType.Death)" (click)="openActionBar(hero, this.creatureType.Hero)" label="Action"></button>
+         <button pButton (click)="removeHero(i)" icon="pi pi-times"></button>
     </div>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <div>Enemies</div>
-    <button pButton (click)="addMonster()" label="Add Monster"></button>
+    <button pButton (click)="addMonsterPlace()" label="Add Monster"></button>
     <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
       <div fxLayout="row" fxLayoutGap="12px">
         <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)"></loh-monster-select>
         <button pButton (click)="openActionBar(monster, this.creatureType.Monster)" label="Action"></button>
+        <button pButton (click)="removeMonster(i)" icon="pi pi-times"></button>
       </div>
     </div>
   </div>
@@ -25,7 +27,7 @@
     <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <loh-initiative [initiatives]="combat.initiatives" [currentCreatureId]="combat?.currentInitiative?.creature?.id"></loh-initiative>
+    <loh-initiative ></loh-initiative>
     <button pButton label="endTurn" (click)="endTurn()"></button>
   </div>
 </div>

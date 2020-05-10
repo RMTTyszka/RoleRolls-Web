@@ -5,6 +5,7 @@ import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -12,10 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Combat extends com.loh.shared.Entity {
+
+	@Getter
+	@Setter
+	@UpdateTimestamp
+	private Date lastUpdateTime;
 
 	@OneToMany
 	@Getter
@@ -55,6 +62,19 @@ public class Combat extends com.loh.shared.Entity {
 		this.heroes.add(hero);
 		return addInitiative(hero, combatService.rollForInitiative(hero));
 	}
+	public void removeHero(Hero hero) {
+		this.heroes.removeIf(h -> h.getId().equals(hero.getId()));
+		removeInitiative(hero);
+	}
+	public void removeMonster(Monster monster) {
+		this.monsters.removeIf(h -> h.getId().equals(monster.getId()));
+		removeInitiative(monster);
+	}
+
+	private void removeInitiative(Creature creature) {
+		initiatives.removeIf(h -> h.getCreature().getId().equals(creature.getId()));
+	}
+
 	private Initiative addInitiative(Creature creature, Integer initiativeValue) {
 		Initiative initiative = new Initiative(creature, initiativeValue);
 		this.initiatives.add(initiative);
@@ -69,14 +89,13 @@ public class Combat extends com.loh.shared.Entity {
 		return addInitiative(monster, combatService.rollForInitiative(monster));
 	}
 
-	public Initiative endTurn(Creature creature, CombatRepository combatRepository) {
+	public void endTurn(Creature creature, CombatRepository combatRepository) {
 		Initiative initiative = this.initiatives.stream().filter(e -> e.getCreature().getId() == creature.getId()).findFirst().get();
 		initiative.setActed(true);
 		if (isLastTurn()) {
 			processLastTurn();
 		}
 		combatRepository.save(this);
-		return getCurrentInitiative();
 	}
 
 	private void processLastTurn() {

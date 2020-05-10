@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {MonsterService} from '../../monster/monster.service';
 import {Monster} from '../../../shared/models/Monster.model';
+import {Hero} from '../../../shared/models/NewHero.model';
+import {NewHeroService} from '../../../heroes/new-hero.service';
 
 @Component({
   selector: 'loh-monster-select',
@@ -9,25 +11,17 @@ import {Monster} from '../../../shared/models/Monster.model';
   styleUrls: ['./monster-select.component.css']
 })
 export class MonsterSelectComponent implements OnInit {
-  @Output() monsterSelected = new EventEmitter<Monster>();
-  result: Monster[] = [];
+  @Output() monsterSelected = new EventEmitter<Hero>();
   @Input() monster: Monster;
   constructor(
-    private service: MonsterService,
+    private service: NewHeroService,
   ) {
   }
 
   ngOnInit() {
   }
 
-  search(event) {
-    this.service.getAllFiltered(event).pipe(
-      map(resp => resp.map(hero => hero))
-    ).subscribe(response => this.result = response);
+  creatureSelect(monster: Monster) {
+    this.monsterSelected.next(monster);
   }
-  selected(monster: Monster) {
-    this.monster = monster;
-    this.monsterSelected.emit(monster);
-  }
-
 }

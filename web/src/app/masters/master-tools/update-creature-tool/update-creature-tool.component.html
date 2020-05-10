@@ -8,8 +8,12 @@
       </span>
     </ng-container>
   </div>
-  <span>Life: </span>
-  <input pInputText type="number" formControlName="life" placeholder="Life"> <button pButton (click)="updateLife()" label="Apply"></button>
+  <div>
+    <span>Life: </span>
+    <input pInputText type="number" formControlName="life" placeholder="Life">
+    <button pButton (click)="updateLife()" label="Apply"></button>
+    <button pButton (click)="updateFullLife()" label="Max"></button>
+  </div>
 </form>
 
 

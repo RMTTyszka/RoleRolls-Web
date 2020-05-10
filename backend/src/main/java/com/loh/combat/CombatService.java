@@ -58,12 +58,12 @@ public class CombatService {
         return combatRepository.save(combat);
     }
 
-    public Initiative endTurn(Combat combat, Creature creature) {
+    public Combat endTurn(Combat combat, Creature creature) {
         creature = creature.processEndOfTurn(creatureRepository);
-        Initiative nextInitiative = combat.endTurn(creature, combatRepository);
-        return nextInitiative;
+        combat.endTurn(creature, combatRepository);
+        return combat;
     }
-    public Initiative endTurn(UUID combatId, UUID creatureId) {
+    public Combat endTurn(UUID combatId, UUID creatureId) {
         Creature creature = creatureRepository.findById(creatureId).get();
         Combat combat = combatRepository.findById(combatId).get();
         return endTurn(combat, creature);

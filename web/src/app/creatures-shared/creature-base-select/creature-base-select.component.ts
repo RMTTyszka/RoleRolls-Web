@@ -6,6 +6,7 @@ import {map, takeUntil} from 'rxjs/operators';
 import {UpdateCreatureToolComponent} from '../../masters/master-tools/update-creature-tool/update-creature-tool.component';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {BaseEntityService} from '../../shared/base-entity-service';
+import {CombatManagementService} from '../../combat/combat-management.service';
 
 @Component({
   selector: 'loh-creature-base-select',
@@ -19,13 +20,19 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
   result: T[] = [];
   effectType = EffectType;
   unsubscriber = new Subject<void>();
+  currentCreatureOnInitiativeId = '';
   @Input() placeholder = 'Creature';
   constructor(
-    private dialogService: DialogService,
+    private _combatManagement: CombatManagementService,
+  private dialogService: DialogService,
   ) {
   }
 
   ngOnInit() {
+    this._combatManagement.combatUpdated
+      .pipe(takeUntil(this.unsubscriber)).subscribe(combat => {
+      this.currentCreatureOnInitiativeId = combat.currentInitiative.creature.id;
+    });
     this.service.onEntityChange
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((creature: T) => {
@@ -62,5 +69,8 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
     }).onClose.subscribe((creature: T) => {
       this.creature = creature ? creature : this.creature;
     });
+  }
+  get isCurrentOnInitiative() {
+    return this.currentCreatureOnInitiativeId === this.creature.id;
   }
 }

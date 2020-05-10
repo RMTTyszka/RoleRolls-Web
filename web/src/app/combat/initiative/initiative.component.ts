@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Initiative} from '../../shared/models/Iniciative.model';
 import {Creature} from '../../shared/models/creatures/Creature.model';
+import {CombatManagementService} from '../combat-management.service';
 
 @Component({
   selector: 'loh-initiative',
@@ -9,12 +10,17 @@ import {Creature} from '../../shared/models/creatures/Creature.model';
 })
 export class InitiativeComponent implements OnInit {
 
-  @Input() initiatives: Initiative[] = [];
-  @Input() currentCreatureId: string;
-  @Output() currentCreatureOnTurnChanged = new EventEmitter<Creature>();
-  constructor() { }
+   initiatives: Initiative[] = [];
+  currentCreatureId: string;
+  constructor(
+    private _combatManagement: CombatManagementService,
+  ) { }
 
   ngOnInit() {
+    this._combatManagement.combatUpdated.subscribe(combat => {
+      this.initiatives = combat.initiatives;
+      this.currentCreatureId = combat.currentInitiative.creature.id;
+    });
   }
 
   isCurrentCreatureTurn(creatureId: string) {
