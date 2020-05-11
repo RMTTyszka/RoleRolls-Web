@@ -3,6 +3,7 @@ package com.loh.combat;
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
+import com.loh.utils.ObjectConverter;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,6 +12,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.io.IOException;
 import java.util.*;
 
 @Entity
@@ -20,6 +22,15 @@ public class Combat extends com.loh.shared.Entity {
 	@Setter
 	@UpdateTimestamp
 	private Date lastUpdateTime;
+
+	@Getter
+	@Setter
+	private byte[] combatLogSerialized;
+
+	public List<CombatLog> getCombatLog() throws IOException, ClassNotFoundException {
+		ObjectConverter<List<CombatLog>> objectConverter = new ObjectConverter<>();
+		return objectConverter.deserialize(combatLogSerialized);
+	}
 
 	@OneToMany
 	@Getter

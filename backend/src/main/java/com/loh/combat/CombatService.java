@@ -4,9 +4,13 @@ import com.loh.creatures.Attributes;
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
+import com.loh.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -20,14 +24,22 @@ public class CombatService {
     @Autowired
     private CombatRepository combatRepository;
 
+    private ObjectConverter<List<CombatLog>> objectConverter = new ObjectConverter<>();
+
     public AttackDetails processFullAttack(Combat combat, Creature attacker, Creature target) {
         return attackService.fullAttack(attacker, target);
     }
-    public CombatActionDto processFullAttack(UUID combatId, UUID attackerId, UUID targetId) {
+    public CombatActionDto processFullAttack(UUID combatId, UUID attackerId, UUID targetId) throws IOException, ClassNotFoundException {
         Combat combat = combatRepository.findById(combatId).get();
         Creature attacker = combat.findCreatureById(attackerId);
         Creature target = combat.findCreatureById(targetId);
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
+        List<CombatLog> log = objectConverter.deserialize(combat.getCombatLogSerialized());
+        if (log == null) {
+            log = new ArrayList<>();
+        }
+        log.add(new CombatLog(String.format("%s attacked %s and caused %d", attacker.getName(), target.getName(), attackDetails.getTotalDamage())));
+        combat.setCombatLogSerialized(objectConverter.serialize(log));
         combat = combatRepository.save(combat);
         return new CombatActionDto(combat, attackDetails, 0, 0, 0);
     }
