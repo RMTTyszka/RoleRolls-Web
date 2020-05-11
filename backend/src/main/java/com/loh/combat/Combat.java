@@ -1,18 +1,18 @@
 package com.loh.combat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
-import com.loh.utils.ObjectConverter;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.*;
 
 @Entity
@@ -22,14 +22,35 @@ public class Combat extends com.loh.shared.Entity {
 	@Setter
 	@UpdateTimestamp
 	private Date lastUpdateTime;
-
+	@Lob
 	@Getter
-	@Setter
 	private byte[] combatLogSerialized;
 
-	public List<CombatLog> getCombatLog() throws IOException, ClassNotFoundException {
-		ObjectConverter<List<CombatLog>> objectConverter = new ObjectConverter<>();
-		return objectConverter.deserialize(combatLogSerialized);
+	public void addLog(String log) throws UnsupportedEncodingException {
+		Gson gson = new Gson();
+		Type listType = new TypeToken<ArrayList<CombatLog>>(){}.getType();
+		List<CombatLog> logs;
+		if (combatLogSerialized != null) {
+			String string = new String(combatLogSerialized, "UTF-8");
+			logs = gson.fromJson(string, listType);
+		} else {
+			logs = new ArrayList<>();
+		}
+		logs.add(new CombatLog(log));
+		String json = gson.toJson(logs);
+		byte[] bytes = json.getBytes();
+		combatLogSerialized = bytes;
+	}
+
+	public List<CombatLog> getCombatLog() throws IOException {
+		if (combatLogSerialized == null) {
+			return new ArrayList<>();
+		}
+		Gson gson = new Gson();
+		String string = new String(combatLogSerialized, "UTF-8");
+		Type listType = new TypeToken<ArrayList<CombatLog>>(){}.getType();
+		List<CombatLog> logs = gson.fromJson(string, listType);
+		return logs;
 	}
 
 	@OneToMany

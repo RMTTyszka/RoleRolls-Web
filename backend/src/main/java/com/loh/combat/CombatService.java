@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -34,12 +33,7 @@ public class CombatService {
         Creature attacker = combat.findCreatureById(attackerId);
         Creature target = combat.findCreatureById(targetId);
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
-        List<CombatLog> log = objectConverter.deserialize(combat.getCombatLogSerialized());
-        if (log == null) {
-            log = new ArrayList<>();
-        }
-        log.add(new CombatLog(String.format("%s attacked %s and caused %d", attacker.getName(), target.getName(), attackDetails.getTotalDamage())));
-        combat.setCombatLogSerialized(objectConverter.serialize(log));
+        combat.addLog(String.format("%s attacked %s and caused %d", attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
         combat = combatRepository.save(combat);
         return new CombatActionDto(combat, attackDetails, 0, 0, 0);
     }

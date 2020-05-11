@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 @CrossOrigin
@@ -22,7 +23,7 @@ public class CombatController extends BaseCrudController<Combat> {
 	private CombatService combatService;
 
 	@PostMapping(path="/fullAttack")
-	public @ResponseBody CombatActionDto getFullAttack(@RequestBody AttackInput input) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public @ResponseBody CombatActionDto getFullAttack(@RequestBody AttackInput input) throws NoSuchFieldException, SecurityException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException, ClassNotFoundException {
 		CombatActionDto combatResult = combatService.processFullAttack(input.combatId, input.attackerId, input.targetId);
 		return combatResult;
 	}
