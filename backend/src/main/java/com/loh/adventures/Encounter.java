@@ -24,16 +24,6 @@ public class Encounter extends com.loh.shared.Entity {
 	@Setter
 	private List<Enviroment> enviroments;
 
-	public List<Hero> getMonsters() {
-		return monsters;
-	}
-
-	public void setMonsters(List<Hero> monsters) {
-		this.monsters = monsters;
-	}
-
-
-
 	public Integer getLevel() {
 		return level;
 	}

@@ -6,15 +6,17 @@ import {MonsterSelectComponent} from './monster-select/monster-select.component'
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {PanelModule} from 'primeng/panel';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {CreaturesSharedModule} from '../../creatures-shared/creatures-shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    OverlayPanelModule,
-    PanelModule,
-    AutoCompleteModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        OverlayPanelModule,
+        PanelModule,
+        AutoCompleteModule,
+        CreaturesSharedModule
+    ],
   exports: [MonsterBaseSelectorComponent, MonsterSelectComponent],
   declarations: [MonsterBaseSelectorComponent, MonsterSelectComponent],
   entryComponents: [MonsterBaseSelectorComponent]

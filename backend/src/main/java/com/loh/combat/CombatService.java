@@ -2,12 +2,13 @@ package com.loh.combat;
 
 import com.loh.creatures.Attributes;
 import com.loh.creatures.Creature;
-import com.loh.creatures.CreatureRepository;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -19,23 +20,19 @@ public class CombatService {
     private AttackService attackService;
 
     @Autowired
-    private CreatureRepository creatureRepository;
-    @Autowired
     private CombatRepository combatRepository;
 
-    public AttackDetails processFullAttack(Creature attacker, Creature target) {
-
+    public AttackDetails processFullAttack(Combat combat, Creature attacker, Creature target) {
         return attackService.fullAttack(attacker, target);
     }
-    public AttackDetails processFullAttack(UUID attackerId, UUID targetId) {
-        Creature attacker = creatureRepository.findById(attackerId).get();
-        Creature target = creatureRepository.findById(targetId).get();
+    public CombatActionDto processFullAttack(UUID combatId, UUID attackerId, UUID targetId) throws IOException, ClassNotFoundException {
+        Combat combat = combatRepository.findById(combatId).get();
+        Creature attacker = combat.findCreatureById(attackerId);
+        Creature target = combat.findCreatureById(targetId);
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
-
-        creatureRepository.save(target);
-        creatureRepository.save(attacker);
-
-        return attackDetails;
+        combat.addLog(String.format("%s attacked %s and caused %d", attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
+        combat = combatRepository.save(combat);
+        return new CombatActionDto(combat, attackDetails, 0, 0, 0);
     }
 
     public Combat startCombat(Combat combat) {
@@ -58,14 +55,13 @@ public class CombatService {
         return combatRepository.save(combat);
     }
 
-    public Initiative endTurn(Combat combat, Creature creature) {
-        creature = creature.processEndOfTurn(creatureRepository);
-        Initiative nextInitiative = combat.endTurn(creature, combatRepository);
-        return nextInitiative;
+    public Combat endTurn(Combat combat, Creature creature) {
+        combat.endTurn(creature, combatRepository);
+        return combat;
     }
-    public Initiative endTurn(UUID combatId, UUID creatureId) {
-        Creature creature = creatureRepository.findById(creatureId).get();
+    public Combat endTurn(UUID combatId, UUID creatureId) {
         Combat combat = combatRepository.findById(combatId).get();
+        Creature creature = combat.findCreatureById(creatureId);
         return endTurn(combat, creature);
     }
 }

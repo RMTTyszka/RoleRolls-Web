@@ -1,0 +1,31 @@
+<p-tieredMenu #effectMenu [model]="effectOptions" appendTo="body" [popup]="true" ></p-tieredMenu>
+
+<form [formGroup]="form">
+  <div class="ui-inputgroup" #teste>
+    <ng-container *ngFor="let effect of creature.effects">
+      <span class="ui-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
+        <loh-effect-icon  [effect]="effect"></loh-effect-icon>
+      </span>
+    </ng-container>
+  </div>
+  <div>
+    <span>Life: </span>
+    <input pInputText type="number" formControlName="life" placeholder="Life">
+    <button pButton (click)="updateLife()" label="Apply"></button>
+    <button pButton (click)="updateFullLife()" label="Max"></button>
+  </div>
+  <div>
+    <span>Moral: </span>
+    <input pInputText type="number" formControlName="moral" placeholder="Moral">
+    <button pButton (click)="updateMoral()" label="Apply"></button>
+    <button pButton (click)="updateFullMoral()" label="Max"></button>
+  </div>
+  <div>
+    <span>Heal: </span>
+    <input pInputText type="number" formControlName="healing" placeholder="Heal">
+    <button pButton (click)="heal()" label="Heal"></button>
+    <button pButton (click)="fullyHeal()" label="Max"></button>
+  </div>
+</form>
+
+

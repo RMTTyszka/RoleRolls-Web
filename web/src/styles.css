@@ -197,3 +197,10 @@ div.mat-form-field-infix {
   margin: 0px 4px;
 }
 
+.initiative-color {
+  color: orange;
+}
+.initiative-background-color {
+  background-color: orange;
+}
+

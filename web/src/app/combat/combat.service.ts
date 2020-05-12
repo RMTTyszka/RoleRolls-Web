@@ -4,10 +4,12 @@ import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service
 import {Observable} from 'rxjs';
 import {HttpParams} from '@angular/common/http';
 import {Combat} from '../shared/models/Combat.model';
-import {AddHeroToCombatInput} from '../shared/models/combat/AddHeroToCombatInput';
 import {Initiative} from '../shared/models/Iniciative.model';
-import {AddMonsterToCombatInput} from '../shared/models/combat/AddMonsterToCombatInput';
+import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
+import {Hero} from '../shared/models/NewHero.model';
+import {Monster} from '../shared/models/Monster.model';
+import {AttackInput} from '../shared/models/combat/AttackInput';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +27,8 @@ export class CombatService extends BaseCrudServiceComponent<Combat> {
       const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId).set('isFullAttack', 'true')
       return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/getAttackRoll', {params} );
   }
-  public fullAttack(attackerId: string, targetId: string): Observable<CombatActionDto> {
-      const params = new HttpParams().set('attackerId', attackerId).set('targetId', targetId);
-      return this.http.get<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', {params} );
+  public fullAttack(input: AttackInput): Observable<CombatActionDto> {
+      return this.http.post<CombatActionDto>(this.serverUrl + this.path + '/fullAttack', input );
   }
   public getCombat(id: string): Observable<Combat> {
       const params = new HttpParams().set('id', id);
@@ -36,15 +37,22 @@ export class CombatService extends BaseCrudServiceComponent<Combat> {
   public startCombat(combat: Combat): Observable<CombatActionDto> {
       return this.http.post<CombatActionDto>(this.serverUrl + this.path + '/getCombat', {combat} );
   }
-  public addHero(input: AddHeroToCombatInput): Observable<Initiative> {
-      return this.http.post<Initiative>(this.serverUrl + this.path + '/addHero', input );
+  public addHero(input: AddOrRemoveCreatureToCombatInput<Hero>): Observable<Combat> {
+      return this.http.post<Combat>(this.serverUrl + this.path + '/addHero', input );
   }
 
-  public addMonster(input: AddMonsterToCombatInput) {
-    return this.http.post<Initiative>(this.serverUrl + this.path + '/addMonster', input );
+  public removeHero(input: AddOrRemoveCreatureToCombatInput<Hero>) {
+    return this.http.post<Combat>(this.serverUrl + this.path + '/removeHero', input );
+  }
+  public removeMonster(input: AddOrRemoveCreatureToCombatInput<Monster>): Observable<Combat> {
+      return this.http.post<Combat>(this.serverUrl + this.path + '/removeMonster', input );
+  }
+
+  public addMonster(input: AddOrRemoveCreatureToCombatInput<Monster>) {
+    return this.http.post<Combat>(this.serverUrl + this.path + '/addMonster', input );
   }
   public endTurn(input: EndTurnInput) {
-    return this.http.post<Initiative>(this.serverUrl + this.path + '/endTurn', input );
+    return this.http.post<Combat>(this.serverUrl + this.path + '/endTurn', input );
   }
 
   public getHeroesTargets(combat: Combat) {

@@ -1,21 +1,57 @@
 package com.loh.combat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.persistence.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.*;
 
 @Entity
 public class Combat extends com.loh.shared.Entity {
+
+	@Getter
+	@Setter
+	@UpdateTimestamp
+	private Date lastUpdateTime;
+	@Lob
+	@Getter
+	private byte[] combatLogSerialized;
+
+	public void addLog(String log) throws UnsupportedEncodingException {
+		Gson gson = new Gson();
+		Type listType = new TypeToken<ArrayList<CombatLog>>(){}.getType();
+		List<CombatLog> logs;
+		if (combatLogSerialized != null) {
+			String string = new String(combatLogSerialized, "UTF-8");
+			logs = gson.fromJson(string, listType);
+		} else {
+			logs = new ArrayList<>();
+		}
+		logs.add(new CombatLog(log));
+		String json = gson.toJson(logs);
+		byte[] bytes = json.getBytes();
+		combatLogSerialized = bytes;
+	}
+
+	public List<CombatLog> getCombatLog() throws IOException {
+		if (combatLogSerialized == null) {
+			return new ArrayList<>();
+		}
+		Gson gson = new Gson();
+		String string = new String(combatLogSerialized, "UTF-8");
+		Type listType = new TypeToken<ArrayList<CombatLog>>(){}.getType();
+		List<CombatLog> logs = gson.fromJson(string, listType);
+		return logs;
+	}
 
 	@OneToMany
 	@Getter
@@ -55,6 +91,19 @@ public class Combat extends com.loh.shared.Entity {
 		this.heroes.add(hero);
 		return addInitiative(hero, combatService.rollForInitiative(hero));
 	}
+	public void removeHero(Hero hero) {
+		this.heroes.removeIf(h -> h.getId().equals(hero.getId()));
+		removeInitiative(hero);
+	}
+	public void removeMonster(Monster monster) {
+		this.monsters.removeIf(h -> h.getId().equals(monster.getId()));
+		removeInitiative(monster);
+	}
+
+	private void removeInitiative(Creature creature) {
+		initiatives.removeIf(h -> h.getCreature().getId().equals(creature.getId()));
+	}
+
 	private Initiative addInitiative(Creature creature, Integer initiativeValue) {
 		Initiative initiative = new Initiative(creature, initiativeValue);
 		this.initiatives.add(initiative);
@@ -69,14 +118,13 @@ public class Combat extends com.loh.shared.Entity {
 		return addInitiative(monster, combatService.rollForInitiative(monster));
 	}
 
-	public Initiative endTurn(Creature creature, CombatRepository combatRepository) {
+	public void endTurn(Creature creature, CombatRepository combatRepository) {
 		Initiative initiative = this.initiatives.stream().filter(e -> e.getCreature().getId() == creature.getId()).findFirst().get();
 		initiative.setActed(true);
 		if (isLastTurn()) {
 			processLastTurn();
 		}
 		combatRepository.save(this);
-		return getCurrentInitiative();
 	}
 
 	private void processLastTurn() {
@@ -86,5 +134,10 @@ public class Combat extends com.loh.shared.Entity {
 	}
 	private boolean isLastTurn() {
 		return initiatives.stream().filter(i -> !i.isActed()).count() == 0;
+	}
+
+	public Creature findCreatureById(UUID id) {
+		Hero hero = heroes.stream().filter(h -> h.getId().equals(id)).findFirst().orElse(null);
+		return hero != null ? hero : monsters.stream().filter(m -> m.getId().equals(id)).findFirst().get();
 	}
 }
