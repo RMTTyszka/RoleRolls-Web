@@ -4,7 +4,6 @@ import com.loh.creatures.Attributes;
 import com.loh.creatures.Creature;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
-import com.loh.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,6 @@ public class CombatService {
 
     @Autowired
     private CombatRepository combatRepository;
-
-    private ObjectConverter<List<CombatLog>> objectConverter = new ObjectConverter<>();
 
     public AttackDetails processFullAttack(Combat combat, Creature attacker, Creature target) {
         return attackService.fullAttack(attacker, target);
