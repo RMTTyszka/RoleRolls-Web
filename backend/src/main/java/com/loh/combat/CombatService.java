@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ public class CombatService {
         Creature attacker = combat.findCreatureById(attackerId);
         Creature target = combat.findCreatureById(targetId);
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
-        combat.addLog(String.format("%s attacked %s and caused %d", attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
+        combat.addLog(String.format("%s attacked %s and caused %d damage", attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
         combat = combatRepository.save(combat);
         return new CombatActionDto(combat, attackDetails, 0, 0, 0);
     }

@@ -1,9 +1,9 @@
 import {Injectable, Injector} from '@angular/core';
-import {CombatActionDto} from '../shared/models/CombatActionDto';
+import {CombatActionDto} from '../shared/models/combat/CombatActionDto';
 import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
 import {Observable} from 'rxjs';
 import {HttpParams} from '@angular/common/http';
-import {Combat} from '../shared/models/Combat.model';
+import {Combat} from '../shared/models/combat/Combat.model';
 import {Initiative} from '../shared/models/Iniciative.model';
 import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';

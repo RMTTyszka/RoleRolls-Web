@@ -24,7 +24,6 @@
   <span *ngIf="isCurrentOnInitiative" class="ui-inputgroup-addon x" style="max-height: 33px; background-color: unset;"><i class="fas fa-caret-right initiative-color"></i></span>
   <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="creature ? creatureOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
   <p-autoComplete  [(ngModel)]="creature" field="name" (completeMethod)="search($event.query)" [placeholder]="placeholder" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
-  <span class="ui-inputgroup-addon" style="max-height: 33px; cursor: pointer" (click)="openMasterTools()" pTooltip="Master Tools"><i class="fas fa-user-secret" ></i></span>
   <div fxLayour="column">
     <div>
       <i class="fas fa-diagnoses pr-8" pTooltip="Moral" style="color: blue"></i>

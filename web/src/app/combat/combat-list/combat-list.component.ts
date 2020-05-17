@@ -1,7 +1,7 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {BaseListComponent} from '../../shared/base-list/base-list.component';
 import {Race} from '../../shared/models/Race.model';
-import {Combat} from '../../shared/models/Combat.model';
+import {Combat} from '../../shared/models/combat/Combat.model';
 import {RacesService} from '../../races/races.service';
 import {CombatService} from '../combat.service';
 import {Router} from '@angular/router';

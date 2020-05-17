@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Combat} from '../shared/models/Combat.model';
+import {Combat} from '../shared/models/combat/Combat.model';
 
 @Injectable({
   providedIn: 'root'

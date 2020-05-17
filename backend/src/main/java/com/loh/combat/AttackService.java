@@ -4,6 +4,7 @@ import com.loh.creatures.Creature;
 import com.loh.creatures.equipment.GripType;
 import com.loh.rolls.DiceRoller;
 import com.loh.rolls.TestResult;
+import com.loh.shared.DamageType;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class AttackService {
 
         for (int attackIndex = 0; attackIndex < attackTest.getSuccesses() - target.getStatus().getDodge(); attackIndex++) {
             Integer damage = getDamage(weaponDamage, damageBonus);
-            Integer reducedDamage = target.takeDamage(damage);
+            Integer reducedDamage = target.takeDamage(damage, DamageType.Physical);
             DamageResult damageResult = new DamageResult(damage, reducedDamage, damageBonus, target.getStatus().getDefense());
             damageResults.add(damageResult);
         }

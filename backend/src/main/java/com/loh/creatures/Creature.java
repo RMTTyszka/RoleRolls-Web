@@ -301,7 +301,32 @@ public class Creature extends Entity {
             this.removeEffect(DeathProcessor.getDeathEffect(0));
         }
     }
-    public Integer takeDamage(Integer damage) {
+
+    public Integer getDamageDefense(DamageType damageType) {
+        switch (damageType) {
+            case Physical:
+                return getStatus().getDefense();
+            case Arcane:
+                return getStatus().getArcaneDefense();
+            case Fire:
+                return getStatus().getFireDefense();
+            case Ice:
+                return getStatus().getIceDefense();
+            case Lightning:
+                return getStatus().getLife();
+            case Poison:
+                return getStatus().getPoisonDefense();
+            case Necrotic:
+                return getStatus().getNecroticDefense();
+            case Holy:
+                return getStatus().getHolyDefense();
+            case Sonic:
+                return getStatus().getSonicDefense();
+            default:
+                return 0;
+        }
+    }
+    public Integer takeDamage(Integer damage, DamageType damageType) {
         Integer reducedDamage = damage - getStatus().getDefense();
         reducedDamage = Integer.max(reducedDamage, 1);
         Integer remainingDamage = reducedDamage;
