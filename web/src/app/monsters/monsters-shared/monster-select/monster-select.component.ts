@@ -3,7 +3,7 @@ import {map} from 'rxjs/operators';
 import {MonsterService} from '../../monster/monster.service';
 import {Monster} from '../../../shared/models/Monster.model';
 import {Hero} from '../../../shared/models/NewHero.model';
-import {NewHeroService} from '../../../heroes/new-hero.service';
+import {Combat} from '../../../shared/models/combat/Combat.model';
 
 @Component({
   selector: 'loh-monster-select',
@@ -11,10 +11,11 @@ import {NewHeroService} from '../../../heroes/new-hero.service';
   styleUrls: ['./monster-select.component.css']
 })
 export class MonsterSelectComponent implements OnInit {
-  @Output() monsterSelected = new EventEmitter<Hero>();
+  @Output() monsterSelected = new EventEmitter<Monster>();
   @Input() monster: Monster;
+  @Input() combat: Combat;
   constructor(
-    private service: NewHeroService,
+    private service: MonsterService,
   ) {
   }
 

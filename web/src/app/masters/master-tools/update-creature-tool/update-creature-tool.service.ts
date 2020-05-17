@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {UpdateCreatureLifeOrMoralInput} from '../../../shared/models/inputs/UpdateCreatureLifeOrMoralInput';
 import {RemoveEffectInput} from '../../../shared/models/inputs/RemoveEffectInput';
 import {UpdateEffectInput} from '../../../shared/models/inputs/UpdateEffectInput';
+import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,9 @@ export class UpdateCreatureToolService {
   }
   public updateEffect(input: UpdateEffectInput): Observable<Creature> {
     return this.httpClient.post<Creature>(this.serverUrl + this.path + '/updateEffect', input);
+  }
+  public takeDamage(input: TakeDamageInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + '/takeDamage', input);
   }
 }
 

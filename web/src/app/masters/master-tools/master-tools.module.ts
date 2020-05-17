@@ -8,6 +8,9 @@ import {EffectsSharedModule} from '../../effects/effects-shared/effects-shared.m
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MenuModule} from 'primeng/menu';
 import {TieredMenuModule} from 'primeng/tieredmenu';
+import {ChipsModule} from 'primeng/chips';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 
@@ -21,7 +24,10 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
     EffectsSharedModule,
     OverlayPanelModule,
     MenuModule,
-    TieredMenuModule
+    TieredMenuModule,
+    ChipsModule,
+    InputSwitchModule,
+    FlexLayoutModule
   ],
   exports: [UpdateCreatureToolComponent],
   entryComponents: [UpdateCreatureToolComponent]

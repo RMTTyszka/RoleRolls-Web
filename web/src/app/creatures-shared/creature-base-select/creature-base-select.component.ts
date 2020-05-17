@@ -7,6 +7,7 @@ import {UpdateCreatureToolComponent} from '../../masters/master-tools/update-cre
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {BaseEntityService} from '../../shared/base-entity-service';
 import {CombatManagementService} from '../../combat/combat-management.service';
+import {Combat} from '../../shared/models/combat/Combat.model';
 
 @Component({
   selector: 'loh-creature-base-select',
@@ -15,6 +16,7 @@ import {CombatManagementService} from '../../combat/combat-management.service';
 })
 export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, OnDestroy {
   @Input() creature: T;
+  @Input() combat: Combat;
   @Input() private service: BaseEntityService<T>;
   @Output() creatureSelected = new EventEmitter<T>();
   result: T[] = [];
@@ -24,7 +26,6 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
   @Input() placeholder = 'Creature';
   constructor(
     private _combatManagement: CombatManagementService,
-  private dialogService: DialogService,
   ) {
   }
 
@@ -59,17 +60,6 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
     return this.creature.effects.find(effect => effect.effectType === effectType) || null;
   }
 
-  openMasterTools() {
-    this.dialogService.open(UpdateCreatureToolComponent, {
-      data: {
-        creature: this.creature,
-        service: this.service
-      },
-      header: this.creature.name,
-    }).onClose.subscribe((creature: T) => {
-      this.creature = creature ? creature : this.creature;
-    });
-  }
   get isCurrentOnInitiative() {
     return this.currentCreatureOnInitiativeId === this.creature.id;
   }

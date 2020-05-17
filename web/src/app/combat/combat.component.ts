@@ -2,20 +2,23 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CombatService} from './combat.service';
 import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
-import {Combat} from '../shared/models/Combat.model';
+import {Combat} from '../shared/models/combat/Combat.model';
 import {Monster} from '../shared/models/Monster.model';
 import {Creature} from '../shared/models/creatures/Creature.model';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
-import {Initiative} from '../shared/models/Iniciative.model';
 import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
-import {DialogService} from 'primeng/api';
+import {DialogService, MenuItem} from 'primeng/api';
 import {CreatureType} from '../shared/models/creatures/CreatureType';
 import {EffectType} from '../shared/models/effects/EffectType.model';
-import {BehaviorSubject, interval, Observable, pipe, Subject} from 'rxjs';
+import {interval, Subject} from 'rxjs';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {CombatManagementService} from './combat-management.service';
+import {Menu} from 'primeng/menu';
+import {UpdateCreatureToolComponent} from '../masters/master-tools/update-creature-tool/update-creature-tool.component';
+import {HeroesService} from '../heroes/heroes.service';
+import {MonsterService} from '../monsters/monster/monster.service';
 
 export class CombatActionData {
   currentTargets: Creature[] = [];
@@ -33,7 +36,7 @@ export class AttackInput {
   providers: [DialogService]
 })
 export class CombatComponent implements OnInit, OnDestroy {
-
+  isMaster = true;
   combat: Combat = new Combat();
   attackDetails: AttackDetails;
   hasLoaded = false;
@@ -42,8 +45,13 @@ export class CombatComponent implements OnInit, OnDestroy {
   combatActionData: CombatActionData = new CombatActionData();
   effectType = EffectType;
   usubscriber = new Subject<void>();
+  creatureActions: MenuItem[] = [];
+  selectedCreature: Creature;
+  selectedCreatureType: CreatureType;
   constructor(
     private _combatService: CombatService,
+    private heroesService: HeroesService,
+    private monsterService: MonsterService,
     private _combatManagement: CombatManagementService,
     private dialog: DialogService,
     private routeSnapshot: ActivatedRoute
@@ -53,10 +61,35 @@ export class CombatComponent implements OnInit, OnDestroy {
     this.usubscriber.complete();
   }
   ngOnInit() {
+    this.creatureActions = [
+      {
+        label: 'Act',
+        icon: 'fas fa-street-view',
+        command: () => {
+          this.openActionBar(this.selectedCreature, this.selectedCreatureType);
+        }
+      },
+      {
+        label: 'Remove',
+        icon: 'fas fa-times',
+        command: () => {
+          this.removeCreature(this.selectedCreature, this.selectedCreatureType);
+        }
+      },
+    ];
+    if (this.isMaster) {
+      this.creatureActions.push({
+        label: 'Master Tools',
+        icon: 'fas fa-user-secret',
+        command: () => {
+          this.openMasterTools();
+        }
+      });
+    }
     this._combatManagement.combatUpdated
       .pipe(takeUntil(this.usubscriber)).subscribe(combat => {
       this.combat = combat;
-    })
+    });
      interval(3000)
        .pipe(takeUntil(this.usubscriber)).subscribe(() => {
        this._combatService.get(this.combat.id)
@@ -66,7 +99,7 @@ export class CombatComponent implements OnInit, OnDestroy {
           }
          }
          );
-     })
+     });
     if (this.routeSnapshot.snapshot.params['id']) {
       this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
         this._combatManagement.combatUpdated.next(combat);
@@ -155,7 +188,18 @@ export class CombatComponent implements OnInit, OnDestroy {
         this._combatManagement.combatUpdated.next(combat);
       });
   }
-
+  openMasterTools() {
+    this.dialog.open(UpdateCreatureToolComponent, {
+      data: {
+        creature: this.selectedCreature,
+        service: this.selectedCreatureType === CreatureType.Hero ? this.heroesService : this.monsterService,
+        combat: this.combat
+      },
+      header: this.selectedCreature.name,
+    }).onClose.subscribe((creature: Creature) => {
+      this.selectedCreature = creature ? creature : this.selectedCreature;
+    });
+  }
   openActionBar(creature: Creature, creatureType: CreatureType) {
     this.combatActionData.currentTargets = creatureType === this.creatureType.Hero ? this.heroesTargets : this.monsterTargets;
     this.combatActionData.currentCreatureActing = creature;
@@ -180,5 +224,25 @@ export class CombatComponent implements OnInit, OnDestroy {
     });
   }
 
+  isCurrentOnInitiative(id: string) {
+    return id === this.combat.currentInitiative.creature.id;
+  }
+
+  setSelectedCreature(creature: Creature, creatureType: CreatureType, actionMenu: Menu, $event: MouseEvent) {
+    this.selectedCreature = creature;
+    this.selectedCreatureType = creatureType;
+    actionMenu.toggle($event);
+  }
+
+  private removeCreature(selectedCreature: Creature, selectedCreatureType: CreatureType) {
+    const input = {
+      combatId: this.combat.id,
+      creature: selectedCreature
+    } as AddOrRemoveCreatureToCombatInput<typeof selectedCreature>;
+    const observable = selectedCreatureType === CreatureType.Hero ?
+      this._combatService.removeHero(input) :
+      this._combatService.removeMonster(input);
+    observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
+  }
 }
 

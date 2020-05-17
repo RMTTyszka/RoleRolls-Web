@@ -1,34 +1,43 @@
-<div fxLayout="row wrap" *ngIf="hasLoaded" fxLayoutAlign="space-around center">
+<p-menu #actionMenu [model]="creatureActions" [popup]="true"></p-menu>
+
+
+<div fxLayout="row wrap" *ngIf="hasLoaded">
   <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()" label="Save"></button></p-toolbar>
   <input fxFlex="100" pInputText [(ngModel)]="combat.name" placeholder="name">
-  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px" fxLayout="column" fxLayoutGap="12px">
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px" fxLayout="column">
     <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
      <div>Heroes</div>
       <button pButton (click)="addHeroPlace()" label="Add Hero"></button>
     </div>
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row"fxLayoutAlign="start end" fxLayoutGap="12px">
-        <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)"></loh-hero-select>
-        <button pButton [disabled]="getEffect(hero, effectType.Death)" (click)="openActionBar(hero, this.creatureType.Hero)" label="Action"></button>
-         <button pButton (click)="removeHero(i)" icon="pi pi-times"></button>
+        <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)" [combat]="combat"></loh-hero-select>
+         <button pButton (click)="setSelectedCreature(hero, creatureType.Hero, actionMenu, $event)" icon="fas fa-list"></button>
+        <button *ngIf="isCurrentOnInitiative(hero.id)" pButton label="endTurn" (click)="endTurn()" class="ui-button-secondary"></button>
     </div>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <div>Enemies</div>
-    <button pButton (click)="addMonsterPlace()" label="Add Monster"></button>
+    <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
+      <div>Enemies</div>
+      <button pButton (click)="addMonsterPlace()" label="Add Monster"></button>
+    </div>
     <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
       <div fxLayout="row" fxLayoutGap="12px">
-        <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)"></loh-monster-select>
-        <button pButton (click)="openActionBar(monster, this.creatureType.Monster)" label="Action"></button>
-        <button pButton (click)="removeMonster(i)" icon="pi pi-times"></button>
+        <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></loh-monster-select>
+        <button pButton (click)="setSelectedCreature(monster, creatureType.Monster, actionMenu, $event)" icon="fas fa-list"></button>
+        <button *ngIf="isCurrentOnInitiative(monster.id)" pButton label="endTurn" (click)="endTurn()" class="ui-button-secondary"></button>
       </div>
     </div>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <loh-attack-details *ngIf="attackDetails" [attackDetails]="attackDetails"></loh-attack-details>
+    <loh-attack-details [attackDetails]="attackDetails"></loh-attack-details>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <loh-initiative ></loh-initiative>
-    <button pButton label="endTurn" (click)="endTurn()"></button>
+  </div>
+  <div fxFlex="0" fxFlex.gt-sm="50" style="padding: 8px">
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
+    <loh-combat-log [combatLogs]="combat.combatLog"></loh-combat-log>
   </div>
 </div>
 
@@ -37,3 +46,4 @@
     (attackAction)="heroFullAttack($event)"
     [combatData]="combatActionData"></loh-combat-action-modal>
 </p-sidebar>
+

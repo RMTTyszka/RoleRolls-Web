@@ -8,6 +8,8 @@ import {TieredMenu} from 'primeng/primeng';
 import {EffectInstance} from '../../../shared/models/effects/EffectInstance.model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
+import {Combat} from '../../../shared/models/combat/Combat.model';
 
 @Component({
   selector: 'loh-update-creature-tool',
@@ -18,6 +20,7 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
 
   creature: T;
   form: FormGroup;
+  combat: Combat;
   entityService: BaseEntityService<T>;
   effectOptions: MenuItem[] = [];
   public currentEffect: EffectInstance;
@@ -29,11 +32,22 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
     public fb: FormBuilder,
   ) {
     this.creature = config.data.creature;
+    this.combat = config.data.combat;
     this.entityService = config.data.service;
     this.form = this.fb.group({
       life: [this.creature.currentLife],
       moral: [this.creature.currentMoral],
-      healing: [0]
+      healing: [0],
+      isTakeDamage: [false],
+      physicalDamages: [[]],
+      arcaneDamages: [[]],
+      fireDamages: [[]],
+      iceDamages: [[]],
+      lightningDamages: [[]],
+      poisonDamages: [[]],
+      holyDamages: [[]],
+      necroticDamages: [[]],
+      sonicDamages: [[]],
     });
   }
   ngOnDestroy(): void {
@@ -168,4 +182,20 @@ get healing() {
         this.entityService.onEntityChange.next(updatedCreature as T);
       });
   }
+
+  takeDamage() {
+    const input = this.form.getRawValue() as TakeDamageInput;
+    input.creatureId = this.creature.id;
+    input.combatId = this.combat.id;
+    this.updateCreatureToolService.takeDamage(input)
+      .subscribe((updatedCreature: Creature) => {
+        this.form.get('life').setValue(updatedCreature.currentLife);
+        this.form.get('moral').setValue(updatedCreature.currentMoral);
+        this.entityService.onEntityChange.next(updatedCreature as T);
+      });
+  }
+  get isTakeDamage() {
+    return this.form.get('isTakeDamage').value;
+  }
+
 }

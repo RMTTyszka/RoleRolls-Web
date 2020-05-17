@@ -1,8 +1,5 @@
 package com.loh.creatures.masterTools;
 
-import java.util.UUID;
-
-public class UpdateCreatureLifeAndMoralInput {
-    public UUID creatureId;
+public class UpdateCreatureLifeAndMoralInput extends MasterToolInput {
     public Integer value;
 }

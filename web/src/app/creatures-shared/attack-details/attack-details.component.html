@@ -1,6 +1,5 @@
-
-
-<p-panel header="Main Weapon Attack" *ngIf="attackDetails.mainWeaponAttackResult">
+<p-panel header="Attack Result">
+<p-fieldset *ngIf="attackDetails?.mainWeaponAttackResult" legend="Main Weapon Attack">
     <div  fxLayout="row" fxLayoutGap="12px">
       <div>Rolls</div>
       <div *ngFor="let roll of attackDetails.mainWeaponAttackResult.rolls">{{roll}}</div>
@@ -21,8 +20,8 @@
     </div>
     <div>Defense: {{attackDetails.defense}}</div>
     <div>Total Damage: {{attackDetails.mainWeaponAttackResult.totalDamage}}</div>
-</p-panel>
-<p-panel header="Off Weapon Attack" *ngIf="attackDetails.offWeaponAttackResult">
+</p-fieldset>
+<p-fieldset *ngIf="attackDetails?.offWeaponAttackResult" legend="Off Weapon Attack">
     <div  fxLayout="row" fxLayoutGap="12px">
       <div>Rolls</div>
       <div *ngFor="let roll of attackDetails.offWeaponAttackResult.rolls">{{roll}}</div>
@@ -43,4 +42,5 @@
     </div>
     <div>Defense: {{attackDetails.defense}}</div>
     <div>Total Damage: {{attackDetails.offWeaponAttackResult.totalDamage}}</div>
+</p-fieldset>
 </p-panel>

@@ -1,5 +1,4 @@
-<div fxLayout="column">
-  <span>Initiative</span>
+<p-panel header="Initiatives">
   <div *ngFor="let initiative of initiatives" fxLayout="row" [class]="isCurrentCreatureTurn(initiative.creature.id) ? 'initiative-background-color' : 'initiative-row'">
     <i *ngIf="isCurrentCreatureTurn(initiative.creature.id)" class="pi pi-caret-right" fxFlex="initial"></i>
     <i *ngIf="!isCurrentCreatureTurn(initiative.creature.id)" class="pi pi-caret-right hide-caret" fxFlex="initial"></i>
@@ -10,4 +9,4 @@
       {{initiative.creature.name}}
     </div>
   </div>
-</div>
+</p-panel>

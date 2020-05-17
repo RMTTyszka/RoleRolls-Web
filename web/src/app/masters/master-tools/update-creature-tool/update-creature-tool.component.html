@@ -26,6 +26,24 @@
     <button pButton (click)="heal()" label="Heal"></button>
     <button pButton (click)="fullyHeal()" label="Max"></button>
   </div>
+  <div>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Take Damage: </span>
+      <p-inputSwitch formControlName="isTakeDamage" ></p-inputSwitch>
+    </div>
+    <ng-container *ngIf="isTakeDamage">
+    <p-chips formControlName="physicalDamages" placeholder="Physical"></p-chips>
+    <p-chips formControlName="arcaneDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="fireDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="iceDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="lightningDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="poisonDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="holyDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="necroticDamages" placeholder="Arcane"></p-chips>
+    <p-chips formControlName="sonicDamages" placeholder="Arcane"></p-chips>
+      <button pButton label="Apply Damage" (click)="takeDamage()"></button>
+    </ng-container>
+  </div>
 </form>
 
 
