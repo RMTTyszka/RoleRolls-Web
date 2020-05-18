@@ -349,6 +349,10 @@ public class Creature extends Entity {
         return creatureRepository.save(this);
     }
 
-
-
+    public void addBonus(Bonus bonus) {
+        this.bonuses.add(bonus);
+    }
+    public void removeBonus(Bonus bonus) {
+        this.bonuses.removeIf(b -> b.getId().equals(bonus.getId()));
+    }
 }

@@ -3,6 +3,6 @@ import {Creature} from './creatures/Creature.model';
 
 export class Initiative
 {
-  creature: Creature;
-  value: number;
+  creature: Creature = new Creature();
+  value = 0;
 }

@@ -57,7 +57,7 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
   }
 
   getEffect(effectType: EffectType) {
-    return this.creature.effects.find(effect => effect.effectType === effectType) || null;
+    return this.creature ? this.creature.effects.find(effect => effect.effectType === effectType) || null : null;
   }
 
   get isCurrentOnInitiative() {

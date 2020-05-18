@@ -19,7 +19,7 @@ export class InitiativeComponent implements OnInit {
   ngOnInit() {
     this._combatManagement.combatUpdated.subscribe(combat => {
       this.initiatives = combat.initiatives;
-      this.currentCreatureId = combat.currentInitiative.creature.id;
+      this.currentCreatureId = combat.currentInitiative ? combat.currentInitiative.creature.id : null;
     });
   }
 

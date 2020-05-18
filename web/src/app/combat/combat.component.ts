@@ -57,6 +57,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     private routeSnapshot: ActivatedRoute
   ) { }
   ngOnDestroy(): void {
+    this._combatManagement.combatUpdated.next(new Combat());
     this.usubscriber.next();
     this.usubscriber.complete();
   }
@@ -92,13 +93,15 @@ export class CombatComponent implements OnInit, OnDestroy {
     });
      interval(3000)
        .pipe(takeUntil(this.usubscriber)).subscribe(() => {
-       this._combatService.get(this.combat.id)
-         .subscribe(combat => {
-          if (this.combat.lastUpdateTime < combat.lastUpdateTime) {
-            this._combatManagement.combatUpdated.next(combat);
-          }
+         if (this.combat.id) {
+           this._combatService.get(this.combat.id)
+             .subscribe(combat => {
+                 if (this.combat.lastUpdateTime < combat.lastUpdateTime) {
+                   this._combatManagement.combatUpdated.next(combat);
+                 }
+               }
+             );
          }
-         );
      });
     if (this.routeSnapshot.snapshot.params['id']) {
       this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
@@ -225,7 +228,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   isCurrentOnInitiative(id: string) {
-    return id === this.combat.currentInitiative.creature.id;
+    return this.combat.currentInitiative ? id === this.combat.currentInitiative.creature.id : false;
   }
 
   setSelectedCreature(creature: Creature, creatureType: CreatureType, actionMenu: Menu, $event: MouseEvent) {
@@ -243,6 +246,10 @@ export class CombatComponent implements OnInit, OnDestroy {
       this._combatService.removeHero(input) :
       this._combatService.removeMonster(input);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
+  }
+
+  deleteCombat() {
+    this._combatService.delete(this.combat).subscribe();
   }
 }
 

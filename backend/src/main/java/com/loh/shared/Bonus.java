@@ -1,14 +1,30 @@
 package com.loh.shared;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import java.util.UUID;
 
 @Embeddable
 public class Bonus  {
-
-
-	public Bonus() {}
+	@GeneratedValue(generator="UUIDgenerator")
+	@GenericGenerator(name="UUIDgenerator", strategy="org.hibernate.id.UUIDGenerator")
+	@Getter
+	@Setter
+	@Column(columnDefinition = "BINARY(16)")
+	private UUID id;
+	public Bonus() {
+		if (id == null) {
+			id = UUID.randomUUID();
+		}
+	}
 
     public Bonus(String prop, Integer level, Integer bonus, BonusType bonusType) {
+		id = UUID.randomUUID();
 		this.property = prop;
 		this.level = level;
 		this.bonus = bonus;

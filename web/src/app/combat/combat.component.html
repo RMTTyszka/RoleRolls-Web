@@ -2,7 +2,7 @@
 
 
 <div fxLayout="row wrap" *ngIf="hasLoaded">
-  <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()" label="Save"></button></p-toolbar>
+  <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()" label="Save"></button><button pButton (click)="deleteCombat()" label="Delete"></button></p-toolbar>
   <input fxFlex="100" pInputText [(ngModel)]="combat.name" placeholder="name">
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px" fxLayout="column">
     <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
