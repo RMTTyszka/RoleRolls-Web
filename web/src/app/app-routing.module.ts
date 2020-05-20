@@ -3,18 +3,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
-  {path: 'rolls', loadChildren: './rolls/rolls.module#RollsModule'},
+  {path: 'rolls', loadChildren: () => import('./rolls/rolls.module').then(m => m.RollsModule)},
   {path: 'home', component: HomeComponent},
-  {path: 'items', loadChildren: './items/items.module#ItemsModule'},
-  {path: 'races', loadChildren: './races/races.module#RacesModule'},
-  {path: 'roles', loadChildren: './roles/roles.module#RolesModule'},
-  {path: 'powers', loadChildren: './powers/powers.module#PowersModule'},
-  {path: 'players', loadChildren: './players/players.module#PlayersModule'},
-  {path: 'encounters', loadChildren: './encounters/encounters.module#EncountersModule'},
-  {path: 'heroes', loadChildren: './heroes/heroes.module#HeroesModule'},
-  {path: 'monsters', loadChildren: './monsters/monsters.module#MonstersModule'},
-  {path: 'tests', loadChildren: './tests/tests.module#TestsModule'},
-  {path: 'combat', loadChildren: './combat/combat.module#CombatModule'}
+  {path: 'items', loadChildren: () => import('./items/items.module').then(m => m.ItemsModule)},
+  {path: 'races', loadChildren: () => import('./races/races.module').then(m => m.RacesModule)},
+  {path: 'roles', loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)},
+  {path: 'powers', loadChildren: () => import('./powers/powers.module').then(m => m.PowersModule)},
+  {path: 'players', loadChildren: () => import('./players/players.module').then(m => m.PlayersModule)},
+  {path: 'encounters', loadChildren: () => import('./encounters/encounters.module').then(m => m.EncountersModule)},
+  {path: 'heroes', loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule)},
+  {path: 'monsters', loadChildren: () => import('./monsters/monsters.module').then(m => m.MonstersModule)},
+  {path: 'tests', loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule)},
+  {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)}
 ];
 
 @NgModule({
