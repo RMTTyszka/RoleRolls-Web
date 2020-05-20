@@ -26,7 +26,7 @@
     "core-js": "^2.5.4",
     "material-design-icons": "^3.0.1",
     "ngx-device-detector": "^1.4.2",
-    "primeicons": "^1.0.0",
+    "primeicons": "^2.0.0",
     "primeng": "^9.0.6",
     "rxjs": "^6.5.5",
     "tslib": "^1.10.0",
