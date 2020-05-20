@@ -3,7 +3,7 @@ import {BaseWeaponService} from '../base-weapon.service';
 import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
 import {BaseWeaponsEditorComponent} from '../base-weapons-editor/base-weapons-editor.component';
 import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
-import {DialogService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
 import {ModalEntityAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UpdateCreatureToolService} from './update-creature-tool.service';
 import {Creature} from '../../../shared/models/creatures/Creature.model';
-import {DynamicDialogConfig, DynamicDialogRef, MenuItem} from 'primeng/api';
+import {MenuItem} from 'primeng/api';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BaseEntityService} from '../../../shared/base-entity-service';
 import {TieredMenu} from 'primeng/primeng';
@@ -10,6 +10,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
 import {Combat} from '../../../shared/models/combat/Combat.model';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-update-creature-tool',

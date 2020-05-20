@@ -9,7 +9,7 @@ import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
 import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
-import {DialogService, MenuItem} from 'primeng/api';
+import {MenuItem} from 'primeng/api';
 import {CreatureType} from '../shared/models/creatures/CreatureType';
 import {EffectType} from '../shared/models/effects/EffectType.model';
 import {interval, Subject} from 'rxjs';
@@ -19,6 +19,7 @@ import {Menu} from 'primeng/menu';
 import {UpdateCreatureToolComponent} from '../masters/master-tools/update-creature-tool/update-creature-tool.component';
 import {HeroesService} from '../heroes/heroes.service';
 import {MonsterService} from '../monsters/monster/monster.service';
+import {DialogService} from 'primeng/dynamicdialog';
 
 export class CombatActionData {
   currentTargets: Creature[] = [];
