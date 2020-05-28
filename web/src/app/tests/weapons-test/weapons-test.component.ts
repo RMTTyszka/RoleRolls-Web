@@ -57,7 +57,7 @@ export class WeaponsTestComponent implements OnInit {
   ) { }
 
   makeWeaponTest() {
-    this.testService.makeWeaponTest().subscribe(() => this.messageService.add({severity: 'success', detail: 'completed'}), (error: any) => this.messageService.add({severity: 'error', detail: error.message}));
+    this.testService.makeWeaponTest();
     this.testService.test();
   }
 

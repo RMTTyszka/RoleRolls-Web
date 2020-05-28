@@ -10,6 +10,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
 import {Combat} from '../../../shared/models/combat/Combat.model';
+import {MasterToolAction} from '../MasterToolAction';
 
 @Component({
   selector: 'loh-update-creature-tool',
@@ -21,6 +22,8 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
   creature: T;
   form: FormGroup;
   combat: Combat;
+  action: MasterToolAction;
+  MasterToolAction =  MasterToolAction;
   entityService: BaseEntityService<T>;
   effectOptions: MenuItem[] = [];
   public currentEffect: EffectInstance;
@@ -33,6 +36,7 @@ export class UpdateCreatureToolComponent<T extends Creature> implements OnInit, 
   ) {
     this.creature = config.data.creature;
     this.combat = config.data.combat;
+    this.action = config.data.action;
     this.entityService = config.data.service;
     this.form = this.fb.group({
       life: [this.creature.currentLife],

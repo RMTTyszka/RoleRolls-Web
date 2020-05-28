@@ -30,22 +30,22 @@ public enum GripType {
     private Integer shieldEvasionBonus;
 
     static {
-        OneLightWeapon.hit = -2;
+        OneLightWeapon.hit = 0;
         OneMediumWeapon.hit = 1;
         TwoHandedHeavyWeapon.hit = 3;
-        TwoWeaponsLight.hit = 0;
+        TwoWeaponsLight.hit = -4;
         TwoWeaponsMedium.hit = 0;
-        OneHandedHeavyWeapon.hit = -1;
+        OneHandedHeavyWeapon.hit = -2;
         TwoHandedMediumWeapon.hit = 2;
         OneLightShield.hit = 0;
         OneMediumShield.hit = 1;
         OneHeavyShield.hit = 3;
 
-        OneLightWeapon.damage = 4;
+        OneLightWeapon.damage = 6;
         OneMediumWeapon.damage = 10;
         TwoHandedHeavyWeapon.damage = 12;
         TwoWeaponsLight.damage = 4;
-        TwoWeaponsMedium.damage = 8;
+        TwoWeaponsMedium.damage = 10;
         OneHandedHeavyWeapon.damage = 10;
         TwoHandedMediumWeapon.damage = 10;
         OneLightShield.damage = 4;
@@ -63,7 +63,7 @@ public enum GripType {
         OneMediumShield.magicBonusModifier = 3;
         OneHeavyShield.magicBonusModifier = 4;
 
-        OneLightWeapon.attributeModifier = 3;
+        OneLightWeapon.attributeModifier = 2;
         OneMediumWeapon.attributeModifier = 3;
         TwoHandedHeavyWeapon.attributeModifier = 4;
         TwoWeaponsLight.attributeModifier = 2;

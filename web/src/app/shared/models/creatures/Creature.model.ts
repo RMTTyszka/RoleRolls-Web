@@ -8,6 +8,7 @@ import {Resistances} from '../Resistances.model';
 import {WeaponAttributes} from '../WeaponAttributes.model';
 import {Entity} from '../Entity.model';
 import {EffectInstance} from '../effects/EffectInstance.model';
+import {Bonus} from '../Bonus.model';
 
 export class Creature extends Entity {
   baseAttributes: Attributes = new Attributes();
@@ -25,6 +26,7 @@ export class Creature extends Entity {
   status: CreatureStatus = new CreatureStatus();
   resistances = new Resistances();
   effects = new Array<EffectInstance>();
+  bonuses = new Array<Bonus>();
   mainWeaponAttributes = new WeaponAttributes();
   offWeaponAttributes = new WeaponAttributes();
   currentLife = 0;

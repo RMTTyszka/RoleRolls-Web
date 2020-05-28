@@ -24,14 +24,17 @@ public class WeaponTest {
     @Autowired
     private AttackService attackService;
 
+    Long startTime;
+    Long endTime;
 
-    private final Integer NumberOfAttacks = 1000;
+    private final Integer NumberOfAttacks = 100;
     public void test() {
+        List<WeaponTestResult> resultsToSave = new ArrayList<>();
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Light);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Medium);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Heavy);
         for (int level = 1; level < 21; level++) {
-
+            System.out.println("Level " + level);
             List<Hero> heroes = new ArrayList<>();
             Hero oneLightHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneLightWeapon, level));
             Hero oneMediumHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneMediumWeapon, level));
@@ -57,23 +60,23 @@ public class WeaponTest {
                 WeaponTestResult lightArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetLight.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
                 WeaponTestResult mediumArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetMedium.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
                 WeaponTestResult heavyArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetHeavy.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
-                if (level == 20) {
-                    System.out.println("dsa");
-                }
+                startTime = System.nanoTime();
                 for (int attackNumber = 0; attackNumber < NumberOfAttacks; attackNumber++) {
                     performAttack(hero, targetLight, lightHits, lightArmorTestResult);
                     performAttack(hero, targetMedium, mediumHits, mediumArmorTestResult);
                     performAttack(hero, targetHeavy, heavyHits, heavyArmorTestResult);
                 }
+                endTime = System.nanoTime();
+               // System.out.println((double)(endTime - startTime)  / 1_000_000_000);
                 lightArmorTestResult.setDamage(NumberOfAttacks);
                 mediumArmorTestResult.setDamage(NumberOfAttacks);
                 heavyArmorTestResult.setDamage(NumberOfAttacks);
                 lightArmorTestResult.setHitsPercentage();
                 mediumArmorTestResult.setHitsPercentage();
                 heavyArmorTestResult.setHitsPercentage();
-                weaponTestResultRepository.save(lightArmorTestResult);
-                weaponTestResultRepository.save(mediumArmorTestResult);
-                weaponTestResultRepository.save(heavyArmorTestResult);
+                resultsToSave.add(lightArmorTestResult);
+                resultsToSave.add(mediumArmorTestResult);
+                resultsToSave.add(heavyArmorTestResult);
                 //System.out.println(mediumHits.stream().reduce(0, (a,b) -> a + b).doubleValue()/ mediumHits.size() / hero.getAttributeLevel(Attributes.Agility)  + " " + hero.getAttributeLevel(Attributes.Agility) + " " + mediumArmorTestResult.getDamage());
                 //System.out.println(oneLightWeaponLightArmorTestResult.getDamage());
                 //System.out.println(lightHits.stream().reduce(0, (a,b) -> a + b).doubleValue()/ lightHits.size() / oneLightHero.getAttributeLevel(Attributes.Agility)  + " " + oneLightHero.getAttributeLevel(Attributes.Agility) + " " + oneLightWeaponLightArmorTestResult.getDamage());
@@ -82,6 +85,8 @@ public class WeaponTest {
             }
 
         }
+        weaponTestResultRepository.saveAll(resultsToSave);
+        System.out.println("Done");
     }
 
     private void performAttack(Hero oneLightHero, Hero targetLight, List<Integer> hits, WeaponTestResult weaponTestResult) {

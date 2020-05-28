@@ -37,7 +37,7 @@ public class AttackService {
                 hitAttributePoints,
                 hitBonus,
                 damageBonus,
-                attacker.getOffWeaponAttributes().getAttackComplexity(),
+                attacker.getOffWeaponAttributes().getAttackComplexity() + 1,
                 target
         );
 
@@ -46,6 +46,7 @@ public class AttackService {
 
     private AttackResult attack(Integer weaponDamage,Integer hitAttributePoints, Integer hitBonus, Integer damageBonus, Integer complexity, Creature target) {
         DiceRoller roller = new DiceRoller();
+        System.out.println(hitBonus + "x " + target.getStatus().getEvasion());
         TestResult attackTest = roller.makeTest(hitAttributePoints, hitBonus, target.getStatus().getEvasion(), complexity);
         List<DamageResult> damageResults = new ArrayList<>();
 

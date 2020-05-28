@@ -1,6 +1,7 @@
 <p-tieredMenu #effectMenu [model]="effectOptions" appendTo="body" [popup]="true" ></p-tieredMenu>
 
 <form [formGroup]="form">
+  <ng-container *ngIf="action === MasterToolAction.Status">
   <div class="ui-inputgroup" #teste>
     <ng-container *ngFor="let effect of creature.effects">
       <span class="ui-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
@@ -26,12 +27,8 @@
     <button pButton (click)="heal()" label="Heal"></button>
     <button pButton (click)="fullyHeal()" label="Max"></button>
   </div>
-  <div>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-    <span>Take Damage: </span>
-      <p-inputSwitch formControlName="isTakeDamage" ></p-inputSwitch>
-    </div>
-    <ng-container *ngIf="isTakeDamage">
+  </ng-container>
+  <ng-container *ngIf="action === MasterToolAction.TakeDamage">
     <p-chips formControlName="physicalDamages" placeholder="Physical"></p-chips>
     <p-chips formControlName="arcaneDamages" placeholder="Arcane"></p-chips>
     <p-chips formControlName="fireDamages" placeholder="Fire"></p-chips>
@@ -43,7 +40,9 @@
     <p-chips formControlName="sonicDamages" placeholder="Sonic"></p-chips>
       <button pButton label="Apply Damage" (click)="takeDamage()"></button>
     </ng-container>
-  </div>
+    <ng-container *ngIf="action === MasterToolAction.Bonus">
+      <loh-bonus-tool [creature]="creature" [combat]="combat"></loh-bonus-tool>
+    </ng-container>
 </form>
 
 

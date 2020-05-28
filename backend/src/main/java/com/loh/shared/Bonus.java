@@ -17,10 +17,27 @@ public class Bonus  {
 	@Setter
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
+
+	@Getter
+	@Setter
+	private BonusDuration duration;
+
+	@Getter
+	@Setter
+	private int remainingTurns;
+
 	public Bonus() {
 		if (id == null) {
 			id = UUID.randomUUID();
 		}
+	}
+	public void update(Bonus bonus){
+		property = bonus.property;
+		level = bonus.level;
+		this.bonus = bonus.bonus;
+		duration = bonus.duration;
+		remainingTurns = bonus.remainingTurns;
+		bonusType = bonus.bonusType;
 	}
 
     public Bonus(String prop, Integer level, Integer bonus, BonusType bonusType) {
@@ -70,4 +87,11 @@ public class Bonus  {
     private Integer level = 0;
     
     private BonusType bonusType;
+
+    public int processEndOfTurn() {
+    	if (duration == BonusDuration.ByTurn) {
+    		this.remainingTurns --;
+		}
+    	return this.remainingTurns;
+	}
 }

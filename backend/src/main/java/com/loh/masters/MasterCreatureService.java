@@ -120,6 +120,17 @@ public class MasterCreatureService {
         }
         return creature;
     }
+    public Creature updateBonus(UUID creatureId, Bonus bonus, UUID combatId) throws UnsupportedEncodingException {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.updateBonus(bonus);
+        creatureRepository.save(creature);
+        if (combatId != null) {
+            Combat combat = combatRepository.findById(combatId).get();
+            combat.addLog(String.format("Master updated %s %d %s bonus to %s", bonus.getProperty(), bonus.getLevel(), bonus.getBonusType().toString(), creature.getName()));
+            combatRepository.save(combat);
+        }
+        return creature;
+    }
     public Creature removeBonus(UUID creatureId, Bonus bonus, UUID combatId) throws UnsupportedEncodingException {
         Creature creature = creatureRepository.findById(creatureId).get();
         creature.removeBonus(bonus);

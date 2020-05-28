@@ -32,6 +32,11 @@ public class DataController {
 		// This returns a JSON or XML with the users
 		return new LevelDetails(level);
 	}
+	@GetMapping(path="/properties")
+	public @ResponseBody List<String> getProperties() {
+		// This returns a JSON or XML with the users
+		return Properties.List;
+	}
 
 	
 }

@@ -64,6 +64,12 @@ public class MasterCreatureController {
         Creature creature = masterCreatureService.addBonus(input.creatureId, input.bonus, input.combatId);
         return creature;
     }
+    @PostMapping(path="/updateBonus")
+    public @ResponseBody
+    Creature updateBonus(@RequestBody AddOrRemoveBonusInput input) throws UnsupportedEncodingException {
+        Creature creature = masterCreatureService.updateBonus(input.creatureId, input.bonus, input.combatId);
+        return creature;
+    }
     @PostMapping(path="/removeBonus")
     public @ResponseBody
     Creature removeBonus(@RequestBody AddOrRemoveBonusInput input) throws UnsupportedEncodingException {
