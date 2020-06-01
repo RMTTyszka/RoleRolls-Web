@@ -166,22 +166,22 @@ public class Creature extends Entity {
     public void removeEffect(EffectInstance effect) {
         effects = EffectProcessor.removeEffect(effects, effect);
     }
-
     public Integer getMainWeaponHitBonus() {
         if (equipment.getMainWeapon() != null) {
-            Integer bonuses = getBonusLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
-            return bonuses;
+            Integer attributeBonus =  getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            Integer bonuses = getBonusLevel(Properties.Hit);
+            return attributeBonus + bonuses;
         }
         return 0;
     }
     public Integer getOffWeaponHitBonus() {
         if (equipment.getOffWeapon() != null) {
-            Integer bonuses = getBonusLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
-            return bonuses;
+            Integer attributeBonus =  getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+            Integer bonuses = getBonusLevel(Properties.Hit);
+            return attributeBonus + bonuses;
         }
         return 0;
     }
-
     public WeaponAttributes getMainWeaponAttributes() {
         return equipment.getMainWeapon() != null ? new WeaponAttributes(
                 equipment.getMainWeaponGripType(),
@@ -202,10 +202,8 @@ public class Creature extends Entity {
     public Integer getAttributePoints(String attr) {
         Integer base = baseAttributes.getAttributePoints(attr);
         Integer attributeBonusPoints = bonusAttributes.getAttributePoints(attr);
-        Integer raceAttribute = race.getAttributePoints(attr);
-        Integer roleAttribute = role.getAttributePoints(attr);
-        Integer bonusAttribute = getBonusLevel(attr);
-        return  base + attributeBonusPoints + raceAttribute + roleAttribute + bonusAttribute;
+        Integer bonus = getBonusLevel(attr);
+        return  base + attributeBonusPoints + bonus;
     }
 
     public Integer getAttributeLevel(String attr) {
@@ -241,6 +239,7 @@ public class Creature extends Entity {
     public AttackDetails fullAttack(Creature target, AttackService service) {
         return service.fullAttack(this, target);
     }
+
 
     public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository itemInstanceRepository, Integer level) {
         for (int levelUp = this.level; levelUp <= level ; levelUp++) {
@@ -279,10 +278,10 @@ public class Creature extends Entity {
     }
 
     public Integer getInnateLevelBonus(Integer attributePoints) {
-        return (attributePoints - 5) / 5 * 2;
+        return 0;
     }
     public Integer getEvasionInnateBonus() {
-        return level/2;
+        return 0;
     }
     public void heal(Integer value) {
         Integer lifeToHeal = getStatus().getLife() - currentLife;

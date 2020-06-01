@@ -39,7 +39,6 @@ public class BaseCrudController<T extends Entity> {
     T get(@RequestParam UUID id) {
 
         T armor = repository.findById(id).get();
-
         return armor;
 
     }

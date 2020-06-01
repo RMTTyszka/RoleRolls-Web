@@ -5,6 +5,7 @@ import com.loh.creatures.Attributes;
 import java.util.Arrays;
 
 public class Properties {
+    public static String Hit = "Hit";
     public static String Defense = "Defense";
     public static String Evasion = "Evasion";
     public static String Dodge = "Dodge";

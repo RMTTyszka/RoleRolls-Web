@@ -33,7 +33,7 @@ public class WeaponTest {
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Light);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Medium);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Heavy);
-        for (int level = 1; level < 21; level++) {
+        for (int level = 1; level <= 20; level++) {
             System.out.println("Level " + level);
             List<Hero> heroes = new ArrayList<>();
             Hero oneLightHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneLightWeapon, level));

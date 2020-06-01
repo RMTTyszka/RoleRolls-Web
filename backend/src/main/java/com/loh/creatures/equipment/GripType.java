@@ -31,21 +31,21 @@ public enum GripType {
 
     static {
         OneLightWeapon.hit = 0;
-        OneMediumWeapon.hit = 1;
-        TwoHandedHeavyWeapon.hit = 3;
-        TwoWeaponsLight.hit = -4;
-        TwoWeaponsMedium.hit = 0;
-        OneHandedHeavyWeapon.hit = -2;
+        OneMediumWeapon.hit = 2;
+        TwoHandedHeavyWeapon.hit = 2;
+        TwoWeaponsLight.hit = 0;
+        TwoWeaponsMedium.hit = 1;
+        OneHandedHeavyWeapon.hit = 0;
         TwoHandedMediumWeapon.hit = 2;
         OneLightShield.hit = 0;
         OneMediumShield.hit = 1;
         OneHeavyShield.hit = 3;
 
-        OneLightWeapon.damage = 6;
+        OneLightWeapon.damage = 8;
         OneMediumWeapon.damage = 10;
         TwoHandedHeavyWeapon.damage = 12;
         TwoWeaponsLight.damage = 4;
-        TwoWeaponsMedium.damage = 10;
+        TwoWeaponsMedium.damage = 8;
         OneHandedHeavyWeapon.damage = 10;
         TwoHandedMediumWeapon.damage = 10;
         OneLightShield.damage = 4;
