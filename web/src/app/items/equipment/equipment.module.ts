@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {EquipmentRoutingModule} from './equipment-routing.module';
 import {EquipmentComponent} from './equipment.component';
-import {MatTabsModule} from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
 import {TableModule} from 'primeng/table';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';

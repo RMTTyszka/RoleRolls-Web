@@ -3,7 +3,7 @@ import {BaseListComponent} from 'src/app/shared/base-list/base-list.component';
 import {HeroesEditorComponent} from '../heroes-editor/heroes-editor.component';
 import {DataService} from 'src/app/shared/data.service';
 import {Router} from '@angular/router';
-import {DialogService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
 import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.component';
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {EffectType} from '../../shared/models/effects/EffectType.model';
 import {Subject} from 'rxjs';
-import {DialogService} from 'primeng/api';
 import {map, takeUntil} from 'rxjs/operators';
 import {UpdateCreatureToolComponent} from '../../masters/master-tools/update-creature-tool/update-creature-tool.component';
 import {Creature} from '../../shared/models/creatures/Creature.model';

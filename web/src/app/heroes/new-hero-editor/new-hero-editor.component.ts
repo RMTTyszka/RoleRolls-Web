@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewHeroService} from '../new-hero.service';
-import {DynamicDialogConfig, DynamicDialogRef, MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DataService} from '../../shared/data.service';
@@ -9,6 +9,7 @@ import {take} from 'rxjs/operators';
 import {Race} from '../../shared/models/Race.model';
 import {Role} from '../../shared/models/Role.model';
 import {Bonus} from '../../shared/models/Bonus.model';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-new-hero-editor',

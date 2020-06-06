@@ -4,7 +4,7 @@ import {BaseArmorService} from '../base-armor.service';
 import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {BaseArmorEditorComponent} from '../base-armor-editor/base-armor-editor.component';
 import {ModalEntityAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
-import {DialogService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-base-armor-list',
