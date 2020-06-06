@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
-import {DialogService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
 import {WeaponModelService} from '../weapon-model.service';
 import {ModalEntityAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
 import {WeaponModel} from 'src/app/shared/models/WeaponModel.model';

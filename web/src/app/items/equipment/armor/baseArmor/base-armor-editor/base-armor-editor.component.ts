@@ -3,7 +3,7 @@ import {BaseArmor} from '../../../../../shared/models/BaseArmor.model';
 import {BaseArmorService} from '../base-armor.service';
 import {ModalEntityAction} from '../../../../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
-import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/api';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-base-armor-editor',

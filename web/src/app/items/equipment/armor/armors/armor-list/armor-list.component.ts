@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
-import {DialogService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
 import {ModalEntityAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {ArmorEditorComponent} from '../armor-editor/armor-editor.component';
 import {ArmorService} from '../armor.service';
