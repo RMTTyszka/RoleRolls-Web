@@ -7,8 +7,6 @@ import {SelectItem} from 'primeng/api';
 import {DataService} from '../../../shared/data.service';
 import {UpdateCreatureToolService} from '../update-creature-tool/update-creature-tool.service';
 import {AddBonusInput} from '../../../shared/models/inputs/AddBonusInput';
-import {UUID} from 'angular2-uuid';
-
 @Component({
   selector: 'loh-bonus-tool',
   templateUrl: './bonus-tool.component.html',
@@ -18,6 +16,7 @@ export class BonusToolComponent implements OnInit {
 
   @Input() creature: Creature;
   @Input() combat: Combat;
+  bonuses: Bonus[] = [];
   form: FormGroup;
   selectedBonus: Bonus;
   properties: SelectItem[];
@@ -29,7 +28,7 @@ export class BonusToolComponent implements OnInit {
   private readonly updateCreatureToolService: UpdateCreatureToolService,
   ) {
     this.form = this.fb.group({
-      id: [UUID.UUID()],
+      id: [],
       property: [],
       level: [],
       bonus: [],
@@ -37,32 +36,39 @@ export class BonusToolComponent implements OnInit {
       bonusType: [BonusTypeEnum.Innate],
       bonusDuration: [BonusDurationEnum.Unending]
     });
-    this.bonusTypes = Object.values(BonusTypeEnum).map(b => <SelectItem> {value: b, label: b})
-    this.bonusTypes = Object.values(BonusDurationEnum).map(b => <SelectItem> {value: b, label: b})
+    this.bonusTypes = Object.values(BonusTypeEnum).map(b => <SelectItem> {value: b, label: b});
+    this.bonusDurations = Object.values(BonusDurationEnum).map(b => <SelectItem> {value: b, label: b});
     this.dataService.getProperties().subscribe((properties) => {
       this.properties = properties.map(p => {
         return  {label: p, value: p} as SelectItem;
       });
     });
+
   }
 
   ngOnInit() {
+    this.bonuses.push(...this.creature.bonuses);
+    this.setNewBonus();
   }
 
-  get bonuses(): Array<Bonus> {
-    return this.creature.bonuses.filter(b => b.bonusType !== 'Innate');
+  get newBonus() {
+    return new Bonus('new');
   }
   get label(): string {
-    return this.selectedBonus ? 'Update' : 'Add';
+    return this.selectedBonus && this.selectedBonus.property === 'new' ? 'Add' : 'Update';
   }
 
   bonusSelected(bonus: Bonus) {
-    console.log(bonus)
     this.form.patchValue(bonus);
+    if (this.selectedBonus.property === 'new') {
+      this.setNewBonus();
+    } else {
+      this.form.patchValue(bonus);
+    }
 
   }
   save() {
-    if (this.selectedBonus) {
+    if (this.selectedBonus.property !== 'new') {
       this.updateCreatureToolService.updateBonus(<AddBonusInput> {
         combatId: this.combat.id,
         creatureId: this.creature.id,
@@ -73,7 +79,10 @@ export class BonusToolComponent implements OnInit {
         combatId: this.combat.id,
         creatureId: this.creature.id,
         bonus: this.form.value as Bonus
-      }).subscribe();
+      }).subscribe((creature) => {
+        this.bonuses = creature.bonuses;
+        this.setNewBonus();
+      });
     }
   }
   remove() {
@@ -82,13 +91,10 @@ export class BonusToolComponent implements OnInit {
         combatId: this.combat.id,
         creatureId: this.creature.id,
         bonus: this.form.value as Bonus
-      }).subscribe();
-    } else {
-      this.updateCreatureToolService.addBonus(<AddBonusInput> {
-        combatId: this.combat.id,
-        creatureId: this.creature.id,
-        bonus: this.form.value as Bonus
-      }).subscribe();
+      }).subscribe(creature => {
+        this.bonuses = creature.bonuses;
+        this.setNewBonus();
+      });
     }
   }
 
@@ -96,6 +102,13 @@ export class BonusToolComponent implements OnInit {
     return this.form.get('bonusDuration').value === BonusDurationEnum.ByTurn;
   }
 
+  setNewBonus() {
+    const bonus = this.newBonus;
+    this.bonuses.push(bonus);
+    this.selectedBonus = bonus;
+    this.form.patchValue(bonus);
+    this.form.get('property').setValue('Defense');
+  }
 
 
 

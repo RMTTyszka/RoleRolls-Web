@@ -222,6 +222,7 @@ export class CombatComponent implements OnInit, OnDestroy {
         action: action
       },
       header: this.selectedCreature.name,
+      width: '40vw'
     }).onClose.subscribe((creature: Creature) => {
       this.selectedCreature = creature ? creature : this.selectedCreature;
     });

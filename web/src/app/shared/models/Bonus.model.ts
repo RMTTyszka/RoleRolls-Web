@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 export class Bonus {
     id: string;
     property = '';
@@ -8,6 +9,7 @@ export class Bonus {
     bonusType: BonusTypeEnum = 'Innate';
     constructor(prop: string) {
       this.property = prop;
+      this.id = uuidv4();
     }
 }
 

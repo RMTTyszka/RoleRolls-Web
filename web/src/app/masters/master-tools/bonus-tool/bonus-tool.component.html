@@ -1,5 +1,5 @@
 
-<p-selectButton [(ngModel)]="selectedBonus" [options]="creature.bonuses" optionLabel="property" (onChange)="bonusSelected($event.value)"></p-selectButton>
+<p-selectButton [(ngModel)]="selectedBonus" [options]="bonuses" optionLabel="property" (onChange)="bonusSelected($event.value)" dataKey="id"></p-selectButton>
 <form [formGroup]="form">
   <div fxLayout="column">
     <span fxLayout="row" fxLayoutAlign="space-between center">
@@ -25,8 +25,10 @@
       <label>Remaining Turns: </label>
      <input type="number" pInputText formControlName="remainingTurns">
  </span>
-    <button pButton label="Remove" (click)="remove()" *ngIf="selectedBonus"></button>
-    <button pButton [label]="label" (click)="save()"></button>
+    <div>
+      <button pButton [label]="label" (click)="save()"></button>
+      <button pButton class="ui-button-danger" label="Remove" (click)="remove()" *ngIf="selectedBonus?.property !== 'new'"></button>
+    </div>
   </div>
 
 </form>

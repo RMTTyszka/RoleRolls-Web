@@ -343,8 +343,12 @@ public class Creature extends Entity {
         return reducedDamage;
     }
 
-    public Creature processEndOfTurn(CreatureRepository creatureRepository) {
-        return creatureRepository.save(this);
+    public Creature processEndOfTurn() {
+        for (Bonus bonus : bonuses) {
+            bonus.processEndOfTurn();
+        }
+        this.bonuses.removeIf(b -> b.getRemainingTurns() <= 0 );
+        return this;
     }
 
     public void addBonus(Bonus bonus) {

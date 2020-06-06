@@ -137,7 +137,7 @@ public class MasterCreatureService {
         creatureRepository.save(creature);
         if (combatId != null) {
             Combat combat = combatRepository.findById(combatId).get();
-            combat.addLog(String.format("Master removed %s %d %s bonus to %s", creature.getName(), bonus.getLevel(), bonus.getBonusType().toString(), bonus.getProperty()));
+            combat.addLog(String.format("Master removed %s %d %s %s bonus to ", creature.getName(), bonus.getLevel(), bonus.getBonusType().toString(), bonus.getProperty()));
             combatRepository.save(combat);
         }
         return creature;

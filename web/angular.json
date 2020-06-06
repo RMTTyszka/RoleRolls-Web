@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "Land-of-Heroes-Web"
+  "defaultProject": "Land-of-Heroes-Web",
+  "cli": {
+    "analytics": "c7b05171-222d-4f27-9370-e30566800a6f"
+  }
 }
