@@ -1,9 +1,15 @@
+import { v4 as uuidv4 } from 'uuid';
 export class Bonus {
+    id: string;
     property = '';
     level = 0;
     bonus = 0;
+    BonusDurationEnum = BonusDurationEnum.Unending;
+    remainingTurns = 1;
+    bonusType: BonusTypeEnum = 'Innate';
     constructor(prop: string) {
       this.property = prop;
+      this.id = uuidv4();
     }
 }
 
@@ -12,4 +18,10 @@ export type BonusTypeEnum = 'Innate' | 'Magical' | 'Equipment';
         Innate: 'Innate' as BonusTypeEnum,
         Magical: 'Magical' as BonusTypeEnum,
         Equipment: 'Equipment' as BonusTypeEnum
+    };
+
+export type BonusDurationEnum = 'Unending' | 'ByTurn';
+    export const BonusDurationEnum = {
+      Unending: 'Unending' as BonusDurationEnum,
+      ByTurn: 'ByTurn' as BonusDurationEnum,
     };

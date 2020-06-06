@@ -19,6 +19,7 @@ import {Menu} from 'primeng/menu';
 import {UpdateCreatureToolComponent} from '../masters/master-tools/update-creature-tool/update-creature-tool.component';
 import {HeroesService} from '../heroes/heroes.service';
 import {MonsterService} from '../monsters/monster/monster.service';
+import {MasterToolAction} from '../masters/master-tools/MasterToolAction';
 import {DialogService} from 'primeng/dynamicdialog';
 
 export class CombatActionData {
@@ -58,6 +59,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     private routeSnapshot: ActivatedRoute
   ) { }
   ngOnDestroy(): void {
+    this._combatManagement.combatUpdated.next(new Combat());
     this.usubscriber.next();
     this.usubscriber.complete();
   }
@@ -82,9 +84,29 @@ export class CombatComponent implements OnInit, OnDestroy {
       this.creatureActions.push({
         label: 'Master Tools',
         icon: 'fas fa-user-secret',
-        command: () => {
-          this.openMasterTools();
-        }
+        items: [
+          {
+            label: 'Status',
+            icon: 'fas fa-diagnoses',
+            command: () => {
+              this.openMasterTools(MasterToolAction.Status);
+            },
+          },
+          {
+            label: 'Take Damage',
+            icon: 'fas fa-gavel',
+            command: () => {
+              this.openMasterTools(MasterToolAction.TakeDamage);
+            },
+          },
+          {
+            label: 'Bonus',
+            icon: 'fas fa-rainbow',
+            command: () => {
+              this.openMasterTools(MasterToolAction.Bonus);
+            },
+          }
+        ]
       });
     }
     this._combatManagement.combatUpdated
@@ -93,13 +115,15 @@ export class CombatComponent implements OnInit, OnDestroy {
     });
      interval(3000)
        .pipe(takeUntil(this.usubscriber)).subscribe(() => {
-       this._combatService.get(this.combat.id)
-         .subscribe(combat => {
-          if (this.combat.lastUpdateTime < combat.lastUpdateTime) {
-            this._combatManagement.combatUpdated.next(combat);
-          }
+         if (this.combat.id) {
+           this._combatService.get(this.combat.id)
+             .subscribe(combat => {
+                 if (this.combat.lastUpdateTime < combat.lastUpdateTime) {
+                   this._combatManagement.combatUpdated.next(combat);
+                 }
+               }
+             );
          }
-         );
      });
     if (this.routeSnapshot.snapshot.params['id']) {
       this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
@@ -189,14 +213,16 @@ export class CombatComponent implements OnInit, OnDestroy {
         this._combatManagement.combatUpdated.next(combat);
       });
   }
-  openMasterTools() {
+  openMasterTools(action: MasterToolAction) {
     this.dialog.open(UpdateCreatureToolComponent, {
       data: {
         creature: this.selectedCreature,
         service: this.selectedCreatureType === CreatureType.Hero ? this.heroesService : this.monsterService,
-        combat: this.combat
+        combat: this.combat,
+        action: action
       },
       header: this.selectedCreature.name,
+      width: '40vw'
     }).onClose.subscribe((creature: Creature) => {
       this.selectedCreature = creature ? creature : this.selectedCreature;
     });
@@ -226,7 +252,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   isCurrentOnInitiative(id: string) {
-    return id === this.combat.currentInitiative.creature.id;
+    return this.combat.currentInitiative ? id === this.combat.currentInitiative.creature.id : false;
   }
 
   setSelectedCreature(creature: Creature, creatureType: CreatureType, actionMenu: Menu, $event: MouseEvent) {

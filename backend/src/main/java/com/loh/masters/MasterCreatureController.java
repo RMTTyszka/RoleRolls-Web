@@ -1,7 +1,11 @@
-package com.loh.creatures.masterTools;
+package com.loh.masters;
 
 
 import com.loh.creatures.Creature;
+import com.loh.masters.dtos.AddOrRemoveBonusInput;
+import com.loh.masters.dtos.RemoveEffectInput;
+import com.loh.masters.dtos.TakeDamageInput;
+import com.loh.masters.dtos.UpdateCreatureLifeAndMoralInput;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +56,24 @@ public class MasterCreatureController {
     public @ResponseBody
     Creature takeDamage(@RequestBody TakeDamageInput input) throws UnsupportedEncodingException {
         Creature creature = masterCreatureService.takeAttack(input);
+        return creature;
+    }
+    @PostMapping(path="/addBonus")
+    public @ResponseBody
+    Creature addBonus(@RequestBody AddOrRemoveBonusInput input) throws UnsupportedEncodingException {
+        Creature creature = masterCreatureService.addBonus(input.creatureId, input.bonus, input.combatId);
+        return creature;
+    }
+    @PostMapping(path="/updateBonus")
+    public @ResponseBody
+    Creature updateBonus(@RequestBody AddOrRemoveBonusInput input) throws UnsupportedEncodingException {
+        Creature creature = masterCreatureService.updateBonus(input.creatureId, input.bonus, input.combatId);
+        return creature;
+    }
+    @PostMapping(path="/removeBonus")
+    public @ResponseBody
+    Creature removeBonus(@RequestBody AddOrRemoveBonusInput input) throws UnsupportedEncodingException {
+        Creature creature = masterCreatureService.removeBonus(input.creatureId, input.bonus, input.combatId);
         return creature;
     }
 

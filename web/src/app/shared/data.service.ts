@@ -59,6 +59,9 @@ export class DataService extends BaseCrudServiceComponent<Entity> {
   getLevelData(level: number) {
     return this.http.get<LevelDetails>(this.myBackUrl + 'data/levelDetails/?level=' + level);
   }
+  getProperties() {
+    return this.http.get<Array<string>>(this.myBackUrl + 'data/properties');
+  }
 
 
 

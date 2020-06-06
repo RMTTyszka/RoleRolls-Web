@@ -9,7 +9,7 @@ export class Combat extends Entity {
   heroes: Array<Hero> = new Array<Hero>();
   initiatives: Array<Initiative> = new Array<Initiative>();
   hasStarted: boolean;
-  currentInitiative: Initiative;
+  currentInitiative: Initiative = new Initiative();
   lastUpdateTime: Date;
   combatLog: CombatLog[];
 }

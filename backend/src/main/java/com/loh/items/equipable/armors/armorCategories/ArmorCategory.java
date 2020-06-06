@@ -14,6 +14,8 @@ public enum ArmorCategory  {
     @Getter
     private int dodge;
     @Getter
+    private int evasion;
+    @Getter
     private int baseDefense;
 
     static {
@@ -31,6 +33,11 @@ public enum ArmorCategory  {
         Light.dodge = 1;
         Medium.dodge = 0;
         Heavy.dodge = -1;
+
+        None.evasion = 1;
+        Light.evasion = 1;
+        Medium.evasion = 0;
+        Heavy.evasion = -1;
     }
     public static List<ArmorCategory> getList() {
         return Arrays.asList(None, Light, Medium, Heavy);

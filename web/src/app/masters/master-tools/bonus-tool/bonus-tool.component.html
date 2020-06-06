@@ -1,0 +1,34 @@
+
+<p-selectButton [(ngModel)]="selectedBonus" [options]="bonuses" optionLabel="property" (onChange)="bonusSelected($event.value)" dataKey="id"></p-selectButton>
+<form [formGroup]="form">
+  <div fxLayout="column">
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <label>Property: </label>
+      <p-dropdown formControlName="property" [options]="properties"></p-dropdown>
+    </span>    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <label>Level Bonus: </label>
+      <input pInputText formControlName="level">
+    </span>
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <label>Roll Bonus: </label>
+      <input pInputText formControlName="bonus">
+    </span>
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <label>Bonus Type: </label>
+    <p-dropdown formControlName="bonusType" [options]="bonusTypes"></p-dropdown>
+    </span>
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <label>Bonus Duration: </label>
+     <p-dropdown formControlName="bonusDuration" [options]="bonusDurations"></p-dropdown>
+    </span>
+    <span fxLayout="row" fxLayoutAlign="space-between center" *ngIf="hasRemainingTurns">
+      <label>Remaining Turns: </label>
+     <input type="number" pInputText formControlName="remainingTurns">
+ </span>
+    <div>
+      <button pButton [label]="label" (click)="save()"></button>
+      <button pButton class="ui-button-danger" label="Remove" (click)="remove()" *ngIf="selectedBonus?.property !== 'new'"></button>
+    </div>
+  </div>
+
+</form>

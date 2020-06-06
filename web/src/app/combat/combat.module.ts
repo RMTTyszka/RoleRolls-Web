@@ -18,6 +18,7 @@ import {SidebarModule} from 'primeng/sidebar';
 import { CombatLogComponent } from './combat-log/combat-log.component';
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from 'primeng/menu';
+import {TieredMenuModule} from 'primeng/tieredmenu';
 
 const routes: Routes = [
   {path: '', component: CombatListComponent},
@@ -40,7 +41,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     SidebarModule,
     PanelModule,
-    MenuModule
+    MenuModule,
+    TieredMenuModule
   ],
   declarations: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
   entryComponents: [CombatActionModalComponent]

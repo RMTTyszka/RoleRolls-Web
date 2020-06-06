@@ -1,10 +1,12 @@
-package com.loh.creatures.masterTools;
+package com.loh.masters;
 
 import com.loh.combat.Combat;
 import com.loh.combat.CombatRepository;
 import com.loh.creatures.Creature;
 import com.loh.creatures.CreatureRepository;
 import com.loh.effects.EffectInstance;
+import com.loh.masters.dtos.TakeDamageInput;
+import com.loh.shared.Bonus;
 import com.loh.shared.DamageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,6 +108,39 @@ public class MasterCreatureService {
             combat.addLog(String.format("%s took %d total damage", creature.getName(), totalDamage));
             combatRepository.save(combat);
         } return creature;
+    }
+    public Creature addBonus(UUID creatureId, Bonus bonus, UUID combatId) throws UnsupportedEncodingException {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.addBonus(bonus);
+        creatureRepository.save(creature);
+        if (combatId != null) {
+            Combat combat = combatRepository.findById(combatId).get();
+            combat.addLog(String.format("Master gave %s %d %s bonus to %s", creature.getName(), bonus.getLevel(), bonus.getBonusType().toString(), bonus.getProperty()));
+            combatRepository.save(combat);
+        }
+        return creature;
+    }
+    public Creature updateBonus(UUID creatureId, Bonus bonus, UUID combatId) throws UnsupportedEncodingException {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.updateBonus(bonus);
+        creatureRepository.save(creature);
+        if (combatId != null) {
+            Combat combat = combatRepository.findById(combatId).get();
+            combat.addLog(String.format("Master updated %s %d %s bonus to %s", bonus.getProperty(), bonus.getLevel(), bonus.getBonusType().toString(), creature.getName()));
+            combatRepository.save(combat);
+        }
+        return creature;
+    }
+    public Creature removeBonus(UUID creatureId, Bonus bonus, UUID combatId) throws UnsupportedEncodingException {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        creature.removeBonus(bonus);
+        creatureRepository.save(creature);
+        if (combatId != null) {
+            Combat combat = combatRepository.findById(combatId).get();
+            combat.addLog(String.format("Master removed %s %d %s %s bonus to ", creature.getName(), bonus.getLevel(), bonus.getBonusType().toString(), bonus.getProperty()));
+            combatRepository.save(combat);
+        }
+        return creature;
     }
 
 }

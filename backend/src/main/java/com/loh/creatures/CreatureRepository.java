@@ -7,5 +7,6 @@ import java.util.UUID;
 
 public interface CreatureRepository extends CrudRepository<Creature, UUID>, JpaSpecificationExecutor<Creature> {
     Creature findByName(String name);
+    Integer deleteByNameContaining(String name);
 }
 

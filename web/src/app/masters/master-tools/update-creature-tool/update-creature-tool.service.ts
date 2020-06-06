@@ -7,6 +7,8 @@ import {UpdateCreatureLifeOrMoralInput} from '../../../shared/models/inputs/Upda
 import {RemoveEffectInput} from '../../../shared/models/inputs/RemoveEffectInput';
 import {UpdateEffectInput} from '../../../shared/models/inputs/UpdateEffectInput';
 import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
+import {Bonus} from '../../../shared/models/Bonus.model';
+import {AddBonusInput} from '../../../shared/models/inputs/AddBonusInput';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,15 @@ export class UpdateCreatureToolService {
   }
   public takeDamage(input: TakeDamageInput): Observable<Creature> {
     return this.httpClient.post<Creature>(this.serverUrl + this.path + '/takeDamage', input);
+  }
+  public addBonus(input: AddBonusInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + '/addBonus', input);
+  }
+  public updateBonus(input: AddBonusInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + '/updateBonus', input);
+  }
+  public removeBonus(input: AddBonusInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + '/removeBonus', input);
   }
 }
 

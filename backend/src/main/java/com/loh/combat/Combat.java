@@ -119,6 +119,7 @@ public class Combat extends com.loh.shared.Entity {
 	}
 
 	public void endTurn(Creature creature, CombatRepository combatRepository) {
+		creature.processEndOfTurn();
 		Initiative initiative = this.initiatives.stream().filter(e -> e.getCreature().getId() == creature.getId()).findFirst().get();
 		initiative.setActed(true);
 		if (isLastTurn()) {
