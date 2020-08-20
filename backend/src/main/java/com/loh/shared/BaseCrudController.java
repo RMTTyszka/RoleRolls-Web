@@ -1,13 +1,12 @@
 package com.loh.shared;
 
-import com.loh.items.equipable.weapons.weaponModel.WeaponModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-public class BaseCrudController<T extends Entity> {
+public abstract class BaseCrudController<T extends Entity> {
     public BaseCrudController(BaseRepository<T> repository) {
         this.repository = repository;
     }
@@ -38,24 +37,22 @@ public class BaseCrudController<T extends Entity> {
     public @ResponseBody
     T get(@RequestParam UUID id) {
 
-        T armor = repository.findById(id).get();
-        return armor;
+        T entity = repository.findById(id).get();
+        return entity;
 
     }
     @GetMapping(path="/getNew")
-    public @ResponseBody
-    WeaponModel getnew() {
-        return new WeaponModel();
-    }
+    public abstract  @ResponseBody
+    T getnew();
     @PutMapping(path="/update")
     public @ResponseBody
-    BaseCrudResponse<T> update(@RequestBody T weapon) {
+    BaseCrudResponse<T> update(@RequestBody T entity) {
 
-        return saveAndGetWeaponBaseCrudResponse(weapon);
+        return saveAndGetWeaponBaseCrudResponse(entity);
     }
 
-    private BaseCrudResponse<T> saveAndGetWeaponBaseCrudResponse(T weapon) {
-        T updatedWeapon = repository.save(weapon);
+    private BaseCrudResponse<T> saveAndGetWeaponBaseCrudResponse(T entity) {
+        T updatedWeapon = repository.save(entity);
         BaseCrudResponse response = new BaseCrudResponse<T>();
         response.success = true;
         response.message = "Successfully Created Weapon";
@@ -65,18 +62,18 @@ public class BaseCrudController<T extends Entity> {
 
     @PostMapping(path="/create")
     public @ResponseBody
-    BaseCrudResponse<T> add(@RequestBody T weapon) {
+    BaseCrudResponse<T> add(@RequestBody T entity) {
 
-        return saveAndGetWeaponBaseCrudResponse(weapon);
+        return saveAndGetWeaponBaseCrudResponse(entity);
     }
     @DeleteMapping(path="/delete")
     public @ResponseBody
     BaseCrudResponse<T> delete(@RequestParam UUID id) {
 
-        T weapon = repository.findById(id).get();
+        T entity = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
         response.success = true;
-        response.entity = weapon;
+        response.entity = entity;
 
         repository.deleteById(id);
         return response;

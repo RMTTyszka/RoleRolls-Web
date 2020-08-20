@@ -16,4 +16,9 @@ public class GlovesInstanceController extends BaseCrudController<GloveInstance> 
     public GlovesInstanceController(GloveInstanceRepository repository) {
         super(repository);
     }
+
+    @Override
+    public GloveInstance getnew() {
+        return null;
+    }
 }

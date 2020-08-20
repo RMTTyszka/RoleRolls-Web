@@ -2,7 +2,6 @@ package com.loh.items.equipable.neck.neckAccessoryInstances;
 
 
 import com.loh.shared.BaseCrudController;
-import com.loh.shared.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,5 +15,10 @@ public class NeckAcessoryInstanceController extends BaseCrudController<NeckAcces
     @Autowired
     public NeckAcessoryInstanceController(NeckAccessoryInstanceRepository repository) {
         super(repository);
+    }
+
+    @Override
+    public NeckAccessoryInstance getnew() {
+        return null;
     }
 }

@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
+  {path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule)},
   {path: 'rolls', loadChildren: () => import('./rolls/rolls.module').then(m => m.RollsModule)},
   {path: 'home', component: HomeComponent},
   {path: 'items', loadChildren: () => import('./items/items.module').then(m => m.ItemsModule)},

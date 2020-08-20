@@ -16,4 +16,9 @@ public class BeltInstanceController extends BaseCrudController<BeltInstance> {
     public BeltInstanceController(BeltInstanceRepository repository) {
         super(repository);
     }
+
+    @Override
+    public BeltInstance getnew() {
+        return null;
+    }
 }
