@@ -16,4 +16,9 @@ public class BaseBeltsController extends BaseCrudController<BaseBelt> {
     public BaseBeltsController(BaseBeltsRepository repository) {
         super(repository);
     }
+
+    @Override
+    public BaseBelt getnew() {
+        return null;
+    }
 }

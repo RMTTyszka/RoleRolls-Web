@@ -16,4 +16,9 @@ public class MonsterController extends BaseCrudController<Monster> {
     public MonsterController(MonsterRepository repository) {
         super(repository);
     }
+
+    @Override
+    public Monster getnew() {
+        return null;
+    }
 }

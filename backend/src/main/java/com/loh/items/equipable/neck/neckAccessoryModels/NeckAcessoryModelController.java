@@ -16,4 +16,9 @@ public class NeckAcessoryModelController extends BaseCrudController<NeckAcessory
     public NeckAcessoryModelController(NeckAccessoryModelRepository repository) {
         super(repository);
     }
+
+    @Override
+    public NeckAcessoryModel getnew() {
+        return null;
+    }
 }

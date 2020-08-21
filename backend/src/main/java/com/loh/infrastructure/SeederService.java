@@ -1,5 +1,6 @@
 package com.loh.infrastructure;
 
+import com.loh.authentication.AdminSeeder;
 import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.creatures.monsters.MonsterSeeder;
 import com.loh.items.equipable.armors.ArmorSeeder;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SeederService {
 
+	@Autowired
+	private AdminSeeder adminSeeder;
 	@Autowired
 	private RaceSeeder raceSeeder;
 	@Autowired

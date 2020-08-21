@@ -1,0 +1,3 @@
+Quando se move, joga menos dados no ataque ( tipo action points)
+Investida nao perde dado
+Atacar quem ta sem arma corpo a corpo da mt bonus no acerto

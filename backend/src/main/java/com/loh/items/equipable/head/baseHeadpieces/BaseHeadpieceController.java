@@ -16,4 +16,9 @@ public class BaseHeadpieceController extends BaseCrudController<BaseHeadpiece> {
     public BaseHeadpieceController(BaseHeadpieceRepository repository) {
         super(repository);
     }
+
+    @Override
+    public BaseHeadpiece getnew() {
+        return null;
+    }
 }

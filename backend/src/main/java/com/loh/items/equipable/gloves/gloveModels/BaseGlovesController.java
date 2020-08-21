@@ -18,4 +18,9 @@ public class BaseGlovesController extends BaseCrudController<BaseGlove> {
     public BaseGlovesController(BaseGloveRepository repository) {
         super(repository);
     }
+
+    @Override
+    public BaseGlove getnew() {
+        return null;
+    }
 }

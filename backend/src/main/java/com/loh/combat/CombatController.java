@@ -81,6 +81,10 @@ public class CombatController extends BaseCrudController<Combat> {
 		Combat combat = combatService.endTurn(input.combatId, input.creatureId);
 		return combat;
 	}
-	
-	
+
+
+	@Override
+	public Combat getnew() {
+		return null;
+	}
 }

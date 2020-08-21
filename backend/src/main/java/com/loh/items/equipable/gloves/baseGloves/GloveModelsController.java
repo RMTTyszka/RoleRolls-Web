@@ -4,7 +4,6 @@ package com.loh.items.equipable.gloves.baseGloves;
 import com.loh.items.equipable.gloves.gloveModels.GloveModel;
 import com.loh.items.equipable.gloves.gloveModels.GloveModelsRepository;
 import com.loh.shared.BaseCrudController;
-import com.loh.shared.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,5 +17,10 @@ public class GloveModelsController extends BaseCrudController<GloveModel> {
     @Autowired
     public GloveModelsController(GloveModelsRepository repository) {
         super(repository);
+    }
+
+    @Override
+    public GloveModel getnew() {
+        return null;
     }
 }
