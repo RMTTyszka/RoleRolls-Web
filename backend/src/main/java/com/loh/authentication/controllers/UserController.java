@@ -1,6 +1,7 @@
-package com.loh.authentication;
+package com.loh.authentication.controllers;
 
 
+import com.loh.authentication.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,9 +29,9 @@ public class UserController {
     @PostMapping(path="/login")
     public @ResponseBody
     LoginResponse login(@RequestBody LoginInput input) throws Exception {
-        authenticate(input.getUsername(), input.getPassword());
+        authenticate(input.getEmail(), input.getPassword());
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(input.getUsername());
+                .loadUserByUsername(input.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return new LoginResponse(token);
     }
@@ -42,17 +43,37 @@ public class UserController {
         String salt = BCrypt.gensalt(10);
         String password = BCrypt.hashpw(user.getPassword(), salt);
         userToUpdate.setPassword(password);
-        userToUpdate.setSalt(salt);
         userRepository.save(userToUpdate);
     }
     @PostMapping(path="/create")
     public @ResponseBody
-    void create(@RequestBody User user) {
-        String salt = BCrypt.gensalt(10);
-        String password = BCrypt.hashpw(user.getPassword(), salt);
-        user.setPassword(password);
-        user.setSalt(salt);
-        userRepository.save(user);
+    CreateUserOutput create(@RequestBody User user) {
+        CreateUserOutput output = new CreateUserOutput();
+
+        if (!userNameOrEmailPreviouslyRegistered(user)) {
+            if (passwordIsValid(user.getPassword())) {
+                String salt = BCrypt.gensalt(10);
+                String password = BCrypt.hashpw(user.getPassword(), salt);
+                user.setPassword(password);
+                userRepository.save(user);
+            } else {
+                output.success = false;
+                output.invalidPassword = true;
+            }
+        } else {
+            output.success = false;
+            output.userNameOrEmailPreviouslyRegistered = true;
+        }
+        return output;
+    }
+
+    private boolean passwordIsValid(String password) {
+        return password.length() > 4;
+    }
+
+    private boolean userNameOrEmailPreviouslyRegistered(User user) {
+        boolean emailOrUserNamePreviouslyRegistered = userRepository.existsByEmailOrUserName(user.getEmail(), user.getUserName());
+        return emailOrUserNamePreviouslyRegistered;
     }
 
     private void authenticate(String username, String password) throws Exception {

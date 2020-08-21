@@ -6,7 +6,7 @@ import lombok.Setter;
 public class LoginInput {
     @Getter
     @Setter
-    private String username;
+    private String email;
     @Getter
     @Setter
     private String password;

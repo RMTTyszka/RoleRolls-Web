@@ -11,14 +11,16 @@
   You have been logged out.
 </div>
 <form [formGroup]="form">
-  <div><label> User Name : <input type="text" formControlName="username"/> </label></div>
+  <div><label> Email : <input type="text" formControlName="email"/> </label></div>
   <div><label> Password: <input type="password" formControlName="password"/> </label></div>
   <div><button (click)="login()">Sign in</button></div>
   <div><button (click)="update()">update</button></div>
 </form>
 
 <form [formGroup]="formCreated">
-  <div><label> User Name: <input type="text" formControlName="username"/> </label></div>
+  <div><label> First Name: <input type="text" formControlName="firstName"/> </label></div>
+  <div><label> Last Name: <input type="text" formControlName="lastName"/> </label></div>
+  <div><label> User Name: <input type="text" formControlName="userName"/> </label></div>
   <div><label> Email: <input formControlName="email"/> </label></div>
   <div><label> Password: <input type="password" formControlName="password"/> </label></div>
   <div><button (click)="add()">Create</button></div>

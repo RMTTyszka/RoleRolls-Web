@@ -4,6 +4,7 @@ import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,17 +24,18 @@ public class User extends DefaultEntity {
     @Setter
     @NotNull
     @NotEmpty
+    private String userName;
+    @Getter
+    @Setter
+    @NotNull
+    @NotEmpty
     @ValidEmail
     private String email;
     @Getter
     @Setter
     @NotNull
     @NotEmpty
+    @Lob
     private String password;
-    @Getter
-    @Setter
-    @NotNull
-    @NotEmpty
-    private String salt;
 
 }

@@ -1,6 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LOH_API} from '../loh.api';
+import {Observable} from 'rxjs';
+import {CreateUserOutput} from './createUserOutput';
+import {CreateUserInput} from './createUserInput';
+import {LoginOutput} from './login/loginOutput';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +15,9 @@ export class LoginService {
     private httpClient: HttpClient
   ) { }
 
-  login(email: string, password: string) {
-    return this.httpClient.post(this.serverUrl + 'users/login', {
-      username: email,
+  login(email: string, password: string): Observable<LoginOutput> {
+    return this.httpClient.post<LoginOutput>(this.serverUrl + 'users/login', {
+        email: email,
       password: password
     },
       {
@@ -22,12 +26,8 @@ export class LoginService {
         })
       } );
   }
-  addUser(username: string, password: string, email: string) {
-    return this.httpClient.post(this.serverUrl + 'users/create', {
-      username: username,
-      password: password,
-      email: email
-    });
+  addUser(input: CreateUserInput): Observable<CreateUserOutput> {
+    return this.httpClient.post<CreateUserOutput>(this.serverUrl + 'users/create', input);
   }
   updateUser(username: string, password: string, email: string) {
     return this.httpClient.post(this.serverUrl + 'users/update', {

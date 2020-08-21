@@ -14,7 +14,7 @@ public class LohAuthenticationManager implements AuthenticationManager {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         User user = userRepository.findByEmail(authentication.getName());
         String password = authentication.getCredentials().toString();
-        if (BCrypt.checkpw(user.getPassword(), password)) {
+        if (BCrypt.checkpw(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         } else {
             return null;
