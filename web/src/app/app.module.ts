@@ -10,12 +10,15 @@ import {DeviceDetectorModule} from 'ngx-device-detector';
 import {CommonModule} from '@angular/common';
 import {MessageService} from 'primeng/api';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
+import {LoginModule} from './login/login.module';
+import { MainHeaderComponent } from './main-header/main-header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    MainHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import {AuthenticationInterceptor} from './interceptors/authentication.intercept
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
+    LoginModule
   ],
   providers: [MessageService,
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],

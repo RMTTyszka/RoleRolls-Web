@@ -1,6 +1,7 @@
 package com.loh.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,7 @@ public class LohAuthenticationManager implements AuthenticationManager {
         if (BCrypt.checkpw(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         } else {
-            return null;
+            throw new AuthenticationCredentialsNotFoundException("Invalid login or password, maybe both, who knows");
         }
     }
 }

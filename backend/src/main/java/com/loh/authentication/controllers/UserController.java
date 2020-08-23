@@ -33,7 +33,7 @@ public class UserController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(input.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return new LoginResponse(token);
+        return new LoginResponse(token, userDetails.getUsername());
     }
     @PostMapping(path="/update")
     public @ResponseBody

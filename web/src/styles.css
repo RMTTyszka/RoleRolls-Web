@@ -1,9 +1,14 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+@import 'app/theming/colors.css';
+
 @import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
 
 .font-base {
   font-family: 'IM Fell English SC';
+}
+.ui-panel-titlebar {
+  background-color: #bfd7b5 !important;
 }
 
 .input-centered-placeholder {

@@ -1,0 +1,14 @@
+<div class="p-grid p-justify-between main-color-5 main-header-text">
+  <h1 routerLink='home' class="font-base">
+    {{title | titlecase}}       <i class="fas fa-dice-d20"></i>
+  </h1>
+  <div  class="p-grid p-nogutter p-align-end p-justify-end" style="padding-right: 8px">
+    <ng-container *ngIf="hasUser">
+      <label class="main-header-text p-col-12" style="text-align: end">{{userName}}</label>
+      <label class="p-col-12" style="text-align: end; cursor: pointer;"  (click)="logout()">logout</label>
+    </ng-container>
+    <ng-container *ngIf="!hasUser">
+      <label routerLink='home' style="cursor: pointer">login</label>
+    </ng-container>
+  </div>
+</div>

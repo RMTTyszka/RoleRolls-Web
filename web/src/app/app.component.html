@@ -1,14 +1,11 @@
 <div>
   <button (click)="resetDummies()">reset</button>
   <p-toast></p-toast>
-  <h1 routerLink='home' class="font-base">
-    {{title | titlecase}}       <i class="fas fa-dice-d20"></i>
-  </h1>
+  <loh-main-header></loh-main-header>
 
   <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink=''>Party</a>
     <a mat-tab-link routerLink='encounters'>Encounters</a>
-    <a mat-tab-link routerLink='login'>Login</a>
     <a mat-tab-link routerLink='combat'>Combat</a>
     <a mat-tab-link routerLink='heroes'>Heroes</a>
     <a mat-tab-link routerLink='items'>Items</a>

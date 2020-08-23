@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup
   formCreated: FormGroup;
+  get isLogged() {
+    return this.authService.isLogged;
+  }
   constructor(
     private fb: FormBuilder,
     private service: LoginService,
@@ -40,8 +43,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.service.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(output => {
-        console.log(output.token);
-        localStorage.setItem(LohAuthTokenName, output.token);
+        this.authService.setToken(output.token);
+        this.authService.publishNewUserName(output.userName);
+        this.messageService.add(<Message>{
+          summary: 'Logged in',
+          severity: 'success'});
       });
   }
   add() {
@@ -53,7 +59,8 @@ export class LoginComponent implements OnInit {
             detail: output.invalidPassword ? 'Invalid Password' : 'Username or Email alredy registered by another user',
             severity: 'error'});
         } else {
-          this.messageService.add(<Message>{summary: 'User successfully created',
+          this.messageService.add(<Message>{
+            summary: 'User successfully created',
             severity: 'success'});
         }
       });
