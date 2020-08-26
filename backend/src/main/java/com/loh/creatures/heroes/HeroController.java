@@ -1,6 +1,8 @@
 package com.loh.creatures.heroes;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loh.creatures.inventory.NewHeroDto;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +46,11 @@ public class HeroController {
     }
     @GetMapping(path="/getNew")
     public @ResponseBody
-    NewHeroDto getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    Hero getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, JsonProcessingException {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
-        NewHeroDto hero = new NewHeroDto();
+        Hero hero = new Hero();
+        String x = new ObjectMapper().writeValueAsString(hero);
         return hero;
     }
     @PutMapping(path="/update")

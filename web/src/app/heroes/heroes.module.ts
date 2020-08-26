@@ -21,6 +21,9 @@ import {HeroStatsComponent} from './hero-stats/hero-stats.component';
 import {InventoryComponent} from './inventory/inventory.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
+import { CreateHeroEquipmentComponent } from './create-hero-equipment/create-hero-equipment.component';
+import { CreateHeroWeaponSelectComponent } from './create-hero-equipment/create-hero-weapon-select/create-hero-weapon-select.component';
+import { CreateHeroArmorSelectComponentComponent } from './create-hero-equipment/create-hero-armor-select-component/create-hero-armor-select-component.component';
 
 const routes: Routes = [
   {path: '', component: HeroesGatewayComponent}
@@ -43,7 +46,7 @@ const routes: Routes = [
     AutoCompleteModule,
     CreaturesSharedModule
   ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent],
+  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, CreateHeroEquipmentComponent, CreateHeroWeaponSelectComponent, CreateHeroArmorSelectComponentComponent],
   entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent]
 })
 export class HeroesModule { }

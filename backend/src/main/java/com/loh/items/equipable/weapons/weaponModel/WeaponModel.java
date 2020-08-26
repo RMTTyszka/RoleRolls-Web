@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 public class WeaponModel extends Equipable {
 
 	public WeaponModel() {
+		baseWeapon  = new BaseWeapon();
 	}
 
 	public WeaponModel(String name, BaseWeapon baseWeapon) {
@@ -23,5 +24,5 @@ public class WeaponModel extends Equipable {
 	@Getter @Setter
 	protected EquipableSlot slot = EquipableSlot.Weapon;
 	@Getter @Setter	@ManyToOne
-	private BaseWeapon baseWeapon = new BaseWeapon();
+	private BaseWeapon baseWeapon;
 }

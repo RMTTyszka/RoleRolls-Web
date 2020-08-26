@@ -1,0 +1,3 @@
+<form [formGroup]="itemForm">
+<p-autoComplete (completeMethod)="get($event.query)" [placeholder]="placeholder" [dropdown]="true" (onSelect)="itemSelected($event)" [suggestions]="result"  [forceSelection]="true" formControlName="name"></p-autoComplete>
+</form>
