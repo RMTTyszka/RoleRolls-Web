@@ -23,4 +23,14 @@ public class Inventory extends Entity {
         items.stream().filter(item -> item.getId() != itemToRemove.getId());
     }
 
+    @Getter
+    @Setter
+    private double cash1;
+    @Getter
+    @Setter
+    private double cash2;
+    @Getter
+    @Setter
+    private double cash3;
+
 }

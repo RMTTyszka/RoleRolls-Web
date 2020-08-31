@@ -1,7 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseEntityService} from '../../shared/base-entity-service';
 import {Observable} from 'rxjs';
-import {Shop} from '../../shared/models/inputs/Shop.model';
+import {Shop} from '../../shared/models/shop/Shop.model';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LOH_API} from '../../loh.api';
 

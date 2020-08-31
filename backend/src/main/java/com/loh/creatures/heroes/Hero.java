@@ -30,6 +30,7 @@ public class Hero extends Creature {
         name = "new hero";
         equipment = new Equipment();
         inventory = new Inventory();
+        inventory.setCash1(100);
     }
     public Hero(String name, Race race, Role role){
         super();

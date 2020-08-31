@@ -40,7 +40,7 @@ public class ShopSeeder {
     }
 
     private void AddArmor(Shop shop, String armorName, int value) {
-        if (shop.getArmors().stream().filter(a -> a.getArmor().getName().equals("Common " + armorName)).findFirst() != null) {
+        if (!shop.getArmors().stream().filter(a -> a.getItem().getName().equals("Common " + armorName)).findFirst().isPresent()) {
             ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue("Common " + armorName);
             ArmorInstance armorInstance = new ArmorInstance(armorModel, 1);
             armorInstanceRepository.save(armorInstance);

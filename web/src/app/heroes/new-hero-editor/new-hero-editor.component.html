@@ -1,4 +1,4 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted($event)
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-tabView>
@@ -44,13 +44,14 @@
           </div>
           <div fxFlex.gt-md="33" fxFlex="100">
             <p-fieldset legend="Equipment">
-              <loh-equipment [form]="form"></loh-equipment>
+              <loh-equipment [form]="form" [isCreating]="isCreating"></loh-equipment>
             </p-fieldset>
           </div>
           <div fxFlex.gt-md="33" fxFlex="100">
               <form [formGroup]="form">
                 <loh-hero-stats [status]="entity.status"></loh-hero-stats>
                 <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
+                <loh-hero-funds [hero]="entity"></loh-hero-funds>
               </form>
           </div>
           <div>
@@ -59,7 +60,10 @@
         </div>
       </p-tabPanel>
       <p-tabPanel header="Inventory">
-        <loh-hero-inventory></loh-hero-inventory>
+        <div class="p-grid p-nogutter p-justify-between">
+          <loh-hero-inventory></loh-hero-inventory>
+          <loh-shop></loh-shop>
+        </div>
       </p-tabPanel>
     </p-tabView>
   </form>

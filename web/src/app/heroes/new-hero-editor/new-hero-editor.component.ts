@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NewHeroService} from '../new-hero.service';
 import {MessageService} from 'primeng/api';
-import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
+import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DataService} from '../../shared/data.service';
 import {Hero} from '../../shared/models/NewHero.model';
@@ -10,31 +10,38 @@ import {Race} from '../../shared/models/Race.model';
 import {Role} from '../../shared/models/Role.model';
 import {Bonus} from '../../shared/models/Bonus.model';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {HeroFundsService} from '../hero-funds/hero-funds.service';
+import {HeroManagementService} from '../hero-management.service';
 
 @Component({
   selector: 'loh-new-hero-editor',
   templateUrl: './new-hero-editor.component.html',
   styleUrls: ['./new-hero-editor.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, HeroFundsService]
 })
 export class NewHeroEditorComponent  implements OnInit {
-  public action: ModalEntityAction;
+  public action: EditorAction;
   public form = new FormGroup({});
   public attributes: string[] = [];
   public isLoading = true;
   public entity: Hero;
   public entityId: string;
   public attributeDetailsIsOpened = false;
+  public get isCreating() {
+    return this.action === EditorAction.create
+  }
   private: MessageService;
   constructor(
     public service: NewHeroService,
     private dataService: DataService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private heroManagement: HeroManagementService
   ) {
     this.action = config.data.action;
-    if (this.action === ModalEntityAction.update) {
+    this.heroManagement.action = this.action;
+    if (this.action === EditorAction.update) {
       this.entityId = config.data.entity.id;
     }
     this.dataService.attributes2.subscribe(val => this.attributes = val);
@@ -46,6 +53,7 @@ export class NewHeroEditorComponent  implements OnInit {
     ).subscribe((entity: Hero) => {
       console.log(entity);
       this.entity = entity;
+      this.heroManagement.hero = entity;
     });
   }
 
@@ -109,17 +117,17 @@ export class NewHeroEditorComponent  implements OnInit {
   removeAttr(attr: string) {
     if (this.bonusPointsAttribute(attr) > this.entity.level - 1) {
       this.form.get('bonusAttributes.' + attr).setValue(this.bonusPointsAttribute(attr) - 1);
-    } else if (this.baseAttribute(attr) > 5 && this.action === ModalEntityAction.create) {
+    } else if (this.baseAttribute(attr) > 5 && this.action === EditorAction.create) {
       this.form.get('baseAttributes.' + attr).setValue(this.baseAttribute(attr) - 1);
     }
   }
   resetAttrs() {
-    if (this.action === ModalEntityAction.create) {
+    if (this.action === EditorAction.create) {
       this.attributes.forEach(attr => {
        this.form.get('baseAttributes.' + attr).setValue(8);
        this.form.get('bonusAttributes.' + attr).setValue(0);
       });
-    } else if (this.action === ModalEntityAction.update) {
+    } else if (this.action === EditorAction.update) {
       this.attributes.forEach(attr => {
         this.form.get('bonusAttributes.' + attr).setValue(this.entity.bonusAttributes[attr]);
       });

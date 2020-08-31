@@ -24,29 +24,32 @@ import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module
 import { CreateHeroEquipmentComponent } from './create-hero-equipment/create-hero-equipment.component';
 import { CreateHeroWeaponSelectComponent } from './create-hero-equipment/create-hero-weapon-select/create-hero-weapon-select.component';
 import { CreateHeroArmorSelectComponentComponent } from './create-hero-equipment/create-hero-armor-select-component/create-hero-armor-select-component.component';
+import { HeroFundsComponent } from './hero-funds/hero-funds.component';
+import {ShopModule} from '../shop/shop.module';
 
 const routes: Routes = [
   {path: '', component: HeroesGatewayComponent}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    DialogModule,
-    DynamicDialogModule,
-    RaceSharedModule,
-    RolesSharedModule,
-    TooltipModule,
-    ToastModule,
-    TabViewModule,
-    ArmorSharedModule,
-    FieldsetModule,
-    AutoCompleteModule,
-    CreaturesSharedModule
-  ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, CreateHeroEquipmentComponent, CreateHeroWeaponSelectComponent, CreateHeroArmorSelectComponentComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        DialogModule,
+        DynamicDialogModule,
+        RaceSharedModule,
+        RolesSharedModule,
+        TooltipModule,
+        ToastModule,
+        TabViewModule,
+        ArmorSharedModule,
+        FieldsetModule,
+        AutoCompleteModule,
+        CreaturesSharedModule,
+        ShopModule
+    ],
+  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, CreateHeroEquipmentComponent, CreateHeroWeaponSelectComponent, CreateHeroArmorSelectComponentComponent, HeroFundsComponent],
   entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent]
 })
 export class HeroesModule { }

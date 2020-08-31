@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Shop} from '../../../shared/models/inputs/Shop.model';
+import {Shop} from '../../../shared/models/shop/Shop.model';
 import {HeroCreateShopService} from '../hero-create-shop.service';
-import {ShopArmor} from '../../../shared/models/inputs/ShopArmor.model';
+import {ShopArmor} from '../../../shared/models/shop/ShopArmor.model';
 import {ArmorInstance} from '../../../shared/models/ArmorInstance.model';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {createForm} from '../../../shared/EditorExtension';
@@ -14,14 +14,14 @@ import {createForm} from '../../../shared/EditorExtension';
 export class CreateHeroArmorSelectComponentComponent implements OnInit {
   placeholder = 'Armor';
   armors: ShopArmor[];
-  result: string[];
+  result: ShopArmor[];
   inventoryForm: FormGroup;
   itemForm: FormGroup;
   equipmentForm: FormGroup;
   @Input() inventoryFormName = 'inventory';
   @Input() equipmentFormName = 'equipment';
   itemFormName = 'armor';
-  @Output() armorSelected = new EventEmitter<ArmorInstance>();
+  @Output() armorSelected = new EventEmitter<ShopArmor>();
   constructor(
     private shopService: HeroCreateShopService,
     protected formGroupDirective: FormGroupDirective
@@ -36,7 +36,7 @@ export class CreateHeroArmorSelectComponentComponent implements OnInit {
       this.armors = shop.armors;
     });
   }
-  itemSelected(selectedArmor: ArmorInstance) {
+  itemSelected(selectedArmor: ShopArmor) {
     this.armorSelected.next(selectedArmor);
   }
   public get(filter: string) {
@@ -46,6 +46,5 @@ export class CreateHeroArmorSelectComponentComponent implements OnInit {
   search = (filter: string, items: Array<ShopArmor>) => items
     .filter((item: ShopArmor) => item.armor.name.includes(filter)
       || item.armor.armorModel.baseArmor.name.includes(filter))
-    .map(item => item.armor.name)
 }
 

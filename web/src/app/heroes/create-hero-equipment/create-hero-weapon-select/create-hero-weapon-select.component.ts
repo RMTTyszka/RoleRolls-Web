@@ -4,7 +4,7 @@ import {Inventory} from '../../../shared/models/Inventory.model';
 import {WeaponInstance} from '../../../shared/models/WeaponInstance.model';
 import {HeroCreateShopService} from '../hero-create-shop.service';
 import {subscribeOn} from 'rxjs/operators';
-import {Shop} from '../../../shared/models/inputs/Shop.model';
+import {Shop} from '../../../shared/models/shop/Shop.model';
 
 @Component({
   selector: 'loh-create-hero-weapon-select',
