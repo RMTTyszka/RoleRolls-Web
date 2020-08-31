@@ -1,6 +1,7 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 @import 'app/theming/colors';
+@import 'app/theming/prime-ng-theming';
 
 @import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
 
@@ -9,40 +10,7 @@
 }
 
 
-.ui-button {
-  background-color: $primaryColor !important;
-  border-color: $primaryColor !important;
-}
-.ui-button-secondary {
-  background-color: $secondaryColor !important;
-  border-color: $borderColor !important;
-}
-.ui-button-success {
-  background-color: $successColor !important;
-  border-color: $successColor !important;
-}
-.ui-button-info {
-  background-color: $infoColor !important;
-  border-color: $infoColor !important;
-}
-.ui-button-warning {
-  background-color: $warningColor !important;
-  border-color: $warningColor !important;
-}
-.ui-button-danger {
-  background-color: $dangerColor !important;
-  border-color: $dangerColor !important;
-}
-.ui-panel-titlebar {
-  background-color: $mainColor3 !important;
-}
-.ui-state-active {
-  background-color: $primaryColor !important;
-  border-color: $primaryColor !important;
-}
-.ui-picklist .ui-picklist-caption {
-  background-color: $mainColor3 !important;
-}
+
 
 .input-centered-placeholder {
   text-align: center;

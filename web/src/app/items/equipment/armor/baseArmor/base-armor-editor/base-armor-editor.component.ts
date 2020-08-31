@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseArmor} from '../../../../../shared/models/BaseArmor.model';
 import {BaseArmorService} from '../base-armor.service';
-import {ModalEntityAction} from '../../../../../shared/dtos/ModalEntityData';
+import {EditorAction} from '../../../../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
@@ -12,7 +12,7 @@ import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 })
 export class BaseArmorEditorComponent implements OnInit {
   entity: BaseArmor;
-  action: ModalEntityAction;
+  action: EditorAction;
   form: FormGroup = new FormGroup({});
   isLoading = true;
   constructor(
@@ -21,7 +21,7 @@ export class BaseArmorEditorComponent implements OnInit {
     public service: BaseArmorService,
   ) {
     this.action = config.data.action;
-    if (config.data.action === ModalEntityAction.create) {
+    if (config.data.action === EditorAction.create) {
       this.entity = new BaseArmor();
     } else {
       this.entity = config.data.entity;

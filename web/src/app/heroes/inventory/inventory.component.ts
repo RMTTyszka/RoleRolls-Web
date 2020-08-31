@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, FormGroupDirective} from '@angular/forms';
 import {Inventory} from '../../shared/models/Inventory.model';
+import {HeroManagementService} from '../hero-management.service';
+import {createForm} from '../../shared/EditorExtension';
 
 @Component({
   selector: 'loh-hero-inventory',
@@ -12,8 +14,15 @@ export class InventoryComponent implements OnInit {
   @Input() formGroupName = 'inventory'
   form: FormGroup;
   constructor(
-    private formGroupDirective: FormGroupDirective
+    private formGroupDirective: FormGroupDirective,
+    private fb: FormBuilder,
+    private heroManagementService: HeroManagementService
   ) {
+    this.heroManagementService.addItemToinventory.subscribe(item => {
+      const itemForm = new FormGroup({});
+      createForm(itemForm, item);
+      (this.form.get('items') as FormArray).push(itemForm);
+    });
   }
 
   ngOnInit() {

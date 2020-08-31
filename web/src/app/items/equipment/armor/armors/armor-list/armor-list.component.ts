@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
-import {ModalEntityAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
+import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {ArmorEditorComponent} from '../armor-editor/armor-editor.component';
 import {ArmorService} from '../armor.service';
 import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
@@ -39,15 +39,15 @@ export class ArmorListComponent implements OnInit {
   }
 
   create() {
-    this.openEditor(ModalEntityAction.create).onClose.subscribe();
+    this.openEditor(EditorAction.create).onClose.subscribe();
   }
 
   update(armor: ArmorModel) {
-    this.openEditor(ModalEntityAction.update, armor)
+    this.openEditor(EditorAction.update, armor)
       .onClose.subscribe();
   }
 
-  openEditor(action: ModalEntityAction, armor?: ArmorModel) {
+  openEditor(action: EditorAction, armor?: ArmorModel) {
     return this.dialog.open(ArmorEditorComponent, {
       data: <ModalEntityData<ArmorModel>> {
         entity: armor,

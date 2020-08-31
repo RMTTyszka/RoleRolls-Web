@@ -3,7 +3,7 @@ import {BaseArmor} from '../../../../../shared/models/BaseArmor.model';
 import {BaseArmorService} from '../base-armor.service';
 import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {BaseArmorEditorComponent} from '../base-armor-editor/base-armor-editor.component';
-import {ModalEntityAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
+import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
@@ -39,15 +39,15 @@ export class BaseArmorListComponent implements OnInit {
   }
 
   create() {
-    this.openEditor(ModalEntityAction.create).onClose.subscribe();
+    this.openEditor(EditorAction.create).onClose.subscribe();
   }
 
   update(baseArmor: BaseArmor) {
-    this.openEditor(ModalEntityAction.update, baseArmor)
+    this.openEditor(EditorAction.update, baseArmor)
       .onClose.subscribe();
   }
 
-  openEditor(action: ModalEntityAction, baseArmor?: BaseArmor) {
+  openEditor(action: EditorAction, baseArmor?: BaseArmor) {
     return this.dialog.open(BaseArmorEditorComponent, {
       data: <ModalEntityData<BaseArmor>> {
         entity: baseArmor,

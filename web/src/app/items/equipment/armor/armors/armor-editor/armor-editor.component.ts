@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalEntityAction} from '../../../../../shared/dtos/ModalEntityData';
+import {EditorAction} from '../../../../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {ArmorService} from '../armor.service';
@@ -12,7 +12,7 @@ import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
 })
 export class ArmorEditorComponent implements OnInit {
   entity: ArmorModel;
-  action: ModalEntityAction;
+  action: EditorAction;
   form: FormGroup = new FormGroup({});
   isLoading = true;
   constructor(
@@ -21,7 +21,7 @@ export class ArmorEditorComponent implements OnInit {
     public service: ArmorService,
   ) {
     this.action = config.data.action;
-    if (config.data.action === ModalEntityAction.create) {
+    if (config.data.action === EditorAction.create) {
       this.entity = new ArmorModel();
     } else {
       this.entity = config.data.entity;

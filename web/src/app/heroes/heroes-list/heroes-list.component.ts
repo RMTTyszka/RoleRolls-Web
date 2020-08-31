@@ -5,7 +5,7 @@ import {DataService} from 'src/app/shared/data.service';
 import {Router} from '@angular/router';
 import {DialogService} from 'primeng/dynamicdialog';
 import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.component';
-import {ModalEntityAction} from '../../shared/dtos/ModalEntityData';
+import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';
 import {Hero} from '../../shared/models/NewHero.model';
 
@@ -38,7 +38,7 @@ export class HeroesListComponent extends BaseListComponent<Hero> implements OnIn
       width: '100vw',
       height: '100vh',
       data: {
-        action: ModalEntityAction.create
+        action: EditorAction.create
       }
     }).onClose.subscribe((createdHero: Hero) => {
       if (createdHero) {
@@ -55,7 +55,7 @@ export class HeroesListComponent extends BaseListComponent<Hero> implements OnIn
       height: '100vh',
       data: {
         entity: entity,
-        action: ModalEntityAction.update
+        action: EditorAction.update
       }
     }).onClose.subscribe(() => {
       this.getAllFiltered();

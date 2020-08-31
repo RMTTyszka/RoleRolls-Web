@@ -4,7 +4,7 @@ import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
 import {BaseWeaponsEditorComponent} from '../base-weapons-editor/base-weapons-editor.component';
 import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
-import {ModalEntityAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
+import {EditorAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
 
 @Component({
   selector: 'loh-base-weapons-list',
@@ -42,15 +42,15 @@ export class BaseWeaponsListComponent implements OnInit {
   }
 
   create() {
-    this.openEditor(ModalEntityAction.create).onClose.subscribe();
+    this.openEditor(EditorAction.create).onClose.subscribe();
   }
 
   update(baseWeapon: BaseWeapon) {
-    this.openEditor(ModalEntityAction.update, baseWeapon)
+    this.openEditor(EditorAction.update, baseWeapon)
       .onClose.subscribe();
   }
 
-  openEditor(action: ModalEntityAction, baseWeapon?: BaseWeapon) {
+  openEditor(action: EditorAction, baseWeapon?: BaseWeapon) {
     return this.dialog.open(BaseWeaponsEditorComponent, {
       data: <ModalEntityData<BaseWeapon>> {
         entity: baseWeapon,

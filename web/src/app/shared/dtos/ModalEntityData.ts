@@ -2,10 +2,10 @@ import {Entity} from '../models/Entity.model';
 
 export interface ModalEntityData<T extends Entity> {
   entity: T;
-  action: ModalEntityAction;
+  action: EditorAction;
 }
 
-export enum ModalEntityAction {
+export enum EditorAction {
   create,
   update
 }
