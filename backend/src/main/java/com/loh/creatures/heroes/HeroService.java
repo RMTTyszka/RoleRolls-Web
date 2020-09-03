@@ -81,6 +81,7 @@ public class HeroService {
         hero.getInventory().addItem(neckAccessory);
         hero.getInventory().addItem(ringRightInstance);
         hero.getInventory().addItem(ringLeftInstance);
+        hero.getInventory().setCash1(100);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
         hero = heroRepository.save(hero);

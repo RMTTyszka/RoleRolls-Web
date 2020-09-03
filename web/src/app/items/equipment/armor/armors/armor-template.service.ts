@@ -1,11 +1,11 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseEntityService} from '../../../../shared/base-entity-service';
-import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
+import {ArmorModel} from 'src/app/shared/models/items/ArmorModel.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArmorService extends BaseEntityService<ArmorModel> {
+export class ArmorTemplateService extends BaseEntityService<ArmorModel> {
 
   path = 'armorModels';
 

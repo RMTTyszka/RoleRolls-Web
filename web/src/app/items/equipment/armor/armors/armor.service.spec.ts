@@ -1,12 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 
-import {ArmorService} from './armor.service';
+import {ArmorTemplateService} from './armor-template.service';
 
 describe('ArmorService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ArmorService = TestBed.get(ArmorService);
+    const service: ArmorTemplateService = TestBed.get(ArmorTemplateService);
     expect(service).toBeTruthy();
   });
 });

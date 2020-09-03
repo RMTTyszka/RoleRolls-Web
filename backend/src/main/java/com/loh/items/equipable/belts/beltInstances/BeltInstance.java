@@ -18,9 +18,11 @@ public class BeltInstance extends EquipableInstance {
     private BeltModel beltModel;
 
     public BeltInstance() {
+        super();
     }
 
     public BeltInstance(BeltModel beltModel, Integer level) {
+        super();
         this.beltModel = beltModel;
         this.setLevel(level);
         this.setName(beltModel.getName());

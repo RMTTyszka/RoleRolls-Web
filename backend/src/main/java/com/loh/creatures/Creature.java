@@ -7,7 +7,7 @@ import com.loh.creatures.inventory.Inventory;
 import com.loh.dev.Loh;
 import com.loh.effects.EffectInstance;
 import com.loh.effects.EffectProcessor;
-import com.loh.items.ItemInstanceRepository;
+import com.loh.items.itemInstance.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Entity;

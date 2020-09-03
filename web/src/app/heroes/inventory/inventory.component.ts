@@ -3,6 +3,8 @@ import {FormArray, FormBuilder, FormGroup, FormGroupDirective} from '@angular/fo
 import {Inventory} from '../../shared/models/Inventory.model';
 import {HeroManagementService} from '../hero-management.service';
 import {createForm} from '../../shared/EditorExtension';
+import {ItemInstance} from '../../shared/models/ItemInstance.model';
+import {EquipableInstance} from '../../shared/models/EquipableInstance.model';
 
 @Component({
   selector: 'loh-hero-inventory',
@@ -23,6 +25,11 @@ export class InventoryComponent implements OnInit {
       createForm(itemForm, item);
       (this.form.get('items') as FormArray).push(itemForm);
     });
+    this.heroManagementService.updateFunds.subscribe(value => {
+      let funds = this.form.get('cash1').value;
+      funds -= value;
+      this.form.get('cash1').setValue(funds);
+    });
   }
 
   ngOnInit() {
@@ -32,4 +39,7 @@ export class InventoryComponent implements OnInit {
     return this.form.value;
   }
 
+  showItem(item: ItemInstance) {
+    return item.equipable && (item as EquipableInstance).removable || !item.equipable;
+  }
 }

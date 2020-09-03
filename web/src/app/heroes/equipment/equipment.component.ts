@@ -3,7 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {createForm} from '../../shared/EditorExtension';
 import {Equipment} from '../../shared/models/Equipment.model';
 import {Inventory} from '../../shared/models/Inventory.model';
-import {ArmorInstance} from '../../shared/models/ArmorInstance.model';
+import {ArmorInstance} from '../../shared/models/items/ArmorInstance.model';
 import {WeaponInstance} from '../../shared/models/WeaponInstance.model';
 import {GloveInstance} from '../../shared/models/GloveInstance.model';
 import {BeltInstance} from '../../shared/models/BeltInstance.model';

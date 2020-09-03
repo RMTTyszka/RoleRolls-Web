@@ -3,6 +3,9 @@ import {ShopArmor} from '../../shared/models/shop/ShopArmor.model';
 import {ShopItem} from '../../shared/models/shop/ShopItem.model';
 import {ShopService} from '../shop.service';
 import {HeroManagementService} from '../../heroes/hero-management.service';
+import {Hero} from '../../shared/models/NewHero.model';
+import {Shop} from '../../shared/models/shop/Shop.model';
+import {BuyOutput} from '../../shared/models/creatures/heroes/heroShop/BuyOutput';
 
 @Component({
   selector: 'loh-shop',
@@ -18,21 +21,26 @@ export class ShopComponent implements OnInit {
   itemToBuyShow: ShopItem[] = [];
   itemToBuy: ShopItem[] = [];
   totalCost = 0;
-  cash = 0;
+  hero: Hero;
   shopName = 'Shop';
+  shop: Shop;
   get hasEnoughCash() {
-    return this.cash >= this.totalCost;
+    return this.hero.inventory.cash1 >= this.totalCost;
   }
   constructor(
     private shopService: ShopService,
     private heroManagementService: HeroManagementService
   ) {
+    this.shopService.itemBought.subscribe((itemBought: BuyOutput) => {
+      this.updateItemOnShop(itemBought.shopItem);
+    })
     this.shopService.getShop().subscribe(shop => {
       this.shopName = shop.name;
-      shop.armors.forEach(item => {
+      this.shop = shop;
+      shop.items.forEach(item => {
         item.quantityToBuy = 0;
       });
-      this.initialItems.push(...shop.armors.map(i => <ShopItem> {
+      this.initialItems.push(...shop.items.map(i => <ShopItem> {
         id: i.id,
         quantity: i.quantity,
         quantityToBuy: 0,
@@ -40,20 +48,30 @@ export class ShopComponent implements OnInit {
         name: i.name,
         item: i.item
       }));
-      this.items.push(...shop.armors);
-      this.itemsShow.push(...shop.armors);
+      this.items.push(...shop.items);
+      this.itemsShow.push(...shop.items);
     });
   }
 
-  ngOnInit(): void {
-    this.cash = this.heroManagementService.hero.inventory.cash1;
+  private updateItemOnShop(itemBought: ShopItem) {
+    let itemOnShop = this.shop.items.find(i => i.id === itemBought.id);
+    itemOnShop = itemBought;
+    let itemOnList = this.items.find(i => i.id === itemBought.id);
+    itemOnList = itemBought;
+    let itemOnView = this.itemsShow.find(i => i.id === itemBought.id);
+    itemOnView = itemBought;
   }
 
-  buy() {
+  ngOnInit(): void {
+    this.hero = this.heroManagementService.hero;
+  }
+
+  async buy() {
     if (this.hasEnoughCash) {
-      this.heroManagementService.buyItems(this.itemToBuy);
+      await this.heroManagementService.buyItems(this.shop, this.itemToBuy);
       this.itemToBuy = [];
       this.itemToBuyShow = [];
+      this.totalCost = 0;
     }
   }
   reset() {

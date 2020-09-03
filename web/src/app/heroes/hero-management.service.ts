@@ -5,6 +5,9 @@ import {Subject} from 'rxjs';
 import {EditorAction} from '../shared/dtos/ModalEntityData';
 import {ShopItem} from '../shared/models/shop/ShopItem.model';
 import {ItemInstance} from '../shared/models/ItemInstance.model';
+import {ItemInstanceService} from '../items/item-instance.service';
+import {HeroShopService} from './hero-shop/hero-shop.service';
+import {Shop} from '../shared/models/shop/Shop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +16,24 @@ export class HeroManagementService {
   hero: Hero;
   heroChanged = new Subject<Hero>();
   addItemToinventory = new Subject<ItemInstance>();
+  updateFunds = new Subject<number>();
   action: EditorAction;
   constructor(
-    private heroService: HeroesService
+    private heroService: HeroesService,
+    private heroShopService: HeroShopService,
   ) {
     this.heroChanged.subscribe(hero => this.hero = hero);
   }
 
-  buyItems(items: ShopItem[]) {
-    if (this.action === EditorAction.create) {
-      for (const item of items) {
-        this.addItemToinventory.next(item.item);
-      }
+  async buyItems(shop: Shop, items: ShopItem[]): Promise<void> {
+    const itemsToAdd: ItemInstance[] = [];
+    for (const item of items) {
+      const buyOutput = await this.heroShopService.buy(this.hero.id, shop.id, item.id, item.quantityToBuy).toPromise();
+      itemsToAdd.push(buyOutput.itemInstance);
+      this.addItemToinventory.next(buyOutput.itemInstance);
+      this.updateFunds.next(item.value * item.quantityToBuy);
+      this.hero.inventory.cash1 -= item.value * item.quantityToBuy;
     }
+    await this.heroService.addItemsToInventory(this.hero.id, itemsToAdd);
   }
 }

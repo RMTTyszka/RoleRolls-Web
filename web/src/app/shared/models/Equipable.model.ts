@@ -1,6 +1,6 @@
 import {Bonus} from './Bonus.model';
 import {Power} from './Power.model';
-import {Item} from './Item.model';
+import {ItemTemplate} from './Item.model';
 
 export class EquipableSlot {
 
@@ -9,7 +9,7 @@ export class EquipableSlot {
 export class ItemMaterial {
 }
 
-export class Equipable extends Item {
+export class EquipableTemplate extends ItemTemplate {
   specialName = '';
   slot: EquipableSlot;
   bonuses: Bonus[] = [];

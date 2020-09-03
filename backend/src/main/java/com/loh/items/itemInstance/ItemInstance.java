@@ -1,4 +1,4 @@
-package com.loh.items;
+package com.loh.items.itemInstance;
 
 import com.loh.shared.Entity;
 import lombok.Getter;
@@ -13,12 +13,16 @@ import javax.persistence.InheritanceType;
 @DiscriminatorColumn(name = "ItemType")
 public class ItemInstance extends Entity {
 
+
+
     @Getter @Setter
     private Integer level;
     @Getter @Setter
     private String name;
     @Getter @Setter
     private double value;
+    @Getter @Setter
+    private Integer quantity;
 
     public Integer getBonus() {
       return level / 2;

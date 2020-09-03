@@ -28,7 +28,7 @@ export class NewHeroEditorComponent  implements OnInit {
   public entityId: string;
   public attributeDetailsIsOpened = false;
   public get isCreating() {
-    return this.action === EditorAction.create
+    return this.action === EditorAction.create;
   }
   private: MessageService;
   constructor(

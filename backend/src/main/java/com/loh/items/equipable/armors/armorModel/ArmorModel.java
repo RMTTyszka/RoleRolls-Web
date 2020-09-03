@@ -1,7 +1,8 @@
 package com.loh.items.equipable.armors.armorModel;
 
-import com.loh.items.Equipable;
+import com.loh.items.EquipableTemplate;
 import com.loh.items.EquipableSlot;
+import com.loh.items.ItemTemplateType;
 import com.loh.items.equipable.armors.baseArmor.BaseArmor;
 import com.loh.shared.Bonuses;
 import com.loh.shared.Properties;
@@ -12,7 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ArmorModel extends Equipable {
+public class ArmorModel extends EquipableTemplate {
+
+	@Getter @Setter
+	protected ItemTemplateType itemTemplateType = ItemTemplateType.Armor;
 
 	public ArmorModel(){
 		super();

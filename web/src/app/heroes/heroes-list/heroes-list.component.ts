@@ -8,6 +8,7 @@ import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.compone
 import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {NewHeroService} from '../new-hero.service';
 import {Hero} from '../../shared/models/NewHero.model';
+import {HeroCreateComponent} from '../hero-create/hero-create.component';
 
 @Component({
   selector: 'loh-heroes-list',
@@ -28,12 +29,13 @@ export class HeroesListComponent extends BaseListComponent<Hero> implements OnIn
     this.editor = HeroesEditorComponent;
    }
    ngOnInit() {
+    super.ngOnInit();
     this.getAllFiltered();
     this.getAll = this.getAllFiltered;
    }
 
    addNewHero() {
-    this.dialogService.open(NewHeroEditorComponent, {
+    this.dialogService.open(HeroCreateComponent, {
       header: 'Hero',
       width: '100vw',
       height: '100vh',
@@ -44,7 +46,7 @@ export class HeroesListComponent extends BaseListComponent<Hero> implements OnIn
       if (createdHero) {
         this.service.getEntity(createdHero.id).subscribe((hero: Hero) => {
           this.updateHero(hero);
-        })
+        });
       }
     });
    }

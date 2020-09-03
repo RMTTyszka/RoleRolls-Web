@@ -3,8 +3,8 @@ import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.compon
 import {DialogService} from 'primeng/dynamicdialog';
 import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {ArmorEditorComponent} from '../armor-editor/armor-editor.component';
-import {ArmorService} from '../armor.service';
-import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
+import {ArmorTemplateService} from '../armor-template.service';
+import {ArmorModel} from 'src/app/shared/models/items/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-list',
@@ -31,7 +31,7 @@ export class ArmorListComponent implements OnInit {
 
   constructor(
     public dialog: DialogService,
-    public service: ArmorService
+    public service: ArmorTemplateService
   ) {
   }
 

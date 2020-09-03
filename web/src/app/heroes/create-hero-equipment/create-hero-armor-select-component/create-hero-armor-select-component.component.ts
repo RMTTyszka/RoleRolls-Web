@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Shop} from '../../../shared/models/shop/Shop.model';
 import {HeroCreateShopService} from '../hero-create-shop.service';
 import {ShopArmor} from '../../../shared/models/shop/ShopArmor.model';
-import {ArmorInstance} from '../../../shared/models/ArmorInstance.model';
+import {ArmorInstance} from '../../../shared/models/items/ArmorInstance.model';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {createForm} from '../../../shared/EditorExtension';
 

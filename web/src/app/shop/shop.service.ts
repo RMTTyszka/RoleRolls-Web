@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {LOH_API} from '../loh.api';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Shop} from '../shared/models/shop/Shop.model';
+import {BuyOutput} from '../shared/models/creatures/heroes/heroShop/BuyOutput';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {Shop} from '../shared/models/shop/Shop.model';
 export class ShopService {
   path = 'shop'
   serverUrl = LOH_API.myBackUrl;
-  cash1 = 0;
+  public itemBought = new Subject<BuyOutput>();
   constructor(
     private httpClient: HttpClient
   ) {

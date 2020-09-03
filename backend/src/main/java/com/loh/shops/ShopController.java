@@ -1,5 +1,9 @@
 package com.loh.shops;
 
+import com.loh.creatures.heroes.Hero;
+import com.loh.creatures.heroes.dtos.BuyItemInput;
+import com.loh.creatures.heroes.dtos.NewHeroDto;
+import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -78,6 +82,7 @@ public class ShopController {
 		return Json.createObjectBuilder()
 				.add("text", "race deleted with success").build();
 	}
+
 	
 
 }

@@ -1,6 +1,6 @@
-import {Equipable} from './Equipable.model';
+import {EquipableTemplate} from './Equipable.model';
 import {BaseWeapon} from './BaseWeapon.model';
 
-export class WeaponModel extends Equipable {
+export class WeaponModel extends EquipableTemplate {
   baseWeapon: BaseWeapon = new BaseWeapon();
 }

@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {map, tap} from 'rxjs/operators';
 import {createForm} from '../../../../../../shared/EditorExtension';
-import {ArmorService} from '../../armor.service';
-import {ArmorModel} from 'src/app/shared/models/ArmorModel.model';
+import {ArmorTemplateService} from '../../armor-template.service';
+import {ArmorModel} from 'src/app/shared/models/items/ArmorModel.model';
 
 @Component({
   selector: 'loh-armor-selector',
@@ -19,7 +19,7 @@ export class ArmorSelectorComponent implements OnInit {
   entities: ArmorModel[] = [];
   value: string;
   constructor(
-    private service: ArmorService,
+    private service: ArmorTemplateService,
     private formGroupDirective: FormGroupDirective  ) { }
 
   ngOnInit() {

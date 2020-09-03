@@ -1,7 +1,6 @@
 package com.loh.shops;
 
 import com.loh.items.equipable.armors.DefaultArmors;
-import com.loh.items.equipable.armors.armorInstance.ArmorInstance;
 import com.loh.items.equipable.armors.armorInstance.ArmorInstanceRepository;
 import com.loh.items.equipable.armors.armorModel.ArmorModel;
 import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
@@ -40,13 +39,11 @@ public class ShopSeeder {
     }
 
     private void AddArmor(Shop shop, String armorName, int value) {
-        if (!shop.getArmors().stream().filter(a -> a.getItem().getName().equals("Common " + armorName)).findFirst().isPresent()) {
+        if (!shop.getItems().stream().filter(a -> a.getItem().getName().equals("Common " + armorName)).findFirst().isPresent()) {
             ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue("Common " + armorName);
-            ArmorInstance armorInstance = new ArmorInstance(armorModel, 1);
-            armorInstanceRepository.save(armorInstance);
-            ShopArmor shopArmor = new ShopArmor(armorInstance, 33, value);
+            ShopArmor shopArmor = new ShopArmor(armorModel, 33, armorModel.getValue() != null ? armorModel.getValue()  : value);
             shopArmorRepository.save(shopArmor);
-            shop.addArmor(shopArmor);
+            shop.addItem(shopArmor);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.loh.items;
+package com.loh.items.itemInstance;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 

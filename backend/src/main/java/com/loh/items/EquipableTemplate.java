@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @MappedSuperclass
-public class Equipable extends Item implements IHaveBonuses {
+public class EquipableTemplate extends ItemTemplate implements IHaveBonuses {
 
 	@Getter @Setter
 	protected String specialName;
@@ -34,7 +34,7 @@ public class Equipable extends Item implements IHaveBonuses {
 	@ManyToOne
 	protected Power power;
 
-	public Equipable() {
+	public EquipableTemplate() {
 		super();
 	}
 }

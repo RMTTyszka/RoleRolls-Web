@@ -2,8 +2,9 @@ package com.loh.creatures.heroes;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loh.creatures.inventory.NewHeroDto;
+import com.loh.creatures.heroes.dtos.AddItemsInput;
+import com.loh.creatures.heroes.dtos.NewHeroDto;
+import com.loh.items.itemInstance.ItemInstance;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,8 +30,8 @@ public class HeroController {
 
     @GetMapping(path="/allFiltered")
     public @ResponseBody
-    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter) {
-        Pageable paged = PageRequest.of(0, 30);
+    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+        Pageable paged = PageRequest.of(skipCount, maxResultCount);
         Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())), paged).getContent();
         return heroes;
     }
@@ -46,11 +47,10 @@ public class HeroController {
     }
     @GetMapping(path="/getNew")
     public @ResponseBody
-    Hero getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, JsonProcessingException {
+    NewHeroDto getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, JsonProcessingException {
         // This returns a JSON or XML with the users
         //	System.out.println(io.swagger.util.Json.pretty(monster));
-        Hero hero = new Hero();
-        String x = new ObjectMapper().writeValueAsString(hero);
+        NewHeroDto hero = new NewHeroDto();
         return hero;
     }
     @PutMapping(path="/update")
@@ -74,6 +74,7 @@ public class HeroController {
         }
 
     }
+
 
     @DeleteMapping(path="/delete")
     public @ResponseBody
@@ -99,6 +100,19 @@ public class HeroController {
         }
 
     }
+    @PutMapping(path="/addItems")
+    public @ResponseBody
+    BaseCrudResponse addItems(@RequestBody AddItemsInput input) {
+        Hero hero = heroRepository.findById(input.heroId).get();
+
+        for (ItemInstance item : input.items) {
+            hero.getInventory().addItem(item);
+        }
+        heroRepository.save(hero);
+
+        return new BaseCrudResponse(true, "");
+    }
+
 
     static Specification<Hero> containsName(String name) {
         if (name.isEmpty()) {

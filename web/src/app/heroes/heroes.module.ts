@@ -26,6 +26,7 @@ import { CreateHeroWeaponSelectComponent } from './create-hero-equipment/create-
 import { CreateHeroArmorSelectComponentComponent } from './create-hero-equipment/create-hero-armor-select-component/create-hero-armor-select-component.component';
 import { HeroFundsComponent } from './hero-funds/hero-funds.component';
 import {ShopModule} from '../shop/shop.module';
+import { HeroCreateComponent } from './hero-create/hero-create.component';
 
 const routes: Routes = [
   {path: '', component: HeroesGatewayComponent}
@@ -49,7 +50,7 @@ const routes: Routes = [
         CreaturesSharedModule,
         ShopModule
     ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, CreateHeroEquipmentComponent, CreateHeroWeaponSelectComponent, CreateHeroArmorSelectComponentComponent, HeroFundsComponent],
-  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent]
+  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, CreateHeroEquipmentComponent, CreateHeroWeaponSelectComponent, CreateHeroArmorSelectComponentComponent, HeroFundsComponent, HeroCreateComponent],
+  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent, HeroCreateComponent]
 })
 export class HeroesModule { }

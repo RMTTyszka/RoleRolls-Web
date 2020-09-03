@@ -33,6 +33,7 @@ public class HeadpieceInstanceService {
     public HeadpieceInstance instantiateNone() {
         HeadpieceModel headpieceModel = headpieceModelRepository.getByNameAndSystemDefaultTrue(DefaultHeadpieces.NoHeadpiece);
         HeadpieceInstance gloves = instantiate(headpieceModel, 1);
+        gloves.setRemovable(false);
         headpieceInstanceRepository.save(gloves);
         return gloves;
     }

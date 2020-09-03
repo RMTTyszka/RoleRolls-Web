@@ -15,13 +15,9 @@ public class Shop extends DefaultEntity {
     @Getter
     @Setter
     @OneToMany
-    private List<ShopWeapon> weapons = new ArrayList<>();
-    @Getter
-    @Setter
-    @OneToMany
-    private List<ShopArmor> armors = new ArrayList<>();
+    private List<ShopItem> items = new ArrayList<>();
 
-    public void addArmor(ShopArmor armor) {
-        this.armors.add(armor);
+    public void addItem(ShopItem item) {
+        this.items.add(item);
     }
 }

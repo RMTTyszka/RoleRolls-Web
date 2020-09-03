@@ -1,6 +1,6 @@
-import {Equipable} from './Equipable.model';
+import {EquipableTemplate} from './Equipable.model';
 import {BaseHeadpiece} from './BaseHeadpiece.model';
 
-export class HeadpieceModel extends Equipable {
+export class HeadpieceModel extends EquipableTemplate {
   public baseHeadpiece = new BaseHeadpiece();
 }

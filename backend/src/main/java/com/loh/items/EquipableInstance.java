@@ -1,5 +1,6 @@
 package com.loh.items;
 
+import com.loh.items.itemInstance.ItemInstance;
 import com.loh.shared.Bonus;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,15 @@ public class EquipableInstance extends ItemInstance {
     @Getter
     @Setter
     private List<Bonus> bonuses = new ArrayList<>();
+    @Getter @Setter
+    private boolean removable;
+
+    public boolean isEquipable() {
+        return true;
+    }
 
     public EquipableInstance() {
         super();
+        removable = true;
     }
 }

@@ -31,13 +31,13 @@ export class BaseCrudServiceComponent<T extends Entity> implements OnInit {
     return this.http.get<PagedAndFilteredDto<T>>(this.serverUrl + this.path + '/allPaged', {params: params } );
   }
 
-  getAllFiltered(filter?: string): Observable<T[]> {
-    const params = new HttpParams();
-    if (!isNullOrUndefined(filter)) {
-      params.set('filter', filter);
-    }
+  getAllFiltered(filter: string, skipCount?: number, maxResultCount?: number): Observable<T[]> {
+    skipCount = skipCount || 0;
+    maxResultCount = maxResultCount || 100;
+    filter = filter || '';
+    const params = new HttpParams().set('skipCount', skipCount.toString()).set('maxResultCount', maxResultCount.toString()).set('filter', filter);
     return this.http.get<T[]>(this.serverUrl + this.path + '/allFiltered', {
-      params: {filter: filter || ''}
+      params: params
     });
   }
   getAll(): Observable<T[]> {

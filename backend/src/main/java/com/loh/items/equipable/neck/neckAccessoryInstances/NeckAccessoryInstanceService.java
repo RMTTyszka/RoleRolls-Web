@@ -33,6 +33,7 @@ public class NeckAccessoryInstanceService {
     public NeckAccessoryInstance instantiateNone() {
         NeckAcessoryModel neckAcessoryModel = neckAccessoryModelRepository.getByNameAndSystemDefaultTrue(DefaultNeckAcessories.NoNeckAcessory);
         NeckAccessoryInstance gloves = instantiate(neckAcessoryModel, 1);
+        gloves.setRemovable(false);
         neckAccessoryInstanceRepository.save(gloves);
         return gloves;
     }

@@ -1,6 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseEntityService} from '../shared/base-entity-service';
 import {Hero} from '../shared/models/NewHero.model';
+import {ItemInstance} from '../shared/models/ItemInstance.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,12 @@ export class HeroesService extends BaseEntityService<Hero> {
    static getMaximumSkillsBonusPoints(level: number) {
      return Number(level) + 2;
    }
+
+   public addItemsToInventory(heroId: string, items: ItemInstance[]) {
+    return this.http.put(this.serverUrl + this.path + '/addItems', {
+      items: items,
+      heroId: heroId
+    }).toPromise();
+  }
 
 }

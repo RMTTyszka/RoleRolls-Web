@@ -1,6 +1,6 @@
 import {BaseNeckAccessory} from './BaseNeckAccessory.model';
-import {Equipable} from './Equipable.model';
+import {EquipableTemplate} from './Equipable.model';
 
-export class NeckAccessoryModel extends Equipable {
+export class NeckAccessoryModel extends EquipableTemplate {
   baseNeckAccessory = new BaseNeckAccessory();
 }

@@ -27,6 +27,7 @@ public class ArmorInstanceService {
     public ArmorInstance instantiateNoneArmor() {
         ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
         ArmorInstance armor = instantiateArmor(armorModel, 1);
+        armor.setRemovable(false);
         armorInstanceRepository.save(armor);
         return armor;
     }

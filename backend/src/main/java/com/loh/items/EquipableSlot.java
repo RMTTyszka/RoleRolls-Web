@@ -9,5 +9,6 @@ public enum EquipableSlot {
 	Finger,
 	Neck,
 	Foots,
-	Waist
+	Waist,
+	Head
 }
