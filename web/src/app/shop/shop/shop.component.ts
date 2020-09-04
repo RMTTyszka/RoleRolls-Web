@@ -68,7 +68,7 @@ export class ShopComponent implements OnInit {
 
   async buy() {
     if (this.hasEnoughCash) {
-      await this.heroManagementService.buyItems(this.shop, this.itemToBuy);
+      this.heroManagementService.buyItems(this.shop, this.itemToBuy);
       this.itemToBuy = [];
       this.itemToBuyShow = [];
       this.totalCost = 0;

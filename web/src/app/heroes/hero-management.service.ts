@@ -25,15 +25,17 @@ export class HeroManagementService {
     this.heroChanged.subscribe(hero => this.hero = hero);
   }
 
-  async buyItems(shop: Shop, items: ShopItem[]): Promise<void> {
+  buyItems(shop: Shop, items: ShopItem[]) {
     const itemsToAdd: ItemInstance[] = [];
     for (const item of items) {
-      const buyOutput = await this.heroShopService.buy(this.hero.id, shop.id, item.id, item.quantityToBuy).toPromise();
-      itemsToAdd.push(buyOutput.itemInstance);
-      this.addItemToinventory.next(buyOutput.itemInstance);
-      this.updateFunds.next(item.value * item.quantityToBuy);
-      this.hero.inventory.cash1 -= item.value * item.quantityToBuy;
+      this.heroShopService.buy(this.hero.id, shop.id, item.id, item.quantityToBuy)
+        .subscribe(buyOutput => {
+          itemsToAdd.push(buyOutput.itemInstance);
+          this.addItemToinventory.next(buyOutput.itemInstance);
+          this.updateFunds.next(item.value * item.quantityToBuy);
+          this.hero.inventory.cash1 -= item.value * item.quantityToBuy;
+        });
+
     }
-    await this.heroService.addItemsToInventory(this.hero.id, itemsToAdd);
   }
 }

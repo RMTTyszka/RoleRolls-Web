@@ -65,27 +65,11 @@ export class EquipmentComponent implements OnInit {
     const removedArmor = this.equipment.get('armor');
     const armorForm = new FormGroup({});
     createForm(armorForm , selectedArmor);
-    this.equipment.get('armor').patchValue(armorForm);
+    this.equipment.get('armor').setValue(armorForm);
+    debugger
     this.inventory.items.splice(this.inventory.items.indexOf(selectedArmor), 1);
   }
-  armorBought(armor: ShopArmor, autoEquip: boolean) {
-    if (this.inventory.cash1 - armor.value > 0) {
-      const removedArmor = this.equipment.get('armor');
-      const armorForm = new FormGroup({});
-      createForm(armorForm , armor.armor);
-      if (autoEquip) {
-        this.equipment.get('armor').setValue(armorForm);
-      } else {
-        this.inventory.items.push(armor.armor);
-      }
-      this.inventory.cash1 -= armor.value;
-    } else {
-      this.messageService.add(<Message> {
-        summary: 'Insuficiente gold',
-        detail: 'You don`t have enough gold'
-      });
-    }
-  }
+
   mainWeaponSelected(weapon: WeaponInstance) {
     const selectedWeapon = this.findItem(weapon.id);
     const removedWeapon = this.equipment.get('mainWeapon');
