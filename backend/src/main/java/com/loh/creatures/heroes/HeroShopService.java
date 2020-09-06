@@ -35,6 +35,7 @@ public class HeroShopService {
             shopRepository.save(shop);
 
             BuyItemOutput output = new BuyItemOutput(itemInstance, item);
+            return output;
         }
 
 

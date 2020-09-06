@@ -5,6 +5,11 @@
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
+.ui-dialog-content {
+  display: flex !important;
+  flex: 100 !important;
+  overflow: unset !important;
+}
 .ui-button-secondary {
   background-color: $secondaryColor !important;
   border-color: $borderColor !important;

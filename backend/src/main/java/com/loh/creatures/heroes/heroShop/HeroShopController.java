@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/HeroShop",  produces = "application/json; charset=UTF-8") // This means URL's start with /demo (after Application path)
+@RequestMapping(path="/HeroShop",  produces = "application/json; charset=UTF-8")// This means URL's start with /demo (after Application path)
 public class HeroShopController {
-
 
     @Autowired
     private HeroShopService heroShopService;

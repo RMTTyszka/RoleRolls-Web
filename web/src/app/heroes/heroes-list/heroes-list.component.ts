@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {DialogService} from 'primeng/dynamicdialog';
 import {NewHeroEditorComponent} from '../new-hero-editor/new-hero-editor.component';
 import {EditorAction} from '../../shared/dtos/ModalEntityData';
-import {NewHeroService} from '../new-hero.service';
+import {HeroesService} from '../heroes.service';
 import {Hero} from '../../shared/models/NewHero.model';
 import {HeroCreateComponent} from '../hero-create/hero-create.component';
 
@@ -21,7 +21,7 @@ export class HeroesListComponent extends BaseListComponent<Hero> implements OnIn
   constructor(
     injector: Injector,
     private dataService: DataService,
-    protected service: NewHeroService,
+    protected service: HeroesService,
     protected router: Router,
     private dialogService: DialogService
   ) {

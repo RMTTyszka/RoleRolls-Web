@@ -66,7 +66,6 @@ export class EquipmentComponent implements OnInit {
     const armorForm = new FormGroup({});
     createForm(armorForm , selectedArmor);
     this.equipment.get('armor').setValue(armorForm);
-    debugger
     this.inventory.items.splice(this.inventory.items.indexOf(selectedArmor), 1);
   }
 

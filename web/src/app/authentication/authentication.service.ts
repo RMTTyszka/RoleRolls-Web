@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {LohAuthTokenName, LohAuthUserName} from './AuthTokens';
+import {LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
 import {pipe, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {Message, MessageService} from 'primeng/api';
@@ -11,6 +11,7 @@ import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 export class AuthenticationService {
 
   userName: string;
+  userId: string;
   token: string;
   userNameChanged = new Subject<string>();
   onUserUnauthorized = new Subject<string>()
@@ -39,10 +40,12 @@ export class AuthenticationService {
     return localStorage.getItem(LohAuthTokenName);
   }
 
-  public publishNewUserName(userName: string) {
+  public publishNewUserName(userName: string, userId: string) {
     localStorage.setItem(LohAuthUserName, userName);
+    localStorage.setItem(LohAuthUserId, userId);
     this.userNameChanged.next(userName);
     this.userName = userName;
+    this.userId = userId;
   }
   public getUser() {
     const userName = localStorage.getItem(LohAuthUserName);
@@ -53,6 +56,10 @@ export class AuthenticationService {
     const token = localStorage.getItem(LohAuthTokenName);
     if (token) {
       this.token = token;
+    }
+    const userId = localStorage.getItem(LohAuthUserId);
+    if (userId) {
+      this.userId = userId;
     }
   }
   public cleanTokenAndUserName() {

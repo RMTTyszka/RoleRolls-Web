@@ -1,9 +1,15 @@
-<ng-content select="[title]"></ng-content>
-<ng-content select="[subtitle]"></ng-content>
-<ng-content select="[form]"></ng-content>
-<ng-content select="[footer]"></ng-content>
-<div>
-  <button pButton type="button" label="Save" (click)="save()" [disabled]="disableSave"></button>
-  <button *ngIf="hasDelete"  pButton type="button" label="Delete" (click)="delete()" [disabled]="disableDelete"></button>
-  <!--<button pButton type="button" label="Cancel"></button>-->
+<div class="p-grid p-justify-between editor-box" style="overflow: unset">
+  <div class="p-col-12 editor-content">
+    <ng-content select="[title]"></ng-content>
+    <ng-content select="[subtitle]"></ng-content>
+    <ng-content select="[form]"></ng-content>
+    <ng-content select="[footer]"></ng-content>
+  </div>
+
+  <div class="p-col-12 p-col-align-end">
+    <button pButton type="button" label="Save" (click)="save()" [disabled]="disableSave"></button>
+    <button *ngIf="hasDelete"  pButton type="button" label="Delete" (click)="delete()" [disabled]="disableDelete"></button>
+    <!--<button pButton type="button" label="Cancel"></button>-->
+  </div>
 </div>
+

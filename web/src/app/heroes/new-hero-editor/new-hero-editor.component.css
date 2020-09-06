@@ -1,3 +1,4 @@
-.input-centered-placeholder {
-  background-color: azure;
+:host {
+  width: 100%;
 }
+

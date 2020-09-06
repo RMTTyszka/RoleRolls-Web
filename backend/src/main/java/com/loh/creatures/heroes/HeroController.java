@@ -2,6 +2,8 @@ package com.loh.creatures.heroes;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.loh.authentication.LohUserAuthenticationToken;
+import com.loh.authentication.LohUserDetails;
 import com.loh.creatures.heroes.dtos.AddItemsInput;
 import com.loh.creatures.heroes.dtos.NewHeroDto;
 import com.loh.items.itemInstance.ItemInstance;
@@ -13,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -28,11 +31,15 @@ public class HeroController {
 
 
 
+
     @GetMapping(path="/allFiltered")
     public @ResponseBody
-    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, Principal userDetails) {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
-        Iterable<Hero> heroes = heroRepository.findAll(where(containsName(filter).and(orderByName())), paged).getContent();
+        UUID userId = userId(userDetails);
+        Iterable<Hero> heroes = heroRepository.findAll(
+                where((fromPlayer(userId).or(fromCreator(userId))).and(containsName(filter).and(orderByName()))), paged)
+                .getContent();
         return heroes;
     }
 
@@ -63,10 +70,10 @@ public class HeroController {
 
     @PostMapping(path="/create")
     public @ResponseBody
-    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto){
+    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto, Principal principal){
 
         try {
-            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role);
+            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, userId(principal));
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
             return output;
         } catch (Exception e) {
@@ -113,6 +120,11 @@ public class HeroController {
         return new BaseCrudResponse(true, "");
     }
 
+    private UUID userId(Principal principal) {
+        LohUserDetails user = ((LohUserAuthenticationToken) principal).getPrincipal();
+        return user.getUserId();
+    }
+
 
     static Specification<Hero> containsName(String name) {
         if (name.isEmpty()) {
@@ -120,10 +132,22 @@ public class HeroController {
         }
         return (newHero, cq, cb) -> cb.like(newHero.get("name"), "%" + name + "%");
     }
+    static Specification<Hero> fromPlayer(UUID ownerId) {
+        if (ownerId == null) {
+            return (newHero, cq, cb) -> cb.isNotNull(newHero);
+        }
+        return (newHero, cq, cb) -> cb.equal(newHero.get("ownerId"), ownerId);
+    }
+    static Specification<Hero> fromCreator(UUID ownerId) {
+        if (ownerId == null) {
+            return (newHero, cq, cb) -> cb.isNotNull(newHero);
+        }
+        return (newHero, cq, cb) -> cb.equal(newHero.get("creatorId"), ownerId);
+    }
     static Specification<Hero> orderByName() {
-        return (newHero, cq, cb) -> {
-            cq.orderBy(cb.asc(newHero.get("name")));
-            return cb.isNotNull(newHero);
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
+            return criteriaBuilder.isNotNull(root);
         };
     }    static Specification<Hero> test(String teste) {
         return (newHero, cq, cb) -> {

@@ -19,7 +19,7 @@ export class HeroManagementService {
   updateFunds = new Subject<number>();
   action: EditorAction;
   constructor(
-    private heroService: HeroesService,
+    private heroesService: HeroesService,
     private heroShopService: HeroShopService,
   ) {
     this.heroChanged.subscribe(hero => this.hero = hero);

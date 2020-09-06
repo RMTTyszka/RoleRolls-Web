@@ -4,8 +4,8 @@ import com.loh.items.itemInstance.ItemInstance;
 import com.loh.shops.ShopItem;
 
 public class BuyItemOutput {
-    ItemInstance itemInstance;
-    ShopItem shopItem;
+    public ItemInstance itemInstance;
+    public ShopItem shopItem;
 
     public BuyItemOutput() {
     }

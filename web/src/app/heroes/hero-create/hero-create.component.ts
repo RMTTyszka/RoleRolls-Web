@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Race} from '../../shared/models/Race.model';
 import {Role} from '../../shared/models/Role.model';
-import {NewHeroService} from '../new-hero.service';
+import {HeroesService} from '../heroes.service';
 import {Hero} from '../../shared/models/NewHero.model';
 import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
@@ -19,7 +19,7 @@ export class HeroCreateComponent implements OnInit {
   public entity: Hero;
   public entityId: string;
   constructor(
-    public service: NewHeroService,
+    public service: HeroesService,
     public ref: DynamicDialogRef,
   ) { }
 

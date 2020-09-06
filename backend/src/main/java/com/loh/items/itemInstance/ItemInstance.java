@@ -13,8 +13,6 @@ import javax.persistence.InheritanceType;
 @DiscriminatorColumn(name = "ItemType")
 public class ItemInstance extends Entity {
 
-
-
     @Getter @Setter
     private Integer level;
     @Getter @Setter

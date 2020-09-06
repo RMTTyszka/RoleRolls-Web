@@ -24,6 +24,8 @@ import com.loh.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class HeroService {
 
@@ -54,8 +56,9 @@ public class HeroService {
     private HeroRepository heroRepository;
 
 
-    public Hero create(String name, Race race, Role role) throws Exception {
-        Hero hero = new Hero(name, race, role);
+    public Hero create(String name, Race race, Role role, UUID playerId, UUID creatorId) throws Exception {
+
+        Hero hero = new Hero(name, race, role, playerId, creatorId);
 
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();

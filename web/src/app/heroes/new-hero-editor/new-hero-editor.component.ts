@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NewHeroService} from '../new-hero.service';
+import {HeroesService} from '../heroes.service';
 import {MessageService} from 'primeng/api';
 import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {FormGroup} from '@angular/forms';
@@ -32,7 +32,7 @@ export class NewHeroEditorComponent  implements OnInit {
   }
   private: MessageService;
   constructor(
-    public service: NewHeroService,
+    public service: HeroesService,
     private dataService: DataService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -68,6 +68,8 @@ export class NewHeroEditorComponent  implements OnInit {
         this.form.get('maxInitialAttributePoints').setValue(levelDetails.maxInitialAttributesPoints);
       });
     });
+    this.form.get('race').disable();
+    this.form.get('role').disable();
   }
   totalAttribute(attr: string) {
     return this.baseAttribute(attr) + this.bonusPointsAttribute(attr) + this.raceAttributeBonus(attr) + this.roleAttributeBonus(attr);
