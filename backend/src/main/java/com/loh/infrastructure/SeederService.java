@@ -12,6 +12,7 @@ import com.loh.items.equipable.rings.head.RingSeeder;
 import com.loh.items.equipable.weapons.WeaponSeeder;
 import com.loh.race.RaceSeeder;
 import com.loh.role.RoleSeeder;
+import com.loh.shops.ShopSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -46,6 +47,8 @@ public class SeederService {
 	private HeroSeeder heroSeeder;
 	@Autowired
 	private MonsterSeeder monsterSeeder;
+	@Autowired
+	private ShopSeeder shopSeeder;
 
 	@EventListener
 	public void seed(ContextRefreshedEvent event) throws Exception {
@@ -60,6 +63,7 @@ public class SeederService {
 		roleSeeder.seed();
 		heroSeeder.seed();
 		monsterSeeder.seed();
+		shopSeeder.seed();
 	}
 
 }

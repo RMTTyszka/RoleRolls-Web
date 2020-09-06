@@ -15,7 +15,7 @@ import {Message, MessageService} from 'primeng/api';
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  constructor(private readonly service: AuthenticationService, private router: Router, private messageService: MessageService
+  constructor(private readonly service: AuthenticationService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -31,13 +31,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   }
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401 || err.status === 403) {
-      this.messageService.add(<Message>{
-        severity: 'error',
-        summary: 'Non Authorized',
-        details: err.message
-      });
-      this.router.navigateByUrl(`/home`);
-      // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
+      this.service.onUserUnauthorized.next(err.message);
       return of(err.message); // or EMPTY may be appropriate here
     }
     return throwError(err);

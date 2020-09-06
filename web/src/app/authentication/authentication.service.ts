@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import {LohAuthTokenName, LohAuthUserName} from './AuthTokens';
-import {Subject} from 'rxjs';
+import {LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
+import {pipe, Subject} from 'rxjs';
+import {Router} from '@angular/router';
+import {Message, MessageService} from 'primeng/api';
+import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +11,26 @@ import {Subject} from 'rxjs';
 export class AuthenticationService {
 
   userName: string;
+  userId: string;
   token: string;
   userNameChanged = new Subject<string>();
-
+  onUserUnauthorized = new Subject<string>()
   get isLogged() {
     return this.token && this.userName;
   }
-  constructor() { }
+  constructor(
+    private router: Router, private messageService: MessageService
+  ) {
+    this.onUserUnauthorized
+      .pipe(tap(() => {
+          this.router.navigateByUrl(`/home`);
+          this.cleanTokenAndUserName();
+        }),
+        throttleTime(10000))
+      .subscribe((message: string) => {
+      this.notifyUserAboutUnauthorizedAccess(message);
+    });
+  }
 
   public setToken(token: string) {
     localStorage.setItem(LohAuthTokenName, token);
@@ -24,10 +40,12 @@ export class AuthenticationService {
     return localStorage.getItem(LohAuthTokenName);
   }
 
-  public publishNewUserName(userName: string) {
+  public publishNewUserName(userName: string, userId: string) {
     localStorage.setItem(LohAuthUserName, userName);
+    localStorage.setItem(LohAuthUserId, userId);
     this.userNameChanged.next(userName);
     this.userName = userName;
+    this.userId = userId;
   }
   public getUser() {
     const userName = localStorage.getItem(LohAuthUserName);
@@ -39,6 +57,10 @@ export class AuthenticationService {
     if (token) {
       this.token = token;
     }
+    const userId = localStorage.getItem(LohAuthUserId);
+    if (userId) {
+      this.userId = userId;
+    }
   }
   public cleanTokenAndUserName() {
     this.token = null;
@@ -46,5 +68,14 @@ export class AuthenticationService {
     this.userNameChanged.next(null);
     localStorage.removeItem(LohAuthTokenName);
     localStorage.removeItem(LohAuthUserName);
+  }
+
+
+  private  notifyUserAboutUnauthorizedAccess(message: string) {
+    this.messageService.add(<Message>{
+      severity: 'error',
+      summary: 'Non Authorized',
+      details: message
+    });
   }
 }

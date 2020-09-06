@@ -1,7 +1,7 @@
 package com.loh.creatures.inventory;
 
 
-import com.loh.items.ItemInstance;
+import com.loh.items.itemInstance.ItemInstance;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +22,18 @@ public class Inventory extends Entity {
     public void removeItem(ItemInstance itemToRemove) {
         items.stream().filter(item -> item.getId() != itemToRemove.getId());
     }
+    public void removeFunds(Integer quantity) {
+       this.cash1 -= quantity;
+    }
+
+    @Getter
+    @Setter
+    private double cash1;
+    @Getter
+    @Setter
+    private double cash2;
+    @Getter
+    @Setter
+    private double cash3;
 
 }

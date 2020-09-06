@@ -4,7 +4,7 @@ import {Entity} from '../../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, take, takeUntil} from 'rxjs/operators';
 import {Observable, of, Subject, Subscription} from 'rxjs';
-import {ModalEntityAction} from '../../dtos/ModalEntityData';
+import {EditorAction} from '../../dtos/ModalEntityData';
 import {createForm} from '../../EditorExtension';
 import {MessageService} from 'primeng/api';
 import {BaseCrudResponse} from '../../models/BaseCrudResponse';
@@ -24,7 +24,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   @Input() disableSave = false;
   @Input() hasDelete = true;
   @Input() disableDelete = false;
-  @Input() action: ModalEntityAction;
+  @Input() action: EditorAction;
   @Input() service: BaseEntityService<T>;
   @Input() requiredFields: string[] = [];
   @Input() form: FormGroup;
@@ -68,7 +68,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   }
 
   getEntity() {
-    if (this.action === ModalEntityAction.create) {
+    if (this.action === EditorAction.create) {
       return this.service.getNewEntity();
     } else {
       return this.service.getEntity(this.entityId);
@@ -113,9 +113,9 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
     /*console.log(JSON.stringify(entity));*/
     console.log(entity);
     let subscription: Observable<BaseCrudResponse<T>>;
-    if (this.action === ModalEntityAction.create) {
+    if (this.action === EditorAction.create) {
       subscription = this.service.create(entity);
-    } else if (this.action === ModalEntityAction.update) {
+    } else if (this.action === EditorAction.update) {
       subscription = this.service.update(entity);
     }
     subscription.pipe(

@@ -33,6 +33,7 @@ public class GloveInstanceService {
     public GloveInstance instantiateNoneGlove() {
         GloveModel gloveModel = gloveModelsRepository.getByNameAndSystemDefaultTrue(DefaultGloves.NoGloves);
         GloveInstance gloves = instantiateGloves(gloveModel, 1);
+        gloves.setRemovable(false);
         gloveInstanceRepository.save(gloves);
         return gloves;
     }

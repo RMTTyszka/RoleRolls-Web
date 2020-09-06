@@ -1,0 +1,52 @@
+<p-panel class="p-grid" [header]="shopName">
+  <div class="p-col-12">
+    <div class="p-formgroup-inline">
+      <div class="p-field-checkbox">
+        <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors"></p-checkbox>
+        <label for="armors">Armors</label>
+      </div>
+      <div class="p-field-checkbox">
+        <p-checkbox name="city4" value="Los Angeles" [(ngModel)]="filterWeapons" inputId="weapons"></p-checkbox>
+        <label for="weapons">Weapons</label>
+      </div>
+  </div>
+    <p-pickList [showSourceControls]="false" [showTargetControls]="false" [source]="itemsShow" [target]="itemToBuyShow"  [responsive]="true"
+                dragdrop="true" sourceHeader="Items" targetHeader="Buying" (onMoveToTarget)="itemAddedToBuy($event)" (onMoveToSource)="itemRemovedFromToBuy($event)">
+      <ng-template let-item pTemplate="item">
+        <div class="ui-helper-clearfix">
+          <ng-container *ngIf="item.quantityToBuy > 0">
+            <div class="p-grid p-nogutter p-justify-between">
+              <div class="p-col-10">{{item.name}}</div>
+              <div class="p-grid p-nogutter p-justify-between p-col-2">
+                <div>{{item.quantityToBuy}}</div>
+                <div>${{item.value * item.quantityToBuy}}</div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="item.quantityToBuy <= 0">
+            <div class="p-grid p-nogutter p-justify-between">
+              <div class="p-col-10">{{item.name}}</div>
+              <div class="p-grid p-nogutter p-justify-between p-col-2">
+                <div>{{item.quantity}}</div>
+                <div>${{item.value}}</div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+    </p-pickList>
+    <p-panel>
+      <p-header>
+        <div class="p-grid p-nogutter p-justify-between">
+          <div style="font-weight: bold">Available Gold: {{hero.inventory.cash1}}</div>
+          <div style="font-weight: bold">Total Cost: {{totalCost}}</div>
+        </div>
+      </p-header>
+      <div class="p-grid p-nogutter p-justify-end">
+        <button pButton (click)="buy()" label="Buy"></button>
+        <button pButton (click)="reset()" label="Reset" class="ui-button-secondary"></button>
+      </div>
+    </p-panel>
+  </div>
+</p-panel>
+

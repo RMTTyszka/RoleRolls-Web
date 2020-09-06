@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ArmorCategory} from '../../../../../shared/models/ArmorCategory.model';
+import {ArmorCategory} from '../../../../../shared/models/items/ArmorCategory.model';
 import {ArmorCategoryService} from '../../armor-category.service';
 
 @Component({

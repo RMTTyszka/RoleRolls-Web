@@ -1,5 +1,5 @@
-import {Equipable} from './Equipable.model';
+import {EquipableTemplate} from './Equipable.model';
 
-export class RingModel extends Equipable {
+export class RingModel extends EquipableTemplate {
 
 }

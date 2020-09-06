@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +29,10 @@ public class UserController {
     public @ResponseBody
     LoginResponse login(@RequestBody LoginInput input) throws Exception {
         authenticate(input.getEmail(), input.getPassword());
-        final UserDetails userDetails = userDetailsService
+        final LohUserDetails userDetails = userDetailsService
                 .loadUserByUsername(input.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return new LoginResponse(token, userDetails.getUsername());
+        return new LoginResponse(token, userDetails.getUsername(), userDetails.getUserId());
     }
     @PostMapping(path="/update")
     public @ResponseBody

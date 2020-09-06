@@ -1,4 +1,6 @@
 package com.loh.authentication;
+
+import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -46,9 +48,11 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //gera token para user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(LohUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        Gson gson = new Gson();
+        String serializedUser = gson.toJson(userDetails);
+        return doGenerateToken(claims, serializedUser);
     }
 
     //Cria o token e devine tempo de expiração pra ele

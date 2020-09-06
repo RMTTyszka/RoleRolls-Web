@@ -33,6 +33,7 @@ public class RingInstanceService {
     public RingInstance instantiateNone() {
         RingModel ringModel = ringModelRepository.getByNameAndSystemDefaultTrue(DefaultRings.NoRing);
         RingInstance gloves = instantiate(ringModel, 1);
+        gloves.setRemovable(false);
         ringInstanceRepository.save(gloves);
         return gloves;
     }

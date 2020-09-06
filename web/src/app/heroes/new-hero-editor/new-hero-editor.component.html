@@ -1,9 +1,9 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted($event)
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-tabView>
       <p-tabPanel header="General">
-        <div  fxFlex="row wrap" fxLayoutAlign="start start">
+        <div  fxFlex="row wrap" fxLayoutAlign="start start" style="overflow: auto">
           <div fxFlex.gt-md="33" fxFlex="100">
             <p-fieldset legend="Hero">
               <input type="text" pInputText placeholder="Name" formControlName="name">
@@ -11,14 +11,14 @@
               <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
               <div class="ui-inputgroup">
                 <button (click)="removeLevel()" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
-                <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder">
+                <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder player-color-1">
                 <button (click)="addLevel()" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
                 <span class="ui-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
               </div>
               <label>Remaining Points: {{totalAttributesInitialPoints - usedAttributesBasePoints}}</label>
               <div class="ui-inputgroup">
                 <button (click)="resetAttrs()" pButton pTooltip="reset" type="button" icon="pi pi-times-circle" class="ui-button-raised ui-button-secondary"></button>
-                <input type="text" readonly pInputText placeholder="ATTRIBUTES" class="input-centered-placeholder">
+                <input type="text" readonly pInputText placeholder="ATTRIBUTES" class="input-centered-placeholder player-color-1">
                 <button *ngIf="!attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = true" pButton type="button" icon="pi pi-angle-double-right" class="ui-button-raised ui-button-secondary"></button>
                 <button *ngIf="attributeDetailsIsOpened" (click)="attributeDetailsIsOpened = false" pButton type="button" icon="pi pi-angle-double-left" class="ui-button-raised ui-button-secondary"></button>
               </div>
@@ -26,7 +26,7 @@
               <div formGroupName="baseAttributes">
                 <div class="ui-inputgroup" *ngFor="let attr of attributes">
                   <button (click)="removeAttr(attr)" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
-                  <input type="text" readonly pInputText [placeholder]="attr" class="input-centered-placeholder">
+                  <input type="text" readonly pInputText [placeholder]="attr" class="input-centered-placeholder player-color-1">
                   <button (click)="addAttr(attr)" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
                   <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold; min-width: 30px" pTooltip="total">{{totalAttribute(attr)}}</span>
                   <ng-container *ngIf="attributeDetailsIsOpened">
@@ -44,13 +44,14 @@
           </div>
           <div fxFlex.gt-md="33" fxFlex="100">
             <p-fieldset legend="Equipment">
-              <loh-equipment [form]="form"></loh-equipment>
+              <loh-equipment [form]="form" [isCreating]="isCreating"></loh-equipment>
             </p-fieldset>
           </div>
           <div fxFlex.gt-md="33" fxFlex="100">
               <form [formGroup]="form">
                 <loh-hero-stats [status]="entity.status"></loh-hero-stats>
                 <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
+                <loh-hero-funds [hero]="entity"></loh-hero-funds>
               </form>
           </div>
           <div>
@@ -59,7 +60,10 @@
         </div>
       </p-tabPanel>
       <p-tabPanel header="Inventory">
-        <loh-hero-inventory></loh-hero-inventory>
+        <div class="p-grid p-nogutter p-justify-between">
+          <loh-hero-inventory></loh-hero-inventory>
+          <loh-shop></loh-shop>
+        </div>
       </p-tabPanel>
     </p-tabView>
   </form>

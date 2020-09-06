@@ -1,5 +1,6 @@
 package com.loh.items.equipable.weapons.baseWeapon;
 
+import com.loh.creatures.Attributes;
 import com.loh.items.equipable.weapons.weaponCategory.WeaponCategory;
 import com.loh.shared.DefaultEntity;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class BaseWeapon extends DefaultEntity {
         name = "";
         setSystemDefault(false);
         category = WeaponCategory.None;
+        hitAttribute = Attributes.Strength;
+        damageAttribute = Attributes.Strength;
     }
 
     public static BaseWeapon DefaultBaseWeapon(String name, WeaponCategory category, String hitAtribute, String damageAttribute){

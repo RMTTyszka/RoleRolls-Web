@@ -3,6 +3,8 @@ package com.loh.authentication;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 public class LoginResponse {
     @Getter
     @Setter
@@ -10,9 +12,13 @@ public class LoginResponse {
     @Getter
     @Setter
     private String userName;
+    @Getter
+    @Setter
+    private UUID userId;
 
-    public LoginResponse(String token, String userName) {
+    public LoginResponse(String token, String userName, UUID userId) {
         this.token = token;
         this.userName = userName;
+        this.userId = userId;
     }
 }

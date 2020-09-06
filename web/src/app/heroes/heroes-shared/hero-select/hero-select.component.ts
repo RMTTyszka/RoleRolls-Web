@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {NewHeroService} from '../../new-hero.service';
 import {Hero} from '../../../shared/models/NewHero.model';
 import {Combat} from '../../../shared/models/combat/Combat.model';
+import {HeroesService} from '../../heroes.service';
 
 @Component({
   selector: 'loh-hero-select',
@@ -13,7 +13,7 @@ export class HeroSelectComponent implements OnInit {
   @Input() hero: Hero;
   @Input() combat: Combat;
   constructor(
-    private service: NewHeroService,
+    private service: HeroesService,
   ) {
   }
 

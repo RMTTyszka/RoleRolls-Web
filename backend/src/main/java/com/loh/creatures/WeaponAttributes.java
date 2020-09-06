@@ -19,4 +19,11 @@ public class WeaponAttributes {
         attackComplexity = gripType.getAttackComplexity();
         this.hitBonus = gripType.getHit() + hitBonus + weaponMagicBonus + (otherHandGripType != null ? otherHandGripType.getShieldHitBonus() : 0);
     }
+
+    public WeaponAttributes() {
+        damage = 0;
+        damageBonus = 0;
+        attackComplexity = 0;
+        hitBonus = 0;
+    }
 }

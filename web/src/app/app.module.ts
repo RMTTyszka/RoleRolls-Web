@@ -12,6 +12,7 @@ import {MessageService} from 'primeng/api';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
 import {LoginModule} from './login/login.module';
 import { MainHeaderComponent } from './main-header/main-header.component';
+import {ShopModule} from './shop/shop.module';
 
 
 @NgModule({
@@ -20,16 +21,17 @@ import { MainHeaderComponent } from './main-header/main-header.component';
     HomeComponent,
     MainHeaderComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    DeviceDetectorModule.forRoot(),
-    LoginModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        DeviceDetectorModule.forRoot(),
+        LoginModule,
+        ShopModule
+    ],
   providers: [MessageService,
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],
   bootstrap: [AppComponent]

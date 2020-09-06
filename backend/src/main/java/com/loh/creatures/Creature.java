@@ -7,7 +7,7 @@ import com.loh.creatures.inventory.Inventory;
 import com.loh.dev.Loh;
 import com.loh.effects.EffectInstance;
 import com.loh.effects.EffectProcessor;
-import com.loh.items.ItemInstanceRepository;
+import com.loh.items.itemInstance.ItemInstanceRepository;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Entity;
@@ -80,9 +80,14 @@ public class Creature extends Entity {
         return new Resistances(fear, health, magic, physical, reflex);
     }
 
+    @Transient
+    private CreatureStatus statuses;
 
     public CreatureStatus getStatus() {
-        return new CreatureStatus(this);
+        if (statuses == null) {
+            statuses = new CreatureStatus(this);
+        }
+        return statuses;
     }
     @Getter
     private Integer currentLife;
@@ -182,21 +187,37 @@ public class Creature extends Entity {
         }
         return 0;
     }
+    @Transient
+    private WeaponAttributes _mainWeaponAttributes;
+
     public WeaponAttributes getMainWeaponAttributes() {
-        return equipment.getMainWeapon() != null ? new WeaponAttributes(
-                equipment.getMainWeaponGripType(),
-                getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getMainWeaponHitBonus(),
-                equipment.getMainWeapon().getBonus(),
-                equipment.getOffWeaponGridType()) : null;
+        if (_mainWeaponAttributes == null && equipment.getMainWeapon() != null) {
+            _mainWeaponAttributes = new WeaponAttributes(
+                    equipment.getMainWeaponGripType(),
+                    getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                    getMainWeaponHitBonus(),
+                    equipment.getMainWeapon().getBonus(),
+                    equipment.getOffWeaponGridType());
+        } else if (_mainWeaponAttributes == null) {
+            _mainWeaponAttributes = new WeaponAttributes();
+        }
+        return _mainWeaponAttributes;
     }
+    @Transient
+    private WeaponAttributes _offWeaponAttributes;
+
     public WeaponAttributes getOffWeaponAttributes() {
-        return equipment.getOffWeapon() != null ? new WeaponAttributes(
-                equipment.getOffWeaponGridType(),
-                getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
-                getOffWeaponHitBonus(),
-                equipment.getOffWeapon().getBonus(),
-                equipment.getMainWeaponGripType()) : null;
+        if (_offWeaponAttributes == null && equipment.getOffWeapon() != null) {
+            _offWeaponAttributes = new WeaponAttributes(
+                    equipment.getOffWeaponGridType(),
+                    getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
+                    getOffWeaponHitBonus(),
+                    equipment.getOffWeapon().getBonus(),
+                    equipment.getMainWeaponGripType());
+        } else if (_offWeaponAttributes == null){
+            _offWeaponAttributes = new WeaponAttributes();
+        }
+        return _offWeaponAttributes;
     }
 
     public Integer getAttributePoints(String attr) {

@@ -26,6 +26,8 @@ public class Equipment extends Entity {
 		this.ringLeft = new RingInstance();
 		this.ringRight = new RingInstance();
 		this.gloves = new GloveInstance();
+		this.mainWeaponGripType = GripType.OneMediumWeapon;
+		this.offWeaponGridType = null;
 	}
 	public Integer getBonusLevel(String property) {
 		Integer armorBonus = Bonuses.GetEquipmentBonusLevel(armor.getBonuses(), property);

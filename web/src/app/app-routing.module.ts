@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: 'heroes', loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule)},
   {path: 'monsters', loadChildren: () => import('./monsters/monsters.module').then(m => m.MonstersModule)},
   {path: 'tests', loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule)},
-  {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)}
+  {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)},
+  {path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({

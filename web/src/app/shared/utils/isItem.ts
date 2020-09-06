@@ -1,4 +1,4 @@
-import {ArmorInstance} from '../models/ArmorInstance.model';
+import {ArmorInstance} from '../models/items/ArmorInstance.model';
 import {ItemInstance} from '../models/ItemInstance.model';
 import {WeaponInstance} from '../models/WeaponInstance.model';
 import {GloveInstance} from '../models/GloveInstance.model';

@@ -15,6 +15,7 @@ public class WeaponInstance extends EquipableInstance {
 
 
     public WeaponInstance() {
+        this.weaponModel = new WeaponModel();
     }
 
     public WeaponInstance(WeaponModel weaponModel, Integer level) {

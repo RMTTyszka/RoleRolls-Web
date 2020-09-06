@@ -1,0 +1,10 @@
+<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
+               (loaded)="loaded($event)">
+  <form form [formGroup]="form" *ngIf="!isLoading">
+  <p-fieldset legend="Hero">
+    <input type="text" pInputText placeholder="Name" formControlName="name">
+    <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
+    <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
+  </p-fieldset>
+    </form>
+</loh-cm-editor>

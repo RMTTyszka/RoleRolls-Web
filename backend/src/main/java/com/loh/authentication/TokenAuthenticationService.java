@@ -1,8 +1,8 @@
 package com.loh.authentication;
 
+import com.google.gson.Gson;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +19,11 @@ public class TokenAuthenticationService {
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
 
-    public static void addAuthentication(HttpServletResponse response, String username) {
+    public static void addAuthentication(HttpServletResponse response, LohUserDetails userDetails) {
+        Gson gson = new Gson();
+        String serializedUser = gson.toJson(userDetails);
         String JWT = Jwts.builder()
-                .setSubject(username)
+                .setSubject(serializedUser)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
@@ -41,7 +43,9 @@ public class TokenAuthenticationService {
                     .getSubject();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+                Gson gson = new Gson();
+                LohUserDetails userDetails = gson.fromJson(user, LohUserDetails.class);
+                return new LohUserAuthenticationToken(userDetails, null, Collections.emptyList());
             }
         }
         return null;

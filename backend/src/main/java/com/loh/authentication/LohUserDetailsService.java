@@ -15,7 +15,7 @@ public class LohUserDetailsService implements UserDetailsService {
     public LohUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user != null) {
-            return new LohUserDetails(user.getUserName(), user.getEmail(), user.getPassword(), new ArrayList<>());
+            return new LohUserDetails(user.getUserName(), user.getEmail(), user.getPassword(), user.getId(), new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

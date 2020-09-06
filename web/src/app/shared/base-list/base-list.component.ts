@@ -1,7 +1,7 @@
 import {AfterViewInit, Injector, OnInit, ViewChild} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {BaseCrudServiceComponent} from '../base-service/base-crud-service.component';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 
@@ -12,7 +12,7 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
   route: string;
   data: T[] = [];
   displayData: T[] = [];
-  filter: string;
+  filter = '';
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   protected dialog: MatDialog;
@@ -24,9 +24,13 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
   ) {
     this.dialog = injector.get(MatDialog);
     this.router = injector.get(Router);
+
   }
 
   ngOnInit() {
+    this.paginator.page.subscribe((page: PageEvent) => {
+      this.getAllFiltered();
+    });
   }
   ngAfterViewInit() {
   }
@@ -40,12 +44,15 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
     });
   }
 
-  getAllFiltered(filter?: string) {
-    this.service.getAllFiltered(filter).subscribe(data => {
+  getAllFiltered() {
+    const skipCount = this.paginator.pageIndex ||  0;
+    const maxResultCount = this.paginator.pageSize || 10;
+    this.service.getAllFiltered(this.filter, skipCount , maxResultCount).subscribe(data => {
       console.log(data);
       this.data = data;
       this.updateDisplayData();
       this.isLoading = false;
+      this.paginator.length = 200
     });
   }
 
@@ -80,31 +87,12 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
 
   updateDisplayData() {
     if (this.paginator) {
-      this.paginator.length = this.data.length;
-      this.displayData = this.data.slice(this.paginator.pageIndex * this.paginator.pageSize,
-      this.paginator.pageIndex * this.paginator.pageSize + this.paginator.pageSize);
+      this.paginator.length = this.paginator.length += this.data.length;
+      this.displayData = this.data;
     }
   }
   updateFilter() {
-    this.paginator.pageIndex = 0;
-    console.log(this.filter);
-    if (this.filter && this.filter.length > 0) {
-      this.displayData = this.data.filter((data: T) => {
-        let contains = false;
-        Object.values(data).forEach(val => {
-          if (val.toString().indexOf(this.filter) > -1) {
-            contains = true;
-          }
-        });
-        return contains;
-      }).slice(this.paginator.pageIndex * this.paginator.pageSize,
-        this.paginator.pageIndex * this.paginator.pageSize + this.paginator.pageSize);
-        this.paginator.length = this.displayData.length;
-    } else {
-      this.displayData = this.data.slice(this.paginator.pageIndex * this.paginator.pageSize,
-        this.paginator.pageIndex * this.paginator.pageSize + this.paginator.pageSize);
-        this.paginator.length = this.data.length;
-    }
+    this.getAllFiltered();
   }
 
   resetPaginator() {

@@ -1,0 +1,212 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@import 'app/theming/colors';
+@import 'app/theming/prime-ng-theming';
+
+@import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
+
+.font-base {
+  font-family: 'IM Fell English SC';
+}
+
+
+
+
+.input-centered-placeholder {
+  text-align: center;
+  font-weight: 900;
+}
+
+.listCard{
+    margin: 6px;
+    padding: 12px !important;
+}
+.listCard > mat-card-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+.listCard > mat-card-subtitle {
+
+    margin-bottom: 8px;
+}
+.text-right {
+  text-align: end;
+}
+.text-center {
+  text-align: center;
+  align-items: center;
+}
+.main-content {
+  overflow: scroll;
+  width: 100%;
+}
+
+.pl-0 {
+  padding-left: 0px;
+}
+.pl-4 {
+  padding-left: 4px;
+}
+.pl-8 {
+  padding-left: 8px;
+}
+.pl-12 {
+  padding-left: 12px;
+}
+.pl-16 {
+  padding-left: 16px;
+}
+.pl-20 {
+  padding-left: 20px;
+}
+.pl-20 {
+  padding-left: 20px;
+}
+.pl-24 {
+  padding-left: 24px;
+}
+.pl-28 {
+  padding-left: 28px;
+}
+.pr-0 {
+  padding-right: 0px;
+}
+.pr-4 {
+  padding-right: 4px;
+}
+.pr-8 {
+  padding-right: 8px;
+}
+.pr-12 {
+  padding-right: 12px;
+}
+.pr-16 {
+  padding-right: 16px;
+}
+.pr-20 {
+  padding-right: 20px;
+}
+.pr-20 {
+  padding-right: 20px;
+}
+.pr-24 {
+  padding-right: 24px;
+}
+.pr-28 {
+  padding-right: 28px;
+}
+.p-0 {
+  padding: 0px !important;
+}
+.p-4 {
+  padding: 4px !important;
+}
+.p-8 {
+  padding: 8px !important;
+}
+.p-12 {
+  padding: 12px !important;
+}
+.p-16 {
+  padding: 16px !important;
+}
+.m-0 {
+  margin: 0px !important;
+}
+.m-4 {
+  margin: 4px !important;
+}
+.m-8 {
+  margin: 8px !important;
+}
+.m-12 {
+  margin: 12px !important;
+}
+.m-16 {
+  margin: 16px !important;
+}
+.clickable {
+  cursor: pointer;
+}
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.modal-picker {
+  min-width: 640px;
+  min-height: 120px;
+}
+.disabled {
+  background-color: blue;
+}
+
+h2 {
+  margin: 8px, 0px, 8px, 0px !important;
+}
+
+/* .mat-form-field-infix {
+  border: 0 !important;
+}
+.mat-form-field-label-wrapper {
+  padding: 0 !important;
+} */
+.mat-dialog-container {
+  padding: 16px !important;
+  width: 100%;
+  height: 100%;
+}
+div.mat-form-field-infix {
+  border-top: 0px;
+  padding-top: 0px !important;
+}
+.mat-form-field {
+  padding-right: 8px !important;
+  padding-left: 8px !important;
+}
+
+.mat-footer-row, mat-header-row, mat-row {
+  border-radius: inherit;
+}
+
+.main-background {
+  background-color: #fafafa;
+}
+.monster-card-table {
+  border-radius: 4px;
+  background-color:seashell;
+}
+.monster-background {
+  background-color:darksalmon;
+}
+.monster-card {
+  background-color: mistyrose;
+  font-family: 'IM Fell English SC';
+}
+.monster-main-value {
+  background-color: tomato;
+  color: mistyrose;
+}
+
+.monster-titles {
+  background-color: tomato;
+  color: mistyrose;
+  border-radius: 4px;
+  margin: 0px 4px;
+  margin: 0px 4px;
+}
+
+.monster-remaining-points-positive {
+  border: 1px solid maroon;
+  border-radius: 4px;
+  background-color:mistyrose;
+  padding: 4px;
+  margin: 0px 4px;
+}
+
+.initiative-color {
+  color: orange;
+}
+.initiative-background-color {
+  background-color: orange;
+}
+

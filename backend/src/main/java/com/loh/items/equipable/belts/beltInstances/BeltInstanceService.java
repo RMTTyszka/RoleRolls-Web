@@ -33,6 +33,7 @@ public class BeltInstanceService {
     public BeltInstance instantiateNoneBelt() {
         BeltModel beltModel = beltModelsRepository.getByNameAndSystemDefaultTrue(DefaultBelts.NoBelt);
         BeltInstance gloves = instantiateBelt(beltModel, 1);
+        gloves.setRemovable(false);
         beltInstanceRepository.save(gloves);
         return gloves;
     }

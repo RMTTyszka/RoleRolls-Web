@@ -21,29 +21,33 @@ import {HeroStatsComponent} from './hero-stats/hero-stats.component';
 import {InventoryComponent} from './inventory/inventory.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
+import { HeroFundsComponent } from './hero-funds/hero-funds.component';
+import {ShopModule} from '../shop/shop.module';
+import { HeroCreateComponent } from './hero-create/hero-create.component';
 
 const routes: Routes = [
   {path: '', component: HeroesGatewayComponent}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    DialogModule,
-    DynamicDialogModule,
-    RaceSharedModule,
-    RolesSharedModule,
-    TooltipModule,
-    ToastModule,
-    TabViewModule,
-    ArmorSharedModule,
-    FieldsetModule,
-    AutoCompleteModule,
-    CreaturesSharedModule
-  ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent],
-  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        DialogModule,
+        DynamicDialogModule,
+        RaceSharedModule,
+        RolesSharedModule,
+        TooltipModule,
+        ToastModule,
+        TabViewModule,
+        ArmorSharedModule,
+        FieldsetModule,
+        AutoCompleteModule,
+        CreaturesSharedModule,
+        ShopModule
+    ],
+  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, HeroFundsComponent, HeroCreateComponent],
+  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent, HeroCreateComponent]
 })
 export class HeroesModule { }

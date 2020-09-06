@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.service.login(this.form.get('email').value, this.form.get('password').value)
       .subscribe(output => {
         this.authService.setToken(output.token);
-        this.authService.publishNewUserName(output.userName);
+        this.authService.publishNewUserName(output.userName, output.userId);
         this.messageService.add(<Message>{
           summary: 'Logged in',
           severity: 'success'});
