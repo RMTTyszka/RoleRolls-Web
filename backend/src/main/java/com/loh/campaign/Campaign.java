@@ -11,10 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Campaign extends com.loh.shared.Entity {
@@ -49,6 +46,9 @@ public class Campaign extends com.loh.shared.Entity {
 
 	public void addPlayer(Player player) {
 		players.add(player);
+	}
+	public void removePlayer(UUID playerId) {
+		players.removeIf(p -> p.getId().equals(playerId));
 	}
 
 	public void addHero(Hero hero) throws HeroNotFromAddedPlayerException {

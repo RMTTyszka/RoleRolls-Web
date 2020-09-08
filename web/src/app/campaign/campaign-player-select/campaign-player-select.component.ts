@@ -32,7 +32,7 @@ export class CampaignPlayerSelectComponent implements OnInit {
   }
 
   get(event: any) {
-    this.service.getPlayer(this.campaignId, 0,10).subscribe(players => {
+    this.service.getPlayer(this.campaignId, 0, 10).subscribe(players => {
       this.players = players;
     });
   }

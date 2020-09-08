@@ -11,6 +11,8 @@ import { CampaignInvitationComponent } from './campaign-invitation/campaign-invi
 import {TabViewModule} from 'primeng/tabview';
 import {FieldsetModule} from 'primeng/fieldset';
 import { CampaignPlayerSelectComponent } from './campaign-player-select/campaign-player-select.component';
+import {PanelModule} from 'primeng/panel';
+import {ListboxModule} from 'primeng/listbox';
 
 const routes: Routes = [
   {path: '', component: CampaignListComponent}
@@ -27,7 +29,9 @@ const routes: Routes = [
     SharedModule,
     PlayerSharedModule,
     TabViewModule,
-    FieldsetModule
+    FieldsetModule,
+    PanelModule,
+    ListboxModule
   ],
   entryComponents: [CampaignEditorComponent, CampaignListComponent, CampaignPlayerSelectComponent]
 })
