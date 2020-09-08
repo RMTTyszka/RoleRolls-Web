@@ -16,6 +16,9 @@ public class Shop extends DefaultEntity {
     @Setter
     @OneToMany
     private List<ShopItem> items = new ArrayList<>();
+    @Getter
+    @Setter
+    private String name;
 
     public void addItem(ShopItem item) {
         this.items.add(item);

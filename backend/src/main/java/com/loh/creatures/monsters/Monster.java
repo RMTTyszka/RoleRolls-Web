@@ -33,7 +33,7 @@ public class Monster extends Creature {
         level = 1;
         baseAttributes = new Attributes(8);
         bonusAttributes = new Attributes();
-        name = "new hero";
+        name = "new monster";
         equipment = new Equipment();
         inventory = new Inventory();
     }

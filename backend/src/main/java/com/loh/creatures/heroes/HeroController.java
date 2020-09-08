@@ -2,7 +2,6 @@ package com.loh.creatures.heroes;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.loh.authentication.LohUserAuthenticationToken;
 import com.loh.authentication.LohUserDetails;
 import com.loh.creatures.heroes.dtos.AddItemsInput;
 import com.loh.creatures.heroes.dtos.NewHeroDto;
@@ -36,7 +35,7 @@ public class HeroController {
     public @ResponseBody
     Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, Principal userDetails) {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
-        UUID userId = userId(userDetails);
+        UUID userId = LohUserDetails.userId(userDetails);
         Iterable<Hero> heroes = heroRepository.findAll(
                 where((fromPlayer(userId).or(fromCreator(userId))).and(containsName(filter).and(orderByName()))), paged)
                 .getContent();
@@ -73,7 +72,7 @@ public class HeroController {
     BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto, Principal principal){
 
         try {
-            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, userId(principal));
+            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, LohUserDetails.userId(principal));
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
             return output;
         } catch (Exception e) {
@@ -120,10 +119,7 @@ public class HeroController {
         return new BaseCrudResponse(true, "");
     }
 
-    private UUID userId(Principal principal) {
-        LohUserDetails user = ((LohUserAuthenticationToken) principal).getPrincipal();
-        return user.getUserId();
-    }
+
 
 
     static Specification<Hero> containsName(String name) {

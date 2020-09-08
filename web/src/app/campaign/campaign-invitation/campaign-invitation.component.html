@@ -1,0 +1,9 @@
+<ng-container class="p-grid">
+  <div *ngFor="let campaign of campaigns" class="p-col-3">
+    <p-fieldset [legend]="campaign.name" class="p-grid p-justify-between">
+      <button pButton label="Accept" class="ui-button-success" (click)="accept(campaign)"></button>
+      <button pButton label="Reject" class="ui-button-secondary" (click)="deny(campaign)"></button>
+    </p-fieldset>
+  </div>
+</ng-container>
+

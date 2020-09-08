@@ -14,6 +14,9 @@ public class ShopArmor extends ShopItem {
     @Setter
     @OneToOne
     protected ArmorModel item;
+    @Getter
+    @Setter
+    private String name;
 
     public ShopArmor() {
     }
