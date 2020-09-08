@@ -18,13 +18,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NoPermissionException;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.loh.authentication.LohUserDetails.userId;
+import static com.loh.authentication.LohUserDetails.currentUserId;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
@@ -50,20 +51,16 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		return new Campaign();
 	}
 
-	@Override
-	@PostMapping(path="/create")
-	public @ResponseBody BaseCrudResponse<Campaign> add(@RequestBody Campaign campaign, Principal principal) {
-		UUID userId = userId(principal);
-		Player master = playerRepository.findById(userId).get();
-		campaign.setMaster(master);
+	public @ResponseBody BaseCrudResponse<Campaign> add(@RequestBody Campaign campaign) {
+		UUID userId = currentUserId();
+		campaign.setMasterId(userId);
 		campaign = repository.save(campaign);
-
 		return new BaseCrudResponse<Campaign>(true, "Campaign successfuly created", campaign);
 	}
 	@GetMapping(path="/player/invite/get")
 	public  @ResponseBody
-    PlayerInvitationsOutput getPlayerInvitations(Principal principal) {
-		UUID playerId = userId(principal);
+    PlayerInvitationsOutput getPlayerInvitations() {
+		UUID playerId = currentUserId();
 		List<InvitedPlayer> invitations = invitedPlayerRepository.findAllByPlayerIdAndStatus(playerId, InvitationStatus.Sent);
 		List<UUID> campaignIds = invitations.stream().map(i -> i.getCampaignId()).collect(Collectors.toList());
 		List<Campaign> campaigns = repository.findAllByIdIn(campaignIds);
@@ -71,7 +68,7 @@ public class CampaignController extends BaseCrudController<Campaign> {
 	}
 	@GetMapping(path="/{campaignId}/invite/get")
 	public  @ResponseBody
-	List<CampaignInvitation> getInvitations(@PathVariable UUID campaignId) {
+	List<CampaignInvitation> getCampaignInvitations(@PathVariable UUID campaignId) {
 		List<InvitedPlayer> invitations = invitedPlayerRepository.findAllByCampaignId(campaignId);
 		List<UUID> playerIds = invitations.stream().map(i -> i.getPlayerId()).collect(Collectors.toList());
         List<CampaignInvitation> players = StreamSupport.stream(playerRepository.findAllById(playerIds).spliterator(), false).map(p -> new CampaignInvitation(p, invitations.stream().filter(i -> i.getPlayerId().equals(p.getId())).findFirst().get().getStatus())).collect(Collectors.toList());
@@ -79,28 +76,38 @@ public class CampaignController extends BaseCrudController<Campaign> {
 	}
 	@PostMapping(path="/player/invite")
 	@ResponseStatus(HttpStatus.OK)
-	public void invitePlayer(@RequestBody AddPlayerAndHeroToCampaignInput input) {
-		InvitedPlayer invitedPlayer = new InvitedPlayer(input.campaignId, input.playerId);
-		invitedPlayerRepository.save(invitedPlayer);
+	public void invitePlayer(@RequestBody AddPlayerAndHeroToCampaignInput input) throws NoPermissionException {
+		Campaign campaign = repository.findById(input.campaignId).get();
+		if (campaign.isMaster()) {
+			InvitedPlayer invitedPlayer = new InvitedPlayer(input.campaignId, input.playerId);
+			invitedPlayerRepository.save(invitedPlayer);
+			return;
+		} else {
+			throw new NoPermissionException("You are not the master of that campaign");
+		}
+
 	}	
 	@DeleteMapping(path="/player/invite/delete/{campaignId}/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
     @Transactional
 	public void deleteInvitation(@PathVariable UUID campaignId, @PathVariable UUID playerId) {
-		invitedPlayerRepository.deleteByCampaignIdAndPlayerId(campaignId, playerId);
+		Campaign campaign = repository.findById(campaignId).get();
+		if (campaign.isMaster()) {
+			invitedPlayerRepository.deleteByCampaignIdAndPlayerId(campaignId, playerId);
+		}
 	}
 	@PostMapping(path="/player/invite/deny/{campaignId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void denyInvitation(@PathVariable UUID campaignId, Principal principal) {
-		UUID playerId = userId(principal);
+	public void denyInvitation(@PathVariable UUID campaignId) {
+		UUID playerId = currentUserId();
 		InvitedPlayer invitedPlayer = invitedPlayerRepository.findByCampaignIdAndPlayerId(campaignId, playerId);
 		invitedPlayer.setStatus(InvitationStatus.Denied);
 		invitedPlayerRepository.save(invitedPlayer);
 	}
     @PostMapping(path="/player/add/{campaignId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addPlayer(@PathVariable UUID campaignId, Principal principal) {
-        UUID playerId = userId(principal);
+    public void addPlayer(@PathVariable UUID campaignId) {
+        UUID playerId = currentUserId();
         Campaign campaign = repository.findById(campaignId).get();
         Player player = playerRepository.findById(playerId).get();
         campaign.addPlayer(player);
@@ -112,12 +119,16 @@ public class CampaignController extends BaseCrudController<Campaign> {
     }
 	@DeleteMapping(path="/player/remove/{campaignId}/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void addPlayer(@PathVariable UUID campaignId, @PathVariable UUID playerId) {
+	public void removePlayer(@PathVariable UUID campaignId, @PathVariable UUID playerId) throws NoPermissionException {
 		Campaign campaign = repository.findById(campaignId).get();
-		campaign.removePlayer(playerId);
-		repository.save(campaign);
-		InvitedPlayer invitedPlayer = invitedPlayerRepository.findByCampaignIdAndPlayerId(campaignId, playerId);
-		invitedPlayerRepository.delete(invitedPlayer);
+		if (campaign.isMaster()) {
+			campaign.removePlayer(playerId);
+			repository.save(campaign);
+			InvitedPlayer invitedPlayer = invitedPlayerRepository.findByCampaignIdAndPlayerId(campaignId, playerId);
+			invitedPlayerRepository.delete(invitedPlayer);
+		} else {
+			throw new NoPermissionException("You are not the master of this campaign");
+		}
 
 	}
 	@GetMapping(path="/heroes/select")
@@ -150,4 +161,5 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		}
 		return (player, cq, cb) -> player.get("id").in(playerIds).not();
 	}
+
 }

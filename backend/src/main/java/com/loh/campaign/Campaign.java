@@ -1,16 +1,17 @@
 package com.loh.campaign;
 
 import com.loh.adventures.Adventure;
+import com.loh.authentication.LohUserDetails;
 import com.loh.campaign.dtos.HeroNotFromAddedPlayerException;
 import com.loh.context.Player;
 import com.loh.creatures.heroes.Hero;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.util.*;
 
 @Entity
@@ -23,10 +24,9 @@ public class Campaign extends com.loh.shared.Entity {
 	@Setter
 	private String description;
 	
-	@OneToOne
 	@Getter
 	@Setter
-	private Player master;
+	private UUID masterId;
 
 	@ManyToMany
 	@Getter
@@ -58,5 +58,9 @@ public class Campaign extends com.loh.shared.Entity {
 		} else {
 			throw new HeroNotFromAddedPlayerException();
 		}
+	}
+
+	public boolean isMaster() {
+		return ((LohUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId().equals(masterId);
 	}
 }

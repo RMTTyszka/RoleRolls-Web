@@ -51,7 +51,7 @@ export class CampaignEditorComponent implements OnInit {
     this.ref.close(campaign);
   }
 
-  addPlayer() {
+  invitePlayer() {
     this.dialogService.open(CampaignPlayerSelectComponent, {
       height: '100%',
       width: '50%',

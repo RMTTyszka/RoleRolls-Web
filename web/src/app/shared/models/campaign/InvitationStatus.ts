@@ -1,5 +1,5 @@
 export enum InvitationStatus {
-  Sent,
-  Denied,
-  Accepted
+  Sent = 'Sent',
+  Denied = 'Denied',
+  Accepted = 'Accepted'
 }
