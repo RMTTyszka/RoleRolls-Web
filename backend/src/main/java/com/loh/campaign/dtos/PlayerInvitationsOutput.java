@@ -4,10 +4,10 @@ import com.loh.campaign.Campaign;
 
 import java.util.List;
 
-public class InvitedPlayerOutput {
+public class PlayerInvitationsOutput {
     public List<Campaign> campaigns;
 
-    public InvitedPlayerOutput(List<Campaign> campaigns) {
+    public PlayerInvitationsOutput(List<Campaign> campaigns) {
         this.campaigns = campaigns;
     }
 }

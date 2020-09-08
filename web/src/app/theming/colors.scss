@@ -22,6 +22,10 @@ $playerColor5: #2e2c2f;
   background-color: $playerColor5;
 }
 
+.player-1-colored-border {
+  border: 2px solid $playerColor1;
+}
+
 $mainColor1: #f2dda4;
 $mainColor2: #e7efc5;
 $mainColor3: #bfd7b5;

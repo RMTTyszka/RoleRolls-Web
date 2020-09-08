@@ -14,14 +14,30 @@
           <textarea pInputTextarea type="text" [rows]="5" [cols]="30" id="description" formControlName="description"></textarea>
         </div>
       </div>
-      <p-toolbar>
-        <div class="ui-toolbar-group-right">
-          <button pButton type="button" icon="pi pi-plus" class="ui-button-secondary" (click)="addPlayer()"></button>
+      <p-panel>
+        <p-header>
+          <div class="p-grid p-justify-between p-align-center p-nogutter">
+            <span class="ui-panel-title p-col">Players</span>
+            <button pButton type="button" icon="pi pi-plus" class="ui-button-primary" (click)="invitePlayer()"></button>
+          </div>
+        </p-header>
+        <div *ngFor="let player of entity.players">
+          <div class="p-grid p-justify-between p-nogutter p-align-center">
+            <span class="p-col-11">{{player.name}}</span>
+            <button pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removePlayer(player)"></button>
+          </div>
         </div>
-      </p-toolbar>
-      <div *ngFor="let player of entity.players">
-        <span>{{player.name}}</span>
-      </div>
+      </p-panel>
+      <p-panel header="Invitations">
+        <div *ngFor="let invitation of invitations">
+          <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
+            <span class="p-col-6">{{invitation.player.name}}</span>
+            <span class="p-col-5">{{invitation.status}}</span>
+            <button pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeInvitation(invitation.player)"></button>
+          </div>
+        </div>
+      </p-panel>
+
     </div>
 
   </form>

@@ -2,9 +2,10 @@ import {Injectable, Injector} from '@angular/core';
 import {BaseEntityService} from '../shared/base-entity-service';
 import {Campaign} from '../shared/models/campaign/Campaign.model';
 import {InvitedPlayer} from '../shared/models/campaign/InvitedPlayer.model';
-import {InvitedPlayerOutput} from '../shared/models/campaign/dtos/InvitedPlayerOutput';
+import {PlayerInvitationsOutput} from '../shared/models/campaign/dtos/PlayerInvitationsOutput';
 import {HttpParams} from '@angular/common/http';
 import {Player} from '../shared/models/Player.model';
+import {CampaignInvitationsOutput} from '../shared/models/campaign/dtos/CampaignInvitationsOutput';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,10 @@ export class CampaignsService extends BaseEntityService<Campaign> {
   }
 
   public getInvitations() {
-    return this.http.get<InvitedPlayerOutput>(this.serverUrl + this.path + '/player/invite/get');
+    return this.http.get<PlayerInvitationsOutput>(this.serverUrl + this.path + '/player/invite/get');
+  }
+  public getCampaignInvitations(campaignId: string) {
+    return this.http.get<CampaignInvitationsOutput[]>(this.serverUrl + this.path + `/${campaignId}/invite/get`);
   }
   public invitePlayer(campaignId: string, playerId: string) {
     return this.http.post(this.serverUrl + this.path + '/player/invite', {
@@ -27,6 +31,10 @@ export class CampaignsService extends BaseEntityService<Campaign> {
       playerId: playerId
     });
   }
+  public removeInvitation(campaignId: string, playerId: string) {
+    return this.http.delete(this.serverUrl + this.path + '/player/invite/delete' + `/${campaignId}/${playerId}`);
+  }
+
   public acceptInvitation(campaignId: string) {
     return this.http.post(this.serverUrl + this.path + `/player/add/${campaignId}`, {
     });
@@ -40,6 +48,9 @@ export class CampaignsService extends BaseEntityService<Campaign> {
       .set('skipCount', skipCount.toString())
       .set('maxResultCount', maxResultCount.toString())
     return this.http.get<Player[]>(this.serverUrl + this.path + `/player/select/`, { params: params});
+  }
+  public removePlayer(campaignId: string, playerId: string) {
+    return this.http.delete(this.serverUrl + this.path + `/player/remove/${campaignId}/${playerId}`);
   }
 
 }

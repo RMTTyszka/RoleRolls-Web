@@ -1,20 +1,18 @@
 package com.loh.campaign;
 
 import com.loh.adventures.Adventure;
+import com.loh.authentication.LohUserDetails;
 import com.loh.campaign.dtos.HeroNotFromAddedPlayerException;
 import com.loh.context.Player;
 import com.loh.creatures.heroes.Hero;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Campaign extends com.loh.shared.Entity {
@@ -26,10 +24,9 @@ public class Campaign extends com.loh.shared.Entity {
 	@Setter
 	private String description;
 	
-	@OneToOne
 	@Getter
 	@Setter
-	private Player master;
+	private UUID masterId;
 
 	@ManyToMany
 	@Getter
@@ -50,6 +47,9 @@ public class Campaign extends com.loh.shared.Entity {
 	public void addPlayer(Player player) {
 		players.add(player);
 	}
+	public void removePlayer(UUID playerId) {
+		players.removeIf(p -> p.getId().equals(playerId));
+	}
 
 	public void addHero(Hero hero) throws HeroNotFromAddedPlayerException {
 		boolean isHeroFromAddedPLayer = players.stream().anyMatch(p -> p.getId().equals(hero.getOwnerId()));
@@ -58,5 +58,9 @@ public class Campaign extends com.loh.shared.Entity {
 		} else {
 			throw new HeroNotFromAddedPlayerException();
 		}
+	}
+
+	public boolean isMaster() {
+		return ((LohUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId().equals(masterId);
 	}
 }

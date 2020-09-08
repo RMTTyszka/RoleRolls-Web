@@ -1,5 +1,5 @@
 import {Campaign} from '../Campaign.model';
 
-export class InvitedPlayerOutput {
+export class PlayerInvitationsOutput {
   public campaigns: Campaign[];
 }
