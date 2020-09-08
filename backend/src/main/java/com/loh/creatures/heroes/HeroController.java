@@ -14,9 +14,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.UUID;
 
+import static com.loh.authentication.LohUserDetails.currentUserId;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @CrossOrigin
@@ -33,9 +33,9 @@ public class HeroController {
 
     @GetMapping(path="/allFiltered")
     public @ResponseBody
-    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, Principal userDetails) {
+    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
-        UUID userId = LohUserDetails.userId(userDetails);
+        UUID userId = currentUserId();
         Iterable<Hero> heroes = heroRepository.findAll(
                 where((fromPlayer(userId).or(fromCreator(userId))).and(containsName(filter).and(orderByName()))), paged)
                 .getContent();
@@ -69,10 +69,10 @@ public class HeroController {
 
     @PostMapping(path="/create")
     public @ResponseBody
-    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto, Principal principal){
+    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto){
 
         try {
-            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, LohUserDetails.userId(principal));
+            Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, currentUserId());
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
             return output;
         } catch (Exception e) {
