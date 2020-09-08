@@ -14,6 +14,6 @@ export class PlayersService {
   ) { }
 
   getAllPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(LOH_API.myBackUrl + 'context/allPlayers');
+    return this.http.get<Player[]>(LOH_API.myBackUrl + 'players/all');
   }
 }

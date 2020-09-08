@@ -1,37 +1,32 @@
 package com.loh.context;
 
-import com.loh.creatures.heroes.Hero;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Id;
+import java.util.UUID;
 
 @Entity
-public class Player extends com.loh.shared.Entity {
+public class Player {
 
 	@Getter
 	@Setter
 	private String name;
 
-	@ManyToMany
+	@Id
 	@Getter
 	@Setter
-	private Set<Campaign> campaigns = new HashSet<>();
-
-	@OneToMany
-	@Getter
-	@Setter
-	private Set<Hero> heroes = new HashSet<>();
+	@Column(columnDefinition = "BINARY(16)")
+	protected UUID id;
 	
 	public Player() {
 		
 	}
-	public Player(String name) {
+	public Player(UUID id, String name) {
 		this.name = name;
+		this.id = id;
 	}
 
 }

@@ -24,6 +24,9 @@ import java.util.List;
 @DiscriminatorColumn(name = "CreatureType")
 public class Creature extends Entity {
 
+    @Getter @Setter
+    protected String name;
+
     public Creature() {
         level = 1;
         this.baseAttributes = new Attributes();
@@ -128,9 +131,6 @@ public class Creature extends Entity {
 
     @Getter @Setter
     protected Integer level;
-
-    @Getter @Setter
-    protected String name;
 
     @Getter @Setter @ManyToOne
     protected Race race;

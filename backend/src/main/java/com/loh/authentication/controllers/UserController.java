@@ -2,6 +2,8 @@ package com.loh.authentication.controllers;
 
 
 import com.loh.authentication.*;
+import com.loh.context.Player;
+import com.loh.context.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +22,8 @@ public class UserController {
     private AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PlayerRepository playerRepository;
     @Autowired
     private LohUserDetailsService userDetailsService;
     @Autowired
@@ -54,7 +58,11 @@ public class UserController {
                 String salt = BCrypt.gensalt(10);
                 String password = BCrypt.hashpw(user.getPassword(), salt);
                 user.setPassword(password);
-                userRepository.save(user);
+                user = userRepository.save(user);
+
+                Player player = new Player(user.getId(), user.getUserName());
+                player = playerRepository.save(player);
+                System.out.println(player.getId());
             } else {
                 output.success = false;
                 output.invalidPassword = true;

@@ -1,6 +1,9 @@
 package com.loh.combat;
 
-import com.loh.shared.BaseRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CombatRepository extends BaseRepository<Combat> {
+import java.util.UUID;
+
+public interface CombatRepository extends PagingAndSortingRepository<Combat, UUID>, JpaSpecificationExecutor<Combat> {
 }

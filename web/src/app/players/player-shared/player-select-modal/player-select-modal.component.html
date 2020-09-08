@@ -1,0 +1,16 @@
+<p-table [columns]="cols" [value]="players" selectionMode="single" (onRowSelect)="heroSelected($event)" dataKey="vin"  [lazy]="true" (onLazyLoad)="get($event)" [paginator]="true" >
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{col.header}}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td *ngFor="let col of columns">
+        {{rowData[col.property]}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

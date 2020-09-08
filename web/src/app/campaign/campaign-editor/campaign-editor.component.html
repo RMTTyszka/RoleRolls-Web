@@ -1,0 +1,28 @@
+<loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
+  <ng-container></ng-container>
+  <form form [formGroup]="form" *ngIf="!isLoading">
+    <div  class="ui-fluid">
+      <div class="p-field p-grid">
+        <label for="name" class="p-col-fixed" style="width:100px">Name</label>
+        <div class="p-col">
+          <input id="name" type="text" pInputText formControlName="name">
+        </div>
+      </div>
+      <div class="p-field p-grid">
+        <label for="description" class="p-col-fixed" style="width:100px">Resume</label>
+        <div class="p-col">
+          <textarea pInputTextarea type="text" [rows]="5" [cols]="30" id="description" formControlName="description"></textarea>
+        </div>
+      </div>
+      <p-toolbar>
+        <div class="ui-toolbar-group-right">
+          <button pButton type="button" icon="pi pi-plus" class="ui-button-secondary" (click)="addPlayer()"></button>
+        </div>
+      </p-toolbar>
+      <div *ngFor="let player of entity.players">
+        <span>{{player.name}}</span>
+      </div>
+    </div>
+
+  </form>
+</loh-cm-editor>
