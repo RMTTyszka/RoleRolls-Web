@@ -51,6 +51,17 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		return new Campaign();
 	}
 
+	@Override
+	@Transactional
+	public @ResponseBody
+	BaseCrudResponse<Campaign> delete(@RequestParam UUID id) {
+		Campaign campaign = repository.findById(id).get();
+		if(campaign.isMaster()) {
+			invitedPlayerRepository.deleteAllByCampaignId(id);
+			return super.delete(id);
+		}
+		return new BaseCrudResponse<Campaign>(false, "You are not the master of that campaign");
+	}
 	public @ResponseBody BaseCrudResponse<Campaign> add(@RequestBody Campaign campaign) {
 		UUID userId = currentUserId();
 		campaign.setMasterId(userId);

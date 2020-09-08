@@ -9,5 +9,6 @@ public interface InvitedPlayerRepository extends CrudRepository<InvitedPlayer, U
     List<InvitedPlayer> findAllByPlayerIdAndStatus(UUID playerId, InvitationStatus invitationStatus);
     List<InvitedPlayer> findAllByCampaignId(UUID campaignId);
     InvitedPlayer findByCampaignIdAndPlayerId(UUID campaignId, UUID playerId);
+    Integer deleteAllByCampaignId(UUID campaignId);
     Integer deleteByCampaignIdAndPlayerId(UUID campaignId, UUID playerId);
 }

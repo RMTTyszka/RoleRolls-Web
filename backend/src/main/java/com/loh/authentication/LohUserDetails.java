@@ -4,9 +4,9 @@ package com.loh.authentication;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -30,8 +30,7 @@ public class LohUserDetails extends User {
         this.userId = user.getId();
     }
 
-    public static UUID userId(Principal principal) {
-        LohUserDetails user = ((LohUserAuthenticationToken) principal).getPrincipal();
-        return user.getUserId();
+    public static UUID currentUserId() {
+        return ((LohUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).userId;
     }
 }
