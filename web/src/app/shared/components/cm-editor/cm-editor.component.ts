@@ -6,7 +6,7 @@ import {catchError, take, takeUntil} from 'rxjs/operators';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {EditorAction} from '../../dtos/ModalEntityData';
 import {createForm} from '../../EditorExtension';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {BaseCrudResponse} from '../../models/BaseCrudResponse';
 
 @Component({
@@ -33,7 +33,8 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   @Output() loaded = new EventEmitter<boolean>();
   constructor(
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -65,6 +66,10 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscriber.next();
     this.unsubscriber.complete();
+  }
+
+  canSave() {
+    return this.form.valid && this.form.dirty && !this.disableSave;
   }
 
   getEntity() {
@@ -140,16 +145,22 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
 
   }
   delete() {
-    this.service.delete(this.entity).subscribe(resp => {
-      let messageType = '';
-      if (resp.success) {
-        messageType = 'success';
-        this.deleted.next(resp.entity);
-      } else {
-        messageType = 'error';
-      }
-      this.messageService.add({severity: messageType, summary: '', detail: resp.message});
+    this.confirmationService.confirm({
+      message: 'Are you sure?',
+      accept: (() => {
+        this.service.delete(this.entity).subscribe(resp => {
+          let messageType = '';
+          if (resp.success) {
+            messageType = 'success';
+            this.deleted.next(resp.entity);
+          } else {
+            messageType = 'error';
+          }
+          this.messageService.add({severity: messageType, summary: '', detail: resp.message});
+        });
+      })
     });
+
   }
 
 }

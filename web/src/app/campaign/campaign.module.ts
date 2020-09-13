@@ -13,6 +13,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 import { CampaignPlayerSelectComponent } from './campaign-player-select/campaign-player-select.component';
 import {PanelModule} from 'primeng/panel';
 import {ListboxModule} from 'primeng/listbox';
+import {HeroesSharedModule} from '../heroes/heroes-shared/heroes-shared.module';
 
 const routes: Routes = [
   {path: '', component: CampaignListComponent}
@@ -28,6 +29,7 @@ const routes: Routes = [
     DynamicDialogModule,
     SharedModule,
     PlayerSharedModule,
+    HeroesSharedModule,
     TabViewModule,
     FieldsetModule,
     PanelModule,

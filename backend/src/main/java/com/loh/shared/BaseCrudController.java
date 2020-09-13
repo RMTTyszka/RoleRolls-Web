@@ -4,7 +4,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.UUID;
 
 public abstract class BaseCrudController<T extends Entity> {
@@ -63,7 +62,7 @@ public abstract class BaseCrudController<T extends Entity> {
 
     @PostMapping(path="/create")
     public @ResponseBody
-    BaseCrudResponse<T> add(@RequestBody T entity, Principal principal) {
+    BaseCrudResponse<T> add(@RequestBody T entity) {
 
         return saveAndGetWeaponBaseCrudResponse(entity);
     }
