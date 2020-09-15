@@ -1,5 +1,9 @@
 <loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
-  <ng-container></ng-container>
+  <ng-container title>
+    <div class="p-grid p-nogutter p-justify-end">
+      <button pButton label="Start Session" (click)="startSession()"></button>
+    </div>
+  </ng-container>
   <form form [formGroup]="form" *ngIf="!isLoading">
     <div  class="ui-fluid">
       <div class="p-field p-grid">

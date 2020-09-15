@@ -12,6 +12,7 @@ import {Hero} from '../../shared/models/NewHero.model';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {HeroesSelectModalComponent} from '../../heroes/heroes-shared/heroes-select-modal/heroes-select-modal.component';
 import {MessageService} from 'primeng/api';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'loh-campaign-editor',
@@ -27,6 +28,7 @@ export class CampaignEditorComponent implements OnInit {
   isLoading = true;
   constructor(
     public ref: DynamicDialogRef,
+    private router: Router,
     public config: DynamicDialogConfig,
     public dialogService: DialogService,
     public messageService: MessageService,
@@ -128,5 +130,9 @@ export class CampaignEditorComponent implements OnInit {
 
   isHeroOwner(id: string) {
     return this.authenticationService.userId === id;
+  }
+
+  startSession() {
+    this.router.navigate([`/campaign-session/${this.entity.id}`]);
   }
 }

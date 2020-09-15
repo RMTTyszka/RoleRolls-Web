@@ -26,7 +26,9 @@ import {ShopModule} from '../shop/shop.module';
 import { HeroCreateComponent } from './hero-create/hero-create.component';
 
 const routes: Routes = [
-  {path: '', component: HeroesGatewayComponent}
+  {path: '/:id', component: HeroesGatewayComponent},
+  {path: '', component: HeroesGatewayComponent},
+  {path: '**', redirectTo: '/campaigns'}
 ];
 
 @NgModule({

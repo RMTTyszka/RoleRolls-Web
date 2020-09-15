@@ -17,6 +17,7 @@ const routes: Routes = [
   {path: 'tests', loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule)},
   {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)},
   {path: 'campaigns', loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule)},
+  {path: 'campaign-session', loadChildren: () => import('./campaign-session/campaign-session.module').then(m => m.CampaignSessionModule)},
   {path: '**', redirectTo: 'home'}
 ];
 
