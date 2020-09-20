@@ -18,6 +18,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @javax.persistence.Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -26,6 +27,13 @@ public class Creature extends Entity {
 
     @Getter @Setter
     protected String name;
+
+    @Getter @Setter
+    @Column(columnDefinition = "BINARY(16)")
+    protected UUID ownerId;
+    @Getter @Setter
+    @Column(columnDefinition = "BINARY(16)")
+    protected UUID creatorId;
 
     public Creature() {
         level = 1;

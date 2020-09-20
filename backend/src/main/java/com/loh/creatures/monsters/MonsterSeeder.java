@@ -74,9 +74,6 @@ public class MonsterSeeder {
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
-            if (level == 20) {
-                System.out.println("dsad");
-            }
             if (monsterRepository.findByName(DefaultMonsters.OneLightWeapon + " Level " + level) == null) {
                 Monster monster = new Monster(DefaultMonsters.OneLightWeapon + " Level " + level);
                 monster.setSpecialPowerMainAttribute(Attributes.Agility);

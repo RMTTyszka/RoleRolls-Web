@@ -37,7 +37,7 @@ public class Monster extends Creature {
         equipment = new Equipment();
         inventory = new Inventory();
     }
-    public Monster(String name, Race race, Role role){
+    public Monster(String name, Race race, Role role, UUID creatorId, UUID ownerId){
         super();
         id = UUID.randomUUID();
         level = 1;
@@ -48,8 +48,10 @@ public class Monster extends Creature {
         this.role = role;
         equipment = new Equipment();
         inventory = new Inventory();
+        this.ownerId = ownerId;
+        this.creatorId = creatorId;
     }
-    public Monster(String name){
+    public Monster(String name, UUID creatorId, UUID ownerId){
         super();
         id = UUID.randomUUID();
         level = 1;
@@ -58,5 +60,7 @@ public class Monster extends Creature {
         this.name = name;
         equipment = new Equipment();
         inventory = new Inventory();
+        this.ownerId = ownerId;
+        this.creatorId = creatorId;
     }
 }

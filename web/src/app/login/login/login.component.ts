@@ -4,6 +4,7 @@ import {LoginService} from '../login.service';
 import {Message, MessageService} from 'primeng/api';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {LohAuthTokenName} from '../../authentication/AuthTokens';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'loh-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: LoginService,
+    private router: Router,
     private authService: AuthenticationService,
     private messageService: MessageService
   ) {
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
         this.messageService.add(<Message>{
           summary: 'Logged in',
           severity: 'success'});
+        this.router.navigateByUrl(this.authService.lastRoute);
       });
   }
   add() {

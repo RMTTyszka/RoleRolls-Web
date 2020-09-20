@@ -7,10 +7,7 @@ import com.loh.creatures.equipment.Equipment;
 import com.loh.creatures.inventory.Inventory;
 import com.loh.race.Race;
 import com.loh.role.Role;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.UUID;
@@ -23,12 +20,7 @@ public class Hero extends Creature {
     protected CreatureType getCreatureType() {
         return CreatureType.Hero;
     }
-    @Getter @Setter
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID ownerId;
-    @Getter @Setter
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID creatorId;
+
 
     public Hero(){
         super();

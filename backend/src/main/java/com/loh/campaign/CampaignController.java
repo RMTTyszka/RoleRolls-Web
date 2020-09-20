@@ -4,6 +4,8 @@ import com.loh.campaign.dtos.AddPlayerAndHeroToCampaignInput;
 import com.loh.campaign.dtos.CampaignInvitation;
 import com.loh.campaign.dtos.HeroNotFromAddedPlayerException;
 import com.loh.campaign.dtos.PlayerInvitationsOutput;
+import com.loh.combat.CombatRepository;
+import com.loh.combat.outputs.CombatListDto;
 import com.loh.context.Player;
 import com.loh.context.PlayerRepository;
 import com.loh.creatures.heroes.Hero;
@@ -11,6 +13,8 @@ import com.loh.creatures.heroes.HeroRepository;
 import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +45,8 @@ public class CampaignController extends BaseCrudController<Campaign> {
 	InvitedPlayerRepository invitedPlayerRepository;
 	@Autowired
 	HeroRepository heroRepository;
+	@Autowired
+    CombatRepository combatRepository;
 
 	@Autowired
 	CampaignRepository repository;
@@ -196,6 +202,23 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		campaign.removeHero(hero.getId());
 		repository.save(campaign);
 	}
+
+	@GetMapping(path = "/{campaignId}/combat/list")
+    public @ResponseBody
+    Page<CombatListDto> getCampaignCombats(@PathVariable UUID campaignId, @RequestParam boolean started, @RequestParam Integer skipCount, @RequestParam Integer maxResultCount) {
+        Pageable paged = PageRequest.of(skipCount, maxResultCount);
+        Page<com.loh.combat.Combat> combats = combatRepository.getAllByCampaignIdAndHasStarted(campaignId, started, paged);
+        Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
+        return output;
+    }
+	@GetMapping(path = "/{campaignId}/heroes/list")
+    public @ResponseBody
+    Page<Hero> getCampaignHeroes(@PathVariable UUID campaignId) {
+        Page<com.loh.combat.Combat> combats = combatRepository.getAll(campaignId);
+        Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
+        return output;
+    }
+
 
 	private Specification<Campaign> campaignFromPlayer(UUID playerId) {
 		if (playerId == null) {

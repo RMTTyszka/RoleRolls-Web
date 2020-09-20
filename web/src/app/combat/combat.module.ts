@@ -20,16 +20,10 @@ import {PanelModule} from 'primeng/panel';
 import {MenuModule} from 'primeng/menu';
 import {TieredMenuModule} from 'primeng/tieredmenu';
 
-const routes: Routes = [
-  {path: '', component: CombatListComponent},
-  {path: 'manage-combat', component: CombatComponent},
-  {path: 'manage-combat/:id', component: CombatComponent},
-];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
     HeroesSharedModule,
     FlexLayoutModule,
     CreaturesSharedModule,
@@ -45,6 +39,7 @@ const routes: Routes = [
     TieredMenuModule
   ],
   declarations: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
+  exports: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
   entryComponents: [CombatActionModalComponent]
 })
 export class CombatModule { }

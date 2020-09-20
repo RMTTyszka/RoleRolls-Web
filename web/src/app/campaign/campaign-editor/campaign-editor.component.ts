@@ -134,5 +134,6 @@ export class CampaignEditorComponent implements OnInit {
 
   startSession() {
     this.router.navigate([`/campaign-session/${this.entity.id}`]);
+    this.ref.close();
   }
 }

@@ -11,7 +11,7 @@ import {Campaign} from '../../shared/models/campaign/Campaign.model';
 export class CampaignSessionGatewayComponent implements OnInit {
 
   private campaignId: string;
-  public campaign: Campaign;
+  public campaign: Campaign = new Campaign();
   constructor(
     private readonly route: ActivatedRoute,
     private readonly campaignSessionService: CampaignSessionService

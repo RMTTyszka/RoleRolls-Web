@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
 import {pipe, Subject} from 'rxjs';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {Message, MessageService} from 'primeng/api';
 import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 
@@ -14,17 +14,21 @@ export class AuthenticationService {
   userId: string;
   token: string;
   userNameChanged = new Subject<string>();
-  onUserUnauthorized = new Subject<string>()
+  onUserUnauthorized = new Subject<string>();
+  lastRoute: string;
   get isLogged() {
     return this.token && this.userName;
   }
   constructor(
-    private router: Router, private messageService: MessageService
+    private router: Router, private messageService: MessageService, private activatedRoute: ActivatedRoute
   ) {
     this.onUserUnauthorized
       .pipe(tap(() => {
-          this.router.navigateByUrl(`/home`);
+        if ( this.router.routerState.snapshot.url !== '/home') {
+          this.lastRoute = this.router.routerState.snapshot.url;
           this.cleanTokenAndUserName();
+          this.router.navigateByUrl(`/home`);
+        }
         }),
         throttleTime(10000))
       .subscribe((message: string) => {

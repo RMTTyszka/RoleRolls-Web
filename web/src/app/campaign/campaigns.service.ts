@@ -61,4 +61,8 @@ export class CampaignsService extends BaseEntityService<Campaign> {
   public removeHero(campaignId: string, heroId: string) {
     return this.http.delete(this.serverUrl + this.path + `/${campaignId}/hero/remove/${heroId}`);
   }
+
+  getHeroes(id: string) {
+    return this.http.get<Player[]>(this.serverUrl + this.path + `/{id}/heroes/list/`);
+  }
 }

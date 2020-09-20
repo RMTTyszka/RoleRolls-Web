@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CombatService} from './combat.service';
 import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
@@ -38,8 +38,8 @@ export class AttackInput {
   providers: [DialogService]
 })
 export class CombatComponent implements OnInit, OnDestroy {
+  combat: Combat
   isMaster = true;
-  combat: Combat = new Combat();
   attackDetails: AttackDetails;
   hasLoaded = false;
   actionModalOpened = false;
@@ -112,6 +112,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     this._combatManagement.combatUpdated
       .pipe(takeUntil(this.usubscriber)).subscribe(combat => {
       this.combat = combat;
+      this.hasLoaded = true;
     });
     interval(3000)
       .pipe(takeUntil(this.usubscriber)).subscribe(() => {
@@ -125,14 +126,6 @@ export class CombatComponent implements OnInit, OnDestroy {
           );
       }
     });
-    if (this.routeSnapshot.snapshot.params['id']) {
-      this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
-        this._combatManagement.combatUpdated.next(combat);
-        this.hasLoaded = true;
-      });
-    } else {
-      this.hasLoaded = true;
-    }
   }
 
   get isSaved(): boolean {

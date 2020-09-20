@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Combat} from '../../shared/models/combat/Combat.model';
+import {CombatManagementService} from '../../combat/combat-management.service';
 
 @Component({
   selector: 'loh-campaign-combat',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CampaignCombatComponent implements OnInit {
 
-  constructor() { }
+  selectedCombat: Combat;
+  constructor(
+    private combatService: CombatManagementService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  combatSelected(combat: Combat) {
+    this.selectedCombat = combat;
+    this.combatService.combatUpdated.next(combat);
   }
 
 }

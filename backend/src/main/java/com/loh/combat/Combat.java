@@ -18,10 +18,14 @@ import java.util.*;
 @Entity
 public class Combat extends com.loh.shared.Entity {
 
+
 	@Getter
 	@Setter
 	@UpdateTimestamp
 	private Date lastUpdateTime;
+	@Getter
+	@Setter
+	private String name;
 	@Lob
 	@Getter
 	private byte[] combatLogSerialized;
@@ -53,11 +57,16 @@ public class Combat extends com.loh.shared.Entity {
 		return logs;
 	}
 
-	@OneToMany
+    @Getter
+    @Setter
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID campaignId;
+
+	@OneToMany(fetch = FetchType.LAZY)
 	@Getter
 	@Setter
 	private List<Monster> monsters = new ArrayList<>();
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	@Getter
 	@Setter
 	private List<Hero> heroes = new ArrayList<>();
@@ -66,7 +75,7 @@ public class Combat extends com.loh.shared.Entity {
 	@Setter
 	private boolean hasStarted;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable()
 	private List<Initiative> initiatives;
 

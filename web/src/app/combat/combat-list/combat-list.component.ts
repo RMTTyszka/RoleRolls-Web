@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
 import {BaseListComponent} from '../../shared/base-list/base-list.component';
 import {Race} from '../../shared/models/Race.model';
 import {Combat} from '../../shared/models/combat/Combat.model';
@@ -19,8 +19,8 @@ export class CombatListComponent extends BaseListComponent<Combat> implements On
       property: 'name'
     },
   ];
-  route = 'combat/manage-combat';
-  useRoute = true;
+
+  @Output() combatSelected = new EventEmitter<Combat>();
   constructor(
     injector: Injector,
     protected service: CombatService,
