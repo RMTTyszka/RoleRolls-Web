@@ -19,7 +19,7 @@ export class CombatListComponent extends BaseListComponent<Combat> implements On
       property: 'name'
     },
   ];
-
+  useRoute = false;
   @Output() combatSelected = new EventEmitter<Combat>();
   constructor(
     injector: Injector,
@@ -29,6 +29,9 @@ export class CombatListComponent extends BaseListComponent<Combat> implements On
   }
 
   ngOnInit() {
+  }
+  add() {
+    this.combatSelected.next(new Combat());
   }
 
 }

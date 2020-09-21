@@ -1,7 +1,7 @@
 package com.loh.items.equipable.rings.head.ringModels;
 
-import com.loh.shared.BaseRepository;
+import com.loh.shared.LegacyBaseRepository;
 
-public interface RingModelRepository extends BaseRepository<RingModel> {
+public interface RingModelRepository extends LegacyBaseRepository<RingModel> {
     RingModel getByNameAndSystemDefaultTrue(String name);
 }

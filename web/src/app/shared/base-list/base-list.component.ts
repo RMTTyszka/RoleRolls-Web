@@ -1,6 +1,6 @@
 import {AfterViewInit, Injector, OnInit, ViewChild} from '@angular/core';
 import {Entity} from '../models/Entity.model';
-import {BaseCrudServiceComponent} from '../base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../legacy-base-service/legacy-base-crud-service.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -20,7 +20,7 @@ export class BaseListComponent<T extends Entity> implements OnInit, AfterViewIni
   protected router: Router;
   constructor(
     injector: Injector,
-    protected service: BaseCrudServiceComponent<T>
+    protected service: LegacyBaseCrudServiceComponent<T>
   ) {
     this.dialog = injector.get(MatDialog);
     this.router = injector.get(Router);

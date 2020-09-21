@@ -3,12 +3,12 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Entity} from '../models/Entity.model';
 import {LOH_API} from '../../loh.api';
-import {PagedAndFilteredDto} from '../dtos/PagedAndFilteredDto';
+import {PagedOutput} from '../dtos/PagedOutput';
 import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import {isNullOrUndefined} from 'util';
 
-export class BaseCrudServiceComponent<T extends Entity> implements OnInit {
+export class LegacyBaseCrudServiceComponent<T extends Entity> implements OnInit {
 
   path: string;
   serverUrl = LOH_API.myBackUrl;
@@ -25,10 +25,10 @@ export class BaseCrudServiceComponent<T extends Entity> implements OnInit {
   ngOnInit() {
   }
 
-  getAllPaged(filter: string = '', skipCount: number = 0, maxResultCount: number = 15): Observable<PagedAndFilteredDto<T>> {
+  getAllPaged(filter: string = '', skipCount: number = 0, maxResultCount: number = 15): Observable<PagedOutput<T>> {
     let params: HttpParams;
     params = new HttpParams().set('filter', filter).set('skipCount', skipCount.toString()).set('maxResultCount', maxResultCount.toString());
-    return this.http.get<PagedAndFilteredDto<T>>(this.serverUrl + this.path + '/allPaged', {params: params } );
+    return this.http.get<PagedOutput<T>>(this.serverUrl + this.path + '/allPaged', {params: params } );
   }
 
   getAllFiltered(filter: string, skipCount?: number, maxResultCount?: number): Observable<T[]> {

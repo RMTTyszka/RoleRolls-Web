@@ -197,7 +197,11 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   saveCombat() {
-    this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
+    if (this.isSaved) {
+      this._combatService.update(this.combat).subscribe((combat) => this.combat = combat.entity);
+    } else {
+      this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
+    }
   }
 
   endTurn() {

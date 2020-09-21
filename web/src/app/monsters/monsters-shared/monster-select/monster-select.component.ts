@@ -4,6 +4,7 @@ import {MonsterService} from '../../monster/monster.service';
 import {Monster} from '../../../shared/models/Monster.model';
 import {Hero} from '../../../shared/models/NewHero.model';
 import {Combat} from '../../../shared/models/combat/Combat.model';
+import {CampaignCombatMonsterService} from '../../../creatures-shared/creature-base-select/campaign-combat-monster.service';
 
 @Component({
   selector: 'loh-monster-select',
@@ -15,7 +16,7 @@ export class MonsterSelectComponent implements OnInit {
   @Input() monster: Monster;
   @Input() combat: Combat;
   constructor(
-    private service: MonsterService,
+    private service: CampaignCombatMonsterService,
   ) {
   }
 

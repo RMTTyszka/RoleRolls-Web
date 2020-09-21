@@ -1,12 +1,12 @@
 import {Injectable, Injector} from '@angular/core';
 
-import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../shared/legacy-base-service/legacy-base-crud-service.component';
 import {Race} from '../shared/models/Race.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RacesService extends BaseCrudServiceComponent<Race> {
+export class RacesService extends LegacyBaseCrudServiceComponent<Race> {
 
   path = 'races';
 

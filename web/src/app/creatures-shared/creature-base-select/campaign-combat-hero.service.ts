@@ -1,7 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseCombatCreatureService} from '../interfaces/baseCombatCreatureService';
 import {Hero} from '../../shared/models/NewHero.model';
-import {BaseCrudServiceComponent} from '../../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../../shared/legacy-base-service/legacy-base-crud-service.component';
 import {Observable, Subject} from 'rxjs';
 import {CampaignSessionService} from '../../campaign-session/campaign-session.service';
 import {Creature} from '../../shared/models/creatures/Creature.model';

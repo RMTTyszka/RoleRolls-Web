@@ -21,10 +21,6 @@ public class Player {
 	@Column(columnDefinition = "BINARY(16)")
 	protected UUID id;
 
-	@Getter
-	@Setter
-	private UUID campaignId;
-	
 	public Player() {
 		
 	}

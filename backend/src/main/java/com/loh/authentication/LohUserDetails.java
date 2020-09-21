@@ -18,14 +18,11 @@ public class LohUserDetails extends User {
     @Getter
     @Setter
     private UUID userId;
-    @Getter
-    @Setter
-    private UUID campaignId;
-    public LohUserDetails(String userName, String email, String password, UUID userId, UUID campaignId, Collection<? extends GrantedAuthority> authorities) {
+
+    public LohUserDetails(String userName, String email, String password, UUID userId, Collection<? extends GrantedAuthority> authorities) {
         super(email, password, authorities);
         this.userName = userName;
         this.userId = userId;
-        this.campaignId = campaignId;
     }
 
     public LohUserDetails(com.loh.authentication.User user) {

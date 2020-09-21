@@ -1,11 +1,11 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../shared/legacy-base-service/legacy-base-crud-service.component';
 import {Encounter} from '../shared/models/Encounter.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EncountersService extends BaseCrudServiceComponent<Encounter> {
+export class EncountersService extends LegacyBaseCrudServiceComponent<Encounter> {
 
   constructor(
     injector: Injector,

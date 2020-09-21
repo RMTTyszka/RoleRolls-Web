@@ -1,48 +1,50 @@
 package com.loh.shared;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-public abstract class BaseCrudController<T extends Entity, R extends BaseRepository<T>> {
-    public BaseCrudController(R repository) {
+public abstract class LegacyBaseCrudController<T extends Entity> {
+    public LegacyBaseCrudController(LegacyBaseRepository<T> repository) {
         this.repository = repository;
     }
 
-    protected BaseRepository<T> repository;
-    protected Page<T> filteredQuery(String filter, Pageable paged) {
-        return repository.findAll(paged);
-    }
-    protected Page<T> unfilteredQuery(Pageable paged) {
-        return repository.findAll(paged);
-    }
+    protected LegacyBaseRepository<T> repository;
 
-    @GetMapping()
+    @GetMapping(path="/allPaged")
     public @ResponseBody
-    Page<T> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Iterable<T> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         if (filter.isEmpty() || filter == null) {
-            Page<T> list =  unfilteredQuery(paged);
+            Iterable<T> list =  repository.findAll(paged);
             return list;
-        } else {
-            return filteredQuery(filter, paged);
         }
+        return repository.findAllByNameIgnoreCaseContaining(filter, paged);
     }
-    @GetMapping(path="/{id}")
+    @GetMapping(path="/allFiltered")
     public @ResponseBody
-    T get(@PathVariable UUID id) {
+    Iterable<T> getAllFiltered(@RequestParam String filter) {
+        // This returns a JSON or XML with the users
+        if (filter.isEmpty() || filter == null) {
+            return repository.findAll();
+        }
+        return repository.findAllByNameIgnoreCaseContaining(filter);
+    }
+    @GetMapping(path="/find")
+    public @ResponseBody
+    T get(@RequestParam UUID id) {
 
         T entity = repository.findById(id).get();
         return entity;
 
     }
-    @GetMapping(path="/new")
+    @GetMapping(path="/getNew")
     public abstract  @ResponseBody
     T getnew();
-    @PutMapping(path="")
+    @PutMapping(path="/update")
     public @ResponseBody
     BaseCrudResponse<T> update(@RequestBody T entity) {
 
@@ -58,15 +60,15 @@ public abstract class BaseCrudController<T extends Entity, R extends BaseReposit
         return response;
     }
 
-    @PostMapping(path="")
+    @PostMapping(path="/create")
     public @ResponseBody
     BaseCrudResponse<T> add(@RequestBody T entity) {
 
         return saveAndGetWeaponBaseCrudResponse(entity);
     }
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping(path="/delete")
     public @ResponseBody
-    BaseCrudResponse<T> delete(@PathVariable UUID id) {
+    BaseCrudResponse<T> delete(@RequestParam UUID id) {
 
         T entity = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();

@@ -1,13 +1,13 @@
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import {LOH_API} from '../loh.api';
-import {BaseCrudServiceComponent} from '../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../shared/legacy-base-service/legacy-base-crud-service.component';
 import {Power} from '../shared/models/Power.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PowersService extends  BaseCrudServiceComponent<Power> {
+export class PowersService extends  LegacyBaseCrudServiceComponent<Power> {
 
   path = 'powers';
 

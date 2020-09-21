@@ -21,7 +21,7 @@ public class LohUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(username);
         if (user != null) {
             Player player = playerRepository.findById(user.getId()).get();
-            return new LohUserDetails(user.getUserName(), user.getEmail(), user.getPassword(), user.getId(), player.getCampaignId(), new ArrayList<>());
+            return new LohUserDetails(user.getUserName(), user.getEmail(), user.getPassword(), user.getId(), new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

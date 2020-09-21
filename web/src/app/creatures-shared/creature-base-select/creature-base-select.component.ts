@@ -7,7 +7,7 @@ import {Creature} from '../../shared/models/creatures/Creature.model';
 import {BaseEntityService} from '../../shared/base-entity-service';
 import {CombatManagementService} from '../../combat/combat-management.service';
 import {Combat} from '../../shared/models/combat/Combat.model';
-import {BaseCrudServiceComponent} from '../../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../../shared/legacy-base-service/legacy-base-crud-service.component';
 import {BaseCombatCreatureService} from '../interfaces/baseCombatCreatureService';
 
 @Component({
@@ -60,6 +60,6 @@ export class CreatureBaseSelectComponent implements OnInit, OnDestroy {
   }
 
   get isCurrentOnInitiative() {
-    return this.currentCreatureOnInitiativeId === this.creature.id;
+    return this.currentCreatureOnInitiativeId === this.creature.id || false;
   }
 }

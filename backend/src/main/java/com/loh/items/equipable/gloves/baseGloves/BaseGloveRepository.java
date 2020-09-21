@@ -1,7 +1,7 @@
 package com.loh.items.equipable.gloves.baseGloves;
 
-import com.loh.shared.BaseRepository;
+import com.loh.shared.LegacyBaseRepository;
 
-public interface BaseGloveRepository extends BaseRepository<BaseGlove> {
+public interface BaseGloveRepository extends LegacyBaseRepository<BaseGlove> {
     BaseGlove getByNameAndSystemDefaultTrue(String name);
 }

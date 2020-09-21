@@ -10,7 +10,7 @@ import com.loh.context.Player;
 import com.loh.context.PlayerRepository;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.heroes.HeroRepository;
-import com.loh.shared.BaseCrudController;
+import com.loh.shared.LegacyBaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/campaigns",  produces = "application/json; charset=UTF-8")
-public class CampaignController extends BaseCrudController<Campaign> {
+public class CampaignController extends LegacyBaseCrudController<Campaign> {
 
 	@Autowired
 	PlayerRepository playerRepository;
@@ -211,14 +211,6 @@ public class CampaignController extends BaseCrudController<Campaign> {
         Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
         return output;
     }
-	@GetMapping(path = "/{campaignId}/heroes/list")
-    public @ResponseBody
-    Page<Hero> getCampaignHeroes(@PathVariable UUID campaignId) {
-        Page<com.loh.combat.Combat> combats = combatRepository.getAll(campaignId);
-        Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
-        return output;
-    }
-
 
 	private Specification<Campaign> campaignFromPlayer(UUID playerId) {
 		if (playerId == null) {
