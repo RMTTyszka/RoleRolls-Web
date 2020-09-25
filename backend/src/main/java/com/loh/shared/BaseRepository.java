@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @NoRepositoryBean
 public interface BaseRepository<T extends Entity> extends PagingAndSortingRepository<T, UUID>, JpaSpecificationExecutor<T> {
+    @Override
+    boolean existsById(UUID uuid);
 }

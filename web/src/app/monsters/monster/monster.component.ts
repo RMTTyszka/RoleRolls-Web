@@ -1,11 +1,13 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
+import {LegacyBaseCreatorComponent} from '../../shared/base-creator/legacy-base-creator.component';
 import {Monster} from '../../shared/models/Monster.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MonsterBaseSelectorComponent} from '../monsters-shared/monster-model-selector/monster-model-selector.component';
 import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
 import {MonsterService} from './monster.service';
 import {Bonus} from 'src/app/shared/models/Bonus.model';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
 
 @Component({
   selector: 'loh-monster',
@@ -17,13 +19,13 @@ export class MonsterComponent extends BaseCreatorComponent<Monster> implements O
   skills: string[];
   constructor(
     injector: Injector,
-    protected dialogRef: MatDialogRef<MonsterComponent>,
+    protected dialogRef: DynamicDialogRef,
     protected service: MonsterService,
-    @Inject(MAT_DIALOG_DATA) data: any
+    data: DynamicDialogConfig
   ) {
-    super(injector, service);
+    super(injector);
    // this.service = injector.get(MonstersService);
-    this.entity = data || new Monster();
+    this.entity = data.data || new Monster();
   }
   ngOnInit() {
     this.attributes = this.dataService.attributes;
@@ -37,8 +39,8 @@ export class MonsterComponent extends BaseCreatorComponent<Monster> implements O
   }
 
   selectMonsterBase() {
-    const dialogRef = this.dialog.open(MonsterBaseSelectorComponent);
-    dialogRef.afterClosed().subscribe((monsterBase: MonsterModel) => {
+    const dialogRef = this.dialog.open(MonsterBaseSelectorComponent, {});
+    dialogRef.onClose.subscribe((monsterBase: MonsterModel) => {
       console.log(monsterBase);
 
       this.form.get('monsterBase').patchValue(monsterBase);

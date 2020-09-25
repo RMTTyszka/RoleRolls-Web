@@ -30,7 +30,7 @@ public class MonstersController extends BaseCrudController<Monster, MonsterRepos
 
     @Override
     public Monster getnew() {
-        return null;
+        return new Monster();
     }
     @Override
     public Page<Monster> filteredQuery(String filter, Pageable paged) {

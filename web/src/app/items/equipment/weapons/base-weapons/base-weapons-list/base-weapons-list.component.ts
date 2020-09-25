@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseWeaponService} from '../base-weapon.service';
 import {BaseWeapon} from 'src/app/shared/models/BaseWeapon.model';
 import {BaseWeaponsEditorComponent} from '../base-weapons-editor/base-weapons-editor.component';
-import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {EditorAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
 
@@ -13,7 +13,7 @@ import {EditorAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData
   providers: [DialogService]
 })
 export class BaseWeaponsListComponent implements OnInit {
-  columns: CmColumns[] = [
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'

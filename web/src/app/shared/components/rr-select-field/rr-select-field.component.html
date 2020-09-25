@@ -1,0 +1,4 @@
+  <div *ngIf="!formControlName" class="ui-inputgroup">
+    <input type="text" pInputText [placeholder]="placeHolder" readonly [(ngModel)]="value">
+    <span class="ui-inputgroup-addon" (click)="open()"><i class="pi pi-tags" style="line-height: 1.25;" ></i></span>
+  </div>

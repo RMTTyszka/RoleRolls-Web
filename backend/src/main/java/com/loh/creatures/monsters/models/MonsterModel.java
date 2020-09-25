@@ -1,4 +1,4 @@
-package com.loh.creatures.monsters;
+package com.loh.creatures.monsters.models;
 
 import com.loh.adventures.Enviroment;
 import com.loh.creatures.Attributes;
@@ -8,14 +8,22 @@ import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.w3c.dom.Attr;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class MonsterBase extends DefaultEntity {
-	
+public class MonsterModel extends DefaultEntity {
+
+	public MonsterModel() {
+	}
+
+	public MonsterModel(Race race, Role role, Attr attributes) {
+	}
+
+
 	private String name;
 	@Getter
 	@Setter

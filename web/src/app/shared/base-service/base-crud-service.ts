@@ -6,10 +6,16 @@ import {LOH_API} from '../../loh.api';
 import {PagedOutput} from '../dtos/PagedOutput';
 import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
+import {RRColumns} from '../components/cm-grid/cm-grid.component';
 
 export abstract class BaseCrudService<T extends Entity> implements OnInit {
 
-  abstract path: string;
+  public abstract path: string;
+  public abstract selectPlaceholder: string;
+  public abstract fieldName: string;
+  public abstract selectModalTitle: string;
+  public abstract modalSelectColumns: RRColumns[];
+
   serverUrl = LOH_API.myBackUrl;
   entityUpdated = new Subject<T>();
   entityDeleted = new Subject<T>();
@@ -35,6 +41,9 @@ export abstract class BaseCrudService<T extends Entity> implements OnInit {
 
   get(id: string): Observable<T> {
     return this.http.get<T>(this.serverUrl + this.path + `/${id}`);
+  }
+  getNew(): Observable<T> {
+    return this.http.get<T>(this.serverUrl + this.path + `/new`);
   }
 
   create(entity: T): Observable<BaseCrudResponse<T>> {

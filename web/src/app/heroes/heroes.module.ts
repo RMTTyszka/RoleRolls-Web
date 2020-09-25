@@ -14,7 +14,7 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {TooltipModule} from 'primeng/tooltip';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
-import {EquipmentComponent} from './equipment/equipment.component';
+import {EquipmentComponent} from '../creatures-shared/equipment/equipment.component';
 import {ArmorSharedModule} from '../items/equipment/armor/armors/armor-shared/armor-shared.module';
 import {FieldsetModule} from 'primeng/fieldset';
 import {HeroStatsComponent} from './hero-stats/hero-stats.component';
@@ -49,7 +49,10 @@ const routes: Routes = [
         CreaturesSharedModule,
         ShopModule
     ],
-  declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, EquipmentComponent, HeroStatsComponent, InventoryComponent, HeroFundsComponent, HeroCreateComponent],
-  entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent, HeroCreateComponent]
+    declarations: [HeroesListComponent, HeroesEditorComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, HeroStatsComponent, InventoryComponent, HeroFundsComponent, HeroCreateComponent],
+  exports: [
+    HeroStatsComponent
+  ],
+    entryComponents: [HeroesGatewayComponent, HeroesEditorComponent, NewHeroEditorComponent, HeroCreateComponent]
 })
 export class HeroesModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Player} from '../../shared/models/Player.model';
-import {CmColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 import {PlayersService} from '../../players/players.service';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CampaignsService} from '../campaigns.service';
@@ -12,7 +12,7 @@ import {CampaignsService} from '../campaigns.service';
 })
 export class CampaignPlayerSelectComponent implements OnInit {
   players: Player[] = [];
-  cols: CmColumns[];
+  cols: RRColumns[];
   campaignId: string;
   constructor(
     private service: CampaignsService,

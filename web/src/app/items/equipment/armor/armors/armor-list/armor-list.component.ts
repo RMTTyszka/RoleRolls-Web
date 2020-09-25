@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {ArmorEditorComponent} from '../armor-editor/armor-editor.component';
@@ -13,7 +13,7 @@ import {ArmorModel} from 'src/app/shared/models/items/ArmorModel.model';
   providers: [DialogService]
 })
 export class ArmorListComponent implements OnInit {
-  columns: CmColumns[] = [
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'

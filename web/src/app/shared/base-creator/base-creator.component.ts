@@ -1,11 +1,11 @@
 import {Injector, OnDestroy, OnInit} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Subscription} from 'rxjs';
 import {DataService} from '../data.service';
-import {BaseEntityService} from '../base-entity-service';
 import {Router} from '@angular/router';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {BaseCrudService} from '../base-service/base-crud-service';
 
 export interface IEditorInput<T> {
   entity: T;
@@ -20,17 +20,17 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
   fb: FormBuilder;
   router: Router;
 
+  protected service: BaseCrudService<T>;
   myService: string;
   protected dataService: DataService;
 
-  protected dialog: MatDialog;
-  protected dialogRef: MatDialogRef<BaseCreatorComponent<T>>;
+  protected dialog: DialogService;
+  protected dialogRef: DynamicDialogRef;
   protected entitySubscription: Subscription;
   constructor(
     protected injector: Injector,
-    protected service: BaseEntityService<T>
     ) {
-      this.dialog = injector.get(MatDialog);
+      this.dialog = injector.get(DialogService);
       this.dataService = injector.get(DataService);
       this.fb = injector.get(FormBuilder);
       this.router = injector.get(Router);
@@ -44,7 +44,7 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
 
     if (id) {
       this.action = 'update';
-      this.service.getEntity(id).subscribe(entity => {
+      this.service.get(id).subscribe(entity => {
 
         this.entity = entity;
         console.log(JSON.stringify(this.entity));
@@ -56,7 +56,9 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
         this.afterGetEntity();
       });
     } else {
-      this.entity = new this.service.type();
+      this.service.getNew().subscribe(newEntity => {
+        this.entity = newEntity;
+      });
       console.log(JSON.stringify(this.entity));
       this.createForm(this.form, this.entity);
       this.isLoading = false;
@@ -118,7 +120,7 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
     }
   }
   delete() {
-    this.service.delete(this.entity).subscribe(resp => {
+    this.service.delete(this.entity.id).subscribe(resp => {
       this.dialogRef.close();
     });
   }

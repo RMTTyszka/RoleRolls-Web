@@ -1,0 +1,14 @@
+<form form [formGroup]="form" *ngIf="hasLoaded">
+  <div class="p-field p-grid">
+    <label for="name" class="p-col-fixed">Name</label>
+    <div class="p-col">
+      <input id="name" type="text" pInputText formControlName="name">
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label for="name" class="p-col-fixed">Name</label>
+    <div class="p-col">
+      <loh-rr-select-field id="model" [service]="monsterModelService"></loh-rr-select-field>
+    </div>
+  </div>
+</form>

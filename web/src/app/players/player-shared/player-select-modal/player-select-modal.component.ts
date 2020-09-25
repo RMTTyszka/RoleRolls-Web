@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PlayersService} from '../../players.service';
 import {Player} from '../../../shared/models/Player.model';
-import {CmColumns} from '../../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../../shared/components/cm-grid/cm-grid.component';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
@@ -11,7 +11,7 @@ import {DynamicDialogRef} from 'primeng/dynamicdialog';
 })
 export class PlayerSelectModalComponent implements OnInit {
   players: Player[] = [];
-  cols: CmColumns[];
+  cols: RRColumns[];
   constructor(
     private service: PlayersService,
     private dynamicDialogRef: DynamicDialogRef

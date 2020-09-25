@@ -1,30 +1,33 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {BaseListComponent} from 'src/app/shared/base-list/base-list.component';
+import {LegacyBaseListComponent} from 'src/app/shared/base-list/legacy-base-list.component';
 import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
 import {MonsterModelComponent} from '../monster-model-editor/monster-model.component';
 import {Router} from '@angular/router';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {MonstersBaseService} from '../monsters-base.service';
+import {LegacyMonstersBaseService} from '../legacy-monsters-base.service';
+import {MonsterModelsService} from '../monster-models.service';
+import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-monster-model-list',
   templateUrl: './monster-model-list.component.html',
-  styleUrls: ['./monster-model-list.component.css']
+  styleUrls: ['./monster-model-list.component.css'],
+  providers: [DialogService]
 })
-export class MonsterBaseListComponent extends BaseListComponent<MonsterModel> implements OnInit {
+export class MonsterBaseListComponent implements OnInit {
 
   constructor(
     injector: Injector,
-    protected service: MonstersBaseService,
+    protected service: MonsterModelsService,
+    protected dialog: DialogService,
     protected router: Router,
-    private deviceDetector: DeviceDetectorService
   ) {
-    super(injector, service);
-    this.editor = MonsterModelComponent;
    }
 
   ngOnInit() {
-    this.getAll();
+  }
+  create = () => {
+    this.dialog.open(MonsterModelComponent, {}).onClose.subscribe();
   }
 
   //   this.service.changeEntity(monsterBase);

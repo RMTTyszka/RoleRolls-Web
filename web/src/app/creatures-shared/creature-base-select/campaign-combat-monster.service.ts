@@ -17,7 +17,7 @@ import {PagedOutput} from '../../shared/dtos/PagedOutput';
 export class CampaignCombatMonsterService implements BaseCombatCreatureService<Monster> {
   onEntityChange = new Subject<Monster>();
   getEntitiesForSelect(filter: string, skipCount?: number, maxResultCount?: number): Observable<Monster[]> {
-    return this.monsterService.list(filter, skipCount, maxResultCount).pipe(map((pagedResult: PagedOutput) => pagedResult.content));
+    return this.monsterService.list(filter, skipCount, maxResultCount).pipe(map((pagedResult: PagedOutput<Monster>) => pagedResult.content));
   }
 
 

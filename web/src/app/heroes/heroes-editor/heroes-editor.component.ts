@@ -1,5 +1,5 @@
 import {Component, Inject, Injector, OnDestroy, OnInit} from '@angular/core';
-import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-base-creator.component';
 import {HeroesService} from '../heroes.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DataService} from 'src/app/shared/data.service';
@@ -15,7 +15,7 @@ import {Hero} from '../../shared/models/NewHero.model';
   templateUrl: './heroes-editor.component.html',
   styleUrls: ['./heroes-editor.component.scss']
 })
-export class HeroesEditorComponent extends BaseCreatorComponent<Hero> implements OnInit, OnDestroy {
+export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> implements OnInit {
   attributes: string[] = [];
   skills: string[] = [];
   totalInitialAttributePoints: number;

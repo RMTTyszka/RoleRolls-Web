@@ -1,0 +1,47 @@
+<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true"
+         (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
+>
+  <ng-template pTemplate="caption" >
+    <div class="p-grid p-nogutter p-justify-between">
+      <div class="p-col-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-search"></i></span>
+          <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+      </div>
+      <div class="p-grid p-justify-end p-align-center p-nogutter">
+        <div class="p-col">
+          <button *ngIf="create" pButton type="button" icon="pi pi-plus" class="ui-button-secondary" (click)="create()"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+<!--      <th *ngFor="let column of columns">
+        <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
+      </th>-->
+    </tr>
+    <tr>
+      <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-entity>
+    <tr [pSelectableRow]="entity">
+      <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft" let-state>
+    {{state.first}}
+  </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <span>Records: {{totalCount}}</span>
+  </ng-template>
+  <!--  <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length">
+          No records found
+        </td>
+      </tr>
+    </ng-template>-->
+</p-table>

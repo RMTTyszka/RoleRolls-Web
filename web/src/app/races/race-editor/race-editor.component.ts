@@ -1,5 +1,5 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
+import {LegacyBaseCreatorComponent} from '../../shared/base-creator/legacy-base-creator.component';
 import {Race} from '../../shared/models/Race.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Bonus} from 'src/app/shared/models/Bonus.model';
@@ -17,7 +17,7 @@ import {PowerSelectorComponent} from 'src/app/powers/powers-shared/power-selecto
   templateUrl: './race-editor.component.html',
   styleUrls: ['./race-editor.component.css']
 })
-export class RaceEditorComponent extends BaseCreatorComponent<Race> implements OnInit {
+export class RaceEditorComponent extends LegacyBaseCreatorComponent<Race> implements OnInit {
 
   powers: FormArray;
   constructor(

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Player} from '../../../shared/models/Player.model';
-import {CmColumns} from '../../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../../shared/components/cm-grid/cm-grid.component';
 import {CampaignsService} from '../../../campaign/campaigns.service';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Hero} from '../../../shared/models/NewHero.model';
@@ -13,7 +13,7 @@ import {HeroesService} from '../../heroes.service';
 })
 export class HeroesSelectModalComponent implements OnInit {
   heroes: Hero[] = [];
-  cols: CmColumns[];
+  cols: RRColumns[];
   campaignId: string;
   constructor(
     private service: HeroesService,

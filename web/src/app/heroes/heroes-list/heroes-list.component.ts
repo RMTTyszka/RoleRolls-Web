@@ -1,5 +1,5 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {BaseListComponent} from 'src/app/shared/base-list/base-list.component';
+import {LegacyBaseListComponent} from 'src/app/shared/base-list/legacy-base-list.component';
 import {HeroesEditorComponent} from '../heroes-editor/heroes-editor.component';
 import {DataService} from 'src/app/shared/data.service';
 import {Router} from '@angular/router';
@@ -16,7 +16,7 @@ import {HeroCreateComponent} from '../hero-create/hero-create.component';
   styleUrls: ['./heroes-list.component.css'],
   providers: [DialogService]
 })
-export class HeroesListComponent extends BaseListComponent<Hero> implements OnInit {
+export class HeroesListComponent extends LegacyBaseListComponent<Hero> implements OnInit {
 
   constructor(
     injector: Injector,

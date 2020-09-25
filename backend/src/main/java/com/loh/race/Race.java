@@ -3,6 +3,8 @@ package com.loh.race;
 import com.loh.powers.Power;
 import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -16,7 +18,10 @@ import java.util.Optional;
 public class Race extends DefaultEntity {
 	
 	private String name;
-	
+
+	@Getter	@Setter
+	private RaceType raceType;
+
 	@ElementCollection
 	@CollectionTable()
 	private List<Bonus> bonuses;
@@ -69,11 +74,12 @@ public class Race extends DefaultEntity {
 		traits = new ArrayList<String>();
 	}
 
-	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits) {
+	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits, RaceType raceType) {
 		this.name = name;
 		this.bonuses = bonuses;
 		this.powers = powers;
 		this.traits = traits;
+		this.raceType = raceType;
 		this.setSystemDefault(true);
 	}
 

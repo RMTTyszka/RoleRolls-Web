@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CmColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {WeaponModelService} from '../weapon-model.service';
 import {EditorAction, ModalEntityData} from 'src/app/shared/dtos/ModalEntityData';
@@ -13,7 +13,7 @@ import {WeaponModelEditorComponent} from '../weapon-model-editor/weapon-model-ed
   providers: [DialogService]
 })
 export class WeaponModelListComponent implements OnInit {
-  columns: CmColumns[] = [
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'

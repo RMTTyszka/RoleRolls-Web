@@ -12,6 +12,11 @@ import {RolesSharedModule} from '../roles/roles-shared/roles-shared.module';
 import {MonstersSharedModule} from './monsters-shared/monsters-shared.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MonsterBaseService} from './monsters-bases/monster-model-editor/monster-model.service';
+import {ToolbarModule} from 'primeng/toolbar';
+import {HeroesModule} from '../heroes/heroes.module';
+import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
+import { MonsterCreateComponent } from './monster-create/monster-create.component';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 
 const routes: Routes = [
@@ -29,16 +34,19 @@ const routes: Routes = [
 
     RaceSharedModule,
     RolesSharedModule,
-    MonstersSharedModule
+    MonstersSharedModule,
+    ToolbarModule,
+    CreaturesSharedModule,
+    DynamicDialogModule
 
   ],
-  declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent],
+  declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent, MonsterCreateComponent],
   providers: [
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {}}
   ],
   entryComponents: [
-    MonsterComponent, MonsterModelComponent
+    MonsterComponent, MonsterModelComponent, MonsterCreateComponent
   ]
 })
 export class MonstersModule { }

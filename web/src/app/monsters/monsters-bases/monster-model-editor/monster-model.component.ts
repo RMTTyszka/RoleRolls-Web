@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Subscription} from 'rxjs';
 import {RaceModalSelectorComponent} from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
 import {RolesSelectModalComponent} from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
-import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-base-creator.component';
 import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
 import {Race} from 'src/app/shared/models/Race.model';
 import {Role} from 'src/app/shared/models/Role.model';
@@ -15,7 +15,7 @@ import {MonsterBaseService} from './monster-model.service';
   templateUrl: './monster-model.component.html',
   styleUrls: ['./monster-model.component.css']
 })
-export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel>
+export class MonsterModelComponent extends LegacyBaseCreatorComponent<MonsterModel>
   implements OnInit, OnDestroy  {
   totalPointsAttributes: number;
   totalPointsSkills: number;
@@ -65,7 +65,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel>
     this.maxPropertyValue = this.dataService.maxPropertyValue;
     this.maxSKillValue = this.dataService.maxSkillValue;
     this.totalPointsAttributes = this.dataService.maxAttributes;
-    this.totalPointsSkills = this.entity.role.skillPoints || 6;
+    this.totalPointsSkills = this.entity.role.skillPoints || 3;
     this.isLoading = false;
   }
   selectRace() {

@@ -5,6 +5,7 @@ import com.loh.creatures.Creature;
 import com.loh.creatures.CreatureType;
 import com.loh.creatures.equipment.Equipment;
 import com.loh.creatures.inventory.Inventory;
+import com.loh.creatures.monsters.models.MonsterModel;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class Monster extends Creature {
     @OneToOne
     @Getter
     @Setter
-    private MonsterBase monsterBase;
+    private MonsterModel monsterModel;
     @Override
     protected CreatureType getCreatureType() {
         return CreatureType.Monster;
@@ -31,11 +32,8 @@ public class Monster extends Creature {
         super();
         id = UUID.randomUUID();
         level = 1;
-        baseAttributes = new Attributes(8);
-        bonusAttributes = new Attributes();
         name = "new monster";
-        equipment = new Equipment();
-        inventory = new Inventory();
+        monsterModel = new MonsterModel();
     }
     public Monster(String name, Race race, Role role, UUID creatorId, UUID ownerId){
         super();
