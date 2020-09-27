@@ -4,8 +4,8 @@ import {MonsterComponent} from '../monster/monster.component';
 import {Router} from '@angular/router';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
-import {MonsterCrudService} from '../monster-crud.service';
 import {MonsterCreateComponent} from '../monster-create/monster-create.component';
+import {MonsterService} from '../monster/monster.service';
 
 @Component({
   selector: 'loh-monsters-list',
@@ -31,10 +31,8 @@ export class MonstersListComponent implements OnInit {
   ];
 
   constructor(
-    injector: Injector,
     private dialog: DialogService,
-    protected service: MonsterCrudService,
-    protected router: Router
+    public service: MonsterService
   ) {
     }
 

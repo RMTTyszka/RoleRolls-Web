@@ -1,3 +1,4 @@
+/*
 import {Component, Injector, OnInit} from '@angular/core';
 import {Role} from 'src/app/shared/models/Role.model';
 import {LegacyBaseSelectorComponent} from 'src/app/shared/legacy-base-selector/legacy-base-selector.component';
@@ -27,3 +28,4 @@ export class RolesSelectModalComponent extends LegacyBaseSelectorComponent<Role>
   }
 
 }
+*/

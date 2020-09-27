@@ -18,6 +18,11 @@ import java.util.List;
 public class MonsterModel extends DefaultEntity {
 
 	public MonsterModel() {
+		race = new Race();
+		role = new Role();
+		attributes = new Attributes();
+		bonuses = new ArrayList<>();
+		mainSkills = new ArrayList<>();
 	}
 
 	public MonsterModel(Race race, Role role, Attr attributes) {

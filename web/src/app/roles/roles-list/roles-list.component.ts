@@ -9,22 +9,18 @@ import {RolesEditorComponent} from '../roles-editor/roles-editor.component';
   templateUrl: './roles-list.component.html',
   styleUrls: ['./roles-list.component.css']
 })
-export class RolesListComponent extends LegacyBaseListComponent<Role> implements  OnInit {
+export class RolesListComponent implements  OnInit {
 
   constructor(
     injector: Injector,
     protected service: RolesService,
   ) {
-    super(injector, service);
-    this.editor = RolesEditorComponent;
    }
 
   ngOnInit() {
-    this.getAllFiltered();
   }
 
   create() {
-    this.edit(new Role());
   }
 
 }

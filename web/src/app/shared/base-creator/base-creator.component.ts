@@ -58,14 +58,13 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
     } else {
       this.service.getNew().subscribe(newEntity => {
         this.entity = newEntity;
+        console.log(JSON.stringify(this.entity));
+        this.createForm(this.form, this.entity);
+        this.isLoading = false;
+        this.entityIsLoading = false;
+        console.log(this.form.value);
+        this.afterGetEntity();
       });
-      console.log(JSON.stringify(this.entity));
-      this.createForm(this.form, this.entity);
-      this.isLoading = false;
-      this.entityIsLoading = false;
-      console.log(this.form.value);
-
-      this.afterGetEntity();
     }
   }
 

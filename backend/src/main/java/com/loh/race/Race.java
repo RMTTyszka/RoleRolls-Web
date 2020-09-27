@@ -1,5 +1,6 @@
 package com.loh.race;
 
+import com.loh.creatures.CreatureType;
 import com.loh.powers.Power;
 import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
@@ -20,7 +21,7 @@ public class Race extends DefaultEntity {
 	private String name;
 
 	@Getter	@Setter
-	private RaceType raceType;
+	private CreatureType creatureType;
 
 	@ElementCollection
 	@CollectionTable()
@@ -74,12 +75,12 @@ public class Race extends DefaultEntity {
 		traits = new ArrayList<String>();
 	}
 
-	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits, RaceType raceType) {
+	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits, CreatureType creatureType) {
 		this.name = name;
 		this.bonuses = bonuses;
 		this.powers = powers;
 		this.traits = traits;
-		this.raceType = raceType;
+		this.creatureType = creatureType;
 		this.setSystemDefault(true);
 	}
 

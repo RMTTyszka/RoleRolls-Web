@@ -1,13 +1,9 @@
 import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {LegacyBaseCreatorComponent} from '../../shared/base-creator/legacy-base-creator.component';
-import {Hero} from '../../shared/models/NewHero.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {HeroesService} from '../../heroes/heroes.service';
 import {DataService} from '../../shared/data.service';
-import {RaceModalSelectorComponent} from '../../races/shared/race-modal-selector/race-modal-selector.component';
 import {Race} from '../../shared/models/Race.model';
 import {FormGroup} from '@angular/forms';
-import {RolesSelectModalComponent} from '../../roles/roles-shared/roles-select-modal/roles-select-modal.component';
 import {Bonus} from '../../shared/models/Bonus.model';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -76,7 +72,7 @@ export class CreatureEditorComponent<T extends Creature> extends BaseCreatorComp
     if (this.action === 'edit') {
       return;
     }
-    this.dialog.open(RaceModalSelectorComponent, {}).onClose.subscribe((race: Race) => {
+    this.dialog.open(null, {}).onClose.subscribe((race: Race) => {
       if (!race) {
         return;
       }
@@ -91,7 +87,7 @@ export class CreatureEditorComponent<T extends Creature> extends BaseCreatorComp
     if (this.action === 'edit') {
       return;
     }
-    this.dialog.open(RolesSelectModalComponent, {}).onClose.subscribe(role => {
+    this.dialog.open(null, {}).onClose.subscribe(role => {
       if (!role) {
         return;
       }

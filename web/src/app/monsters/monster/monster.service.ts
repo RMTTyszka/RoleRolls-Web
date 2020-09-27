@@ -8,8 +8,15 @@ import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
   providedIn: 'root'
 })
 export class MonsterService extends BaseCrudService<Monster> {
+  editorModal: any;
+  entityListColumns: RRColumns[] = [
+    {
+      header: 'Monster',
+      property: 'name'
+    }
+  ];
   fieldName: string;
-  modalSelectColumns: RRColumns[] = [
+  selectModalColumns: RRColumns[] = [
     {
       header: 'Monster',
       property: 'name'

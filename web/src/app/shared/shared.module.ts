@@ -28,7 +28,7 @@ import {CmEditorComponent} from './components/cm-editor/cm-editor.component';
 import {ToastModule} from 'primeng/toast';
 import {AttributeSelectComponent} from './attribute-select/attribute-select.component';
 import {DropdownModule} from 'primeng/dropdown';
-import {RrGridComponent} from './components/rr-grid/rr-grid.component';
+import {RRGridComponent} from './components/rr-grid/r-r-grid.component';
 import { RrSelectFieldComponent } from './components/rr-select-field/rr-select-field.component';
 import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-modal.component';
 
@@ -66,7 +66,7 @@ import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-m
     EditorModalComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
-    RrGridComponent,
+    RRGridComponent,
     CmEditorComponent,
     AttributeSelectComponent,
     RrSelectFieldComponent,
@@ -107,7 +107,7 @@ import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-m
     CmGridComponent,
     CmEditorComponent,
     AttributeSelectComponent,
-    RrGridComponent,
+    RRGridComponent,
     RrSelectFieldComponent
   ],
   providers: [

@@ -3,23 +3,29 @@ import {BaseEntityService} from '../../base-entity-service';
 import {Entity} from '../../models/Entity.model';
 import {LazyLoadEvent} from 'primeng/api';
 import {BaseCrudService} from '../../base-service/base-crud-service';
+import {DialogService} from 'primeng/dynamicdialog';
+import {BaseComponentConfig} from '../base-component-config';
 
 @Component({
   selector: 'loh-rr-grid',
-  templateUrl: './rr-grid.component.html',
-  styleUrls: ['./rr-grid.component.css']
+  templateUrl: './r-r-grid.component.html',
+  styleUrls: ['./r-r-grid.component.css'],
+  providers: [DialogService]
 })
-export class RrGridComponent<T extends Entity> implements OnInit {
+export class RRGridComponent<T extends Entity> implements OnInit {
   data: T[] = [];
-  @Input() columns: CmColumns[];
+  @Input() columns: RRColumns[];
   @Input() service: BaseCrudService<T>;
   @Input() create: Function;
+  @Input() config: BaseComponentConfig;
   totalCount: number;
   loading = true;
   first = 0;
 
   @Output() rowSelectedEvent = new EventEmitter<T>();
-  constructor() { }
+  constructor(
+    private dialogService: DialogService
+  ) { }
 
   ngOnInit() {
     this.service.entityUpdated.subscribe(entity => this.updateData(entity));
@@ -56,14 +62,20 @@ export class RrGridComponent<T extends Entity> implements OnInit {
     this.get('', event.first / event.rows, event.rows);
   }
 
-  rowSelected(event: any) {
+  rowSelected(event: {data: T}) {
     this.rowSelectedEvent.emit(event.data);
+      this.dialogService.open(this.config.editor, {
+        data: {
+          entityId: event.data.id
+        }
+      })
+        .onClose.subscribe();
   }
 
 
 }
 
-export interface CmColumns {
+export interface RRColumns {
   header: string;
   property: string;
 }

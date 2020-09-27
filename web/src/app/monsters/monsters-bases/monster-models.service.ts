@@ -2,16 +2,24 @@ import {Injectable, Injector} from '@angular/core';
 import {BaseCrudService} from '../../shared/base-service/base-crud-service';
 import {MonsterModel} from '../../shared/models/MonsterModel.model';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {MonsterModelComponent} from './monster-model-editor/monster-model.component';
+import {MonsterModelConfig} from './monster-model-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonsterModelsService extends BaseCrudService<MonsterModel> {
-  fieldName = 'name';
-  modalSelectColumns: RRColumns[] = [
+  entityListColumns: RRColumns[] = [
     {
       header: 'Name',
-      property: 'Name'
+      property: 'name'
+    }
+  ];
+  fieldName = 'name';
+  selectModalColumns: RRColumns[] = [
+    {
+      header: 'Name',
+      property: 'name'
     }
   ];
   path = 'monsters/model';

@@ -4,6 +4,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {Entity} from '../../models/Entity.model';
 import {RrSelectModalComponent} from '../rr-select-modal/rr-select-modal.component';
+import {createForm} from '../../EditorExtension';
 
 export interface RRSelectModalInjector<T extends Entity> {
   service: BaseCrudService<T>;
@@ -19,6 +20,7 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
 
   @Input() service: BaseCrudService<T>;
   @Input() formControlName: string;
+  @Input() initialValue: any;
 
   @Output() entitySelected = new EventEmitter<T>();
   placeHolder: string;
@@ -38,6 +40,9 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
     this.placeHolder = this.service.selectPlaceholder;
     this.fieldName = this.service.fieldName;
     this.modalTitle = this.service.selectModalTitle;
+    if (this.initialValue) {
+      this.value = this.formControlName ? this.initialValue : this.initialValue[this.fieldName];
+    }
   }
 
   open() {
@@ -50,7 +55,10 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
         this.entitySelected.next(entity);
         if (!this.formControlName) {
           this.value = entity[this.fieldName];
+        } else {
+          this.form.get(this.formControlName).setValue(createForm(new FormGroup({}), entity));
         }
+        this.entitySelected.next(entity);
       }
     });
   }

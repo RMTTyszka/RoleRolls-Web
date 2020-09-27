@@ -9,25 +9,17 @@ import {Race} from '../../shared/models/Race.model';
   templateUrl: './races.component.html',
   styleUrls: ['./races.component.css']
 })
-export class RacesComponent extends LegacyBaseListComponent<Race> implements OnInit {
-
-  columnsToDisplay = ['id', 'name', 'power', 'traits', 'actions'];
+export class RacesComponent  implements OnInit {
 
   constructor(
-    injector: Injector,
-    protected service: RacesService,
+    public service: RacesService
   ) {
-    super(injector, service);
-    this.editor = RaceEditorComponent;
+
   }
 
   ngOnInit() {
-    this.getAllFiltered();
   }
 
-  create() {
-    this.edit(new Race());
-  }
 
 
 

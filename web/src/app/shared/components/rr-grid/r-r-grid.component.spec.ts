@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {RaceModalSelectorComponent} from './race-modal-selector.component';
+import {RRGridComponent} from './r-r-grid.component';
 
-describe('RaceSelectorComponent', () => {
-  let component: RaceModalSelectorComponent;
-  let fixture: ComponentFixture<RaceModalSelectorComponent>;
+describe('CbGridComponent', () => {
+  let component: RRGridComponent;
+  let fixture: ComponentFixture<RRGridComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RaceModalSelectorComponent ]
+      declarations: [ RRGridComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RaceModalSelectorComponent);
+    fixture = TestBed.createComponent(RRGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

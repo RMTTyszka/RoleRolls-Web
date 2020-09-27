@@ -7,6 +7,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import {LegacyMonstersBaseService} from '../legacy-monsters-base.service';
 import {MonsterModelsService} from '../monster-models.service';
 import {DialogService} from 'primeng/dynamicdialog';
+import {MonsterModelConfig} from '../monster-model-config';
 
 @Component({
   selector: 'loh-monster-model-list',
@@ -15,9 +16,8 @@ import {DialogService} from 'primeng/dynamicdialog';
   providers: [DialogService]
 })
 export class MonsterBaseListComponent implements OnInit {
-
+  config = new MonsterModelConfig();
   constructor(
-    injector: Injector,
     protected service: MonsterModelsService,
     protected dialog: DialogService,
     protected router: Router,

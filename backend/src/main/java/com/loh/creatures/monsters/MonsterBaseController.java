@@ -19,6 +19,6 @@ public class MonsterBaseController extends BaseCrudController<MonsterModel, Mons
 
 	@Override
 	public MonsterModel getnew() {
-		return null;
+		return new MonsterModel();
 	}
 }

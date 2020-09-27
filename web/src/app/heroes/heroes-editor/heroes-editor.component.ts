@@ -3,19 +3,20 @@ import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-bas
 import {HeroesService} from '../heroes.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DataService} from 'src/app/shared/data.service';
-import {RaceModalSelectorComponent} from 'src/app/races/shared/race-modal-selector/race-modal-selector.component';
-import {RolesSelectModalComponent} from 'src/app/roles/roles-shared/roles-select-modal/roles-select-modal.component';
 import {FormGroup} from '@angular/forms';
 import {Race} from 'src/app/shared/models/Race.model';
 import {Bonus} from 'src/app/shared/models/Bonus.model';
 import {Hero} from '../../shared/models/NewHero.model';
+import {RaceService} from '../../races/race-editor/race.service';
+import {RoleService} from '../../roles/roles-editor/role.service';
+import {Role} from '../../shared/models/Role.model';
 
 @Component({
   selector: 'loh-heroes-editor',
   templateUrl: './heroes-editor.component.html',
   styleUrls: ['./heroes-editor.component.scss']
 })
-export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> implements OnInit {
+export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> implements OnInit, OnDestroy {
   attributes: string[] = [];
   skills: string[] = [];
   totalInitialAttributePoints: number;
@@ -26,6 +27,8 @@ export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> impl
     injector: Injector,
     protected dialogRef: MatDialogRef<HeroesEditorComponent>,
     protected service: HeroesService,
+    protected raceService: RaceService,
+    protected roleService: RoleService,
     protected dataService: DataService,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
@@ -68,11 +71,10 @@ export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> impl
     });
   }
 
-  selectRace() {
+  selectRace(race: Race) {
     if (this.action === 'edit') {
       return;
     }
-    this.dialog.open(RaceModalSelectorComponent).afterClosed().subscribe((race: Race) => {
       if (!race) {
         return;
       }
@@ -81,13 +83,11 @@ export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> impl
       this.createForm(form, race);
       this.form.removeControl('race');
       this.form.addControl('race', form);
-    });
   }
-  selectRole() {
+  selectRole(role: Role) {
     if (this.action === 'edit') {
       return;
     }
-    this.dialog.open(RolesSelectModalComponent).afterClosed().subscribe(role => {
       if (!role) {
         return;
       }
@@ -107,7 +107,6 @@ export class HeroesEditorComponent extends LegacyBaseCreatorComponent<Hero> impl
         this.form.get(propertyCategory + bonus.property).setValue(this.form.get(propertyCategory + bonus.property).value + bonus.bonus);
         }
       });
-    });
   }
 
   get sumAttributesBonusPoints() {

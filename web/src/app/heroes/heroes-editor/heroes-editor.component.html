@@ -20,12 +20,8 @@
       <mat-form-field fxFlex="12.5">
         <input matInput placeholder="Next Level" formControlName="nextLevel">
       </mat-form-field>
-        <mat-form-field fxFlex="33">
-        <input readonly matInput placeholder="Race" [value]="form.get('race').value.name" (click)="selectRace()">
-      </mat-form-field>
-      <mat-form-field fxFlex="33">
-        <input readonly matInput placeholder="Role" [value]="form.get('role').value.name" (click)="selectRole()">
-      </mat-form-field>
+        <loh-rr-select-field [service]="raceService" (entitySelected)="selectRace($event)"></loh-rr-select-field>
+      <loh-rr-select-field [service]="roleService" (entitySelected)="selectRole($event)"></loh-rr-select-field>
       <mat-form-field fxFlex="33">
         <input readonly matInput placeholder="Life" [value]="form.get('maxLife').value">
       </mat-form-field>

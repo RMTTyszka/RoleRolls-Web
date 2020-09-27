@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RolesSelectModalComponent} from './roles-select-modal/roles-select-modal.component';
+// import {RolesSelectModalComponent} from './roles-select-modal/roles-select-modal.component';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {RoleSelectComponent} from './role-select/role-select.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
@@ -12,10 +12,9 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     AutoCompleteModule
   ],
   exports: [
-    RolesSelectModalComponent,
     RoleSelectComponent
   ],
-  declarations: [RolesSelectModalComponent, RoleSelectComponent],
-  entryComponents: [RolesSelectModalComponent]
+  declarations: [RoleSelectComponent],
+  entryComponents: []
 })
 export class RolesSharedModule { }

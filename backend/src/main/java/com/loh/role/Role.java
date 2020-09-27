@@ -1,7 +1,10 @@
 package com.loh.role;
 
+import com.loh.creatures.CreatureType;
 import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class Role extends DefaultEntity {
 	
 
+	@Getter
+	@Setter
+	private CreatureType creatureType;
 	public String getName() {
 		return name;
 	}
@@ -56,10 +62,11 @@ public class Role extends DefaultEntity {
     	skillPoints = 0;
 	}
 
-	public Role(String name, List<Bonus> bonuses, Integer skillPoints) {
+	public Role(String name, List<Bonus> bonuses, Integer skillPoints, CreatureType creatureType) {
 		this.name = name;
 		this.bonuses = bonuses;
 		this.skillPoints = skillPoints;
+		this.creatureType = creatureType;
 		this.setSystemDefault(true);
 	}
 

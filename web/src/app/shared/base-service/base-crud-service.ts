@@ -1,4 +1,4 @@
-import {Injector, OnInit} from '@angular/core';
+import {Injector, OnInit, Type} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Entity} from '../models/Entity.model';
@@ -7,6 +7,7 @@ import {PagedOutput} from '../dtos/PagedOutput';
 import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import {RRColumns} from '../components/cm-grid/cm-grid.component';
+import {BaseComponentConfig} from '../components/base-component-config';
 
 export abstract class BaseCrudService<T extends Entity> implements OnInit {
 
@@ -14,7 +15,8 @@ export abstract class BaseCrudService<T extends Entity> implements OnInit {
   public abstract selectPlaceholder: string;
   public abstract fieldName: string;
   public abstract selectModalTitle: string;
-  public abstract modalSelectColumns: RRColumns[];
+  public abstract selectModalColumns: RRColumns[];
+  public abstract entityListColumns: RRColumns[];
 
   serverUrl = LOH_API.myBackUrl;
   entityUpdated = new Subject<T>();
