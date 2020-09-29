@@ -6,15 +6,16 @@ import {catchError, take, takeUntil} from 'rxjs/operators';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {EditorAction} from '../../dtos/ModalEntityData';
 import {createForm} from '../../EditorExtension';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {BaseCrudResponse} from '../../models/BaseCrudResponse';
+import {BaseCrudService} from '../../base-service/base-crud-service';
 
 @Component({
   selector: 'loh-cm-editor',
   templateUrl: './cm-editor.component.html',
   styleUrls: ['./cm-editor.component.css']
 })
-export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
+export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit, OnDestroy {
 
   private unsubscriber = new Subject<void>();
   private subscriptions: Subscription[] = [];
@@ -25,15 +26,16 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   @Input() hasDelete = true;
   @Input() disableDelete = false;
   @Input() action: EditorAction;
-  @Input() service: BaseEntityService<T>;
+  @Input() service: BaseCrudService<T, TCreateInput>;
   @Input() requiredFields: string[] = [];
   @Input() form: FormGroup;
   @Output() saved = new EventEmitter<T>();
   @Output() deleted = new EventEmitter<T>();
-  @Output() loaded = new EventEmitter<boolean>();
+  @Output() loaded = new EventEmitter<T>();
   constructor(
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
       createForm(this.form, entity, this.requiredFields);
       console.log(this.form);
       this.isLoading = false;
-      this.loaded.emit(true);
+      this.loaded.emit(entity);
     });
     this.service.onEntityChange.pipe(
       take(1)
@@ -67,11 +69,15 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
-  getEntity() {
+  canSave() {
+    return this.form.valid && this.form.dirty && !this.disableSave;
+  }
+
+  getEntity(): Observable<any> {
     if (this.action === EditorAction.create) {
-      return this.service.getNewEntity();
+      return this.service.getNew();
     } else {
-      return this.service.getEntity(this.entityId);
+      return this.service.get(this.entityId);
     }
   }
 
@@ -109,13 +115,13 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
   }
 
   save() {
-    const entity: T = this.form.getRawValue();
     /*console.log(JSON.stringify(entity));*/
-    console.log(entity);
     let subscription: Observable<BaseCrudResponse<T>>;
     if (this.action === EditorAction.create) {
+      const entity: TCreateInput = this.form.getRawValue();
       subscription = this.service.create(entity);
     } else if (this.action === EditorAction.update) {
+      const entity: T = this.form.getRawValue();
       subscription = this.service.update(entity);
     }
     subscription.pipe(
@@ -140,16 +146,22 @@ export class CmEditorComponent<T extends Entity> implements OnInit, OnDestroy {
 
   }
   delete() {
-    this.service.delete(this.entity).subscribe(resp => {
-      let messageType = '';
-      if (resp.success) {
-        messageType = 'success';
-        this.deleted.next(resp.entity);
-      } else {
-        messageType = 'error';
-      }
-      this.messageService.add({severity: messageType, summary: '', detail: resp.message});
+    this.confirmationService.confirm({
+      message: 'Are you sure?',
+      accept: (() => {
+        this.service.delete(this.entity.id).subscribe(resp => {
+          let messageType = '';
+          if (resp.success) {
+            messageType = 'success';
+            this.deleted.next(resp.entity);
+          } else {
+            messageType = 'error';
+          }
+          this.messageService.add({severity: messageType, summary: '', detail: resp.message});
+        });
+      })
     });
+
   }
 
 }

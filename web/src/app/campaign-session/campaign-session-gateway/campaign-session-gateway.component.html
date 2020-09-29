@@ -1,0 +1,28 @@
+<h2>
+  {{campaign.name}}
+</h2>
+<p-tabView>
+  <p-tabPanel header="Heroes">
+    <ng-template pTemplate="content">
+      <loh-campaign-heroes></loh-campaign-heroes>
+    </ng-template>  </p-tabPanel>
+  <p-tabPanel header="Combat">
+    <ng-template pTemplate="content">
+      <loh-campaign-combat></loh-campaign-combat>
+    </ng-template>  </p-tabPanel>
+  <p-tabPanel header="Shops">
+    <ng-template pTemplate="content">
+      Complex Content to Lazy Load
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Combats">
+    <ng-template pTemplate="content">
+      Complex Content to Lazy Load
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Places">
+    <ng-template pTemplate="content">
+      Complex Content to Lazy Load
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>

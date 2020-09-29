@@ -1,6 +1,7 @@
+/*
 import {Component, Injector, OnInit} from '@angular/core';
 import {Role} from 'src/app/shared/models/Role.model';
-import {BaseSelectorComponent} from 'src/app/shared/base-selector/base-selector/base-selector.component';
+import {LegacyBaseSelectorComponent} from 'src/app/shared/legacy-base-selector/legacy-base-selector.component';
 import {RolesService} from '../../roles.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -10,7 +11,7 @@ import {Router} from '@angular/router';
   templateUrl: './roles-select-modal.component.html',
   styleUrls: ['./roles-select-modal.component.css']
 })
-export class RolesSelectModalComponent extends BaseSelectorComponent<Role> implements OnInit {
+export class RolesSelectModalComponent extends LegacyBaseSelectorComponent<Role> implements OnInit {
 
   constructor(
     injector: Injector,
@@ -27,3 +28,4 @@ export class RolesSelectModalComponent extends BaseSelectorComponent<Role> imple
   }
 
 }
+*/

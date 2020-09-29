@@ -1,3 +1,6 @@
+@import "colors";
+
+
 .ui-dialog-titlebar {
   background-color: $mainColor3 !important;
 }
@@ -39,4 +42,28 @@
 }
 .ui-picklist .ui-picklist-caption {
   background-color: $mainColor3 !important;
+}
+
+#Table
+.ui-table .ui-table-tbody > tr > td {
+  padding: 0 0 0 4px !important;
+}
+.ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: $primaryColor !important;
+  outline: none;
+  box-shadow: none;
+}
+
+.ui-table .ui-table-tbody > tr:focus {
+  outline: none;
+  box-shadow: none;
+}
+.ui-table .ui-table-tbody > tr:focus > td {
+  box-shadow: none !important;
+  outline: none;
+}
+
+.ui-table .ui-table-tbody > tr:focus > td:last-child {
+  box-shadow: none;
+  outline: none;
 }

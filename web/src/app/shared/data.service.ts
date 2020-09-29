@@ -2,14 +2,14 @@ import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LOH_API} from '../loh.api';
-import {BaseCrudServiceComponent} from './base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from './legacy-base-service/legacy-base-crud-service.component';
 import {Entity} from './models/Entity.model';
 import {LevelDetails} from './dtos/LevelDetails';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService extends BaseCrudServiceComponent<Entity> {
+export class DataService extends LegacyBaseCrudServiceComponent<Entity> {
   attributeUrl: string = LOH_API.attributeUrl;
   monstersUrl: string = LOH_API.monstersUrl;
   skillsMedievalUrl: string = LOH_API.skillsMedievalUrl;

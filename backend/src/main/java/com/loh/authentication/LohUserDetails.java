@@ -18,6 +18,7 @@ public class LohUserDetails extends User {
     @Getter
     @Setter
     private UUID userId;
+
     public LohUserDetails(String userName, String email, String password, UUID userId, Collection<? extends GrantedAuthority> authorities) {
         super(email, password, authorities);
         this.userName = userName;

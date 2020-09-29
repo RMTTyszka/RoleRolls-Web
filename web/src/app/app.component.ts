@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LOH_API} from './loh.api';
 import {AuthenticationService} from './authentication/authentication.service';
+import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 
 @Component({
   selector: 'loh-root',

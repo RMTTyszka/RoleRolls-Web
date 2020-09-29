@@ -1,5 +1,5 @@
 import {Injectable, Injector} from '@angular/core';
-import {Monster} from '../shared/models/Monster.model';
+import {Monster} from '../shared/models/creatures/monsters/Monster.model';
 import {BaseEntityService} from '../shared/base-entity-service';
 
 

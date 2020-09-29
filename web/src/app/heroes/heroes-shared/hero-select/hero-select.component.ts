@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {Hero} from '../../../shared/models/NewHero.model';
 import {Combat} from '../../../shared/models/combat/Combat.model';
 import {HeroesService} from '../../heroes.service';
+import {CampaignCombatHeroService} from '../../../creatures-shared/creature-base-select/campaign-combat-hero.service';
 
 @Component({
   selector: 'loh-hero-select',
@@ -13,7 +14,7 @@ export class HeroSelectComponent implements OnInit {
   @Input() hero: Hero;
   @Input() combat: Combat;
   constructor(
-    private service: HeroesService,
+    private service: CampaignCombatHeroService,
   ) {
   }
 

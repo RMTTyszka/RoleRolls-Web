@@ -1,58 +1,56 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {MonstersService} from '../monsters.service';
-import {BaseListComponent} from '../../shared/base-list/base-list.component';
-import {DataService} from '../../shared/data.service';
-import {Monster} from '../../shared/models/Monster.model';
-import {MatDialogConfig} from '@angular/material/dialog';
+import {Monster} from '../../shared/models/creatures/monsters/Monster.model';
 import {MonsterComponent} from '../monster/monster.component';
 import {Router} from '@angular/router';
+import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {DialogService} from 'primeng/dynamicdialog';
+import {MonsterCreateComponent} from '../monster-create/monster-create.component';
+import {MonsterService} from '../monster/monster.service';
+import {MonsterConfig} from '../monster-config';
 
 @Component({
   selector: 'loh-monsters-list',
   templateUrl: './monsters-list.component.html',
-  styleUrls: ['./monsters-list.component.css']
+  styleUrls: ['./monsters-list.component.css'],
+  providers: [DialogService]
 })
-export class MonstersListComponent extends BaseListComponent<Monster> implements OnInit {
-
-  attributes: string[];
-  skills: string[];
+export class MonstersListComponent implements OnInit {
+  config = new MonsterConfig();
+  columns: RRColumns[] = [
+    {
+      header: 'Name',
+      property: 'name'
+    },    {
+      header: 'Defense',
+      property: 'baseArmor.category.defense'
+    },    {
+      header: 'Evasion',
+      property: 'baseArmor.category.evasion'
+    },    {
+      header: 'Base Defense',
+      property: 'baseArmor.category.baseDefense'
+    },
+  ];
 
   constructor(
-    injector: Injector,
-    private dataService: DataService,
-    protected service: MonstersService,
-    protected router: Router
+    private dialog: DialogService,
+    public service: MonsterService
   ) {
-    super(injector, service);
-    this.editor = MonsterComponent;
     }
 
   ngOnInit() {
-    this.getAll();
-    this.dataService.getAllAttributes().subscribe(data => this.attributes = data);
-    this.dataService.getAllSkills().subscribe(data => this.skills = data);
   }
 
   openMonsterEditor(monster: Monster) {
-    const dialogRef =  this.dialog.open(MonsterComponent, <MatDialogConfig> {
+    this.dialog.open(MonsterComponent, {
       data: monster
     }
     );
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getAll();
-      } else {
-        return;
-      }
-    });
   }
-  create () {
-    const dialogRef =  this.dialog.open(MonsterComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getAll();
-      } else {
-        return;
+  create = () =>  {
+    this.dialog.open(MonsterCreateComponent, {}).onClose.subscribe((monster) => {
+      if (monster) {
+
       }
     });
   }

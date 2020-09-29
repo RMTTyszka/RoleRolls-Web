@@ -10,18 +10,20 @@ import {TooltipModule} from 'primeng/tooltip';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {MasterToolsModule} from '../../masters/master-tools/master-tools.module';
 import {CreaturesSharedModule} from '../../creatures-shared/creatures-shared.module';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    PanelModule,
-    TooltipModule,
-    DynamicDialogModule,
-    MasterToolsModule,
-    CreaturesSharedModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        PanelModule,
+        TooltipModule,
+        DynamicDialogModule,
+        MasterToolsModule,
+        CreaturesSharedModule,
+        TableModule
+    ],
   declarations: [HeroesSelectModalComponent, HeroSelectComponent],
   entryComponents: [HeroesSelectModalComponent],
   exports: [HeroesSelectModalComponent, HeroSelectComponent]

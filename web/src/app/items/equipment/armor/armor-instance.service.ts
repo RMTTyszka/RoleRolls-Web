@@ -1,5 +1,5 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseCrudServiceComponent} from '../../../shared/base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from '../../../shared/legacy-base-service/legacy-base-crud-service.component';
 import {ArmorInstance} from '../../../shared/models/items/ArmorInstance.model';
 import {ArmorModel} from '../../../shared/models/items/ArmorModel.model';
 import {BaseCrudResponse} from '../../../shared/models/BaseCrudResponse';
@@ -7,7 +7,7 @@ import {BaseCrudResponse} from '../../../shared/models/BaseCrudResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class ArmorInstanceService extends BaseCrudServiceComponent<ArmorInstance> {
+export class ArmorInstanceService extends LegacyBaseCrudServiceComponent<ArmorInstance> {
   path = 'armorInstance';
   constructor(
     injector: Injector

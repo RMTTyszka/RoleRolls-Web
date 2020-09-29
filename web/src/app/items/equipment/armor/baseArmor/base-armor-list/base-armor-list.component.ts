@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseArmor} from '../../../../../shared/models/BaseArmor.model';
 import {BaseArmorService} from '../base-armor.service';
-import {CmColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../../../../shared/components/cm-grid/cm-grid.component';
 import {BaseArmorEditorComponent} from '../base-armor-editor/base-armor-editor.component';
 import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEntityData';
 import {DialogService} from 'primeng/dynamicdialog';
@@ -13,7 +13,7 @@ import {DialogService} from 'primeng/dynamicdialog';
   providers: [DialogService]
 })
 export class BaseArmorListComponent implements OnInit {
-  columns: CmColumns[] = [
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'

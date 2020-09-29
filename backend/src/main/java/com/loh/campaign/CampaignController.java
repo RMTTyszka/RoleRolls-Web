@@ -2,14 +2,19 @@ package com.loh.campaign;
 
 import com.loh.campaign.dtos.AddPlayerAndHeroToCampaignInput;
 import com.loh.campaign.dtos.CampaignInvitation;
+import com.loh.campaign.dtos.HeroNotFromAddedPlayerException;
 import com.loh.campaign.dtos.PlayerInvitationsOutput;
+import com.loh.combat.CombatRepository;
+import com.loh.combat.outputs.CombatListDto;
 import com.loh.context.Player;
 import com.loh.context.PlayerRepository;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.heroes.HeroRepository;
-import com.loh.shared.BaseCrudController;
+import com.loh.shared.LegacyBaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.NoPermissionException;
+import javax.persistence.criteria.Join;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -26,11 +32,12 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.loh.authentication.LohUserDetails.currentUserId;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/campaigns",  produces = "application/json; charset=UTF-8")
-public class CampaignController extends BaseCrudController<Campaign> {
+public class CampaignController extends LegacyBaseCrudController<Campaign> {
 
 	@Autowired
 	PlayerRepository playerRepository;
@@ -38,6 +45,8 @@ public class CampaignController extends BaseCrudController<Campaign> {
 	InvitedPlayerRepository invitedPlayerRepository;
 	@Autowired
 	HeroRepository heroRepository;
+	@Autowired
+    CombatRepository combatRepository;
 
 	@Autowired
 	CampaignRepository repository;
@@ -52,6 +61,18 @@ public class CampaignController extends BaseCrudController<Campaign> {
 	}
 
 	@Override
+    public @ResponseBody
+    Iterable<Campaign> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+		UUID playerId = currentUserId();
+        Pageable paged = PageRequest.of(skipCount, maxResultCount);
+        if (filter.isEmpty() || filter == null) {
+            Iterable<Campaign> list =  repository.findAll( where(campaignFromPlayer(playerId)), paged);
+            return list;
+        }
+        return repository.findAllByNameIgnoreCaseContaining(filter, where(campaignFromPlayer(playerId)), paged);
+    }
+
+	@Override
 	@Transactional
 	public @ResponseBody
 	BaseCrudResponse<Campaign> delete(@RequestParam UUID id) {
@@ -62,6 +83,7 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		}
 		return new BaseCrudResponse<Campaign>(false, "You are not the master of that campaign");
 	}
+	@Override
 	public @ResponseBody BaseCrudResponse<Campaign> add(@RequestBody Campaign campaign) {
 		UUID userId = currentUserId();
 		campaign.setMasterId(userId);
@@ -105,6 +127,11 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		Campaign campaign = repository.findById(campaignId).get();
 		if (campaign.isMaster()) {
 			invitedPlayerRepository.deleteByCampaignIdAndPlayerId(campaignId, playerId);
+			campaign.removeHeroFromPlayer(playerId);
+			campaign.removePlayer(playerId);
+			repository.save(campaign);
+
+
 		}
 	}
 	@PostMapping(path="/player/invite/deny/{campaignId}")
@@ -134,6 +161,7 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		Campaign campaign = repository.findById(campaignId).get();
 		if (campaign.isMaster()) {
 			campaign.removePlayer(playerId);
+			campaign.removeHeroFromPlayer(playerId);
 			repository.save(campaign);
 			InvitedPlayer invitedPlayer = invitedPlayerRepository.findByCampaignIdAndPlayerId(campaignId, playerId);
 			invitedPlayerRepository.delete(invitedPlayer);
@@ -160,6 +188,40 @@ public class CampaignController extends BaseCrudController<Campaign> {
 		return playersForSelect;
 	}
 
+	@PostMapping(path = "/{campaignId}/hero/add/{heroId}")
+	public @ResponseStatus(HttpStatus.OK) void addHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) throws HeroNotFromAddedPlayerException {
+		Campaign campaign = repository.findById(campaignId).get();
+		Hero hero = heroRepository.findById(heroId).get();
+		campaign.addHero(hero);
+		repository.save(campaign);
+	}
+	@DeleteMapping(path = "/{campaignId}/hero/remove/{heroId}")
+	public @ResponseStatus(HttpStatus.OK) void removeHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) {
+		Campaign campaign = repository.findById(campaignId).get();
+		Hero hero = heroRepository.findById(heroId).get();
+		campaign.removeHero(hero.getId());
+		repository.save(campaign);
+	}
+
+	@GetMapping(path = "/{campaignId}/combat/list")
+    public @ResponseBody
+    Page<CombatListDto> getCampaignCombats(@PathVariable UUID campaignId, @RequestParam boolean started, @RequestParam Integer skipCount, @RequestParam Integer maxResultCount) {
+        Pageable paged = PageRequest.of(skipCount, maxResultCount);
+        Page<com.loh.combat.Combat> combats = combatRepository.getAllByCampaignIdAndHasStarted(campaignId, started, paged);
+        Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
+        return output;
+    }
+
+	private Specification<Campaign> campaignFromPlayer(UUID playerId) {
+		if (playerId == null) {
+			return (campaign, cq, cb) -> cb.isNotNull(campaign);
+		}
+
+		return (campaign, cq, cb) -> {
+			Join<Campaign, Player> players = campaign.join("players");
+			return cb.or(cb.equal(campaign.get("masterId"), playerId), cb.equal(players.get("id"), playerId));
+		};
+	}
 	private Specification<Hero> fromPlayers(List<UUID> playerIds) {
 		if (playerIds == null || playerIds.isEmpty()) {
 			return (hero, cq, cb) -> cb.isNotNull(hero);

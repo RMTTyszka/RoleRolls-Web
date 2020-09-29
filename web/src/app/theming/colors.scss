@@ -124,6 +124,25 @@ $warningColor: #f4d06f;
 $dangerColor: #ef6351;
 $borderColor: #c8c8c8;
 
+.success-color {
+  background-color: $successColor;
+}
+.success-label-color {
+  color: $successColor;
+}
+.info-color {
+  background-color: $infoColor;
+}
+.info-label-color {
+  color: $infoColor;
+}
+.danger-color {
+  background-color: $dangerColor;
+}
+.danger-label-color {
+  color: $dangerColor;
+}
+
 
 // SASS style sheet */
 // Palette color codes */

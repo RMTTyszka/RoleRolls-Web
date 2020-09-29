@@ -6,6 +6,7 @@ import {PlayerInvitationsOutput} from '../shared/models/campaign/dtos/PlayerInvi
 import {HttpParams} from '@angular/common/http';
 import {Player} from '../shared/models/Player.model';
 import {CampaignInvitationsOutput} from '../shared/models/campaign/dtos/CampaignInvitationsOutput';
+import {Hero} from '../shared/models/NewHero.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,4 +54,15 @@ export class CampaignsService extends BaseEntityService<Campaign> {
     return this.http.delete(this.serverUrl + this.path + `/player/remove/${campaignId}/${playerId}`);
   }
 
+  public addHero(campaignId: string, heroId: string) {
+    return this.http.post(this.serverUrl + this.path + `/${campaignId}/hero/add/${heroId}`, {});
+  }
+
+  public removeHero(campaignId: string, heroId: string) {
+    return this.http.delete(this.serverUrl + this.path + `/${campaignId}/hero/remove/${heroId}`);
+  }
+
+  getHeroes(id: string) {
+    return this.http.get<Player[]>(this.serverUrl + this.path + `/{id}/heroes/list/`);
+  }
 }

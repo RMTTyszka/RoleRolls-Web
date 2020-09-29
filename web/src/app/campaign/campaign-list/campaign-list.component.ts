@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CampaignsService} from '../campaigns.service';
-import {CmColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {EditorAction, ModalEntityData} from '../../shared/dtos/ModalEntityData';
 import {Campaign} from '../../shared/models/campaign/Campaign.model';
@@ -13,7 +13,7 @@ import {CampaignEditorComponent} from '../campaign-editor/campaign-editor.compon
   providers: [DialogService]
 })
 export class CampaignListComponent implements OnInit {
-  columns: CmColumns[] = [
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'

@@ -1,10 +1,10 @@
 import {Entity} from './models/Entity.model';
 import {EventEmitter, Injector} from '@angular/core';
-import {BaseCrudServiceComponent} from './base-service/base-crud-service.component';
+import {LegacyBaseCrudServiceComponent} from './legacy-base-service/legacy-base-crud-service.component';
 import {Observable, Subject} from 'rxjs';
 import {finalize, tap} from 'rxjs/operators';
 
-export class BaseEntityService<T extends Entity> extends BaseCrudServiceComponent<T> {
+export class BaseEntityService<T extends Entity> extends LegacyBaseCrudServiceComponent<T> {
 
   id: string;
   entity: T;

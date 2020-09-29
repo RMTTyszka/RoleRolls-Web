@@ -1,5 +1,5 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {BaseCreatorComponent} from 'src/app/shared/base-creator/base-creator.component';
+import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-base-creator.component';
 import {FormArray} from '@angular/forms';
 import {Role} from 'src/app/shared/models/Role.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import {RoleService} from './role.service';
   templateUrl: './roles-editor.component.html',
   styleUrls: ['./roles-editor.component.css']
 })
-export class RolesEditorComponent extends BaseCreatorComponent<Role> implements OnInit {
+export class RolesEditorComponent extends LegacyBaseCreatorComponent<Role> implements OnInit {
 
   myBonuses: FormArray;
   constructor(

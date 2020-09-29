@@ -5,11 +5,12 @@ import {BuyOutput} from '../../shared/models/creatures/heroes/heroShop/BuyOutput
 import {BuyInput} from '../../shared/models/creatures/heroes/heroShop/BuyInput';
 import {ShopService} from '../../shop/shop.service';
 import {finalize, tap} from 'rxjs/operators';
+import {CreatureShopService} from '../../creatures-shared/interfaces/creature-shop-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HeroShopService {
+export class HeroShopService implements CreatureShopService{
 
   private serviceEndpoint = 'HeroShop'
   private buyUrl = '/buy'

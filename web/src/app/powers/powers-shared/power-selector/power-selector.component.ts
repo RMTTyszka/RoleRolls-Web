@@ -1,5 +1,5 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {BaseSelectorComponent} from 'src/app/shared/base-selector/base-selector/base-selector.component';
+import {LegacyBaseSelectorComponent} from 'src/app/shared/legacy-base-selector/legacy-base-selector.component';
 import {Power} from 'src/app/shared/models/Power.model';
 import {PowersService} from '../../powers.service';
 import {MatDialogRef} from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import {MatDialogRef} from '@angular/material/dialog';
   templateUrl: './power-selector.component.html',
   styleUrls: ['./power-selector.component.css']
 })
-export class PowerSelectorComponent extends BaseSelectorComponent<Power> implements OnInit {
+export class PowerSelectorComponent extends LegacyBaseSelectorComponent<Power> implements OnInit {
 
   constructor(
     injector: Injector,

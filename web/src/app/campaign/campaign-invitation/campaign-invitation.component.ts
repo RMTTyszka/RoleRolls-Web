@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {CampaignsService} from '../campaigns.service';
 import {InvitedPlayer} from '../../shared/models/campaign/InvitedPlayer.model';
 import {Campaign} from '../../shared/models/campaign/Campaign.model';
+import {DialogService} from 'primeng/dynamicdialog';
+import {HeroSelectComponent} from '../../heroes/heroes-shared/hero-select/hero-select.component';
+import {Hero} from '../../shared/models/NewHero.model';
+import {HeroesSelectModalComponent} from '../../heroes/heroes-shared/heroes-select-modal/heroes-select-modal.component';
 
 @Component({
   selector: 'loh-campaign-invitation',
@@ -11,7 +15,8 @@ import {Campaign} from '../../shared/models/campaign/Campaign.model';
 export class CampaignInvitationComponent implements OnInit {
   campaigns: Campaign[];
   constructor(
-    private service: CampaignsService
+    private service: CampaignsService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -21,9 +26,19 @@ export class CampaignInvitationComponent implements OnInit {
   }
 
   accept(campaign: Campaign) {
-    this.service.acceptInvitation(campaign.id).subscribe(() => {
-      this.campaigns = this.campaigns.filter(c => c.id !== campaign.id);
+    this.dialogService.open(HeroesSelectModalComponent, {
+      header: 'Your Heroes',
+      data: {
+        campaignId: campaign.id
+      }
+    }).onClose.subscribe(( hero: Hero) => {
+      this.service.acceptInvitation(campaign.id).subscribe(() => {
+        this.campaigns = this.campaigns.filter(c => c.id !== campaign.id);
+        this.service.addHero(campaign.id, hero.id).subscribe();
+      });
+
     });
+
   }
   deny(campaign: Campaign) {
     this.service.denyInvitation(campaign.id).subscribe(() => {

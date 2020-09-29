@@ -20,7 +20,7 @@ public class Player {
 	@Setter
 	@Column(columnDefinition = "BINARY(16)")
 	protected UUID id;
-	
+
 	public Player() {
 		
 	}

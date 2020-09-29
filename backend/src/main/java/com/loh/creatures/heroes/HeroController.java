@@ -1,13 +1,13 @@
 package com.loh.creatures.heroes;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.loh.authentication.LohUserDetails;
 import com.loh.creatures.heroes.dtos.AddItemsInput;
 import com.loh.creatures.heroes.dtos.NewHeroDto;
 import com.loh.items.itemInstance.ItemInstance;
+import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,54 +22,39 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/hero",  produces = "application/json; charset=UTF-8")
-public class HeroController {
+public class HeroController extends BaseCrudController<Hero, NewHeroDto, Hero, HeroRepository> {
     @Autowired
     private HeroRepository heroRepository;
     @Autowired
     private HeroService heroService;
 
+    public HeroController(HeroRepository repository) {
+        super(repository);
+        this.repository = repository;
+    }
 
 
-
-    @GetMapping(path="/allFiltered")
+    @Override
     public @ResponseBody
-    Iterable<Hero> getAllHeroes(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Page<Hero> getList(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         UUID userId = currentUserId();
-        Iterable<Hero> heroes = heroRepository.findAll(
-                where((fromPlayer(userId).or(fromCreator(userId))).and(containsName(filter).and(orderByName()))), paged)
-                .getContent();
+        Page<Hero> heroes = heroRepository.findAll(
+                where((fromPlayer(userId).or(fromCreator(userId))).and(containsName(filter).and(orderByName()))), paged);
         return heroes;
     }
 
 
-    // This returns a JSON or XML with the users
-    @GetMapping(path="/find")
-    public @ResponseBody
-    Hero getHero(@RequestParam UUID id) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        // This returns a JSON or XML with the users
-        Hero hero = heroRepository.findById(id).get();
-        return hero;
-    }
-    @GetMapping(path="/getNew")
-    public @ResponseBody
-    NewHeroDto getNewHero() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, JsonProcessingException {
-        // This returns a JSON or XML with the users
-        //	System.out.println(io.swagger.util.Json.pretty(monster));
-        NewHeroDto hero = new NewHeroDto();
-        return hero;
-    }
-    @PutMapping(path="/update")
-    public @ResponseBody
-    BaseCrudResponse<Hero> updateHero(@RequestBody Hero heroDto) {
+    @Override
+    public BaseCrudResponse<Hero> update(@RequestBody Hero heroDto) {
         Hero hero =  heroService.update(heroDto);
         BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully updated hero", hero);
         return output;
     }
 
-    @PostMapping(path="/create")
+    @Override
     public @ResponseBody
-    BaseCrudResponse<Hero> createHero(@RequestBody NewHeroDto heroDto){
+    BaseCrudResponse<Hero> add(@RequestBody NewHeroDto heroDto){
 
         try {
             Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.ownerId, currentUserId());
@@ -81,19 +66,6 @@ public class HeroController {
 
     }
 
-
-    @DeleteMapping(path="/delete")
-    public @ResponseBody
-    BaseCrudResponse<Hero> deleteHero(@RequestParam UUID id) {
-
-        try {
-            heroRepository.deleteById(id);
-            return new BaseCrudResponse<Hero>(true, "Successfully deleted hero", null);
-        } catch (Exception e) {
-            return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
-        }
-
-    }
     @DeleteMapping(path="/deleteAllDummies")
     public @ResponseBody
     BaseCrudResponse<Hero> deleteAllDummies() {
@@ -118,9 +90,6 @@ public class HeroController {
 
         return new BaseCrudResponse(true, "");
     }
-
-
-
 
     static Specification<Hero> containsName(String name) {
         if (name.isEmpty()) {
@@ -149,5 +118,20 @@ public class HeroController {
         return (newHero, cq, cb) -> {
             return cb.isNotNull(newHero);
         };
+    }
+
+    @Override
+    public NewHeroDto getnew() {
+        return new NewHeroDto();
+    }
+
+    @Override
+    protected Hero createInputToEntity(NewHeroDto newHeroDto) {
+        return null;
+    }
+
+    @Override
+    protected Hero updateInputToEntity(Hero hero) {
+        return null;
     }
 }

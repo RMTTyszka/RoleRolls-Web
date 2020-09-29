@@ -2,7 +2,7 @@
   *ngIf="!isLoading"
   class="main-content"
   fxFlex="100"
-  class="monster-background p-8 overflow-scroll"
+  class="p-8 overflow-scroll"
 >
   <form [formGroup]="form">
     <div class="header">
@@ -11,27 +11,21 @@
         fxLayout="row wrap"
         fxLayoutAlign="space-between center"
       >
-        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
-          <input matInput placeholder="Name" formControlName="name" />
-        </mat-form-field>
-        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
-          <input
-            readonly
-            matInput
-            placeholder="Race"
-            [value]="form.get('race').value.name"
-            (click)="selectRace()"
-          />
-        </mat-form-field>
-        <mat-form-field fxFlex="100" fxFlex.gt-xs="33">
-          <input
-            readonly
-            matInput
-            placeholder="Role"
-            [value]="form.get('role').value.name"
-            (click)="selectRole()"
-          />
-        </mat-form-field>
+        <div class="p-formgrid p-grid p-fluid p-justify-start p-nogutter">
+          <div class="p-field p-col">
+            <label for="name" class="p-col-fixed" style="width:100px">Name</label>
+            <input id="name" type="text" pInputText formControlName="name">
+          </div>
+          <div class="p-field p-col">
+            <label for="race" class="p-col-fixed" style="width:100px">Race</label>
+            <loh-rr-select-field id="race" [service]="racesService" (entitySelected)="raceSelected($event)" [initialValue]="race"></loh-rr-select-field>
+          </div>
+          <div class="p-field p-col">
+            <label for="role" class="p-col-fixed" style="width:100px">Role</label>
+            <loh-rr-select-field id="role" [service]="rolesService" (entitySelected)="roleSelected($event)" [initialValue]="role"></loh-rr-select-field>
+          </div>
+        </div>
+
       </div>
     </div>
     <mat-tab-group>
@@ -250,8 +244,8 @@
     </mat-tab-group>
     <div *ngIf="true">
       <div class="actions">
-        <button type="button" (click)="save()">Save</button>
-        <button type="button" (click)="delete()">Delete</button>
+        <button type="button" pButton (click)="save()" label="Save"></button>
+        <button type="button" pButton (click)="delete()" label="Delete" class="ui-button-danger"></button>
       </div>
     </div>
   </form>

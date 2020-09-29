@@ -31,4 +31,6 @@ export class Creature extends Entity {
   offWeaponAttributes = new WeaponAttributes();
   currentLife = 0;
   currentMoral = 0;
+  ownerId: string;
+  creatorId: string;
 }

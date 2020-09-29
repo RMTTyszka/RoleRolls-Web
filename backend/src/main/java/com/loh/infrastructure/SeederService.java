@@ -52,6 +52,7 @@ public class SeederService {
 
 	@EventListener
 	public void seed(ContextRefreshedEvent event) throws Exception {
+		adminSeeder.seed();
 		raceSeeder.seed();
 		armorSeeder.seed();
 		weaponSeeder.seed();

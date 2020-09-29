@@ -1,0 +1,25 @@
+<div class="p-grid p-justify-between">
+  <div class="p-col-6">
+    <p-table [value]="heroes" selectionMode="single" [(selection)]="selectedHero">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Race</th>
+          <th>Role</th>
+          <th>Pv</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-hero let-rowData>
+        <tr [pSelectableRow]="rowData">
+          <td>{{hero.name}}</td>
+          <td>{{hero.race.name}}</td>
+          <td>{{hero.role.name}}</td>
+          <td class="p-grid p-nogutter p-justify-between"><span class="danger-label-color">Life: {{hero.status.life}}</span><span class="info-label-color">Moral: {{hero.status.moral}}</span></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="p-col-6">
+  <loh-campaign-hero-details [selectedHero]="selectedHero"></loh-campaign-hero-details>
+  </div>
+</div>

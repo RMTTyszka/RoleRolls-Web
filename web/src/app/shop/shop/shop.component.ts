@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ShopArmor} from '../../shared/models/shop/ShopArmor.model';
 import {ShopItem} from '../../shared/models/shop/ShopItem.model';
 import {ShopService} from '../shop.service';
@@ -21,7 +21,7 @@ export class ShopComponent implements OnInit {
   itemToBuyShow: ShopItem[] = [];
   itemToBuy: ShopItem[] = [];
   totalCost = 0;
-  hero: Hero;
+  @Input() hero: Hero;
   shopName = 'Shop';
   shop: Shop;
   get hasEnoughCash() {
@@ -63,7 +63,6 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.hero = this.heroManagementService.hero;
   }
 
   async buy() {

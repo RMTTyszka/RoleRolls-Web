@@ -1,26 +1,26 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {BaseListComponent} from '../../shared/base-list/base-list.component';
+import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
+import {LegacyBaseListComponent} from '../../shared/base-list/legacy-base-list.component';
 import {Race} from '../../shared/models/Race.model';
 import {Combat} from '../../shared/models/combat/Combat.model';
 import {RacesService} from '../../races/races.service';
 import {CombatService} from '../combat.service';
 import {Router} from '@angular/router';
-import {CmColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 
 @Component({
   selector: 'loh-combat-list',
   templateUrl: './combat-list.component.html',
   styleUrls: ['./combat-list.component.css']
 })
-export class CombatListComponent extends BaseListComponent<Combat> implements OnInit {
-  columns: CmColumns[] = [
+export class CombatListComponent extends LegacyBaseListComponent<Combat> implements OnInit {
+  columns: RRColumns[] = [
     {
       header: 'Name',
       property: 'name'
     },
   ];
-  route = 'combat/manage-combat';
-  useRoute = true;
+  useRoute = false;
+  @Output() combatSelected = new EventEmitter<Combat>();
   constructor(
     injector: Injector,
     protected service: CombatService,
@@ -29,6 +29,9 @@ export class CombatListComponent extends BaseListComponent<Combat> implements On
   }
 
   ngOnInit() {
+  }
+  add() {
+    this.combatSelected.next(new Combat());
   }
 
 }

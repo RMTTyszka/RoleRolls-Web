@@ -10,19 +10,19 @@ import com.loh.role.Role;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("Monster")
 public class Monster extends Creature {
 
-    @OneToOne
     @Getter
     @Setter
-    private MonsterBase monsterBase;
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID monsterModelId;
     @Override
     protected CreatureType getCreatureType() {
         return CreatureType.Monster;
@@ -31,13 +31,9 @@ public class Monster extends Creature {
         super();
         id = UUID.randomUUID();
         level = 1;
-        baseAttributes = new Attributes(8);
-        bonusAttributes = new Attributes();
         name = "new monster";
-        equipment = new Equipment();
-        inventory = new Inventory();
     }
-    public Monster(String name, Race race, Role role){
+    public Monster(String name, Race race, Role role, UUID creatorId, UUID ownerId){
         super();
         id = UUID.randomUUID();
         level = 1;
@@ -48,8 +44,10 @@ public class Monster extends Creature {
         this.role = role;
         equipment = new Equipment();
         inventory = new Inventory();
+        this.ownerId = ownerId;
+        this.creatorId = creatorId;
     }
-    public Monster(String name){
+    public Monster(String name, UUID creatorId, UUID ownerId){
         super();
         id = UUID.randomUUID();
         level = 1;
@@ -58,5 +56,7 @@ public class Monster extends Creature {
         this.name = name;
         equipment = new Equipment();
         inventory = new Inventory();
+        this.ownerId = ownerId;
+        this.creatorId = creatorId;
     }
 }

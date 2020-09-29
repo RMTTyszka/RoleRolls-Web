@@ -20,12 +20,37 @@ import {DropdownModule} from 'primeng/dropdown';
 import { CreatureBaseSelectComponent } from './creature-base-select/creature-base-select.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {TooltipModule} from 'primeng/tooltip';
+import { CreatureDetailsComponent } from './creature-details/creature-details.component';
+import { CreatureEditorComponent } from './creature-editor/creature-editor.component';
+import {EquipmentComponent} from './equipment/equipment.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {AccordionModule} from 'primeng/accordion';
+import {SharedModule} from '../shared/shared.module';
+import {HeroesModule} from '../heroes/heroes.module';
+import {TabViewModule} from 'primeng/tabview';
+import {ShopModule} from '../shop/shop.module';
+import {RaceSharedModule} from '../races/shared/race-shared.module';
+import {RolesSharedModule} from '../roles/roles-shared/roles-shared.module';
+import {CreatureStatsComponent} from './creature-stats/creature-stats.component';
+import {HeroFundsComponent} from './hero-funds/hero-funds.component';
+import {InventoryComponent} from './inventory/inventory/inventory.component';
 
 
 @NgModule({
-  declarations: [InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent],
+  declarations: [HeroFundsComponent, CreatureStatsComponent,
+    InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent,
+    InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent,
+    CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
+    AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent,
+    CreatureEditorComponent, EquipmentComponent, InventoryComponent],
     exports: [
-        InventoryArmorSelectComponent, InventoryWeaponSelectComponent, InventoryGlovesSelectComponent, InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent, CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent, AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent
+      HeroFundsComponent, CreatureStatsComponent, EquipmentComponent,
+      InventoryArmorSelectComponent, InventoryWeaponSelectComponent,
+      InventoryGlovesSelectComponent, InventoryGlovesSelectComponent,
+      InventoryBeltSelectComponent, InventoryBeltSelectComponent,
+      InventoryHeadpieceSelectComponent, CreatureResistancesComponent,
+      InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
+      AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent, CreatureEditorComponent, InventoryComponent
     ],
   imports: [
     CommonModule,
@@ -37,7 +62,14 @@ import {TooltipModule} from 'primeng/tooltip';
     DropdownModule,
     FormsModule,
     OverlayPanelModule,
-    TooltipModule
+    TooltipModule,
+    MatFormFieldModule,
+    AccordionModule,
+    SharedModule,
+    TabViewModule,
+    ShopModule,
+    RaceSharedModule,
+    RolesSharedModule
 
   ]
 })

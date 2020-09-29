@@ -1,5 +1,9 @@
 <loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
-  <ng-container></ng-container>
+  <ng-container title>
+    <div class="p-grid p-nogutter p-justify-end">
+      <button pButton label="Start Session" (click)="startSession()"></button>
+    </div>
+  </ng-container>
   <form form [formGroup]="form" *ngIf="!isLoading">
     <div  class="ui-fluid">
       <div class="p-field p-grid">
@@ -18,27 +22,37 @@
         <p-header>
           <div class="p-grid p-justify-between p-align-center p-nogutter">
             <span class="ui-panel-title p-col">Players</span>
-            <button pButton type="button" icon="pi pi-plus" class="ui-button-primary" (click)="invitePlayer()"></button>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-plus" class="ui-button-primary" (click)="invitePlayer()"></button>
           </div>
         </p-header>
-        <div *ngFor="let player of entity.players">
-          <div class="p-grid p-justify-between p-nogutter p-align-center">
+        <div *ngFor="let player of entity.players" class="list">
+          <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
             <span class="p-col-11">{{player.name}}</span>
-            <button pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removePlayer(player)"></button>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removePlayer(player)"></button>
           </div>
         </div>
       </p-panel>
       <p-panel header="Invitations">
-        <div *ngFor="let invitation of invitations">
+        <div *ngFor="let invitation of invitations" class="list">
           <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
             <span class="p-col-6">{{invitation.player.name}}</span>
             <span class="p-col-5">{{invitation.status}}</span>
-            <button pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeInvitation(invitation.player)"></button>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeInvitation(invitation.player)"></button>
           </div>
         </div>
       </p-panel>
-
+      <p-panel header="Heroes">
+        <div *ngFor="let hero of entity.heroes" class="list">
+          <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
+            <span class="p-col-11">{{hero.name}}</span>
+            <button *ngIf="entity.master || isHeroOwner(hero.ownerId)" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeHero(hero)"></button>
+          </div>
+        </div>
+        <div *ngIf="!hasHero()" class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
+          <span class="p-col-11">Add your hero</span>
+          <button pButton type="button" icon="pi pi-plus" class="ui-button-secondary p-col-1" (click)="addHero()"></button>
+        </div>
+      </p-panel>
     </div>
-
   </form>
 </loh-cm-editor>

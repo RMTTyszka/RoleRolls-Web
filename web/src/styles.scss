@@ -176,37 +176,37 @@ div.mat-form-field-infix {
   background-color:seashell;
 }
 .monster-background {
-  background-color:darksalmon;
+  background-color: $monsterColor3;
 }
 .monster-card {
-  background-color: mistyrose;
+  background-color: $monsterColor1;
   font-family: 'IM Fell English SC';
 }
 .monster-main-value {
-  background-color: tomato;
-  color: mistyrose;
+  background-color: $monsterColor5;
+  color: $monsterColor1;
 }
 
 .monster-titles {
-  background-color: tomato;
-  color: mistyrose;
+  background-color: $monsterColor5;
+  color: $monsterColor1;
   border-radius: 4px;
   margin: 0px 4px;
   margin: 0px 4px;
 }
 
 .monster-remaining-points-positive {
-  border: 1px solid maroon;
+  border: $monsterColor5;
   border-radius: 4px;
-  background-color:mistyrose;
+  background-color: $monsterColor1;
   padding: 4px;
   margin: 0px 4px;
 }
 
 .initiative-color {
-  color: orange;
+  color: $warningColor;
 }
 .initiative-background-color {
-  background-color: orange;
+  background-color: $warningColor;
 }
 

@@ -1,12 +1,13 @@
 <div>
   <button (click)="resetDummies()">reset</button>
-  <p-toast></p-toast>
+  <p-toast [baseZIndex]="999999" ></p-toast>
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
   <loh-main-header></loh-main-header>
 
   <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink=''>Party</a>
     <a mat-tab-link routerLink='encounters'>Encounters</a>
-    <a mat-tab-link routerLink='combat'>Combat</a>
     <a mat-tab-link routerLink='campaigns'>Campaigns</a>
     <a mat-tab-link routerLink='heroes'>Heroes</a>
     <a mat-tab-link routerLink='items'>Items</a>

@@ -7,18 +7,20 @@ import {Creature} from '../../shared/models/creatures/Creature.model';
 import {BaseEntityService} from '../../shared/base-entity-service';
 import {CombatManagementService} from '../../combat/combat-management.service';
 import {Combat} from '../../shared/models/combat/Combat.model';
+import {LegacyBaseCrudServiceComponent} from '../../shared/legacy-base-service/legacy-base-crud-service.component';
+import {BaseCombatCreatureService} from '../interfaces/baseCombatCreatureService';
 
 @Component({
   selector: 'loh-creature-base-select',
   templateUrl: './creature-base-select.component.html',
   styleUrls: ['./creature-base-select.component.css']
 })
-export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, OnDestroy {
-  @Input() creature: T;
+export class CreatureBaseSelectComponent implements OnInit, OnDestroy {
+  @Input() creature: Creature;
   @Input() combat: Combat;
-  @Input() private service: BaseEntityService<T>;
-  @Output() creatureSelected = new EventEmitter<T>();
-  result: T[] = [];
+  @Input() private service: BaseCombatCreatureService<Creature>;
+  @Output() creatureSelected = new EventEmitter<Creature>();
+  result: Creature[] = [];
   effectType = EffectType;
   unsubscriber = new Subject<void>();
   currentCreatureOnInitiativeId = '';
@@ -35,7 +37,7 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
     });
     this.service.onEntityChange
       .pipe(takeUntil(this.unsubscriber))
-      .subscribe((creature: T) => {
+      .subscribe((creature: Creature) => {
         if (creature.id === this.creature.id){
           this.creature = creature;
         }
@@ -46,11 +48,9 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
     this.unsubscriber.complete();
   }
   search(event) {
-    this.service.getAllFiltered(event).pipe(
-      map(resp => resp.map(creature => creature))
-    ).subscribe(response => this.result = response);
+    this.service.getEntitiesForSelect(event).subscribe(response => this.result = response);
   }
-  selected(creature: T) {
+  selected(creature: Creature) {
     this.creature = creature;
     this.creatureSelected.emit(creature);
   }
@@ -60,6 +60,6 @@ export class CreatureBaseSelectComponent<T extends Creature> implements OnInit, 
   }
 
   get isCurrentOnInitiative() {
-    return this.currentCreatureOnInitiativeId === this.creature.id;
+    return this.currentCreatureOnInitiativeId === this.creature.id || false;
   }
 }

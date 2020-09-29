@@ -1,5 +1,8 @@
 package com.loh.creatures.monsters;
 
+import com.loh.authentication.AdminSeeder;
+import com.loh.authentication.User;
+import com.loh.authentication.UserRepository;
 import com.loh.creatures.Attributes;
 import com.loh.creatures.LevelUpService;
 import com.loh.creatures.equipment.EquipmentRepository;
@@ -71,14 +74,14 @@ public class MonsterSeeder {
     InventoryRepository inventoryRepository;
     @Autowired
     LevelUpService levelUpService;
+    @Autowired
+    UserRepository userRepository;
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
-            if (level == 20) {
-                System.out.println("dsad");
-            }
+            User admin = userRepository.findByEmail(AdminSeeder.adminEmail);
             if (monsterRepository.findByName(DefaultMonsters.OneLightWeapon + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.OneLightWeapon + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.OneLightWeapon + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
@@ -89,7 +92,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.OneMediumWeapon + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.OneMediumWeapon + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.OneMediumWeapon + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
@@ -100,7 +103,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.OneHeavyWeapon + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.OneHeavyWeapon + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.OneHeavyWeapon + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
@@ -111,7 +114,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.TwoLightWeapons + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.TwoLightWeapons + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.TwoLightWeapons + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
@@ -124,7 +127,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.TwoMediumWeapons + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.TwoMediumWeapons + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.TwoMediumWeapons + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
@@ -137,7 +140,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.LightArmor + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.LightArmor + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.LightArmor + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyLightArmor);
                 equipeNoneWeapon(level, monster);
@@ -146,7 +149,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.MediumArmor + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.MediumArmor + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.MediumArmor + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeapon(level, monster);
@@ -155,7 +158,7 @@ public class MonsterSeeder {
 
             }
             if (monsterRepository.findByName(DefaultMonsters.HeavyArmor + " Level " + level) == null) {
-                Monster monster = new Monster(DefaultMonsters.HeavyArmor + " Level " + level);
+                Monster monster = new Monster(DefaultMonsters.HeavyArmor + " Level " + level, admin.getId(), admin.getId());
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeapon(level, monster);

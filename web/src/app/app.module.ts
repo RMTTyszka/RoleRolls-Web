@@ -8,11 +8,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared/shared.module';
 import {DeviceDetectorModule} from 'ngx-device-detector';
 import {CommonModule} from '@angular/common';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
 import {LoginModule} from './login/login.module';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import {ShopModule} from './shop/shop.module';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -30,9 +31,11 @@ import {ShopModule} from './shop/shop.module';
         SharedModule,
         DeviceDetectorModule.forRoot(),
         LoginModule,
-        ShopModule
+        ShopModule,
+        ConfirmDialogModule
+
     ],
-  providers: [MessageService,
+  providers: [MessageService, ConfirmationService,
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

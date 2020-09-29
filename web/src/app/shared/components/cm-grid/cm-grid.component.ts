@@ -11,7 +11,7 @@ import {LazyLoadEvent} from 'primeng/api';
 })
 export class CmGridComponent<T extends Entity> implements OnInit {
   data: T[] = [];
-  @Input() columns: CmColumns[];
+  @Input() columns: RRColumns[];
   @Input() service: BaseEntityService<T>;
   totalCount: number;
   loading = true;
@@ -62,7 +62,7 @@ export class CmGridComponent<T extends Entity> implements OnInit {
 
 }
 
-export interface CmColumns {
+export interface RRColumns {
   header: string;
   property: string;
 }

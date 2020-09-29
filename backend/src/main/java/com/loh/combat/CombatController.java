@@ -2,6 +2,7 @@ package com.loh.combat;
 
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.monsters.Monster;
+import com.loh.shared.LegacyBaseCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,11 @@ import java.lang.reflect.InvocationTargetException;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/combat",  produces = "application/json; charset=UTF-8")
-public class CombatController {
-
+public class CombatController extends LegacyBaseCrudController<Combat> {
+	@Autowired
+	public CombatController(CombatRepository repository) {
+		super(repository);
+	}
 	@Autowired
 	private CombatService combatService;
 	@Autowired
@@ -79,4 +83,8 @@ public class CombatController {
 		return combat;
 	}
 
+	@Override
+	public Combat getnew() {
+		return null;
+	}
 }

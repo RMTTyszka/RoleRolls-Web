@@ -28,6 +28,9 @@ import {CmEditorComponent} from './components/cm-editor/cm-editor.component';
 import {ToastModule} from 'primeng/toast';
 import {AttributeSelectComponent} from './attribute-select/attribute-select.component';
 import {DropdownModule} from 'primeng/dropdown';
+import {RRGridComponent} from './components/rr-grid/r-r-grid.component';
+import { RrSelectFieldComponent } from './components/rr-select-field/rr-select-field.component';
+import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-modal.component';
 
 @NgModule({
   imports: [
@@ -63,8 +66,11 @@ import {DropdownModule} from 'primeng/dropdown';
     EditorModalComponent,
     ClickStopPropagationDirective,
     CmGridComponent,
+    RRGridComponent,
     CmEditorComponent,
-    AttributeSelectComponent
+    AttributeSelectComponent,
+    RrSelectFieldComponent,
+    RrSelectModalComponent,
   ],
   exports: [
     FormsModule,
@@ -100,11 +106,13 @@ import {DropdownModule} from 'primeng/dropdown';
     ClickStopPropagationDirective,
     CmGridComponent,
     CmEditorComponent,
-    AttributeSelectComponent
+    AttributeSelectComponent,
+    RRGridComponent,
+    RrSelectFieldComponent
   ],
   providers: [
   ],
-  entryComponents: [PropertyPickerComponent]
+  entryComponents: [PropertyPickerComponent, RrSelectModalComponent]
 })
 export class SharedModule {
  }

@@ -6,6 +6,7 @@
     <ng-container *ngIf="hasUser">
       <label class="main-header-text p-col-12" style="text-align: end">{{userName}}</label>
       <label class="p-col-12" style="text-align: end; cursor: pointer;"  (click)="logout()">logout</label>
+
     </ng-container>
     <ng-container *ngIf="!hasUser">
       <label routerLink='home' style="cursor: pointer">login</label>

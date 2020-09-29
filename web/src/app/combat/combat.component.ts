@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CombatService} from './combat.service';
 import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/combat/Combat.model';
-import {Monster} from '../shared/models/Monster.model';
+import {Monster} from '../shared/models/creatures/monsters/Monster.model';
 import {Creature} from '../shared/models/creatures/Creature.model';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
@@ -38,8 +38,8 @@ export class AttackInput {
   providers: [DialogService]
 })
 export class CombatComponent implements OnInit, OnDestroy {
+  combat: Combat
   isMaster = true;
-  combat: Combat = new Combat();
   attackDetails: AttackDetails;
   hasLoaded = false;
   actionModalOpened = false;
@@ -112,6 +112,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     this._combatManagement.combatUpdated
       .pipe(takeUntil(this.usubscriber)).subscribe(combat => {
       this.combat = combat;
+      this.hasLoaded = true;
     });
     interval(3000)
       .pipe(takeUntil(this.usubscriber)).subscribe(() => {
@@ -125,14 +126,6 @@ export class CombatComponent implements OnInit, OnDestroy {
           );
       }
     });
-    if (this.routeSnapshot.snapshot.params['id']) {
-      this._combatService.get(this.routeSnapshot.snapshot.params['id']).subscribe((combat) => {
-        this._combatManagement.combatUpdated.next(combat);
-        this.hasLoaded = true;
-      });
-    } else {
-      this.hasLoaded = true;
-    }
   }
 
   get isSaved(): boolean {
@@ -204,7 +197,11 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   saveCombat() {
-    this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
+    if (this.isSaved) {
+      this._combatService.update(this.combat).subscribe((combat) => this.combat = combat.entity);
+    } else {
+      this._combatService.create(this.combat).subscribe((combat) => this.combat = combat.entity);
+    }
   }
 
   endTurn() {
@@ -238,7 +235,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   removeMonster(i: number) {
-    const monster = this.monsters[i];
+    const monster = this.monsters[i] as Monster;
     this._combatService.removeMonster(new AddOrRemoveCreatureToCombatInput<Monster>(this.combat.id, monster))
       .subscribe(combat => {
         this._combatManagement.combatUpdated.next(combat);
@@ -269,7 +266,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     } as AddOrRemoveCreatureToCombatInput<typeof selectedCreature>;
     const observable = selectedCreatureType === CreatureType.Hero ?
       this._combatService.removeHero(input as AddOrRemoveCreatureToCombatInput<Hero>) :
-      this._combatService.removeMonster(input);
+      this._combatService.removeMonster(input as AddOrRemoveCreatureToCombatInput<Monster>);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
   }
 }

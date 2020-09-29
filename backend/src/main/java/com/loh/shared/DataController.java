@@ -1,6 +1,7 @@
 package com.loh.shared;
 
 import com.loh.creatures.Attributes;
+import com.loh.creatures.Skill;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class DataController {
 	@GetMapping(path="/skills")
 	public @ResponseBody List<String> getAllSkills() {
 		// This returns a JSON or XML with the users
-		return Attributes.getList();
+		return Skill.getList();
 	}
 	@GetMapping(path="/configs")
 	public @ResponseBody List<String> getConfigs() {

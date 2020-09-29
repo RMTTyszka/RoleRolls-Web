@@ -59,7 +59,12 @@ public class Campaign extends com.loh.shared.Entity {
 			throw new HeroNotFromAddedPlayerException();
 		}
 	}
-
+	public void removeHero(UUID heroId) {
+		heroes.removeIf(p -> p.getId().equals(heroId));
+	}
+	public void removeHeroFromPlayer(UUID playerId) {
+		heroes.removeIf(p -> p.getOwnerId().equals(playerId));
+	}
 	public boolean isMaster() {
 		return ((LohUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId().equals(masterId);
 	}
