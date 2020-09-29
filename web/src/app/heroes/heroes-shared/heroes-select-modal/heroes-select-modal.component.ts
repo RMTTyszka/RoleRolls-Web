@@ -33,8 +33,8 @@ export class HeroesSelectModalComponent implements OnInit {
   }
 
   get(event: any) {
-    this.service.getAllFiltered(null, 0,10).subscribe(heroes => {
-      this.heroes = heroes;
+    this.service.list(null, 0,10).subscribe(heroes => {
+      this.heroes = heroes.content;
     });
   }
 

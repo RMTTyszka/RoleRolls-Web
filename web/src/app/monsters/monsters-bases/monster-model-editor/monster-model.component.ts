@@ -1,7 +1,7 @@
 import {Component, Inject, Injector, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
+import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
 import {Race} from 'src/app/shared/models/Race.model';
 import {Role} from 'src/app/shared/models/Role.model';
 import {RolesService} from '../../../roles/roles.service';
@@ -9,13 +9,14 @@ import {RacesService} from '../../../races/races.service';
 import {BaseCreatorComponent} from '../../../shared/base-creator/base-creator.component';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {MonsterModelsService} from '../monster-models.service';
+import {DataService} from '../../../shared/data.service';
 
 @Component({
   selector: 'loh-monster-model',
   templateUrl: './monster-model.component.html',
-  styleUrls: ['./monster-model.component.css']
+  styleUrls: ['./monster-model.component.scss']
 })
-export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> implements OnInit, OnDestroy  {
+export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel, MonsterModel> implements OnInit, OnDestroy  {
   totalPointsAttributes: number;
   totalPointsSkills: number;
   maxSKillValue: number;
@@ -36,16 +37,28 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> im
     'actions ',
     'total'
   ];
+
+  get race() {
+    return this.entity ? this.entity.race : this.createEntity.race;
+  }
+  get role() {
+    return this.entity ? this.entity.role : this.createEntity.role;
+  }
   constructor(
     injector: Injector,
     public dialogRef: DynamicDialogRef,
     public dialogConfig: DynamicDialogConfig,
     protected service: MonsterModelsService,
     protected rolesService: RolesService,
+    private dataService: DataService,
     protected racesService: RacesService,
   ) {
     super(injector);
-    this.getEntity(dialogConfig ? dialogConfig.data.entityId : null);
+    if (dialogConfig.data) {
+      this.getEntity(dialogConfig.data.entityId);
+    } else {
+      this.getEntity();
+    }
   }
 
   ngOnInit() {
@@ -66,7 +79,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> im
     this.maxPropertyValue = this.dataService.maxPropertyValue;
     this.maxSKillValue = this.dataService.maxSkillValue;
     this.totalPointsAttributes = this.dataService.maxAttributes;
-    this.totalPointsSkills = this.entity.role.skillPoints || 6;
+    this.totalPointsSkills = this.entity ? this.entity.role.skillPoints : 6;
     this.isLoading = false;
   }
   raceSelected(race: Race) {
@@ -146,10 +159,10 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> im
   }
   setAttributesForm() {
     this.attributes.forEach(attr => {
-      const raceBon = this.entity.race.bonuses.find(
+      const raceBon = this.race.bonuses.find(
         b => b.property === attr
       );
-      const roleBon = this.entity.role.bonuses.find(
+      const roleBon = this.role.bonuses.find(
         b => b.property === attr
       );
 
@@ -176,7 +189,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> im
 
         this.calculateTotalProperty(attr);
       });
-      this.form.get('attributes.' + attr).setValue(this.entity.attributes[attr] || 0);
+      this.form.get('attributes.' + attr).setValue(this.entity ? this.entity.attributes[attr] : 0);
     });
 
     this.attributesIsLoading = false;
@@ -193,7 +206,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel> im
     }
   }
   setSkillsForm() {
-    this.form.addControl('mainSkills', this.fb.array(this.entity.mainSkills.map(sk => new FormControl(sk, []))));
+    this.form.addControl('mainSkills', this.fb.array(this.entity ? this.entity.mainSkills.map(sk => new FormControl(sk, [])) : []));
     this.skillsIsLoading = false;
     console.log(this.form.value);
 

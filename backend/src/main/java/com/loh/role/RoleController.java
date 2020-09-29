@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/roles",  produces = "application/json; charset=UTF-8")
-public class RoleController extends BaseCrudController<Role, RoleRepository> {
+public class RoleController extends BaseCrudController<Role, Role, Role, RoleRepository> {
 
 	@Autowired
 	RoleRepository repository;
@@ -23,5 +23,15 @@ public class RoleController extends BaseCrudController<Role, RoleRepository> {
 	@Override
 	public Role getnew() {
 		return null;
+	}
+
+	@Override
+	protected Role createInputToEntity(Role role) {
+		return role;
+	}
+
+	@Override
+	protected Role updateInputToEntity(Role role) {
+		return role;
 	}
 }

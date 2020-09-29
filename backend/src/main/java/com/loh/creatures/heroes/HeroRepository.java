@@ -1,11 +1,9 @@
 package com.loh.creatures.heroes;
 
+import com.loh.shared.BaseRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
 
-import java.util.UUID;
-
-public interface HeroRepository extends CrudRepository<Hero, UUID>, JpaSpecificationExecutor<Hero> {
+public interface HeroRepository extends BaseRepository<Hero>, JpaSpecificationExecutor<Hero> {
     Hero findByName(String name);
     Long deleteAllByNameContaining(String name);
 }

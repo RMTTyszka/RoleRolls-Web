@@ -8,7 +8,7 @@ import {Initiative} from '../shared/models/Iniciative.model';
 import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
 import {Hero} from '../shared/models/NewHero.model';
-import {Monster} from '../shared/models/Monster.model';
+import {Monster} from '../shared/models/creatures/monsters/Monster.model';
 import {AttackInput} from '../shared/models/combat/AttackInput';
 
 @Injectable({

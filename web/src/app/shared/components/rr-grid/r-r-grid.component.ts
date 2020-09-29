@@ -14,13 +14,17 @@ import {BaseComponentConfig} from '../base-component-config';
 })
 export class RRGridComponent<T extends Entity> implements OnInit {
   data: T[] = [];
-  @Input() columns: RRColumns[];
-  @Input() service: BaseCrudService<T>;
+  @Input('columns') _columns: RRColumns[];
+  @Input() service: BaseCrudService<T, T>;
   @Input() create: Function;
   @Input() config: BaseComponentConfig;
+  @Input() isSelect: boolean;
   totalCount: number;
   loading = true;
   first = 0;
+get columns() {
+  return this._columns || this.config.entityListColumns;
+}
 
   @Output() rowSelectedEvent = new EventEmitter<T>();
   constructor(
@@ -64,12 +68,16 @@ export class RRGridComponent<T extends Entity> implements OnInit {
 
   rowSelected(event: {data: T}) {
     this.rowSelectedEvent.emit(event.data);
+    if (!this.isSelect) {
       this.dialogService.open(this.config.editor, {
         data: {
-          entityId: event.data.id
+          entityId: event.data.id,
+          service: this.service
         }
       })
         .onClose.subscribe();
+
+    }
   }
 
 

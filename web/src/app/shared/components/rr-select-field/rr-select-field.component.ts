@@ -1,25 +1,26 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {BaseCrudService} from '../../base-service/base-crud-service';
 import {DialogService} from 'primeng/dynamicdialog';
-import {FormGroup, FormGroupDirective} from '@angular/forms';
+import {ControlValueAccessor, FormGroup, FormGroupDirective, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Entity} from '../../models/Entity.model';
 import {RrSelectModalComponent} from '../rr-select-modal/rr-select-modal.component';
 import {createForm} from '../../EditorExtension';
+import {FormManipulator} from '../../utils/form-manipulator';
 
 export interface RRSelectModalInjector<T extends Entity> {
-  service: BaseCrudService<T>;
+  service: BaseCrudService<T, T>;
 }
 
 @Component({
   selector: 'loh-rr-select-field',
   templateUrl: './rr-select-field.component.html',
   styleUrls: ['./rr-select-field.component.css'],
-  providers: [DialogService]
+  providers: [DialogService],
 })
 export class RrSelectFieldComponent<T extends Entity> implements OnInit {
 
-  @Input() service: BaseCrudService<T>;
-  @Input() formControlName: string;
+  @Input() service: BaseCrudService<T, T>;
+  @Input() controlName: string;
   @Input() initialValue: any;
 
   @Output() entitySelected = new EventEmitter<T>();
@@ -28,12 +29,14 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
   fieldName: string;
 
   form: FormGroup;
-  value: string;
+  descriptionValue: string;
+  public loaded = false;
 
   constructor(
     private dialog: DialogService,
     private formGroupDirective: FormGroupDirective
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.form = this.formGroupDirective.form || null;
@@ -41,8 +44,9 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
     this.fieldName = this.service.fieldName;
     this.modalTitle = this.service.selectModalTitle;
     if (this.initialValue) {
-      this.value = this.formControlName ? this.initialValue : this.initialValue[this.fieldName];
+      this.descriptionValue = this.controlName ? this.initialValue : this.initialValue[this.fieldName];
     }
+    this.loaded = true;
   }
 
   open() {
@@ -53,10 +57,11 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
     }).onClose.subscribe(entity => {
       if (entity) {
         this.entitySelected.next(entity);
-        if (!this.formControlName) {
-          this.value = entity[this.fieldName];
-        } else {
-          this.form.get(this.formControlName).setValue(createForm(new FormGroup({}), entity));
+        this.descriptionValue = entity[this.fieldName];
+        if (this.controlName) {
+          const form = new FormGroup({});
+          createForm(form, entity)
+          this.form.get(this.controlName).patchValue(entity);
         }
         this.entitySelected.next(entity);
       }

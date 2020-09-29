@@ -1,5 +1,5 @@
 import {Entity} from '../Entity.model';
-import {Monster} from '../Monster.model';
+import {Monster} from '../creatures/monsters/Monster.model';
 import {Hero} from '../NewHero.model';
 import {Initiative} from '../Iniciative.model';
 import {CombatLog} from './CombatLog';

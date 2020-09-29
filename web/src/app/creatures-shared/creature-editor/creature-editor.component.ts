@@ -1,6 +1,4 @@
-import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {HeroesService} from '../../heroes/heroes.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from '../../shared/data.service';
 import {Race} from '../../shared/models/Race.model';
 import {FormGroup} from '@angular/forms';
@@ -8,221 +6,180 @@ import {Bonus} from '../../shared/models/Bonus.model';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {BaseCrudService} from '../../shared/base-service/base-crud-service';
-import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
+import {Entity} from '../../shared/models/Entity.model';
+import {Role} from '../../shared/models/Role.model';
+import {EditorAction} from '../../shared/dtos/ModalEntityData';
+import {MessageService} from 'primeng/api';
+import {CreatureManagementService} from '../interfaces/creature-management-service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'loh-creature-editor',
   templateUrl: './creature-editor.component.html',
   styleUrls: ['./creature-editor.component.css']
 })
-export class CreatureEditorComponent<T extends Creature> extends BaseCreatorComponent<T> implements OnInit, OnDestroy {
-  attributes: string[] = [];
-  skills: string[] = [];
-  totalInitialAttributePoints: number;
-  totalAttributesBonusPoints: number;
-  maximumAttributesBonusPoints: number;
-  maxInitialAttributesPoints: number;
-  @Input() protected service: BaseCrudService<T>;
-  constructor(
-    injector: Injector,
-    protected dialogRef: DynamicDialogRef,
-    protected dataService: DataService,
-    @Inject(MAT_DIALOG_DATA) data: any
-  ) {
-    super(injector);
-    console.log(data);
+export class CreatureEditorComponent<T extends Creature, TCreateInput extends Entity> implements OnInit {
+  public action: EditorAction;
+  public form = new FormGroup({});
+  public attributes: string[] = [];
+  public isLoading = true;
+  public entity: T;
+  public attributeDetailsIsOpened = false;
+  @Input() entityId: string
+  @Input() creatureManagementService: CreatureManagementService
+  @Input() service: BaseCrudService<T, TCreateInput>
 
-    // this.service = injector.get(MonstersService);
-    this.getEntity(data ? data.id : null);
-    this.dataService.getAllSkills().subscribe(skills => this.skills = skills);
+  public get isCreating() {
+    return this.action === EditorAction.create;
+  }
+  private: MessageService;
+  constructor(
+    private dataService: DataService,
+    public ref: DynamicDialogRef,
+    private messageService: MessageService,
+  ) {
+    this.action = EditorAction.update;
+    this.dataService.attributes2.subscribe(val => this.attributes = val);
   }
 
   ngOnInit() {
-
+    this.service.onEntityChange.pipe(
+      take(1)
+    ).subscribe((entity: T) => {
+      console.log(entity);
+      this.entity = entity;
+      this.creatureManagementService.entity = entity;
+    });
   }
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
 
-
-  afterGetEntity() {
+  loaded(entity: T) {
+    this.isLoading = false;
     this.form.get('level').valueChanges.subscribe(val => {
       this.dataService.getLevelData(val).subscribe(levelDetails => {
-        this.form.get('nextLevel').setValue(levelDetails.expToNextLevel);
-        this.totalAttributesBonusPoints = levelDetails.totalAttributesBonusPoints;
-        this.maximumAttributesBonusPoints = levelDetails.maxAttributesBonusPoints;
-        this.totalInitialAttributePoints = levelDetails.totalInitialAttributes;
-        this.maxInitialAttributesPoints = levelDetails.maxInitialAttributesPoints;
+        //  this.form.get('nextLevel').setValue(levelDetails.expToNextLevel);
+        this.form.get('totalAttributesBonusPoints').setValue(levelDetails.totalAttributesBonusPoints);
+        this.form.get('maxAttributeBonusPoints').setValue(levelDetails.maxAttributesBonusPoints);
+        this.form.get('totalAttributesInitialPoints').setValue(levelDetails.totalInitialAttributes);
+        this.form.get('maxInitialAttributePoints').setValue(levelDetails.maxInitialAttributesPoints);
       });
     });
-    this.form.get('level').disable();
-    this.form.get('experience').disable();
-    this.form.get('nextLevel').disable();
-    this.dataService.getAllAttributes().subscribe(attrs => {
-      this.attributes = attrs;
-      if (this.action === 'create') {
-        this.attributes.forEach(attr => {
-          this.form.get('baseAttributes.' + attr).setValue(8);
-        });
-      }
-    });
+    this.form.get('race').disable();
+    this.form.get('role').disable();
+    this.entity = entity;
+    this.creatureManagementService.entity = entity;
+  }
+  totalAttribute(attr: string) {
+    return this.baseAttribute(attr) + this.bonusPointsAttribute(attr) + this.raceAttributeBonus(attr) + this.roleAttributeBonus(attr);
+  }
+  baseAttribute(attr: string) {
+    return Number.parseInt(this.form.get('baseAttributes.' + attr).value, 10);
   }
 
-  selectRace() {
-    if (this.action === 'edit') {
-      return;
-    }
-    this.dialog.open(null, {}).onClose.subscribe((race: Race) => {
-      if (!race) {
-        return;
-      }
-      console.log(race);
-      const form = new FormGroup({});
-      this.createForm(form, race);
-      this.form.removeControl('race');
-      this.form.addControl('race', form);
-    });
+  bonusPointsAttribute(attr: string) {
+    return Number.parseInt(this.form.get('bonusAttributes.' + attr).value, 10);
   }
-  selectRole() {
-    if (this.action === 'edit') {
-      return;
-    }
-    this.dialog.open(null, {}).onClose.subscribe(role => {
-      if (!role) {
-        return;
-      }
-      const form = new FormGroup({});
-      this.createForm(form, role);
-      this.form.removeControl('role');
-      this.form.addControl('role', form);
-      role.bonuses.forEach(bonus => {
-        let propertyCategory;
-        if (this.attributes.indexOf(bonus.property) >= 0) {
-          propertyCategory = 'attributes.';
-          this.form.get(propertyCategory + bonus.property).setValue(this.form.get(propertyCategory + bonus.property).value + bonus.level);
-          this.totalInitialAttributePoints += bonus.level;
-
-        } else if (this.skills.indexOf(bonus.property) >= 0) {
-          propertyCategory = 'skills.';
-          this.form.get(propertyCategory + bonus.property).setValue(this.form.get(propertyCategory + bonus.property).value + bonus.bonus);
-        }
-      });
-    });
+  raceAttributeBonus(attr: string): number {
+    return (this.race.get('bonuses').value as Bonus[])
+      .some(bonus => bonus.property === attr) ?
+      (this.race.get('bonuses').value as Bonus[]).find(bonus => bonus.property === attr).level
+      : 0;
   }
-
-  get sumAttributesBonusPoints() {
-    return this.attributes.map(attr => this.form.get('attributes.' + attr + 'BonusPoints').value).reduce((a, b) => a + b, 0);
+  roleAttributeBonus(attr: string): number {
+    return (this.role.get('bonuses').value as Bonus[])
+      .some(bonus => bonus.property === attr) ?
+      (this.role.get('bonuses').value as Bonus[]).find(bonus => bonus.property === attr).level
+      : 0;
   }
-  get sumAttributesBasePoints() {
-    return this.attributes.map(attr => this.form.get('baseAttributes.' + attr).value).reduce((a, b) => a + b, 0);
+  addLevel() {
+    this.form.get('level').setValue(this.level + 1);
   }
-
-  attributeAddButtonShouldBeDisabled(attr: string): boolean {
-
-    if (!this.initialAttributesPointsCompleted) {
-      return this.form.get('baseAttributes.' + attr).value >= this.maxInitialAttributesPoints;
-    } else {
-      return this.form.get('attributes.' + attr + 'BonusPoints').value >= this.maximumAttributesBonusPoints
-        || this.sumAttributesBonusPoints >= this.totalAttributesBonusPoints;
-    }
-
-  }
-
-  get initialAttributesPointsCompleted() {
-    return this.sumAttributesBasePoints >= this.totalInitialAttributePoints;
-  }
-  attributeRemoveButtonShouldBeDisabled(attr: string): boolean {
-    if (this.initialAttributesPointsCompleted) {
-      return this.form.get('attributes.' + attr + 'BonusPoints').value <= 0;
-    } else {
-      return this.form.get('baseAttributes.' + attr).value <= 8;
-    }
-  }
-  getTotalAttributeValue(attr: string) {
-    const baseValue = this.form.get('baseAttributes.' + attr).value;
-    const bonusPoints = this.form.get('attributes.' + attr + 'BonusPoints').value;
-    const racePoints = this.getRaceAttrBalue(attr);
-    return baseValue + bonusPoints + racePoints;
-  }
-
-  addAttributeBonusPoints(attr: string) {
-    if (!this.attributeAddButtonShouldBeDisabled(attr)) {
-      if (this.totalInitialAttributePoints > this.sumAttributesBasePoints) {
-        this.form.get('baseAttributes.' + attr).setValue(this.form.get('baseAttributes.' + attr).value + 1);
+  removeLevel() {
+    if (this.level > this.entity.level) {
+      if (this.usedAttributesBonusPoints < this.totalAttributesBonusPoints && !this.hasMaximumUsedAttributesBonusPoints) {
+        this.form.get('level').setValue(this.level - 1);
       } else {
-        this.form.get('attributes.' + attr + 'BonusPoints').setValue(this.form.get('attributes.' + attr + 'BonusPoints').value + 1);
-
-      }
-    }
-  }
-  removeAttributeBonusPoints(attr: string) {
-    if (!this.attributeRemoveButtonShouldBeDisabled(attr)) {
-      if (this.form.get('attributes.' + attr + 'BonusPoints').value > 0) {
-        this.form.get('attributes.' + attr + 'BonusPoints').setValue(this.form.get('attributes.' + attr + 'BonusPoints').value - 1);
-
-      } else if (this.form.get('baseAttributes.' + attr).value > 8) {
-        this.form.get('baseAttributes.' + attr ).setValue(this.form.get('baseAttributes.' + attr).value - 1);
+        this.messageService.add({severity: 'error', detail: 'remove used bonus points', summary: 'Cannot reduce level'});
       }
     }
   }
 
-  get sumSkillsBonusPoints() {
-    return this.skills.map(sk => this.form.get('skills.' + sk + 'BonusPoints').value).reduce((a, b) => a + b, 0);
-  }
-
-  get totalSkillsBonusPoints() {
-    return HeroesService.getTotalSkillsBonusPoints(this.form.get('level').value);
-  }
-
-  get maximumSkillsBonusPoints() {
-    return HeroesService.getMaximumSkillsBonusPoints(this.form.get('level').value);
-  }
-
-  get levelUpDisabled(): boolean {
-    return this.form.get('experience').value < this.form.get('nextLevel').value;
-  }
-
-  skillAddButtonShouldBeDisabled(sk: string): boolean {
-    return this.form.get('skills.' + sk + 'BonusPoints').value >= this.maximumSkillsBonusPoints
-      || this.sumSkillsBonusPoints >= this.totalSkillsBonusPoints;
-  }
-  skillRemoveButtonShouldBeDisabled(sk: string): boolean {
-    return this.form.get('skills.' + sk + 'BonusPoints').value <= 0;
-  }
-  getTotalSkillValue(sk: string) {
-    return this.form.get('skills.' + sk).value
-      + this.form.get('skills.' + sk + 'BonusPoints').value;
-  }
-
-  addSkillBonusPoints(sk: string) {
-    if (!this.skillAddButtonShouldBeDisabled(sk)) {
-
-      this.form.get('skills.' + sk + 'BonusPoints').setValue(this.form.get('skills.' + sk + 'BonusPoints').value + 1);
-    }
-  }
-  removeSkillBonusPoints(sk: string) {
-    if (!this.skillRemoveButtonShouldBeDisabled(sk)) {
-      this.form.get('skills.' + sk + 'BonusPoints').setValue(this.form.get('skills.' + sk + 'BonusPoints').value - 1);
+  addAttr(attr: string) {
+    if (this.usedAttributesBasePoints < this.totalAttributesInitialPoints
+      && this.baseAttribute(attr) < this.maxInitialAttributesPoints) {
+      this.form.get('baseAttributes.' + attr).setValue(this.baseAttribute(attr) + 1);
+    } else if (this.usedAttributesBonusPoints < this.totalAttributesBonusPoints
+      && this.bonusPointsAttribute(attr) < this.maxAttributeBonusPoints) {
+      this.form.get('bonusAttributes.' + attr).setValue(this.bonusPointsAttribute(attr) + 1);
     }
   }
 
-  levelUp() {
-    this.form.get('level').setValue(this.form.get('level').value + 1);
+  removeAttr(attr: string) {
+    if (this.bonusPointsAttribute(attr) > this.entity.level - 1) {
+      this.form.get('bonusAttributes.' + attr).setValue(this.bonusPointsAttribute(attr) - 1);
+    } else if (this.baseAttribute(attr) > 5 && this.action === EditorAction.create) {
+      this.form.get('baseAttributes.' + attr).setValue(this.baseAttribute(attr) - 1);
+    }
+  }
+  resetAttrs() {
+    if (this.action === EditorAction.create) {
+      this.attributes.forEach(attr => {
+        this.form.get('baseAttributes.' + attr).setValue(8);
+        this.form.get('bonusAttributes.' + attr).setValue(0);
+      });
+    } else if (this.action === EditorAction.update) {
+      this.attributes.forEach(attr => {
+        this.form.get('bonusAttributes.' + attr).setValue(this.entity.bonusAttributes[attr]);
+      });
+    }
+  }
+  get usedAttributesBasePoints() {
+    const total = this.attributes.reduce((p, n) => Number.parseInt(this.form.get('baseAttributes.' + n).value, 10) + p, 0);
+    return total;
+  }
+  get usedAttributesBonusPoints() {
+    const total = this.attributes.reduce((p, n) => Number.parseInt(this.form.get('bonusAttributes.' + n).value, 10) + p, 0);
+    return total;
   }
 
-  getRaceAttrBalue(attr: string) {
-    return (this.form.get('race.bonuses').value as Bonus[])
-      .filter(bonus => bonus.property === attr)
-      .reduce((a, b ) => a + b.level, 0);
-  }
-  getRoleAttrBalue(attr: string) {
-    return (this.form.get('role.bonuses').value as Bonus[])
-      .filter(bonus => bonus.property === attr)
-      .reduce((a, b ) => a + b.level, 0);
+  get hasMaximumUsedAttributesBonusPoints() {
+    return this.attributes.some(attr => this.form.get('bonusAttributes.' + attr).value >= this.maxAttributeBonusPoints);
   }
 
+  get totalAttributesInitialPoints(): number {
+    return this.form.get('totalAttributesInitialPoints').value;
+  }
+  get maxInitialAttributesPoints(): number {
+    return this.form.get('maxInitialAttributePoints').value;
+  }
+  get totalAttributesBonusPoints(): number {
+    return this.form.get('totalAttributesBonusPoints').value;
+  }
+  get maxAttributeBonusPoints(): number {
+    return this.form.get('maxAttributeBonusPoints').value;
+  }
+  get level(): number {
+    return this.form.get('level').value;
+  }
+  raceSelected(race: Race) {
+    console.log(this.form);
+  }
+  roleSelected(race: Role) {
+    console.log(this.form);
+  }
+  get race() {
+    return this.form.get('race') as FormGroup;
+  }
+  get role() {
+    return this.form.get('role') as FormGroup;
+  }
+  deleted() {
+    this.ref.close(true);
+  }
 
-
-
-
+  attributeLevel(attr: string) {
+    return Math.floor((this.totalAttribute(attr) + 4) / 5);
+  }
+  attributeBonusDice(attr: string) {
+    return '1d' + (this.totalAttribute(attr) + 5) % 5 * 4;
+  }
 }

@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CreatureStatus} from '../../shared/models/creatures/CreatureStatus.model';
 
 @Component({
-  selector: 'loh-hero-stats',
-  templateUrl: './hero-stats.component.html',
-  styleUrls: ['./hero-stats.component.css']
+  selector: 'loh-creature-stats',
+  templateUrl: './creature-stats.component.html',
+  styleUrls: ['./creature-stats.component.css']
 })
-export class HeroStatsComponent implements OnInit {
+export class CreatureStatsComponent implements OnInit {
 
   stats: string[] = ['defense', 'evasion', 'life', 'moral', 'dodge', 'specialAttack', 'magicDefense', 'mana', 'specialPower'];
   @Input() status: CreatureStatus;

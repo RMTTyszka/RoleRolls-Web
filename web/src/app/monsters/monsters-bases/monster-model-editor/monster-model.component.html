@@ -18,11 +18,11 @@
           </div>
           <div class="p-field p-col">
             <label for="race" class="p-col-fixed" style="width:100px">Race</label>
-            <loh-rr-select-field id="race" [service]="racesService" (entitySelected)="raceSelected($event)" [initialValue]="entity.race"></loh-rr-select-field>
+            <loh-rr-select-field id="race" [service]="racesService" (entitySelected)="raceSelected($event)" [initialValue]="race"></loh-rr-select-field>
           </div>
           <div class="p-field p-col">
             <label for="role" class="p-col-fixed" style="width:100px">Role</label>
-            <loh-rr-select-field id="role" [service]="rolesService" (entitySelected)="roleSelected($event)" [initialValue]="entity.role"></loh-rr-select-field>
+            <loh-rr-select-field id="role" [service]="rolesService" (entitySelected)="roleSelected($event)" [initialValue]="role"></loh-rr-select-field>
           </div>
         </div>
 
@@ -244,8 +244,8 @@
     </mat-tab-group>
     <div *ngIf="true">
       <div class="actions">
-        <button type="button" pButton (click)="save()">Save</button>
-        <button type="button" pButton (click)="delete()">Delete</button>
+        <button type="button" pButton (click)="save()" label="Save"></button>
+        <button type="button" pButton (click)="delete()" label="Delete" class="ui-button-danger"></button>
       </div>
     </div>
   </form>

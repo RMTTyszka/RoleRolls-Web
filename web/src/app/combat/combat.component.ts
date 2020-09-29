@@ -3,7 +3,7 @@ import {CombatService} from './combat.service';
 import {Hero} from '../shared/models/NewHero.model';
 import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/combat/Combat.model';
-import {Monster} from '../shared/models/Monster.model';
+import {Monster} from '../shared/models/creatures/monsters/Monster.model';
 import {Creature} from '../shared/models/creatures/Creature.model';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
@@ -235,7 +235,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   removeMonster(i: number) {
-    const monster = this.monsters[i];
+    const monster = this.monsters[i] as Monster;
     this._combatService.removeMonster(new AddOrRemoveCreatureToCombatInput<Monster>(this.combat.id, monster))
       .subscribe(combat => {
         this._combatManagement.combatUpdated.next(combat);
@@ -266,7 +266,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     } as AddOrRemoveCreatureToCombatInput<typeof selectedCreature>;
     const observable = selectedCreatureType === CreatureType.Hero ?
       this._combatService.removeHero(input as AddOrRemoveCreatureToCombatInput<Hero>) :
-      this._combatService.removeMonster(input);
+      this._combatService.removeMonster(input as AddOrRemoveCreatureToCombatInput<Monster>);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
   }
 }

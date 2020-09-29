@@ -1,7 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {BaseCombatCreatureService} from '../interfaces/baseCombatCreatureService';
 import {Observable, Subject} from 'rxjs';
-import {Monster} from '../../shared/models/Monster.model';
+import {Monster} from '../../shared/models/creatures/monsters/Monster.model';
 import {MonsterService} from '../../monsters/monster/monster.service';
 import {map} from 'rxjs/operators';
 import {PagedOutput} from '../../shared/dtos/PagedOutput';

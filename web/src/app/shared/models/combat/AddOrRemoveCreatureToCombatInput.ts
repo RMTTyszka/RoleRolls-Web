@@ -1,5 +1,5 @@
 import {Hero} from '../NewHero.model';
-import {Monster} from '../Monster.model';
+import {Monster} from '../creatures/monsters/Monster.model';
 import {Creature} from '../creatures/Creature.model';
 
 export class AddOrRemoveCreatureToCombatInput<T extends Creature> {

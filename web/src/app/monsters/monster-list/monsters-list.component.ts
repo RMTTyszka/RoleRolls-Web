@@ -1,11 +1,12 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {Monster} from '../../shared/models/Monster.model';
+import {Monster} from '../../shared/models/creatures/monsters/Monster.model';
 import {MonsterComponent} from '../monster/monster.component';
 import {Router} from '@angular/router';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {MonsterCreateComponent} from '../monster-create/monster-create.component';
 import {MonsterService} from '../monster/monster.service';
+import {MonsterConfig} from '../monster-config';
 
 @Component({
   selector: 'loh-monsters-list',
@@ -14,6 +15,7 @@ import {MonsterService} from '../monster/monster.service';
   providers: [DialogService]
 })
 export class MonstersListComponent implements OnInit {
+  config = new MonsterConfig();
   columns: RRColumns[] = [
     {
       header: 'Name',
@@ -46,6 +48,10 @@ export class MonstersListComponent implements OnInit {
     );
   }
   create = () =>  {
-    this.dialog.open(MonsterCreateComponent, {}).onClose.subscribe();
+    this.dialog.open(MonsterCreateComponent, {}).onClose.subscribe((monster) => {
+      if (monster) {
+
+      }
+    });
   }
 }

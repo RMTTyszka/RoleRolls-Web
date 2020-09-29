@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {LegacyBaseCrudServiceComponent} from 'src/app/shared/legacy-base-service/legacy-base-crud-service.component';
-import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
+import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
 
 @Injectable({
   providedIn: 'root'

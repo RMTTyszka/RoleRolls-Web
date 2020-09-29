@@ -1,6 +1,6 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {LegacyBaseListComponent} from 'src/app/shared/base-list/legacy-base-list.component';
-import {MonsterModel} from 'src/app/shared/models/MonsterModel.model';
+import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
 import {MonsterModelComponent} from '../monster-model-editor/monster-model.component';
 import {Router} from '@angular/router';
 import {DeviceDetectorService} from 'ngx-device-detector';
@@ -12,7 +12,7 @@ import {MonsterModelConfig} from '../monster-model-config';
 @Component({
   selector: 'loh-monster-model-list',
   templateUrl: './monster-model-list.component.html',
-  styleUrls: ['./monster-model-list.component.css'],
+  styleUrls: ['./monster-model-list.component.scss'],
   providers: [DialogService]
 })
 export class MonsterBaseListComponent implements OnInit {

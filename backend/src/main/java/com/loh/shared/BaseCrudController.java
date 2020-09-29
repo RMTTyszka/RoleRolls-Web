@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-public abstract class BaseCrudController<T extends Entity, R extends BaseRepository<T>> {
+public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateInput, R extends BaseRepository<T>> {
     public BaseCrudController(R repository) {
         this.repository = repository;
     }
@@ -41,27 +41,30 @@ public abstract class BaseCrudController<T extends Entity, R extends BaseReposit
     }
     @GetMapping(path="/new")
     public abstract  @ResponseBody
-    T getnew();
+    TCreateInput getnew();
     @PutMapping(path="")
     public @ResponseBody
-    BaseCrudResponse<T> update(@RequestBody T entity) {
-
+    BaseCrudResponse<T> update(@RequestBody TUpdateInput input) {
+        T entity = updateInputToEntity(input);
         return saveAndGetWeaponBaseCrudResponse(entity);
     }
 
     private BaseCrudResponse<T> saveAndGetWeaponBaseCrudResponse(T entity) {
-        T updatedWeapon = repository.save(entity);
+        T updatedEntity = repository.save(entity);
         BaseCrudResponse response = new BaseCrudResponse<T>();
         response.success = true;
-        response.message = "Successfully Created Weapon";
-        response.entity = updatedWeapon;
+        response.message = "Successfully Created";
+        response.entity = updatedEntity;
         return response;
     }
 
+    protected abstract T createInputToEntity(TCreateInput input);
+    protected abstract T updateInputToEntity(TUpdateInput input);
+
     @PostMapping(path="")
     public @ResponseBody
-    BaseCrudResponse<T> add(@RequestBody T entity) {
-
+    BaseCrudResponse<T> add(@RequestBody TCreateInput input) throws Exception {
+        T entity = createInputToEntity(input);
         return saveAndGetWeaponBaseCrudResponse(entity);
     }
     @DeleteMapping(path="/{id}")

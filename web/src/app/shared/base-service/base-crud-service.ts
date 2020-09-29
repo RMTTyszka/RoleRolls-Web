@@ -1,4 +1,4 @@
-import {Injector, OnInit, Type} from '@angular/core';
+import {EventEmitter, Injector, OnInit, Type} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Entity} from '../models/Entity.model';
@@ -8,16 +8,15 @@ import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import {RRColumns} from '../components/cm-grid/cm-grid.component';
 import {BaseComponentConfig} from '../components/base-component-config';
-
-export abstract class BaseCrudService<T extends Entity> implements OnInit {
-
+export abstract class BaseCrudService<T extends Entity, TCreateInput> {
   public abstract path: string;
   public abstract selectPlaceholder: string;
   public abstract fieldName: string;
   public abstract selectModalTitle: string;
   public abstract selectModalColumns: RRColumns[];
   public abstract entityListColumns: RRColumns[];
-
+  onSaveAction = new EventEmitter<boolean>();
+  onEntityChange = new Subject<T>();
   serverUrl = LOH_API.myBackUrl;
   entityUpdated = new Subject<T>();
   entityDeleted = new Subject<T>();
@@ -27,9 +26,6 @@ export abstract class BaseCrudService<T extends Entity> implements OnInit {
     injector: Injector,
   ) {
     this.http = injector.get(HttpClient);
-   }
-
-  ngOnInit() {
   }
 
   list(filter: string = '', skipCount: number = 0, maxResultCount: number = 15): Observable<PagedOutput<T>> {
@@ -44,11 +40,11 @@ export abstract class BaseCrudService<T extends Entity> implements OnInit {
   get(id: string): Observable<T> {
     return this.http.get<T>(this.serverUrl + this.path + `/${id}`);
   }
-  getNew(): Observable<T> {
-    return this.http.get<T>(this.serverUrl + this.path + `/new`);
+  getNew(): Observable<TCreateInput> {
+    return this.http.get<TCreateInput>(this.serverUrl + this.path + `/new`);
   }
 
-  create(entity: T): Observable<BaseCrudResponse<T>> {
+  create(entity: TCreateInput): Observable<BaseCrudResponse<T>> {
     return this.http.post<BaseCrudResponse<T>>(this.serverUrl + this.path, entity).pipe(
       tap((response: BaseCrudResponse<T>) => this.entityCreated.next(response.entity))
     );
@@ -58,14 +54,13 @@ export abstract class BaseCrudService<T extends Entity> implements OnInit {
       tap((response: BaseCrudResponse<T>) => {
         if (!response.success) {
         } else {
-        this.entityUpdated.next(response.entity);
+          this.entityUpdated.next(response.entity);
         }
       }));
-    }
+  }
   delete(id: string): Observable<BaseCrudResponse<T>> {
     return this.http.delete<BaseCrudResponse<T>>(this.serverUrl + this.path + `${id}`).pipe(
       tap((response: BaseCrudResponse<T>) => this.entityDeleted.next(response.entity))
     );
   }
-
 }

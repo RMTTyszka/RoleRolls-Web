@@ -12,7 +12,7 @@ import {NeckAccessoryInstance} from '../../shared/models/NeckAccessoryInstance.m
 import {RingHand, SelectedRing} from '../inventory/inventory-ring-select/inventory-ring-select.component';
 import {RingInstance} from '../../shared/models/RingInstance.model';
 import {Message, MessageService} from 'primeng/api';
-import {HeroFundsService} from '../../heroes/hero-funds/hero-funds.service';
+import {HeroFundsService} from '../hero-funds/hero-funds.service';
 import {ShopArmor} from '../../shared/models/shop/ShopArmor.model';
 
 @Component({

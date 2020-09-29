@@ -7,7 +7,7 @@ import {RRColumns} from '../shared/components/cm-grid/cm-grid.component';
 @Injectable({
   providedIn: 'root'
 })
-export class RolesService extends BaseCrudService<Role> {
+export class RolesService extends BaseCrudService<Role, Role> {
   editorModal: any;
   entityListColumns: RRColumns[] = [
     {

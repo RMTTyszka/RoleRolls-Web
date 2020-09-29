@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {MonsterService} from '../../monster/monster.service';
-import {Monster} from '../../../shared/models/Monster.model';
+import {Monster} from '../../../shared/models/creatures/monsters/Monster.model';
 import {Hero} from '../../../shared/models/NewHero.model';
 import {Combat} from '../../../shared/models/combat/Combat.model';
 import {CampaignCombatMonsterService} from '../../../creatures-shared/creature-base-select/campaign-combat-monster.service';

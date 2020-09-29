@@ -1,49 +1,43 @@
 import {Injector, OnDestroy, OnInit} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import {DataService} from '../data.service';
 import {Router} from '@angular/router';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {BaseCrudService} from '../base-service/base-crud-service';
+import {EditorAction} from '../dtos/ModalEntityData';
 
 export interface IEditorInput<T> {
   entity: T;
 }
 
-export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy {
+export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnInit, OnDestroy {
   entityIsLoading = true;
   isLoading = true;
-  action = 'create';
+  action: EditorAction = EditorAction.update;
   entity: T;
+  createEntity: TCreateInput;
   form: FormGroup = new FormGroup({});
   fb: FormBuilder;
   router: Router;
 
-  protected service: BaseCrudService<T>;
-  myService: string;
-  protected dataService: DataService;
-
+  protected service: BaseCrudService<T, TCreateInput>;
   protected dialog: DialogService;
   protected dialogRef: DynamicDialogRef;
-  protected entitySubscription: Subscription;
   constructor(
     protected injector: Injector,
     ) {
       this.dialog = injector.get(DialogService);
-      this.dataService = injector.get(DataService);
+      this.dialogRef = injector.get(DynamicDialogRef);
       this.fb = injector.get(FormBuilder);
       this.router = injector.get(Router);
-
      }
 
   ngOnInit() {
     this.getEntity();
   }
   getEntity(id?: string) {
-
     if (id) {
-      this.action = 'update';
+      this.action = EditorAction.update;
       this.service.get(id).subscribe(entity => {
 
         this.entity = entity;
@@ -57,9 +51,9 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
       });
     } else {
       this.service.getNew().subscribe(newEntity => {
-        this.entity = newEntity;
-        console.log(JSON.stringify(this.entity));
-        this.createForm(this.form, this.entity);
+        this.createEntity = newEntity;
+        console.log(JSON.stringify(newEntity));
+        this.createForm(this.form, newEntity);
         this.isLoading = false;
         this.entityIsLoading = false;
         console.log(this.form.value);
@@ -76,7 +70,7 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
     return;
   }
 
-  createForm(form: FormGroup, entity: Entity) {
+  createForm(form: FormGroup, entity: any) {
 
     Object.entries(entity).forEach((entry) => {
       if (entry[1] instanceof Array) {
@@ -104,14 +98,18 @@ export class BaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy
   }
 
   save() {
-    const entity: T =  Object.assign(this.form.getRawValue());
-    console.log(JSON.stringify(entity));
-    if (this.action === 'create') {
+
+    if (this.action === EditorAction.create) {
+      const entity: TCreateInput =  Object.assign(this.form.getRawValue());
+      console.log(JSON.stringify(entity));
       this.service.create(entity).subscribe(updatedEntity => {
+
           this.dialogRef.close();
         }
       );
-    } else if (this.action === 'update') {
+    } else if (this.action === EditorAction.update) {
+      const entity: T =  Object.assign(this.form.getRawValue());
+      console.log(JSON.stringify(entity));
       this.service.update(entity).subscribe(updatedEntity => {
           this.dialogRef.close();
         }

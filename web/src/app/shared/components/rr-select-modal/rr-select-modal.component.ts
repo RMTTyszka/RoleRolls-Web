@@ -13,7 +13,7 @@ import {RRSelectModalInjector} from '../rr-select-field/rr-select-field.componen
 export class RrSelectModalComponent<T extends Entity> implements OnInit {
 
   hasLoaded = false;
-  service: BaseCrudService<T>;
+  service: BaseCrudService<T, T>;
   constructor(
     private dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,

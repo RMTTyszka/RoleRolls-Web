@@ -1,38 +1,34 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, FormGroupDirective} from '@angular/forms';
-import {Inventory} from '../../shared/models/Inventory.model';
-import {HeroManagementService} from '../hero-management.service';
-import {createForm} from '../../shared/EditorExtension';
-import {ItemInstance} from '../../shared/models/ItemInstance.model';
-import {EquipableInstance} from '../../shared/models/EquipableInstance.model';
+import {Inventory} from '../../../shared/models/Inventory.model';
+import {HeroManagementService} from '../../../heroes/hero-management.service';
+import {createForm} from '../../../shared/EditorExtension';
+import {ItemInstance} from '../../../shared/models/ItemInstance.model';
+import {EquipableInstance} from '../../../shared/models/EquipableInstance.model';
+import {CreatureManagementService} from '../../interfaces/creature-management-service';
 
 @Component({
-  selector: 'loh-hero-inventory',
+  selector: 'loh-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent implements OnInit {
 
   @Input() formGroupName = 'inventory'
+  @Input() private creatureManagementService: CreatureManagementService
+
   form: FormGroup;
   constructor(
     private formGroupDirective: FormGroupDirective,
-    private fb: FormBuilder,
-    private heroManagementService: HeroManagementService
   ) {
-    this.heroManagementService.addItemToinventory.subscribe(item => {
+  }
+
+  ngOnInit() {
+    this.creatureManagementService.addItemToInventory.subscribe(item => {
       const itemForm = new FormGroup({});
       createForm(itemForm, item);
       (this.form.get('items') as FormArray).push(itemForm);
     });
-    this.heroManagementService.updateFunds.subscribe(value => {
-      let funds = this.form.get('cash1').value;
-      funds -= value;
-      this.form.get('cash1').setValue(funds);
-    });
-  }
-
-  ngOnInit() {
     this.form = this.formGroupDirective.form.get(this.formGroupName) as FormGroup;
   }
   get inventory(): Inventory {

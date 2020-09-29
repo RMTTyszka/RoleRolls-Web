@@ -5,25 +5,24 @@ import com.loh.creatures.Creature;
 import com.loh.creatures.CreatureType;
 import com.loh.creatures.equipment.Equipment;
 import com.loh.creatures.inventory.Inventory;
-import com.loh.creatures.monsters.models.MonsterModel;
 import com.loh.race.Race;
 import com.loh.role.Role;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("Monster")
 public class Monster extends Creature {
 
-    @OneToOne
     @Getter
     @Setter
-    private MonsterModel monsterModel;
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID monsterModelId;
     @Override
     protected CreatureType getCreatureType() {
         return CreatureType.Monster;
@@ -33,7 +32,6 @@ public class Monster extends Creature {
         id = UUID.randomUUID();
         level = 1;
         name = "new monster";
-        monsterModel = new MonsterModel();
     }
     public Monster(String name, Race race, Role role, UUID creatorId, UUID ownerId){
         super();

@@ -8,7 +8,11 @@
   <div class="p-field p-grid">
     <label for="name" class="p-col-fixed">Name</label>
     <div class="p-col">
-      <loh-rr-select-field id="model" [service]="monsterModelService"></loh-rr-select-field>
+      <loh-rr-select-field id="model" [service]="monsterModelService" controlName="monsterModel"></loh-rr-select-field>
     </div>
+  </div>
+  <div class="actions">
+    <button type="button" pButton (click)="save()" label="Save"></button>
+    <button type="button" pButton (click)="delete()" label="Delete" class="ui-button-danger"></button>
   </div>
 </form>
