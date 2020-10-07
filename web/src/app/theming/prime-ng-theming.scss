@@ -4,6 +4,18 @@
 .ui-dialog-titlebar {
   background-color: $mainColor3 !important;
 }
+.ui-panel {
+  width: 100%;
+  height: 100%;
+}
+.ui-panel-content-wrapper {
+  width: 100%;
+  height: 100%;
+}
+.ui-panel-content ui-widget-content {
+  width: 100%;
+  height: 100%;
+}
 .ui-button {
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;

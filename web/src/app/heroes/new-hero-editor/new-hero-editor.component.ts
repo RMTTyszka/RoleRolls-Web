@@ -12,6 +12,7 @@ import {Bonus} from '../../shared/models/Bonus.model';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {HeroFundsService} from '../../creatures-shared/hero-funds/hero-funds.service';
 import {HeroManagementService} from '../hero-management.service';
+import {CreatureType} from '../../shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'loh-new-hero-editor',
@@ -21,7 +22,7 @@ import {HeroManagementService} from '../hero-management.service';
 })
 export class NewHeroEditorComponent  implements OnInit {
   public entityId: string;
-
+  creatureType = CreatureType.Hero;
   constructor(
     public service: HeroesService,
     private dataService: DataService,
@@ -31,6 +32,7 @@ export class NewHeroEditorComponent  implements OnInit {
     public heroManagement: HeroManagementService
   ) {
     this.entityId = config.data.entityId;
+    this.config.header = 'Hero';
   }
 
   ngOnInit() {

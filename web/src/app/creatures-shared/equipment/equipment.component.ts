@@ -11,9 +11,6 @@ import {HeadpieceInstance} from '../../shared/models/HeadpieceInstance.model';
 import {NeckAccessoryInstance} from '../../shared/models/NeckAccessoryInstance.model';
 import {RingHand, SelectedRing} from '../inventory/inventory-ring-select/inventory-ring-select.component';
 import {RingInstance} from '../../shared/models/RingInstance.model';
-import {Message, MessageService} from 'primeng/api';
-import {HeroFundsService} from '../hero-funds/hero-funds.service';
-import {ShopArmor} from '../../shared/models/shop/ShopArmor.model';
 
 @Component({
   selector: 'loh-equipment',
@@ -35,8 +32,6 @@ export class EquipmentComponent implements OnInit {
     return this.form.get(this.controlName) as FormGroup;
   }
   constructor(
-    private messageService: MessageService,
-    private fundsService: HeroFundsService
   ) { }
 
   ngOnInit() {

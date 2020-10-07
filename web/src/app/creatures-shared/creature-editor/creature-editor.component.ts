@@ -12,6 +12,7 @@ import {EditorAction} from '../../shared/dtos/ModalEntityData';
 import {MessageService} from 'primeng/api';
 import {CreatureManagementService} from '../interfaces/creature-management-service';
 import {take} from 'rxjs/operators';
+import {CreatureType} from '../../shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'loh-creature-editor',
@@ -25,7 +26,9 @@ export class CreatureEditorComponent<T extends Creature, TCreateInput extends En
   public isLoading = true;
   public entity: T;
   public attributeDetailsIsOpened = false;
+  public creatureTypeEnum = CreatureType;
   @Input() entityId: string
+  @Input() creatureType: CreatureType;
   @Input() creatureManagementService: CreatureManagementService
   @Input() service: BaseCrudService<T, TCreateInput>
 

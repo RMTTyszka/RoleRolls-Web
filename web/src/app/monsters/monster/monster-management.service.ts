@@ -10,7 +10,7 @@ import {ShopItem} from '../../shared/models/shop/ShopItem.model';
   providedIn: 'root'
 })
 export class MonsterManagementService implements CreatureManagementService {
-  addItemToInventory: Subject<ItemInstance>;
+  addItemToInventory: Subject<ItemInstance> = new Subject<ItemInstance>();
   entity: Creature;
   buyItems(shop: Shop, items: ShopItem[]) {
   }
