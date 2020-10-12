@@ -17,7 +17,7 @@ export class InventoryComponent implements OnInit {
   @Input() formGroupName = 'inventory'
   @Input() private creatureManagementService: CreatureManagementService
 
-  form: FormGroup;
+  form: FormGroup = new FormGroup({});
   constructor(
     private formGroupDirective: FormGroupDirective,
   ) {

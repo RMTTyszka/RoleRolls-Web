@@ -25,9 +25,9 @@ export class RaceSelectComponent implements OnInit {
   }
 
   search(event) {
-    this.service.getAllFiltered(event).pipe(
-      tap(resp => this.races = resp),
-      map(resp => resp.map(race => race.name))
+    this.service.list(event).pipe(
+      tap(resp => this.races = resp.content),
+      map(resp => resp.content.map(race => race.name))
     ).subscribe(response => this.result = response);
   }
   selected(race: string) {

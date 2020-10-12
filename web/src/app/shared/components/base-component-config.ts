@@ -6,6 +6,7 @@ export interface BaseComponentConfig {
   path: string;
   selectPlaceholder: string;
   fieldName: string;
+  editorTitle: string;
   selectModalTitle: string;
   selectModalColumns: RRColumns[];
   entityListColumns: RRColumns[];

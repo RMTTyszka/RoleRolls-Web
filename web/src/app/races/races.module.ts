@@ -13,6 +13,7 @@ import {RaceEditorComponent} from './race-editor/race-editor.component';
 import {SharedModule} from '../shared/shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {PowersSharedModule} from '../powers/powers-shared/powers-shared.module';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 export const routes: Routes = [
   {path: '', component: RacesComponent},
@@ -32,7 +33,8 @@ export const routes: Routes = [
     FormsModule,
     SharedModule,
     FlexLayoutModule,
-    PowersSharedModule
+    PowersSharedModule,
+    DynamicDialogModule
   ],
   declarations: [RacesComponent, RaceEditorComponent],
   providers: [

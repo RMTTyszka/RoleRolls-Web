@@ -4,7 +4,7 @@
       <mat-card-subtitle>Edit Your Role</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="form">
+      <form [formGroup]="form" *ngIf="!isLoading">
         <div fxLayout="row wrap" fxLayoutAlign="space-between center">
 
           <mat-form-field fxFlex="50" class="pr-12">

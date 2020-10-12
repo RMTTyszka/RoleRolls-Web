@@ -3,6 +3,7 @@ import {BaseComponentConfig} from '../../shared/components/base-component-config
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 
 export class MonsterModelConfig implements BaseComponentConfig {
+  editorTitle = 'Monster Model';
   entityListColumns: RRColumns[] = [
     {
       header: 'Name',

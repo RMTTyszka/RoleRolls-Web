@@ -1,5 +1,4 @@
-<p-panel class="p-grid" [header]="shopName">
-  <div class="p-col-12">
+<p-panel [header]="shopName">
     <div class="p-formgroup-inline">
       <div class="p-field-checkbox">
         <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors"></p-checkbox>
@@ -47,6 +46,5 @@
         <button pButton (click)="reset()" label="Reset" class="ui-button-secondary"></button>
       </div>
     </p-panel>
-  </div>
 </p-panel>
 

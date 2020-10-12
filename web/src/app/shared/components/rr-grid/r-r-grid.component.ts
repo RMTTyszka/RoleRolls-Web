@@ -73,7 +73,9 @@ get columns() {
         data: {
           entityId: event.data.id,
           service: this.service
-        }
+        },
+        width: '100vw',
+        height: '100vh'
       })
         .onClose.subscribe();
 

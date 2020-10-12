@@ -1,31 +1,25 @@
-import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {LegacyBaseCreatorComponent} from '../../shared/base-creator/legacy-base-creator.component';
-import {Monster} from '../../shared/models/creatures/monsters/Monster.model';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {MonsterBaseSelectorComponent} from '../monsters-shared/monster-model-selector/monster-model-selector.component';
-import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MonsterService} from './monster.service';
-import {Bonus} from 'src/app/shared/models/Bonus.model';
-import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
-import {MonsterCreateInput} from '../../shared/models/creatures/monsters/MonsterCreateInput.model';
-import {CreatureEditorComponent} from '../../creatures-shared/creature-editor/creature-editor.component';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {MonsterManagementService} from './monster-management.service';
+import {CreatureType} from '../../shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'loh-monster',
   templateUrl: './monster.component.html',
-  styleUrls: ['./monster.component.css']
+  styleUrls: ['./monster.component.scss']
 })
 export class MonsterComponent implements OnInit {
   attributes: string[];
   skills: string[];
   entityId: string;
+  creatureType = CreatureType.Monster;
   constructor(
     public service: MonsterService,
     public monsterManagementService: MonsterManagementService,
     data: DynamicDialogConfig
   ) {
+    console.log(data);
     this.entityId = data.data.entityId;
   }
   ngOnInit() {

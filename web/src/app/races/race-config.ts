@@ -1,24 +1,24 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {MonsterComponent} from './monster/monster.component';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RaceEditorComponent} from './race-editor/race-editor.component';
 
-export class MonsterConfig implements BaseComponentConfig {
-  editorTitle = 'Monsters';
-  editor = MonsterComponent;
+export class RaceConfig implements BaseComponentConfig {
+  editorTitle = 'Race';
+  editor = RaceEditorComponent;
   entityListColumns: RRColumns[] = [
     {
-      header: 'Monster',
+      header: 'Race',
       property: 'name'
     }
   ];
   fieldName: string;
   selectModalColumns: RRColumns[] = [
     {
-      header: 'Monster',
+      header: 'Race',
       property: 'name'
     }
   ];
-  selectModalTitle = 'Monsters';
-  selectPlaceholder = 'Monsters';
-  path = 'monsters';
+  selectModalTitle = 'Races';
+  selectPlaceholder = 'Races';
+  path = 'races';
 }

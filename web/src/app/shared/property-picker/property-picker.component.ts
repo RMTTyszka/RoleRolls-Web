@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {DataService} from '../data.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 export interface IPropertyPickerInput {
   getAttributes: boolean;
@@ -38,25 +38,24 @@ export class PropertyPickerComponent implements OnInit {
   propertiesSelected: string[] = [];
   constructor(
     public service: DataService,
-    public dialogRef: MatDialogRef<PropertyPickerComponent>,
-    public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) data: IPropertyPickerInput
+    public dialogRef: DynamicDialogRef,
+    public config: DynamicDialogConfig,
   ) {
-    console.log(data);
-    if (data) {
-      if (data.getAll) {
+    console.log(config);
+    if (config) {
+      if (config.data.getAll) {
         this.attributesAvailable = true;
         this.skillsAvailable = true;
         this.propertiesAvailable = true;
       } else {
-        this.attributesAvailable = data.getAttributes || false;
-        this.skillsAvailable = data.getSkills || false;
-        this.propertiesAvailable = data.getProperties || false;
+        this.attributesAvailable = config.data.getAttributes || false;
+        this.skillsAvailable = config.data.getSkills || false;
+        this.propertiesAvailable = config.data.getProperties || false;
       }
-      this.maxAttrsSelected = data.maxAttributesSelected || Infinity;
-      this.maxSkillsSelected = data.maxSkillsSelected || Infinity;
-      this.maxPropertiesSelected = data.maxPropertiesSelected || Infinity;
-      data.selectedBonuses.forEach(prop => {
+      this.maxAttrsSelected = config.data.maxAttributesSelected || Infinity;
+      this.maxSkillsSelected = config.data.maxSkillsSelected || Infinity;
+      this.maxPropertiesSelected = config.data.maxPropertiesSelected || Infinity;
+      config.data.selectedBonuses.forEach(prop => {
         if (this.attributes.indexOf(prop) >= 0) {this.attrsSelected.push(prop); }
         if (this.skills.indexOf(prop) >= 0) {this.skillsSelected.push(prop); }
       });

@@ -6,13 +6,16 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {SharedModule} from '../shared/shared.module';
 import {PickListModule} from 'primeng/picklist';
 import {PanelModule} from 'primeng/panel';
+import { MonsterShopComponent } from './monster-shop/monster-shop.component';
 
 
 
 @NgModule({
-  declarations: [ShopComponent, ShopListComponent],
+  declarations: [ShopComponent, ShopListComponent, MonsterShopComponent],
   exports: [
-    ShopComponent
+    ShopComponent,
+    MonsterShopComponent,
+    MonsterShopComponent
   ],
     imports: [
         CommonModule,

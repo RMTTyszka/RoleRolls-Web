@@ -2,10 +2,9 @@
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-tabView>
-      <p-tabPanel header="General">
-        <div  fxFlex="row wrap" fxLayoutAlign="start start" style="overflow: auto">
-          <div fxFlex.gt-md="33" fxFlex="100">
-            <p-fieldset legend="Hero">
+      <p-tabPanel header="General" >
+        <div  class="p-grid p-nogutter">
+            <p-fieldset class="p-xl-4 p-md-12" legend="Hero">
               <input type="text" pInputText placeholder="Name" formControlName="name">
               <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
               <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
@@ -41,28 +40,23 @@
                 </div>
               </div>
             </p-fieldset>
-          </div>
-          <div fxFlex.gt-md="33" fxFlex="100">
-            <p-fieldset legend="Equipment">
+            <p-fieldset class="p-xl-4 p-md-12" legend="Equipment">
               <loh-equipment [form]="form" [isCreating]="isCreating"></loh-equipment>
             </p-fieldset>
-          </div>
-          <div fxFlex.gt-md="33" fxFlex="100">
+          <div class="p-xl-4 p-sm-12">
             <form [formGroup]="form">
               <loh-creature-stats [status]="entity.status"></loh-creature-stats>
               <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
               <loh-hero-funds [hero]="entity"></loh-hero-funds>
             </form>
           </div>
-          <div>
-          </div>
-
         </div>
       </p-tabPanel>
       <p-tabPanel header="Inventory">
-        <div class="p-grid p-nogutter p-justify-between">
-          <loh-inventory [creatureManagementService]="creatureManagementService"></loh-inventory>
-          <loh-shop [hero]="entity"></loh-shop>
+        <div class="p-grid p-nogutter p-justify-between p-align-stretch">
+          <loh-inventory class="p-col-6" [creatureManagementService]="creatureManagementService"></loh-inventory>
+          <loh-shop *ngIf="creatureType === creatureTypeEnum.Hero" class="p-col-6" [hero]="entity"></loh-shop>
+          <loh-monster-shop *ngIf="creatureType === creatureTypeEnum.Monster" class="p-col-6"></loh-monster-shop>
         </div>
       </p-tabPanel>
     </p-tabView>

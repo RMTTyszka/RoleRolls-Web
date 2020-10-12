@@ -1,3 +1,9 @@
-<div class="ui-inputgroup" *ngFor="let item of inventory.items">
-  <input *ngIf="showItem(item)" type="text" readonly pInputText [placeholder]="item.name">
-</div>
+<p-panel header="Items">
+  <ng-container *ngIf="inventory" style="height: 100%;">
+    <div class="ui-inputgroup" *ngFor="let item of inventory.items">
+      <input *ngIf="showItem(item)" type="text" readonly pInputText [placeholder]="item.name">
+    </div>
+  </ng-container>
+</p-panel>
+
+

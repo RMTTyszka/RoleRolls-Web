@@ -3,6 +3,7 @@ import {RacesService} from '../races.service';
 import {LegacyBaseListComponent} from '../../shared/base-list/legacy-base-list.component';
 import {RaceEditorComponent} from '../race-editor/race-editor.component';
 import {Race} from '../../shared/models/Race.model';
+import {RaceConfig} from '../race-config';
 
 @Component({
   selector: 'loh-races',
@@ -10,7 +11,7 @@ import {Race} from '../../shared/models/Race.model';
   styleUrls: ['./races.component.css']
 })
 export class RacesComponent  implements OnInit {
-
+  config = new RaceConfig();
   constructor(
     public service: RacesService
   ) {
