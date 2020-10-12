@@ -1,16 +1,17 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {LegacyBaseListComponent} from 'src/app/shared/base-list/legacy-base-list.component';
 import {Role} from 'src/app/shared/models/Role.model';
 import {RolesService} from '../roles.service';
-import {RolesEditorComponent} from '../roles-editor/roles-editor.component';
+import {RoleConfig} from '../role-config';
+import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'loh-roles-list',
   templateUrl: './roles-list.component.html',
-  styleUrls: ['./roles-list.component.css']
+  styleUrls: ['./roles-list.component.css'],
+  providers: [DialogService]
 })
 export class RolesListComponent implements  OnInit {
-
+  config = new RoleConfig();
   constructor(
     injector: Injector,
     protected service: RolesService,

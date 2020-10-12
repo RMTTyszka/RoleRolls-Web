@@ -3,6 +3,7 @@ import {NewHeroEditorComponent} from './new-hero-editor/new-hero-editor.componen
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 
 export class HeroConfig implements BaseComponentConfig {
+  editorTitle = 'Hero';
   editor = NewHeroEditorComponent;
   entityListColumns: RRColumns[] = [
     {

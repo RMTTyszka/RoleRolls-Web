@@ -15,6 +15,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
   public abstract selectModalTitle: string;
   public abstract selectModalColumns: RRColumns[];
   public abstract entityListColumns: RRColumns[];
+  config: BaseComponentConfig;
   onSaveAction = new EventEmitter<boolean>();
   onEntityChange = new Subject<T>();
   serverUrl = LOH_API.myBackUrl;

@@ -1,4 +1,4 @@
-<mat-card fxFlex="100">
+<mat-card fxFlex="100" *ngIf="!isLoading">
   <mat-card-header>
     <mat-card-title (click)="selectBonuses()">Race</mat-card-title>
     <mat-card-subtitle>Edit Your Race</mat-card-subtitle>
@@ -26,6 +26,7 @@
             <mat-icon mat-font-icon="fa-icon" class="fa" class="clickable" (click)="removeBonus(i)" matTooltip="add bonus" matTooltip="remove bonus">clear</mat-icon>
           </div>
         </div>
+        <h4 fxFlex="90">Powers</h4>
         <div fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
           <mat-icon class="clickable" (click)="addPower()" matTooltip="add power">add</mat-icon>
         </div>

@@ -20,10 +20,13 @@
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
+.ui-dialog {
+  max-height: 100%;
+}
 .ui-dialog-content {
   display: flex !important;
   flex: 100 !important;
-  overflow: unset !important;
+  overflow: scroll !important;
 }
 .ui-button-secondary {
   background-color: $secondaryColor !important;

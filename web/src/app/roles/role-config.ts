@@ -1,24 +1,24 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {MonsterComponent} from './monster/monster.component';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RolesEditorComponent} from './roles-editor/roles-editor.component';
 
-export class MonsterConfig implements BaseComponentConfig {
-  editorTitle = 'Monsters';
-  editor = MonsterComponent;
+export class RoleConfig implements BaseComponentConfig {
+  editorTitle = 'Role';
+  editor = RolesEditorComponent;
   entityListColumns: RRColumns[] = [
     {
-      header: 'Monster',
+      header: 'Role',
       property: 'name'
     }
   ];
   fieldName: string;
   selectModalColumns: RRColumns[] = [
     {
-      header: 'Monster',
+      header: 'Role',
       property: 'name'
     }
   ];
-  selectModalTitle = 'Monsters';
-  selectPlaceholder = 'Monsters';
-  path = 'monsters';
+  selectModalTitle = 'Role';
+  selectPlaceholder = 'Role';
+  path = 'roles';
 }
