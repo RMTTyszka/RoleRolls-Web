@@ -61,6 +61,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, Hero, H
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
             return output;
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
         }
 

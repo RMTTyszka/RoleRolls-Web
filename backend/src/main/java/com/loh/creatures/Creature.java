@@ -12,6 +12,7 @@ import com.loh.race.Race;
 import com.loh.role.Role;
 import com.loh.shared.Entity;
 import com.loh.shared.*;
+import com.loh.skills.CreatureSkills;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +40,7 @@ public class Creature extends Entity {
         level = 1;
         this.baseAttributes = new Attributes();
         this.bonusAttributes = new Attributes();
+        this.skills = new CreatureSkills();
         this.bonuses = new ArrayList<>();
         this.race = new Race();
         this.role = new Role();
@@ -74,7 +76,6 @@ public class Creature extends Entity {
                     @AttributeOverride(name="intuition", column = @Column(name="bonus_intuition") ),
                     @AttributeOverride(name="charisma", column = @Column(name="bonus_charisma") )})
     protected Attributes bonusAttributes;
-
 
     public Resistances getResistances() {
         Integer globalResistanceBonus = getBonusLevel(Properties.Resistance) + equipment.getHeadpiece().getBonus();
@@ -145,7 +146,8 @@ public class Creature extends Entity {
 
     @Getter @Setter @ManyToOne
     protected Role role;
-
+    @Getter @Setter @OneToOne
+    protected CreatureSkills skills;
     @Getter @Setter @OneToOne
     protected Equipment equipment;
 

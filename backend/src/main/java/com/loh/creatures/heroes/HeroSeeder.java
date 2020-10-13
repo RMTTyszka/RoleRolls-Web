@@ -31,6 +31,7 @@ import com.loh.race.Race;
 import com.loh.race.RaceRepository;
 import com.loh.role.Role;
 import com.loh.role.RoleRepository;
+import com.loh.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,11 +74,14 @@ public class HeroSeeder {
     InventoryRepository inventoryRepository;
     @Autowired
     LevelUpService levelUpService;
+    @Autowired
+    SkillsService skillsService;
 
     public void seed() throws Exception {
         for (int level = 1; level < 21; level++) {
             if (heroRepository.findByName(DefaultHeroes.OneLightWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneLightWeapon + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
@@ -89,6 +93,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.OneMediumWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneMediumWeapon + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
@@ -100,6 +105,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.OneHeavyWeapon + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.OneHeavyWeapon + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
@@ -111,6 +117,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.TwoLightWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoLightWeapons + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Agility);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
@@ -124,6 +131,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.TwoMediumWeapons + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.TwoMediumWeapons + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyNoneArmor);
 
@@ -137,6 +145,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.LightArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.LightArmor + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyLightArmor);
                 equipeNoneWeapon(level, hero);
@@ -146,6 +155,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.MediumArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.MediumArmor + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeapon(level, hero);
@@ -155,6 +165,7 @@ public class HeroSeeder {
             }
             if (heroRepository.findByName(DefaultHeroes.HeavyArmor + " Level " + level) == null) {
                 Hero hero = new Hero(DefaultHeroes.HeavyArmor + " Level " + level);
+                hero.setSkills(skillsService.Create(hero.getSkills()));
                 hero.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(hero, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeapon(level, hero);

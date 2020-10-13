@@ -35,6 +35,11 @@ get columns() {
     this.service.entityUpdated.subscribe(entity => this.updateData(entity));
     this.service.entityCreated.subscribe(entity => this.addData(entity));
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));
+    if (!this.create) {
+      this.create = () => {
+        this.dialogService.open(this.config.creator, {});
+      };
+    }
     this.get();
   }
   private updateData(entity: T) {

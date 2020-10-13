@@ -1,7 +1,7 @@
 package com.loh.shared;
 
 import com.loh.creatures.Attributes;
-import com.loh.creatures.Skill;
+import com.loh.skills.Skill;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

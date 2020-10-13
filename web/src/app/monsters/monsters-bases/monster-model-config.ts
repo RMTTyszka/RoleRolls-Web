@@ -21,4 +21,5 @@ export class MonsterModelConfig implements BaseComponentConfig {
   selectModalTitle = 'Monster Model';
   selectPlaceholder = 'Monster Model';
   editor = MonsterModelComponent;
+  creator = MonsterModelComponent;
 }

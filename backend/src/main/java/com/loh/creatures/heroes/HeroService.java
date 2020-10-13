@@ -21,6 +21,7 @@ import com.loh.items.equipable.weapons.weaponInstance.WeaponInstance;
 import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceService;
 import com.loh.race.Race;
 import com.loh.role.Role;
+import com.loh.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +55,14 @@ public class HeroService {
     private InventoryRepository inventoryRepository;
     @Autowired
     private HeroRepository heroRepository;
+    @Autowired
+    private SkillsService skillsService;
 
 
     public Hero create(String name, Race race, Role role, UUID playerId, UUID creatorId) throws Exception {
 
         Hero hero = new Hero(name, race, role, playerId, creatorId);
-
+        hero.setSkills(skillsService.Create(hero.getSkills()));
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
         GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();

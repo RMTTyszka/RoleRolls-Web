@@ -25,7 +25,7 @@ public class LevelDetails {
 		maxInitialAttributesPoints =  8 + 6;
 		totalInitialAttributes = 8 + 6 + 4 + 2 + 2 + 8*6;
 		totalSkillPoints = (level + 2) * 6;
-		maxSkillPoints = level + 2;
+		maxSkillPoints = level/2 + 4;
 		
 	}
 		
