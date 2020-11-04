@@ -4,7 +4,8 @@
     <p-tabView>
       <p-tabPanel header="General" >
         <div  class="p-grid p-nogutter">
-            <p-fieldset class="p-xl-4 p-md-12" legend="Hero">
+          <p-fieldset class="p-xl-5 p-md-12" legend="Geral">
+            <ng-container>
               <input type="text" pInputText placeholder="Name" formControlName="name">
               <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
               <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
@@ -36,20 +37,27 @@
                     <span class="ui-inputgroup-addon" style="background-color: darkkhaki; min-width: 30px" pTooltip="bonuses"></span>
                   </ng-container>
                   <span class="ui-inputgroup-addon" style="background-color: azure; min-width: 46px" pTooltip="level">{{attributeLevel(attr)}}</span>
-                  <span class="ui-inputgroup-addon" style="background-color: azure; min-width: 46px" pTooltip="Bonus Dice">{{attributeBonusDice(attr)}}</span>
                 </div>
               </div>
-            </p-fieldset>
-            <p-fieldset class="p-xl-4 p-md-12" legend="Equipment">
+            </ng-container>
+            <ng-container>
+              <p-fieldset legend="Skills">
+                <loh-creature-skills [creature]="entity"></loh-creature-skills>
+              </p-fieldset>
+            </ng-container>
+
+          </p-fieldset>
+          <div class="p-xl-4 p-md-12">
+            <p-fieldset legend="Equipment">
               <loh-equipment [form]="form" [isCreating]="isCreating"></loh-equipment>
             </p-fieldset>
-          <div class="p-xl-4 p-sm-12">
-            <form [formGroup]="form">
-              <loh-creature-stats [status]="entity.status"></loh-creature-stats>
-              <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
-              <loh-hero-funds [hero]="entity"></loh-hero-funds>
-            </form>
+            <loh-creature-stats [status]="entity.status"></loh-creature-stats>
           </div>
+          <div class="p-xl-3 p-sm-12">
+            <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
+            <loh-hero-funds [hero]="entity"></loh-hero-funds>
+          </div>
+
         </div>
       </p-tabPanel>
       <p-tabPanel header="Inventory">

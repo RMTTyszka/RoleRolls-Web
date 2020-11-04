@@ -21,7 +21,7 @@ public class DataController {
 	@GetMapping(path="/skills")
 	public @ResponseBody List<String> getAllSkills() {
 		// This returns a JSON or XML with the users
-		return Skill.getList();
+		return Skill.getListOld();
 	}
 	@GetMapping(path="/configs")
 	public @ResponseBody List<String> getConfigs() {

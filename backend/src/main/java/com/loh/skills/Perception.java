@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("Perception")
@@ -13,8 +15,13 @@ public class Perception extends Skill {
         super();
     }
     @Override
-    protected Integer getUsedPoints() {
+    protected Integer getUsedMinorPoints() {
         return perceive + feeling + search;
+    }
+
+    @Override
+    public List<String> getList() {
+        return Arrays.asList("perceive", "feeling", "search");
     }
     @Getter @Setter
     private Integer perceive = 0;

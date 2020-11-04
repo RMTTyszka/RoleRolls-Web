@@ -9,6 +9,7 @@ import {WeaponAttributes} from '../WeaponAttributes.model';
 import {Entity} from '../Entity.model';
 import {EffectInstance} from '../effects/EffectInstance.model';
 import {Bonus} from '../Bonus.model';
+import {CreatureSkills} from '../skills/CreatureSkills';
 
 export class Creature extends Entity {
   baseAttributes: Attributes = new Attributes();
@@ -33,4 +34,5 @@ export class Creature extends Entity {
   currentMoral = 0;
   ownerId: string;
   creatorId: string;
+  skills: CreatureSkills = new CreatureSkills();
 }

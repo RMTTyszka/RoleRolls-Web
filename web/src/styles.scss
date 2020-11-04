@@ -16,7 +16,9 @@
   width: 100% !important;
 }
 
-
+.creature-border {
+  border: 2px solid $primaryColor ;
+}
 
 .input-centered-placeholder {
   text-align: center;

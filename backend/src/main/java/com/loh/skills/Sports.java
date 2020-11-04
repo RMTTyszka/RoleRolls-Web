@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("Sports")
@@ -13,9 +15,14 @@ public class Sports extends Skill {
         super();
     }
     @Override
-    protected Integer getUsedPoints() {
+    protected Integer getUsedMinorPoints() {
         return jump + climb + athleticism;
     }
+    @Override
+    public List<String> getList() {
+        return Arrays.asList("jump", "climb", "athleticism");
+    }
+
     @Getter @Setter
     private Integer jump = 0;
     @Getter @Setter

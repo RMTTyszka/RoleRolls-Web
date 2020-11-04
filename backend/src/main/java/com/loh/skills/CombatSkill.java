@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("Combat")
@@ -14,8 +16,12 @@ public class CombatSkill extends Skill {
     }
 
     @Override
-    protected Integer getUsedPoints() {
+    protected Integer getUsedMinorPoints() {
         return attack + specialAttack + power + evasion;
+    }
+    @Override
+    public List<String> getList() {
+        return Arrays.asList("attack", "specialAttack", "power", "evasion");
     }
 
     @Getter @Setter

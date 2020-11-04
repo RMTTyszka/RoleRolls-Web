@@ -47,11 +47,67 @@ public class CreatureSkills extends Entity {
     public Integer getRemainingPoints() {
         return getMaxPoints() - sports.getPoints() - nimbleness.getPoints() - relationship.getPoints() - knowledge.getPoints() - perception.getPoints() - resistance.getPoints() - combat.getPoints();
     }
-    public static List<String> getSkillNamesList(){
+    public List<String> getSkillsList(){
         return Arrays.asList("sports", "nimbleness", "relationship", "knowledge", "perception",
                 "resistance", "combat");
-    }    
-    public List<Skill> getList(){
+    }
+    public Skill getMajorSkill(String skill){
+        switch (skill) {
+            case "sports":
+                return sports;
+            case "nimbleness":
+                return nimbleness;
+            case "relationship":
+                return relationship;
+            case "knowledge":
+                return knowledge;
+            case "perception":
+                return perception;
+            case "resistance":
+                return resistance;
+            case "combat":
+                return combat;
+            default:
+                return null;
+        }
+    }
+    public Skill getSkillByMinorSkill(String skill){
+        switch (skill) {
+            case "jump":
+            case "climb":
+            case "athleticism":
+                return sports;
+            case "steal":
+            case "stealth":
+            case "operateMechanisms":
+                return nimbleness;
+            case "diplomacy":
+            case "bluff":
+            case "intimidate":
+                return relationship;
+            case "arcane":
+            case "religion":
+            case "nature":
+                return knowledge;
+            case "perceive":
+            case "feeling":
+            case "search":
+                return perception;
+            case "mysticism":
+            case "toughness":
+            case "reflex":
+                return resistance;
+            case "attack":
+            case "specialAttack":
+            case "power":
+            case "evasion":
+                return combat;
+            default:
+                return null;
+        }
+    }
+
+    public List<Skill> mainSKillsList(){
         return Arrays.asList(sports, nimbleness, relationship, knowledge, perception,
                 resistance, combat);
     }
