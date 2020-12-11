@@ -7,17 +7,24 @@ import {HttpParams} from '@angular/common/http';
 import {Player} from '../shared/models/Player.model';
 import {CampaignInvitationsOutput} from '../shared/models/campaign/dtos/CampaignInvitationsOutput';
 import {Hero} from '../shared/models/NewHero.model';
+import {BaseCrudService} from '../shared/base-service/base-crud-service';
+import {RRColumns} from '../shared/components/cm-grid/cm-grid.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampaignsService extends BaseEntityService<Campaign> {
+export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
+  public selectPlaceholder: string;
+  public fieldName: string;
+  public selectModalTitle: string;
+  public selectModalColumns: RRColumns[];
+  public entityListColumns: RRColumns[];
 
   path = 'campaigns';
 
   constructor(
     injector: Injector) {
-    super(injector, Campaign);
+    super(injector);
   }
 
   public getInvitations() {

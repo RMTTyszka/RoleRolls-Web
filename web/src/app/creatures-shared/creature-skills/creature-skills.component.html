@@ -1,0 +1,24 @@
+<div>Remaining Points: {{remainingPoints}}</div>
+<div *ngFor="let skill of skills.skillsList">
+  <div  class="p-grid p-nogutter">
+    <div class="p-col-4 creature-border p-grid p-nogutter">
+      <div class="p-col-12 p-grid p-nogutter">
+        <button class="p-col" (click)="removeSkillPoint(skill)" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
+        <div class="p-col">{{skill}}</div>
+        <button class="p-col" (click)="addSkillPoint(skill)" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
+      </div>
+      <div class="p-col p-grid p-nogutter p-justify-center" style="background-color: oldlace;">
+        <span class="p-col-4" style="color: black; font-weight: bold; display: contents" pTooltip="total">{{getSkillPoint(skill)}}</span>
+      </div>
+    </div>
+    <div class="p-col-8">
+      <div class="ui-inputgroup" *ngFor="let sk of getSkill(skill).list">
+        <button class="ui-inputgroup-addon" (click)="removeMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
+        <input type="text" readonly pInputText [placeholder]="sk">
+        <button class="ui-inputgroup-addon" (click)="addMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
+        <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{getMinorSkillPoint(skill, sk)}}</span>
+        <button class="ui-inputgroup-addon" pButton type="button" icon="fas fa-dice-d20" class="ui-button-secondary"></button>
+      </div>
+    </div>
+  </div>
+</div>

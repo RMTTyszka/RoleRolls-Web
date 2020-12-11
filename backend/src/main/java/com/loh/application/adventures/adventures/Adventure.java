@@ -1,5 +1,6 @@
-package com.loh.adventures;
+package com.loh.application.adventures.adventures;
 
+import com.loh.application.adventures.places.Place;
 import lombok.Getter;
 import lombok.Setter;
 

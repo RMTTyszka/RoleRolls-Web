@@ -1,6 +1,6 @@
 package com.loh.campaign;
 
-import com.loh.adventures.Adventure;
+import com.loh.application.adventures.adventures.Adventure;
 import com.loh.authentication.LohUserDetails;
 import com.loh.campaign.dtos.HeroNotFromAddedPlayerException;
 import com.loh.context.Player;

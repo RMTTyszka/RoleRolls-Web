@@ -1,7 +1,9 @@
-package com.loh.creatures;
+package com.loh.application.creatures;
 
+import com.loh.creatures.CreatureRepository;
 import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.creatures.monsters.MonsterSeeder;
+import com.loh.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/creature",  produces = "application/json; charset=UTF-8")
+@RequestMapping(path="/creatures",  produces = "application/json; charset=UTF-8")
 public class CreatureController {
     @Autowired
     private CreatureRepository creatureRepository;
@@ -20,9 +22,11 @@ public class CreatureController {
     private HeroSeeder heroSeeder;
     @Autowired
     private MonsterSeeder monsterSeeder;
+    @Autowired
+    private SkillsService skillsService;
 
     @Transactional
-    @PostMapping(path="/deleteDummies")
+    @PostMapping(path = "/deleteDummies")
     public @ResponseBody
     void deleteDummies() throws Exception {
         creatureRepository.deleteByNameContaining("Dummy");
@@ -30,4 +34,5 @@ public class CreatureController {
         monsterSeeder.seed();
 
     }
+
 }

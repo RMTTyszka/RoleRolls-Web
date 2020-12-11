@@ -1,9 +1,9 @@
 package com.loh;
 
-import com.loh.adventures.Encounter;
-import com.loh.adventures.EncounterRepository;
-import com.loh.adventures.Enviroment;
-import com.loh.adventures.EnviromentRepository;
+import com.loh.application.adventures.encounters.Encounter;
+import com.loh.application.adventures.encounters.EncounterRepository;
+import com.loh.application.adventures.environments.Enviroment;
+import com.loh.application.adventures.environments.EnviromentRepository;
 import com.loh.context.PlayerRepository;
 import com.loh.items.equipable.armors.armorModel.ArmorModel;
 import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;

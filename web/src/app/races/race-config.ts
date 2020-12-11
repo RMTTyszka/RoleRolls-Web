@@ -5,6 +5,7 @@ import {RaceEditorComponent} from './race-editor/race-editor.component';
 export class RaceConfig implements BaseComponentConfig {
   editorTitle = 'Race';
   editor = RaceEditorComponent;
+  creator = RaceEditorComponent;
   entityListColumns: RRColumns[] = [
     {
       header: 'Race',

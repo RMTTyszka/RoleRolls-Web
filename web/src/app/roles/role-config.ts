@@ -5,6 +5,7 @@ import {RolesEditorComponent} from './roles-editor/roles-editor.component';
 export class RoleConfig implements BaseComponentConfig {
   editorTitle = 'Role';
   editor = RolesEditorComponent;
+  creator = RolesEditorComponent;
   entityListColumns: RRColumns[] = [
     {
       header: 'Role',

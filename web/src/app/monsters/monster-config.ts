@@ -1,10 +1,12 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {MonsterComponent} from './monster/monster.component';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {MonsterCreateComponent} from './monster-create/monster-create.component';
 
 export class MonsterConfig implements BaseComponentConfig {
   editorTitle = 'Monsters';
   editor = MonsterComponent;
+  creator = MonsterCreateComponent;
   entityListColumns: RRColumns[] = [
     {
       header: 'Monster',

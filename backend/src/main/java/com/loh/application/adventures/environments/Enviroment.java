@@ -1,4 +1,4 @@
-package com.loh.adventures;
+package com.loh.application.adventures.environments;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

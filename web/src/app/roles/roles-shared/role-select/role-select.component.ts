@@ -4,6 +4,7 @@ import {map, tap} from 'rxjs/operators';
 import {Role} from '../../../shared/models/Role.model';
 import {RoleService} from '../../roles-editor/role.service';
 import {createForm} from '../../../shared/EditorExtension';
+import {RolesService} from '../../roles.service';
 
 @Component({
   selector: 'loh-role-select',
@@ -17,16 +18,16 @@ export class RoleSelectComponent implements OnInit {
   roles: Role[] = [];
   value: string;
   constructor(
-    private service: RoleService
+    private service: RolesService
   ) { }
 
   ngOnInit() {
   }
 
   search(event) {
-    this.service.getAllFiltered(event).pipe(
-      tap(resp => this.roles = resp),
-      map(resp => resp.map(role => role.name))
+    this.service.list(event).pipe(
+      tap(resp => this.roles = resp.content),
+      map(resp => resp.content.map(role => role.name))
     ).subscribe(response => this.result = response);
   }
   selected(roleName: string) {
