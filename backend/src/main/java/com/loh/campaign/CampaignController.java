@@ -10,7 +10,7 @@ import com.loh.context.Player;
 import com.loh.context.PlayerRepository;
 import com.loh.creatures.heroes.Hero;
 import com.loh.creatures.heroes.HeroRepository;
-import com.loh.shared.LegacyBaseCrudController;
+import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,12 +32,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.loh.authentication.LohUserDetails.currentUserId;
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/campaigns",  produces = "application/json; charset=UTF-8")
-public class CampaignController extends LegacyBaseCrudController<Campaign> {
+public class CampaignController extends BaseCrudController<Campaign, Campaign, Campaign, CampaignRepository> {
 
 	@Autowired
 	PlayerRepository playerRepository;
@@ -61,16 +60,14 @@ public class CampaignController extends LegacyBaseCrudController<Campaign> {
 	}
 
 	@Override
-    public @ResponseBody
-    Iterable<Campaign> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
-		UUID playerId = currentUserId();
-        Pageable paged = PageRequest.of(skipCount, maxResultCount);
-        if (filter.isEmpty() || filter == null) {
-            Iterable<Campaign> list =  repository.findAll( where(campaignFromPlayer(playerId)), paged);
-            return list;
-        }
-        return repository.findAllByNameIgnoreCaseContaining(filter, where(campaignFromPlayer(playerId)), paged);
-    }
+	protected Campaign createInputToEntity(Campaign campaign) {
+		return null;
+	}
+
+	@Override
+	protected Campaign updateInputToEntity(Campaign campaign) {
+		return null;
+	}
 
 	@Override
 	@Transactional

@@ -1,5 +1,7 @@
 package com.loh.adventures;
 
+import com.loh.application.adventures.places.Place;
+import com.loh.application.adventures.places.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;

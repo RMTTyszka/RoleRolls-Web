@@ -1,5 +1,6 @@
-package com.loh.creatures;
+package com.loh.application.creatures;
 
+import com.loh.creatures.CreatureRepository;
 import com.loh.creatures.heroes.HeroSeeder;
 import com.loh.creatures.monsters.MonsterSeeder;
 import com.loh.skills.SkillsService;

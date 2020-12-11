@@ -1,4 +1,4 @@
-package com.loh.adventures;
+package com.loh.application.adventures.places;
 
 import org.springframework.data.repository.CrudRepository;
 

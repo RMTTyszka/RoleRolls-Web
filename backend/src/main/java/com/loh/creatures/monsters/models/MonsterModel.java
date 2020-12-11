@@ -1,6 +1,6 @@
 package com.loh.creatures.monsters.models;
 
-import com.loh.adventures.Enviroment;
+import com.loh.application.adventures.environments.Enviroment;
 import com.loh.creatures.Attributes;
 import com.loh.race.Race;
 import com.loh.role.Role;

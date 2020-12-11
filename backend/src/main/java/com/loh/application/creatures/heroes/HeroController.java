@@ -1,6 +1,9 @@
-package com.loh.creatures.heroes;
+package com.loh.application.creatures.heroes;
 
 
+import com.loh.creatures.heroes.Hero;
+import com.loh.creatures.heroes.HeroRepository;
+import com.loh.creatures.heroes.HeroService;
 import com.loh.creatures.heroes.dtos.AddItemsInput;
 import com.loh.creatures.heroes.dtos.NewHeroDto;
 import com.loh.items.itemInstance.ItemInstance;
