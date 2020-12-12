@@ -1,9 +1,9 @@
 package com.loh.application.creatures;
 
-import com.loh.creatures.CreatureRepository;
-import com.loh.creatures.heroes.HeroSeeder;
-import com.loh.creatures.monsters.MonsterSeeder;
-import com.loh.skills.SkillsService;
+import com.loh.domain.creatures.CreatureRepository;
+import com.loh.domain.creatures.heroes.HeroSeeder;
+import com.loh.domain.creatures.monsters.MonsterSeeder;
+import com.loh.domain.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

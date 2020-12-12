@@ -1,7 +1,7 @@
 package com.loh.authentication;
 
-import com.loh.context.Player;
-import com.loh.context.PlayerRepository;
+import com.loh.domain.contexts.Player;
+import com.loh.domain.contexts.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

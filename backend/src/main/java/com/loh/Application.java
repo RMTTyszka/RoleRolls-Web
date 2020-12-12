@@ -4,18 +4,18 @@ import com.loh.application.adventures.encounters.Encounter;
 import com.loh.application.adventures.encounters.EncounterRepository;
 import com.loh.application.adventures.environments.Enviroment;
 import com.loh.application.adventures.environments.EnviromentRepository;
-import com.loh.context.PlayerRepository;
-import com.loh.items.equipable.armors.armorModel.ArmorModel;
-import com.loh.items.equipable.armors.armorModel.ArmorModelRepository;
-import com.loh.items.equipable.weapons.weaponModel.WeaponModel;
-import com.loh.items.equipable.weapons.weaponInstance.WeaponInstanceRepository;
-import com.loh.powers.Power;
-import com.loh.powers.PowerInstance;
-import com.loh.powers.PowerRepository;
-import com.loh.race.Race;
-import com.loh.race.RaceRepository;
-import com.loh.role.Role;
-import com.loh.role.RoleRepository;
+import com.loh.domain.contexts.PlayerRepository;
+import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.weapons.models.WeaponModel;
+import com.loh.domain.items.equipables.weapons.instances.WeaponInstanceRepository;
+import com.loh.domain.powers.Power;
+import com.loh.domain.powers.PowerInstance;
+import com.loh.domain.powers.PowerRepository;
+import com.loh.domain.races.Race;
+import com.loh.domain.races.RaceRepository;
+import com.loh.domain.roles.Role;
+import com.loh.domain.roles.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -116,7 +116,7 @@ public class Application {
 			ParameterizedType newType = (ParameterizedType) field.getGenericType();
 			Class<?> newClass = (Class<?>) newType.getActualTypeArguments()[0];
 			List<Object> newList = new ArrayList<>();
-			if (newClass.getName() == "com.loh.shared.Bonus" || newClass.getName() == "com.loh.powers.Power" ) {
+			if (newClass.getName() == "com.loh.shared.Bonus" || newClass.getName() == "com.loh.domain.powers.Power" ) {
 				newList.add(createAndFill(newClass));
 				return newList;
 			} else if (newClass.getName() == "java.lang.String") {

@@ -1,12 +1,12 @@
 package com.loh.application.creatures.heroes;
 
 
-import com.loh.creatures.heroes.Hero;
-import com.loh.creatures.heroes.HeroRepository;
-import com.loh.creatures.heroes.HeroService;
-import com.loh.creatures.heroes.dtos.AddItemsInput;
-import com.loh.creatures.heroes.dtos.NewHeroDto;
-import com.loh.items.itemInstance.ItemInstance;
+import com.loh.domain.creatures.heroes.Hero;
+import com.loh.domain.creatures.heroes.HeroRepository;
+import com.loh.domain.creatures.heroes.HeroService;
+import com.loh.application.creatures.heroes.dtos.AddItemsInput;
+import com.loh.application.creatures.heroes.dtos.NewHeroDto;
+import com.loh.domain.items.instances.ItemInstance;
 import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
