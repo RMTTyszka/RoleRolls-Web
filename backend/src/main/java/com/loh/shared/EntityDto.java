@@ -1,5 +1,8 @@
 package com.loh.shared;
 
-public interface EntityDto {
+import java.util.UUID;
+
+public class EntityDto {
+    public UUID id;
 
 }

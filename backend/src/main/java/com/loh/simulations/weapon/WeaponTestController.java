@@ -1,4 +1,4 @@
-package com.loh.tests.weapon;
+package com.loh.simulations.weapon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.loh.tests.weapon;
+package com.loh.simulations.weapon;
 
 import com.loh.domain.combats.AttackDetails;
 import com.loh.domain.combats.AttackService;

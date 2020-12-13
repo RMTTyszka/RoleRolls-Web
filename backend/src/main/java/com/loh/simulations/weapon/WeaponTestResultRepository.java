@@ -1,4 +1,4 @@
-package com.loh.tests.weapon;
+package com.loh.simulations.weapon;
 
 import com.loh.domain.items.equipables.armors.categories.ArmorCategory;
 import org.springframework.data.repository.PagingAndSortingRepository;

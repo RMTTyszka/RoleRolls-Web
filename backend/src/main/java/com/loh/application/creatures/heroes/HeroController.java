@@ -1,11 +1,13 @@
 package com.loh.application.creatures.heroes;
 
 
+import com.loh.application.creatures.heroes.dtos.AddItemsInput;
+import com.loh.application.creatures.heroes.dtos.HeroDto;
+import com.loh.application.creatures.heroes.dtos.NewHeroDto;
+import com.loh.application.creatures.mappers.HeroMapper;
 import com.loh.domain.creatures.heroes.Hero;
 import com.loh.domain.creatures.heroes.HeroRepository;
 import com.loh.domain.creatures.heroes.HeroService;
-import com.loh.application.creatures.heroes.dtos.AddItemsInput;
-import com.loh.application.creatures.heroes.dtos.NewHeroDto;
 import com.loh.domain.items.instances.ItemInstance;
 import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
@@ -25,17 +27,18 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @CrossOrigin
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/hero",  produces = "application/json; charset=UTF-8")
-public class HeroController extends BaseCrudController<Hero, NewHeroDto, Hero, HeroRepository> {
+public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto, HeroRepository> {
     @Autowired
     private HeroRepository heroRepository;
     @Autowired
     private HeroService heroService;
+    @Autowired
+    private HeroMapper mapper;
 
     public HeroController(HeroRepository repository) {
         super(repository);
         this.repository = repository;
     }
-
 
     @Override
     public @ResponseBody
@@ -47,10 +50,10 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, Hero, H
         return heroes;
     }
 
-
     @Override
-    public BaseCrudResponse<Hero> update(@RequestBody Hero heroDto) {
-        Hero hero =  heroService.update(heroDto);
+    public BaseCrudResponse<Hero> update(@RequestBody HeroDto heroDto) {
+        Hero hero = updateInputToEntity(heroDto);
+        hero =  heroService.update(hero);
         BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully updated hero", hero);
         return output;
     }
@@ -135,7 +138,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, Hero, H
     }
 
     @Override
-    protected Hero updateInputToEntity(Hero hero) {
-        return null;
+    protected Hero updateInputToEntity(HeroDto hero) {
+        return mapper.map(hero);
     }
 }
