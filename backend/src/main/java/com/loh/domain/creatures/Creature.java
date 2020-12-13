@@ -301,13 +301,13 @@ public class Creature extends Entity {
         this.currentMoral = this.getStatus().getMoral();
         creatureRepository.save(this);
     }
-    public void levelUp(List<String> attributesToLevel) {
+    public void levelUp() {
         level++;
-        for (String attribute: attributesToLevel) {
+        for (String attribute: Attributes.getList()) {
             bonusAttributes.levelUp(attribute);
         }
+        skills.levelUp();
     }
-
     public Integer getInnateLevelBonus(Integer attributePoints) {
         return 0;
     }

@@ -28,7 +28,7 @@ public abstract class Skill extends Entity {
 
 
     public Integer getMaxPointPerSkill() {
-        return level / 2 + 3;
+        return points + 2;
     }
     public Integer getMaxPointPerSkill(Integer level) {
         return level / 2 + 2;
@@ -38,7 +38,7 @@ public abstract class Skill extends Entity {
     }
 
     public Integer getTotalMinorPoints() {
-        return points * 6;
+        return points * 3 + (points > 0 ? 3 : 0);
     }
     public Integer getRemainingMinorPoints() {
         return getTotalMinorPoints() - getUsedMinorPoints();

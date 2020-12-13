@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class NewHeroDto {
     public String name;
+    public Integer level;
     public Race race;
     public Role role;
     public UUID ownerId;

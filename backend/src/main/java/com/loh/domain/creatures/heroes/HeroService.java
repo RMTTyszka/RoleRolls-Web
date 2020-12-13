@@ -59,9 +59,12 @@ public class HeroService {
     private SkillsService skillsService;
 
 
-    public Hero create(String name, Race race, Role role, UUID playerId, UUID creatorId) throws Exception {
+    public Hero create(String name, Race race, Role role, Integer level, UUID playerId, UUID creatorId) throws Exception {
 
         Hero hero = new Hero(name, race, role, playerId, creatorId);
+        while (hero.getLevel() < level){
+            hero.levelUp();
+        }
         hero.setSkills(skillsService.Create(hero.getSkills()));
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();

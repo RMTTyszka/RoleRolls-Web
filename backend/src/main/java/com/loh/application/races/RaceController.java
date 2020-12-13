@@ -24,7 +24,7 @@ public class RaceController extends BaseCrudController<Race,Race, Race, RaceRepo
 
 	@Override
 	public Race getnew() {
-		return null;
+		return new Race();
 	}
 
 	@Override

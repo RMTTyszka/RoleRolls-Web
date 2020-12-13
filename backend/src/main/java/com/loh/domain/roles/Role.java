@@ -54,7 +54,6 @@ public class Role extends DefaultEntity {
     private List<Bonus> bonuses;
     
     private Integer skillPoints;
-    
 
     public Role(){
     	name = "";

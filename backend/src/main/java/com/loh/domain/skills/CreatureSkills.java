@@ -40,6 +40,12 @@ public class CreatureSkills extends Entity {
     public void levelUp() {
         this.level++;
         this.getSports().levelUp();
+        this.getKnowledge().levelUp();
+        this.getCombat().levelUp();
+        this.getNimbleness().levelUp();
+        this.getPerception().levelUp();
+        this.getRelationship().levelUp();
+        this.getResistance().levelUp();
     }
     public Integer getMaxPoints() {
         return this.level * 3;
