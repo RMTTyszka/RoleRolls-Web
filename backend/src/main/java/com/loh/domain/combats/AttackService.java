@@ -4,7 +4,7 @@ import com.loh.application.combats.dtos.AttackResult;
 import com.loh.domain.creatures.Creature;
 import com.loh.domain.creatures.equipments.GripType;
 import com.loh.rolls.DiceRoller;
-import com.loh.rolls.TestResult;
+import com.loh.rolls.RollTestResult;
 import com.loh.shared.DamageType;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class AttackService {
         DiceRoller roller = new DiceRoller();
        // System.out.println(target.getInnateLevelBonus(hitAttributePoints) + "x " + target.getEvasionInnateBonus());
        // System.out.println(hitBonus + "x " + target.getStatus().getEvasion());
-        TestResult attackTest = roller.makeTest(hitAttributePoints, hitBonus, target.getStatus().getEvasion(), complexity);
+        RollTestResult attackTest = roller.rollTest(hitAttributePoints, hitBonus, target.getStatus().getEvasion(), complexity);
         List<DamageResult> damageResults = new ArrayList<>();
 
         for (int attackIndex = 0; attackIndex < attackTest.getSuccesses() - target.getStatus().getDodge(); attackIndex++) {

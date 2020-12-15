@@ -10,7 +10,7 @@ public class DiceRoller {
 
     private Random random = new Random();
 
-    public TestResult makeTest(Integer points, Integer bonus, Integer difficulty, Integer complexity) {
+    public RollTestResult rollTest(Integer points, Integer bonus, Integer difficulty, Integer complexity) {
 
         Integer numberOfRolls = Loh.getLevel(points);
         List<Integer> rolls = new ArrayList<>();
@@ -41,7 +41,7 @@ public class DiceRoller {
         boolean success = rollSuccesses >= complexity;
         Integer successes = rollSuccesses / complexity;
 
-        return new TestResult(success, numberOfRolls, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
+        return new RollTestResult(success, numberOfRolls, rolls, bonusDice, rollSuccesses, criticalSuccesses, criticalFailures, successes, difficulty, complexity);
     }
 
     public Integer getBonusDice(Integer level) {

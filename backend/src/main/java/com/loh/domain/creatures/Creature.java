@@ -169,6 +169,15 @@ public class Creature extends Entity {
         Integer creatureMoralBonus = Bonuses.GetMoralBonusLevel(bonuses, property);
         return raceBonus + roleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus + creatureInnateBonus;
     }
+    public Integer getBonus(String property) {
+        Integer raceBonus = Bonuses.GetInnateBonus(getRace().getBonuses(), property);
+        Integer roleBonus = Bonuses.GetInnateBonus(getRole().getBonuses(), property);
+        Integer equipmentBonus = equipment.getBonus(property);
+        Integer creatureMagicalBonus = Bonuses.GetMagicalBonus(bonuses, property);
+        Integer creatureInnateBonus = Bonuses.GetInnateBonus(bonuses, property);
+        Integer creatureMoralBonus = Bonuses.GetMoralBonus(bonuses, property);
+        return raceBonus + roleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus + creatureInnateBonus;
+    }
 
     @ElementCollection
     @CollectionTable()
@@ -235,6 +244,18 @@ public class Creature extends Entity {
         Integer attributeBonusPoints = bonusAttributes.getAttributePoints(attr);
         Integer bonus = getBonusLevel(attr);
         return  base + attributeBonusPoints + bonus;
+    }
+    public Integer getPropertyPoints(String property) {
+        if (Attributes.getList().contains(property)){
+            return getAttributePoints(property);
+        }
+        return 0;
+    }
+    public Integer getPropertyBonus(String property) {
+        if (Attributes.getList().contains(property)){
+            return getBonusLevel(property);
+        }
+        return 0;
     }
 
     public Integer getAttributeLevel(String attr) {
