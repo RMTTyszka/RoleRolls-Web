@@ -31,7 +31,7 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
     return this.http.get<PlayerInvitationsOutput>(this.serverUrl + this.path + '/player/invite/get');
   }
   public getCampaignInvitations(campaignId: string) {
-    return this.http.get<CampaignInvitationsOutput[]>(this.serverUrl + this.path + `/${campaignId}/invite/get`);
+    return this.http.get<CampaignInvitationsOutput[]>(this.serverUrl + this.path + `/${campaignId}/invite/get`).toPromise();
   }
   public invitePlayer(campaignId: string, playerId: string) {
     return this.http.post(this.serverUrl + this.path + '/player/invite', {

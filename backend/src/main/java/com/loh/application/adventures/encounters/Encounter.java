@@ -1,7 +1,7 @@
 package com.loh.application.adventures.encounters;
 
 import com.loh.application.adventures.environments.Enviroment;
-import com.loh.creatures.heroes.Hero;
+import com.loh.domain.creatures.heroes.Hero;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -5,6 +5,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {EditorAction, ModalEntityData} from '../../shared/dtos/ModalEntityData';
 import {Campaign} from '../../shared/models/campaign/Campaign.model';
 import {CampaignEditorComponent} from '../campaign-editor/campaign-editor.component';
+import {CampaingsConfig} from '../campaings-config';
 
 @Component({
   selector: 'loh-campaign-list',
@@ -23,6 +24,7 @@ export class CampaignListComponent implements OnInit {
       property: 'description'
     },
   ];
+  config = new CampaingsConfig();
 
   constructor(
     public dialog: DialogService,

@@ -35,9 +35,10 @@
 	<lib name="Maven: javax:javaee-api:7.0" scope="PROVIDED"/>
 	<lib name="Maven: com.sun.mail:javax.mail:1.6.1" scope="PROVIDED"/>
 	<lib name="Maven: javax.activation:activation:1.1" scope="PROVIDED"/>
-	<lib name="Maven: org.projectlombok:lombok:1.18.6" scope="PROVIDED"/>
+	<lib name="Maven: org.projectlombok:lombok:1.18.16" scope="PROVIDED"/>
 	<levels>
 		<level name="Maven: org.mapstruct:mapstruct:1.4.1.Final" value="project"/>
+		<level name="Maven: org.mapstruct:mapstruct-processor:1.4.1.Final" value="project"/>
 		<level name="Maven: com.google.code.gson:gson:2.8.5" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-cache:2.0.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter:2.0.3.RELEASE" value="project"/>
@@ -212,7 +213,8 @@
 		<level name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.14" value="project"/>
 		<level name="Maven: org.springframework:spring-context-support:5.0.7.RELEASE" value="project"/>
 		<level name="Maven: org.springframework:spring-beans:5.0.7.RELEASE" value="project"/>
-		<level name="Maven: org.projectlombok:lombok:1.18.6" value="project"/>
+		<level name="Maven: org.projectlombok:lombok:1.18.16" value="project"/>
+		<level name="Maven: org.projectlombok:lombok-mapstruct-binding:0.1.0" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-security:2.0.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework:spring-aop:5.0.7.RELEASE" value="project"/>
 		<level name="Maven: org.springframework.security:spring-security-config:5.0.6.RELEASE" value="project"/>

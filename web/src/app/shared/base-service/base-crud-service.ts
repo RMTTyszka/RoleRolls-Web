@@ -51,7 +51,6 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
     );
   }
   update(entity: T): Observable<BaseCrudResponse<T>> {
-    debugger
     return this.http.put<BaseCrudResponse<T>>( this.serverUrl + this.path, entity).pipe(
       tap((response: BaseCrudResponse<T>) => {
         if (!response.success) {
@@ -61,7 +60,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
       }));
   }
   delete(id: string): Observable<BaseCrudResponse<T>> {
-    return this.http.delete<BaseCrudResponse<T>>(this.serverUrl + this.path + `${id}`).pipe(
+    return this.http.delete<BaseCrudResponse<T>>(this.serverUrl + this.path + `/${id}`).pipe(
       tap((response: BaseCrudResponse<T>) => this.entityDeleted.next(response.entity))
     );
   }

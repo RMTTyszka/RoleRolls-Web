@@ -1,6 +1,6 @@
 package com.loh.shared;
 
-import com.loh.creatures.Attributes;
+import com.loh.domain.creatures.Attributes;
 
 import java.util.Arrays;
 

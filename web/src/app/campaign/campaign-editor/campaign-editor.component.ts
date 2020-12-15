@@ -13,6 +13,7 @@ import {AuthenticationService} from '../../authentication/authentication.service
 import {HeroesSelectModalComponent} from '../../heroes/heroes-shared/heroes-select-modal/heroes-select-modal.component';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'loh-campaign-editor',
@@ -22,6 +23,7 @@ import {Router} from '@angular/router';
 })
 export class CampaignEditorComponent implements OnInit {
   entity: Campaign;
+  entityId: string;
   invitations: CampaignInvitationsOutput[];
   action: EditorAction;
   form: FormGroup = new FormGroup({});
@@ -37,19 +39,18 @@ export class CampaignEditorComponent implements OnInit {
   ) {
     this.action = config.data.action;
     if (config.data.action === EditorAction.create) {
-      this.entity = new Campaign();
     } else {
-      this.entity = config.data.entity;
-      this.service.getCampaignInvitations(this.entity.id).subscribe((invitations: CampaignInvitationsOutput[]) => {
-        this.invitations = invitations;
-      });
+      this.entityId = config.data.entityId;
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.invitations = await this.getInvitations();
   }
-  loaded(hasLoaded) {
-    this.isLoading = !hasLoaded;
+
+  loaded(entity) {
+    this.isLoading = false;
+    this.entity = entity;
   }
 
   saved(campaign: Campaign) {
@@ -135,5 +136,9 @@ export class CampaignEditorComponent implements OnInit {
   startSession() {
     this.router.navigate([`/campaign-session/${this.entity.id}`]);
     this.ref.close();
+  }
+
+  private async getInvitations() {
+    return this.action === EditorAction.create ? of<CampaignInvitationsOutput[]>([]).toPromise() : this.service.getCampaignInvitations(this.entityId);
   }
 }

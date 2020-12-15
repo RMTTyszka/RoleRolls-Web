@@ -10,9 +10,7 @@
               <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
               <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
               <div class="ui-inputgroup">
-                <button (click)="removeLevel()" pButton type="button" icon="pi pi-minus" class="ui-button-secondary"></button>
                 <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder player-color-1">
-                <button (click)="addLevel()" pButton type="button" icon="pi pi-plus" class="ui-button-secondary"></button>
                 <span class="ui-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
               </div>
               <label>Remaining Points: {{totalAttributesInitialPoints - usedAttributesBasePoints}}</label>

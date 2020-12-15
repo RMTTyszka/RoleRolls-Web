@@ -1,12 +1,7 @@
 <p-tabView>
   <p-tabPanel header="Campaigns" [cache]="false">
     <ng-template pTemplate="content">
-      <p-toolbar>
-        <div class="ui-toolbar-group-right">
-          <button pButton type="button" icon="pi pi-plus" class="ui-button-secondary" (click)="create()"></button>
-        </div>
-      </p-toolbar>
-      <loh-cm-grid [columns]="columns" (rowSelectedEvent)="campaignSelected($event)" [service]="campaignsService"></loh-cm-grid>
+      <loh-rr-grid [service]="campaignsService" [config]="config"></loh-rr-grid>
     </ng-template>
   </p-tabPanel>
   <p-tabPanel header="Invitations" [cache]="false">

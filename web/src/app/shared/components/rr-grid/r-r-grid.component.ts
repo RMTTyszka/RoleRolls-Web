@@ -5,6 +5,7 @@ import {LazyLoadEvent} from 'primeng/api';
 import {BaseCrudService} from '../../base-service/base-crud-service';
 import {DialogService} from 'primeng/dynamicdialog';
 import {BaseComponentConfig} from '../base-component-config';
+import {EditorAction} from '../../dtos/ModalEntityData';
 
 @Component({
   selector: 'loh-rr-grid',
@@ -37,7 +38,11 @@ get columns() {
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));
     if (!this.create) {
       this.create = () => {
-        this.dialogService.open(this.config.creator, {});
+        this.dialogService.open(this.config.creator, {
+          data: {
+            action: EditorAction.create
+          }
+        });
       };
     }
     this.get();
@@ -77,7 +82,8 @@ get columns() {
       this.dialogService.open(this.config.editor, {
         data: {
           entityId: event.data.id,
-          service: this.service
+          service: this.service,
+          action: EditorAction.update
         },
         width: '100vw',
         height: '100vh'
