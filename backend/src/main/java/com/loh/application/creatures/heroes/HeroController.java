@@ -26,7 +26,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/hero",  produces = "application/json; charset=UTF-8")
+@RequestMapping(path="/heroes",  produces = "application/json; charset=UTF-8")
 public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto, HeroRepository> {
     @Autowired
     private HeroRepository heroRepository;

@@ -39,4 +39,7 @@ export class HeroCreateComponent implements OnInit {
     console.log(this.form);
   }
 
+  saved() {
+    this.ref.close(true);
+  }
 }

@@ -54,6 +54,7 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
       }
       createForm(this.form, entity, this.requiredFields);
       console.log(this.form);
+      console.log(this.entity);
       this.isLoading = false;
       this.loaded.emit(entity);
     });
@@ -61,6 +62,7 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
       take(1)
     ).subscribe((entity: T) => {
       this.entity = entity;
+      console.log(this.entity);
     });
 
   }
