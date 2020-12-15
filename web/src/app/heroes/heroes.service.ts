@@ -17,7 +17,7 @@ export class HeroesService extends BaseCrudService<Hero, Hero> {
   selectModalColumns: RRColumns[];
   selectModalTitle: string;
   selectPlaceholder: string;
-  path = 'hero';
+  path = 'heroes';
   constructor(
     injector: Injector,
     private authService: AuthenticationService
