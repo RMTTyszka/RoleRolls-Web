@@ -9,6 +9,7 @@ import {CampaignInvitationsOutput} from '../shared/models/campaign/dtos/Campaign
 import {Hero} from '../shared/models/NewHero.model';
 import {BaseCrudService} from '../shared/base-service/base-crud-service';
 import {RRColumns} from '../shared/components/cm-grid/cm-grid.component';
+import {CreatureRollResult} from '../shared/models/rolls/CreatureRollResult';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,10 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
   }
 
   getHeroes(id: string) {
-    return this.http.get<Player[]>(this.serverUrl + this.path + `/{id}/heroes/list/`);
+    return this.http.get<Player[]>(this.serverUrl + this.path + `/${id}/heroes/list/`);
+  }
+
+  saveRoll(campaignId: string, roll: CreatureRollResult) {
+    return this.http.post<void>(this.serverUrl + this.path + `/${campaignId}/rolls`, roll);
   }
 }

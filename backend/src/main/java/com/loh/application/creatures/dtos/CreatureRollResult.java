@@ -1,16 +1,22 @@
-package com.loh.rolls;
+package com.loh.application.creatures.dtos;
 
+import com.loh.rolls.Roll;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
-public class RollTestResult {
+public class CreatureRollResult {
 
+    @Getter
+    private UUID creatureId;
+    @Getter
+    private String creatureName;
+    private String property;
     @Getter
     private boolean success;
     @Getter
     private List<Roll> rolls;
-
     @Getter
     private Integer bonusDice;
     @Getter
@@ -28,11 +34,14 @@ public class RollTestResult {
     @Getter
     private Integer complexity;
 
-    public RollTestResult(boolean success, Integer numberOfRolls, List<Roll> rolls, Integer bonusDice, Integer rollSuccesses, Integer criticalSuccesses, Integer criticalFailures, Integer successes, Integer difficulty, Integer complexity) {
+    public CreatureRollResult(UUID creatureId, String creatureName, String property, boolean success, List<Roll> rolls, Integer bonusDice, Integer numberOfRolls, Integer rollSuccesses, Integer successes, Integer criticalSuccesses, Integer criticalFailures, Integer difficulty, Integer complexity) {
+        this.creatureId = creatureId;
+        this.creatureName = creatureName;
+        this.property = property;
         this.success = success;
-        this.numberOfRolls = numberOfRolls;
         this.rolls = rolls;
         this.bonusDice = bonusDice;
+        this.numberOfRolls = numberOfRolls;
         this.rollSuccesses = rollSuccesses;
         this.successes = successes;
         this.criticalSuccesses = criticalSuccesses;

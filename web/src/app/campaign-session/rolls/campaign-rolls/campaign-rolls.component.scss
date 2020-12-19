@@ -1,0 +1,7 @@
+@import "../../../theming/colors";
+
+.dice-roll {
+  border: 1px solid $primaryColor;
+  max-height: 24px;
+  max-width: 18px;
+}

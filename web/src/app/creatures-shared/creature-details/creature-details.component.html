@@ -1,7 +1,10 @@
 <p-panel [header]="creature.name">
   <div>Race: {{creature.race?.name}}</div>
   <div>Role: {{creature.role?.name}}</div>
-  <div>Strength: {{creature.totalAttributes.strength}}</div>
+  <div class="p-grid p-justify-between">
+    <div class="p-col">Strength: {{creature.totalAttributes.strength}}</div>
+    <button pButton icon="fas fa-dice-d20" (click)="roll('strength')"></button>
+  </div>
   <div>Agility: {{creature.totalAttributes.agility}}</div>
   <div>Vitality: {{creature.totalAttributes.vitality}}</div>
   <div>Wisdom: {{creature.totalAttributes.wisdom}}</div>

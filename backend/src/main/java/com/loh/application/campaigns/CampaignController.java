@@ -4,12 +4,16 @@ import com.loh.application.campaigns.dtos.AddPlayerAndHeroToCampaignInput;
 import com.loh.application.campaigns.dtos.CampaignInvitation;
 import com.loh.application.campaigns.dtos.HeroNotFromAddedPlayerException;
 import com.loh.application.campaigns.dtos.PlayerInvitationsOutput;
-import com.loh.domain.combats.CombatRepository;
+import com.loh.application.campaigns.mappers.CampaignMapper;
 import com.loh.application.combats.dtos.CombatListDto;
+import com.loh.application.creatures.dtos.CreatureRollResult;
+import com.loh.domain.campaigns.*;
+import com.loh.domain.campaigns.rolls.CampaignRollHistoric;
+import com.loh.domain.campaigns.rolls.CampaignRollHistoricRepository;
 import com.loh.domain.combats.Combat;
+import com.loh.domain.combats.CombatRepository;
 import com.loh.domain.contexts.Player;
 import com.loh.domain.contexts.PlayerRepository;
-import com.loh.domain.campaigns.*;
 import com.loh.domain.creatures.heroes.Hero;
 import com.loh.domain.creatures.heroes.HeroRepository;
 import com.loh.shared.BaseCrudController;
@@ -51,6 +55,10 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 
 	@Autowired
 	CampaignRepository repository;
+	@Autowired
+	CampaignMapper campaignMapper;
+	@Autowired
+	CampaignRollHistoricRepository campaignRollHistoricRepository;
 
 	public CampaignController(CampaignRepository repository) {
 		super(repository);
@@ -157,7 +165,7 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 	@DeleteMapping(path="/player/remove/{campaignId}/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
 	public void removePlayer(@PathVariable UUID campaignId, @PathVariable UUID playerId) throws NoPermissionException {
-		Campaign campaign = repository.findById(campaignId).get();
+		Campaign campaign = repository.findById	(campaignId).get();
 		if (campaign.isMaster()) {
 			campaign.removePlayer(playerId);
 			campaign.removeHeroFromPlayer(playerId);
@@ -210,6 +218,12 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
         Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
         return output;
     }
+
+	@PostMapping(path = "/{campaignId}/rolls")
+	public @ResponseStatus(HttpStatus.OK) void saveRoll(@PathVariable UUID campaignId, @RequestBody CreatureRollResult rollResult) throws HeroNotFromAddedPlayerException {
+		CampaignRollHistoric historic = campaignMapper.map(rollResult);
+		campaignRollHistoricRepository.save(historic);
+	}
 
 	private Specification<Campaign> campaignFromPlayer(UUID playerId) {
 		if (playerId == null) {
