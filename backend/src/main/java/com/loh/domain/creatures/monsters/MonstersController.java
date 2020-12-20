@@ -40,7 +40,7 @@ public class MonstersController extends BaseCrudController<Monster, NewMonsterDt
     }
 
     @Override
-    public NewMonsterDto getnew() {
+    public NewMonsterDto getNew() {
         return new NewMonsterDto();
     }
 

@@ -128,7 +128,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     }
 
     @Override
-    public NewHeroDto getnew() {
+    public NewHeroDto getNew() {
         return new NewHeroDto();
     }
 

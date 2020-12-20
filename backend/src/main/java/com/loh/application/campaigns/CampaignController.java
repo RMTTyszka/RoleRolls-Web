@@ -6,9 +6,7 @@ import com.loh.application.campaigns.dtos.HeroNotFromAddedPlayerException;
 import com.loh.application.campaigns.dtos.PlayerInvitationsOutput;
 import com.loh.application.campaigns.mappers.CampaignMapper;
 import com.loh.application.combats.dtos.CombatListDto;
-import com.loh.application.creatures.dtos.CreatureRollResult;
 import com.loh.domain.campaigns.*;
-import com.loh.domain.campaigns.rolls.CampaignRollHistoric;
 import com.loh.domain.campaigns.rolls.CampaignRollHistoricRepository;
 import com.loh.domain.combats.Combat;
 import com.loh.domain.combats.CombatRepository;
@@ -65,7 +63,7 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 	}
 
 	@Override
-	public Campaign getnew() {
+	public Campaign getNew() {
 		return new Campaign();
 	}
 
@@ -195,14 +193,14 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 		return playersForSelect;
 	}
 
-	@PostMapping(path = "/{campaignId}/hero/add/{heroId}")
+	@PostMapping(path = "/{campaignId}/hero/{heroId}")
 	public @ResponseStatus(HttpStatus.OK) void addHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) throws HeroNotFromAddedPlayerException {
 		Campaign campaign = repository.findById(campaignId).get();
 		Hero hero = heroRepository.findById(heroId).get();
 		campaign.addHero(hero);
 		repository.save(campaign);
 	}
-	@DeleteMapping(path = "/{campaignId}/hero/remove/{heroId}")
+	@DeleteMapping(path = "/{campaignId}/hero/{heroId}")
 	public @ResponseStatus(HttpStatus.OK) void removeHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) {
 		Campaign campaign = repository.findById(campaignId).get();
 		Hero hero = heroRepository.findById(heroId).get();
@@ -218,12 +216,6 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
         Page<CombatListDto> output = new PageImpl<>(combats.getContent().stream().map(e -> new CombatListDto(e)).collect(Collectors.toList()), paged, combats.getTotalElements());
         return output;
     }
-
-	@PostMapping(path = "/{campaignId}/rolls")
-	public @ResponseStatus(HttpStatus.OK) void saveRoll(@PathVariable UUID campaignId, @RequestBody CreatureRollResult rollResult) throws HeroNotFromAddedPlayerException {
-		CampaignRollHistoric historic = campaignMapper.map(rollResult);
-		campaignRollHistoricRepository.save(historic);
-	}
 
 	private Specification<Campaign> campaignFromPlayer(UUID playerId) {
 		if (playerId == null) {

@@ -2,12 +2,16 @@ package com.loh.domain.campaigns.rolls;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
 public class CampaignRollHistoric extends com.loh.shared.Entity {
+    @Getter @Setter
+    private UUID campaignId;
     @Getter @Setter
     private UUID creatureId;
     @Getter @Setter
@@ -33,6 +37,8 @@ public class CampaignRollHistoric extends com.loh.shared.Entity {
     private Integer difficulty;
     @Getter @Setter
     private Integer complexity;
+    @Getter @Setter @CreatedDate
+    private Date creationTime;
 
     public CampaignRollHistoric() {
     }

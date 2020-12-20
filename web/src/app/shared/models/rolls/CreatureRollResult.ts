@@ -13,4 +13,5 @@ export class CreatureRollResult {
   public criticalFailures: number;
   public difficulty: number;
   public complexity: number;
+  public creationTime: string;
 }

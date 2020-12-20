@@ -18,6 +18,9 @@ export class CampaignRollsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.campaignSessionService.getRolls(this.campaignId).subscribe((rolls) => {
+      this.rolls.push(...rolls);
+    })
     this.creatureRollsService.creatureRolled()
       .pipe(switchMap(result => {
         this.rolls.push(result);

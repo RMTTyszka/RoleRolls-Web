@@ -32,4 +32,7 @@ export class CampaignSessionService {
   saveRoll(campaignId: string, roll: CreatureRollResult) {
     return this.campaignsService.saveRoll(campaignId, roll);
   }
+  getRolls(campaignId: string) {
+    return this.campaignsService.getRolls(campaignId);
+  }
 }

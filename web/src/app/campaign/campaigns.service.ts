@@ -77,4 +77,7 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
   saveRoll(campaignId: string, roll: CreatureRollResult) {
     return this.http.post<void>(this.serverUrl + this.path + `/${campaignId}/rolls`, roll);
   }
+  getRolls(campaignId: string) {
+    return this.http.get<CreatureRollResult[]>(this.serverUrl + this.path + `/${campaignId}/rolls2/list`);
+  }
 }
