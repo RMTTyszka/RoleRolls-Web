@@ -1,7 +1,7 @@
 <h2>
   {{campaign.name}}
 </h2>
-<div class="p-grid p-nogutter">
+<div class="p-grid p-nogutter" style="height: 100%;">
   <p-tabView class="p-col-10">
     <p-tabPanel header="Heroes">
       <ng-template pTemplate="content">
@@ -28,7 +28,7 @@
     </p-tabPanel>
   </p-tabView>
   <div class="p-col-2">
-    <loh-campaign-rolls [campaignId]="campaignId"></loh-campaign-rolls>
+    <loh-campaign-rolls [campaignId]="campaignId" style="overflow: scroll; height: 100%;"></loh-campaign-rolls>
   </div>
 </div>
 

@@ -59,7 +59,7 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
     return this.http.get<Player[]>(this.serverUrl + this.path + `/player/select/`, { params: params});
   }
   public removePlayer(campaignId: string, playerId: string) {
-    return this.http.delete(this.serverUrl + this.path + `/player/remove/${campaignId}/${playerId}`);
+    return this.http.delete(this.serverUrl + this.path + `/${campaignId}/players/${playerId}`);
   }
 
   public addHero(campaignId: string, heroId: string) {
@@ -78,6 +78,6 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
     return this.http.post<void>(this.serverUrl + this.path + `/${campaignId}/rolls`, roll);
   }
   getRolls(campaignId: string) {
-    return this.http.get<CreatureRollResult[]>(this.serverUrl + this.path + `/${campaignId}/rolls2/list`);
+    return this.http.get<CreatureRollResult[]>(this.serverUrl + this.path + `/${campaignId}/rolls`);
   }
 }

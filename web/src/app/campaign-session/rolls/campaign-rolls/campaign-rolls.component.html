@@ -1,14 +1,14 @@
-<p-panel>
-  <ng-container class="p-grid p-nogutter">
-    <div *ngFor="let result of rolls" class="p-grid p-nogutter">
-      <div class="p-col-12">{{result.creatureName}}</div>
+<p-panel header="Rolls">
+  <ng-container class="p-grid p-nogutter" style="overflow: scroll; height: 100%">
+    <div *ngFor="let result of rolls" class="p-grid">
+      <div class="p-col-6">{{result.creatureName}}</div>
+      <div class="p-col-6">{{result.property}}</div>
       <div *ngFor="let roll of result.rolls" class="p-col">
         <div *ngIf="roll.success" class="success-color">{{roll.dice + roll.bonus}}</div>
         <div *ngIf="!roll.success" class="dice-roll">{{roll.dice + roll.bonus}}</div>
       </div>
     </div>
   </ng-container>
-
 </p-panel>
 
 

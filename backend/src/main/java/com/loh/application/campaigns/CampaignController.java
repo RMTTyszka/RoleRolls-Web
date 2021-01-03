@@ -160,7 +160,7 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
         invitedPlayerRepository.save(invitedPlayer);
 
     }
-	@DeleteMapping(path="/player/remove/{campaignId}/{playerId}")
+	@DeleteMapping(path="/{campaignId}/players/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
 	public void removePlayer(@PathVariable UUID campaignId, @PathVariable UUID playerId) throws NoPermissionException {
 		Campaign campaign = repository.findById	(campaignId).get();

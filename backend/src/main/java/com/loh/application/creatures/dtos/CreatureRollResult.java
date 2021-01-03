@@ -2,6 +2,7 @@ package com.loh.application.creatures.dtos;
 
 import com.loh.rolls.Roll;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ public class CreatureRollResult {
     private UUID creatureId;
     @Getter
     private String creatureName;
+    @Getter @Setter
     private String property;
     @Getter
     private boolean success;

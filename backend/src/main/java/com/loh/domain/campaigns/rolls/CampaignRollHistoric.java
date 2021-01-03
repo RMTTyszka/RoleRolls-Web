@@ -3,19 +3,26 @@ package com.loh.domain.campaigns.rolls;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.util.Date;
+import javax.persistence.EntityListeners;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class CampaignRollHistoric extends com.loh.shared.Entity {
-    @Getter @Setter
+    @Getter @Setter    @Column(columnDefinition = "BINARY(16)")
+
     private UUID campaignId;
-    @Getter @Setter
+    @Getter @Setter    @Column(columnDefinition = "BINARY(16)")
+
     private UUID creatureId;
     @Getter @Setter
     private String creatureName;
+    @Getter @Setter
     private String property;
     @Getter @Setter
     private boolean success;
@@ -37,9 +44,8 @@ public class CampaignRollHistoric extends com.loh.shared.Entity {
     private Integer difficulty;
     @Getter @Setter
     private Integer complexity;
-    @Getter @Setter @CreatedDate
-    private Date creationTime;
-
+    @CreatedDate
+    private Timestamp creationTime;
     public CampaignRollHistoric() {
     }
 }

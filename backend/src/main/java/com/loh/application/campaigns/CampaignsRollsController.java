@@ -6,12 +6,14 @@ import com.loh.application.creatures.dtos.CreatureRollResult;
 import com.loh.domain.campaigns.rolls.CampaignRollHistoric;
 import com.loh.domain.campaigns.rolls.CampaignRollHistoricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
@@ -29,9 +31,21 @@ public class CampaignsRollsController {
         campaignRollHistoricRepository.save(historic);
     }
 
-    @GetMapping(path = "/{campaignId}/rolls2/list")
-    public ArrayList<CampaignRollHistoric> list(@PathVariable UUID campaignId) {
-        ArrayList<CampaignRollHistoric> list =  campaignRollHistoricRepository.findAllByCampaignId(campaignId);
-        return list;
+    @GetMapping(path = "/{campaignId}/rolls")
+    public @ResponseBody List<CreatureRollResult> list(@PathVariable UUID campaignId) {
+        List<CampaignRollHistoric> list =  campaignRollHistoricRepository.findAll(Specification.where(byCampaignId(campaignId)).and(orderByDate()));
+        List<CreatureRollResult> result = list.stream().map(e -> campaignMapper.map(e)).collect(Collectors.toList());
+        return result;
+    }
+
+    private Specification<CampaignRollHistoric> byCampaignId(UUID campaignId) {
+        return (rolls, cq, cb) -> cb.equal(rolls.get("campaignId"), campaignId);
+    }
+
+    static Specification<CampaignRollHistoric> orderByDate() {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("creationTime")));
+            return criteriaBuilder.isNotNull(root);
+        };
     }
 }
