@@ -15,7 +15,7 @@ public class WeaponAttributes {
 
     public WeaponAttributes(GripType gripType, Integer damageAttributeBonus, Integer hitBonus, Integer weaponMagicBonus, GripType otherHandGripType) {
         damage = gripType.getDamage();
-        damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus;
+        damageBonus = gripType.getAttributeModifier() * damageAttributeBonus + gripType.getMagicBonusModifier() * weaponMagicBonus + gripType.getBaseBonusDamage();
         attackComplexity = gripType.getAttackComplexity();
         this.hitBonus = gripType.getHit() + hitBonus + weaponMagicBonus + (otherHandGripType != null ? otherHandGripType.getShieldHitBonus() : 0);
     }

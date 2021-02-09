@@ -12,6 +12,10 @@ import {switchMap} from 'rxjs/operators';
 export class CampaignRollsComponent implements OnInit {
   rolls: CreatureRollResult[] = [];
   @Input() campaignId;
+
+  public get lastRoll() {
+    return this.rolls[this.rolls.length - 1];
+  }
   constructor(
     private creatureRollsService: CreatureRollsService,
     private campaignSessionService: CampaignSessionService

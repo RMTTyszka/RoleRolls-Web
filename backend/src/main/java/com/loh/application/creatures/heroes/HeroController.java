@@ -61,7 +61,6 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     @Override
     public @ResponseBody
     BaseCrudResponse<Hero> add(@RequestBody NewHeroDto heroDto){
-
         try {
             Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.level, heroDto.ownerId, currentUserId());
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);

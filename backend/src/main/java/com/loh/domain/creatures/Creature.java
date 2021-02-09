@@ -4,20 +4,19 @@ import com.loh.domain.combats.AttackDetails;
 import com.loh.domain.combats.AttackService;
 import com.loh.domain.creatures.equipments.Equipment;
 import com.loh.domain.creatures.inventory.Inventory;
-import com.loh.system.Loh;
 import com.loh.domain.effects.EffectInstance;
 import com.loh.domain.effects.EffectProcessor;
 import com.loh.domain.items.instances.ItemInstanceRepository;
 import com.loh.domain.races.Race;
 import com.loh.domain.roles.Role;
+import com.loh.domain.skills.CreatureSkills;
 import com.loh.shared.Entity;
 import com.loh.shared.*;
-import com.loh.domain.skills.CreatureSkills;
+import com.loh.system.Loh;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,19 +34,6 @@ public class Creature extends Entity {
     @Getter @Setter
     @Column(columnDefinition = "BINARY(16)")
     protected UUID creatorId;
-
-    public Creature() {
-        level = 1;
-        this.baseAttributes = new Attributes();
-        this.bonusAttributes = new Attributes();
-        this.skills = new CreatureSkills();
-        this.bonuses = new ArrayList<>();
-        this.race = new Race();
-        this.role = new Role();
-        this.equipment = new Equipment();
-        setCurrentLife(getStatus().getLife());
-        setCurrentMoral(getStatus().getMoral());
-    }
 
     protected CreatureType getCreatureType() {
         return null;
@@ -96,10 +82,10 @@ public class Creature extends Entity {
     private CreatureStatus statuses;
 
     public CreatureStatus getStatus() {
-        if (statuses == null) {
+        if (this.statuses == null) {
             statuses = new CreatureStatus(this);
         }
-        return statuses;
+        return this.statuses;
     }
     @Getter
     private Integer currentLife;

@@ -1,15 +1,37 @@
 <p-panel header="Rolls">
-  <ng-container class="p-grid p-nogutter" style="overflow: scroll; height: 100%">
-    <div *ngFor="let result of rolls" class="p-grid">
-      <div class="p-col-6">{{result.creatureName}}</div>
-      <div class="p-col-6">{{result.property}}</div>
-      <div *ngFor="let roll of result.rolls" class="p-col">
-        <div *ngIf="roll.success" class="success-color">{{roll.dice + roll.bonus}}</div>
-        <div *ngIf="!roll.success" class="dice-roll">{{roll.dice + roll.bonus}}</div>
-      </div>
-    </div>
+  <ng-container class="p-grid p-nogutter" style="overflow: scroll; height: 100%; padding-bottom: 12px">
+    <ng-container *ngIf="lastRoll">
+      <p-card >
+        <p-header class="p-grid">
+          <div class="p-col-6" style="font-weight: bold">{{lastRoll.creatureName}}</div>
+          <div class="p-col-6">{{lastRoll.property}}</div>
+        </p-header>
+        <div  class="p-grid">
+          <div *ngFor="let roll of lastRoll.rolls" class="p-col">
+            <div *ngIf="roll.success" class="success-dice-roll">{{roll.dice + roll.bonus}}</div>
+            <div *ngIf="!roll.success" class="dice-roll">{{roll.dice + roll.bonus}}</div>
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+    <ng-container class="roll-card">
+      <p-card *ngFor="let result of rolls" >
+        <p-header class="p-grid">
+          <div class="p-col-6" style="font-weight: bold">{{result.creatureName}}</div>
+          <div class="p-col-6">{{result.property}}</div>
+        </p-header>
+        <div  class="p-grid">
+          <div *ngFor="let roll of result.rolls" class="p-col">
+            <div *ngIf="roll.success" class="success-dice-roll">{{roll.dice + roll.bonus}}</div>
+            <div *ngIf="!roll.success" class="dice-roll">{{roll.dice + roll.bonus}}</div>
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+
   </ng-container>
 </p-panel>
+<input [(ngModel)]="rolls">
 
 
 <p-overlayPanel #op>

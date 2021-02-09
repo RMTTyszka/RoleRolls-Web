@@ -1,15 +1,33 @@
 <p-panel [header]="creature.name">
-  <div>Race: {{creature.race?.name}}</div>
-  <div>Role: {{creature.role?.name}}</div>
-  <div class="p-grid p-justify-between">
-    <div class="p-col">Strength: {{creature.totalAttributes.strength}}</div>
-    <button pButton icon="fas fa-dice-d20" (click)="roll('strength')"></button>
+  <div class="p-grid p-justify-between p-align-center p-nogutter">
+    <div class="p-col-6">Race: {{creature.race?.name}}</div>
+    <div class="p-col-6">Life: {{creature.currentLife}}</div>
+    <div class="p-col-6">Role: {{creature.role?.name}}</div>
+    <div class="p-col-6">Moral: {{creature.currentMoral}}</div>
   </div>
-  <div>Agility: {{creature.totalAttributes.agility}}</div>
-  <div>Vitality: {{creature.totalAttributes.vitality}}</div>
-  <div>Wisdom: {{creature.totalAttributes.wisdom}}</div>
-  <div>Intuition: {{creature.totalAttributes.intuition}}</div>
-  <div>Charisma: {{creature.totalAttributes.charisma}}</div>
-  <div>Life: {{creature.currentLife}}</div>
-  <div>Moral: {{creature.currentMoral}}</div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('strength')"></i>
+    <div class="p-col">Strength: {{creature.totalAttributes.strength}}</div>
+  </div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('agility')"></i>
+    <div class="p-col">Agility: {{creature.totalAttributes.agility}}</div>
+  </div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('vitality')"></i>
+    <div class="p-col">Vitality: {{creature.totalAttributes.vitality}}</div>
+  </div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('wisdom')"></i>
+    <div class="p-col">Wisdom: {{creature.totalAttributes.wisdom}}</div>
+  </div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('intuition')"></i>
+    <div class="p-col">Intuition: {{creature.totalAttributes.intuition}}</div>
+  </div>
+  <div class="p-grid p-justify-start p-align-center">
+    <i class="fas fa-dice-d20" (click)="roll('charisma')"></i>
+    <div class="p-col">Charisma: {{creature.totalAttributes.charisma}}</div>
+  </div>
+
 </p-panel>

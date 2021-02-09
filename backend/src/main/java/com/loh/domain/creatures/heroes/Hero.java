@@ -21,17 +21,21 @@ public class Hero extends Creature {
         return CreatureType.Hero;
     }
 
+    public static Hero NewHero() {
+        Hero hero = new Hero();
+        hero.id = UUID.randomUUID();
+        hero.level = 1;
+        hero.baseAttributes = new Attributes(8);
+        hero.bonusAttributes = new Attributes();
+        hero.name = "new hero";
+        hero.equipment = new Equipment();
+        hero.inventory = new Inventory();
+        hero.inventory.setCash1(100);
+        return hero;
+    }
 
     public Hero(){
         super();
-        id = UUID.randomUUID();
-        level = 1;
-        baseAttributes = new Attributes(8);
-        bonusAttributes = new Attributes();
-        name = "new hero";
-        equipment = new Equipment();
-        inventory = new Inventory();
-        inventory.setCash1(100);
     }
     public Hero(String name, Race race, Role role, UUID ownerId, UUID creatorId){
         super();
@@ -44,6 +48,7 @@ public class Hero extends Creature {
         this.role = role;
         equipment = new Equipment();
         inventory = new Inventory();
+        this.inventory.setCash1(100);
         this.ownerId = ownerId;
         this.creatorId = creatorId;
     }

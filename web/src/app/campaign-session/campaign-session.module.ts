@@ -15,6 +15,8 @@ import {CampaignRollsService} from './rolls/campaign-rolls.service';
 import { CampaignRollsComponent } from './rolls/campaign-rolls/campaign-rolls.component';
 import {PanelModule} from 'primeng/panel';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {FormsModule} from '@angular/forms';
+import {CardModule} from 'primeng/card';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     CreaturesSharedModule,
     CombatModule,
     PanelModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    FormsModule,
+    CardModule
   ],
   entryComponents: [CampaignSessionGatewayComponent],
   providers: [CampaignRollsService]

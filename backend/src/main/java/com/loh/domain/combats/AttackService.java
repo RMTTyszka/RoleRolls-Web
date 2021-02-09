@@ -90,7 +90,7 @@ public class AttackService {
     private Integer getDamage(Integer weaponDamage, Integer damageBonus) {
         DiceRoller roller = new DiceRoller();
         Integer damageRoll = roller.getRoll(weaponDamage);
-         damageRoll = weaponDamage / 2;
+         // damageRoll = weaponDamage / 2;
         Integer crudDamage = damageRoll + damageBonus;
         return crudDamage;
     }
