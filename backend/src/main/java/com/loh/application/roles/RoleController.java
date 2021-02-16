@@ -23,7 +23,7 @@ public class RoleController extends BaseCrudController<Role, Role, Role, RoleRep
 	}
 
 	@Override
-	public Role getnew() {
+	public Role getNew() {
 		return new Role();
 	}
 

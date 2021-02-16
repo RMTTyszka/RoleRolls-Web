@@ -41,7 +41,7 @@ public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateI
     }
     @GetMapping(path="/new")
     public abstract  @ResponseBody
-    TCreateInput getnew();
+    TCreateInput getNew();
     @PutMapping(path="")
     public @ResponseBody
     BaseCrudResponse<T> update(@RequestBody TUpdateInput input) {

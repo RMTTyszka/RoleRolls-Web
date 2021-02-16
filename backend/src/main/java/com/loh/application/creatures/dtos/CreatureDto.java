@@ -22,7 +22,7 @@ public class CreatureDto extends EntityDto {
     public UUID creatorId;
     public Attributes baseAttributes;
     public Attributes bonusAttributes;
-    public CreatureStatus statuses;
+    public CreatureStatus status;
     public Resistances resistances;
     public Integer currentLife;
     public Integer currentMoral;

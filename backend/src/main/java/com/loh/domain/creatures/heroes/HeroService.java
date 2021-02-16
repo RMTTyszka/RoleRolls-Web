@@ -4,9 +4,7 @@ import com.loh.domain.creatures.equipments.EquipmentRepository;
 import com.loh.domain.creatures.equipments.GripType;
 import com.loh.domain.creatures.inventory.InventoryRepository;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
-import com.loh.domain.items.equipables.armors.instances.ArmorInstanceRepository;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceService;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
 import com.loh.domain.items.equipables.belts.instances.BeltInstance;
 import com.loh.domain.items.equipables.belts.instances.BeltInstanceService;
 import com.loh.domain.items.equipables.gloves.instances.GloveInstance;
@@ -29,11 +27,6 @@ import java.util.UUID;
 
 @Service
 public class HeroService {
-
-    @Autowired
-    private ArmorModelRepository armorModelRepository;
-    @Autowired
-    private ArmorInstanceRepository armorInstanceRepository;
 
     @Autowired
     private ArmorInstanceService armorInstanceService;
@@ -65,7 +58,7 @@ public class HeroService {
         while (hero.getLevel() < level){
             hero.levelUp();
         }
-        hero.setSkills(skillsService.Create(hero.getSkills()));
+        hero.setSkills(skillsService.save(hero.getSkills()));
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
         GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();
@@ -82,14 +75,6 @@ public class HeroService {
         hero.getEquipment().equipNeckAccessory(neckAccessory);
         hero.getEquipment().equipRingRight(ringRightInstance);
         hero.getEquipment().equipRingLeft(ringLeftInstance);
-        hero.getInventory().addItem(armor);
-        hero.getInventory().addItem(weapon);
-        hero.getInventory().addItem(gloves);
-        hero.getInventory().addItem(belt);
-        hero.getInventory().addItem(headpiece);
-        hero.getInventory().addItem(neckAccessory);
-        hero.getInventory().addItem(ringRightInstance);
-        hero.getInventory().addItem(ringLeftInstance);
         hero.getInventory().setCash1(100);
         hero.setEquipment(equipmentRepository.save(hero.getEquipment()));
         hero.setInventory(inventoryRepository.save(hero.getInventory()));
@@ -97,8 +82,8 @@ public class HeroService {
         return hero;
     }
     public Hero update(Hero hero) {
-        armorInstanceRepository.save(hero.getEquipment().getArmor());
         equipmentRepository.save(hero.getEquipment());
+        skillsService.save(hero.getSkills());
         return heroRepository.save(hero);
     }
 }

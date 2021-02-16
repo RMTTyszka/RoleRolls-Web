@@ -1,0 +1,18 @@
+@import "../../../theming/colors";
+
+.dice-roll {
+  border: 1px solid $primaryColor;
+  max-height: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  min-width: 18px;
+  text-align: center;
+}
+.success-dice-roll {
+  border: 1px solid $successColor;
+  max-height: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  min-width: 18px;
+  text-align: center;
+}

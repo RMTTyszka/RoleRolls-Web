@@ -4,12 +4,14 @@ import com.loh.application.campaigns.dtos.AddPlayerAndHeroToCampaignInput;
 import com.loh.application.campaigns.dtos.CampaignInvitation;
 import com.loh.application.campaigns.dtos.HeroNotFromAddedPlayerException;
 import com.loh.application.campaigns.dtos.PlayerInvitationsOutput;
-import com.loh.domain.combats.CombatRepository;
+import com.loh.application.campaigns.mappers.CampaignMapper;
 import com.loh.application.combats.dtos.CombatListDto;
+import com.loh.domain.campaigns.*;
+import com.loh.domain.campaigns.rolls.CampaignRollHistoricRepository;
 import com.loh.domain.combats.Combat;
+import com.loh.domain.combats.CombatRepository;
 import com.loh.domain.contexts.Player;
 import com.loh.domain.contexts.PlayerRepository;
-import com.loh.domain.campaigns.*;
 import com.loh.domain.creatures.heroes.Hero;
 import com.loh.domain.creatures.heroes.HeroRepository;
 import com.loh.shared.BaseCrudController;
@@ -51,13 +53,17 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 
 	@Autowired
 	CampaignRepository repository;
+	@Autowired
+	CampaignMapper campaignMapper;
+	@Autowired
+	CampaignRollHistoricRepository campaignRollHistoricRepository;
 
 	public CampaignController(CampaignRepository repository) {
 		super(repository);
 	}
 
 	@Override
-	public Campaign getnew() {
+	public Campaign getNew() {
 		return new Campaign();
 	}
 
@@ -154,10 +160,10 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
         invitedPlayerRepository.save(invitedPlayer);
 
     }
-	@DeleteMapping(path="/player/remove/{campaignId}/{playerId}")
+	@DeleteMapping(path="/{campaignId}/players/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
 	public void removePlayer(@PathVariable UUID campaignId, @PathVariable UUID playerId) throws NoPermissionException {
-		Campaign campaign = repository.findById(campaignId).get();
+		Campaign campaign = repository.findById	(campaignId).get();
 		if (campaign.isMaster()) {
 			campaign.removePlayer(playerId);
 			campaign.removeHeroFromPlayer(playerId);
@@ -187,14 +193,14 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 		return playersForSelect;
 	}
 
-	@PostMapping(path = "/{campaignId}/hero/add/{heroId}")
+	@PostMapping(path = "/{campaignId}/hero/{heroId}")
 	public @ResponseStatus(HttpStatus.OK) void addHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) throws HeroNotFromAddedPlayerException {
 		Campaign campaign = repository.findById(campaignId).get();
 		Hero hero = heroRepository.findById(heroId).get();
 		campaign.addHero(hero);
 		repository.save(campaign);
 	}
-	@DeleteMapping(path = "/{campaignId}/hero/remove/{heroId}")
+	@DeleteMapping(path = "/{campaignId}/hero/{heroId}")
 	public @ResponseStatus(HttpStatus.OK) void removeHero(@PathVariable UUID campaignId,@PathVariable UUID heroId) {
 		Campaign campaign = repository.findById(campaignId).get();
 		Hero hero = heroRepository.findById(heroId).get();

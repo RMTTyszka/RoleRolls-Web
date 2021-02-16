@@ -61,7 +61,6 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     @Override
     public @ResponseBody
     BaseCrudResponse<Hero> add(@RequestBody NewHeroDto heroDto){
-
         try {
             Hero hero = heroService.create(heroDto.name, heroDto.race, heroDto.role, heroDto.level, heroDto.ownerId, currentUserId());
             BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully created hero", hero);
@@ -70,7 +69,6 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
             System.out.println(e.getStackTrace());
             return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
         }
-
     }
 
     @DeleteMapping(path="/deleteAllDummies")
@@ -128,7 +126,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     }
 
     @Override
-    public NewHeroDto getnew() {
+    public NewHeroDto getNew() {
         return new NewHeroDto();
     }
 

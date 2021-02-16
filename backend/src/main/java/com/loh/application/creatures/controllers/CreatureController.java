@@ -1,4 +1,4 @@
-package com.loh.application.creatures;
+package com.loh.application.creatures.controllers;
 
 import com.loh.domain.creatures.CreatureRepository;
 import com.loh.domain.creatures.heroes.HeroSeeder;

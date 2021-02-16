@@ -11,19 +11,30 @@ import {TableModule} from 'primeng/table';
 import { CampaignHeroDetailsComponent } from './campaign-hero-details/campaign-hero-details.component';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 import {CombatModule} from '../combat/combat.module';
+import {CampaignRollsService} from './rolls/campaign-rolls.service';
+import { CampaignRollsComponent } from './rolls/campaign-rolls/campaign-rolls.component';
+import {PanelModule} from 'primeng/panel';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {FormsModule} from '@angular/forms';
+import {CardModule} from 'primeng/card';
 
 
 @NgModule({
-  declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent],
-    imports: [
-        CommonModule,
-        CampaignSessionRoutingModule,
-        TabViewModule,
-        TableModule,
-        CreaturesSharedModule,
-        CombatModule
-    ],
+  declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent],
+  imports: [
+    CommonModule,
+    CampaignSessionRoutingModule,
+    TabViewModule,
+    TableModule,
+    CreaturesSharedModule,
+    CombatModule,
+    PanelModule,
+    OverlayPanelModule,
+    FormsModule,
+    CardModule
+  ],
   entryComponents: [CampaignSessionGatewayComponent],
+  providers: [CampaignRollsService]
 })
 export class CampaignSessionModule {
 }

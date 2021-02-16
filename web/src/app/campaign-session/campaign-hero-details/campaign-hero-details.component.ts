@@ -4,7 +4,7 @@ import {Hero} from '../../shared/models/NewHero.model';
 @Component({
   selector: 'loh-campaign-hero-details',
   templateUrl: './campaign-hero-details.component.html',
-  styleUrls: ['./campaign-hero-details.component.css']
+  styleUrls: ['./campaign-hero-details.component.scss']
 })
 export class CampaignHeroDetailsComponent implements OnInit {
 

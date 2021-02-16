@@ -42,6 +42,19 @@ public class Equipment extends Entity {
 		return armorBonus + weaponBonus + offWeaponBonus + beltBonus + gloveBonus + headBonus + neckBonus + ringLeftBonus + ringRightBonus;
 	}
 
+	public Integer getBonus(String property) {
+		Integer armorBonus = Bonuses.GetEquipmentBonus(armor.getBonuses(), property);
+		Integer weaponBonus = mainWeapon != null ? Bonuses.GetEquipmentBonus(mainWeapon.getBonuses(), property) : 0;
+		Integer offWeaponBonus = offWeapon != null ? Bonuses.GetEquipmentBonus(offWeapon.getBonuses(), property) : 0;
+		Integer beltBonus = Bonuses.GetEquipmentBonus(belt.getBonuses(), property);
+		Integer gloveBonus = Bonuses.GetEquipmentBonus(gloves.getBonuses(), property);
+		Integer headBonus = Bonuses.GetEquipmentBonus(headpiece.getBonuses(), property);
+		Integer neckBonus = Bonuses.GetEquipmentBonus(neckAccessory.getBonuses(), property);
+		Integer ringRightBonus = Bonuses.GetEquipmentBonus(ringRight.getBonuses(), property);
+		Integer ringLeftBonus = Bonuses.GetEquipmentBonus(ringLeft.getBonuses(), property);
+		return armorBonus + weaponBonus + offWeaponBonus + beltBonus + gloveBonus + headBonus + neckBonus + ringLeftBonus + ringRightBonus;
+	}
+
 	@OneToOne @Getter @Setter
 	private ArmorInstance armor;
 
@@ -90,8 +103,10 @@ public class Equipment extends Entity {
 			this.setOffWeaponGripType(gripType);
 		}
 	}
-	public void equipArmor(ArmorInstance armor) {
+	public ArmorInstance equipArmor(ArmorInstance armor) {
+		ArmorInstance previousArmor = this.getArmor();
 		this.setArmor(armor);
+		return previousArmor;
 	}
 	public void equipGloves(GloveInstance gloves) {
 		this.setGloves(gloves);

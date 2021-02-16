@@ -18,13 +18,12 @@ import java.util.List;
 public abstract class Skill extends Entity {
 
     public Skill() {
-        level = 1;
     }
 
     @Getter @Setter
-    private Integer level;
+    protected Integer level = 1;
     @Getter @Setter
-    private Integer points = 0;
+    protected Integer points = 0;
 
 
     public Integer getMaxPointPerSkill() {

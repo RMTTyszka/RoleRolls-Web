@@ -4,20 +4,20 @@ import com.loh.domain.combats.AttackDetails;
 import com.loh.domain.combats.AttackService;
 import com.loh.domain.creatures.equipments.Equipment;
 import com.loh.domain.creatures.inventory.Inventory;
-import com.loh.system.Loh;
 import com.loh.domain.effects.EffectInstance;
 import com.loh.domain.effects.EffectProcessor;
+import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.instances.ItemInstanceRepository;
 import com.loh.domain.races.Race;
 import com.loh.domain.roles.Role;
+import com.loh.domain.skills.CreatureSkills;
 import com.loh.shared.Entity;
 import com.loh.shared.*;
-import com.loh.domain.skills.CreatureSkills;
+import com.loh.system.Loh;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +25,16 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "CreatureType")
 public class Creature extends Entity {
+
+    public Creature() {
+        race = new Race();
+        role = new Role();
+        baseAttributes = new Attributes(8);
+        bonusAttributes = new Attributes();
+        skills = new CreatureSkills();
+        equipment = new Equipment();
+        inventory = new Inventory();
+    }
 
     @Getter @Setter
     protected String name;
@@ -36,17 +46,22 @@ public class Creature extends Entity {
     @Column(columnDefinition = "BINARY(16)")
     protected UUID creatorId;
 
-    public Creature() {
+    public Creature(String name, Race race, Role role, UUID playerId, UUID creatorId) {
+        super();
+        id = UUID.randomUUID();
         level = 1;
-        this.baseAttributes = new Attributes();
-        this.bonusAttributes = new Attributes();
-        this.skills = new CreatureSkills();
-        this.bonuses = new ArrayList<>();
-        this.race = new Race();
-        this.role = new Role();
-        this.equipment = new Equipment();
-        setCurrentLife(getStatus().getLife());
-        setCurrentMoral(getStatus().getMoral());
+        baseAttributes = new Attributes(8);
+        bonusAttributes = new Attributes();
+        skills = new CreatureSkills();
+        this.name = name;
+        this.race = race;
+        this.role = role;
+        equipment = new Equipment();
+        inventory = new Inventory();
+        this.ownerId = playerId;
+        this.creatorId = creatorId;
+        setCurrentLife(this.getStatus().getLife());
+        setCurrentMoral(this.getStatus().getMoral());
     }
 
     protected CreatureType getCreatureType() {
@@ -96,26 +111,20 @@ public class Creature extends Entity {
     private CreatureStatus statuses;
 
     public CreatureStatus getStatus() {
-        if (statuses == null) {
+        if (this.statuses == null) {
             statuses = new CreatureStatus(this);
         }
-        return statuses;
+        return this.statuses;
     }
     @Getter
     private Integer currentLife;
     @Getter
     private Integer currentMoral;
     public void setCurrentLife(Integer val) {
-        if (currentLife == null) {
-            currentLife = getStatus().getLife();
-        }
         currentLife = val;
         currentLife = Integer.min(currentLife, getStatus().getLife());
     }
     public void setCurrentMoral(Integer val) {
-        if (currentMoral == null) {
-            currentMoral = getStatus().getMoral();
-        }
         currentMoral = val;
         currentMoral = Integer.max(currentMoral, 0);
         currentMoral = Integer.min(currentMoral, getStatus().getMoral());
@@ -139,7 +148,7 @@ public class Creature extends Entity {
     }
 
     @Getter @Setter
-    protected Integer level;
+    protected Integer level = 1;
 
     @Getter @Setter @ManyToOne
     protected Race race;
@@ -167,6 +176,15 @@ public class Creature extends Entity {
         Integer creatureMagicalBonus = Bonuses.GetMagicalBonusLevel(bonuses, property);
         Integer creatureInnateBonus = Bonuses.GetInnateBonusLevel(bonuses, property);
         Integer creatureMoralBonus = Bonuses.GetMoralBonusLevel(bonuses, property);
+        return raceBonus + roleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus + creatureInnateBonus;
+    }
+    public Integer getBonus(String property) {
+        Integer raceBonus = Bonuses.GetInnateBonus(getRace().getBonuses(), property);
+        Integer roleBonus = Bonuses.GetInnateBonus(getRole().getBonuses(), property);
+        Integer equipmentBonus = equipment.getBonus(property);
+        Integer creatureMagicalBonus = Bonuses.GetMagicalBonus(bonuses, property);
+        Integer creatureInnateBonus = Bonuses.GetInnateBonus(bonuses, property);
+        Integer creatureMoralBonus = Bonuses.GetMoralBonus(bonuses, property);
         return raceBonus + roleBonus + equipmentBonus + creatureMagicalBonus + creatureMoralBonus + creatureInnateBonus;
     }
 
@@ -235,6 +253,18 @@ public class Creature extends Entity {
         Integer attributeBonusPoints = bonusAttributes.getAttributePoints(attr);
         Integer bonus = getBonusLevel(attr);
         return  base + attributeBonusPoints + bonus;
+    }
+    public Integer getPropertyPoints(String property) {
+        if (Attributes.getList().contains(property)){
+            return getAttributePoints(property);
+        }
+        return 0;
+    }
+    public Integer getPropertyBonus(String property) {
+        if (Attributes.getList().contains(property)){
+            return getBonusLevel(property);
+        }
+        return 0;
     }
 
     public Integer getAttributeLevel(String attr) {
@@ -391,5 +421,11 @@ public class Creature extends Entity {
     }
     public void removeBonus(Bonus bonus) {
         this.bonuses.removeIf(b -> b.getId().equals(bonus.getId()));
+    }
+
+    public void equipArmor(ArmorInstance armorInstance) {
+        ArmorInstance removedArmor = equipment.equipArmor(armorInstance);
+        getInventory().removeItem(armorInstance);
+        getInventory().addItem(removedArmor);
     }
 }

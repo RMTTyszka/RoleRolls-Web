@@ -11,7 +11,6 @@ import java.util.List;
 @javax.persistence.Entity
 public class CreatureSkills extends Entity {
     public CreatureSkills() {
-        this.setLevel(1);
         sports = new Sports();
         nimbleness = new Nimbleness();
         knowledge = new Knowledge();
@@ -36,7 +35,7 @@ public class CreatureSkills extends Entity {
     @Getter @Setter @OneToOne
     private Relationship relationship;
     @Getter @Setter
-    private Integer level;
+    private Integer level = 1;
     public void levelUp() {
         this.level++;
         this.getSports().levelUp();

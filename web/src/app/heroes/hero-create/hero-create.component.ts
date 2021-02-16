@@ -18,6 +18,7 @@ export class HeroCreateComponent implements OnInit {
   public isLoading = true;
   public entity: Hero;
   public entityId: string;
+  public requiredFields = ['name', 'level', 'race.id', 'role.id']
   constructor(
     public service: HeroesService,
     public ref: DynamicDialogRef,

@@ -1,6 +1,7 @@
 package com.loh.application.combats.dtos;
 
 import com.loh.domain.combats.DamageDetails;
+import com.loh.rolls.Roll;
 import lombok.Getter;
 
 import java.util.List;
@@ -19,13 +20,13 @@ public class AttackResult {
     @Getter
     private DamageDetails damageDetails;
     @Getter
-    private List<Integer> rolls;
+    private List<Roll> rolls;
     @Getter
     private Integer numberOfAttacks;
     @Getter
     private Integer hitBonus;
 
-    public AttackResult(Integer hits, Integer criticalHits, Integer criticalMisses, DamageDetails damageDetails, List<Integer> rolls, Integer numberOfAttacks, Integer hitBonus) {
+    public AttackResult(Integer hits, Integer criticalHits, Integer criticalMisses, DamageDetails damageDetails, List<Roll> rolls, Integer numberOfAttacks, Integer hitBonus) {
         this.hits = hits;
         this.criticalHits = criticalHits;
         this.criticalMisses = criticalMisses;

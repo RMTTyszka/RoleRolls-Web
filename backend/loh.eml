@@ -40,6 +40,7 @@
 		<level name="Maven: org.mapstruct:mapstruct:1.4.1.Final" value="project"/>
 		<level name="Maven: org.mapstruct:mapstruct-processor:1.4.1.Final" value="project"/>
 		<level name="Maven: com.google.code.gson:gson:2.8.5" value="project"/>
+		<level name="Maven: joda-time:joda-time:2.10.9" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-cache:2.0.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter:2.0.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-logging:2.0.3.RELEASE" value="project"/>
