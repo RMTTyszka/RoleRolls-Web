@@ -103,8 +103,10 @@ public class Equipment extends Entity {
 			this.setOffWeaponGripType(gripType);
 		}
 	}
-	public void equipArmor(ArmorInstance armor) {
+	public ArmorInstance equipArmor(ArmorInstance armor) {
+		ArmorInstance previousArmor = this.getArmor();
 		this.setArmor(armor);
+		return previousArmor;
 	}
 	public void equipGloves(GloveInstance gloves) {
 		this.setGloves(gloves);

@@ -11,7 +11,7 @@ public class SkillsService {
     @Autowired
     CreatureSkillsRepository creatureSkillsRepository;
 
-    public CreatureSkills Create(CreatureSkills skills) {
+    public CreatureSkills save(CreatureSkills skills) {
         skills.setCombat(skillRepository.save(skills.getCombat()));
         skills.setKnowledge(skillRepository.save(skills.getKnowledge()));
         skills.setNimbleness(skillRepository.save(skills.getNimbleness()));

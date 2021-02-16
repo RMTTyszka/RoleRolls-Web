@@ -49,21 +49,25 @@ export class CreatureSkillsComponent implements OnInit {
   async addMinorSkillPoint(skill: string, minorSkill: string) {
     const updatedSkills = await this.skillService.addMinorSkillPoint(this.creature.id, this.form.getRawValue(), minorSkill);
     this.form.patchValue(updatedSkills);
+    this.form.markAsDirty();
     this.dc.detectChanges();
   }
   async removeMinorSkillPoint(skill: string, minorSkill: string) {
     const updatedSkill = await this.skillService.removeMinorSkillPoint(this.creature.id, this.form.getRawValue(), minorSkill);
     this.form.patchValue(updatedSkill);
+    this.form.markAsDirty();
     this.dc.detectChanges();
   }
   async addSkillPoint(skillName: string) {
     const updatedSkill = await this.skillService.addMajorSkillPoint(this.creature.id, this.form.getRawValue(), skillName);
     this.form.patchValue(updatedSkill);
+    this.form.markAsDirty();
     this.dc.detectChanges();
   }
   async removeSkillPoint(skillName: string) {
     const updatedSkill = await this.skillService.removeMajorSkillPoint(this.creature.id, this.form.getRawValue(), skillName);
     this.form.patchValue(updatedSkill);
+    this.form.markAsDirty();
     this.dc.detectChanges();
   }
 

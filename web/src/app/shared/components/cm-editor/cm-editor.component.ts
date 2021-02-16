@@ -83,38 +83,6 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
     }
   }
 
-  createForm(form: FormGroup, entity: Entity) {
-
-    Object.entries(entity).forEach((entry) => {
-      console.log(entry);
-      if (entry[1] instanceof Array) {
-        const array = new FormArray([]);
-        entry[1].forEach(property => {
-          if (property instanceof Object) {
-            const newGroup: FormGroup = new FormGroup({});
-            this.createForm(newGroup, property);
-            array.push(newGroup);
-          } else {
-            array.push(this.fb.control(property, []));
-          }
-        });
-        form.addControl(entry[0], array);
-      } else if (entry[1] instanceof Object) {
-        const newGroup: FormGroup = new FormGroup({});
-        this.createForm(newGroup, entry[1]);
-        form.addControl(entry[0], newGroup);
-      } else {
-
-        form.addControl(entry[0], new FormControl(entry[1], []));
-      }
-    });
-    this.requiredFields.forEach(field => {
-      if (this.form.contains(field)) {
-        this.form.get(field).setValidators(Validators.required);
-      }
-    });
-
-  }
 
   save() {
     /*console.log(JSON.stringify(entity));*/

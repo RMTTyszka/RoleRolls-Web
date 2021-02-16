@@ -3,7 +3,7 @@ import {Entity} from './models/Entity.model';
 
 export function createForm(form: FormGroup, entity: Entity, requiredFields: string[] = []) {
   Object.entries(entity).forEach((entry) => {
-    console.log(entry);
+    // console.log(entry);
     if (entry[1] instanceof Array) {
       const array = new FormArray([]);
       entry[1].forEach(property => {
@@ -25,8 +25,9 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
     }
   });
   requiredFields.forEach(field => {
-    if (form.contains(field)) {
-      form.get(field).setValidators(Validators.required);
+    const control = form.get(field);
+    if (control) {
+      control.setValidators(Validators.required);
     }
   });
 }

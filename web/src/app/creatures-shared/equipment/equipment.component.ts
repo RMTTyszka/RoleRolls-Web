@@ -11,6 +11,9 @@ import {HeadpieceInstance} from '../../shared/models/HeadpieceInstance.model';
 import {NeckAccessoryInstance} from '../../shared/models/NeckAccessoryInstance.model';
 import {RingHand, SelectedRing} from '../inventory/inventory-ring-select/inventory-ring-select.component';
 import {RingInstance} from '../../shared/models/RingInstance.model';
+import {CreatureEquipmentService} from './creature-equipment.service';
+import {Creature} from '../../shared/models/creatures/Creature.model';
+import {CreatureEditorService} from '../creature-editor/creature-editor.service';
 
 @Component({
   selector: 'loh-equipment',
@@ -28,10 +31,15 @@ export class EquipmentComponent implements OnInit {
   get inventory(): Inventory {
     return this.form.get(this.inventoryControlName).value;
   }
+  set inventory(value) {
+    this.form.get(this.inventoryControlName).setValue(value);
+  }
   get equipment(): FormGroup {
     return this.form.get(this.controlName) as FormGroup;
   }
   constructor(
+    private creatureEquipmentService: CreatureEquipmentService,
+    private creatureEditorService: CreatureEditorService
   ) { }
 
   ngOnInit() {
@@ -56,52 +64,36 @@ export class EquipmentComponent implements OnInit {
   }
 
   armorSelected(armor: ArmorInstance) {
-    const selectedArmor = this.findItem(armor.id);
-    const removedArmor = this.equipment.get('armor');
-    const armorForm = new FormGroup({});
-    createForm(armorForm , selectedArmor);
-    this.equipment.get('armor').setValue(armorForm);
-    this.inventory.items.splice(this.inventory.items.indexOf(selectedArmor), 1);
+    this.creatureEquipmentService.equipArmor(this.form.get('id').value, armor.id).subscribe((creature: Creature) => {
+      this.equipment.get('armor').patchValue(armor);
+      this.inventory = creature.inventory;
+      this.creatureEditorService.publishCreatureUpdated(creature);
+    });
   }
 
   mainWeaponSelected(weapon: WeaponInstance) {
     const selectedWeapon = this.findItem(weapon.id);
-    const removedWeapon = this.equipment.get('mainWeapon');
-    const weaponForm = new FormGroup({});
-    createForm(weaponForm , selectedWeapon);
-    this.equipment.get('mainWeapon').patchValue(weaponForm);
+    this.equipment.get('mainWeapon').patchValue(selectedWeapon);
     this.inventory.items.splice(this.inventory.items.indexOf(selectedWeapon), 1);
   }
   glovesSelected(gloves: GloveInstance) {
     const selectedGloves = this.findItem(gloves.id);
-    const removedGloves = this.equipment.get('gloves');
-    const glovesForm = new FormGroup({});
-    createForm(glovesForm , selectedGloves);
-    this.equipment.get('gloves').patchValue(glovesForm);
+    this.equipment.get('gloves').patchValue(selectedGloves);
     this.inventory.items.splice(this.inventory.items.indexOf(selectedGloves), 1);
   }
   beltSelected(belt: BeltInstance) {
     const selectedBelt = this.findItem(belt.id);
-    const removedBelt = this.equipment.get('belt');
-    const beltForm = new FormGroup({});
-    createForm(beltForm , selectedBelt);
-    this.equipment.get('belt').patchValue(beltForm);
+    this.equipment.get('belt').patchValue(selectedBelt);
     this.inventory.items.splice(this.inventory.items.indexOf(selectedBelt), 1);
   }
   headpieceSelected(belt: HeadpieceInstance) {
     const selectedHeadpiece = this.findItem(belt.id);
-    const removedHeadpiece = this.equipment.get('headpiece');
-    const headpieceForm = new FormGroup({});
-    createForm(headpieceForm , selectedHeadpiece);
-    this.equipment.get('headpiece').patchValue(headpieceForm);
+    this.equipment.get('headpiece').patchValue(selectedHeadpiece);
     this.inventory.items.splice(this.inventory.items.indexOf(selectedHeadpiece), 1);
   }
   neckAccessorySelected(belt: NeckAccessoryInstance) {
     const selectedItem = this.findItem(belt.id);
-    const removedItem = this.equipment.get('neckAccessory');
-    const formGroup = new FormGroup({});
-    createForm(formGroup , selectedItem);
-    this.equipment.get('neckAccessory').patchValue(formGroup);
+    this.equipment.get('neckAccessory').patchValue(selectedItem);
     this.inventory.items.splice(this.inventory.items.indexOf(selectedItem), 1);
   }
   ringSelected(selectedRing: SelectedRing) {
@@ -112,12 +104,10 @@ export class EquipmentComponent implements OnInit {
     } else if (selectedRing.isLeft) {
       removedItem = this.equipment.get('ringLeft').value;
     }
-    const formGroup = new FormGroup({});
-    createForm(formGroup , selectedItem);
     if (selectedRing.isRight) {
-      this.equipment.get('ringRight').patchValue(formGroup);
+      this.equipment.get('ringRight').patchValue(selectedItem);
     } else if (selectedRing.isLeft) {
-      this.equipment.get('ringLeft').patchValue(formGroup);
+      this.equipment.get('ringLeft').patchValue(selectedItem);
     }
     this.inventory.items.splice(this.inventory.items.indexOf(selectedItem), 1);
   }

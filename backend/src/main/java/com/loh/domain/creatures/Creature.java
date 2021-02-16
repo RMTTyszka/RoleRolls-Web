@@ -6,6 +6,7 @@ import com.loh.domain.creatures.equipments.Equipment;
 import com.loh.domain.creatures.inventory.Inventory;
 import com.loh.domain.effects.EffectInstance;
 import com.loh.domain.effects.EffectProcessor;
+import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.instances.ItemInstanceRepository;
 import com.loh.domain.races.Race;
 import com.loh.domain.roles.Role;
@@ -25,6 +26,16 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "CreatureType")
 public class Creature extends Entity {
 
+    public Creature() {
+        race = new Race();
+        role = new Role();
+        baseAttributes = new Attributes(8);
+        bonusAttributes = new Attributes();
+        skills = new CreatureSkills();
+        equipment = new Equipment();
+        inventory = new Inventory();
+    }
+
     @Getter @Setter
     protected String name;
 
@@ -34,6 +45,24 @@ public class Creature extends Entity {
     @Getter @Setter
     @Column(columnDefinition = "BINARY(16)")
     protected UUID creatorId;
+
+    public Creature(String name, Race race, Role role, UUID playerId, UUID creatorId) {
+        super();
+        id = UUID.randomUUID();
+        level = 1;
+        baseAttributes = new Attributes(8);
+        bonusAttributes = new Attributes();
+        skills = new CreatureSkills();
+        this.name = name;
+        this.race = race;
+        this.role = role;
+        equipment = new Equipment();
+        inventory = new Inventory();
+        this.ownerId = playerId;
+        this.creatorId = creatorId;
+        setCurrentLife(this.getStatus().getLife());
+        setCurrentMoral(this.getStatus().getMoral());
+    }
 
     protected CreatureType getCreatureType() {
         return null;
@@ -92,16 +121,10 @@ public class Creature extends Entity {
     @Getter
     private Integer currentMoral;
     public void setCurrentLife(Integer val) {
-        if (currentLife == null) {
-            currentLife = getStatus().getLife();
-        }
         currentLife = val;
         currentLife = Integer.min(currentLife, getStatus().getLife());
     }
     public void setCurrentMoral(Integer val) {
-        if (currentMoral == null) {
-            currentMoral = getStatus().getMoral();
-        }
         currentMoral = val;
         currentMoral = Integer.max(currentMoral, 0);
         currentMoral = Integer.min(currentMoral, getStatus().getMoral());
@@ -125,7 +148,7 @@ public class Creature extends Entity {
     }
 
     @Getter @Setter
-    protected Integer level;
+    protected Integer level = 1;
 
     @Getter @Setter @ManyToOne
     protected Race race;
@@ -398,5 +421,11 @@ public class Creature extends Entity {
     }
     public void removeBonus(Bonus bonus) {
         this.bonuses.removeIf(b -> b.getId().equals(bonus.getId()));
+    }
+
+    public void equipArmor(ArmorInstance armorInstance) {
+        ArmorInstance removedArmor = equipment.equipArmor(armorInstance);
+        getInventory().removeItem(armorInstance);
+        getInventory().addItem(removedArmor);
     }
 }

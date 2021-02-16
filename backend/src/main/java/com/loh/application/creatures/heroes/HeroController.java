@@ -69,7 +69,6 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
             System.out.println(e.getStackTrace());
             return new BaseCrudResponse<Hero>(false, e.getMessage(), null);
         }
-
     }
 
     @DeleteMapping(path="/deleteAllDummies")

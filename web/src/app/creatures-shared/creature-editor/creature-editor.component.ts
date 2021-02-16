@@ -13,11 +13,13 @@ import {MessageService} from 'primeng/api';
 import {CreatureManagementService} from '../interfaces/creature-management-service';
 import {take} from 'rxjs/operators';
 import {CreatureType} from '../../shared/models/creatures/CreatureType';
+import {CreatureEditorService} from './creature-editor.service';
 
 @Component({
   selector: 'loh-creature-editor',
   templateUrl: './creature-editor.component.html',
-  styleUrls: ['./creature-editor.component.css']
+  styleUrls: ['./creature-editor.component.css'],
+  providers: [CreatureEditorService]
 })
 export class CreatureEditorComponent<T extends Creature, TCreateInput extends Entity> implements OnInit {
   public action: EditorAction;

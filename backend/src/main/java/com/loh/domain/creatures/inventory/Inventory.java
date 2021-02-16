@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @javax.persistence.Entity
 public class Inventory extends Entity {
@@ -16,11 +18,15 @@ public class Inventory extends Entity {
     @Getter @Setter @OneToMany
     private List<ItemInstance> items = new ArrayList<>();
 
+    public ItemInstance getItem(UUID itemId) {
+        return items.stream().filter(e -> e.getId().equals(itemId)).findFirst().get();
+    }
+
     public void addItem(ItemInstance item) {
         items.add(item);
     }
     public void removeItem(ItemInstance itemToRemove) {
-        items.stream().filter(item -> item.getId() != itemToRemove.getId());
+        items = items.stream().filter(item -> item.getId() != itemToRemove.getId()).collect(Collectors.toList());
     }
     public void removeFunds(Integer quantity) {
        this.cash1 -= quantity;

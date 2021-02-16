@@ -7,6 +7,7 @@ import com.loh.domain.creatures.equipments.Equipment;
 import com.loh.domain.creatures.inventory.Inventory;
 import com.loh.domain.races.Race;
 import com.loh.domain.roles.Role;
+import com.loh.domain.skills.CreatureSkills;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -43,6 +44,7 @@ public class Hero extends Creature {
         level = 1;
         baseAttributes = new Attributes(8);
         bonusAttributes = new Attributes();
+        skills = new CreatureSkills();
         this.name = name;
         this.race = race;
         this.role = role;
@@ -51,6 +53,8 @@ public class Hero extends Creature {
         this.inventory.setCash1(100);
         this.ownerId = ownerId;
         this.creatorId = creatorId;
+        setCurrentLife(this.getStatus().getLife());
+        setCurrentMoral(this.getStatus().getMoral());
     }
     public Hero(String name){
         super();
