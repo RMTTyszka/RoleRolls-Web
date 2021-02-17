@@ -5,7 +5,8 @@ public class Roll {
     public Integer bonus;
     public Integer bonusDice;
     public boolean success;
-
+    public boolean criticalSuccess;
+    public boolean criticalFailure;
     public Roll() {
     }
 
@@ -17,5 +18,7 @@ public class Roll {
         this.bonus = bonus;
         this.success = success;
         this.bonusDice = bonusDice;
+        this.criticalFailure = dice == 1;
+        this.criticalSuccess = dice == 20;
     }
 }
