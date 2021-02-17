@@ -35,6 +35,7 @@ import {CreatureStatsComponent} from './creature-stats/creature-stats.component'
 import {HeroFundsComponent} from './hero-funds/hero-funds.component';
 import {InventoryComponent} from './inventory/inventory/inventory.component';
 import { CreatureSkillsComponent } from './creature-skills/creature-skills.component';
+import { RollsCardComponent } from './rolls-card/rolls-card.component';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { CreatureSkillsComponent } from './creature-skills/creature-skills.compo
     InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent,
     CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
     AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent,
-    CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent],
+    CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent, RollsCardComponent],
     exports: [
       HeroFundsComponent, CreatureStatsComponent, EquipmentComponent,
       InventoryArmorSelectComponent, InventoryWeaponSelectComponent,
@@ -72,6 +73,7 @@ import { CreatureSkillsComponent } from './creature-skills/creature-skills.compo
     RaceSharedModule,
     RolesSharedModule
 
-  ]
+  ],
+  entryComponents: [RollsCardComponent]
 })
 export class CreaturesSharedModule { }

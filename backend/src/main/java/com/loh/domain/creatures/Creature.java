@@ -34,6 +34,7 @@ public class Creature extends Entity {
         skills = new CreatureSkills();
         equipment = new Equipment();
         inventory = new Inventory();
+        bonuses = new Bonuses();
     }
 
     @Getter @Setter
@@ -60,6 +61,7 @@ public class Creature extends Entity {
         inventory = new Inventory();
         this.ownerId = playerId;
         this.creatorId = creatorId;
+        bonuses = new Bonuses();
         setCurrentLife(this.getStatus().getLife());
         setCurrentMoral(this.getStatus().getMoral());
     }

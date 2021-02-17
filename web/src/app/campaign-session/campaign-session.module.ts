@@ -17,22 +17,24 @@ import {PanelModule} from 'primeng/panel';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {FormsModule} from '@angular/forms';
 import {CardModule} from 'primeng/card';
+import {TooltipModule} from 'primeng/tooltip';
 
 
 @NgModule({
   declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent],
-  imports: [
-    CommonModule,
-    CampaignSessionRoutingModule,
-    TabViewModule,
-    TableModule,
-    CreaturesSharedModule,
-    CombatModule,
-    PanelModule,
-    OverlayPanelModule,
-    FormsModule,
-    CardModule
-  ],
+    imports: [
+        CommonModule,
+        CampaignSessionRoutingModule,
+        TabViewModule,
+        TableModule,
+        CreaturesSharedModule,
+        CombatModule,
+        PanelModule,
+        OverlayPanelModule,
+        FormsModule,
+        CardModule,
+        TooltipModule
+    ],
   entryComponents: [CampaignSessionGatewayComponent],
   providers: [CampaignRollsService]
 })

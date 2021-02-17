@@ -45,7 +45,7 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
   }
 
   public acceptInvitation(campaignId: string) {
-    return this.http.post(this.serverUrl + this.path + `/player/add/${campaignId}`, {
+    return this.http.post(this.serverUrl + this.path + `/${campaignId}/player`, {
     });
   }
   public denyInvitation(campaignId: string) {
@@ -63,15 +63,15 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
   }
 
   public addHero(campaignId: string, heroId: string) {
-    return this.http.post(this.serverUrl + this.path + `/${campaignId}/hero/add/${heroId}`, {});
+    return this.http.post(this.serverUrl + this.path + `/${campaignId}/hero/${heroId}`, {});
   }
 
   public removeHero(campaignId: string, heroId: string) {
-    return this.http.delete(this.serverUrl + this.path + `/${campaignId}/hero/remove/${heroId}`);
+    return this.http.delete(this.serverUrl + this.path + `/${campaignId}/hero/${heroId}`);
   }
 
   getHeroes(id: string) {
-    return this.http.get<Player[]>(this.serverUrl + this.path + `/${id}/heroes/list/`);
+    return this.http.get<Player[]>(this.serverUrl + this.path + `/${id}/heroes/`);
   }
 
   saveRoll(campaignId: string, roll: CreatureRollResult) {

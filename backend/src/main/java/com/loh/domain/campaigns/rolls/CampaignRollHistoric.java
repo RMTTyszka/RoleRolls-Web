@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Lob;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class CampaignRollHistoric extends com.loh.shared.Entity {
     private String property;
     @Getter @Setter
     private boolean success;
-    @Getter @Setter
+    @Getter @Setter @Lob
     private String rolls;
     @Getter @Setter
     private Integer bonusDice;

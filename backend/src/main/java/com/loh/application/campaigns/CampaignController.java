@@ -147,7 +147,7 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 		invitedPlayer.setStatus(InvitationStatus.Denied);
 		invitedPlayerRepository.save(invitedPlayer);
 	}
-    @PostMapping(path="/player/add/{campaignId}")
+    @PostMapping(path="/{campaignId}/player")
     @ResponseStatus(HttpStatus.OK)
     public void addPlayer(@PathVariable UUID campaignId) {
         UUID playerId = currentUserId();
