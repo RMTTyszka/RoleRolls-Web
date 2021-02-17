@@ -100,17 +100,17 @@ public class Combat extends com.loh.shared.Entity {
 		this.heroes.add(hero);
 		return addInitiative(hero, combatService.rollForInitiative(hero));
 	}
-	public void removeHero(Hero hero) {
-		this.heroes.removeIf(h -> h.getId().equals(hero.getId()));
-		removeInitiative(hero);
+	public void removeHero(UUID heroId) {
+		this.heroes.removeIf(h -> h.getId().equals(heroId));
+		removeInitiative(heroId);
 	}
-	public void removeMonster(Monster monster) {
-		this.monsters.removeIf(h -> h.getId().equals(monster.getId()));
-		removeInitiative(monster);
+	public void removeMonster(UUID id) {
+		this.monsters.removeIf(h -> h.getId().equals(id));
+		removeInitiative(id);
 	}
 
-	private void removeInitiative(Creature creature) {
-		initiatives.removeIf(h -> h.getCreature().getId().equals(creature.getId()));
+	private void removeInitiative(UUID id) {
+		initiatives.removeIf(h -> h.getCreature().getId().equals(id));
 	}
 
 	private Initiative addInitiative(Creature creature, Integer initiativeValue) {

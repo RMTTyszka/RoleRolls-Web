@@ -3,5 +3,7 @@ export class Roll {
   bonus: number;
   bonusDice: number;
   success: boolean;
+  criticalFailure: boolean;
+  criticalSuccess: boolean;
 
 }
