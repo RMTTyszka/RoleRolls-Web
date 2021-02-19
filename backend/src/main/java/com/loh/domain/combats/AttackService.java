@@ -28,6 +28,22 @@ public class AttackService {
 
     }
 
+    private AttackResult mainWeaponAttack(Creature attacker, Creature target) {
+        Integer damageBonus = attacker.getMainWeaponAttributes().getDamageBonus();
+        Integer weaponDamage = attacker.getMainWeaponAttributes().getDamage();
+        Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
+        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus() + attacker.getInnateLevelBonus(hitAttributePoints);
+        AttackResult attackResult = attack(
+                weaponDamage,
+                hitAttributePoints,
+                hitBonus,
+                damageBonus,
+                attacker.getMainWeaponAttributes().getAttackComplexity(),
+                target
+        );
+
+        return attackResult;
+    }
     private AttackResult offWeaponAttack(Creature attacker, Creature target) {
         Integer damageBonus = attacker.getOffWeaponAttributes().getDamageBonus();
         Integer weaponDamage = attacker.getOffWeaponAttributes().getDamage();
@@ -71,22 +87,6 @@ public class AttackService {
         return output;
     }
 
-    private AttackResult mainWeaponAttack(Creature attacker, Creature target) {
-        Integer damageBonus = attacker.getMainWeaponAttributes().getDamageBonus();
-        Integer weaponDamage = attacker.getMainWeaponAttributes().getDamage();
-        Integer hitAttributePoints = attacker.getAttributePoints(attacker.getEquipment().getMainWeapon().getWeaponModel().getBaseWeapon().getHitAttribute());
-        Integer hitBonus = attacker.getMainWeaponAttributes().getHitBonus() + attacker.getInnateLevelBonus(hitAttributePoints);
-        AttackResult attackResult = attack(
-                weaponDamage,
-                hitAttributePoints,
-                hitBonus,
-                damageBonus,
-                attacker.getMainWeaponAttributes().getAttackComplexity(),
-                target
-        );
-
-        return attackResult;
-    }
     private Integer getDamage(Integer weaponDamage, Integer damageBonus) {
         DiceRoller roller = new DiceRoller();
         Integer damageRoll = roller.getRoll(weaponDamage);

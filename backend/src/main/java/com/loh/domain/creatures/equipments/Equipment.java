@@ -28,7 +28,7 @@ public class Equipment extends Entity {
 		this.ringRight = new RingInstance();
 		this.gloves = new GloveInstance();
 		this.mainWeaponGripType = GripType.OneMediumWeapon;
-		this.offWeaponGripType = null;
+		this.offWeaponGripType = GripType.None;
 	}
 	public Integer getBonusLevel(String property) {
 		Integer armorBonus = Bonuses.GetEquipmentBonusLevel(armor.getBonuses(), property);
@@ -86,7 +86,10 @@ public class Equipment extends Entity {
 		return armor.getDefense();
 	}
 	public Integer getEvasion() {
-		return armor.getEvasion();
+		Integer armorEvasion = armor.getEvasion();
+		Integer mainShieldEvasion = mainWeaponGripType.getShieldEvasionBonus();
+		Integer offShieldEvasion = offWeaponGripType.getShieldEvasionBonus();
+		return armorEvasion + mainShieldEvasion + offShieldEvasion;
 	}
 	public Integer getDodge() {
 		return armor != null ? armor.getDodge() : 0;

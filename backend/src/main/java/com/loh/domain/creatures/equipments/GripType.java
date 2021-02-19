@@ -16,7 +16,8 @@ public enum GripType {
     TwoHandedMediumWeapon,
     OneLightShield,
     OneMediumShield,
-    OneHeavyShield;
+    OneHeavyShield,
+    None;
 
     @Getter
     private Integer hit;
@@ -48,6 +49,7 @@ public enum GripType {
         OneLightShield.hit = 0;
         OneMediumShield.hit = 1;
         OneHeavyShield.hit = 3;
+        None.hit = 0;
 
         OneLightWeapon.damage = 6;
         OneMediumWeapon.damage = 10;
@@ -59,6 +61,7 @@ public enum GripType {
         OneLightShield.damage = 4;
         OneMediumShield.damage = 8;
         OneHeavyShield.damage = 12;
+        None.damage = 0;
 
         OneLightWeapon.baseBonusDamage = 2;
         OneMediumWeapon.baseBonusDamage = 0;
@@ -70,6 +73,7 @@ public enum GripType {
         OneLightShield.baseBonusDamage = 0;
         OneMediumShield.baseBonusDamage = 0;
         OneHeavyShield.baseBonusDamage = 0;
+        None.baseBonusDamage = 0;
 
         OneLightWeapon.magicBonusModifier = 2;
         OneMediumWeapon.magicBonusModifier = 3;
@@ -81,6 +85,7 @@ public enum GripType {
         OneLightShield.magicBonusModifier = 2;
         OneMediumShield.magicBonusModifier = 3;
         OneHeavyShield.magicBonusModifier = 4;
+        None.magicBonusModifier = 0;
 
         OneLightWeapon.attributeModifier = 2;
         OneMediumWeapon.attributeModifier = 3;
@@ -92,6 +97,7 @@ public enum GripType {
         OneLightShield.attributeModifier = 2;
         OneMediumShield.attributeModifier = 2;
         OneHeavyShield.attributeModifier = 4;
+        None.attributeModifier = 0;
 
         OneLightWeapon.attackComplexity = 1;
         OneMediumWeapon.attackComplexity = 2;
@@ -103,6 +109,7 @@ public enum GripType {
         OneLightShield.attackComplexity = 1;
         OneMediumShield.attackComplexity = 2;
         OneHeavyShield.attackComplexity = 3;
+        None.attackComplexity = 0;
 
         OneLightWeapon.shieldEvasionBonus = 0;
         OneMediumWeapon.shieldEvasionBonus = 0;
@@ -111,9 +118,10 @@ public enum GripType {
         TwoWeaponsMedium.shieldEvasionBonus = 0;
         OneHandedHeavyWeapon.shieldEvasionBonus = 0;
         TwoHandedMediumWeapon.shieldEvasionBonus = 0;
-        OneLightShield.shieldEvasionBonus = 0;
-        OneMediumShield.shieldEvasionBonus = 0;
-        OneHeavyShield.shieldEvasionBonus = 0;
+        OneLightShield.shieldEvasionBonus = 1;
+        OneMediumShield.shieldEvasionBonus = 2;
+        OneHeavyShield.shieldEvasionBonus = 3;
+        None.shieldEvasionBonus = 0;
 
         OneLightWeapon.shieldHitBonus = 0;
         OneMediumWeapon.shieldHitBonus = 0;
@@ -125,6 +133,7 @@ public enum GripType {
         OneLightShield.shieldHitBonus = 0;
         OneMediumShield.shieldHitBonus = -1;
         OneHeavyShield.shieldHitBonus = -2;
+        None.shieldHitBonus = 0;
 
         MainGripType = new HashMap<>();
         for (GripType gripType1 : GripType.values()) {
@@ -141,6 +150,7 @@ public enum GripType {
         MainGripType.get(GripType.OneLightWeapon).put(GripType.OneMediumShield, GripType.OneLightWeapon);
         MainGripType.get(GripType.OneLightWeapon).put(GripType.OneHeavyShield, GripType.OneLightWeapon);
         MainGripType.get(GripType.OneLightWeapon).put(null, GripType.OneLightWeapon);
+        MainGripType.get(GripType.OneLightWeapon).put(GripType.None, GripType.OneLightWeapon);
 
         MainGripType.get(GripType.OneMediumWeapon).put(GripType.OneLightWeapon, GripType.TwoWeaponsMedium);
         MainGripType.get(GripType.OneMediumWeapon).put(GripType.OneMediumWeapon, GripType.TwoWeaponsMedium);
@@ -153,6 +163,7 @@ public enum GripType {
         MainGripType.get(GripType.OneMediumWeapon).put(GripType.OneMediumShield, GripType.OneMediumWeapon);
         MainGripType.get(GripType.OneMediumWeapon).put(GripType.OneHeavyShield, GripType.OneMediumWeapon);
         MainGripType.get(GripType.OneMediumWeapon).put(null, GripType.OneMediumWeapon);
+        MainGripType.get(GripType.OneMediumWeapon).put(GripType.None, GripType.OneMediumWeapon);
 
         MainGripType.get(GripType.TwoHandedHeavyWeapon).put(GripType.OneLightWeapon, null);
         MainGripType.get(GripType.TwoHandedHeavyWeapon).put(GripType.OneMediumWeapon, null);
@@ -165,6 +176,7 @@ public enum GripType {
         MainGripType.get(GripType.TwoHandedHeavyWeapon).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.TwoHandedHeavyWeapon).put(GripType.OneHeavyShield, null);
         MainGripType.get(GripType.TwoHandedHeavyWeapon).put(null, TwoHandedHeavyWeapon);
+        MainGripType.get(GripType.TwoHandedHeavyWeapon).put(GripType.None, TwoHandedHeavyWeapon);
 
         MainGripType.get(GripType.TwoWeaponsLight).put(GripType.OneLightWeapon, TwoWeaponsLight);
         MainGripType.get(GripType.TwoWeaponsLight).put(GripType.OneMediumWeapon, TwoWeaponsLight);
@@ -177,6 +189,7 @@ public enum GripType {
         MainGripType.get(GripType.TwoWeaponsLight).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.TwoWeaponsLight).put(GripType.OneHeavyShield, null);
         MainGripType.get(GripType.TwoWeaponsLight).put(null, OneLightWeapon);
+        MainGripType.get(GripType.TwoWeaponsLight).put(GripType.None, OneLightWeapon);
 
         MainGripType.get(GripType.TwoWeaponsMedium).put(GripType.OneLightWeapon, TwoWeaponsMedium);
         MainGripType.get(GripType.TwoWeaponsMedium).put(GripType.OneMediumWeapon, TwoWeaponsMedium);
@@ -189,6 +202,7 @@ public enum GripType {
         MainGripType.get(GripType.TwoWeaponsMedium).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.TwoWeaponsMedium).put(GripType.OneHeavyShield, null);
         MainGripType.get(GripType.TwoWeaponsMedium).put(null, OneMediumWeapon);
+        MainGripType.get(GripType.TwoWeaponsMedium).put(GripType.None, OneMediumWeapon);
 
         MainGripType.get(GripType.OneHandedHeavyWeapon).put(GripType.OneLightWeapon, null);
         MainGripType.get(GripType.OneHandedHeavyWeapon).put(GripType.OneMediumWeapon, null);
@@ -201,6 +215,7 @@ public enum GripType {
         MainGripType.get(GripType.OneHandedHeavyWeapon).put(GripType.OneMediumShield, GripType.OneHandedHeavyWeapon);
         MainGripType.get(GripType.OneHandedHeavyWeapon).put(GripType.OneHeavyShield, GripType.OneHandedHeavyWeapon);
         MainGripType.get(GripType.OneHandedHeavyWeapon).put(null, OneHandedHeavyWeapon);
+        MainGripType.get(GripType.OneHandedHeavyWeapon).put(GripType.None, OneHandedHeavyWeapon);
 
         MainGripType.get(GripType.OneLightShield).put(GripType.OneLightWeapon, OneLightShield);
         MainGripType.get(GripType.OneLightShield).put(GripType.OneMediumWeapon, OneLightShield);
@@ -213,6 +228,7 @@ public enum GripType {
         MainGripType.get(GripType.OneLightShield).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.OneLightShield).put(GripType.OneHeavyShield, null);
         MainGripType.get(GripType.OneLightShield).put(null, OneLightShield);
+        MainGripType.get(GripType.OneLightShield).put(GripType.None, OneLightShield);
 
         MainGripType.get(GripType.OneMediumShield).put(GripType.OneLightWeapon, OneMediumShield);
         MainGripType.get(GripType.OneMediumShield).put(GripType.OneMediumWeapon, OneMediumShield);
@@ -225,6 +241,7 @@ public enum GripType {
         MainGripType.get(GripType.OneMediumShield).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.OneMediumShield).put(GripType.OneHeavyShield, null);
         MainGripType.get(GripType.OneMediumShield).put(null, OneMediumShield);
+        MainGripType.get(GripType.OneMediumShield).put(GripType.None, OneMediumShield);
 
         MainGripType.get(GripType.OneHeavyShield).put(GripType.OneLightWeapon, OneMediumShield);
         MainGripType.get(GripType.OneHeavyShield).put(GripType.OneMediumWeapon, OneMediumShield);
@@ -236,11 +253,15 @@ public enum GripType {
         MainGripType.get(GripType.OneHeavyShield).put(GripType.OneLightShield, null);
         MainGripType.get(GripType.OneHeavyShield).put(GripType.OneMediumShield, null);
         MainGripType.get(GripType.OneHeavyShield).put(GripType.OneHeavyShield, null);
-        MainGripType.get(GripType.OneHeavyShield).put(null, OneMediumShield);
+        MainGripType.get(GripType.OneHeavyShield).put(null, OneHeavyShield);
+        MainGripType.get(GripType.OneHeavyShield).put(GripType.None, OneHeavyShield);
     }
 
     public static GripType getGripType(GripType currentGripType, GripType otherGripType) {
         if (currentGripType == null) {
+            return null;
+        }
+        if (currentGripType == None) {
             return currentGripType;
         }
         return MainGripType.get(currentGripType).get(otherGripType);
@@ -248,6 +269,7 @@ public enum GripType {
     public static GripType getGripTypeByHandleType(WeaponCategory weaponCategory) {
         switch (weaponCategory) {
             case None:
+                return GripType.None;
             case Medium:
                 return GripType.OneMediumWeapon;
             case Light:

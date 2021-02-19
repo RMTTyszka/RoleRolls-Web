@@ -1,8 +1,10 @@
 import {MonsterModelComponent} from './monster-model-editor/monster-model.component';
 import {BaseComponentConfig} from '../../shared/components/base-component-config';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
+import {DynamicDialogConfig} from 'primeng';
 
 export class MonsterModelConfig implements BaseComponentConfig {
+  creatorOptions: DynamicDialogConfig;
   editorTitle = 'Monster Model';
   entityListColumns: RRColumns[] = [
     {

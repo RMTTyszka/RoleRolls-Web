@@ -46,7 +46,7 @@ public class WeaponSeeder {
                 baseWeaponRepository.save(weapon);
             }
 
-            BaseWeapon empty = BaseWeapon.DefaultBaseWeapon("Bare hands", WeaponCategory.None, Attributes.Strength, Attributes.Strength);
+            BaseWeapon empty = BaseWeapon.DefaultBaseWeapon("Bare hands", WeaponCategory.Medium, Attributes.Strength, Attributes.Strength);
             BaseWeapon none = BaseWeapon.DefaultBaseWeapon("None", WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyNone = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyNoneWeapon, WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyLight = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyLightWeapon, WeaponCategory.Light, Attributes.Agility, Attributes.Agility);
@@ -68,7 +68,7 @@ public class WeaponSeeder {
 
         }
         if (weaponModelRepository.count() <= 0){
-            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "Bare hands");
+            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.Medium, "Bare hands");
             BaseWeapon baseEmptyWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "None");
             WeaponModel noneModel = new WeaponModel("Bare Hands", baseNoneWeapon);
             WeaponModel emptyModel = new WeaponModel("None", baseEmptyWeapon);

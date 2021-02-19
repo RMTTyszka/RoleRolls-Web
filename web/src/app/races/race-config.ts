@@ -1,8 +1,10 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {RaceEditorComponent} from './race-editor/race-editor.component';
+import {DynamicDialogConfig} from 'primeng';
 
 export class RaceConfig implements BaseComponentConfig {
+  creatorOptions: DynamicDialogConfig = null;
   editorTitle = 'Race';
   editor = RaceEditorComponent;
   creator = RaceEditorComponent;

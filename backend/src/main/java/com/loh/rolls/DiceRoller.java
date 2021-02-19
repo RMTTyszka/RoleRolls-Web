@@ -41,7 +41,7 @@ public class DiceRoller {
 
         for (int i = 0; i < numberOfRolls; i++) {
             Integer diceRoll = getRoll(20);
-            diceRoll = 15;
+           // diceRoll = 15;
             if (diceRoll == 20) {
                 rollSuccesses++;
                 criticalSuccesses++;
