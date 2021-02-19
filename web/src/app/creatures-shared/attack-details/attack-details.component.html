@@ -2,7 +2,7 @@
 <p-fieldset *ngIf="attackDetails?.mainWeaponAttackResult" legend="Main Weapon Attack">
     <div  fxLayout="row" fxLayoutGap="12px">
       <div>Rolls</div>
-      <div *ngFor="let roll of attackDetails.mainWeaponAttackResult.rolls">{{roll}}</div>
+      <div *ngFor="let roll of attackDetails.mainWeaponAttackResult.rolls">{{roll.dice + roll.bonus}}</div>
     </div>
     <div>Hit Bonus: {{attackDetails.mainWeaponAttackResult.hitBonus}}</div>
     <div>Evasion: {{attackDetails.evasion}}</div>
@@ -24,7 +24,7 @@
 <p-fieldset *ngIf="attackDetails?.offWeaponAttackResult" legend="Off Weapon Attack">
     <div  fxLayout="row" fxLayoutGap="12px">
       <div>Rolls</div>
-      <div *ngFor="let roll of attackDetails.offWeaponAttackResult.rolls">{{roll}}</div>
+      <div *ngFor="let roll of attackDetails.offWeaponAttackResult.rolls">{{roll.dice + roll.bonus}}</div>
     </div>
     <div>Hit Bonus: {{attackDetails.offWeaponAttackResult.hitBonus}}</div>
     <div>Evasion: {{attackDetails.evasion}}</div>

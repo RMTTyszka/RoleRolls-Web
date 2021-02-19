@@ -4,6 +4,9 @@ import com.loh.domain.items.ItemTemplate;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceRepository;
 import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.weapons.instances.WeaponInstance;
+import com.loh.domain.items.equipables.weapons.instances.WeaponInstanceRepository;
+import com.loh.domain.items.equipables.weapons.models.WeaponModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,8 @@ public class ItemInstantiator {
 
     @Autowired
     ArmorInstanceRepository armorInstanceRepository;
+    @Autowired
+    WeaponInstanceRepository weaponInstanceRepository;
 
     public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level) {
         return instantiate(itemTemplate, level, false);
@@ -19,7 +24,11 @@ public class ItemInstantiator {
     public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level, boolean autoSave) {
         switch (itemTemplate.getItemTemplateType()) {
             case Weapon:
-                break;
+                WeaponInstance weaponInstance = new WeaponInstance((WeaponModel) itemTemplate, level);
+                if (autoSave) {
+                    weaponInstance = weaponInstanceRepository.save(weaponInstance);
+                }
+                return weaponInstance;
             case Armor:
                 ArmorInstance armorInstance = new ArmorInstance((ArmorModel) itemTemplate, level);
                 if (autoSave) {

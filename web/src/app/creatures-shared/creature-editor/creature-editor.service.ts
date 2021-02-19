@@ -9,7 +9,7 @@ export class CreatureEditorService {
   private creatureUpdatedSubscriptions = new Map<string, Subscription>();
   constructor() { }
 
-  public subscribeToCreatureUpdated(componentName: string, callBack: (creature: Creature) => {}) {
+  public subscribeToCreatureUpdated(componentName: string, callBack: (creature: Creature) => void) {
       if (this.creatureUpdatedSubscriptions.has(componentName)) {
         this.creatureUpdatedSubscriptions.get(componentName).unsubscribe();
       }

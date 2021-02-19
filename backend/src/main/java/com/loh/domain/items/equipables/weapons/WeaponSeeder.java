@@ -47,6 +47,7 @@ public class WeaponSeeder {
             }
 
             BaseWeapon empty = BaseWeapon.DefaultBaseWeapon("Bare hands", WeaponCategory.None, Attributes.Strength, Attributes.Strength);
+            BaseWeapon none = BaseWeapon.DefaultBaseWeapon("None", WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyNone = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyNoneWeapon, WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyLight = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyLightWeapon, WeaponCategory.Light, Attributes.Agility, Attributes.Agility);
             BaseWeapon dummyMedium = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyMediumWeapon, WeaponCategory.Medium, Attributes.Strength, Attributes.Strength);
@@ -55,6 +56,7 @@ public class WeaponSeeder {
             BaseWeapon dummyMediumShield = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyMediumShield, WeaponCategory.MediumShield, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyHeavyShield = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyHeavyShield, WeaponCategory.HeavyShield, Attributes.Strength, Attributes.Strength);
             baseWeaponRepository.save(empty);
+            baseWeaponRepository.save(none);
             baseWeaponRepository.save(dummyNone);
             baseWeaponRepository.save(dummyLight);
             baseWeaponRepository.save(dummyMedium);
@@ -67,9 +69,13 @@ public class WeaponSeeder {
         }
         if (weaponModelRepository.count() <= 0){
             BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "Bare hands");
+            BaseWeapon baseEmptyWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "None");
             WeaponModel noneModel = new WeaponModel("Bare Hands", baseNoneWeapon);
+            WeaponModel emptyModel = new WeaponModel("None", baseEmptyWeapon);
             noneModel.setSystemDefault(true);
+            emptyModel.setSystemDefault(true);
             weaponModelRepository.save(noneModel);
+            weaponModelRepository.save(emptyModel);
 
             for (String weaponName: DefaultWeapons.lightWeapons) {
                 CreateModels(weaponName);

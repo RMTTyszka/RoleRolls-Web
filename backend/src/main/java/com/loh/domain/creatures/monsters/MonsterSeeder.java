@@ -90,7 +90,9 @@ public class MonsterSeeder {
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
 
                 WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
                 equipWeapon(monster, lightWeaponModel, true, GripType.OneLightWeapon);
+                equipWeapon(monster, offHand, false, null);
                 equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
 
@@ -100,9 +102,10 @@ public class MonsterSeeder {
                 monster.setSkills(skillsService.save(monster.getSkills()));
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
-
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
                 equipWeapon(monster, weaponModel, true, GripType.OneMediumWeapon);
+                equipWeapon(monster, offHand, false, null);
                 equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
 
@@ -112,9 +115,10 @@ public class MonsterSeeder {
                 monster.setSkills(skillsService.save(monster.getSkills()));
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyNoneArmor);
-
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
                 equipWeapon(monster, weaponModel, true, GripType.TwoHandedHeavyWeapon);
+                equipWeapon(monster, offHand, false, null);
                 equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
 
@@ -153,7 +157,8 @@ public class MonsterSeeder {
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyLightArmor);
                 equipeNoneWeapon(level, monster);
-                equipDummyEquipment(monster);
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                equipWeapon(monster, offHand, false, null);  equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
 
             }
@@ -163,7 +168,8 @@ public class MonsterSeeder {
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyMediumArmor);
                 equipeNoneWeapon(level, monster);
-                equipDummyEquipment(monster);
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                equipWeapon(monster, offHand, false, null); equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
 
             }
@@ -173,7 +179,8 @@ public class MonsterSeeder {
                 monster.setSpecialPowerMainAttribute(Attributes.Strength);
                 equipArmor(monster, DefaultArmors.dummyHeavyArmor);
                 equipeNoneWeapon(level, monster);
-                equipDummyEquipment(monster);
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                equipWeapon(monster, offHand, false, null); equipDummyEquipment(monster);
                 saveMonsterAndLevelUp(monster, level);
             }
         }

@@ -114,7 +114,7 @@ export class CombatComponent implements OnInit, OnDestroy {
       this.combat = combat;
       this.hasLoaded = true;
     });
-    interval(3000)
+    interval(300000000)
       .pipe(takeUntil(this.usubscriber)).subscribe(() => {
       if (this.combat.id) {
         this._combatService.get(this.combat.id)
@@ -149,7 +149,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
   removeHero(i: number) {
     const hero = this.heroes[i];
-    this._combatService.removeHero(new AddOrRemoveCreatureToCombatInput<Hero>(this.combat.id, hero as Hero))
+    this._combatService.removeHero(this.combat.id, hero.id)
       .subscribe(combat => {
         this.heroes.splice(i, 1);
         this._combatManagement.combatUpdated.next(combat);
@@ -159,15 +159,15 @@ export class CombatComponent implements OnInit, OnDestroy {
     if (this.isSaved) {
       if (this.heroes[i].id) {
         const heroToRemove = this.heroes[i];
-        this._combatService.removeHero(new AddOrRemoveCreatureToCombatInput<Hero>(this.combat.id, heroToRemove as Hero))
+        this._combatService.removeHero(this.combat.id, heroToRemove.id)
           .pipe(
             switchMap((combat) => {
-              return this._combatService.addHero(new AddOrRemoveCreatureToCombatInput<Hero>(this.combat.id, hero));
+              return this._combatService.addHero(this.combat.id, new AddOrRemoveCreatureToCombatInput<Hero>(hero));
             })
           )
           .subscribe();
       } else {
-        this._combatService.addHero(new AddOrRemoveCreatureToCombatInput<Hero>(this.combat.id, hero))
+        this._combatService.addHero(this.combat.id, new AddOrRemoveCreatureToCombatInput<Hero>(hero))
           .subscribe((combat: Combat) => {
             this._combatManagement.combatUpdated.next(combat);
           });
@@ -180,7 +180,7 @@ export class CombatComponent implements OnInit, OnDestroy {
 
   monsterSelected(monster: Monster, i: number) {
     if (this.isSaved) {
-      this._combatService.addMonster(new AddOrRemoveCreatureToCombatInput<Monster>(this.combat.id, monster))
+      this._combatService.addMonster(this.combat.id, new AddOrRemoveCreatureToCombatInput<Monster>(monster))
         .subscribe((combat: Combat) => {
           this.monsters[i] = monster;
           this._combatManagement.combatUpdated.next(combat);
@@ -205,7 +205,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   endTurn() {
-    this._combatService.endTurn(new EndTurnInput(this.combat.id, this.combat.currentInitiative.creature.id))
+    this._combatService.endTurn(this.combat.id, new EndTurnInput(this.combat.currentInitiative.creature.id))
       .subscribe((combat: Combat) => {
         this._combatManagement.combatUpdated.next(combat);
       });
@@ -236,13 +236,13 @@ export class CombatComponent implements OnInit, OnDestroy {
 
   removeMonster(i: number) {
     const monster = this.monsters[i] as Monster;
-    this._combatService.removeMonster(new AddOrRemoveCreatureToCombatInput<Monster>(this.combat.id, monster))
+    this._combatService.removeMonster(this.combat.id, monster.id)
       .subscribe(combat => {
         this._combatManagement.combatUpdated.next(combat);
       });
   }
   heroFullAttack(attackInput: AttackInput) {
-    this._combatService.fullAttack({ combatId: this.combat.id, attackerId: attackInput.attackerId, targetId: attackInput.targetId})
+    this._combatService.fullAttack(this.combat.id, {attackerId: attackInput.attackerId, targetId: attackInput.targetId})
       .subscribe((val) => {
         this.attackDetails = val.attackDetails;
         this._combatManagement.combatUpdated.next(val.combat);
@@ -260,13 +260,9 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   private removeCreature(selectedCreature: Creature, selectedCreatureType: CreatureType) {
-    const input = {
-      combatId: this.combat.id,
-      creature: selectedCreature
-    } as AddOrRemoveCreatureToCombatInput<typeof selectedCreature>;
     const observable = selectedCreatureType === CreatureType.Hero ?
-      this._combatService.removeHero(input as AddOrRemoveCreatureToCombatInput<Hero>) :
-      this._combatService.removeMonster(input as AddOrRemoveCreatureToCombatInput<Monster>);
+      this._combatService.removeHero(this.combat.id, selectedCreature.id) :
+      this._combatService.removeMonster(this.combat.id, selectedCreature.id);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
   }
 }

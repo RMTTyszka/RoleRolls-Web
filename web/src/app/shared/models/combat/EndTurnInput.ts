@@ -1,10 +1,8 @@
 export class EndTurnInput {
-  combatId: string;
   creatureId: string;
 
 
-  constructor(combatId: string, creatureId: string) {
-    this.combatId = combatId;
+  constructor(creatureId: string) {
     this.creatureId = creatureId;
   }
 }

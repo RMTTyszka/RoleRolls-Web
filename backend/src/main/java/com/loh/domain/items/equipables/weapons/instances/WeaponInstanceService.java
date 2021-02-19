@@ -36,4 +36,11 @@ public class WeaponInstanceService {
         weaponInstanceRepository.save(weapon);
         return weapon;
     }
+    public WeaponInstance instantiateOffhandWeapon() {
+        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Name("None");
+        WeaponInstance weapon = instantiateWeapon(weaponModel, 1);
+        weapon.setRemovable(false);
+        weaponInstanceRepository.save(weapon);
+        return weapon;
+    }
 }

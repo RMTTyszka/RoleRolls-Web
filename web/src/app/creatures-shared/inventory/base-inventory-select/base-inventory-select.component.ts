@@ -39,8 +39,7 @@ export class BaseInventorySelectComponent implements OnInit {
 
   selected(entityName: string) {
     const selectedEntity = this.items.find(e => e.name === entityName);
-    const form = new FormGroup({});
-    createForm(form , selectedEntity);
+    this.itemForm.patchValue(selectedEntity);
     this.itemSelected.emit(selectedEntity);
   }
 }

@@ -76,6 +76,7 @@ public class CreaturesService {
         creature.setSkills(skillsService.save(creature.getSkills()));
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
+        WeaponInstance offHandWeapon = weaponInstanceService.instantiateOffhandWeapon();
         GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();
         BeltInstance belt = beltInstanceService.instantiateNoneBelt();
         HeadpieceInstance headpiece = headpieceInstanceService.instantiateNone();
@@ -84,6 +85,7 @@ public class CreaturesService {
         RingInstance ringLeftInstance = ringInstanceService.instantiateNone();
         creature.getEquipment().equipArmor(armor);
         creature.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
+        creature.getEquipment().equipOffWeapon(offHandWeapon, null);
         creature.getEquipment().equipGloves(gloves);
         creature.getEquipment().equipBelt(belt);
         creature.getEquipment().equipHeadpiece(headpiece);

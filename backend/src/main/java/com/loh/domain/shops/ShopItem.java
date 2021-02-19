@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 public class ShopItem extends Entity {
     @Getter
     @Setter
+    private String name;
+    @Getter
+    @Setter
     protected int quantity;
     @Getter
     @Setter
