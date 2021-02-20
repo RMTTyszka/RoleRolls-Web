@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ShopArmor} from '../../shared/models/shop/ShopArmor.model';
 import {ShopItem} from '../../shared/models/shop/ShopItem.model';
 import {ShopService} from '../shop.service';
 import {HeroManagementService} from '../../heroes/hero-management.service';
 import {Hero} from '../../shared/models/NewHero.model';
 import {Shop} from '../../shared/models/shop/Shop.model';
 import {BuyOutput} from '../../shared/models/creatures/heroes/heroShop/BuyOutput';
+import {ItemTemplateType} from '../../shared/models/ItemTemplateType.enum';
 
 @Component({
   selector: 'loh-shop',
@@ -143,5 +143,12 @@ export class ShopComponent implements OnInit {
       this.totalCost -= item.value;
 
     });
+  }
+
+  updateFilter() {
+    this.itemsShow = this.filterArmors ? this.items.filter(i => i.item.itemTemplateType === ItemTemplateType.Armor) : this.itemsShow;
+    if (this.filterWeapons) {
+      this.itemsShow.push(...this.items.filter())
+    }
   }
 }

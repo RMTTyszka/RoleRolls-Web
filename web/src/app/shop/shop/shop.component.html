@@ -1,7 +1,7 @@
 <p-panel [header]="shopName">
     <div class="p-formgroup-inline">
       <div class="p-field-checkbox">
-        <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors"></p-checkbox>
+        <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors" (onChange)="updateFilter()"></p-checkbox>
         <label for="armors">Armors</label>
       </div>
       <div class="p-field-checkbox">

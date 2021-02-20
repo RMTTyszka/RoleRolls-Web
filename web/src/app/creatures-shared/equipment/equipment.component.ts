@@ -75,6 +75,7 @@ export class EquipmentComponent implements OnInit {
   armorSelected(armor: ArmorInstance) {
     this.creatureEquipmentService.equipArmor(this.form.get('id').value, armor.id).subscribe((creature: Creature) => {
       this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
       this.creatureEditorService.publishCreatureUpdated(creature);
     });
   }
@@ -83,6 +84,7 @@ export class EquipmentComponent implements OnInit {
     this.creatureEquipmentService.equipMainWeapon(this.form.get('id').value, weapon.id).subscribe((creature: Creature) => {
       // this.equipment.get('mainWeapon').patchValue(weapon);
       this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
       this.creatureEditorService.publishCreatureUpdated(creature);
     });
   }
@@ -90,6 +92,7 @@ export class EquipmentComponent implements OnInit {
     this.creatureEquipmentService.equipOffWeapon(this.form.get('id').value, weapon.id).subscribe((creature: Creature) => {
       // this.equipment.get('mainWeapon').patchValue(weapon);
       this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
       this.creatureEditorService.publishCreatureUpdated(creature);
     });
   }

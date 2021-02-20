@@ -1,5 +1,6 @@
 package com.loh.domain.items.equipables.weapons.instances;
 
+import com.loh.domain.items.equipables.weapons.DefaultWeapons;
 import com.loh.domain.items.equipables.weapons.models.WeaponModel;
 import com.loh.domain.items.equipables.weapons.models.WeaponModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,14 @@ public class WeaponInstanceService {
     }
 
     public WeaponInstance instantiateNoneWeapon() {
-        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Name("Bare hands");
+        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Name(DefaultWeapons.bareHands);
         WeaponInstance weapon = instantiateWeapon(weaponModel, 1);
         weapon.setRemovable(false);
         weaponInstanceRepository.save(weapon);
         return weapon;
     }
     public WeaponInstance instantiateOffhandWeapon() {
-        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Name("None");
+        WeaponModel weaponModel = weaponModelRepository.findTop1ByBaseWeapon_Name(DefaultWeapons.none);
         WeaponInstance weapon = instantiateWeapon(weaponModel, 1);
         weapon.setRemovable(false);
         weaponInstanceRepository.save(weapon);

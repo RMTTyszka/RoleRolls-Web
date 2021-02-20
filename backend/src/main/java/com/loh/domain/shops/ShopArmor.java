@@ -18,11 +18,12 @@ public class ShopArmor extends ShopItem {
     public ShopArmor() {
     }
 
-    public ShopArmor(ArmorModel armorModel, int quantity, int value) {
+    public ShopArmor(ArmorModel armorModel, int quantity, int value, int level) {
         this.item = armorModel;
         this.quantity = quantity;
         this.value = value;
         this.setName(armorModel.getName());
         this.stack = 1;
+        this.level = level;
     }
 }

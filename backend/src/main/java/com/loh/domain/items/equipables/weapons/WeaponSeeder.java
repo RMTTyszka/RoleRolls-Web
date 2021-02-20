@@ -46,8 +46,8 @@ public class WeaponSeeder {
                 baseWeaponRepository.save(weapon);
             }
 
-            BaseWeapon empty = BaseWeapon.DefaultBaseWeapon("Bare hands", WeaponCategory.Medium, Attributes.Strength, Attributes.Strength);
-            BaseWeapon none = BaseWeapon.DefaultBaseWeapon("None", WeaponCategory.None, Attributes.Strength, Attributes.Strength);
+            BaseWeapon empty = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.bareHands, WeaponCategory.Medium, Attributes.Strength, Attributes.Strength);
+            BaseWeapon none = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.none, WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyNone = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyNoneWeapon, WeaponCategory.None, Attributes.Strength, Attributes.Strength);
             BaseWeapon dummyLight = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyLightWeapon, WeaponCategory.Light, Attributes.Agility, Attributes.Agility);
             BaseWeapon dummyMedium = BaseWeapon.DefaultBaseWeapon(DefaultWeapons.dummyMediumWeapon, WeaponCategory.Medium, Attributes.Strength, Attributes.Strength);
@@ -68,10 +68,10 @@ public class WeaponSeeder {
 
         }
         if (weaponModelRepository.count() <= 0){
-            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.Medium, "Bare hands");
-            BaseWeapon baseEmptyWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, "None");
-            WeaponModel noneModel = new WeaponModel("Bare Hands", baseNoneWeapon);
-            WeaponModel emptyModel = new WeaponModel("None", baseEmptyWeapon);
+            BaseWeapon baseNoneWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.Medium, DefaultWeapons.bareHands);
+            BaseWeapon baseEmptyWeapon = baseWeaponRepository.findByCategoryAndName(WeaponCategory.None, DefaultWeapons.none);
+            WeaponModel noneModel = new WeaponModel(DefaultWeapons.bareHands, baseNoneWeapon);
+            WeaponModel emptyModel = new WeaponModel(DefaultWeapons.none, baseEmptyWeapon);
             noneModel.setSystemDefault(true);
             emptyModel.setSystemDefault(true);
             weaponModelRepository.save(noneModel);

@@ -1,18 +1,7 @@
 
 <p-overlayPanel #creatureOverlay>
   <ng-container *ngIf="creature">
-    <p-panel [header]="creature.name">
-      <div>Race: {{creature.race?.name}}</div>
-      <div>Role: {{creature.role?.name}}</div>
-      <div>Strength: {{creature.totalAttributes.strength}}</div>
-      <div>Agility: {{creature.totalAttributes.agility}}</div>
-      <div>Vitality: {{creature.totalAttributes.vitality}}</div>
-      <div>Wisdom: {{creature.totalAttributes.wisdom}}</div>
-      <div>Intuition: {{creature.totalAttributes.intuition}}</div>
-      <div>Charisma: {{creature.totalAttributes.charisma}}</div>
-      <div>Life: {{creature.currentLife}}</div>
-      <div>Moral: {{creature.currentMoral}}</div>
-    </p-panel>
+    <loh-creature-details [creature]="creature"></loh-creature-details>
   </ng-container>
 </p-overlayPanel>
 <div class="ui-inputgroup">

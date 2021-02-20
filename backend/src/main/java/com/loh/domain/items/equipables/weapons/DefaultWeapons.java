@@ -9,6 +9,9 @@ public class DefaultWeapons {
     public static String[] mediumShields = new String[] {"Leather Shield"};
     public static String[] heavyShields = new String[] {"Tower Shield"};
 
+    public static String bareHands = "Bare Hands";
+    public static String none = "None Weapon";
+
     public static String dummyLightWeapon = "Dummy Light Weapon";
     public static String dummyMediumWeapon = "Dummy Medium Weapon";
     public static String dummyHeavyWeapon = "Dummy Heavy Weapon";

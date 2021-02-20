@@ -10,4 +10,5 @@ public interface BaseArmorRepository extends PagingAndSortingRepository<BaseArmo
     List<BaseArmor> findAllByNameIgnoreCaseContaining(String name);
     List<BaseArmor> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
     BaseArmor findByNameAndSystemDefaultTrue(String name);
+    boolean existsByNameAndSystemDefaultIsTrue(String name);
 }
