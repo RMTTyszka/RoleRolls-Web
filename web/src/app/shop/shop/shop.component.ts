@@ -6,6 +6,10 @@ import {Hero} from '../../shared/models/NewHero.model';
 import {Shop} from '../../shared/models/shop/Shop.model';
 import {BuyOutput} from '../../shared/models/creatures/heroes/heroShop/BuyOutput';
 import {ItemTemplateType} from '../../shared/models/ItemTemplateType.enum';
+import {ArmorModel} from '../../shared/models/items/ArmorModel.model';
+import {ArmorCategory} from '../../shared/models/items/ArmorCategory.model';
+import {WeaponCategory} from '../../shared/models/WeaponCategory.model';
+import {WeaponModel} from '../../shared/models/WeaponModel.model';
 
 @Component({
   selector: 'loh-shop',
@@ -24,6 +28,10 @@ export class ShopComponent implements OnInit {
   @Input() hero: Hero;
   shopName = 'Shop';
   shop: Shop;
+  armorCategoryFilter: ArmorCategory;
+  armorCategory = ArmorCategory;
+  weaponCategoryFilter: WeaponCategory;
+  weaponCategory = WeaponCategory;
   get hasEnoughCash() {
     return this.hero.inventory.cash1 >= this.totalCost;
   }
@@ -147,11 +155,29 @@ export class ShopComponent implements OnInit {
 
   updateFilter() {
     this.itemsShow = [];
+    let weaponsToShow = [];
+    let armorsToShow = [];
     if (this.filterWeapons) {
-      this.itemsShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Weapon));
+      weaponsToShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Weapon));
+      if (this.weaponCategoryFilter === WeaponCategory.Light) {
+        weaponsToShow = weaponsToShow.filter((item: ShopItem) => (item.item as WeaponModel).baseWeapon.category === WeaponCategory.Light);
+      } else if (this.weaponCategoryFilter === WeaponCategory.Medium) {
+        weaponsToShow = weaponsToShow.filter((item: ShopItem) => (item.item as WeaponModel).baseWeapon.category === WeaponCategory.Medium);
+      } else if (this.weaponCategoryFilter === WeaponCategory.Heavy) {
+        weaponsToShow = weaponsToShow.filter((item: ShopItem) => (item.item as WeaponModel).baseWeapon.category === WeaponCategory.Heavy);
+      }
+      this.itemsShow.push(...weaponsToShow);
     }
     if (this.filterArmors) {
-      this.itemsShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Armor));
+      armorsToShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Armor));
+      if (this.armorCategoryFilter === ArmorCategory.Light) {
+        armorsToShow = armorsToShow.filter((item: ShopItem) => (item.item as ArmorModel).baseArmor.category === ArmorCategory.Light);
+      } else if (this.armorCategoryFilter === ArmorCategory.Medium) {
+        armorsToShow = armorsToShow.filter((item: ShopItem) => (item.item as ArmorModel).baseArmor.category === ArmorCategory.Medium);
+      } else if (this.armorCategoryFilter === ArmorCategory.Heavy) {
+        armorsToShow = armorsToShow.filter((item: ShopItem) => (item.item as ArmorModel).baseArmor.category === ArmorCategory.Heavy);
+      }
+      this.itemsShow.push(...armorsToShow);
     }
     if (!this.filterArmors && !this.filterWeapons) {
       this.itemsShow.push(...this.items);
