@@ -18,8 +18,6 @@ public class ArmorModel extends EquipableTemplate {
 	public ArmorModel(){
 		super();
 		baseArmor = new BaseArmor();
-		slot = EquipableSlot.Chest;
-		itemTemplateType = ItemTemplateType.Armor;
 	}
 
 	public ArmorModel(String name, BaseArmor baseArmor) {
@@ -27,6 +25,15 @@ public class ArmorModel extends EquipableTemplate {
 		this.name = name;
 	}
 
+	@Override
+	public ItemTemplateType getItemTemplateType() {
+		return ItemTemplateType.Armor;
+	}
+
+	@Override
+	public EquipableSlot getSlot() {
+		return EquipableSlot.Chest;
+	};
 
 	@ManyToOne
 	@Getter @Setter

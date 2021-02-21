@@ -20,8 +20,16 @@ public class WeaponInstanceService {
         WeaponModel weaponModel = weaponModelRepository.findById(armorModelId).get();
         return instantiateWeapon(weaponModel, level);
     }
+    public WeaponInstance instantiateWeapon (UUID armorModelId, Integer level, Integer quantity) {
+        WeaponModel weaponModel = weaponModelRepository.findById(armorModelId).get();
+        return instantiateWeapon(weaponModel, level, quantity);
+    }
+    public WeaponInstance instantiateWeapon(WeaponModel weaponModel, Integer level, Integer quantity) {
+        WeaponInstance weapon = new WeaponInstance(weaponModel, level, quantity);
+        return weapon;
+    }
     public WeaponInstance instantiateWeapon(WeaponModel weaponModel, Integer level) {
-        WeaponInstance weapon = new WeaponInstance(weaponModel, level);
+        WeaponInstance weapon = new WeaponInstance(weaponModel, level, 1);
         return weapon;
     }
 

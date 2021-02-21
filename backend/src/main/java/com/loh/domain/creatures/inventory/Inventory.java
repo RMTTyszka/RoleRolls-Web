@@ -25,8 +25,15 @@ public class Inventory extends Entity {
     public void addItem(ItemInstance item) {
         items.add(item);
     }
+    public void removeItem(ItemInstance itemToRemove, Integer stackSize) {
+        if (itemToRemove.getQuantity() > 1) {
+            itemToRemove.removeQuantity(stackSize);
+        } else {
+            items = items.stream().filter(item -> item.getId() != itemToRemove.getId()).collect(Collectors.toList());
+        }
+    }
     public void removeItem(ItemInstance itemToRemove) {
-        items = items.stream().filter(item -> item.getId() != itemToRemove.getId()).collect(Collectors.toList());
+        removeItem(itemToRemove, 1);
     }
     public void removeFunds(Integer quantity) {
        this.cash1 -= quantity;

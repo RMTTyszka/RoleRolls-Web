@@ -21,7 +21,7 @@ public class ArmorInstanceService {
         return instantiateArmor(armorModel, level);
     }
     public ArmorInstance instantiateArmor(ArmorModel armorModel, Integer level) {
-        ArmorInstance armor = new ArmorInstance(armorModel, level);
+        ArmorInstance armor = new ArmorInstance(armorModel, level, 1);
         return armor;
     }
     public ArmorInstance instantiateNoneArmor() {

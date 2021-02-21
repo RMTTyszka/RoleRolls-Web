@@ -36,6 +36,7 @@ import {HeroFundsComponent} from './hero-funds/hero-funds.component';
 import {InventoryComponent} from './inventory/inventory/inventory.component';
 import { CreatureSkillsComponent } from './creature-skills/creature-skills.component';
 import { RollsCardComponent } from './rolls-card/rolls-card.component';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 @NgModule({
@@ -54,26 +55,27 @@ import { RollsCardComponent } from './rolls-card/rolls-card.component';
       InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
       AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent, CreatureEditorComponent, InventoryComponent
     ],
-  imports: [
-    CommonModule,
-    FieldsetModule,
-    AutoCompleteModule,
-    ReactiveFormsModule,
-    PanelModule,
-    FlexLayoutModule,
-    DropdownModule,
-    FormsModule,
-    OverlayPanelModule,
-    TooltipModule,
-    MatFormFieldModule,
-    AccordionModule,
-    SharedModule,
-    TabViewModule,
-    ShopModule,
-    RaceSharedModule,
-    RolesSharedModule
+    imports: [
+        CommonModule,
+        FieldsetModule,
+        AutoCompleteModule,
+        ReactiveFormsModule,
+        PanelModule,
+        FlexLayoutModule,
+        DropdownModule,
+        FormsModule,
+        OverlayPanelModule,
+        TooltipModule,
+        MatFormFieldModule,
+        AccordionModule,
+        SharedModule,
+        TabViewModule,
+        ShopModule,
+        RaceSharedModule,
+        RolesSharedModule,
+        InputTextModule
 
-  ],
+    ],
   entryComponents: [RollsCardComponent]
 })
 export class CreaturesSharedModule { }

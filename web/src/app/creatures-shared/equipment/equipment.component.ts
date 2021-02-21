@@ -46,6 +46,12 @@ export class EquipmentComponent implements OnInit {
   get equipment(): FormGroup {
     return this.form.get(this.controlName) as FormGroup;
   }
+  get mainWeaponGripType(): string {
+    return this.equipment.get('mainWeaponGripType').value;
+  }
+  get offWeaponGripType(): string {
+    return this.equipment.get('offWeaponGripType').value;
+  }
   constructor(
     private creatureEquipmentService: CreatureEquipmentService,
     private creatureEditorService: CreatureEditorService

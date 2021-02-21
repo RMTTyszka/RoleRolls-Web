@@ -77,7 +77,7 @@ public class ArmorInstanceController {
     @PostMapping(path="/instantiate")
     public @ResponseBody
     BaseCrudResponse<ArmorInstance> instantiate(@RequestBody InstantiateArmorByModelInput input) {
-        ArmorInstance armor = new ArmorInstance(input.armorTemplate, input.level);
+        ArmorInstance armor = new ArmorInstance(input.armorTemplate, input.level, 1);
         return saveAndGetArmorBaseCrudResponse(armor);
     }
     @DeleteMapping(path="/delete")

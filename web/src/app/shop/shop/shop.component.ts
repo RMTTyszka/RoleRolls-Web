@@ -146,9 +146,15 @@ export class ShopComponent implements OnInit {
   }
 
   updateFilter() {
-    this.itemsShow = this.filterArmors ? this.items.filter(i => i.item.itemTemplateType === ItemTemplateType.Armor) : this.itemsShow;
+    this.itemsShow = [];
     if (this.filterWeapons) {
-      this.itemsShow.push(...this.items.filter())
+      this.itemsShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Weapon));
+    }
+    if (this.filterArmors) {
+      this.itemsShow.push(...this.items.filter(item => item.item.itemTemplateType === ItemTemplateType.Armor));
+    }
+    if (!this.filterArmors && !this.filterWeapons) {
+      this.itemsShow.push(...this.items);
     }
   }
 }

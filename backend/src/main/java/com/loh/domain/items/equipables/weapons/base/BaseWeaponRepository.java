@@ -13,4 +13,6 @@ public interface BaseWeaponRepository extends PagingAndSortingRepository<BaseWea
     BaseWeapon findByCategory(WeaponCategory type);
     BaseWeapon findByCategoryAndName(WeaponCategory type, String name);
     BaseWeapon findByNameAndSystemDefaultTrue(String name);
+    boolean existsByNameAndSystemDefaultIsTrue(String name);
+
 }

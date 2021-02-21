@@ -4,6 +4,7 @@ import com.loh.domain.items.equipables.armors.DefaultArmor;
 import com.loh.domain.items.equipables.armors.DefaultArmors;
 import com.loh.domain.items.equipables.armors.models.ArmorModel;
 import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.weapons.DefaultWeapon;
 import com.loh.domain.items.equipables.weapons.DefaultWeapons;
 import com.loh.domain.items.equipables.weapons.models.WeaponModel;
 import com.loh.domain.items.equipables.weapons.models.WeaponModelRepository;
@@ -40,23 +41,23 @@ public class ShopSeeder {
         for (DefaultArmor armorName: DefaultArmors.heavyArmors) {
             AddArmor(shop, armorName.name, 30);
         }
-        for (String armorName: DefaultWeapons.lightWeapons) {
-            AddWeapon(shop, armorName, 10);
+        for (DefaultWeapon weapon: DefaultWeapons.lightWeapons) {
+            AddWeapon(shop, weapon.name, 10);
         }
-        for (String armorName: DefaultWeapons.mediumWeapons) {
-            AddWeapon(shop, armorName, 20);
+        for (DefaultWeapon weapon: DefaultWeapons.mediumWeapons) {
+            AddWeapon(shop, weapon.name, 20);
         }
-        for (String armorName: DefaultWeapons.heavyWeapons) {
-            AddWeapon(shop, armorName, 30);
+        for (DefaultWeapon weapon: DefaultWeapons.heavyWeapons) {
+            AddWeapon(shop, weapon.name, 30);
         }
-        for (String armorName: DefaultWeapons.lightShields) {
-            AddWeapon(shop, armorName, 10);
+        for (DefaultWeapon shield: DefaultWeapons.lightShields) {
+            AddWeapon(shop, shield.name, 10);
         }
-        for (String armorName: DefaultWeapons.mediumShields) {
-            AddWeapon(shop, armorName, 20);
+        for (DefaultWeapon shield: DefaultWeapons.mediumShields) {
+            AddWeapon(shop, shield.name, 20);
         }
-        for (String armorName: DefaultWeapons.heavyShields) {
-            AddWeapon(shop, armorName, 30);
+        for (DefaultWeapon shield: DefaultWeapons.heavyShields) {
+            AddWeapon(shop, shield.name, 30);
         }
 
         shopRepository.save(shop);

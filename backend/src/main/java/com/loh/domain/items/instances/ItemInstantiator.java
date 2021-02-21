@@ -18,19 +18,19 @@ public class ItemInstantiator {
     @Autowired
     WeaponInstanceRepository weaponInstanceRepository;
 
-    public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level) {
-        return instantiate(itemTemplate, level, false);
+    public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level, Integer quantity) {
+        return instantiate(itemTemplate, level, quantity, false);
     }
-    public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level, boolean autoSave) {
+    public ItemInstance instantiate(ItemTemplate itemTemplate, Integer level, Integer quantity, boolean autoSave) {
         switch (itemTemplate.getItemTemplateType()) {
             case Weapon:
-                WeaponInstance weaponInstance = new WeaponInstance((WeaponModel) itemTemplate, level);
+                WeaponInstance weaponInstance = new WeaponInstance((WeaponModel) itemTemplate, level, quantity);
                 if (autoSave) {
                     weaponInstance = weaponInstanceRepository.save(weaponInstance);
                 }
                 return weaponInstance;
             case Armor:
-                ArmorInstance armorInstance = new ArmorInstance((ArmorModel) itemTemplate, level);
+                ArmorInstance armorInstance = new ArmorInstance((ArmorModel) itemTemplate, level, quantity);
                 if (autoSave) {
                     armorInstance = armorInstanceRepository.save(armorInstance);
                 }

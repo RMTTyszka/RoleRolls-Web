@@ -87,7 +87,7 @@ public class HeroSeeder {
 
                 WeaponModel lightWeaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyLightWeapon);
                 equipWeapon(hero, lightWeaponModel, true, GripType.OneLightWeapon);
-                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.none);
                 equipWeapon(hero, offHand, false, GripType.None);
                 equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
@@ -101,7 +101,7 @@ public class HeroSeeder {
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyMediumWeapon);
                 equipWeapon(hero, weaponModel, true, GripType.OneMediumWeapon);
-                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.none);
                 equipWeapon(hero, offHand, false, GripType.None);
                 equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
@@ -115,7 +115,7 @@ public class HeroSeeder {
 
                 WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyHeavyWeapon);
                 equipWeapon(hero, weaponModel, true, GripType.TwoHandedHeavyWeapon);
-                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+                WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.none);
                 equipWeapon(hero, offHand, false, GripType.None);
                 equipDummyEquipment(hero);
                 saveHeroAndLevelUp(hero, level);
@@ -220,7 +220,7 @@ public class HeroSeeder {
     private void equipeNoneWeapon(int level, Hero hero) throws Exception {
         WeaponModel weaponModel = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.dummyNoneWeapon);
         equipWeapon(hero, weaponModel, true, GripType.OneLightWeapon);
-        WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue("None");
+        WeaponModel offHand = weaponModelRepository.findByNameAndSystemDefaultTrue(DefaultWeapons.none);
         equipWeapon(hero, offHand, false, GripType.None);
     }
 

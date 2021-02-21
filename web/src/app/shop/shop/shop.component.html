@@ -1,11 +1,11 @@
 <p-panel [header]="shopName">
     <div class="p-formgroup-inline">
       <div class="p-field-checkbox">
-        <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors" (onChange)="updateFilter()"></p-checkbox>
+        <p-checkbox name="armors" [binary]="true" [(ngModel)]="filterArmors" inputId="armors" (onChange)="updateFilter()"></p-checkbox>
         <label for="armors">Armors</label>
       </div>
       <div class="p-field-checkbox">
-        <p-checkbox name="city4" value="Los Angeles" [(ngModel)]="filterWeapons" inputId="weapons"></p-checkbox>
+        <p-checkbox name="weapons" [binary]="true" [(ngModel)]="filterWeapons" inputId="weapons" (onChange)="updateFilter()"></p-checkbox>
         <label for="weapons">Weapons</label>
       </div>
   </div>

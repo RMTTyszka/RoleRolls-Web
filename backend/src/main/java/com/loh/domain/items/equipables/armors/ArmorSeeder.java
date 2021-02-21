@@ -98,7 +98,7 @@ public class ArmorSeeder {
         }
         if(!armorModelRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.NoneArmor)) {
             BaseArmor baseArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
-            ArmorModel armor = new ArmorModel("Common " + DefaultArmors.NoneArmor, baseArmor);
+            ArmorModel armor = new ArmorModel(DefaultArmors.NoneArmor, baseArmor);
             armor.setSystemDefault(true);
             armorModelRepository.save(armor);
         }

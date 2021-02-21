@@ -70,7 +70,7 @@ public class HeroService {
         RingInstance ringLeftInstance = ringInstanceService.instantiateNone();
         hero.getEquipment().equipArmor(armor);
         hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
-        hero.getEquipment().equipOffWeapon(offHandWeapon, null);
+        hero.getEquipment().equipOffWeapon(offHandWeapon, GripType.None);
         hero.getEquipment().equipGloves(gloves);
         hero.getEquipment().equipBelt(belt);
         hero.getEquipment().equipHeadpiece(headpiece);
