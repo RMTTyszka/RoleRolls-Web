@@ -1,15 +1,18 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseEntityService} from '../../../shared/base-entity-service';
 import {ArmorCategory} from '../../../shared/models/items/ArmorCategory.model';
+import {of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArmorCategoryService extends BaseEntityService<ArmorCategory> {
-  path =  'armorCategory';
+export class ArmorCategoryService {
   constructor(
-    injector: Injector
   ) {
-    super(injector, ArmorCategory);
+  }
+
+  public getAll() {
+    return of<ArmorCategory[]>(<ArmorCategory[]> [
+      ArmorCategory.None, ArmorCategory.Light, ArmorCategory.Medium, ArmorCategory.Heavy
+    ]);
   }
 }

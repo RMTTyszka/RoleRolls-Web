@@ -1,7 +1,5 @@
 package com.loh.domain.items.equipables.weapons.categories;
 
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.List;
 

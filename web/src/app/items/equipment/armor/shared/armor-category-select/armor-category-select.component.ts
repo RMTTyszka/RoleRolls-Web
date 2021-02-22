@@ -23,7 +23,7 @@ export class ArmorCategorySelectComponent implements OnInit {
     this.form.setControl('armorCategorySelection', new FormControl());
     this.service.getAll().subscribe(categories => {
       this.armorCategories = categories;
-      const category = this.armorCategories.find(cat => cat.id === this.form.get(this.controlName + '.id').value)
+      const category = this.armorCategories.find(cat => cat === this.form.get(this.controlName).value)
         || this.armorCategories[0];
       this.form.get('armorCategorySelection').setValue(category);
       this.form.get(this.controlName).patchValue(category);

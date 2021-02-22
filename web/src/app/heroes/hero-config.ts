@@ -8,7 +8,7 @@ export class HeroConfig implements BaseComponentConfig {
   editorTitle = 'Hero';
   editor = NewHeroEditorComponent;
   creator = HeroCreateComponent;
-  creatorOptions = <DynamicDialogConfig>{width: '80%'};
+  creatorOptions = <DynamicDialogConfig>{width: '80%', height: '80%'};
   entityListColumns: RRColumns[] = [
     {
       header: 'Name',

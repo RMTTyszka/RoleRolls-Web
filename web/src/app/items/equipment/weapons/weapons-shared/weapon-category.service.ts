@@ -1,15 +1,18 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseEntityService} from 'src/app/shared/base-entity-service';
 import {WeaponCategory} from 'src/app/shared/models/WeaponCategory.model';
+import {of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WeaponCategoryService extends BaseEntityService<WeaponCategory> {
-  path =  'weaponCategory';
+export class WeaponCategoryService {
   constructor(
     injector: Injector
   ) {
-    super(injector, WeaponCategory);
+  }
+  getAll() {
+    return of<WeaponCategory[]>(<WeaponCategory[]>[
+      WeaponCategory.None, WeaponCategory.Light, WeaponCategory.Medium, WeaponCategory.Heavy, WeaponCategory.Shield
+    ]);
   }
 }
