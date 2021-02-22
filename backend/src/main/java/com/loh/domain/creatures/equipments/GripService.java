@@ -5,12 +5,12 @@ import com.loh.domain.items.equipables.weapons.instances.WeaponInstance;
 
 public class GripService {
 
-    public static boolean validateGripType(WeaponInstance weapon, GripType gripType) {
-        if (isBareHanded(weapon)) return true;
+    public static boolean validateGripType(WeaponInstance weaponInstance, GripType gripType) {
+        if (isBareHanded(weaponInstance)) return true;
         if (gripType == null) return true;
-        if (isHeavyWeapon(weapon)) return gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon;
-        if (isMediumWeapon(weapon)) return gripType == GripType.OneMediumWeapon || gripType == GripType.TwoHandedMediumWeapon || gripType == GripType.TwoWeaponsMedium;
-        if (isLightWeapon(weapon)) return gripType == GripType.OneLightWeapon || gripType == GripType.TwoWeaponsLight;
+        if (isHeavyWeapon(weaponInstance)) return gripType == GripType.TwoHandedHeavyWeapon || gripType == GripType.OneHandedHeavyWeapon;
+        if (isMediumWeapon(weaponInstance)) return gripType == GripType.OneMediumWeapon || gripType == GripType.TwoHandedMediumWeapon || gripType == GripType.TwoWeaponsMedium;
+        if (isLightWeapon(weaponInstance)) return gripType == GripType.OneLightWeapon || gripType == GripType.TwoWeaponsLight;
         return false;
     }
 

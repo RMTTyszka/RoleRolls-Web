@@ -21,75 +21,86 @@ public class ArmorSeeder {
 
     public void seed() {
 
-        if (baseArmorRepository.count() <= 0){
-            for (String armorName: DefaultArmors.lightArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Light);
+        for (DefaultArmor armorName: DefaultArmors.lightArmors) {
+            if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName.name, ArmorCategory.Light);
                 baseArmorRepository.save(armor);
             }
-            for (String armorName: DefaultArmors.mediumArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Medium);
-                baseArmorRepository.save(armor);
-            }
-            for (String armorName: DefaultArmors.heavyArmors) {
-                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName, ArmorCategory.Heavy);
-                baseArmorRepository.save(armor);
-            }
-
-            BaseArmor empty = BaseArmor.DefaultBaseArmor("None Armor",  ArmorCategory.None);
-            BaseArmor dummyNoneArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyNoneArmor,  ArmorCategory.None);
-            BaseArmor dummyLightArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyLightArmor, ArmorCategory.Light);
-            BaseArmor dummyMediumArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyMediumArmor, ArmorCategory.Medium);
-            BaseArmor dummyHeavyArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyHeavyArmor, ArmorCategory.Heavy);
-            baseArmorRepository.save(empty);
-
-            baseArmorRepository.save(dummyHeavyArmor);
-            baseArmorRepository.save(dummyMediumArmor);
-            baseArmorRepository.save(dummyLightArmor);
-            baseArmorRepository.save(dummyNoneArmor);
         }
-        if (armorModelRepository.count() <= 0){
-            BaseArmor baseNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
-
-            for (String armorName: DefaultArmors.lightArmors) {
-                BaseArmor baseLightArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
-                ArmorModel armor = new ArmorModel("Common " + armorName, baseLightArmor);
-                armor.setSystemDefault(true);
-                armorModelRepository.save(armor);
+        for (DefaultArmor armorName: DefaultArmors.mediumArmors) {
+            if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName.name, ArmorCategory.Medium);
+                baseArmorRepository.save(armor);
             }
-            for (String armorName: DefaultArmors.mediumArmors) {
-                BaseArmor baseMediumArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
-                ArmorModel armor = new ArmorModel("Common " + armorName, baseMediumArmor);
-                armor.setSystemDefault(true);
-                armorModelRepository.save(armor);
+        }
+        for (DefaultArmor armorName: DefaultArmors.heavyArmors) {
+            if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor armor = BaseArmor.DefaultBaseArmor(armorName.name, ArmorCategory.Heavy);
+                baseArmorRepository.save(armor);
             }
-            for (String armorName: DefaultArmors.heavyArmors) {
-                BaseArmor baseHeavyArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName);
-                ArmorModel armor = new ArmorModel("Common " + armorName, baseHeavyArmor);
-                armor.setSystemDefault(true);
-                armorModelRepository.save(armor);
-            }
-
-            ArmorModel noneArmor = new ArmorModel(DefaultArmors.NoneArmor, baseNoneArmor);
-            noneArmor.setSystemDefault(true);
-            armorModelRepository.save(noneArmor);
-
-            BaseArmor baseDummyLightArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyLightArmor);
-            BaseArmor baseDummyMediumArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyMediumArmor);
-            BaseArmor baseDummyHeavyArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyHeavyArmor);
-            BaseArmor baseDummyNoneArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.dummyNoneArmor);
-            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyNoneArmor, baseDummyNoneArmor);
-            ArmorModel dummyLightArmor = new ArmorModel(DefaultArmors.dummyLightArmor, baseDummyLightArmor);
-            ArmorModel dummyMediumArmor = new ArmorModel(DefaultArmors.dummyMediumArmor, baseDummyMediumArmor);
-            ArmorModel dummyHeavyArmor = new ArmorModel(DefaultArmors.dummyHeavyArmor, baseDummyHeavyArmor);
+        }
+        if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.NoneArmor)){
+            BaseArmor baseArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.NoneArmor,  ArmorCategory.None);
+            baseArmorRepository.save(baseArmor);
+        }
+        if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.dummyNoneArmor)){
+            BaseArmor baseArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyNoneArmor,  ArmorCategory.None);
+            baseArmor = baseArmorRepository.save(baseArmor);
+            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyNoneArmor, baseArmor);
             dummyNoneArmor.setSystemDefault(true);
-            dummyLightArmor.setSystemDefault(true);
-            dummyMediumArmor.setSystemDefault(true);
-            dummyHeavyArmor.setSystemDefault(true);
-
             armorModelRepository.save(dummyNoneArmor);
-            armorModelRepository.save(dummyLightArmor);
-            armorModelRepository.save(dummyMediumArmor);
-            armorModelRepository.save(dummyHeavyArmor);
+        }
+        if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.dummyLightArmor)){
+            BaseArmor baseArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyLightArmor,  ArmorCategory.Light);
+            baseArmor = baseArmorRepository.save(baseArmor);
+            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyLightArmor, baseArmor);
+            dummyNoneArmor.setSystemDefault(true);
+            armorModelRepository.save(dummyNoneArmor);
+        }
+        if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.dummyMediumArmor)){
+            BaseArmor baseArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyMediumArmor,  ArmorCategory.Medium);
+            baseArmor = baseArmorRepository.save(baseArmor);
+            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyMediumArmor, baseArmor);
+            dummyNoneArmor.setSystemDefault(true);
+            armorModelRepository.save(dummyNoneArmor);
+        }
+        if (!baseArmorRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.dummyHeavyArmor)){
+            BaseArmor baseArmor = BaseArmor.DefaultBaseArmor(DefaultArmors.dummyHeavyArmor,  ArmorCategory.Heavy);
+            baseArmor = baseArmorRepository.save(baseArmor);
+            ArmorModel dummyNoneArmor = new ArmorModel(DefaultArmors.dummyHeavyArmor, baseArmor);
+            dummyNoneArmor.setSystemDefault(true);
+            armorModelRepository.save(dummyNoneArmor);
+        }
+
+        for (DefaultArmor armorName: DefaultArmors.lightArmors) {
+            if(!armorModelRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor baseArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName.name);
+                ArmorModel armor = new ArmorModel("Common " + armorName.name, baseArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+        }
+        for (DefaultArmor armorName: DefaultArmors.mediumArmors) {
+            if(!armorModelRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor baseArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName.name);
+                ArmorModel armor = new ArmorModel("Common " + armorName.name, baseArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+        }
+        for (DefaultArmor armorName: DefaultArmors.heavyArmors) {
+            if(!armorModelRepository.existsByNameAndSystemDefaultIsTrue(armorName.name)) {
+                BaseArmor baseArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(armorName.name);
+                ArmorModel armor = new ArmorModel("Common " + armorName.name, baseArmor);
+                armor.setSystemDefault(true);
+                armorModelRepository.save(armor);
+            }
+        }
+        if(!armorModelRepository.existsByNameAndSystemDefaultIsTrue(DefaultArmors.NoneArmor)) {
+            BaseArmor baseArmor = baseArmorRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
+            ArmorModel armor = new ArmorModel(DefaultArmors.NoneArmor, baseArmor);
+            armor.setSystemDefault(true);
+            armorModelRepository.save(armor);
         }
 
     }

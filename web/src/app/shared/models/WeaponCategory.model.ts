@@ -1,14 +1,9 @@
 import {Entity} from './Entity.model';
 
-export class WeaponCategory extends Entity {
-    public weaponType: WeaponType;
-    public weaponHandleType: WeaponHandleType;
-}
-
-export enum WeaponType {
-  light, medium, heavy, Shield, None
-}
-export enum WeaponHandleType {
-  oneHanded,
-  TwoHanbed
+export enum WeaponCategory {
+  Light = 'Light',
+  Medium = 'Medium',
+  Heavy = 'Heavy',
+  Shield = 'Shield',
+  None = 'None'
 }

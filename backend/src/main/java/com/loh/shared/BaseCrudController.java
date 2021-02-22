@@ -1,5 +1,7 @@
 package com.loh.shared;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +24,12 @@ public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateI
 
     @GetMapping()
     public @ResponseBody
-    Page<T> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Page<T> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) throws JsonProcessingException {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         if (filter.isEmpty() || filter == null) {
             Page<T> list =  unfilteredQuery(paged);
+            ObjectMapper o = new ObjectMapper();
+            String s = o.writeValueAsString(list);
             return list;
         } else {
             return filteredQuery(filter, paged);

@@ -1,8 +1,8 @@
 package com.loh.domain.items.equipables.armors.models;
 
-import com.loh.domain.items.equipables.EquipableTemplate;
-import com.loh.domain.items.equipables.EquipableSlot;
 import com.loh.domain.items.ItemTemplateType;
+import com.loh.domain.items.equipables.EquipableSlot;
+import com.loh.domain.items.equipables.EquipableTemplate;
 import com.loh.domain.items.equipables.armors.base.BaseArmor;
 import com.loh.shared.Bonuses;
 import com.loh.shared.Properties;
@@ -15,9 +15,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ArmorModel extends EquipableTemplate {
 
-	@Getter @Setter
-	protected ItemTemplateType itemTemplateType = ItemTemplateType.Armor;
-
 	public ArmorModel(){
 		super();
 		baseArmor = new BaseArmor();
@@ -28,8 +25,15 @@ public class ArmorModel extends EquipableTemplate {
 		this.name = name;
 	}
 
-	@Getter @Setter
-	protected EquipableSlot slot = EquipableSlot.Chest;
+	@Override
+	public ItemTemplateType getItemTemplateType() {
+		return ItemTemplateType.Armor;
+	}
+
+	@Override
+	public EquipableSlot getSlot() {
+		return EquipableSlot.Chest;
+	};
 
 	@ManyToOne
 	@Getter @Setter

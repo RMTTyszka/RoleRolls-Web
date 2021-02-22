@@ -3,12 +3,10 @@ import {Monster} from '../creatures/monsters/Monster.model';
 import {Creature} from '../creatures/Creature.model';
 
 export class AddOrRemoveCreatureToCombatInput<T extends Creature> {
-  public combatId: string;
-  public creature: T;
+  public creatureId: string;
 
 
-  constructor(combatId: string, creature: T) {
-    this.combatId = combatId;
-    this.creature = creature;
+  constructor(creature: T) {
+    this.creatureId = creature.id;
   }
 }

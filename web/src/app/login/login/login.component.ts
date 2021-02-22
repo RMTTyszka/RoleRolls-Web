@@ -26,15 +26,15 @@ export class LoginComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.form = this.fb.group({
-      email: [],
-      password: []
+      password: ['hell666'],
+      email: ['admin@rolerolls.com']
     });
     this.formCreated = this.fb.group({
       firstName: [],
       lastName: [],
       userName: [],
-      password: [],
-      email: []
+      password: ['hell666'],
+      email: ['admin@rolerolls.com']
     });
   }
 

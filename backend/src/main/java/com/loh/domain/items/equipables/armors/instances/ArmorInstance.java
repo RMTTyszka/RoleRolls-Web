@@ -33,9 +33,10 @@ public class ArmorInstance extends EquipableInstance {
         armorModel = new ArmorModel();
     }
 
-    public ArmorInstance(ArmorModel armorModel, Integer level) {
+    public ArmorInstance(ArmorModel armorModel, Integer level, Integer quantity) {
         this.armorModel = armorModel;
         this.setName(armorModel.getName());
+        this.setQuantity(quantity);
         this.setLevel(level);
     }
 }

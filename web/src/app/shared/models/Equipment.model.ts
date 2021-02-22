@@ -18,4 +18,6 @@ export class Equipment extends Entity {
   neckAccessory: NeckAccessoryInstance = new NeckAccessoryInstance();
   ringRight: RingInstance = new RingInstance();
   ringLeft: RingInstance = new RingInstance();
+  mainWeaponGripType: string;
+  offWeaponGripType: string;
 }

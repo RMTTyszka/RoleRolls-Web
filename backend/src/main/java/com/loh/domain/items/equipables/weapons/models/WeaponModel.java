@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class WeaponModel extends EquipableTemplate {
+	@Getter @Setter
 	protected ItemTemplateType itemTemplateType = ItemTemplateType.Weapon;
 	public WeaponModel() {
 		baseWeapon  = new BaseWeapon();

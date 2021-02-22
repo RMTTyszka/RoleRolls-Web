@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {createForm} from '../../shared/EditorExtension';
 import {Equipment} from '../../shared/models/Equipment.model';
 import {Inventory} from '../../shared/models/Inventory.model';
@@ -14,6 +14,7 @@ import {RingInstance} from '../../shared/models/RingInstance.model';
 import {CreatureEquipmentService} from './creature-equipment.service';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {CreatureEditorService} from '../creature-editor/creature-editor.service';
+import {createMetadataReaderCache} from '@angular/compiler-cli/src/transformers/metadata_reader';
 
 @Component({
   selector: 'loh-equipment',
@@ -32,10 +33,24 @@ export class EquipmentComponent implements OnInit {
     return this.form.get(this.inventoryControlName).value;
   }
   set inventory(value) {
-    this.form.get(this.inventoryControlName).setValue(value);
+    const items = (this.form.get(this.inventoryControlName).get('items') as FormArray);
+    items.clear();
+    value.items.forEach(i => {
+      const newForm = new FormGroup({});
+      createForm(newForm, i);
+      items.push(newForm);
+    });
+    value.items = [];
+    this.form.get(this.inventoryControlName).patchValue(value);
   }
   get equipment(): FormGroup {
     return this.form.get(this.controlName) as FormGroup;
+  }
+  get mainWeaponGripType(): string {
+    return this.equipment.get('mainWeaponGripType').value;
+  }
+  get offWeaponGripType(): string {
+    return this.equipment.get('offWeaponGripType').value;
   }
   constructor(
     private creatureEquipmentService: CreatureEquipmentService,
@@ -65,16 +80,27 @@ export class EquipmentComponent implements OnInit {
 
   armorSelected(armor: ArmorInstance) {
     this.creatureEquipmentService.equipArmor(this.form.get('id').value, armor.id).subscribe((creature: Creature) => {
-      this.equipment.get('armor').patchValue(armor);
       this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
       this.creatureEditorService.publishCreatureUpdated(creature);
     });
   }
 
   mainWeaponSelected(weapon: WeaponInstance) {
-    const selectedWeapon = this.findItem(weapon.id);
-    this.equipment.get('mainWeapon').patchValue(selectedWeapon);
-    this.inventory.items.splice(this.inventory.items.indexOf(selectedWeapon), 1);
+    this.creatureEquipmentService.equipMainWeapon(this.form.get('id').value, weapon.id).subscribe((creature: Creature) => {
+      // this.equipment.get('mainWeapon').patchValue(weapon);
+      this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
+      this.creatureEditorService.publishCreatureUpdated(creature);
+    });
+  }
+  offWeaponSelected(weapon: WeaponInstance) {
+    this.creatureEquipmentService.equipOffWeapon(this.form.get('id').value, weapon.id).subscribe((creature: Creature) => {
+      // this.equipment.get('mainWeapon').patchValue(weapon);
+      this.inventory = creature.inventory;
+      this.equipment.patchValue(creature.equipment);
+      this.creatureEditorService.publishCreatureUpdated(creature);
+    });
   }
   glovesSelected(gloves: GloveInstance) {
     const selectedGloves = this.findItem(gloves.id);

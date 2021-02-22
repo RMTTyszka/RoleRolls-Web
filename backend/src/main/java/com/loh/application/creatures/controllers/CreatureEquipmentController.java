@@ -28,9 +28,25 @@ public class CreatureEquipmentController {
 
     @PutMapping(path="creatures/{id}/equipment/armor")
     public @ResponseBody
-    CreatureDto update(@PathVariable UUID id, @RequestBody CreatureEquipInput input) {
+    CreatureDto equipArmor(@PathVariable UUID id, @RequestBody CreatureEquipInput input) {
         Creature creature = creatureRepository.findById(id).get();
         creature = equipmentService.equipArmor(creature, input.itemId);
+        CreatureDto creatureDto = creaturesService.update(creature);
+        return creatureDto;
+    }
+    @PutMapping(path="creatures/{id}/equipment/main-weapon")
+    public @ResponseBody
+    CreatureDto equipMainWeapon(@PathVariable UUID id, @RequestBody CreatureEquipInput input) throws Exception {
+        Creature creature = creatureRepository.findById(id).get();
+        creature = equipmentService.equipMainWeapon(creature, input.itemId);
+        CreatureDto creatureDto = creaturesService.update(creature);
+        return creatureDto;
+    }
+    @PutMapping(path="creatures/{id}/equipment/off-weapon")
+    public @ResponseBody
+    CreatureDto equipOffWeapon(@PathVariable UUID id, @RequestBody CreatureEquipInput input) throws Exception {
+        Creature creature = creatureRepository.findById(id).get();
+        creature = equipmentService.equipOffWeapon(creature, input.itemId);
         CreatureDto creatureDto = creaturesService.update(creature);
         return creatureDto;
     }

@@ -20,6 +20,7 @@ public class Equipment extends Entity {
 	public Equipment(){
 		this.armor = new ArmorInstance();
 		this.mainWeapon = new WeaponInstance();
+		this.offWeapon = null;
 		this.belt = new BeltInstance();
 		this.headpiece = new HeadpieceInstance();
 		this.neckAccessory = new NeckAccessoryInstance();
@@ -27,7 +28,7 @@ public class Equipment extends Entity {
 		this.ringRight = new RingInstance();
 		this.gloves = new GloveInstance();
 		this.mainWeaponGripType = GripType.OneMediumWeapon;
-		this.offWeaponGridType = null;
+		this.offWeaponGripType = GripType.None;
 	}
 	public Integer getBonusLevel(String property) {
 		Integer armorBonus = Bonuses.GetEquipmentBonusLevel(armor.getBonuses(), property);
@@ -60,7 +61,7 @@ public class Equipment extends Entity {
 
 	@OneToOne @Getter @Setter
 	private WeaponInstance mainWeapon;
-	
+
 	@OneToOne @Getter @Setter
 	private WeaponInstance offWeapon;
 	@OneToOne @Getter @Setter
@@ -79,29 +80,32 @@ public class Equipment extends Entity {
 	@Getter
 	private GripType mainWeaponGripType;
 	@Getter
-	private GripType offWeaponGridType;
+	private GripType offWeaponGripType;
 
 	public Integer getDefense() {
 		return armor.getDefense();
 	}
 	public Integer getEvasion() {
-		return armor.getEvasion();
+		Integer armorEvasion = armor.getEvasion();
+		Integer mainShieldEvasion = mainWeaponGripType.getShieldEvasionBonus();
+		Integer offShieldEvasion = offWeaponGripType.getShieldEvasionBonus();
+		return armorEvasion + mainShieldEvasion + offShieldEvasion;
 	}
 	public Integer getDodge() {
 		return armor != null ? armor.getDodge() : 0;
 	}
 
-	public void equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+	public WeaponInstance equipMainWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+		WeaponInstance previousWeapon = this.getMainWeapon();
 		this.setMainWeapon(weapon);
-		if (gripType != null) {
-			this.setMainWeaponGripType(gripType);
-		}
+		this.setMainWeaponGripType(gripType);
+		return previousWeapon;
 	}
-	public void equipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+	public WeaponInstance equipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+		WeaponInstance previousWeapon = this.getOffWeapon();
 		this.setOffWeapon(weapon);
-		if (gripType != null) {
-			this.setOffWeaponGripType(gripType);
-		}
+		this.setOffWeaponGripType(gripType);
+		return previousWeapon;
 	}
 	public ArmorInstance equipArmor(ArmorInstance armor) {
 		ArmorInstance previousArmor = this.getArmor();
@@ -128,24 +132,24 @@ public class Equipment extends Entity {
 	}
 
 	private void setMainWeaponGripType(GripType gripType) throws Exception {
-		if (GripService.validateGripType(getMainWeapon(), gripType)) {
-			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getMainWeapon(), getOffWeapon(), gripType, getOffWeaponGridType());
+/*		if (GripService.validateGripType(getMainWeapon(), gripType)) {
+			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getMainWeapon(), getOffWeapon(), gripType, getOffWeaponGripType());
 			if (correctedGripType.shouldUnequipOffWeapon) {
 				this.quicklyUnequipOffWeapon();
-			}
-			this.mainWeaponGripType = correctedGripType.gripType;
-			this.offWeaponGridType = correctedGripType.offWeaponGripType;
-		}
+			}*/
+		this.mainWeaponGripType = gripType;
+		GripType offWeaponGripType = GripType.getGripType(getOffWeaponGripType(), gripType);
+		this.offWeaponGripType = offWeaponGripType;
 	}
 	private void setOffWeaponGripType(GripType gripType) throws Exception {
-		if (GripService.validateGripType(getOffWeapon(), gripType)) {
+/*		if (GripService.validateGripType(getOffWeapon(), gripType)) {
 			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getOffWeapon(), getMainWeapon(), gripType, getMainWeaponGripType());
 			if (correctedGripType.shouldUnequipOffWeapon) {
 				this.quicklyUnequipMainWeapon();
-			}
-			this.offWeaponGridType = correctedGripType.gripType;
-			this.mainWeaponGripType = correctedGripType.offWeaponGripType;
-		};
+			}*/
+		this.offWeaponGripType = gripType;
+		GripType mainWeaponGripType = GripType.getGripType( getMainWeaponGripType(), gripType);
+		this.mainWeaponGripType = mainWeaponGripType;
 	}
 	private void quicklyUnequipOffWeapon() {
 		this.setOffWeapon(null);

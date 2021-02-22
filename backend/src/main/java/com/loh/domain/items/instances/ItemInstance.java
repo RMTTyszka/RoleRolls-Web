@@ -22,6 +22,16 @@ public class ItemInstance extends Entity {
     @Getter @Setter
     private Integer quantity;
 
+    public void addQuantity(Integer quantity) {
+        this.quantity += quantity;
+    }
+    public void removeQuantity(Integer quantity) {
+        this.quantity -= quantity;
+        if (this.quantity < 0) {
+            this.quantity = 0;
+        }
+    }
+
     public Integer getBonus() {
       return level / 2;
     }

@@ -14,18 +14,16 @@ public class ShopArmor extends ShopItem {
     @Setter
     @OneToOne
     protected ArmorModel item;
-    @Getter
-    @Setter
-    private String name;
 
     public ShopArmor() {
     }
 
-    public ShopArmor(ArmorModel armorModel, int quantity, int value) {
+    public ShopArmor(ArmorModel armorModel, int quantity, int value, int level) {
         this.item = armorModel;
         this.quantity = quantity;
         this.value = value;
-        this.name = armorModel.getName();
+        this.setName(armorModel.getName());
         this.stack = 1;
+        this.level = level;
     }
 }

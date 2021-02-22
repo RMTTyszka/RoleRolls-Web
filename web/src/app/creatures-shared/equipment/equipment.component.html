@@ -1,6 +1,14 @@
 <form [formGroup]="form">
     <loh-inventory-armor-select (armorSelected)="armorSelected($event)"></loh-inventory-armor-select>
-    <loh-inventory-weapon-select (weaponSelected)="mainWeaponSelected($event)"></loh-inventory-weapon-select>
+  <div class="p-grid p-nogutter p-justify-between">
+    <loh-inventory-weapon-select class="p-col-8" (weaponSelected)="mainWeaponSelected($event)"></loh-inventory-weapon-select>
+    <input pInputText readonly class="p-col-4" [value]="mainWeaponGripType"/>
+  </div>
+  <div class="p-grid p-nogutter p-justify-between">
+    <loh-inventory-weapon-select (weaponSelected)="offWeaponSelected($event)" weaponFormName="offWeapon" placeholder="Off hand"></loh-inventory-weapon-select>
+    <input pInputText readonly class="p-col-4" [value]="offWeaponGripType"/>
+  </div>
+
     <loh-inventory-gloves-select (gloveSelected)="glovesSelected($event)"></loh-inventory-gloves-select>
     <loh-inventory-belt-select (beltSelected)="beltSelected($event)"></loh-inventory-belt-select>
     <loh-inventory-headpiece-select (headpieceSelected)="headpieceSelected($event)"></loh-inventory-headpiece-select>

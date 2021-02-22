@@ -14,7 +14,9 @@ export class CreatureStatsComponent implements OnInit, OnDestroy {
   constructor(
     private creatureEditorService: CreatureEditorService
   ) {
-    this.creatureEditorService.subscribeToCreatureUpdated(CreatureStatsComponent.name, creature => this.status = creature.status);
+    this.creatureEditorService.subscribeToCreatureUpdated(CreatureStatsComponent.name, creature => {
+      this.status = creature.status;
+    });
     this.populateDescriptions();
   }
 

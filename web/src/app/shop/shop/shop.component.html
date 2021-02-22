@@ -1,13 +1,29 @@
 <p-panel [header]="shopName">
     <div class="p-formgroup-inline">
       <div class="p-field-checkbox">
-        <p-checkbox name="city3" value="Chicago" [(ngModel)]="filterArmors" inputId="armors"></p-checkbox>
+        <p-checkbox name="armors" [binary]="true" [(ngModel)]="filterArmors" inputId="armors" (onChange)="updateFilter()"></p-checkbox>
         <label for="armors">Armors</label>
       </div>
       <div class="p-field-checkbox">
-        <p-checkbox name="city4" value="Los Angeles" [(ngModel)]="filterWeapons" inputId="weapons"></p-checkbox>
+        <p-checkbox name="weapons" [binary]="true" [(ngModel)]="filterWeapons" inputId="weapons" (onChange)="updateFilter()"></p-checkbox>
         <label for="weapons">Weapons</label>
       </div>
+  </div>
+  <div>
+    <div *ngIf="filterArmors" class="p-grid">
+      <div class="p-col">Armor: </div>
+      <p-radioButton name="filterArmor" class="p-col" [(ngModel)]="armorCategoryFilter" [value]="armorCategory.Light" label="Light" (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterArmor" class="p-col" [(ngModel)]="armorCategoryFilter" [value]="armorCategory.Medium" label="Medium"  (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterArmor" class="p-col" [(ngModel)]="armorCategoryFilter" [value]="armorCategory.Heavy" label="Heavy" (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterArmor" class="p-col" [(ngModel)]="armorCategoryFilter" [value]="null" label="All" (onClick)="updateFilter()"></p-radioButton>
+    </div>
+    <div *ngIf="filterWeapons" class="p-grid">
+      <div class="p-col">Weapon: </div>
+      <p-radioButton name="filterWeapon" class="p-col" [(ngModel)]="weaponCategoryFilter" [value]="weaponCategory.Light" label="Light" (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterWeapon" class="p-col" [(ngModel)]="weaponCategoryFilter" [value]="weaponCategory.Medium" label="Medium"  (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterWeapon" class="p-col" [(ngModel)]="weaponCategoryFilter" [value]="weaponCategory.Heavy" label="Heavy" (onClick)="updateFilter()"></p-radioButton>
+      <p-radioButton name="filterWeapon" class="p-col" [(ngModel)]="weaponCategoryFilter" [value]="null" label="All" (onClick)="updateFilter()"></p-radioButton>
+    </div>
   </div>
     <p-pickList [showSourceControls]="false" [showTargetControls]="false" [source]="itemsShow" [target]="itemToBuyShow"  [responsive]="true"
                 dragdrop="true" sourceHeader="Items" targetHeader="Buying" (onMoveToTarget)="itemAddedToBuy($event)" (onMoveToSource)="itemRemovedFromToBuy($event)">

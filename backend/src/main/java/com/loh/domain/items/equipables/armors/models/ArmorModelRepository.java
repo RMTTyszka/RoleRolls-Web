@@ -12,4 +12,5 @@ public interface ArmorModelRepository extends PagingAndSortingRepository<ArmorMo
     List<ArmorModel> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
     ArmorModel findByNameAndSystemDefaultTrue(String name);
     ArmorModel findByName(String name);
+    boolean existsByNameAndSystemDefaultIsTrue(String name);
 }

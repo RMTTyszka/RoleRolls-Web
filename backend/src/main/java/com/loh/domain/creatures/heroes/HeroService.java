@@ -61,6 +61,7 @@ public class HeroService {
         hero.setSkills(skillsService.save(hero.getSkills()));
         ArmorInstance armor = armorInstanceService.instantiateNoneArmor();
         WeaponInstance weapon = weaponInstanceService.instantiateNoneWeapon();
+        WeaponInstance offHandWeapon = weaponInstanceService.instantiateOffhandWeapon();
         GloveInstance gloves = gloveInstanceService.instantiateNoneGlove();
         BeltInstance belt = beltInstanceService.instantiateNoneBelt();
         HeadpieceInstance headpiece = headpieceInstanceService.instantiateNone();
@@ -69,6 +70,7 @@ public class HeroService {
         RingInstance ringLeftInstance = ringInstanceService.instantiateNone();
         hero.getEquipment().equipArmor(armor);
         hero.getEquipment().equipMainWeapon(weapon, GripType.OneMediumWeapon);
+        hero.getEquipment().equipOffWeapon(offHandWeapon, GripType.None);
         hero.getEquipment().equipGloves(gloves);
         hero.getEquipment().equipBelt(belt);
         hero.getEquipment().equipHeadpiece(headpiece);

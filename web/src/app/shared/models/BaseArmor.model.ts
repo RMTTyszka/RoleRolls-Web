@@ -4,5 +4,5 @@ import {Entity} from './Entity.model';
 export class BaseArmor extends Entity {
   static = false;
   name = '';
-  category: ArmorCategory = new ArmorCategory();
+  category: ArmorCategory = ArmorCategory.Light;
 }

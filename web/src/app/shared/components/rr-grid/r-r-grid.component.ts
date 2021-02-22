@@ -39,6 +39,7 @@ get columns() {
     if (!this.create) {
       this.create = () => {
         this.dialogService.open(this.config.creator, {
+          height: this.config.creatorOptions ? this.config.creatorOptions.height : '80%',
           data: {
             action: EditorAction.create
           }
@@ -62,6 +63,10 @@ get columns() {
       this.service.list(filter, skipCount, maxResultCount).subscribe(response => {
         this.data = response.content;
         this.totalCount = response.totalElements;
+        this.loading = false;
+      }, error => {
+        this.data = [];
+        this.totalCount = 0;
         this.loading = false;
       });
   }

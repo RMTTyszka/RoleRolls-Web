@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {isWeapon} from 'src/app/shared/utils/isItem';
 import {WeaponInstance} from 'src/app/shared/models/WeaponInstance.model';
 import {FormGroup} from '@angular/forms';
@@ -10,8 +10,8 @@ import {Inventory} from 'src/app/shared/models/Inventory.model';
   styleUrls: ['./inventory-weapon-select.component.css']
 })
 export class InventoryWeaponSelectComponent implements OnInit {
-  weaponFormName = 'mainWeapon';
-  placeholder = 'Main Weapon';
+  @Input() weaponFormName = 'mainWeapon';
+  @Input() placeholder = 'Main Weapon';
   @Output() weaponSelected = new EventEmitter<WeaponInstance>();
   constructor() {}
 

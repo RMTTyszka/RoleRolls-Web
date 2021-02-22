@@ -14,4 +14,14 @@ export class CreatureEquipmentService {
       itemId: armorId
     });
   }
+  equipMainWeapon(creatureId: string, weaponId: string) {
+    return this.httpClient.put(`${this.serverUrl}creatures/${creatureId}/equipment/main-weapon`, {
+      itemId: weaponId
+    });
+  }
+  equipOffWeapon(creatureId: string, weaponId: string) {
+    return this.httpClient.put(`${this.serverUrl}creatures/${creatureId}/equipment/off-weapon`, {
+      itemId: weaponId
+    });
+  }
 }

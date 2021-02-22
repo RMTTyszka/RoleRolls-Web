@@ -7,6 +7,7 @@ import {SharedModule} from '../shared/shared.module';
 import {PickListModule} from 'primeng/picklist';
 import {PanelModule} from 'primeng/panel';
 import { MonsterShopComponent } from './monster-shop/monster-shop.component';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 
 
@@ -22,7 +23,8 @@ import { MonsterShopComponent } from './monster-shop/monster-shop.component';
         CheckboxModule,
         SharedModule,
         PickListModule,
-        PanelModule
+        PanelModule,
+        RadioButtonModule
     ]
 })
 export class ShopModule { }

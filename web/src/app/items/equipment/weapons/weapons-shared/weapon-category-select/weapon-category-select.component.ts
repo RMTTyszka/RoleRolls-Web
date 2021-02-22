@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WeaponCategory, WeaponType} from 'src/app/shared/models/WeaponCategory.model';
+import {WeaponCategory} from 'src/app/shared/models/WeaponCategory.model';
 import {FormControl, FormGroup} from '@angular/forms';
 import {WeaponCategoryService} from '../weapon-category.service';
 
@@ -22,8 +22,8 @@ export class WeaponCategorySelectComponent implements OnInit {
   ngOnInit() {
     this.form.setControl('weaponCategorySelection', new FormControl());
     this.service.getAll().subscribe(categories => {
-      this.weaponCategories = categories.filter(category => category.weaponType !== WeaponType.None);
-      const category = this.weaponCategories.find(cat => cat.id === this.form.get(this.controlName + '.id').value)
+      this.weaponCategories = categories.filter(cat => cat !== WeaponCategory.None);
+      const category = this.weaponCategories.find(cat => cat === this.form.get(this.controlName ).value)
         || this.weaponCategories[0];
       this.form.get('weaponCategorySelection').setValue(category);
       this.form.get(this.controlName).patchValue(category);

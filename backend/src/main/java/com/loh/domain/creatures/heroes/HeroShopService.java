@@ -27,10 +27,12 @@ public class HeroShopService {
         Hero hero = heroRepository.findById(heroId).get();
 
         if (hasEnoughMoney(hero, item, quantity) && hasEnoughQuantity(item, quantity)) {
-            ItemInstance itemInstance = itemInstantiator.instantiate(item.getItem(), item.getLevel(), true);
+            ItemInstance itemInstance = itemInstantiator.instantiate(item.getItem(), item.getLevel(), quantity, true);
             hero.getInventory().addItem(itemInstance);
             hero.getInventory().removeFunds(item.getValue() * quantity);
-            item.removeQuantity(quantity);
+            if (shop.isSystemDefault()) {
+                item.removeQuantity(quantity);
+            }
             heroRepository.save(hero);
             shopRepository.save(shop);
 

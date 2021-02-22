@@ -3,10 +3,12 @@ package com.loh.domain.creatures;
 import com.loh.domain.combats.AttackDetails;
 import com.loh.domain.combats.AttackService;
 import com.loh.domain.creatures.equipments.Equipment;
+import com.loh.domain.creatures.equipments.GripType;
 import com.loh.domain.creatures.inventory.Inventory;
 import com.loh.domain.effects.EffectInstance;
 import com.loh.domain.effects.EffectProcessor;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
+import com.loh.domain.items.equipables.weapons.instances.WeaponInstance;
 import com.loh.domain.items.instances.ItemInstanceRepository;
 import com.loh.domain.races.Race;
 import com.loh.domain.roles.Role;
@@ -227,7 +229,7 @@ public class Creature extends Entity {
                     getAttributeLevel(equipment.getMainWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
                     getMainWeaponHitBonus(),
                     equipment.getMainWeapon().getBonus(),
-                    equipment.getOffWeaponGridType());
+                    equipment.getOffWeaponGripType());
         } else if (_mainWeaponAttributes == null) {
             _mainWeaponAttributes = new WeaponAttributes();
         }
@@ -237,9 +239,9 @@ public class Creature extends Entity {
     private WeaponAttributes _offWeaponAttributes;
 
     public WeaponAttributes getOffWeaponAttributes() {
-        if (_offWeaponAttributes == null && equipment.getOffWeapon() != null) {
+        if (_offWeaponAttributes == null && equipment.getOffWeapon() != null && equipment.getOffWeaponGripType() != null) {
             _offWeaponAttributes = new WeaponAttributes(
-                    equipment.getOffWeaponGridType(),
+                    equipment.getOffWeaponGripType(),
                     getAttributeLevel(equipment.getOffWeapon().getWeaponModel().getBaseWeapon().getDamageAttribute()),
                     getOffWeaponHitBonus(),
                     equipment.getOffWeapon().getBonus(),
@@ -430,4 +432,23 @@ public class Creature extends Entity {
         getInventory().removeItem(armorInstance);
         getInventory().addItem(removedArmor);
     }
+    public void equipMainWeapon(WeaponInstance weaponInstance) throws Exception {
+        GripType gripType = GripType.getGripType(GripType.getGripTypeByHandleType(weaponInstance.getWeaponModel().getBaseWeapon().getCategory()), equipment.getOffWeaponGripType());
+        if (gripType == null) {
+            throw new Exception("That weapon cannot be equiped because of the other hand");
+        }
+        WeaponInstance removedWeapon = equipment.equipMainWeapon(weaponInstance, gripType);
+        getInventory().removeItem(weaponInstance);
+        getInventory().addItem(removedWeapon);
+    }
+    public void equipOffhandWeapon(WeaponInstance weaponInstance) throws Exception {
+        GripType gripType = GripType.getGripType(GripType.getGripTypeByHandleType(weaponInstance.getWeaponModel().getBaseWeapon().getCategory()), equipment.getMainWeaponGripType());
+        if (gripType == null) {
+            throw new Exception("That weapon cannot be equiped because of the other hand");
+        }
+        WeaponInstance removedWeapon = equipment.equipOffWeapon(weaponInstance, gripType);
+        getInventory().removeItem(weaponInstance);
+        getInventory().addItem(removedWeapon);
+    }
+
 }
