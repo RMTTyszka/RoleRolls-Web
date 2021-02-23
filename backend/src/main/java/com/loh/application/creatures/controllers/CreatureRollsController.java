@@ -3,12 +3,15 @@ package com.loh.application.creatures.controllers;
 import com.loh.application.creatures.dtos.CreatureRollResult;
 import com.loh.domain.creatures.Creature;
 import com.loh.domain.creatures.CreatureRepository;
+import com.loh.rolls.DcResult;
 import com.loh.rolls.DiceRoller;
+import com.loh.rolls.RollDCService;
 import com.loh.rolls.RollTestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin
@@ -19,6 +22,8 @@ public class CreatureRollsController {
 
     @Autowired
     public CreatureRepository creatureRepository;
+    @Autowired
+    private RollDCService rollDCService;
     public DiceRoller roller = new DiceRoller();
 
     @GetMapping(path="/creatures/{creatureId}")
@@ -32,6 +37,12 @@ public class CreatureRollsController {
             result = roller.rollTest(creature.getPropertyPoints(property), creature.getPropertyBonus(property), difficulty, complexity);
         }
         return new CreatureRollResult(creatureId, creature.getName(), property, result.isSuccess(), result.getRolls(), result.getBonusDice(), result.getNumberOfRolls(), result.getRollSuccesses(), result.getSuccesses(), result.getCriticalSuccesses(), result.getCriticalFailures(), result.getDifficulty(), result.getComplexity());
+    }
+    @GetMapping(path="/creatures/{creatureId}/chances")
+    public @ResponseBody
+    List<DcResult> chance(@PathVariable UUID creatureId, @RequestParam String property, @RequestParam Double requiredChance) {
+        Creature creature = creatureRepository.findById(creatureId).get();
+        return rollDCService.getDC(creature.getAttributePoints(property), creature.getPropertyBonus(property), requiredChance);
     }
 
 }

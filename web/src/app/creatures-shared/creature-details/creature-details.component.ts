@@ -4,6 +4,7 @@ import {CreatureRollsService} from '../creature-rolls.service';
 import {CampaignRollsService} from '../../campaign-session/rolls/campaign-rolls.service';
 import {DialogService} from 'primeng/dynamicdialog';
 import {RollDifficulty, RollsCardComponent} from '../rolls-card/rolls-card.component';
+import {RollsService} from '../../rolls/rolls.service';
 
 @Component({
   selector: 'loh-creature-details',
@@ -30,10 +31,20 @@ export class CreatureDetailsComponent implements OnInit {
     return false;
   }
 
+  getChances(property: string, chance: number) {
+
+  }
+
   openDetailedRoll(property: string) {
     this.dialogService.open(RollsCardComponent, {header: 'Roll', closeOnEscape: false, width: '50%'}).onClose.subscribe((difficulty: RollDifficulty) => {
       if (difficulty) {
-        this.roll(property, difficulty.difficulty, difficulty.complexity);
+        if (difficulty.shouldGetChance) {
+          this.creatureRollsService.getChances(this.creature.id, property, difficulty.requiredChance).subscribe((result) => {
+            console.log(JSON.stringify(result));
+          });
+        } else {
+          this.roll(property, difficulty.difficulty, difficulty.complexity);
+        }
       }
     });
     return false;

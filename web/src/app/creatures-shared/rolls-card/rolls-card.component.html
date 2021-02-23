@@ -1,6 +1,10 @@
 <div class="p-grid">
   <input pInput type="number" placeholder="difficulty" [(ngModel)]="difficulty" class="p-col-6">
   <input pInput type="number" placeholder="complexity" [(ngModel)]="complexity" class="p-col-6">
+  <div class="p-col-6 p-grid p-nogutter">
+    <input pInput type="number" placeholder="chance" [(ngModel)]="chance" class="p-col-5">
+    <button pButton label="Chance" (click)="getChance()" class="p-col-5"></button>
+  </div>
   <button pButton label="Roll" (click)="roll()" class="p-col-2 p-col-nogutter"></button>
   <button pButton label="Cancel" (click)="cancel()" class="p-col-2 p-col-nogutter ui-button-secondary"></button>
 </div>
