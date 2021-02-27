@@ -14,6 +14,7 @@ export class CampaignRollsComponent implements OnInit {
   rolls: CreatureRollResult[] = [];
   @Input() campaignId;
   public selectedRoll: Roll = new Roll();
+  public rollChanceToastKey = 'rollChanceToastKey';
 
   public get lastRoll() {
     return this.rolls[this.rolls.length - 1];
@@ -40,4 +41,7 @@ export class CampaignRollsComponent implements OnInit {
     this.selectedRoll = roll;
   }
 
+  getRollTotal(roll: Roll) {
+    return roll.dice + roll.bonus + (roll.bonusDice ? roll.bonusDice : 0);
+  }
 }

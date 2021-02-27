@@ -30,6 +30,10 @@ public class DiceRoller {
     }
 
     public RollTestResult rollTest(Integer points, Integer bonus, Integer difficulty, Integer complexity) {
+        return rollTest(points, bonus, difficulty, complexity, true);
+    }
+
+    public RollTestResult rollTest(Integer points, Integer bonus, Integer difficulty, Integer complexity, boolean allowCritical) {
 
         Integer numberOfRolls = Loh.getLevel(points);
         List<Roll> rolls = new ArrayList<>();
@@ -42,13 +46,13 @@ public class DiceRoller {
         for (int i = 0; i < numberOfRolls; i++) {
             Integer diceRoll = getRoll(20);
            // diceRoll = 15;
-            if (diceRoll == 20) {
+            if (diceRoll == 20 && allowCritical) {
                 rollSuccesses++;
                 criticalSuccesses++;
                 Roll roll = new Roll(diceRoll, bonus, true);
                 rolls.add(roll);
             }
-            else if (diceRoll == 1) {
+            else if (diceRoll == 1 && allowCritical) {
                 criticalFailures++;
                 Roll roll = new Roll(diceRoll, bonus, false);
                 rolls.add(roll);
@@ -59,7 +63,6 @@ public class DiceRoller {
                 rolls.add(roll);
             }
             else if (!bonusDiceConsumed && diceRoll + bonus + bonusDice >= difficulty) {
-                rollSuccesses++;
                 bonusDiceConsumed = true;
                 rollSuccesses++;
                 Roll roll = new Roll(diceRoll, bonus, true, bonusDice);
