@@ -15,15 +15,14 @@
           <i class="fas fa-check success" *ngIf="result.success"></i>
           <i class="fas fa-times fail" *ngIf="!result.success"></i>
           <div *ngFor="let roll of result.rolls" class="p-col">
-            <div *ngIf="roll.success && !roll.criticalSuccess" class="success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{roll.dice + roll.bonus}}</div>
-            <div *ngIf="roll.criticalSuccess" class="critical-success-dice-roll success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{roll.dice + roll.bonus}}</div>
-            <div *ngIf="roll.criticalFailure" class="critical-failure-dice-roll dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{roll.dice + roll.bonus}}</div>
-            <div *ngIf="!roll.criticalFailure && !roll.success && !roll.criticalSuccess" class="dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{roll.dice + roll.bonus}}</div>
+            <div *ngIf="roll.success && !roll.criticalSuccess" class="success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>
+            <div *ngIf="roll.criticalSuccess" class="critical-success-dice-roll success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>
+            <div *ngIf="roll.criticalFailure" class="critical-failure-dice-roll dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>
+            <div *ngIf="!roll.criticalFailure && !roll.success && !roll.criticalSuccess" class="dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>
           </div>
         </div>
       </p-card>
     </div>
-
   </ng-container>
 </p-panel>
 
@@ -35,5 +34,22 @@
     <div>
       Bonus: {{selectedRoll.bonus}}
     </div>
+    <div *ngIf="selectedRoll.bonusDice">
+      Bonus Dice: {{selectedRoll.bonusDice}}
+    </div>
   </ng-template>
 </p-overlayPanel>
+
+<p-toast [key]="rollChanceToastKey" >
+  <ng-template let-message pTemplate="message">
+    <div class="p-grid p-nogutter">
+      <td>
+        <tr *ngFor="let chance of message.data" class="p-col-12">
+          <td style="font-weight: bold">{{chance.difficulty}}</td>
+          <td style="font-weight: bold">&ensp;/ {{chance.complexity}}</td>
+          <td >&ensp; - {{chance.chance}}</td>
+        </tr>
+      </td>
+    </div>
+  </ng-template>
+</p-toast>

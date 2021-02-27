@@ -5,5 +5,4 @@ export class Roll {
   success: boolean;
   criticalFailure: boolean;
   criticalSuccess: boolean;
-
 }

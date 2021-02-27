@@ -18,23 +18,27 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {FormsModule} from '@angular/forms';
 import {CardModule} from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
+import {ToastModule} from 'primeng/toast';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 
 @NgModule({
   declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent],
-    imports: [
-        CommonModule,
-        CampaignSessionRoutingModule,
-        TabViewModule,
-        TableModule,
-        CreaturesSharedModule,
-        CombatModule,
-        PanelModule,
-        OverlayPanelModule,
-        FormsModule,
-        CardModule,
-        TooltipModule
-    ],
+  imports: [
+    CommonModule,
+    CampaignSessionRoutingModule,
+    TabViewModule,
+    TableModule,
+    CreaturesSharedModule,
+    CombatModule,
+    PanelModule,
+    OverlayPanelModule,
+    FormsModule,
+    CardModule,
+    TooltipModule,
+    ToastModule,
+    ScrollPanelModule
+  ],
   entryComponents: [CampaignSessionGatewayComponent],
   providers: [CampaignRollsService]
 })
