@@ -35,6 +35,7 @@ import com.loh.domain.races.RaceRepository;
 import com.loh.domain.roles.Role;
 import com.loh.domain.roles.RoleRepository;
 import com.loh.domain.skills.SkillsService;
+import com.loh.domain.universes.UniverseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -253,7 +254,7 @@ public class MonsterSeeder {
     }
     private void setDummyAttributes(Monster monster) throws Exception {
         monster.setBaseAttributes(new Attributes(14, 14, 14, 14, 14, 14, true));
-        Race race = raceRepository.findByNameAndSystemDefaultTrue("Dummy");
+        Race race = raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy);
         Role role = roleRepository.findByNameAndSystemDefaultTrue("Dummy");
         monster.setRace(race);
         monster.setRole(role);

@@ -10,7 +10,9 @@ import com.loh.domain.items.equipables.heads.HeadpieceSeeder;
 import com.loh.domain.items.equipables.necks.NeckAccessorySeeder;
 import com.loh.domain.items.equipables.rings.RingSeeder;
 import com.loh.domain.items.equipables.weapons.WeaponSeeder;
-import com.loh.domain.races.RaceSeeder;
+import com.loh.domain.races.dummy.DummyRaceSeeder;
+import com.loh.domain.races.land.of.heroes.LandOfHeroesHeroRaceSeeder;
+import com.loh.domain.races.land.of.heroes.LandOfHeroesMonsterRaceSeeder;
 import com.loh.domain.roles.RoleSeeder;
 import com.loh.domain.shops.ShopSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,11 @@ public class SeederService {
 	@Autowired
 	private AdminSeeder adminSeeder;
 	@Autowired
-	private RaceSeeder raceSeeder;
+	private LandOfHeroesHeroRaceSeeder landOfHeroesHeroRaceSeeder;
+	@Autowired
+	private LandOfHeroesMonsterRaceSeeder landOfHeroesMonsterRaceSeeder;
+	@Autowired
+	private DummyRaceSeeder dummyRaceSeeder;
 	@Autowired
 	private RoleSeeder roleSeeder;
 	@Autowired
@@ -53,7 +59,9 @@ public class SeederService {
 	@EventListener
 	public void seed(ContextRefreshedEvent event) throws Exception {
 		adminSeeder.seed();
-		raceSeeder.seed();
+
+		seedRaces();
+
 		armorSeeder.seed();
 		weaponSeeder.seed();
 		glovesSeeder.seed();
@@ -65,6 +73,12 @@ public class SeederService {
 		heroSeeder.seed();
 		monsterSeeder.seed();
 		shopSeeder.seed();
+	}
+
+	private void seedRaces() {
+		landOfHeroesHeroRaceSeeder.seed();
+		landOfHeroesMonsterRaceSeeder.seed();
+		dummyRaceSeeder.seed();
 	}
 
 }
