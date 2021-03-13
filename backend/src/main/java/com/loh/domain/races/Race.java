@@ -35,7 +35,11 @@ public class Race extends DefaultEntity implements IHaveUniverseType {
 	
 	@ManyToMany
 	private List<Power> powers;
-	
+
+	public boolean isHuman() {
+	    return name == "Human" && isSystemDefault();
+    }
+
 	public List<Power> getPowers() {
 		return powers;
 	}

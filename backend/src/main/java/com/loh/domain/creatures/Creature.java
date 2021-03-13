@@ -278,7 +278,7 @@ public class Creature extends Entity {
     @Transient
     protected Integer totalAttributesInitialPoints;
     public Integer getTotalAttributesInitialPoints(){
-        return 8 + 6 + 4 + 2 + 2 + 8*6;
+        return 8 + 6 + 4 + 2 + 2 + 8*6 + (getRace().isHuman() ? 2 : 0);
     }
 
     @Transient

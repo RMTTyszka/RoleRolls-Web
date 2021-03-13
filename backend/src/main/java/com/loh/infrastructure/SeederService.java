@@ -13,7 +13,9 @@ import com.loh.domain.items.equipables.weapons.WeaponSeeder;
 import com.loh.domain.races.dummy.DummyRaceSeeder;
 import com.loh.domain.races.land.of.heroes.LandOfHeroesHeroRaceSeeder;
 import com.loh.domain.races.land.of.heroes.LandOfHeroesMonsterRaceSeeder;
-import com.loh.domain.roles.RoleSeeder;
+import com.loh.domain.roles.dummy.DummyRoleSeeder;
+import com.loh.domain.roles.land.of.heroes.LohRoleSeeder;
+import com.loh.domain.roles.the.future.is.out.there.heroes.FotRoleSeeder;
 import com.loh.domain.shops.ShopSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -34,7 +36,11 @@ public class SeederService {
 	@Autowired
 	private DummyRaceSeeder dummyRaceSeeder;
 	@Autowired
-	private RoleSeeder roleSeeder;
+	private LohRoleSeeder lohRoleSeeder;
+	@Autowired
+	private FotRoleSeeder fotRoleSeeder;
+	@Autowired
+	private DummyRoleSeeder dummyRoleSeeder;
 	@Autowired
 	private ArmorSeeder armorSeeder;
 	@Autowired
@@ -61,6 +67,7 @@ public class SeederService {
 		adminSeeder.seed();
 
 		seedRaces();
+		seedRoles();
 
 		armorSeeder.seed();
 		weaponSeeder.seed();
@@ -69,7 +76,6 @@ public class SeederService {
 		beltsSeeder.seed();
 		ringSeeder.seed();
 		neckAccessorySeeder.seed();
-		roleSeeder.seed();
 		heroSeeder.seed();
 		monsterSeeder.seed();
 		shopSeeder.seed();
@@ -79,6 +85,11 @@ public class SeederService {
 		landOfHeroesHeroRaceSeeder.seed();
 		landOfHeroesMonsterRaceSeeder.seed();
 		dummyRaceSeeder.seed();
+	}
+	private void seedRoles() {
+		lohRoleSeeder.seed();
+		fotRoleSeeder.seed();
+		dummyRoleSeeder.seed();
 	}
 
 }
