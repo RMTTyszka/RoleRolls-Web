@@ -13,6 +13,7 @@ import com.loh.domain.items.equipables.weapons.WeaponSeeder;
 import com.loh.domain.races.dummy.DummyRaceSeeder;
 import com.loh.domain.races.land.of.heroes.LandOfHeroesHeroRaceSeeder;
 import com.loh.domain.races.land.of.heroes.LandOfHeroesMonsterRaceSeeder;
+import com.loh.domain.races.the.future.is.out.there.TheFutureIsOutThereHeroRaceSeeder;
 import com.loh.domain.roles.dummy.DummyRoleSeeder;
 import com.loh.domain.roles.land.of.heroes.LohRoleSeeder;
 import com.loh.domain.roles.the.future.is.out.there.heroes.FotRoleSeeder;
@@ -33,6 +34,9 @@ public class SeederService {
 	private LandOfHeroesHeroRaceSeeder landOfHeroesHeroRaceSeeder;
 	@Autowired
 	private LandOfHeroesMonsterRaceSeeder landOfHeroesMonsterRaceSeeder;
+
+	@Autowired
+	private TheFutureIsOutThereHeroRaceSeeder theFutureIsOutThereHeroRaceSeeder;
 	@Autowired
 	private DummyRaceSeeder dummyRaceSeeder;
 	@Autowired
@@ -85,6 +89,7 @@ public class SeederService {
 		landOfHeroesHeroRaceSeeder.seed();
 		landOfHeroesMonsterRaceSeeder.seed();
 		dummyRaceSeeder.seed();
+		theFutureIsOutThereHeroRaceSeeder.seed();
 	}
 	private void seedRoles() {
 		lohRoleSeeder.seed();

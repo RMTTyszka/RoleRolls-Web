@@ -1,12 +1,19 @@
 package com.loh.application.races;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.loh.application.universes.UniversesQueries;
 import com.loh.domain.races.Race;
 import com.loh.domain.races.RaceRepository;
+import com.loh.domain.universes.UniverseType;
 import com.loh.shared.BaseCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 
 @CrossOrigin
@@ -26,7 +33,13 @@ public class RaceController extends BaseCrudController<Race,Race, Race, RaceRepo
 	public Race getNew() {
 		return new Race();
 	}
-
+	@Override
+	@GetMapping()
+	public @ResponseBody
+	Page<Race> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, @RequestHeader("universe-type") UniverseType universeType) throws JsonProcessingException {
+		Pageable paged = PageRequest.of(skipCount, maxResultCount);
+		return repository.findAll(where(UniversesQueries.fromUniverse(universeType)), paged);
+	}
 	@Override
 	protected Race createInputToEntity(Race race) {
 		return race;
@@ -36,4 +49,5 @@ public class RaceController extends BaseCrudController<Race,Race, Race, RaceRepo
 	protected Race updateInputToEntity(Race race) {
 		return race;
 	}
+
 }

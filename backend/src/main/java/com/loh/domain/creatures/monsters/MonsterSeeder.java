@@ -255,7 +255,7 @@ public class MonsterSeeder {
     private void setDummyAttributes(Monster monster) throws Exception {
         monster.setBaseAttributes(new Attributes(14, 14, 14, 14, 14, 14, true));
         Race race = raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy);
-        Role role = roleRepository.findByNameAndSystemDefaultTrue("Dummy");
+        Role role = roleRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy);
         monster.setRace(race);
         monster.setRole(role);
     }

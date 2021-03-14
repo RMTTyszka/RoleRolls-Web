@@ -158,7 +158,6 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
         InvitedPlayer invitedPlayer = invitedPlayerRepository.findByCampaignIdAndPlayerId(campaignId, playerId);
         invitedPlayer.setStatus(InvitationStatus.Accepted);
         invitedPlayerRepository.save(invitedPlayer);
-
     }
 	@DeleteMapping(path="/{campaignId}/players/{playerId}")
 	@ResponseStatus(HttpStatus.OK)

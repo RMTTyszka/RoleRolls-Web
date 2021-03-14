@@ -252,7 +252,7 @@ public class HeroSeeder {
     private void setDummyAttributes(Hero hero) throws Exception {
         hero.setBaseAttributes(new Attributes(14, 14, 14, 14, 14, 14, true));
         Race race = raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy);
-        Role role = roleRepository.findByNameAndSystemDefaultTrue("Dummy");
+        Role role = roleRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy);
         hero.setRace(race);
         hero.setRole(role);
     }

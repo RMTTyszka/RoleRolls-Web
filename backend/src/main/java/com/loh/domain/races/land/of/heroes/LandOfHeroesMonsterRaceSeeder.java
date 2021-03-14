@@ -20,13 +20,13 @@ public class LandOfHeroesMonsterRaceSeeder {
 
     public void seed() {
         for (DefaultRace defaultRace : LandOfHeroesDefaultMonsterRaces.races) {
-            Race race = raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue(defaultRace.name, UniverseType.TheFutureIsOutThere);
+            Race race = raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue(defaultRace.name, UniverseType.LandOfHeroes);
             if (race == null) {
                 List<Bonus> bonuses = new ArrayList<>();
                 for (Bonus bonus : defaultRace.bonuses) {
                     bonuses.add(bonus);
                 }
-                race = new Race(defaultRace.name, bonuses, null, null, CreatureType.Hero, UniverseType.TheFutureIsOutThere, true);
+                race = new Race(defaultRace.name, bonuses, null, null, CreatureType.Monster, UniverseType.LandOfHeroes, true);
                 raceRepository.save(race);
             } else {
                 List<Bonus> bonuses = new ArrayList<>();

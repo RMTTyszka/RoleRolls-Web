@@ -9,6 +9,7 @@ import com.loh.domain.creatures.heroes.Hero;
 import com.loh.domain.creatures.heroes.HeroRepository;
 import com.loh.domain.creatures.heroes.HeroService;
 import com.loh.domain.items.instances.ItemInstance;
+import com.loh.domain.universes.UniverseType;
 import com.loh.shared.BaseCrudController;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
 
     @Override
     public @ResponseBody
-    Page<Hero> getList(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Page<Hero> getList(@RequestParam(required = false) String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, @RequestHeader("universe-type") UniverseType universeType) {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         UUID userId = currentUserId();
         Page<Hero> heroes = heroRepository.findAll(
@@ -119,7 +120,8 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get("name")));
             return criteriaBuilder.isNotNull(root);
         };
-    }    static Specification<Hero> test(String teste) {
+    }
+    static Specification<Hero> test(String teste) {
         return (newHero, cq, cb) -> {
             return cb.isNotNull(newHero);
         };

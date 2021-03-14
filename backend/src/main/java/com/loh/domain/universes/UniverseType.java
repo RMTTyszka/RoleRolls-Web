@@ -6,7 +6,4 @@ public enum UniverseType {
     LandOfHeroes,
     TheFutureIsOutThere,
     Dummy;
-
-    @Getter
-    private String name;
 }

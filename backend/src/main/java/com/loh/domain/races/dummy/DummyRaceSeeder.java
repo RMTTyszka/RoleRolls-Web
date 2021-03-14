@@ -15,7 +15,7 @@ public class DummyRaceSeeder {
 
     public void seed() {
         if (raceRepository.findByNameAndUniverseTypeAndSystemDefaultTrue("Dummy", UniverseType.Dummy) == null) {
-            Race race = new Race("Dummy", null, null, null, CreatureType.Dummy, UniverseType.LandOfHeroes, true);
+            Race race = new Race("Dummy", null, null, null, CreatureType.Dummy, UniverseType.Dummy, true);
             raceRepository.save(race);
         }
     }
