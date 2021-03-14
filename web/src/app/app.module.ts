@@ -14,6 +14,7 @@ import {LoginModule} from './login/login.module';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import {ShopModule} from './shop/shop.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {UniverseInterceptor} from './interceptors/universe.interceptor';
 
 
 @NgModule({
@@ -35,8 +36,12 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
         ConfirmDialogModule
 
     ],
-  providers: [MessageService, ConfirmationService,
-  { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],
+  providers: [
+    MessageService,
+    ConfirmationService,
+  { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: UniverseInterceptor, multi: true },
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

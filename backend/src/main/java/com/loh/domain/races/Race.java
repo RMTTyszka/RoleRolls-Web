@@ -2,6 +2,8 @@ package com.loh.domain.races;
 
 import com.loh.domain.creatures.CreatureType;
 import com.loh.domain.powers.Power;
+import com.loh.domain.universes.IHaveUniverseType;
+import com.loh.domain.universes.UniverseType;
 import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
 import lombok.Getter;
@@ -16,8 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-public class Race extends DefaultEntity {
-	
+public class Race extends DefaultEntity implements IHaveUniverseType {
+
+	@Getter @Setter
+	private UniverseType universeType;
+
 	private String name;
 
 	@Getter	@Setter
@@ -30,7 +35,11 @@ public class Race extends DefaultEntity {
 	
 	@ManyToMany
 	private List<Power> powers;
-	
+
+	public boolean isHuman() {
+	    return name == "Human" && isSystemDefault();
+    }
+
 	public List<Power> getPowers() {
 		return powers;
 	}
@@ -75,13 +84,14 @@ public class Race extends DefaultEntity {
 		traits = new ArrayList<String>();
 	}
 
-	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits, CreatureType creatureType) {
+	public Race(String name, List<Bonus> bonuses, List<Power> powers, List<String> traits, CreatureType creatureType, UniverseType universeType, boolean systemDefault) {
 		this.name = name;
 		this.bonuses = bonuses;
 		this.powers = powers;
 		this.traits = traits;
 		this.creatureType = creatureType;
-		this.setSystemDefault(true);
+		this.setSystemDefault(systemDefault);
+		this.universeType = universeType;
 	}
 
 	public Integer getAttributePoints(String attr) {

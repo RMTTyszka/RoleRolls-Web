@@ -31,8 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
-
                 // filtra outras requisições para verificar a presença do JWT no header
                 .addFilterBefore(new CorsFilter(),
                         UsernamePasswordAuthenticationFilter.class)

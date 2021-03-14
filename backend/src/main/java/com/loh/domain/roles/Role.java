@@ -1,6 +1,7 @@
 package com.loh.domain.roles;
 
 import com.loh.domain.creatures.CreatureType;
+import com.loh.domain.universes.UniverseType;
 import com.loh.shared.Bonus;
 import com.loh.shared.DefaultEntity;
 import lombok.Getter;
@@ -16,11 +17,13 @@ import java.util.Optional;
 
 @Entity
 public class Role extends DefaultEntity {
-	
 
 	@Getter
 	@Setter
 	private CreatureType creatureType;
+
+	@Getter @Setter
+	public UniverseType universeType;
 	public String getName() {
 		return name;
 	}
@@ -38,39 +41,28 @@ public class Role extends DefaultEntity {
 		this.bonuses = bonuses;
 	}
 
-
-	public Integer getSkillPoints() {
-		return skillPoints;
-	}
-
-	public void setSkillPoints(Integer skillPoints) {
-		this.skillPoints = skillPoints;
-	}
-
     private String name;
     
 	@ElementCollection
 	@CollectionTable()
     private List<Bonus> bonuses;
     
-    private Integer skillPoints;
-
     public Role(){
     	name = "";
     	bonuses = new ArrayList<>();
-    	skillPoints = 0;
 	}
 
-	public Role(String name, List<Bonus> bonuses, Integer skillPoints, CreatureType creatureType) {
+	public Role(String name, List<Bonus> bonuses, CreatureType creatureType, UniverseType universeType, boolean isSystemDefault) {
 		this.name = name;
 		this.bonuses = bonuses;
-		this.skillPoints = skillPoints;
 		this.creatureType = creatureType;
-		this.setSystemDefault(true);
+		this.universeType = universeType;
+		this.setSystemDefault(isSystemDefault);
 	}
 
 	public Integer getAttributePoints(String attr) {
 		Optional<Bonus> existingBonus = bonuses.stream().filter(bonus -> bonus.getProperty() == attr).findFirst();
 		return existingBonus.isPresent() ? existingBonus.get().getLevel() : 0;
 	}
+
 }

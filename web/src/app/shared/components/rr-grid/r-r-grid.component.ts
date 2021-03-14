@@ -6,6 +6,7 @@ import {BaseCrudService} from '../../base-service/base-crud-service';
 import {DialogService} from 'primeng/dynamicdialog';
 import {BaseComponentConfig} from '../base-component-config';
 import {EditorAction} from '../../dtos/ModalEntityData';
+import {UniverseService} from '../../../universes/universe.service';
 
 @Component({
   selector: 'loh-rr-grid',
@@ -29,10 +30,14 @@ get columns() {
 
   @Output() rowSelectedEvent = new EventEmitter<T>();
   constructor(
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private universeService: UniverseService
   ) { }
 
   ngOnInit() {
+    this.universeService.universeChanged.subscribe(() => {
+      this.get();
+    });
     this.service.entityUpdated.subscribe(entity => this.updateData(entity));
     this.service.entityCreated.subscribe(entity => this.addData(entity));
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));

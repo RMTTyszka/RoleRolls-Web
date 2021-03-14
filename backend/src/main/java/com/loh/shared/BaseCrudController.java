@@ -2,6 +2,7 @@ package com.loh.shared;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loh.domain.universes.UniverseType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateI
 
     @GetMapping()
     public @ResponseBody
-    Page<T> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) throws JsonProcessingException {
+    Page<T> getList(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount, @RequestHeader(value = "universe-type", defaultValue = "LandOfHeroes") UniverseType universeType) throws JsonProcessingException {
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         if (filter.isEmpty() || filter == null) {
             Page<T> list =  unfilteredQuery(paged);

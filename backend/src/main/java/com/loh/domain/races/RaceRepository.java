@@ -1,5 +1,6 @@
 package com.loh.domain.races;
 
+import com.loh.domain.universes.UniverseType;
 import com.loh.shared.BaseRepository;
 import org.springframework.data.domain.Pageable;
 
@@ -15,5 +16,5 @@ public interface RaceRepository extends BaseRepository<Race> {
 
 	List<Race> findByPowersId(int powerId);
 
-	Race findByNameAndSystemDefaultTrue(String name);
+	Race findByNameAndUniverseTypeAndSystemDefaultTrue(String name, UniverseType universeType);
 }

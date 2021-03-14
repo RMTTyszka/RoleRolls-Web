@@ -25,6 +25,7 @@
     "core-js": "^2.5.4",
     "material-design-icons": "^3.0.1",
     "ngx-device-detector": "^1.4.2",
+    "ngx-webstorage-service": "^4.1.0",
     "primeflex": "^2.0.0-rc.1",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.6",
