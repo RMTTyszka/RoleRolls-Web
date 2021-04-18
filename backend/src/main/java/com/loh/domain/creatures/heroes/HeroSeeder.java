@@ -9,8 +9,8 @@ import com.loh.domain.items.equipables.armors.DefaultArmors;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceRepository;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceService;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.domain.items.equipables.belts.instances.BeltInstance;
 import com.loh.domain.items.equipables.belts.instances.BeltInstanceService;
 import com.loh.domain.items.equipables.gloves.instances.GloveInstance;
@@ -52,7 +52,7 @@ public class HeroSeeder {
     @Autowired
     ArmorInstanceRepository armorInstanceRepository;
     @Autowired
-    ArmorModelRepository armorModelRepository;
+    ArmorTemplateRepository armorTemplateRepository;
     @Autowired
     WeaponModelRepository weaponModelRepository;
     @Autowired
@@ -243,8 +243,8 @@ public class HeroSeeder {
 
     private void equipArmor(Hero hero, String dummyMediumArmor) {
 
-        ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(dummyMediumArmor);
-        ArmorInstance armor = armorInstanceService.instantiateArmor(armorModel, 1);
+        ArmorTemplate armorTemplate = armorTemplateRepository.findByNameAndSystemDefaultTrue(dummyMediumArmor);
+        ArmorInstance armor = armorInstanceService.instantiateArmor(armorTemplate, 1);
         armorInstanceRepository.save(armor);
         hero.getEquipment().equipArmor(armor);
         hero.getInventory().addItem(armor);

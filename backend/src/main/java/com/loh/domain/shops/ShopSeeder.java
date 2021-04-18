@@ -2,8 +2,8 @@ package com.loh.domain.shops;
 
 import com.loh.domain.items.equipables.armors.DefaultArmor;
 import com.loh.domain.items.equipables.armors.DefaultArmors;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.domain.items.equipables.weapons.DefaultWeapon;
 import com.loh.domain.items.equipables.weapons.DefaultWeapons;
 import com.loh.domain.items.equipables.weapons.models.WeaponModel;
@@ -17,7 +17,7 @@ public class ShopSeeder {
     @Autowired
     ShopRepository shopRepository;
     @Autowired
-    ArmorModelRepository armorModelRepository;
+    ArmorTemplateRepository armorTemplateRepository;
     @Autowired
     WeaponModelRepository weaponModelRepository;
     @Autowired
@@ -65,8 +65,8 @@ public class ShopSeeder {
 
     private void AddArmor(Shop shop, String armorName, int value) {
         if (!shop.getItems().stream().filter(a -> a.getItem().getName().equals("Common " + armorName)).findFirst().isPresent()) {
-            ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue("Common " + armorName);
-            ShopArmor shopArmor = new ShopArmor(armorModel, 33, armorModel.getValue() != null ? armorModel.getValue()  : value, 1);
+            ArmorTemplate armorTemplate = armorTemplateRepository.findByNameAndSystemDefaultTrue("Common " + armorName);
+            ShopArmor shopArmor = new ShopArmor(armorTemplate, 33, armorTemplate.getValue() != null ? armorTemplate.getValue()  : value, 1);
             shopArmorRepository.save(shopArmor);
             shop.addItem(shopArmor);
         }

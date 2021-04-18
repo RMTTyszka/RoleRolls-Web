@@ -13,6 +13,7 @@ export class CampaignSessionService {
   public campaign: Campaign;
   public heroesChanged = new BehaviorSubject<Hero[]>([]);
   public heroChanged = new BehaviorSubject<Hero>(new Hero());
+  public isMaster = false;
   constructor(
     private campaignsService: CampaignsService
   ) {
@@ -22,6 +23,7 @@ export class CampaignSessionService {
     return this.campaignsService.get(campaignId)
       .pipe(tap((campaign: Campaign) => {
         this.campaign = campaign;
+        this.isMaster = campaign.master;
         this.heroesChanged.next(this.campaign.heroes);
       }));
   }

@@ -9,6 +9,7 @@ import {Hero} from '../../shared/models/NewHero.model';
 export class CampaignHeroDetailsComponent implements OnInit {
 
   @Input() selectedHero: Hero;
+  @Input() isMaster = false;
   constructor() { }
 
   ngOnInit(): void {

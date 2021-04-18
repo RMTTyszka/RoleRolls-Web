@@ -1,9 +1,9 @@
 package com.loh.domain.items.instances;
 
-import com.loh.domain.items.ItemTemplate;
+import com.loh.domain.items.templates.ItemTemplate;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceRepository;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
 import com.loh.domain.items.equipables.weapons.instances.WeaponInstance;
 import com.loh.domain.items.equipables.weapons.instances.WeaponInstanceRepository;
 import com.loh.domain.items.equipables.weapons.models.WeaponModel;
@@ -30,7 +30,7 @@ public class ItemInstantiator {
                 }
                 return weaponInstance;
             case Armor:
-                ArmorInstance armorInstance = new ArmorInstance((ArmorModel) itemTemplate, level, quantity);
+                ArmorInstance armorInstance = new ArmorInstance((ArmorTemplate) itemTemplate, level, quantity);
                 if (autoSave) {
                     armorInstance = armorInstanceRepository.save(armorInstance);
                 }

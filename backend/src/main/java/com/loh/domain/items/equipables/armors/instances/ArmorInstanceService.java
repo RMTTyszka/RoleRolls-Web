@@ -1,8 +1,8 @@
 package com.loh.domain.items.equipables.armors.instances;
 
 import com.loh.domain.items.equipables.armors.DefaultArmors;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +14,19 @@ public class ArmorInstanceService {
     @Autowired
     ArmorInstanceRepository armorInstanceRepository;
     @Autowired
-    ArmorModelRepository armorModelRepository;
+    ArmorTemplateRepository armorTemplateRepository;
 
     public ArmorInstance instantiateArmor(UUID armorModelId, Integer level) {
-        ArmorModel armorModel = armorModelRepository.findById(armorModelId).get();
-        return instantiateArmor(armorModel, level);
+        ArmorTemplate armorTemplate = armorTemplateRepository.findById(armorModelId).get();
+        return instantiateArmor(armorTemplate, level);
     }
-    public ArmorInstance instantiateArmor(ArmorModel armorModel, Integer level) {
-        ArmorInstance armor = new ArmorInstance(armorModel, level, 1);
+    public ArmorInstance instantiateArmor(ArmorTemplate armorTemplate, Integer level) {
+        ArmorInstance armor = new ArmorInstance(armorTemplate, level, 1);
         return armor;
     }
     public ArmorInstance instantiateNoneArmor() {
-        ArmorModel armorModel = armorModelRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
-        ArmorInstance armor = instantiateArmor(armorModel, 1);
+        ArmorTemplate armorTemplate = armorTemplateRepository.findByNameAndSystemDefaultTrue(DefaultArmors.NoneArmor);
+        ArmorInstance armor = instantiateArmor(armorTemplate, 1);
         armor.setRemovable(false);
         armorInstanceRepository.save(armor);
         return armor;

@@ -4,6 +4,8 @@ import {CreatureRollsService} from '../creature-rolls.service';
 import {DialogService} from 'primeng/dynamicdialog';
 import {RollDifficulty, RollsCardComponent} from '../rolls-card/rolls-card.component';
 import {MessageService} from 'primeng/api';
+import {SelectItem} from 'primeng/api/selectitem';
+import {CampaignSessionService} from '../../campaign-session/campaign-session.service';
 
 @Component({
   selector: 'loh-creature-details',
@@ -14,47 +16,19 @@ import {MessageService} from 'primeng/api';
 export class CreatureDetailsComponent implements OnInit {
 
   @Input() public creature: Creature;
-  public rollChanceToastKey = 'rollChanceToastKey';
+  @Input() public isMaster = false;
+  activeTab: 'attributes' | 'equipment' | 'inventory';
+  tabs:  SelectItem[] = [
+    {    label: 'Attributes', value: 'attributes'  },
+    {    label: 'Equipment', value: 'equipment'  },
+    {    label: 'Inventory', value: 'inventory'  },
+    ];
   constructor(
-    private readonly creatureRollsService: CreatureRollsService,
-    private readonly messageService: MessageService,
-    public dialogService: DialogService
+    private campaignSessionService: CampaignSessionService
   ) { }
 
   ngOnInit(): void {
-  }
-
-
-  roll(property: string, difficulty: number = null, complexity: number = null) {
-    this.creatureRollsService.roll(this.creature.id, property, difficulty, complexity).subscribe((result) => {
-      this.creatureRollsService.emitCreatureRolled(result);
-    });
-    return false;
-  }
-
-  getChances(property: string, chance: number) {
-
-  }
-
-  openDetailedRoll(property: string) {
-    this.dialogService.open(RollsCardComponent, {header: 'Roll', closeOnEscape: false, width: '50%'}).onClose.subscribe((difficulty: RollDifficulty) => {
-      if (difficulty) {
-        if (difficulty.shouldGetChance) {
-          this.creatureRollsService.getChances(this.creature.id, property, difficulty.requiredChance).subscribe((result) => {
-            this.messageService.add({
-              key: this.rollChanceToastKey,
-              severity: 'info',
-              life: 100000,
-              closable: true,
-              data: result
-            });
-          });
-        } else {
-          this.roll(property, difficulty.difficulty, difficulty.complexity);
-        }
-      }
-    });
-    return false;
+    this.activeTab = 'attributes';
   }
 
 }

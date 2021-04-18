@@ -21,6 +21,7 @@ public class RingInstance extends EquipableInstance {
     }
 
     public RingInstance(RingModel ringModel, Integer level) {
+        super(ringModel);
         this.ringModel = ringModel;
         this.setLevel(level);
         this.setName(ringModel.getName());

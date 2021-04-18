@@ -6,7 +6,7 @@ import com.loh.domain.creatures.inventory.InventoryRepository;
 import com.loh.domain.creatures.monsters.models.MonsterModel;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceService;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.domain.items.equipables.belts.instances.BeltInstance;
 import com.loh.domain.items.equipables.belts.instances.BeltInstanceService;
 import com.loh.domain.items.equipables.gloves.instances.GloveInstance;
@@ -29,7 +29,7 @@ public class MonsterService {
 
 
     @Autowired
-    private ArmorModelRepository armorModelRepository;
+    private ArmorTemplateRepository armorTemplateRepository;
 
     @Autowired
     private ArmorInstanceService armorInstanceService;

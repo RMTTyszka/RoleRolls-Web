@@ -1,6 +1,6 @@
 package com.loh.domain.shops;
 
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,16 +13,16 @@ public class ShopArmor extends ShopItem {
     @Getter
     @Setter
     @OneToOne
-    protected ArmorModel item;
+    protected ArmorTemplate item;
 
     public ShopArmor() {
     }
 
-    public ShopArmor(ArmorModel armorModel, int quantity, int value, int level) {
-        this.item = armorModel;
+    public ShopArmor(ArmorTemplate armorTemplate, int quantity, int value, int level) {
+        this.item = armorTemplate;
         this.quantity = quantity;
         this.value = value;
-        this.setName(armorModel.getName());
+        this.setName(armorTemplate.getName());
         this.stack = 1;
         this.level = level;
     }

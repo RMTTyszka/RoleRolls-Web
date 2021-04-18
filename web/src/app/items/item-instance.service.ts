@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import {ItemTemplate} from '../shared/models/Item.model';
-import {Observable, of} from 'rxjs';
 import {ItemInstance} from '../shared/models/ItemInstance.model';
 import {HttpClient} from '@angular/common/http';
 import {LOH_API} from '../loh.api';
-import {ArmorTemplateService} from './equipment/armor/armors/armor-template.service';
-import {ItemTemplateType} from '../shared/models/ItemTemplateType.enum';
+import {ItemTemplateType} from '../shared/models/items/ItemTemplateType.enum';
 import {ArmorModel} from '../shared/models/items/ArmorModel.model';
 import {ArmorInstanceService} from './equipment/armor/armor-instance.service';
 import {map} from 'rxjs/operators';
+import {ItemTemplate} from '../shared/models/items/ItemTemplate';
 
 @Injectable({
   providedIn: 'root'

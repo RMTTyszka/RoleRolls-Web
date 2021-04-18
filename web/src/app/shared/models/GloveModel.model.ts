@@ -1,7 +1,7 @@
 import {Entity} from './Entity.model';
 import {BaseGlove} from './BaseGlove.model';
-import {ItemTemplate} from './Item.model';
+import {EquipableTemplate} from './items/EquipableTemplate';
 
-export class GloveModel extends ItemTemplate {
+export class GloveModel extends EquipableTemplate {
   baseGlove: BaseGlove;
 }

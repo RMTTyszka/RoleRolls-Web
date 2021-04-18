@@ -2,7 +2,7 @@ package com.loh.domain.items.equipables.weapons.models;
 
 import com.loh.domain.items.equipables.EquipableSlot;
 import com.loh.domain.items.equipables.EquipableTemplate;
-import com.loh.domain.items.ItemTemplateType;
+import com.loh.domain.items.templates.ItemTemplateType;
 import com.loh.domain.items.equipables.weapons.base.BaseWeapon;
 import lombok.Getter;
 import lombok.Setter;

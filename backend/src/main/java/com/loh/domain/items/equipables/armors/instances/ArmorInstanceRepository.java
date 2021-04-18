@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 public interface ArmorInstanceRepository extends PagingAndSortingRepository<ArmorInstance, UUID> {
-    ArmorInstance findByArmorModel_BaseArmor_Category(ArmorCategory category);
+    ArmorInstance findByArmorTemplate_BaseArmor_Category(ArmorCategory category);
     List<ArmorInstance> findAllByNameIgnoreCaseContaining(String name);
     List<ArmorInstance> findAllByNameIgnoreCaseContaining(String name, Pageable paged);
     ArmorInstance findByName(String name);

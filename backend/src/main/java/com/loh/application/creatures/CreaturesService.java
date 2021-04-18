@@ -10,7 +10,7 @@ import com.loh.domain.creatures.inventory.InventoryRepository;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstance;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceRepository;
 import com.loh.domain.items.equipables.armors.instances.ArmorInstanceService;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.domain.items.equipables.belts.instances.BeltInstance;
 import com.loh.domain.items.equipables.belts.instances.BeltInstanceService;
 import com.loh.domain.items.equipables.gloves.instances.GloveInstance;
@@ -35,7 +35,7 @@ import java.util.UUID;
 public class CreaturesService {
 
     @Autowired
-    private ArmorModelRepository armorModelRepository;
+    private ArmorTemplateRepository armorTemplateRepository;
     @Autowired
     private ArmorInstanceRepository armorInstanceRepository;
 

@@ -1,7 +1,7 @@
 package com.loh.application.items;
 
-import com.loh.domain.items.ItemTemplate;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.templates.ItemTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
 import com.loh.domain.items.instances.ItemInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class ItemInstanceController {
     public @ResponseBody
     JsonObject instantiate(@RequestBody ItemTemplate itemTemplate) {
         // This returns a JSON or XML with the users
-        ArmorModel armorModel = (ArmorModel) itemTemplate;
+        ArmorTemplate armorTemplate = (ArmorTemplate) itemTemplate;
 
         return Json.createObjectBuilder()
                 .add("text", "race saved with success").build();
