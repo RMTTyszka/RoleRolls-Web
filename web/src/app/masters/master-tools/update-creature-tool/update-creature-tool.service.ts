@@ -9,6 +9,7 @@ import {UpdateEffectInput} from '../../../shared/models/inputs/UpdateEffectInput
 import {TakeDamageInput} from '../../../shared/models/inputs/TakeDamageInput';
 import {Bonus} from '../../../shared/models/Bonus.model';
 import {AddBonusInput} from '../../../shared/models/inputs/AddBonusInput';
+import {MasterInstantiateItemActionInput} from '../../../shared/models/inputs/MasterInstantiateItemActionInput';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,9 @@ export class UpdateCreatureToolService {
   }
   public removeBonus(input: AddBonusInput): Observable<Creature> {
     return this.httpClient.post<Creature>(this.serverUrl + this.path + '/removeBonus', input);
+  }
+  public instantiateItem(combatId: string, creatureId: string, input: MasterInstantiateItemActionInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + `/combats/${combatId}/creatures/${creatureId}/item`, input);
   }
 }
 

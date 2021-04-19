@@ -9,6 +9,13 @@ import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import {RRColumns} from '../components/cm-grid/cm-grid.component';
 import {BaseComponentConfig} from '../components/base-component-config';
 export abstract class BaseCrudService<T extends Entity, TCreateInput> {
+  constructor(
+    injector: Injector,
+  ) {
+    this.http = injector.get(HttpClient);
+    if (this.config) {
+    }
+  }
   public abstract path: string;
   public abstract selectPlaceholder: string;
   public abstract fieldName: string;
@@ -23,10 +30,13 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
   entityDeleted = new Subject<T>();
   entityCreated = new Subject<T>();
   protected http: HttpClient;
-  constructor(
-    injector: Injector,
-  ) {
-    this.http = injector.get(HttpClient);
+  public static setConfig(service: BaseCrudService<any, any>, config: BaseComponentConfig) {
+    service.path = config.path;
+    service.selectPlaceholder = config.selectPlaceholder;
+    service.fieldName = config.fieldName;
+    service.selectModalTitle = config.selectModalTitle;
+    service.selectModalColumns = config.selectModalColumns;
+    service.entityListColumns = config.entityListColumns;
   }
 
   list(filter: string = '', skipCount: number = 0, maxResultCount: number = 15): Observable<PagedOutput<T>> {

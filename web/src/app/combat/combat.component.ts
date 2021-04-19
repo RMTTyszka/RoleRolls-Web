@@ -105,7 +105,14 @@ export class CombatComponent implements OnInit, OnDestroy {
             command: () => {
               this.openMasterTools(MasterToolAction.Bonus);
             },
-          }
+          },
+          {
+            label: 'Inventory',
+            icon: 'fas fa-hammer',
+            command: () => {
+              this.openMasterTools(MasterToolAction.Inventory);
+            },
+          },
         ]
       });
     }

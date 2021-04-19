@@ -44,5 +44,8 @@
       <loh-bonus-tool [creature]="creature" [combat]="combat"></loh-bonus-tool>
     </ng-container>
 </form>
+<ng-container *ngIf="action === MasterToolAction.Inventory">
+  <loh-inventory-master-tool style="width: 100%;" [creature]="creature" [combat]="combat"></loh-inventory-master-tool>
+</ng-container>
 
 

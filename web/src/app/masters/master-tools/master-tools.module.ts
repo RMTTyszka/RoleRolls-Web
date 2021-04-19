@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UpdateCreatureToolComponent } from './update-creature-tool/update-creature-tool.component';
-import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {EffectsSharedModule} from '../../effects/effects-shared/effects-shared.module';
@@ -14,14 +13,19 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { BonusToolComponent } from './bonus-tool/bonus-tool.component';
 import {DropdownModule} from 'primeng/dropdown';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import { InventoryMasterToolComponent } from './inventory-master-tool/inventory-master-tool.component';
+import {PanelModule} from 'primeng/panel';
+import { MasterItemInstantiatorComponent } from './master-item-instantiator/master-item-instantiator.component';
+import {ItemsSharedModule} from '../../items-shared/items-shared.module';
+import {SharedModule} from '../../shared/shared.module';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 
 @NgModule({
-  declarations: [UpdateCreatureToolComponent, BonusToolComponent],
+  declarations: [UpdateCreatureToolComponent, BonusToolComponent, InventoryMasterToolComponent, MasterItemInstantiatorComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     ButtonModule,
     EffectsSharedModule,
@@ -33,9 +37,13 @@ import {SelectButtonModule} from 'primeng/selectbutton';
     FlexLayoutModule,
     DropdownModule,
     SelectButtonModule,
-    FormsModule
+    FormsModule,
+    PanelModule,
+    ItemsSharedModule,
+    SharedModule,
+    InputTextModule,
   ],
-  exports: [UpdateCreatureToolComponent],
-  entryComponents: [UpdateCreatureToolComponent]
+  exports: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent],
+  entryComponents: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent]
 })
 export class MasterToolsModule { }

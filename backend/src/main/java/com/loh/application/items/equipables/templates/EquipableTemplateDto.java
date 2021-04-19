@@ -1,9 +1,10 @@
 package com.loh.application.items.equipables.templates;
 
-import com.loh.application.items.ItemTemplateDto;
+import com.loh.application.items.templates.ItemTemplateDto;
 import com.loh.domain.items.ItemMaterial;
 import com.loh.domain.items.equipables.EquipableSlot;
 import com.loh.domain.items.equipables.EquipableTemplate;
+import com.loh.domain.items.templates.ItemTemplate;
 import com.loh.domain.powers.Power;
 import com.loh.shared.Bonus;
 import com.loh.shared.Bonuses;

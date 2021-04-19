@@ -1,4 +1,4 @@
-package com.loh.application.items;
+package com.loh.application.items.templates;
 
 import com.loh.application.shared.DefaultEntityDto;
 import com.loh.domain.items.templates.ItemTemplate;
@@ -24,6 +24,7 @@ public class ItemTemplateDto extends DefaultEntityDto {
     }
 
     public ItemTemplateDto(ItemTemplate itemTemplate) {
+        id = itemTemplate.getId();
         name = itemTemplate.getName();
         description = itemTemplate.getDescription();
         value = itemTemplate.getValue();

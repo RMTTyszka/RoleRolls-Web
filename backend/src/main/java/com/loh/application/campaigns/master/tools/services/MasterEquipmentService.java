@@ -33,7 +33,7 @@ public class MasterEquipmentService {
         ItemTemplate itemTemplate = itemTemplateRepository.findById(itemTemplateId).get();
         Creature creature = combat.getHeroes().stream().filter(e -> e.getId().equals(creatureId)).findFirst().get();
 
-        ItemInstance itemInstance = itemInstantiator.instantiate(itemTemplate, level, quantity);
+        ItemInstance itemInstance = itemInstantiator.instantiate(itemTemplate, level, quantity, true);
         creature.getInventory().addItem(itemInstance);
 
         creature = creatureRepository.save(creature);

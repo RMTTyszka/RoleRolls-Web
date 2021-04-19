@@ -10,14 +10,15 @@ import {Hero} from '../../shared/models/NewHero.model';
 export class CampaignHeroesComponent implements OnInit {
   public heroes: Hero[];
   selectedHero: Hero;
-  isMaster = false;
+  public get isMaster(): boolean {
+    return this.campaignsService.isMaster;
+  };
   constructor(
     private campaignsService: CampaignSessionService
   ) {
     this.campaignsService.heroesChanged.subscribe((heroes: Hero[]) => {
       this.heroes = heroes;
     });
-    this.isMaster = this.campaignsService.campaign.master;
   }
 
   ngOnInit(): void {
