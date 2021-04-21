@@ -2,7 +2,7 @@ import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {NewHeroEditorComponent} from './new-hero-editor/new-hero-editor.component';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {HeroCreateComponent} from './hero-create/hero-create.component';
-import {DynamicDialogConfig} from 'primeng';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class HeroConfig implements BaseComponentConfig {
   editorTitle = 'Hero';

@@ -4,7 +4,7 @@ import {Creature} from '../../../shared/models/creatures/Creature.model';
 import {MenuItem} from 'primeng/api';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BaseEntityService} from '../../../shared/base-entity-service';
-import {TieredMenu} from 'primeng/primeng';
+import {TieredMenu} from 'primeng/tieredmenu';
 import {EffectInstance} from '../../../shared/models/effects/EffectInstance.model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
