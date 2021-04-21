@@ -1,8 +1,8 @@
 package com.loh.application.items.equipables.armors.models;
 
 
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.shared.BaseCrudResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +18,11 @@ import java.util.UUID;
 public class ArmorModelController {
 
     @Autowired
-    private ArmorModelRepository repository;
+    private ArmorTemplateRepository repository;
 
     @GetMapping(path="/allPaged")
     public @ResponseBody
-    Iterable<ArmorModel> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
+    Iterable<ArmorTemplate> getAllPaged(@RequestParam String filter, @RequestParam int skipCount, @RequestParam int maxResultCount) {
 
         Pageable paged = PageRequest.of(skipCount, maxResultCount);
         if (filter.isEmpty() || filter == null) {
@@ -32,7 +32,7 @@ public class ArmorModelController {
     }
     @GetMapping(path="/allFiltered")
     public @ResponseBody
-    Iterable<ArmorModel> getAllFiltered(@RequestParam String filter) {
+    Iterable<ArmorTemplate> getAllFiltered(@RequestParam String filter) {
         // This returns a JSON or XML with the users
         if (filter.isEmpty() || filter == null) {
             return repository.findAll();
@@ -41,28 +41,28 @@ public class ArmorModelController {
     }
     @GetMapping(path="/find")
     public @ResponseBody
-    ArmorModel getArmor(@RequestParam UUID id) {
+    ArmorTemplate getArmor(@RequestParam UUID id) {
 
-        ArmorModel armor = repository.findById(id).get();
+        ArmorTemplate armor = repository.findById(id).get();
 
         return armor;
 
     }
     @GetMapping(path="/getNew")
     public @ResponseBody
-    ArmorModel getNewArmor() {
-        return new ArmorModel();
+    ArmorTemplate getNewArmor() {
+        return new ArmorTemplate();
     }
     @PutMapping(path="/update")
     public @ResponseBody
-    BaseCrudResponse<ArmorModel> updateArmor(@RequestBody ArmorModel Armor) {
+    BaseCrudResponse<ArmorTemplate> updateArmor(@RequestBody ArmorTemplate Armor) {
 
         return saveAndGetArmorBaseCrudResponse(Armor);
     }
 
-    private BaseCrudResponse<ArmorModel> saveAndGetArmorBaseCrudResponse(ArmorModel Armor) {
-        ArmorModel updatedArmor = repository.save(Armor);
-        BaseCrudResponse response = new BaseCrudResponse<ArmorModel>();
+    private BaseCrudResponse<ArmorTemplate> saveAndGetArmorBaseCrudResponse(ArmorTemplate Armor) {
+        ArmorTemplate updatedArmor = repository.save(Armor);
+        BaseCrudResponse response = new BaseCrudResponse<ArmorTemplate>();
         response.success = true;
         response.entity = updatedArmor;
         return response;
@@ -70,15 +70,15 @@ public class ArmorModelController {
 
     @PostMapping(path="/create")
     public @ResponseBody
-    BaseCrudResponse<ArmorModel> addArmor(@RequestBody ArmorModel Armor) {
+    BaseCrudResponse<ArmorTemplate> addArmor(@RequestBody ArmorTemplate Armor) {
 
         return saveAndGetArmorBaseCrudResponse(Armor);
     }
     @DeleteMapping(path="/delete")
     public @ResponseBody
-    BaseCrudResponse<ArmorModel> deleteArmor(@RequestParam UUID id) {
+    BaseCrudResponse<ArmorTemplate> deleteArmor(@RequestParam UUID id) {
 
-        ArmorModel Armor = repository.findById(id).get();
+        ArmorTemplate Armor = repository.findById(id).get();
         BaseCrudResponse response = new BaseCrudResponse();
         repository.deleteById(id);
         response.success = true;

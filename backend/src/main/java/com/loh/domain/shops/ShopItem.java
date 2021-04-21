@@ -1,6 +1,6 @@
 package com.loh.domain.shops;
 
-import com.loh.domain.items.ItemTemplate;
+import com.loh.domain.items.templates.ItemTemplate;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;

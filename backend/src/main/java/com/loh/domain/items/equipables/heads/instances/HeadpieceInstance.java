@@ -21,6 +21,7 @@ public class HeadpieceInstance extends EquipableInstance {
     }
 
     public HeadpieceInstance(HeadpieceModel headpieceModel, Integer level) {
+        super(headpieceModel);
         this.headpieceModel = headpieceModel;
         this.setLevel(level);
         this.setName(headpieceModel.getName());

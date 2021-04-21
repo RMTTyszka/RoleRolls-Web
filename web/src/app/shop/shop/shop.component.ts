@@ -5,7 +5,7 @@ import {HeroManagementService} from '../../heroes/hero-management.service';
 import {Hero} from '../../shared/models/NewHero.model';
 import {Shop} from '../../shared/models/shop/Shop.model';
 import {BuyOutput} from '../../shared/models/creatures/heroes/heroShop/BuyOutput';
-import {ItemTemplateType} from '../../shared/models/ItemTemplateType.enum';
+import {ItemTemplateType} from '../../shared/models/items/ItemTemplateType.enum';
 import {ArmorModel} from '../../shared/models/items/ArmorModel.model';
 import {ArmorCategory} from '../../shared/models/items/ArmorCategory.model';
 import {WeaponCategory} from '../../shared/models/WeaponCategory.model';

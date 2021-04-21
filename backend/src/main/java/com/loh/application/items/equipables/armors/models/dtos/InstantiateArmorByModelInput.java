@@ -1,9 +1,9 @@
 package com.loh.application.items.equipables.armors.models.dtos;
 
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
 
 public class InstantiateArmorByModelInput {
-    public ArmorModel armorTemplate;
+    public ArmorTemplate armorTemplate;
     public int level;
     public boolean shouldSave;
 }

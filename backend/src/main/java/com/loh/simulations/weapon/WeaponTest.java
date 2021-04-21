@@ -57,9 +57,9 @@ public class WeaponTest {
                 List<Integer> mediumHits = new ArrayList<>();
                 List<Integer> heavyHits = new ArrayList<>();
 
-                WeaponTestResult lightArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetLight.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
-                WeaponTestResult mediumArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetMedium.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
-                WeaponTestResult heavyArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetHeavy.getEquipment().getArmor().getArmorModel().getBaseArmor().getCategory(), level);
+                WeaponTestResult lightArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetLight.getEquipment().getArmor().getArmorTemplate().getBaseArmor().getCategory(), level);
+                WeaponTestResult mediumArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetMedium.getEquipment().getArmor().getArmorTemplate().getBaseArmor().getCategory(), level);
+                WeaponTestResult heavyArmorTestResult = new WeaponTestResult(hero.getEquipment().getMainWeaponGripType(), targetHeavy.getEquipment().getArmor().getArmorTemplate().getBaseArmor().getCategory(), level);
                 startTime = System.nanoTime();
                 for (int attackNumber = 0; attackNumber < NumberOfAttacks; attackNumber++) {
                     performAttack(hero, targetLight, lightHits, lightArmorTestResult);

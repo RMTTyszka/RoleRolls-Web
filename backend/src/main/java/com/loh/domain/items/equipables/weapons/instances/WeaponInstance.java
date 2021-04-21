@@ -19,6 +19,7 @@ public class WeaponInstance extends EquipableInstance {
     }
 
     public WeaponInstance(WeaponModel weaponModel, Integer level, Integer quantity) {
+        super(weaponModel);
         this.weaponModel = weaponModel;
         this.setName(weaponModel.getName());
         this.setQuantity(quantity);

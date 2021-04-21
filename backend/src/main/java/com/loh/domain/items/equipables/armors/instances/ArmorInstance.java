@@ -1,7 +1,7 @@
 package com.loh.domain.items.equipables.armors.instances;
 
 import com.loh.domain.items.equipables.instances.EquipableInstance;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,28 +14,29 @@ import javax.persistence.Transient;
 public class ArmorInstance extends EquipableInstance {
 
     @Getter @Setter @ManyToOne
-    private ArmorModel armorModel;
+    private ArmorTemplate armorTemplate;
     @Transient
     public boolean isArmor = true;
 
     public Integer getDefense() {
-        return armorModel.getDefense(getBonus());
+        return armorTemplate.getDefense(getBonus());
     }
     public Integer getEvasion() {
-        return armorModel.getEvasion() + getBonus();
+        return armorTemplate.getEvasion() + getBonus();
     }
     public Integer getDodge() {
-        return armorModel != null ? armorModel.getDodge() : 0;
+        return armorTemplate != null ? armorTemplate.getDodge() : 0;
     }
 
     public ArmorInstance() {
         super();
-        armorModel = new ArmorModel();
+        armorTemplate = new ArmorTemplate();
     }
 
-    public ArmorInstance(ArmorModel armorModel, Integer level, Integer quantity) {
-        this.armorModel = armorModel;
-        this.setName(armorModel.getName());
+    public ArmorInstance(ArmorTemplate armorTemplate, Integer level, Integer quantity) {
+        super(armorTemplate);
+        this.armorTemplate = armorTemplate;
+        this.setName(armorTemplate.getName());
         this.setQuantity(quantity);
         this.setLevel(level);
     }

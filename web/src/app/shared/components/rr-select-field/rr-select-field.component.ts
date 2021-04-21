@@ -22,6 +22,8 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
   @Input() service: BaseCrudService<T, T>;
   @Input() controlName: string;
   @Input() initialValue: any;
+  @Input() shouldUseComplexForm = true;
+
 
   @Output() entitySelected = new EventEmitter<T>();
   placeHolder: string;
@@ -59,9 +61,13 @@ export class RrSelectFieldComponent<T extends Entity> implements OnInit {
         this.entitySelected.next(entity);
         this.descriptionValue = entity[this.fieldName];
         if (this.controlName) {
-          const form = new FormGroup({});
-          createForm(form, entity)
-          this.form.get(this.controlName).patchValue(entity);
+          if (this.shouldUseComplexForm) {
+            const form = new FormGroup({});
+            createForm(form, entity)
+            this.form.get(this.controlName).patchValue(entity);
+          } else {
+            this.form.get(this.controlName).setValue(entity);
+          }
         }
         this.entitySelected.next(entity);
       }

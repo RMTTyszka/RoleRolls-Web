@@ -21,6 +21,7 @@ public class GloveInstance extends EquipableInstance {
     }
 
     public GloveInstance(GloveModel gloveModel, Integer level) {
+        super(gloveModel);
         this.gloveModel = gloveModel;
         this.setLevel(level);
         this.setName(gloveModel.getName());

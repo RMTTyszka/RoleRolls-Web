@@ -1,8 +1,8 @@
 package com.loh.domain.items.equipables;
 
-import com.loh.domain.powers.Power;
 import com.loh.domain.items.ItemMaterial;
-import com.loh.domain.items.ItemTemplate;
+import com.loh.domain.items.templates.ItemTemplate;
+import com.loh.domain.powers.Power;
 import com.loh.shared.Bonus;
 import com.loh.shared.Bonuses;
 import com.loh.shared.IHaveBonuses;

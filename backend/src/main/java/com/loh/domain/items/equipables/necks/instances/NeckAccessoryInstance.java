@@ -25,6 +25,7 @@ public class NeckAccessoryInstance extends EquipableInstance {
     }
 
     public NeckAccessoryInstance(NeckAcessoryModel neckAcessoryModel, Integer level) {
+        super(neckAcessoryModel);
         this.neckAcessoryModel = neckAcessoryModel;
         this.setLevel(level);
         this.setName(neckAcessoryModel.getName());

@@ -1,5 +1,6 @@
 package com.loh.domain.items.equipables.instances;
 
+import com.loh.domain.items.equipables.EquipableTemplate;
 import com.loh.domain.items.instances.ItemInstance;
 import com.loh.shared.Bonus;
 import lombok.Getter;
@@ -28,6 +29,10 @@ public class EquipableInstance extends ItemInstance {
 
     public EquipableInstance() {
         super();
+        removable = true;
+    }
+    public EquipableInstance(EquipableTemplate template) {
+        super(template);
         removable = true;
     }
 }

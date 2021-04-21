@@ -5,8 +5,8 @@ import com.loh.application.adventures.encounters.EncounterRepository;
 import com.loh.application.adventures.environments.Enviroment;
 import com.loh.application.adventures.environments.EnviromentRepository;
 import com.loh.domain.contexts.PlayerRepository;
-import com.loh.domain.items.equipables.armors.models.ArmorModel;
-import com.loh.domain.items.equipables.armors.models.ArmorModelRepository;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplate;
+import com.loh.domain.items.equipables.armors.templates.ArmorTemplateRepository;
 import com.loh.domain.items.equipables.weapons.models.WeaponModel;
 import com.loh.domain.items.equipables.weapons.instances.WeaponInstanceRepository;
 import com.loh.domain.powers.Power;
@@ -53,7 +53,7 @@ public class Application {
 	@Autowired
 	RaceRepository raceRepo;
 	@Autowired
-	ArmorModelRepository armorRepo;
+	ArmorTemplateRepository armorRepo;
 	@Autowired
 	WeaponInstanceRepository weaponRepo;
 	@Autowired
@@ -145,8 +145,8 @@ public class Application {
 /*			WeaponModel weapon = createAndFill(WeaponModel.class);
 			weaponRepo.save(weapon);
 			return weapon;*/
-		}else if (type.equals(ArmorModel.class)) {
-			ArmorModel armor = createAndFill(ArmorModel.class);
+		}else if (type.equals(ArmorTemplate.class)) {
+			ArmorTemplate armor = createAndFill(ArmorTemplate.class);
 			armorRepo.save(armor );
 			return armor ;
 		}
@@ -179,7 +179,7 @@ public class Application {
 
 	@Bean
 	public CommandLineRunner demoData(PlayerRepository player, RaceRepository race,
-									  RoleRepository roleRepo, EnviromentRepository enviromentRepo, ArmorModelRepository armorRepo, PowerRepository powerRepo) {
+									  RoleRepository roleRepo, EnviromentRepository enviromentRepo, ArmorTemplateRepository armorRepo, PowerRepository powerRepo) {
 		return args -> {
 
 			if (false) {
@@ -187,7 +187,7 @@ public class Application {
 				long armorCount = armorRepo.count();
 				if (armorCount <= 0) {
 					for (int x = 0; x < 10; x++) {
-						ArmorModel armor = createAndFill(ArmorModel.class);
+						ArmorTemplate armor = createAndFill(ArmorTemplate.class);
 						armorRepo.save(armor);
 					}
 				}

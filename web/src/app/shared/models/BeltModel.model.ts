@@ -1,4 +1,4 @@
-import {EquipableTemplate} from './Equipable.model';
+import {EquipableTemplate} from './items/EquipableTemplate';
 import {BaseBelt} from './BaseBest.model';
 
 export class BeltModel extends EquipableTemplate {

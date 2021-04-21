@@ -101,7 +101,7 @@ public class Equipment extends Entity {
 		this.setMainWeaponGripType(gripType);
 		return previousWeapon;
 	}
-	public WeaponInstance equipOffWeapon(WeaponInstance weapon, GripType gripType) throws Exception {
+	public WeaponInstance equipOffWeapon(WeaponInstance weapon, GripType gripType) {
 		WeaponInstance previousWeapon = this.getOffWeapon();
 		this.setOffWeapon(weapon);
 		this.setOffWeaponGripType(gripType);
@@ -141,7 +141,7 @@ public class Equipment extends Entity {
 		GripType offWeaponGripType = GripType.getGripType(getOffWeaponGripType(), gripType);
 		this.offWeaponGripType = offWeaponGripType;
 	}
-	private void setOffWeaponGripType(GripType gripType) throws Exception {
+	private void setOffWeaponGripType(GripType gripType) {
 /*		if (GripService.validateGripType(getOffWeapon(), gripType)) {
 			CorrectedGripType correctedGripType = GripService.getCorrectedGripType(getOffWeapon(), getMainWeapon(), gripType, getMainWeaponGripType());
 			if (correctedGripType.shouldUnequipOffWeapon) {

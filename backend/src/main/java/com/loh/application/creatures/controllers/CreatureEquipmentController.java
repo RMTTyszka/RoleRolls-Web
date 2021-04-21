@@ -5,8 +5,12 @@ import com.loh.application.creatures.dtos.CreatureDto;
 import com.loh.application.creatures.dtos.CreatureEquipInput;
 import com.loh.domain.creatures.Creature;
 import com.loh.domain.creatures.CreatureRepository;
-import com.loh.domain.creatures.equipments.CreatureEquipmentService;
+import com.loh.domain.creatures.equipments.services.CreatureEquipmentService;
+import com.loh.domain.creatures.equipments.services.dtos.EquipItemValidationType;
+import com.loh.shared.ValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +48,14 @@ public class CreatureEquipmentController {
     }
     @PutMapping(path="creatures/{id}/equipment/off-weapon")
     public @ResponseBody
-    CreatureDto equipOffWeapon(@PathVariable UUID id, @RequestBody CreatureEquipInput input) throws Exception {
+    ResponseEntity<CreatureDto> equipOffWeapon(@PathVariable UUID id, @RequestBody CreatureEquipInput input) throws Exception {
         Creature creature = creatureRepository.findById(id).get();
-        creature = equipmentService.equipOffWeapon(creature, input.itemId);
-        CreatureDto creatureDto = creaturesService.update(creature);
-        return creatureDto;
+        ValidationResult<Creature, EquipItemValidationType> result = equipmentService.equipOffWeapon(creature, input.itemId);
+        if (result.isSuccess()) {
+            CreatureDto creatureDto = creaturesService.update(result.getOutput());
+            return new ResponseEntity<CreatureDto>(creatureDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(result.getErrorType(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }

@@ -1,0 +1,8 @@
+:host {
+  display: flex;
+  flex: 100%;
+}
+p-panel {
+  display: flex;
+  flex: 100%;
+}

@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><button pButton icon="pi pi-plus" label="Add" *ngIf="isMaster" (click)="selectItemTemplate()"></button> </td>
+  </tr>
+  <tr *ngFor="let item of itens">
+    <td>{{item.quantity}}</td>
+    <td>{{item.name}}</td>
+  </tr>
+</table>

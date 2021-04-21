@@ -4,6 +4,7 @@ import com.loh.domain.combats.AttackDetails;
 import com.loh.domain.combats.AttackService;
 import com.loh.domain.creatures.equipments.Equipment;
 import com.loh.domain.creatures.equipments.GripType;
+import com.loh.domain.creatures.equipments.services.dtos.EquipItemValidationType;
 import com.loh.domain.creatures.inventory.Inventory;
 import com.loh.domain.effects.EffectInstance;
 import com.loh.domain.effects.EffectProcessor;
@@ -441,14 +442,15 @@ public class Creature extends Entity {
         getInventory().removeItem(weaponInstance);
         getInventory().addItem(removedWeapon);
     }
-    public void equipOffhandWeapon(WeaponInstance weaponInstance) throws Exception {
+    public EquipItemValidationType equipOffhandWeapon(WeaponInstance weaponInstance) {
         GripType gripType = GripType.getGripType(GripType.getGripTypeByHandleType(weaponInstance.getWeaponModel().getBaseWeapon().getCategory()), equipment.getMainWeaponGripType());
         if (gripType == null) {
-            throw new Exception("That weapon cannot be equiped because of the other hand");
+            return EquipItemValidationType.Incompatibility;
         }
         WeaponInstance removedWeapon = equipment.equipOffWeapon(weaponInstance, gripType);
         getInventory().removeItem(weaponInstance);
         getInventory().addItem(removedWeapon);
+        return null;
     }
 
 }

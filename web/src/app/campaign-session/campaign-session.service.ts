@@ -6,13 +6,13 @@ import {Campaign} from '../shared/models/campaign/Campaign.model';
 import {tap} from 'rxjs/operators';
 import {CreatureRollResult} from '../shared/models/rolls/CreatureRollResult';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CampaignSessionService {
   public campaign: Campaign;
   public heroesChanged = new BehaviorSubject<Hero[]>([]);
   public heroChanged = new BehaviorSubject<Hero>(new Hero());
+  public campaignChanged = new BehaviorSubject<Campaign>(new Campaign());
+  public isMaster = false;
   constructor(
     private campaignsService: CampaignsService
   ) {
@@ -22,7 +22,9 @@ export class CampaignSessionService {
     return this.campaignsService.get(campaignId)
       .pipe(tap((campaign: Campaign) => {
         this.campaign = campaign;
+        this.isMaster = campaign.master;
         this.heroesChanged.next(this.campaign.heroes);
+        this.campaignChanged.next(this.campaign);
       }));
   }
 

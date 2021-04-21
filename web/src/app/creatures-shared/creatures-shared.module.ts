@@ -37,6 +37,10 @@ import {InventoryComponent} from './inventory/inventory/inventory.component';
 import { CreatureSkillsComponent } from './creature-skills/creature-skills.component';
 import { RollsCardComponent } from './rolls-card/rolls-card.component';
 import {InputTextModule} from 'primeng/inputtext';
+import { CreatureAttributeDetailsComponent } from './creature-details/creature-attribute-details/creature-attribute-details.component';
+import { CreatureInventoryDetailsComponent } from './creature-details/creature-inventory-details/creature-inventory-details.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { CreatureEquipmentDetailsComponent } from './creature-details/creature-equipment-details/creature-equipment-details.component';
 
 
 @NgModule({
@@ -45,7 +49,7 @@ import {InputTextModule} from 'primeng/inputtext';
     InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent,
     CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
     AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent,
-    CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent, RollsCardComponent],
+    CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent, RollsCardComponent, CreatureAttributeDetailsComponent, CreatureInventoryDetailsComponent, CreatureEquipmentDetailsComponent],
     exports: [
       HeroFundsComponent, CreatureStatsComponent, EquipmentComponent,
       InventoryArmorSelectComponent, InventoryWeaponSelectComponent,
@@ -73,7 +77,8 @@ import {InputTextModule} from 'primeng/inputtext';
         ShopModule,
         RaceSharedModule,
         RolesSharedModule,
-        InputTextModule
+        InputTextModule,
+        SelectButtonModule
 
     ],
   entryComponents: [RollsCardComponent]

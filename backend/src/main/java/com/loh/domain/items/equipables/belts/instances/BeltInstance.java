@@ -22,7 +22,7 @@ public class BeltInstance extends EquipableInstance {
     }
 
     public BeltInstance(BeltModel beltModel, Integer level) {
-        super();
+        super(beltModel);
         this.beltModel = beltModel;
         this.setLevel(level);
         this.setName(beltModel.getName());

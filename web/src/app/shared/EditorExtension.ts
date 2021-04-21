@@ -1,6 +1,10 @@
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Entity} from './models/Entity.model';
 
+export function getInput<T>(form: FormGroup, input: T): T {
+  return {} as T;
+}
+
 export function createForm(form: FormGroup, entity: Entity, requiredFields: string[] = []) {
   Object.entries(entity).forEach((entry) => {
     // console.log(entry);

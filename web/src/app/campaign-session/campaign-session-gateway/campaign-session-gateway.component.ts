@@ -6,7 +6,8 @@ import {Campaign} from '../../shared/models/campaign/Campaign.model';
 @Component({
   selector: 'loh-campaign-session-gateway',
   templateUrl: './campaign-session-gateway.component.html',
-  styleUrls: ['./campaign-session-gateway.component.css']
+  styleUrls: ['./campaign-session-gateway.component.css'],
+  providers: [CampaignSessionService]
 })
 export class CampaignSessionGatewayComponent implements OnInit {
 

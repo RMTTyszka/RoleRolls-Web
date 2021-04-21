@@ -1,7 +1,5 @@
 import {Entity} from '../Entity.model';
-import {ArmorInstance} from '../items/ArmorInstance.model';
-import {ItemInstance} from '../ItemInstance.model';
-import {ItemTemplate} from '../Item.model';
+import {ItemTemplate} from '../items/ItemTemplate';
 
 export class ShopItem extends Entity {
   public quantity = 1;

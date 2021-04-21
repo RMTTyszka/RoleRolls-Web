@@ -1,12 +1,15 @@
 package com.loh.domain.items.instances;
 
+import com.loh.domain.items.templates.ItemTemplate;
 import com.loh.shared.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import java.util.UUID;
 
 @javax.persistence.Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,6 +24,12 @@ public class ItemInstance extends Entity {
     private double value;
     @Getter @Setter
     private Integer quantity;
+    @Getter
+    @Setter
+    @Column(columnDefinition = "BINARY(16)")
+    protected UUID itemTemplateId;
+
+
 
     public void addQuantity(Integer quantity) {
         this.quantity += quantity;
@@ -38,6 +47,11 @@ public class ItemInstance extends Entity {
 
     public ItemInstance() {
         level = 1;
+    }
+
+    public ItemInstance(ItemTemplate template) {
+        super();
+        itemTemplateId = template.getId();
     }
 
     public void levelUp(ItemInstanceRepository itemInstanceRepository) {

@@ -20,6 +20,12 @@
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
+.ui-selectbutton .ui-button {
+  color: $infoColor !important;
+}
+.ui-selectbutton .ui-button.ui-state-active {
+  color: $secondaryColor !important;
+}
 .ui-dialog {
   max-height: 100%;
 }
