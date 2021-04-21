@@ -1,5 +1,7 @@
-package com.loh.domain.creatures.equipments;
+package com.loh.domain.creatures.equipments.services;
 
+import com.loh.domain.creatures.equipments.CorrectedGripType;
+import com.loh.domain.creatures.equipments.GripType;
 import com.loh.domain.items.equipables.weapons.categories.WeaponCategory;
 import com.loh.domain.items.equipables.weapons.instances.WeaponInstance;
 

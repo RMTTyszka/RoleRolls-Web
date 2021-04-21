@@ -46,8 +46,11 @@ export class UpdateCreatureToolService {
   public removeBonus(input: AddBonusInput): Observable<Creature> {
     return this.httpClient.post<Creature>(this.serverUrl + this.path + '/removeBonus', input);
   }
-  public instantiateItem(combatId: string, creatureId: string, input: MasterInstantiateItemActionInput): Observable<Creature> {
+  public instantiateItemFromCombat(combatId: string, creatureId: string, input: MasterInstantiateItemActionInput): Observable<Creature> {
     return this.httpClient.post<Creature>(this.serverUrl + this.path + `/combats/${combatId}/creatures/${creatureId}/item`, input);
+  }
+  public instantiateItemFromCampaign(campaignId: string, creatureId: string, input: MasterInstantiateItemActionInput): Observable<Creature> {
+    return this.httpClient.post<Creature>(this.serverUrl + this.path + `/campaigns/${campaignId}/creatures/${creatureId}/item`, input);
   }
 }
 

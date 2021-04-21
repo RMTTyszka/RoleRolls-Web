@@ -18,7 +18,7 @@ import {CreatureType} from '../../shared/models/creatures/CreatureType';
   selector: 'loh-new-hero-editor',
   templateUrl: './new-hero-editor.component.html',
   styleUrls: ['./new-hero-editor.component.css'],
-  providers: [MessageService, HeroFundsService]
+  providers: [HeroFundsService]
 })
 export class NewHeroEditorComponent  implements OnInit {
   public entityId: string;

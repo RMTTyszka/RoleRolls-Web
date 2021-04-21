@@ -81,13 +81,13 @@ public class MasterCreatureController {
     @PostMapping(path="combats/{combatId}/creatures/{creatureId}/item")
     public @ResponseBody
     Creature instantiateItem(@PathVariable UUID combatId, @PathVariable UUID creatureId, @RequestBody MasterInstantiateItemActionInput input)  {
-        Creature creature = masterEquipmentService.InstantiateItemForCreature(combatId, creatureId, input.itemTemplateId, input.level, input.quantity);
+        Creature creature = masterEquipmentService.InstantiateItemForCreatureFromCombat(combatId, creatureId, input.itemTemplateId, input.level, input.quantity);
         return creature;
     }
     @PostMapping(path="campaigns/{campaignId}/creatures/{creatureId}/item")
     public @ResponseBody
     Creature instantiateItemForCampaign(@PathVariable UUID campaignId, @PathVariable UUID creatureId, @RequestBody MasterInstantiateItemActionInput input)  {
-        Creature creature = masterEquipmentService.InstantiateItemForCreature(campaignId, creatureId, input.itemTemplateId, input.level, input.quantity);
+        Creature creature = masterEquipmentService.InstantiateItemForCreatureFromCampaign(campaignId, creatureId, input.itemTemplateId, input.level, input.quantity);
         return creature;
     }
 

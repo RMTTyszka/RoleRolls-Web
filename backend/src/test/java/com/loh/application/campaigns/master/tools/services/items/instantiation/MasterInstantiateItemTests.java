@@ -43,7 +43,7 @@ public class MasterInstantiateItemTests {
    /*     itemTemplate = itemTemplateRepository.save(itemTemplate);
         Creature creature = creatureInstantiatorForTestService.Instantiate();*/
 
-        masterEquipmentService.InstantiateItemForCreature(null, UUID.fromString("8eec69b9-8331-4a0e-99e6-c62bdaa6a428"), itemTemplate.getId(), 1, 1);
+        masterEquipmentService.InstantiateItemForCreatureFromCombat(null, UUID.fromString("8eec69b9-8331-4a0e-99e6-c62bdaa6a428"), itemTemplate.getId(), 1, 1);
         // creature = creatureRepository.findById(creature.getId()).get();
         // Assertions.assertThat(creature.getInventory().getItems().stream().map(e -> e.getItemTemplateId()).collect(Collectors.toList()).contains(itemTemplate.getId()));
     }

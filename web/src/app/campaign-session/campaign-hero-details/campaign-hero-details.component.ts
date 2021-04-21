@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Hero} from '../../shared/models/NewHero.model';
+import {Campaign} from '../../shared/models/campaign/Campaign.model';
+import {CampaignSessionService} from '../campaign-session.service';
 
 @Component({
   selector: 'loh-campaign-hero-details',
@@ -10,7 +12,12 @@ export class CampaignHeroDetailsComponent implements OnInit {
 
   @Input() selectedHero: Hero;
   @Input() isMaster = false;
-  constructor() { }
+  campaign: Campaign;
+  constructor(
+    private campaignSessionService: CampaignSessionService
+  ) {
+    this.campaignSessionService.campaignChanged.subscribe(campaign => this.campaign = campaign);
+  }
 
   ngOnInit(): void {
   }

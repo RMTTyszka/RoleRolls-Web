@@ -5,11 +5,17 @@ import {UpdateCreatureToolService} from '../update-creature-tool/update-creature
 import {MasterInstantiateItemActionInput} from '../../../shared/models/inputs/MasterInstantiateItemActionInput';
 import {Creature} from '../../../shared/models/creatures/Creature.model';
 import {ItemTemplate} from '../../../shared/models/items/ItemTemplate';
+import {Observable} from 'rxjs';
 
 export class ItemInstantiatorModalData {
   combatId: string;
   campaignId: string;
   creatureId: string;
+  path: ItemInstantiatorPath;
+}
+export enum ItemInstantiatorPath {
+  campaign = 0,
+  combat = 1
 }
 
 @Component({
@@ -44,11 +50,20 @@ export class MasterItemInstantiatorComponent implements OnInit {
   save() {
     if (this.canSave()) {
       const input = this.buildInput();
-      this.masterToolService.instantiateItem(this.config.combatId, this.config.creatureId, input)
-        .subscribe((creature: Creature) => {
-          this.dialogRef.close(creature);
-        });
+      const request = this.config.path === ItemInstantiatorPath.campaign ?
+        this.instantiateItemFromCampaign(input) :
+        this.instantiateItemFromCombat(input);
+      request.subscribe((creature: Creature) => {
+        this.dialogRef.close(creature);
+      });
     }
+  }
+
+  instantiateItemFromCampaign(input): Observable<Creature> {
+      return this.masterToolService.instantiateItemFromCampaign(this.config.campaignId, this.config.creatureId, input);
+  }
+  instantiateItemFromCombat(input): Observable<Creature>{
+    return this.masterToolService.instantiateItemFromCombat(this.config.combatId, this.config.creatureId, input);
   }
 
   private buildInput(): MasterInstantiateItemActionInput {

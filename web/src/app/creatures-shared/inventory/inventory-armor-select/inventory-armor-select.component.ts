@@ -22,7 +22,7 @@ export class InventoryArmorSelectComponent implements OnInit {
 
   search = (filter: string, items: Array<ArmorInstance>) => items
       .filter((item: ArmorInstance) => item.name.includes(filter)
-        || item.armorModel.baseArmor.name.includes(filter))
+        || item.armorTemplate.baseArmor.name.includes(filter))
       .map(item => item.name)
 
   itemSelected(selectedArmor: ArmorInstance) {

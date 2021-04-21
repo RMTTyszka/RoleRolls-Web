@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormGroup} from '@angular/forms';
 import {createForm} from '../../shared/EditorExtension';
 import {Equipment} from '../../shared/models/Equipment.model';
 import {Inventory} from '../../shared/models/Inventory.model';
@@ -14,7 +14,9 @@ import {RingInstance} from '../../shared/models/RingInstance.model';
 import {CreatureEquipmentService} from './creature-equipment.service';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {CreatureEditorService} from '../creature-editor/creature-editor.service';
-import {createMetadataReaderCache} from '@angular/compiler-cli/src/transformers/metadata_reader';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ErrorArea, ErrorMessages, handleValidation} from '../../shared/erros/error-handling';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'loh-equipment',
@@ -54,7 +56,8 @@ export class EquipmentComponent implements OnInit {
   }
   constructor(
     private creatureEquipmentService: CreatureEquipmentService,
-    private creatureEditorService: CreatureEditorService
+    private creatureEditorService: CreatureEditorService,
+    public  messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -100,6 +103,11 @@ export class EquipmentComponent implements OnInit {
       this.inventory = creature.inventory;
       this.equipment.patchValue(creature.equipment);
       this.creatureEditorService.publishCreatureUpdated(creature);
+    }, (error: HttpErrorResponse) => {
+      if (error.status === 422) {
+        handleValidation(ErrorArea.equipment, error.error, this.messageService);
+      }
+      this.form.get(this.controlName).patchValue(this.entity);
     });
   }
   glovesSelected(gloves: GloveInstance) {
