@@ -6,7 +6,7 @@ import {map, tap} from 'rxjs/operators';
 import {createForm} from '../../../shared/EditorExtension';
 
 @Component({
-  selector: 'loh-race-select',
+  selector: 'rr-race-select',
   templateUrl: './race-select.component.html',
   styleUrls: ['./race-select.component.css']
 })

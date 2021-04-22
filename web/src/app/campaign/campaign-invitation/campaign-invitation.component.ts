@@ -8,7 +8,7 @@ import {Hero} from '../../shared/models/NewHero.model';
 import {HeroesSelectModalComponent} from '../../heroes/heroes-shared/heroes-select-modal/heroes-select-modal.component';
 
 @Component({
-  selector: 'loh-campaign-invitation',
+  selector: 'rr-campaign-invitation',
   templateUrl: './campaign-invitation.component.html',
   styleUrls: ['./campaign-invitation.component.css']
 })

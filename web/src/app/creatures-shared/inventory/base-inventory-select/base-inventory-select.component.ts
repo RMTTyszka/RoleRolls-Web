@@ -4,7 +4,7 @@ import {createForm} from 'src/app/shared/EditorExtension';
 import {ItemInstance} from 'src/app/shared/models/ItemInstance.model';
 
 @Component({
-  selector: 'loh-base-inventory-select',
+  selector: 'rr-base-inventory-select',
   templateUrl: './base-inventory-select.component.html',
   styleUrls: ['./base-inventory-select.component.css']
 })

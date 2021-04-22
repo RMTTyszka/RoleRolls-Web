@@ -14,7 +14,7 @@ import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {MasterToolAction} from '../MasterToolAction';
 
 @Component({
-  selector: 'loh-update-creature-tool',
+  selector: 'rr-update-creature-tool',
   templateUrl: './update-creature-tool.component.html',
   styleUrls: ['./update-creature-tool.component.css']
 })

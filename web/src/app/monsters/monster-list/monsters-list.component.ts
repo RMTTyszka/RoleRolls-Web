@@ -9,7 +9,7 @@ import {MonsterService} from '../monster/monster.service';
 import {MonsterConfig} from '../monster-config';
 
 @Component({
-  selector: 'loh-monsters-list',
+  selector: 'rr-monsters-list',
   templateUrl: './monsters-list.component.html',
   styleUrls: ['./monsters-list.component.css'],
   providers: [DialogService]

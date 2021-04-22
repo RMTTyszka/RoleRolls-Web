@@ -8,7 +8,7 @@ import {EquipableInstance} from '../../../shared/models/EquipableInstance.model'
 import {CreatureManagementService} from '../../interfaces/creature-management-service';
 
 @Component({
-  selector: 'loh-inventory',
+  selector: 'rr-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css']
 })

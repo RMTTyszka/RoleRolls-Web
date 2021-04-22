@@ -6,7 +6,7 @@ import {ArmorTemplateService} from '../../armor-template.service';
 import {ArmorModel} from 'src/app/shared/models/items/ArmorModel.model';
 
 @Component({
-  selector: 'loh-armor-selector',
+  selector: 'rr-armor-selector',
   templateUrl: './armor-selector.component.html',
   styleUrls: ['./armor-selector.component.css']
 })

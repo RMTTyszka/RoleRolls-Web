@@ -7,7 +7,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'loh-roles-selector',
+  selector: 'rr-roles-selector',
   templateUrl: './roles-select-modal.component.html',
   styleUrls: ['./roles-select-modal.component.css']
 })

@@ -4,7 +4,7 @@ import {HeroesService} from '../heroes.service';
 import {HeroConfig} from '../hero-config';
 
 @Component({
-  selector: 'loh-heroes-list',
+  selector: 'rr-heroes-list',
   templateUrl: './heroes-list.component.html',
   styleUrls: ['./heroes-list.component.css'],
   providers: [DialogService]

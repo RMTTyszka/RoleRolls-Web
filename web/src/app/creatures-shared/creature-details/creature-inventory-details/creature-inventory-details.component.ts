@@ -10,7 +10,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {Campaign} from '../../../shared/models/campaign/Campaign.model';
 
 @Component({
-  selector: 'loh-creature-inventory-details',
+  selector: 'rr-creature-inventory-details',
   templateUrl: './creature-inventory-details.component.html',
   styleUrls: ['./creature-inventory-details.component.css']
 })

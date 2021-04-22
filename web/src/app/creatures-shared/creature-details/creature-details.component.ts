@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  selector: 'loh-creature-details',
+  selector: 'rr-creature-details',
   templateUrl: './creature-details.component.html',
   styleUrls: ['./creature-details.component.css'],
   providers: [DialogService]

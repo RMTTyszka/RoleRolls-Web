@@ -19,7 +19,7 @@ export enum ItemInstantiatorPath {
 }
 
 @Component({
-  selector: 'loh-master-item-instantiator',
+  selector: 'rr-master-item-instantiator',
   templateUrl: './master-item-instantiator.component.html',
   styleUrls: ['./master-item-instantiator.component.css']
 })

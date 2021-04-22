@@ -7,7 +7,7 @@ import {EditorAction, ModalEntityData} from '../../../../../shared/dtos/ModalEnt
 import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-base-armor-list',
+  selector: 'rr-base-armor-list',
   templateUrl: './base-armor-list.component.html',
   styleUrls: ['./base-armor-list.component.css'],
   providers: [DialogService]

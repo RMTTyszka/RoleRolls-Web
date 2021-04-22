@@ -4,7 +4,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {WeaponCategoryService} from '../weapon-category.service';
 
 @Component({
-  selector: 'loh-weapon-category-select',
+  selector: 'rr-weapon-category-select',
   templateUrl: './weapon-category-select.component.html',
   styleUrls: ['./weapon-category-select.component.css']
 })

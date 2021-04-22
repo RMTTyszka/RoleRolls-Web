@@ -5,7 +5,7 @@ import {FormGroup} from '@angular/forms';
 import {Inventory} from 'src/app/shared/models/Inventory.model';
 
 @Component({
-  selector: 'loh-inventory-weapon-select',
+  selector: 'rr-inventory-weapon-select',
   templateUrl: './inventory-weapon-select.component.html',
   styleUrls: ['./inventory-weapon-select.component.css']
 })

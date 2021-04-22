@@ -6,7 +6,7 @@ import {Race} from '../../shared/models/Race.model';
 import {RaceConfig} from '../race-config';
 
 @Component({
-  selector: 'loh-races',
+  selector: 'rr-races',
   templateUrl: './races.component.html',
   styleUrls: ['./races.component.css']
 })

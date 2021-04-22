@@ -8,7 +8,7 @@ import {CampaignEditorComponent} from '../campaign-editor/campaign-editor.compon
 import {CampaingsConfig} from '../campaings-config';
 
 @Component({
-  selector: 'loh-campaign-list',
+  selector: 'rr-campaign-list',
   templateUrl: './campaign-list.component.html',
   styleUrls: ['./campaign-list.component.css'],
   providers: [DialogService]

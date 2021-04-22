@@ -5,7 +5,7 @@ import {MonsterManagementService} from './monster-management.service';
 import {CreatureType} from '../../shared/models/creatures/CreatureType';
 
 @Component({
-  selector: 'loh-monster',
+  selector: 'rr-monster',
   templateUrl: './monster.component.html',
   styleUrls: ['./monster.component.scss']
 })

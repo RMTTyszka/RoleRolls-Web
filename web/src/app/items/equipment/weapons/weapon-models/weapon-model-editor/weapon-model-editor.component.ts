@@ -6,7 +6,7 @@ import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {WeaponModelService} from '../weapon-model.service';
 
 @Component({
-  selector: 'loh-weapon-model-editor',
+  selector: 'rr-weapon-model-editor',
   templateUrl: './weapon-model-editor.component.html',
   styleUrls: ['./weapon-model-editor.component.css']
 })

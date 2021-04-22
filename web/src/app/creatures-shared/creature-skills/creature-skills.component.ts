@@ -6,7 +6,7 @@ import {FormGroup, FormGroupDirective} from '@angular/forms';
 import {CreatureSkillsService} from './creature-skills.service';
 
 @Component({
-  selector: 'loh-creature-skills',
+  selector: 'rr-creature-skills',
   templateUrl: './creature-skills.component.html',
   styleUrls: ['./creature-skills.component.css'],
   providers: [CreatureSkillsService]

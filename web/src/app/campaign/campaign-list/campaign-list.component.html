@@ -1,12 +1,12 @@
 <p-tabView>
   <p-tabPanel header="Campaigns" [cache]="false">
     <ng-template pTemplate="content">
-      <loh-rr-grid [service]="campaignsService" [config]="config"></loh-rr-grid>
+      <rr-rr-grid [service]="campaignsService" [config]="config"></rr-rr-grid>
     </ng-template>
   </p-tabPanel>
   <p-tabPanel header="Invitations" [cache]="false">
     <ng-template pTemplate="content">
-      <loh-campaign-invitation></loh-campaign-invitation>
+      <rr-campaign-invitation></rr-campaign-invitation>
     </ng-template>
   </p-tabPanel>
 </p-tabView>

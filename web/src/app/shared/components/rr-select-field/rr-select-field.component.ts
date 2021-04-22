@@ -12,7 +12,7 @@ export interface RRSelectModalInjector<T extends Entity> {
 }
 
 @Component({
-  selector: 'loh-rr-select-field',
+  selector: 'rr-rr-select-field',
   templateUrl: './rr-select-field.component.html',
   styleUrls: ['./rr-select-field.component.css'],
   providers: [DialogService],

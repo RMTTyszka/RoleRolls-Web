@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CombatLog} from '../../shared/models/combat/CombatLog';
 
 @Component({
-  selector: 'loh-combat-log',
+  selector: 'rr-combat-log',
   templateUrl: './combat-log.component.html',
   styleUrls: ['./combat-log.component.css']
 })

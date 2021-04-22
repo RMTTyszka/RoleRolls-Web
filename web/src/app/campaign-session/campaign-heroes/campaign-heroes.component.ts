@@ -4,7 +4,7 @@ import {Hero} from '../../shared/models/NewHero.model';
 import {Campaign} from '../../shared/models/campaign/Campaign.model';
 
 @Component({
-  selector: 'loh-campaign-heroes',
+  selector: 'rr-campaign-heroes',
   templateUrl: './campaign-heroes.component.html',
   styleUrls: ['./campaign-heroes.component.css']
 })

@@ -18,7 +18,7 @@ export interface Ipvs {
 }
 
 @Component({
-  selector: 'loh-weapons-test',
+  selector: 'rr-weapons-test',
   templateUrl: './weapons-test.component.html',
   styleUrls: ['./weapons-test.component.css']
 })

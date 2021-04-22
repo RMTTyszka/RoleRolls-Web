@@ -1,4 +1,4 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
+<rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
                (loaded)="loaded($event)">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <p-tabView>
@@ -7,8 +7,8 @@
           <p-fieldset class="p-xl-5 p-md-12" legend="Geral">
             <ng-container>
               <input type="text" pInputText placeholder="Name" formControlName="name">
-              <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
-              <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
+              <rr-race-select [form]="form" (raceSelected)="raceSelected($event)"></rr-race-select>
+              <rr-role-select [form]="form" (roleSelected)="roleSelected($event)"></rr-role-select>
               <div class="p-inputgroup">
                 <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder player-color-1">
                 <span class="p-inputgroup-addon"  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
@@ -40,31 +40,31 @@
             </ng-container>
             <ng-container>
               <p-fieldset legend="Skills">
-                <loh-creature-skills [creature]="entity"></loh-creature-skills>
+                <rr-creature-skills [creature]="entity"></rr-creature-skills>
               </p-fieldset>
             </ng-container>
 
           </p-fieldset>
           <div class="p-xl-4 p-md-12">
             <p-fieldset legend="Equipment">
-              <loh-equipment [form]="form" [isCreating]="isCreating"></loh-equipment>
+              <rr-equipment [form]="form" [isCreating]="isCreating"></rr-equipment>
             </p-fieldset>
-            <loh-creature-stats [status]="entity.status"></loh-creature-stats>
+            <rr-creature-stats [status]="entity.status"></rr-creature-stats>
           </div>
           <div class="p-xl-3 p-sm-12">
-            <loh-creature-resistances [resistances]="entity.resistances"></loh-creature-resistances>
-            <loh-hero-funds [hero]="entity"></loh-hero-funds>
+            <rr-creature-resistances [resistances]="entity.resistances"></rr-creature-resistances>
+            <rr-hero-funds [hero]="entity"></rr-hero-funds>
           </div>
 
         </div>
       </p-tabPanel>
       <p-tabPanel header="Inventory">
         <div class="p-grid p-nogutter p-justify-between p-align-stretch">
-          <loh-inventory class="p-col-6" [creatureManagementService]="creatureManagementService"></loh-inventory>
-          <loh-shop *ngIf="creatureType === creatureTypeEnum.Hero" class="p-col-6" [hero]="entity"></loh-shop>
-          <loh-monster-shop *ngIf="creatureType === creatureTypeEnum.Monster" class="p-col-6"></loh-monster-shop>
+          <rr-inventory class="p-col-6" [creatureManagementService]="creatureManagementService"></rr-inventory>
+          <rr-shop *ngIf="creatureType === creatureTypeEnum.Hero" class="p-col-6" [hero]="entity"></rr-shop>
+          <rr-monster-shop *ngIf="creatureType === creatureTypeEnum.Monster" class="p-col-6"></rr-monster-shop>
         </div>
       </p-tabPanel>
     </p-tabView>
   </form>
-</loh-cm-editor>
+</rr-cm-editor>

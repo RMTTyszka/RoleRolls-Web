@@ -7,7 +7,7 @@ import {Combat} from '../../../shared/models/combat/Combat.model';
 import {CampaignCombatMonsterService} from '../../../creatures-shared/creature-base-select/campaign-combat-monster.service';
 
 @Component({
-  selector: 'loh-monster-select',
+  selector: 'rr-monster-select',
   templateUrl: './monster-select.component.html',
   styleUrls: ['./monster-select.component.css']
 })

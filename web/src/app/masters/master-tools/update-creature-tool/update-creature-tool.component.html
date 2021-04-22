@@ -5,7 +5,7 @@
   <div class="p-inputgroup" #teste>
     <ng-container *ngFor="let effect of creature.effects">
       <span class="p-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
-        <loh-effect-icon  [effect]="effect"></loh-effect-icon>
+        <rr-effect-icon  [effect]="effect"></rr-effect-icon>
       </span>
     </ng-container>
   </div>
@@ -41,11 +41,11 @@
       <button pButton label="Apply Damage" (click)="takeDamage()"></button>
     </ng-container>
     <ng-container *ngIf="action === MasterToolAction.Bonus">
-      <loh-bonus-tool [creature]="creature" [combat]="combat"></loh-bonus-tool>
+      <rr-bonus-tool [creature]="creature" [combat]="combat"></rr-bonus-tool>
     </ng-container>
 </form>
 <ng-container *ngIf="action === MasterToolAction.Inventory">
-  <loh-inventory-master-tool style="width: 100%;" [creature]="creature" [combat]="combat"></loh-inventory-master-tool>
+  <rr-inventory-master-tool style="width: 100%;" [creature]="creature" [combat]="combat"></rr-inventory-master-tool>
 </ng-container>
 
 

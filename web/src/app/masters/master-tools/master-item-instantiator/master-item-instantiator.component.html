@@ -1,4 +1,4 @@
-<loh-editor-modal>
+<rr-editor-modal>
   <div modal-content>
     <form [formGroup]="form" class="p-grid p-nogutter">
       <span class="p-float-label" class="p-col-6">
@@ -9,7 +9,7 @@
         <label for="quantity-input">Quantity</label>
        <input id="quantity-input" formControlName="quantity" type="number" required class="p-col-6" pInputText>
       </span>
-      <loh-item-template-select controlName="itemTemplate" required class="p-col-12"></loh-item-template-select>
+      <rr-item-template-select controlName="itemTemplate" required class="p-col-12"></rr-item-template-select>
     </form>
   </div>
   <div modal-footer>
@@ -18,5 +18,5 @@
       <button pButton type="button" label="Cancel" class="p-button-danger" (click)="cancel()"></button>    </div>
   </div>
 
-</loh-editor-modal>
+</rr-editor-modal>
 

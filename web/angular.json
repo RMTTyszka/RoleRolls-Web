@@ -3,17 +3,17 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Land-of-Heroes-Web": {
+    "Role-Rolls": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "loh",
+      "prefix": "rr",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Land-of-Heroes-Web",
+            "outputPath": "dist/Role-Rolls",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -59,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Land-of-Heroes-Web:build"
+            "browserTarget": "Role-Rolls:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Land-of-Heroes-Web:build:production"
+              "browserTarget": "Role-Rolls:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Land-of-Heroes-Web:build"
+            "browserTarget": "Role-Rolls:build"
           }
         },
         "test": {
@@ -104,7 +104,7 @@
         }
       }
     },
-    "Land-of-Heroes-Web-e2e": {
+    "Role-Rolls-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -112,11 +112,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Land-of-Heroes-Web:serve"
+            "devServerTarget": "Role-Rolls:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Land-of-Heroes-Web:serve:production"
+              "devServerTarget": "Role-Rolls:serve:production"
             }
           }
         },
@@ -132,7 +132,7 @@
       }
     }
   },
-  "defaultProject": "Land-of-Heroes-Web",
+  "defaultProject": "Role-Rolls",
   "cli": {
     "analytics": "c7b05171-222d-4f27-9370-e30566800a6f"
   }

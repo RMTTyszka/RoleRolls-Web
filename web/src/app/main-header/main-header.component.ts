@@ -6,7 +6,7 @@ import {UniverseService} from '../universes/universe.service';
 import {SESSION_STORAGE, StorageService} from 'ngx-webstorage-service';
 
 @Component({
-  selector: 'loh-main-header',
+  selector: 'rr-main-header',
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.css']
 })

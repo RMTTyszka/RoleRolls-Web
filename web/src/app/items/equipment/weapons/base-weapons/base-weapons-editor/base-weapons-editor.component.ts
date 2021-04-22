@@ -6,7 +6,7 @@ import {FormGroup} from '@angular/forms';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-base-weapons-editor',
+  selector: 'rr-base-weapons-editor',
   templateUrl: './base-weapons-editor.component.html',
   styleUrls: ['./base-weapons-editor.component.css']
 })

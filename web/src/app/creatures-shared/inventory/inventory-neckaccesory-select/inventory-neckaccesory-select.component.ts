@@ -5,7 +5,7 @@ import {isHeadpiece} from '../../../shared/utils/isItem';
 import {NeckAccessoryInstance} from '../../../shared/models/NeckAccessoryInstance.model';
 
 @Component({
-  selector: 'loh-inventory-neckaccesory-select',
+  selector: 'rr-inventory-neckaccesory-select',
   templateUrl: './inventory-neckaccesory-select.component.html',
   styleUrls: ['./inventory-neckaccesory-select.component.css']
 })

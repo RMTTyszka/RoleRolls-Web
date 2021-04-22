@@ -5,7 +5,7 @@ import {isBelt} from '../../../shared/utils/isItem';
 import {BeltInstance} from '../../../shared/models/BeltInstance.model';
 
 @Component({
-  selector: 'loh-inventory-belt-select',
+  selector: 'rr-inventory-belt-select',
   templateUrl: './inventory-belt-select.component.html',
   styleUrls: ['./inventory-belt-select.component.css']
 })

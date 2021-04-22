@@ -5,7 +5,7 @@ import {RoleConfig} from '../role-config';
 import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-roles-list',
+  selector: 'rr-roles-list',
   templateUrl: './roles-list.component.html',
   styleUrls: ['./roles-list.component.css'],
   providers: [DialogService]

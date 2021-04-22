@@ -5,7 +5,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-  selector: 'loh-encounter-create-edit',
+  selector: 'rr-encounter-create-edit',
   templateUrl: './encounter-create-edit.component.html',
   styleUrls: ['./encounter-create-edit.component.css']
 })

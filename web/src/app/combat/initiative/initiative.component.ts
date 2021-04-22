@@ -4,7 +4,7 @@ import {Creature} from '../../shared/models/creatures/Creature.model';
 import {CombatManagementService} from '../combat-management.service';
 
 @Component({
-  selector: 'loh-initiative',
+  selector: 'rr-initiative',
   templateUrl: './initiative.component.html',
   styleUrls: ['./initiative.component.css']
 })

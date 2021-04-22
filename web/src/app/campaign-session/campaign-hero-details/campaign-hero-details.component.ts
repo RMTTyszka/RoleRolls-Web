@@ -4,7 +4,7 @@ import {Campaign} from '../../shared/models/campaign/Campaign.model';
 import {CampaignSessionService} from '../campaign-session.service';
 
 @Component({
-  selector: 'loh-campaign-hero-details',
+  selector: 'rr-campaign-hero-details',
   templateUrl: './campaign-hero-details.component.html',
   styleUrls: ['./campaign-hero-details.component.scss']
 })

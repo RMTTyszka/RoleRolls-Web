@@ -13,13 +13,13 @@
   </div>
   <ng-container [ngSwitch]="activeTab">
     <ng-container *ngSwitchCase="'attributes'">
-      <loh-creature-attribute-details [creature]="creature"></loh-creature-attribute-details>
+      <rr-creature-attribute-details [creature]="creature"></rr-creature-attribute-details>
     </ng-container>
     <ng-container *ngSwitchCase="'equipment'">
-      <loh-creature-equipment-details [creature]="creature"></loh-creature-equipment-details>
+      <rr-creature-equipment-details [creature]="creature"></rr-creature-equipment-details>
     </ng-container>
     <ng-container *ngSwitchCase="'inventory'">
-      <loh-creature-inventory-details [creature]="creature" [isMaster]="isMaster" [campaign]="campaign"></loh-creature-inventory-details>
+      <rr-creature-inventory-details [creature]="creature" [isMaster]="isMaster" [campaign]="campaign"></rr-creature-inventory-details>
     </ng-container>
   </ng-container>
 

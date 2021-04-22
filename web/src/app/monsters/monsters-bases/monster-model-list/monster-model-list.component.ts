@@ -10,7 +10,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {MonsterModelConfig} from '../monster-model-config';
 
 @Component({
-  selector: 'loh-monster-model-list',
+  selector: 'rr-monster-model-list',
   templateUrl: './monster-model-list.component.html',
   styleUrls: ['./monster-model-list.component.scss'],
   providers: [DialogService]

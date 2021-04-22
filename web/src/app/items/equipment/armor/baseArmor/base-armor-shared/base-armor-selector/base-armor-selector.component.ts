@@ -6,7 +6,7 @@ import {map, tap} from 'rxjs/operators';
 import {createForm} from '../../../../../../shared/EditorExtension';
 
 @Component({
-  selector: 'loh-base-armor-selector',
+  selector: 'rr-base-armor-selector',
   templateUrl: './base-armor-selector.component.html',
   styleUrls: ['./base-armor-selector.component.css']
 })

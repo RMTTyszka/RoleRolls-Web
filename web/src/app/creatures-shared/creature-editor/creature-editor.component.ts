@@ -16,7 +16,7 @@ import {CreatureType} from '../../shared/models/creatures/CreatureType';
 import {CreatureEditorService} from './creature-editor.service';
 
 @Component({
-  selector: 'loh-creature-editor',
+  selector: 'rr-creature-editor',
   templateUrl: './creature-editor.component.html',
   styleUrls: ['./creature-editor.component.css'],
   providers: [CreatureEditorService]

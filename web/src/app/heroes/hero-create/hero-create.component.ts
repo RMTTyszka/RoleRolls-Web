@@ -8,7 +8,7 @@ import {FormGroup} from '@angular/forms';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-hero-create',
+  selector: 'rr-hero-create',
   templateUrl: './hero-create.component.html',
   styleUrls: ['./hero-create.component.css']
 })

@@ -13,7 +13,7 @@ import {
 } from '../master-item-instantiator/master-item-instantiator.component';
 
 @Component({
-  selector: 'loh-inventory-master-tool',
+  selector: 'rr-inventory-master-tool',
   templateUrl: './inventory-master-tool.component.html',
   styleUrls: ['./inventory-master-tool.component.css']
 })

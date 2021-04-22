@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
 import {of} from 'rxjs';
 
 @Component({
-  selector: 'loh-campaign-editor',
+  selector: 'rr-campaign-editor',
   templateUrl: './campaign-editor.component.html',
   styleUrls: ['./campaign-editor.component.css'],
   providers: [DialogService]

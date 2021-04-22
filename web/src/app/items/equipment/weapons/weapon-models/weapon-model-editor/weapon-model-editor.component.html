@@ -1,7 +1,7 @@
-<loh-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
+<rr-cm-editor [service]="service" (saved)="saved($event)" (deleted)="deleted($event)" [entityId]="entity.id" [form]="form" [action]="action" (loaded)="loaded($event)">
   <ng-container></ng-container>
   <form form [formGroup]="form" *ngIf="!isLoading">
     <input type="text" pInputText placeholder="Name" formControlName="name">
-    <loh-base-weapon-select [form]="form"></loh-base-weapon-select>
+    <rr-base-weapon-select [form]="form"></rr-base-weapon-select>
   </form>
-</loh-cm-editor>
+</rr-cm-editor>

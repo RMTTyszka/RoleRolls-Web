@@ -5,7 +5,7 @@ import {Campaign} from '../../shared/models/campaign/Campaign.model';
 import {CampaignCombatHeroService} from '../../creatures-shared/creature-base-select/campaign-combat-hero.service';
 
 @Component({
-  selector: 'loh-campaign-session-gateway',
+  selector: 'rr-campaign-session-gateway',
   templateUrl: './campaign-session-gateway.component.html',
   styleUrls: ['./campaign-session-gateway.component.css'],
   providers: [CampaignSessionService, CampaignCombatHeroService]

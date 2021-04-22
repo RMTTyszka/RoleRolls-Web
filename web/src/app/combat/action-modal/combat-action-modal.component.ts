@@ -6,7 +6,7 @@ import {AttackInput, CombatActionData} from '../combat.component';
 import {CombatService} from '../combat.service';
 
 @Component({
-  selector: 'loh-combat-action-modal',
+  selector: 'rr-combat-action-modal',
   templateUrl: './combat-action-modal.component.html',
   styleUrls: ['./combat-action-modal.component.css']
 })

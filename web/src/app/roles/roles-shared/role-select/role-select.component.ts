@@ -7,7 +7,7 @@ import {createForm} from '../../../shared/EditorExtension';
 import {RolesService} from '../../roles.service';
 
 @Component({
-  selector: 'loh-role-select',
+  selector: 'rr-role-select',
   templateUrl: './role-select.component.html',
   styleUrls: ['./role-select.component.css']
 })

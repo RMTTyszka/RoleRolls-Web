@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
-  selector: 'loh-items',
+  selector: 'rr-items',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css']
 })

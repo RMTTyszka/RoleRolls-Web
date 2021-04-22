@@ -4,7 +4,7 @@ import {SelectItem} from 'primeng/api';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 
 @Component({
-  selector: 'loh-attribute-select',
+  selector: 'rr-attribute-select',
   templateUrl: './attribute-select.component.html',
   styleUrls: ['./attribute-select.component.css']
 })

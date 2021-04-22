@@ -5,7 +5,7 @@ import {LazyLoadEvent} from 'primeng/api';
 
 
 @Component({
-  selector: 'loh-cm-grid',
+  selector: 'rr-cm-grid',
   templateUrl: './cm-grid.component.html',
   styleUrls: ['./cm-grid.component.css']
 })

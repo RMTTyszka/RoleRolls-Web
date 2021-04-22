@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 
 @Component({
-  selector: 'loh-combat-list',
+  selector: 'rr-combat-list',
   templateUrl: './combat-list.component.html',
   styleUrls: ['./combat-list.component.css']
 })

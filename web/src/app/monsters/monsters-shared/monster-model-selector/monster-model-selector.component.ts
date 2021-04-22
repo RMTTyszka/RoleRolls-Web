@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {LegacyMonstersBaseService} from '../../monsters-bases/legacy-monsters-base.service';
 
 @Component({
-  selector: 'loh-monster-model-selector',
+  selector: 'rr-monster-model-selector',
   templateUrl: './monster-model-selector.component.html',
   styleUrls: ['./monster-model-selector.component.css']
 })

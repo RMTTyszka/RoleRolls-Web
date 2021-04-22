@@ -12,7 +12,7 @@ import {MonsterModelsService} from '../monster-models.service';
 import {DataService} from '../../../shared/data.service';
 
 @Component({
-  selector: 'loh-monster-model',
+  selector: 'rr-monster-model',
   templateUrl: './monster-model.component.html',
   styleUrls: ['./monster-model.component.scss']
 })

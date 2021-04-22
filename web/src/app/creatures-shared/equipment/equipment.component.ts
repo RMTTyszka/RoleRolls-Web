@@ -19,7 +19,7 @@ import {ErrorArea, ErrorMessages, handleValidation} from '../../shared/erros/err
 import {Message, MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'loh-equipment',
+  selector: 'rr-equipment',
   templateUrl: './equipment.component.html',
   styleUrls: ['./equipment.component.css']
 })

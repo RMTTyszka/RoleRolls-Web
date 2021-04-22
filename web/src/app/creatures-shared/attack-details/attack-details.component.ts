@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AttackDetails} from '../../shared/models/AttackDetails.model';
 
 @Component({
-  selector: 'loh-attack-details',
+  selector: 'rr-attack-details',
   templateUrl: './attack-details.component.html',
   styleUrls: ['./attack-details.component.css']
 })

@@ -5,7 +5,7 @@ import {Inventory} from 'src/app/shared/models/Inventory.model';
 import {isArmor} from 'src/app/shared/utils/isItem';
 
 @Component({
-  selector: 'loh-inventory-armor-select',
+  selector: 'rr-inventory-armor-select',
   templateUrl: './inventory-armor-select.component.html',
   styleUrls: ['./inventory-armor-select.component.css']
 })

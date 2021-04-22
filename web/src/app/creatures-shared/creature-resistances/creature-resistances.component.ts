@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Resistances} from '../../shared/models/Resistances.model';
 
 @Component({
-  selector: 'loh-creature-resistances',
+  selector: 'rr-creature-resistances',
   templateUrl: './creature-resistances.component.html',
   styleUrls: ['./creature-resistances.component.css']
 })

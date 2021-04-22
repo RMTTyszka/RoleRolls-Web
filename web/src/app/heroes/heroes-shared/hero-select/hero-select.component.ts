@@ -5,7 +5,7 @@ import {HeroesService} from '../../heroes.service';
 import {CampaignCombatHeroService} from '../../../creatures-shared/creature-base-select/campaign-combat-hero.service';
 
 @Component({
-  selector: 'loh-hero-select',
+  selector: 'rr-hero-select',
   templateUrl: './hero-select.component.html',
   styleUrls: ['./hero-select.component.css']
 })

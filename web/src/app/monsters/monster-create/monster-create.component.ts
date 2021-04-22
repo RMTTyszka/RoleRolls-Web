@@ -9,7 +9,7 @@ import {MonsterCreateInput} from '../../shared/models/creatures/monsters/Monster
 import {MonsterModel} from '../../shared/models/creatures/monsters/MonsterModel.model';
 
 @Component({
-  selector: 'loh-monster-create',
+  selector: 'rr-monster-create',
   templateUrl: './monster-create.component.html',
   styleUrls: ['./monster-create.component.css'],
   providers: [DialogService]

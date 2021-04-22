@@ -14,7 +14,7 @@ export enum RingHand {
 }
 
 @Component({
-  selector: 'loh-inventory-ring-select',
+  selector: 'rr-inventory-ring-select',
   templateUrl: './inventory-ring-select.component.html',
   styleUrls: ['./inventory-ring-select.component.css']
 })

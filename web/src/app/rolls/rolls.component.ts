@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'loh-rolls',
+  selector: 'rr-rolls',
   templateUrl: './rolls.component.html',
   styleUrls: ['./rolls.component.css']
 })

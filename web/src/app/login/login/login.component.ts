@@ -7,7 +7,7 @@ import {LohAuthTokenName} from '../../authentication/AuthTokens';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'loh-login',
+  selector: 'rr-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

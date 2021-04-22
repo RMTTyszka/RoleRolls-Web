@@ -5,7 +5,7 @@ import {Power} from 'src/app/shared/models/Power.model';
 import {PowerEditorComponent} from './power-editor/power-editor.component';
 
 @Component({
-  selector: 'loh-powers',
+  selector: 'rr-powers',
   templateUrl: './powers.component.html',
   styleUrls: ['./powers.component.css']
 })

@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Race} from 'src/app/shared/models/Race.model';
 
 @Component({
-  selector: 'loh-power-editor',
+  selector: 'rr-power-editor',
   templateUrl: './power-editor.component.html',
   styleUrls: ['./power-editor.component.css']
 })

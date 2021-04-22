@@ -11,7 +11,7 @@ import {LegacyBaseCrudServiceComponent} from '../../shared/legacy-base-service/l
 import {BaseCombatCreatureService} from '../interfaces/baseCombatCreatureService';
 
 @Component({
-  selector: 'loh-creature-base-select',
+  selector: 'rr-creature-base-select',
   templateUrl: './creature-base-select.component.html',
   styleUrls: ['./creature-base-select.component.css']
 })

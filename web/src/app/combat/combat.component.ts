@@ -32,7 +32,7 @@ export class AttackInput {
 }
 
 @Component({
-  selector: 'loh-combat',
+  selector: 'rr-combat',
   templateUrl: './combat.component.html',
   styleUrls: ['./combat.component.css'],
   providers: [DialogService]

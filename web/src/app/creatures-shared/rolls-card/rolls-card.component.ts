@@ -9,7 +9,7 @@ export interface RollDifficulty {
 }
 
 @Component({
-  selector: 'loh-rolls-card',
+  selector: 'rr-rolls-card',
   templateUrl: './rolls-card.component.html',
   styleUrls: ['./rolls-card.component.css']
 })
