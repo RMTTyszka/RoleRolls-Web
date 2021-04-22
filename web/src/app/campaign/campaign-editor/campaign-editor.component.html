@@ -5,7 +5,7 @@
     </div>
   </ng-container>
   <form form [formGroup]="form" *ngIf="!isLoading">
-    <div  class="ui-fluid">
+    <div  class="p-fluid">
       <div class="p-field p-grid">
         <label for="name" class="p-col-fixed" style="width:100px">Name</label>
         <div class="p-col">
@@ -21,14 +21,14 @@
       <p-panel>
         <p-header>
           <div class="p-grid p-justify-between p-align-center p-nogutter">
-            <span class="ui-panel-title p-col">Players</span>
-            <button *ngIf="entity.master" pButton type="button" icon="pi pi-plus" class="ui-button-primary" (click)="invitePlayer()"></button>
+            <span class="p-panel-title p-col">Players</span>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-plus" class="p-button-primary" (click)="invitePlayer()"></button>
           </div>
         </p-header>
         <div *ngFor="let player of entity.players" class="list">
           <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
             <span class="p-col-11">{{player.name}}</span>
-            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removePlayer(player)"></button>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="p-button-secondary p-col-1" (click)="removePlayer(player)"></button>
           </div>
         </div>
       </p-panel>
@@ -37,7 +37,7 @@
           <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
             <span class="p-col-6">{{invitation.player.name}}</span>
             <span class="p-col-5">{{invitation.status}}</span>
-            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeInvitation(invitation.player)"></button>
+            <button *ngIf="entity.master" pButton type="button" icon="pi pi-times" class="p-button-secondary p-col-1" (click)="removeInvitation(invitation.player)"></button>
           </div>
         </div>
       </p-panel>
@@ -45,12 +45,12 @@
         <div *ngFor="let hero of entity.heroes" class="list">
           <div class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
             <span class="p-col-11">{{hero.name}}</span>
-            <button *ngIf="entity.master || isHeroOwner(hero.ownerId)" pButton type="button" icon="pi pi-times" class="ui-button-secondary p-col-1" (click)="removeHero(hero)"></button>
+            <button *ngIf="entity.master || isHeroOwner(hero.ownerId)" pButton type="button" icon="pi pi-times" class="p-button-secondary p-col-1" (click)="removeHero(hero)"></button>
           </div>
         </div>
         <div *ngIf="!hasHero()" class="p-grid p-justify-between p-nogutter p-align-center player-1-colored-border">
           <span class="p-col-11">Add your hero</span>
-          <button pButton type="button" icon="pi pi-plus" class="ui-button-secondary p-col-1" (click)="addHero()"></button>
+          <button pButton type="button" icon="pi pi-plus" class="p-button-secondary p-col-1" (click)="addHero()"></button>
         </div>
       </p-panel>
     </div>

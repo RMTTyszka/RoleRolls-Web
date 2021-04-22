@@ -1,9 +1,9 @@
 <form [formGroup]="form" flexLayout="row" flexLayoutAlign="space-between stretch">
   <p-card  fxFlex="50" header="Stats">
     <div fxLayout="column" fxLayoutGap="16px">
-      <span class="ui-float-label"><input type="text" id="level" pInputText pKeyFilter="pint" maxlength="2" formControlName="level"><label for="level">Level</label> </span>
-      <span class="ui-float-label"><input type="text" id="bonus" pInputText pKeyFilter="int" maxLength="3" formControlName="bonus"><label for="bonus">Bonus</label></span>
-      <span class="ui-float-label">
+      <span class="p-float-label"><input type="text" id="level" pInputText pKeyFilter="pint" maxlength="2" formControlName="level"><label for="level">Level</label> </span>
+      <span class="p-float-label"><input type="text" id="bonus" pInputText pKeyFilter="int" maxLength="3" formControlName="bonus"><label for="bonus">Bonus</label></span>
+      <span class="p-float-label">
       <p-inputMask mask="99/9" type="text" id="complexity" formControlName="difficulty"></p-inputMask>
       <label for="complexity">Difficulty</label>
     </span>
@@ -13,9 +13,9 @@
   <p-card  fxFlex="50" *ngIf="hasRollResult" header="Result">
     <div>
       <div>
-        <div class="ui-inputgroup">
-          <button *ngIf="success" pButton type="button" icon="pi pi-check" class="ui-button-success" disabled></button>
-          <button *ngIf="!success" pButton type="button" icon="pi pi-times" class="ui-button-danger" disabled></button>
+        <div class="p-inputgroup">
+          <button *ngIf="success" pButton type="button" icon="pi pi-check" class="p-button-success" disabled></button>
+          <button *ngIf="!success" pButton type="button" icon="pi pi-times" class="p-button-danger" disabled></button>
           <input type="text" pInputText readonly formControlName="successesMessage" placeholder="Success">
         </div>
       </div>

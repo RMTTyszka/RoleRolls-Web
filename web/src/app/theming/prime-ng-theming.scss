@@ -1,90 +1,97 @@
 @import "colors";
 
 
-.ui-dialog-titlebar {
+#Buttons
+.p-selectbutton .p-button.p-highlight {
+  background-color: $primaryColor !important;
+  border-color: $primaryColor !important;
+  color: $secondaryColor !important;
+}
+
+.p-dialog-titlebar {
   background-color: $mainColor3 !important;
 }
-.ui-panel {
+.p-panel {
   width: 100%;
   height: 100%;
 }
-.ui-panel-content-wrapper {
+.p-panel-content-wrapper {
   width: 100%;
   height: 100%;
 }
-.ui-panel-content ui-widget-content {
+.p-panel-content p-widget-content {
   width: 100%;
   height: 100%;
 }
-.ui-button {
+.p-button {
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
-.ui-selectbutton .ui-button {
+.p-selectbutton .p-button {
   color: $infoColor !important;
 }
-.ui-selectbutton .ui-button.ui-state-active {
+.p-selectbutton .p-button.p-state-active {
   color: $secondaryColor !important;
 }
-.ui-dialog {
+.p-dialog {
   max-height: 100%;
 }
-.ui-dialog-content {
+.p-dialog-content {
   display: flex !important;
   flex: 100 !important;
   overflow: scroll !important;
 }
-.ui-button-secondary {
+.p-button-secondary {
   background-color: $secondaryColor !important;
   border-color: $borderColor !important;
 }
-.ui-button-success {
+.p-button-success {
   background-color: $successColor !important;
   border-color: $successColor !important;
 }
-.ui-button-info {
+.p-button-info {
   background-color: $infoColor !important;
   border-color: $infoColor !important;
 }
-.ui-button-warning {
+.p-button-warning {
   background-color: $warningColor !important;
   border-color: $warningColor !important;
 }
-.ui-button-danger {
+.p-button-danger {
   background-color: $dangerColor !important;
   border-color: $dangerColor !important;
 }
-.ui-panel-titlebar {
+.p-panel-titlebar {
   background-color: $mainColor3 !important;
 }
-.ui-state-active {
+.p-state-active {
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
-.ui-picklist .ui-picklist-caption {
+.p-picklist .p-picklist-caption {
   background-color: $mainColor3 !important;
 }
 
 #Table
-.ui-table .ui-table-tbody > tr > td {
+.p-table .p-table-tbody > tr > td {
   padding: 0 0 0 4px !important;
 }
-.ui-table .ui-table-tbody > tr.ui-state-highlight {
+.p-table .p-table-tbody > tr.p-state-highlight {
   background-color: $primaryColor !important;
   outline: none;
   box-shadow: none;
 }
 
-.ui-table .ui-table-tbody > tr:focus {
+.p-table .p-table-tbody > tr:focus {
   outline: none;
   box-shadow: none;
 }
-.ui-table .ui-table-tbody > tr:focus > td {
+.p-table .p-table-tbody > tr:focus > td {
   box-shadow: none !important;
   outline: none;
 }
 
-.ui-table .ui-table-tbody > tr:focus > td:last-child {
+.p-table .p-table-tbody > tr:focus > td:last-child {
   box-shadow: none;
   outline: none;
 }

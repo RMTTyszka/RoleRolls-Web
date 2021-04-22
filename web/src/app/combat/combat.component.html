@@ -12,7 +12,7 @@
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row"fxLayoutAlign="start end" fxLayoutGap="12px">
         <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)" [combat]="combat"></loh-hero-select>
          <button pButton (click)="setSelectedCreature(hero, creatureType.Hero, actionMenu, $event)" icon="fas fa-list"></button>
-        <button *ngIf="isCurrentOnInitiative(hero.id)" pButton label="endTurn" (click)="endTurn()" class="ui-button-secondary"></button>
+        <button *ngIf="isCurrentOnInitiative(hero.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
     </div>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
@@ -24,7 +24,7 @@
       <div fxLayout="row" fxLayoutGap="12px">
         <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></loh-monster-select>
         <button pButton (click)="setSelectedCreature(monster, creatureType.Monster, actionMenu, $event)" icon="fas fa-list"></button>
-        <button *ngIf="isCurrentOnInitiative(monster.id)" pButton label="endTurn" (click)="endTurn()" class="ui-button-secondary"></button>
+        <button *ngIf="isCurrentOnInitiative(monster.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
       </div>
     </div>
   </div>

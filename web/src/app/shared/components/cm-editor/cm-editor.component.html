@@ -8,7 +8,7 @@
 
   <div class="p-col-12 p-col-align-end">
     <button pButton type="button" label="Save" (click)="save()" [disabled]="!canSave()"></button>
-    <button *ngIf="hasDelete"  pButton type="button" label="Delete" class="ui-button-danger" (click)="delete()" [disabled]="disableDelete"></button>
+    <button *ngIf="hasDelete"  pButton type="button" label="Delete" class="p-button-danger" (click)="delete()" [disabled]="disableDelete"></button>
     <!--<button pButton type="button" label="Cancel"></button>-->
   </div>
 </div>

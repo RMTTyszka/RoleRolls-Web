@@ -4,14 +4,14 @@
   <ng-template pTemplate="caption" >
     <div class="p-grid p-nogutter p-justify-between">
       <div class="p-col-6">
-        <div class="ui-inputgroup">
-          <span class="ui-inputgroup-addon"><i class="fa fa-search"></i></span>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
           <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         </div>
       </div>
       <div class="p-grid p-justify-end p-align-center p-nogutter">
         <div class="p-col">
-          <button *ngIf="create" pButton type="button" icon="pi pi-plus" class="ui-button-secondary" (click)="create()"></button>
+          <button *ngIf="create" pButton type="button" icon="pi pi-plus" class="p-button-secondary" (click)="create()"></button>
         </div>
       </div>
     </div>
