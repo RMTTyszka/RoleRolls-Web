@@ -2,13 +2,13 @@
   <p-header>
     <div class="p-grid p-justify-between">
       <span>Items</span>
-      <button pButton type="button" icon="pi pi-plus" class="ui-button-primary" (click)="selectItemTemplate()"></button>
+      <button pButton type="button" icon="pi pi-plus" class="p-button-primary" (click)="selectItemTemplate()"></button>
     </div>
   </p-header>
   <ng-container *ngIf="inventory" style="height: 100%;">
-    <div class="ui-inputgroup" *ngFor="let item of inventory.items">
+    <div class="p-inputgroup" *ngFor="let item of inventory.items">
       <ng-container *ngIf="showItem(item)">
-        <span class="ui-inputgroup-addon">{{item.quantity}}</span>
+        <span class="p-inputgroup-addon">{{item.quantity}}</span>
         <input type="text" readonly pInputText [placeholder]="item.name">
       </ng-container>
     </div>

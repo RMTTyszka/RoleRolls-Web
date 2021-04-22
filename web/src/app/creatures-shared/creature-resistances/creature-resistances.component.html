@@ -1,6 +1,6 @@
 <p-fieldset legend="Resistances">
-  <div class="ui-inputgroup" *ngFor="let resistance of resistancesList">
+  <div class="p-inputgroup" *ngFor="let resistance of resistancesList">
     <input type="text" readonly pInputText [placeholder]="resistance">
-    <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{resistances[resistance]}}</span>
+    <span class="p-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{resistances[resistance]}}</span>
   </div>
 </p-fieldset>

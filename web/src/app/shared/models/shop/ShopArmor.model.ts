@@ -4,7 +4,8 @@ import {ShopItem} from './ShopItem.model';
 
 export class ShopArmor extends ShopItem {
     public armor: ArmorInstance;
-    public get name() {
-      return this.armor.name;
+    constructor() {
+      super();
+      this.name = this.armor.name;
     }
 }

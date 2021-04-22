@@ -2,9 +2,9 @@
 
 <form [formGroup]="form">
   <ng-container *ngIf="action === MasterToolAction.Status">
-  <div class="ui-inputgroup" #teste>
+  <div class="p-inputgroup" #teste>
     <ng-container *ngFor="let effect of creature.effects">
-      <span class="ui-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
+      <span class="p-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
         <loh-effect-icon  [effect]="effect"></loh-effect-icon>
       </span>
     </ng-container>

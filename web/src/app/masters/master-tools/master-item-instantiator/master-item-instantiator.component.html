@@ -1,11 +1,11 @@
 <loh-editor-modal>
   <div modal-content>
     <form [formGroup]="form" class="p-grid p-nogutter">
-      <span class="ui-float-label" class="p-col-6">
+      <span class="p-float-label" class="p-col-6">
         <label for="level-input">Level</label>
         <input id="level-input" formControlName="level" type="number" required pInputText>
       </span>
-      <span class="ui-float-label" class="p-col-6">
+      <span class="p-float-label" class="p-col-6">
         <label for="quantity-input">Quantity</label>
        <input id="quantity-input" formControlName="quantity" type="number" required class="p-col-6" pInputText>
       </span>
@@ -15,7 +15,7 @@
   <div modal-footer>
     <div class="p-grid p-nogutter">
       <button pButton type="button" label="Save" (click)="save()" [disabled]="!canSave()"></button>
-      <button pButton type="button" label="Cancel" class="ui-button-danger" (click)="cancel()"></button>    </div>
+      <button pButton type="button" label="Cancel" class="p-button-danger" (click)="cancel()"></button>    </div>
   </div>
 
 </loh-editor-modal>

@@ -1,6 +1,6 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
-import {DynamicDialogConfig} from 'primeng';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class ItemTemplateConfig implements BaseComponentConfig {
   creatorOptions: DynamicDialogConfig = null;

@@ -28,7 +28,7 @@
     <p-pickList [showSourceControls]="false" [showTargetControls]="false" [source]="itemsShow" [target]="itemToBuyShow"  [responsive]="true"
                 dragdrop="true" sourceHeader="Items" targetHeader="Buying" (onMoveToTarget)="itemAddedToBuy($event)" (onMoveToSource)="itemRemovedFromToBuy($event)">
       <ng-template let-item pTemplate="item">
-        <div class="ui-helper-clearfix">
+        <div class="p-helper-clearfix">
           <ng-container *ngIf="item.quantityToBuy > 0">
             <div class="p-grid p-nogutter p-justify-between">
               <div class="p-col-10">{{item.name}}</div>
@@ -59,7 +59,7 @@
       </p-header>
       <div class="p-grid p-nogutter p-justify-end">
         <button pButton (click)="buy()" label="Buy"></button>
-        <button pButton (click)="reset()" label="Reset" class="ui-button-secondary"></button>
+        <button pButton (click)="reset()" label="Reset" class="p-button-secondary"></button>
       </div>
     </p-panel>
 </p-panel>

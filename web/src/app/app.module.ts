@@ -6,7 +6,6 @@ import {HomeComponent} from './home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared/shared.module';
-import {DeviceDetectorModule} from 'ngx-device-detector';
 import {CommonModule} from '@angular/common';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
@@ -30,7 +29,6 @@ import {UniverseInterceptor} from './interceptors/universe.interceptor';
         HttpClientModule,
         BrowserAnimationsModule,
         SharedModule,
-        DeviceDetectorModule.forRoot(),
         LoginModule,
         ShopModule,
         ConfirmDialogModule

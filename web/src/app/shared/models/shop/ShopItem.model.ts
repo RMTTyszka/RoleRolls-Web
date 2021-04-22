@@ -6,7 +6,9 @@ export class ShopItem extends Entity {
   public quantityToBuy = 0;
   public value: number;
   public item: ItemTemplate;
-  public get name() {
-    return this.name;
+
+  constructor() {
+    super();
+    this.name = this.item.name;
   }
 }

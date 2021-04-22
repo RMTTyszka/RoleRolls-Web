@@ -1,7 +1,7 @@
 import {MonsterModelComponent} from './monster-model-editor/monster-model.component';
 import {BaseComponentConfig} from '../../shared/components/base-component-config';
 import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
-import {DynamicDialogConfig} from 'primeng';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class MonsterModelConfig implements BaseComponentConfig {
   creatorOptions: DynamicDialogConfig;

@@ -83,7 +83,7 @@ get columns() {
 
   onLazyLoadEvent(event: LazyLoadEvent) {
     this.loading = true;
-    this.get('', event.first, event.rows);
+    this.get('', event.first / event.rows, event.rows);
   }
 
   rowSelected(event: {data: T}) {

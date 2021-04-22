@@ -1,6 +1,6 @@
 <p-fieldset legend="Stats">
-  <div class="ui-inputgroup" *ngFor="let stat of stats">
+  <div class="p-inputgroup" *ngFor="let stat of stats">
     <input type="text" readonly pInputText [placeholder]="stat" [pTooltip]="getStatsDescription(stat)">
-    <span class="ui-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{this.status[stat]}}</span>
+    <span class="p-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{this.status[stat]}}</span>
   </div>
 </p-fieldset>

@@ -1,7 +1,7 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {RolesEditorComponent} from './roles-editor/roles-editor.component';
-import {DynamicDialogConfig} from 'primeng';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class RoleConfig implements BaseComponentConfig {
   creatorOptions: DynamicDialogConfig = null;

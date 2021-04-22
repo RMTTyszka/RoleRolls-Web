@@ -1,6 +1,6 @@
 import {Type} from '@angular/core';
 import {RRColumns} from './rr-grid/r-r-grid.component';
-import {DynamicDialogConfig} from 'primeng';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export interface BaseComponentConfig {
   editor: Type<any>;

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication/authentication.service';
-import {SelectItem} from 'primeng';
+import {SelectItem} from 'primeng/api';
 import {UniverseType} from '../universes/universe';
 import {UniverseService} from '../universes/universe.service';
 import {SESSION_STORAGE, StorageService} from 'ngx-webstorage-service';
