@@ -4,7 +4,7 @@ import {Power} from 'src/app/shared/models/Power.model';
 
 
 @Component({
-  selector: 'loh-power-management',
+  selector: 'rr-power-management',
   templateUrl: './power-management.component.html',
   styleUrls: ['./power-management.component.css']
 })

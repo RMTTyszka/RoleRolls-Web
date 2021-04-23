@@ -9,7 +9,7 @@ import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.compo
 import {RolesService} from '../roles.service';
 
 @Component({
-  selector: 'loh-roles-editor',
+  selector: 'rr-roles-editor',
   templateUrl: './roles-editor.component.html',
   styleUrls: ['./roles-editor.component.css']
 })

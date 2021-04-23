@@ -5,7 +5,7 @@ import {AuthenticationService} from './authentication/authentication.service';
 import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 
 @Component({
-  selector: 'loh-root',
+  selector: 'rr-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

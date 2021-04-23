@@ -6,7 +6,7 @@ import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CampaignsService} from '../campaigns.service';
 
 @Component({
-  selector: 'loh-campaign-player-select',
+  selector: 'rr-campaign-player-select',
   templateUrl: './campaign-player-select.component.html',
   styleUrls: ['./campaign-player-select.component.css']
 })

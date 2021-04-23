@@ -5,7 +5,7 @@ import {Inventory} from '../../../shared/models/Inventory.model';
 import {isHeadpiece} from '../../../shared/utils/isItem';
 
 @Component({
-  selector: 'loh-inventory-headpiece-select',
+  selector: 'rr-inventory-headpiece-select',
   templateUrl: './inventory-headpiece-select.component.html',
   styleUrls: ['./inventory-headpiece-select.component.css']
 })

@@ -8,7 +8,7 @@ import {DataService} from '../../../shared/data.service';
 import {UpdateCreatureToolService} from '../update-creature-tool/update-creature-tool.service';
 import {AddBonusInput} from '../../../shared/models/inputs/AddBonusInput';
 @Component({
-  selector: 'loh-bonus-tool',
+  selector: 'rr-bonus-tool',
   templateUrl: './bonus-tool.component.html',
   styleUrls: ['./bonus-tool.component.css']
 })

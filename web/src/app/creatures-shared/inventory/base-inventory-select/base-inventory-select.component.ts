@@ -4,7 +4,7 @@ import {createForm} from 'src/app/shared/EditorExtension';
 import {ItemInstance} from 'src/app/shared/models/ItemInstance.model';
 
 @Component({
-  selector: 'loh-base-inventory-select',
+  selector: 'rr-base-inventory-select',
   templateUrl: './base-inventory-select.component.html',
   styleUrls: ['./base-inventory-select.component.css']
 })
@@ -18,12 +18,10 @@ export class BaseInventorySelectComponent implements OnInit {
   @Input() placeholder: string;
   @Input() itemFormName: string;
   @Input() filter: (inventoryForm: FormGroup) => Array<ItemInstance>;
-  @Input() search: (filter: string, items: Array<ItemInstance>) => Array<string>;
-  result: string[] = [];
   get items(): ItemInstance[] {
     return this.filter(this.inventoryForm);
   }
-  value: string;
+  options: ItemInstance[] = [];
   constructor(
     protected formGroupDirective: FormGroupDirective  ) { }
 
@@ -31,14 +29,12 @@ export class BaseInventorySelectComponent implements OnInit {
     this.inventoryForm = this.formGroupDirective.form.get(this.inventoryFormName) as FormGroup;
     this.equipmentForm = this.formGroupDirective.form.get(this.equipmentFormName) as FormGroup;
     this.itemForm = this.equipmentForm.get(this.itemFormName) as FormGroup;
+    this.options = this.filter(this.inventoryForm);
+    this.options.push(this.itemForm.value);
   }
 
-  public get(filter: string) {
-    this.result = this.search(filter, this.filter(this.inventoryForm));
-  }
-
-  selected(entityName: string) {
-    const selectedEntity = this.items.find(e => e.name === entityName);
+  selected(entityId: string) {
+    const selectedEntity = this.items.find(e => e.id === entityId);
     this.itemForm.patchValue(selectedEntity);
     this.itemSelected.emit(selectedEntity);
   }

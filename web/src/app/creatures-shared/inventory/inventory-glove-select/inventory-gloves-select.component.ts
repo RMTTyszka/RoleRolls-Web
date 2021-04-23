@@ -5,7 +5,7 @@ import {Inventory} from '../../../shared/models/Inventory.model';
 import {isGlove} from '../../../shared/utils/isItem';
 
 @Component({
-  selector: 'loh-inventory-gloves-select',
+  selector: 'rr-inventory-gloves-select',
   templateUrl: './inventory-gloves-select.component.html',
   styleUrls: ['./inventory-gloves-select.component.css']
 })

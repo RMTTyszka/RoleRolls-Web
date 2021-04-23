@@ -19,7 +19,7 @@ export interface IPropertyPickerOutput {
 }
 
 @Component({
-  selector: 'loh-property-picker',
+  selector: 'rr-property-picker',
   templateUrl: './property-picker.component.html',
   styleUrls: ['./property-picker.component.css']
 })

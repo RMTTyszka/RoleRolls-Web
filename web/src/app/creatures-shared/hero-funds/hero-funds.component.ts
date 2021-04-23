@@ -4,7 +4,7 @@ import {HeroManagementService} from '../../heroes/hero-management.service';
 import {FormGroup, FormGroupDirective} from '@angular/forms';
 
 @Component({
-  selector: 'loh-hero-funds',
+  selector: 'rr-hero-funds',
   templateUrl: './hero-funds.component.html',
   styleUrls: ['./hero-funds.component.css']
 })

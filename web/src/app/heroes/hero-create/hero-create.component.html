@@ -1,11 +1,11 @@
-<loh-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
+<rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted()
                (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields">
   <form form [formGroup]="form" *ngIf="!isLoading">
   <p-fieldset legend="Hero">
     <input type="text" pInputText placeholder="Name" formControlName="name" required>
     <input type="number" pInputText placeholder="Level" formControlName="level" required>
-    <loh-race-select [form]="form" (raceSelected)="raceSelected($event)"></loh-race-select>
-    <loh-role-select [form]="form" (roleSelected)="roleSelected($event)"></loh-role-select>
+    <rr-race-select [form]="form" (raceSelected)="raceSelected($event)"></rr-race-select>
+    <rr-role-select [form]="form" (roleSelected)="roleSelected($event)"></rr-role-select>
   </p-fieldset>
     </form>
-</loh-cm-editor>
+</rr-cm-editor>

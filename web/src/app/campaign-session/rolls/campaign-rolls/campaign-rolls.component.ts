@@ -6,7 +6,7 @@ import {switchMap} from 'rxjs/operators';
 import {Roll} from '../../../shared/models/rolls/Roll';
 
 @Component({
-  selector: 'loh-campaign-rolls',
+  selector: 'rr-campaign-rolls',
   templateUrl: './campaign-rolls.component.html',
   styleUrls: ['./campaign-rolls.component.scss']
 })

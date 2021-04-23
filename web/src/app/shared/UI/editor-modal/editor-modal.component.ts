@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'loh-editor-modal',
+  selector: 'rr-editor-modal',
   templateUrl: './editor-modal.component.html',
   styleUrls: ['./editor-modal.component.css']
 })

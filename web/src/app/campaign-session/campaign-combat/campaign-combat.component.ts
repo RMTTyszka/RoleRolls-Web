@@ -3,7 +3,7 @@ import {Combat} from '../../shared/models/combat/Combat.model';
 import {CombatManagementService} from '../../combat/combat-management.service';
 
 @Component({
-  selector: 'loh-campaign-combat',
+  selector: 'rr-campaign-combat',
   templateUrl: './campaign-combat.component.html',
   styleUrls: ['./campaign-combat.component.css']
 })

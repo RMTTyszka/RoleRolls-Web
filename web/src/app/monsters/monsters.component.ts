@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'loh-monsters',
+  selector: 'rr-monsters',
   templateUrl: './monsters.component.html',
   styleUrls: ['./monsters.component.scss']
 })

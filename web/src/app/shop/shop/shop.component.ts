@@ -12,7 +12,7 @@ import {WeaponCategory} from '../../shared/models/WeaponCategory.model';
 import {WeaponModel} from '../../shared/models/WeaponModel.model';
 
 @Component({
-  selector: 'loh-shop',
+  selector: 'rr-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })

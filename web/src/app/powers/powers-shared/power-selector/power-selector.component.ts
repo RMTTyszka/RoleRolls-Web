@@ -5,7 +5,7 @@ import {PowersService} from '../../powers.service';
 import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-  selector: 'loh-power-selector',
+  selector: 'rr-power-selector',
   templateUrl: './power-selector.component.html',
   styleUrls: ['./power-selector.component.css']
 })

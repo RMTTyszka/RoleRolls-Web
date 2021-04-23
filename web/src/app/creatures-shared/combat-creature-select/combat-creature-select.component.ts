@@ -4,7 +4,7 @@ import {Creature} from '../../shared/models/creatures/Creature.model';
 import {CombatManagementService} from '../../combat/combat-management.service';
 
 @Component({
-  selector: 'loh-combat-creature-select',
+  selector: 'rr-combat-creature-select',
   templateUrl: './combat-creature-select.component.html',
   styleUrls: ['./combat-creature-select.component.css']
 })

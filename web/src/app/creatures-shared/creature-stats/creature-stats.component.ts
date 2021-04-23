@@ -3,7 +3,7 @@ import {CreatureStatus} from '../../shared/models/creatures/CreatureStatus.model
 import {CreatureEditorService} from '../creature-editor/creature-editor.service';
 
 @Component({
-  selector: 'loh-creature-stats',
+  selector: 'rr-creature-stats',
   templateUrl: './creature-stats.component.html',
   styleUrls: ['./creature-stats.component.css']
 })

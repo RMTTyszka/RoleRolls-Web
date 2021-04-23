@@ -3,7 +3,7 @@ import {PlayersService} from '../players.service';
 import {Player} from '../../shared/models/Player.model';
 
 @Component({
-  selector: 'loh-players',
+  selector: 'rr-players',
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.css']
 })

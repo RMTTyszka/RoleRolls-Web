@@ -3,7 +3,7 @@ import {EffectInstance} from '../../../shared/models/effects/EffectInstance.mode
 import {EffectType} from '../../../shared/models/effects/EffectType.model';
 
 @Component({
-  selector: 'loh-effect-icon',
+  selector: 'rr-effect-icon',
   templateUrl: './effect-icon.component.html',
   styleUrls: ['./effect-icon.component.css']
 })

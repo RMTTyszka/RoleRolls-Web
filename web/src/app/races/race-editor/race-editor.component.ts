@@ -15,7 +15,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dyna
 import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
 
 @Component({
-  selector: 'loh-race-editor',
+  selector: 'rr-race-editor',
   templateUrl: './race-editor.component.html',
   styleUrls: ['./race-editor.component.css'],
   providers: [DialogService]

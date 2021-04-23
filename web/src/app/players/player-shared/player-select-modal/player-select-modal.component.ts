@@ -5,7 +5,7 @@ import {RRColumns} from '../../../shared/components/cm-grid/cm-grid.component';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-player-select-modal',
+  selector: 'rr-player-select-modal',
   templateUrl: './player-select-modal.component.html',
   styleUrls: ['./player-select-modal.component.css']
 })

@@ -7,7 +7,7 @@ import {WeaponModel} from 'src/app/shared/models/WeaponModel.model';
 import {WeaponModelEditorComponent} from '../weapon-model-editor/weapon-model-editor.component';
 
 @Component({
-  selector: 'loh-weapon-model-list',
+  selector: 'rr-weapon-model-list',
   templateUrl: './weapon-model-list.component.html',
   styleUrls: ['./weapon-model-list.component.css'],
   providers: [DialogService]

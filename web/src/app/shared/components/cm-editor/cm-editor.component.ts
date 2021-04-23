@@ -11,7 +11,7 @@ import {BaseCrudResponse} from '../../models/BaseCrudResponse';
 import {BaseCrudService} from '../../base-service/base-crud-service';
 
 @Component({
-  selector: 'loh-cm-editor',
+  selector: 'rr-cm-editor',
   templateUrl: './cm-editor.component.html',
   styleUrls: ['./cm-editor.component.css']
 })

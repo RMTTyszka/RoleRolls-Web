@@ -5,11 +5,11 @@
   <p-tabView class="p-col-9">
     <p-tabPanel header="Heroes">
       <ng-template pTemplate="content">
-        <loh-campaign-heroes></loh-campaign-heroes>
+        <rr-campaign-heroes></rr-campaign-heroes>
       </ng-template>  </p-tabPanel>
     <p-tabPanel header="Combat">
       <ng-template pTemplate="content">
-        <loh-campaign-combat></loh-campaign-combat>
+        <rr-campaign-combat></rr-campaign-combat>
       </ng-template>  </p-tabPanel>
     <p-tabPanel header="Shops">
       <ng-template pTemplate="content">
@@ -28,7 +28,7 @@
     </p-tabPanel>
   </p-tabView>
   <div class="p-col-3">
-    <loh-campaign-rolls [campaignId]="campaignId" style="overflow: scroll; height: 100%;"></loh-campaign-rolls>
+    <rr-campaign-rolls [campaignId]="campaignId" style="overflow: scroll; height: 100%;"></rr-campaign-rolls>
   </div>
 </div>
 

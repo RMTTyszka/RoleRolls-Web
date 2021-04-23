@@ -5,7 +5,7 @@ import {EncounterCreateEditComponent} from '../encounter-create-edit/encounter-c
 import {Encounter} from '../../shared/models/Encounter.model';
 
 @Component({
-  selector: 'loh-encounters',
+  selector: 'rr-encounters',
   templateUrl: './encounters.component.html',
   styleUrls: ['./encounters.component.css']
 })

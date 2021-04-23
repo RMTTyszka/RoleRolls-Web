@@ -6,7 +6,7 @@ import {map, tap} from 'rxjs/operators';
 import {createForm} from 'src/app/shared/EditorExtension';
 
 @Component({
-  selector: 'loh-base-weapon-select',
+  selector: 'rr-base-weapon-select',
   templateUrl: './base-weapon-select.component.html',
   styleUrls: ['./base-weapon-select.component.css']
 })

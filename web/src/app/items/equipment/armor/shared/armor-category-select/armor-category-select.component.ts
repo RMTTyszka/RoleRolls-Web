@@ -4,7 +4,7 @@ import {ArmorCategory} from '../../../../../shared/models/items/ArmorCategory.mo
 import {ArmorCategoryService} from '../../armor-category.service';
 
 @Component({
-  selector: 'loh-armor-category-select',
+  selector: 'rr-armor-category-select',
   templateUrl: './armor-category-select.component.html',
   styleUrls: ['./armor-category-select.component.css']
 })

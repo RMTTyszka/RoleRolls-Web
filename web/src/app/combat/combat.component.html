@@ -10,7 +10,7 @@
       <button pButton (click)="addHeroPlace()" label="Add Hero"></button>
     </div>
     <div *ngFor="let hero of heroes; let i = index" fxLayout="row"fxLayoutAlign="start end" fxLayoutGap="12px">
-        <loh-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)" [combat]="combat"></loh-hero-select>
+        <rr-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)" [combat]="combat"></rr-hero-select>
          <button pButton (click)="setSelectedCreature(hero, creatureType.Hero, actionMenu, $event)" icon="fas fa-list"></button>
         <button *ngIf="isCurrentOnInitiative(hero.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
     </div>
@@ -22,28 +22,28 @@
     </div>
     <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
       <div fxLayout="row" fxLayoutGap="12px">
-        <loh-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></loh-monster-select>
+        <rr-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></rr-monster-select>
         <button pButton (click)="setSelectedCreature(monster, creatureType.Monster, actionMenu, $event)" icon="fas fa-list"></button>
         <button *ngIf="isCurrentOnInitiative(monster.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
       </div>
     </div>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <loh-attack-details [attackDetails]="attackDetails"></loh-attack-details>
+    <rr-attack-details [attackDetails]="attackDetails"></rr-attack-details>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <loh-initiative ></loh-initiative>
+    <rr-initiative ></rr-initiative>
   </div>
   <div fxFlex="0" fxFlex.gt-sm="50" style="padding: 8px">
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <loh-combat-log [combatLogs]="combat.combatLog"></loh-combat-log>
+    <rr-combat-log [combatLogs]="combat.combatLog"></rr-combat-log>
   </div>
 </div>
 
 <p-sidebar [(visible)]="actionModalOpened" position="right" [modal]="false">
-  <loh-combat-action-modal
+  <rr-combat-action-modal
     (attackAction)="heroFullAttack($event)"
-    [combatData]="combatActionData"></loh-combat-action-modal>
+    [combatData]="combatActionData"></rr-combat-action-modal>
 </p-sidebar>
 

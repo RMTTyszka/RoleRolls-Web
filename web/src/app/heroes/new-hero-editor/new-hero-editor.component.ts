@@ -15,7 +15,7 @@ import {HeroManagementService} from '../hero-management.service';
 import {CreatureType} from '../../shared/models/creatures/CreatureType';
 
 @Component({
-  selector: 'loh-new-hero-editor',
+  selector: 'rr-new-hero-editor',
   templateUrl: './new-hero-editor.component.html',
   styleUrls: ['./new-hero-editor.component.css'],
   providers: [HeroFundsService]

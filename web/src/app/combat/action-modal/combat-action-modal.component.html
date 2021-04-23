@@ -6,7 +6,7 @@
 
 
   <ng-template #attackAction>
-    <loh-combat-creature-select [creaturesOnCombat]="combatData.currentTargets" (creatureSelected)="targetSelected($event)"></loh-combat-creature-select>
+    <rr-combat-creature-select [creaturesOnCombat]="combatData.currentTargets" (creatureSelected)="targetSelected($event)"></rr-combat-creature-select>
     <button pButton (click)="this.attack()" label="Attack"></button>
   </ng-template>
 </form>

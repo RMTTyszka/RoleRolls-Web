@@ -18,11 +18,11 @@
           </div>
           <div class="p-field p-col">
             <label for="race" class="p-col-fixed" style="width:100px">Race</label>
-            <loh-rr-select-field id="race" [service]="racesService" (entitySelected)="raceSelected($event)" [initialValue]="race"></loh-rr-select-field>
+            <rr-rr-select-field id="race" [service]="racesService" (entitySelected)="raceSelected($event)" [initialValue]="race"></rr-rr-select-field>
           </div>
           <div class="p-field p-col">
             <label for="role" class="p-col-fixed" style="width:100px">Role</label>
-            <loh-rr-select-field id="role" [service]="rolesService" (entitySelected)="roleSelected($event)" [initialValue]="role"></loh-rr-select-field>
+            <rr-rr-select-field id="role" [service]="rolesService" (entitySelected)="roleSelected($event)" [initialValue]="role"></rr-rr-select-field>
           </div>
         </div>
 
@@ -236,10 +236,10 @@
         </div>
       </mat-tab>
       <mat-tab label="Bonuses">
-        <loh-bonuses
+        <rr-bonuses
           [form]="form"
           (bonusChanged)="calculateTotalProperty($event)"
-        ></loh-bonuses>
+        ></rr-bonuses>
       </mat-tab>
     </mat-tab-group>
     <div *ngIf="true">

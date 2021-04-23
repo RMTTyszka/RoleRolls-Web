@@ -6,7 +6,7 @@ import {MessageService} from 'primeng/api';
 import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'loh-creature-attribute-details',
+  selector: 'rr-creature-attribute-details',
   templateUrl: './creature-attribute-details.component.html',
   styleUrls: ['./creature-attribute-details.component.css']
 })

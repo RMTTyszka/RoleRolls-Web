@@ -1,18 +1,20 @@
-<form [formGroup]="form">
-    <loh-inventory-armor-select (armorSelected)="armorSelected($event)"></loh-inventory-armor-select>
+<form [formGroup]="form" class="p-fluid">
   <div class="p-grid p-nogutter p-justify-between">
-    <loh-inventory-weapon-select class="p-col-8" (weaponSelected)="mainWeaponSelected($event)"></loh-inventory-weapon-select>
-    <input pInputText readonly class="p-col-4" [value]="mainWeaponGripType"/>
-  </div>
-  <div class="p-grid p-nogutter p-justify-between">
-    <loh-inventory-weapon-select (weaponSelected)="offWeaponSelected($event)" weaponFormName="offWeapon" placeholder="Off hand"></loh-inventory-weapon-select>
-    <input pInputText readonly class="p-col-4" [value]="offWeaponGripType"/>
-  </div>
 
-    <loh-inventory-gloves-select (gloveSelected)="glovesSelected($event)"></loh-inventory-gloves-select>
-    <loh-inventory-belt-select (beltSelected)="beltSelected($event)"></loh-inventory-belt-select>
-    <loh-inventory-headpiece-select (headpieceSelected)="headpieceSelected($event)"></loh-inventory-headpiece-select>
-    <loh-inventory-neckaccesory-select (neckAccessorySelected)="neckAccessorySelected($event)"></loh-inventory-neckaccesory-select>
-    <loh-inventory-ring-select [ringHand]="ringHand.right" (ringSelected)="ringSelected($event)"></loh-inventory-ring-select>
-    <loh-inventory-ring-select [ringHand]="ringHand.left" (ringSelected)="ringSelected($event)"></loh-inventory-ring-select>
+    <rr-inventory-armor-select (armorSelected)="armorSelected($event)" class="p-col-8"></rr-inventory-armor-select>
+    <rr-inventory-weapon-select class="p-col-8" (weaponSelected)="mainWeaponSelected($event)"></rr-inventory-weapon-select>
+    <div class="p-col-4">
+      <input pInputText readonly [value]="mainWeaponGripType"/>
+    </div>
+    <rr-inventory-weapon-select class="p-col-8" (weaponSelected)="offWeaponSelected($event)" weaponFormName="offWeapon" placeholder="Off hand"></rr-inventory-weapon-select>
+    <div class="p-col-4">
+    <input pInputText readonly  [value]="offWeaponGripType"/>
+    </div>
+    <rr-inventory-gloves-select (gloveSelected)="glovesSelected($event)" class="p-col-8"></rr-inventory-gloves-select>
+    <rr-inventory-belt-select (beltSelected)="beltSelected($event)" class="p-col-8"></rr-inventory-belt-select>
+    <rr-inventory-headpiece-select (headpieceSelected)="headpieceSelected($event)" class="p-col-8"></rr-inventory-headpiece-select>
+    <rr-inventory-neckaccesory-select (neckAccessorySelected)="neckAccessorySelected($event)" class="p-col-8"></rr-inventory-neckaccesory-select>
+    <rr-inventory-ring-select [ringHand]="ringHand.right" (ringSelected)="ringSelected($event)" class="p-col-8"></rr-inventory-ring-select>
+    <rr-inventory-ring-select [ringHand]="ringHand.left" (ringSelected)="ringSelected($event)" class="p-col-8"></rr-inventory-ring-select>
+  </div>
 </form>

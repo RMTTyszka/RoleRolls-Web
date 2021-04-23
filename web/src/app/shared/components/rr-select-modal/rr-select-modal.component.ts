@@ -6,7 +6,7 @@ import {Entity} from '../../models/Entity.model';
 import {RRSelectModalInjector} from '../rr-select-field/rr-select-field.component';
 
 @Component({
-  selector: 'loh-rr-select-modal',
+  selector: 'rr-rr-select-modal',
   templateUrl: './rr-select-modal.component.html',
   styleUrls: ['./rr-select-modal.component.css']
 })

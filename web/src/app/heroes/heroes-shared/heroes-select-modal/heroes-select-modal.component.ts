@@ -7,7 +7,7 @@ import {Hero} from '../../../shared/models/NewHero.model';
 import {HeroesService} from '../../heroes.service';
 
 @Component({
-  selector: 'loh-heroes-select-modal',
+  selector: 'rr-heroes-select-modal',
   templateUrl: './heroes-select-modal.component.html',
   styleUrls: ['./heroes-select-modal.component.css']
 })

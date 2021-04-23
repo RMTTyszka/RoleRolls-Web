@@ -6,7 +6,7 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Bonus} from '../models/Bonus.model';
 
 @Component({
-  selector: 'loh-bonuses',
+  selector: 'rr-bonuses',
   templateUrl: './bonuses.component.html',
   styleUrls: ['./bonuses.component.css']
 })

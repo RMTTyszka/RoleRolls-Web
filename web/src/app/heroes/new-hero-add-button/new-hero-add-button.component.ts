@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'loh-new-hero-add-button',
+  selector: 'rr-new-hero-add-button',
   templateUrl: './new-hero-add-button.component.html',
   styleUrls: ['./new-hero-add-button.component.css']
 })

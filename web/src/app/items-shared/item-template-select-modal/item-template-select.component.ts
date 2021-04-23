@@ -6,7 +6,7 @@ import {createForm} from '../../shared/EditorExtension';
 import {ItemTemplate} from '../../shared/models/items/ItemTemplate';
 
 @Component({
-  selector: 'loh-item-template-select',
+  selector: 'rr-item-template-select',
   templateUrl: './item-template-select.component.html',
   styleUrls: ['./item-template-select.component.css']
 })

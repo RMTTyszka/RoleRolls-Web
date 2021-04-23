@@ -4,7 +4,7 @@ import {MakeTestService} from './make-test.service';
 import {TestResult} from '../../shared/models/RollResult.model';
 
 @Component({
-  selector: 'loh-make-test',
+  selector: 'rr-make-test',
   templateUrl: './make-test.component.html',
   styleUrls: ['./make-test.component.css']
 })

@@ -9,7 +9,7 @@ import {EditorAction} from '../../dtos/ModalEntityData';
 import {UniverseService} from '../../../universes/universe.service';
 
 @Component({
-  selector: 'loh-rr-grid',
+  selector: 'rr-rr-grid',
   templateUrl: './r-r-grid.component.html',
   styleUrls: ['./r-r-grid.component.css'],
   providers: [DialogService]
