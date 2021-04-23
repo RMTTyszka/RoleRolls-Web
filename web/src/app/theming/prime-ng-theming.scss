@@ -72,6 +72,13 @@
   background-color: $mainColor3 !important;
 }
 
+#FieldSet
+.p-fieldset-content {
+  padding: unset !important;
+}
+.p-fieldset .p-fieldset-content {
+  padding: unset !important;
+}
 #Table
 .p-table .p-table-tbody > tr > td {
   padding: 0 0 0 4px !important;

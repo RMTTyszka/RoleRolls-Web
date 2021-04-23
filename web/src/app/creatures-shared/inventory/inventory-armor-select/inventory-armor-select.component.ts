@@ -3,6 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {ArmorInstance} from 'src/app/shared/models/items/ArmorInstance.model';
 import {Inventory} from 'src/app/shared/models/Inventory.model';
 import {isArmor} from 'src/app/shared/utils/isItem';
+import {ItemInstance} from '../../../shared/models/ItemInstance.model';
 
 @Component({
   selector: 'rr-inventory-armor-select',
@@ -20,12 +21,7 @@ export class InventoryArmorSelectComponent implements OnInit {
   filter = (inventoryForm: FormGroup) => (inventoryForm.value as Inventory).items
     .filter(item => isArmor(item)) as ArmorInstance[]
 
-  search = (filter: string, items: Array<ArmorInstance>) => items
-      .filter((item: ArmorInstance) => item.name.includes(filter)
-        || item.armorTemplate.baseArmor.name.includes(filter))
-      .map(item => item.name)
-
-  itemSelected(selectedArmor: ArmorInstance) {
-    this.armorSelected.next(selectedArmor);
+  itemSelected(selectedArmor: ItemInstance) {
+    this.armorSelected.next(selectedArmor as ArmorInstance);
   }
 }

@@ -29,6 +29,9 @@ public class ItemInstance extends Entity {
     @Column(columnDefinition = "BINARY(16)")
     protected UUID itemTemplateId;
 
+    public String getUniqueName() {
+        return name + ' ' + level;
+    }
 
 
     public void addQuantity(Integer quantity) {

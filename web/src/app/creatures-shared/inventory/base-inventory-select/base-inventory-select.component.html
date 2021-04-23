@@ -1,3 +1,14 @@
 <form [formGroup]="itemForm">
-  <p-autoComplete (completeMethod)="get($event.query)" [placeholder]="placeholder" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true" formControlName="name"></p-autoComplete>
+  <p-dropdown  [options]="options" [placeholder]="placeholder"  (onChange)="selected($event.value)" optionLabel="id" formControlName="id" optionValue="id">
+    <ng-template let-country pTemplate="selectedItem">
+      <div class="country-item">
+      <div>{{country.name}}</div>
+    </div>
+    </ng-template>
+    <ng-template let-country pTemplate="item">
+      <div class="country-item">
+      <div>{{country.name + ' lv: ' + country.level}}</div>
+    </div>
+    </ng-template>
+  </p-dropdown>
 </form>

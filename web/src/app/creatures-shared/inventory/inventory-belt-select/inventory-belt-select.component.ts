@@ -20,11 +20,6 @@ export class InventoryBeltSelectComponent implements OnInit {
   filter = (inventoryForm: FormGroup) => (inventoryForm.value as Inventory).items
     .filter(item => isBelt(item)) as BeltInstance[]
 
-  search = (filter: string, items: Array<BeltInstance>) => items
-    .filter((item: BeltInstance) => item.name.includes(filter)
-      || item.beltModel.name.includes(filter))
-    .map(item => item.name)
-
   itemSelected(selectedBelt: BeltInstance) {
     this.beltSelected.next(selectedBelt);
   }
