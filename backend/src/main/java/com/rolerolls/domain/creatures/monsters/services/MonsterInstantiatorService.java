@@ -13,7 +13,7 @@ public class MonsterInstantiatorService {
 
     public Monster Instantiate(MonsterModel monsterModel, Integer level) {
         Monster monster = new Monster();
-        monster.setMonsterModelId(monsterModel.getId());
+        monster.setMonsterModel(monsterModel);
         monster.setRace(monsterModel.getRace());
         monster.setRole(monsterModel.getRole());
         // TODO get random name from race
@@ -21,7 +21,9 @@ public class MonsterInstantiatorService {
         CreatureSkills creatureSkills = instantiateCreatureSkills(monsterModel);
         monster.setSkills(creatureSkills);
         monster.setBaseAttributes(monsterModel.getAttributes());
-
+        for (int i = 0; i < level; i++) {
+            monster.levelUp();
+        }
 
         return monster;
     }

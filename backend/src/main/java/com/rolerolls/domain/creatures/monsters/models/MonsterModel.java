@@ -35,6 +35,11 @@ public class MonsterModel extends DefaultEntity {
 	@ElementCollection
 	@CollectionTable()
 	private List<MonsterTemplateSkill> skills;
+	@Getter
+	@Setter
+	@ElementCollection
+	@CollectionTable()
+	private List<String> mainAttributes;
 
 
 	public List<Enviroment> getEnviroment() {
