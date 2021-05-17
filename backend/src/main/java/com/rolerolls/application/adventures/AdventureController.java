@@ -1,7 +1,7 @@
-package com.rolerolls.domain.adventures;
+package com.rolerolls.application.adventures;
 
-import com.rolerolls.application.adventures.adventures.Adventure;
-import com.rolerolls.application.adventures.adventures.AdventureRepository;
+import com.rolerolls.domain.adventures.Adventure;
+import com.rolerolls.domain.adventures.AdventureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;

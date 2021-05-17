@@ -1,4 +1,4 @@
-package com.rolerolls.application.adventures.environments;
+package com.rolerolls.application.environments;
 
 import javax.persistence.Entity;
 

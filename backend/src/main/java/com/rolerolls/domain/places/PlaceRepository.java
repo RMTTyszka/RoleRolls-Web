@@ -1,4 +1,4 @@
-package com.rolerolls.application.adventures.places;
+package com.rolerolls.domain.places;
 
 import org.springframework.data.repository.CrudRepository;
 

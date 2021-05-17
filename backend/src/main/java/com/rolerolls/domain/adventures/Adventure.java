@@ -1,6 +1,6 @@
-package com.rolerolls.application.adventures.adventures;
+package com.rolerolls.domain.adventures;
 
-import com.rolerolls.application.adventures.places.Place;
+import com.rolerolls.domain.places.Place;
 import lombok.Getter;
 import lombok.Setter;
 

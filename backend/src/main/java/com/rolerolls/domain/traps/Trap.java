@@ -1,4 +1,4 @@
-package com.rolerolls.application.adventures;
+package com.rolerolls.domain.traps;
 
 import javax.persistence.Entity;
 

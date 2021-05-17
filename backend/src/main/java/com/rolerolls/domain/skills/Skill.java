@@ -112,7 +112,7 @@ public abstract class Skill extends Entity {
     }
 
     protected abstract Integer getUsedMinorPoints();
-    protected abstract List<String> getList();
+    public abstract List<String> getList();
 
     public static List<String> getListOld(){
         return Arrays.asList("jump", "climb", "athleticism", "steal", "stealth",

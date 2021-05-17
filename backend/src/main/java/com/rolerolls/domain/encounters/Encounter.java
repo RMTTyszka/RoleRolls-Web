@@ -1,7 +1,7 @@
-package com.rolerolls.application.adventures.encounters;
+package com.rolerolls.domain.encounters;
 
-import com.rolerolls.application.adventures.environments.Enviroment;
-import com.rolerolls.domain.creatures.heroes.Hero;
+import com.rolerolls.application.environments.Enviroment;
+import com.rolerolls.domain.creatures.monsters.models.MonsterModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,7 @@ public class Encounter extends com.rolerolls.shared.Entity {
 	@OneToMany
 	@Getter
 	@Setter
-	private List<Hero> monsters = new ArrayList<>();
+	private List<MonsterModel> monsters = new ArrayList<>();
 
 	@OneToMany
 	@Getter
