@@ -5,10 +5,12 @@ import com.rolerolls.domain.creatures.monsters.Monster;
 import com.rolerolls.domain.creatures.monsters.services.MonsterInstantiatorService;
 import com.rolerolls.domain.encounters.Encounter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CombatFromEncounterBuilder {
 
     @Autowired

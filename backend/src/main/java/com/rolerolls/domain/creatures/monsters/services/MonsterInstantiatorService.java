@@ -6,7 +6,9 @@ import com.rolerolls.domain.creatures.monsters.models.MonsterTemplateSkill;
 import com.rolerolls.domain.skills.CreatureSkills;
 import com.rolerolls.domain.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MonsterInstantiatorService {
     @Autowired
     private SkillsService skillsService;

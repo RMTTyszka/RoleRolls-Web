@@ -25,6 +25,12 @@ public class Encounter extends com.rolerolls.shared.Entity {
 	@Setter
 	private List<Enviroment> enviroments;
 
+	public Encounter(Integer level, List<MonsterModel> monsters, List<Enviroment> enviroments) {
+		this.level = level;
+		this.monsters = monsters;
+		this.enviroments = enviroments;
+	}
+
 	public Integer getLevel() {
 		return level;
 	}
