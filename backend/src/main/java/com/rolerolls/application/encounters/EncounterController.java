@@ -1,15 +1,16 @@
 package com.rolerolls.application.encounters;
 
 import com.rolerolls.application.encounters.dtos.EncounterInput;
+import com.rolerolls.domain.creatures.monsters.models.MonsterModel;
 import com.rolerolls.domain.encounters.Encounter;
 import com.rolerolls.domain.encounters.EncounterRepository;
 import com.rolerolls.shared.BaseCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
@@ -23,13 +24,6 @@ public class EncounterController extends BaseCrudController<Encounter, Encounter
 		super(repository);
 	}
 
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<Encounter> getAllEncounters() {
-		
-		// This returns a JSON or XML with the users
-		return encounterRepository.findAll();
-	}
-
 	@Override
 	public EncounterInput getNew() {
 		return new EncounterInput();
@@ -37,11 +31,27 @@ public class EncounterController extends BaseCrudController<Encounter, Encounter
 
 	@Override
 	protected Encounter createInputToEntity(EncounterInput encounterInput) {
-		return new Encounter(encounterInput.getLevel(), encounterInput.getMonsters(), encounterInput.getEnviroments());
+		return new Encounter(encounterInput.getName(), encounterInput.getLevel(), encounterInput.getMonsters(), encounterInput.getEnviroments());
 	}
 
 	@Override
-	protected Encounter updateInputToEntity(EncounterInput encounterInput) {
-		return new Encounter(encounterInput.getLevel(), encounterInput.getMonsters(), encounterInput.getEnviroments());
+	protected Encounter updateInputToEntity(UUID id, EncounterInput encounterInput) {
+		Encounter encounter = repository.findById(id).get();
+		encounter.setName(encounterInput.getName());
+		encounter.setLevel(encounterInput.getLevel());
+		return encounter;
+	}
+
+	@PostMapping(path="/{encounterId}/monsters")
+	public ResponseEntity<?> addMonsterTemplate(@PathVariable UUID encounterId, @RequestBody MonsterModel monsterTemplate) {
+		Encounter encounter = repository.findById(encounterId).get();
+		Boolean success = encounter.addMonsterTemplate(monsterTemplate);
+		if (success) {
+			repository.save(encounter);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.unprocessableEntity().build();
+		}
+
 	}
 }

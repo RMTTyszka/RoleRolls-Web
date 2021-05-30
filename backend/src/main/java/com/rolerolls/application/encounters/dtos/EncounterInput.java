@@ -18,6 +18,9 @@ public class EncounterInput {
     @Getter
     @Setter
     private List<Enviroment> enviroments;
+    @Getter
+    @Setter
+    private String name;
 
     public Integer getLevel() {
         return level;

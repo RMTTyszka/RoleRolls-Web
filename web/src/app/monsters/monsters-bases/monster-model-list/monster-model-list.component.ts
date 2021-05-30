@@ -5,7 +5,7 @@ import {MonsterModelComponent} from '../monster-model-editor/monster-model.compo
 import {Router} from '@angular/router';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {LegacyMonstersBaseService} from '../legacy-monsters-base.service';
-import {MonsterModelsService} from '../monster-models.service';
+import {MonsterModelsService} from '../monster-template-provider/monster-models.service';
 import {DialogService} from 'primeng/dynamicdialog';
 import {MonsterModelConfig} from '../monster-model-config';
 

@@ -1,12 +1,13 @@
 import {Injectable, Injector} from '@angular/core';
-import {BaseCrudService} from '../../shared/base-service/base-crud-service';
-import {MonsterModel} from '../../shared/models/creatures/monsters/MonsterModel.model';
-import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
-import {MonsterModelComponent} from './monster-model-editor/monster-model.component';
-import {MonsterModelConfig} from './monster-model-config';
+import {BaseCrudService} from '../../../shared/base-service/base-crud-service';
+import {MonsterModel} from '../../../shared/models/creatures/monsters/MonsterModel.model';
+import {RRColumns} from '../../../shared/components/cm-grid/cm-grid.component';
+import {MonsterModelComponent} from '../monster-model-editor/monster-model.component';
+import {MonsterModelConfig} from '../monster-model-config';
+import {MonsterTemplateProviderModule} from './monster-template-provider.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: MonsterTemplateProviderModule
 })
 export class MonsterModelsService extends BaseCrudService<MonsterModel, MonsterModel> {
   entityListColumns: RRColumns[] = [

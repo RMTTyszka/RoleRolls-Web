@@ -24,12 +24,26 @@ public class Encounter extends com.rolerolls.shared.Entity {
 	@Getter
 	@Setter
 	private List<Enviroment> enviroments;
+	@Getter
+	@Setter
+	private String name;
 
-	public Encounter(Integer level, List<MonsterModel> monsters, List<Enviroment> enviroments) {
+	public Encounter(String name, Integer level, List<MonsterModel> monsters, List<Enviroment> enviroments) {
 		this.level = level;
+		this.name = name;
 		this.monsters = monsters;
 		this.enviroments = enviroments;
 	}
+
+	public Encounter() {
+
+	}
+
+	public Encounter(String name, Integer level) {
+		this.level = level;
+		this.name = name;
+	}
+
 
 	public Integer getLevel() {
 		return level;
@@ -39,4 +53,13 @@ public class Encounter extends com.rolerolls.shared.Entity {
 		this.level = level;
 	}
 
+	public Boolean addMonsterTemplate(MonsterModel monsterTemplate) {
+		boolean alreadyHasMonsterTemplate = this.getMonsters().stream().anyMatch(e -> e.getId().equals(monsterTemplate.getId()));
+		if (alreadyHasMonsterTemplate) {
+			return false;
+		} else {
+			this.monsters.add(monsterTemplate);
+			return true;
+		}
+	}
 }

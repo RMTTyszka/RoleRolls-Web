@@ -3,6 +3,7 @@ import {EncountersService} from '../encounters.service';
 import {MatDialog} from '@angular/material/dialog';
 import {EncounterCreateEditComponent} from '../encounter-create-edit/encounter-create-edit.component';
 import {Encounter} from '../../shared/models/Encounter.model';
+import {EncounterConfig} from '../encounter-config';
 
 @Component({
   selector: 'rr-encounters',
@@ -11,15 +12,13 @@ import {Encounter} from '../../shared/models/Encounter.model';
 })
 export class EncountersComponent implements OnInit {
 
-  encounters: Encounter[];
-
+  public config = new EncounterConfig();
   constructor(
-    private _encounterService: EncountersService,
+    public service: EncountersService,
     public dialog: MatDialog
     ) {
   }
   ngOnInit() {
-    this._encounterService.getAll().subscribe(resp => console.log(resp));
   }
 
   createNewEncounter() {

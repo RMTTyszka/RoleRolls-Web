@@ -1,24 +1,31 @@
-<div>
-  <form [formGroup]="form" fxLayout="column" fxLayoutAlign="start start">
-    <div fxFlex="50">
-      <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50">
-      <mat-form-field>
-        <input type="number" matInput placeholder="Level" formControlName="level">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50">
-      <mat-form-field *ngFor="let monster of monsters.controls; let i = index" formArrayName="monsters">
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <input fxFlex="50" matInput placeholder="Monster" [formControlName]="i">
-          <button fxFlex="50" matButton>Remove</button>
-
+<rr-editor-modal *ngIf="hasLoaded">
+  <div modal-content>
+    <form  [formGroup]="form">
+      <div class="p-fluid">
+        <div class="p-grid">
+          <label for="encounter-name-input" class="p-col">Name</label>
+          <div class="p-col">
+            <input id="encounter-name-input" type="text" pInputText formControlName="name">
+          </div>
         </div>
-      </mat-form-field>
-    </div>
-      <button (click)="addMonster()" type="button">Add Monster</button>
-  </form>
-</div>
+        <div class="p-grid">
+          <label for="encounter-level-input" class="p-col">Level</label>
+          <div class="p-col">
+            <input id="encounter-level-input" type="number" pInputText formControlName="level">
+          </div>
+        </div>
+        <div class="p-grid p-col-12">
+          <div *ngFor="let monster of monsters.controls; let i = index" formArrayName="monsters" class="p-col">
+            <rr-monster-template-select (monsterTemplateSelected)="monsterTemplateSelected($event, i)" [monsterTemplate]="monsters.controls[i].value"></rr-monster-template-select>
+            <button fxFlex="50" matButton>Remove</button>
+          </div>
+        </div>
+        <button (click)="addMonsterPlace()" type="button">Add Monster</button>
+      </div>
+    </form>
+  </div>
+  <div modal-footer>
+    <button pButton label="Save" (click)="save()"></button>
+  </div>
+
+</rr-editor-modal>

@@ -16,6 +16,8 @@ import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module
 import { MonsterCreateComponent } from './monster-create/monster-create.component';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputTextModule} from 'primeng/inputtext';
+import { MonsterTemplateSelectComponent } from './monsters-bases/monster-template-shared/monster-template-select/monster-template-select.component';
+import {MonsterTemplateProviderModule} from './monsters-bases/monster-template-provider/monster-template-provider.module';
 
 
 const routes: Routes = [
@@ -25,25 +27,28 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SharedModule,
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    MonsterTemplateProviderModule,
 
 
-        RaceSharedModule,
-        RolesSharedModule,
-        MonstersSharedModule,
-        ToolbarModule,
-        CreaturesSharedModule,
-        DynamicDialogModule,
-        InputTextModule,
+    RaceSharedModule,
+    RolesSharedModule,
+    MonstersSharedModule,
+    ToolbarModule,
+    CreaturesSharedModule,
+    DynamicDialogModule,
+    InputTextModule,
 
-    ],
+  ],
   declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent, MonsterCreateComponent],
   providers: [
-    { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: {}}
+    {provide: MatDialogRef, useValue: {}},
+    {provide: MAT_DIALOG_DATA, useValue: {}}
+  ],
+  exports: [
   ],
   entryComponents: [
     MonsterComponent, MonsterModelComponent, MonsterCreateComponent

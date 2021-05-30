@@ -8,7 +8,7 @@ import {RolesService} from '../../../roles/roles.service';
 import {RacesService} from '../../../races/races.service';
 import {BaseCreatorComponent} from '../../../shared/base-creator/base-creator.component';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {MonsterModelsService} from '../monster-models.service';
+import {MonsterModelsService} from '../monster-template-provider/monster-models.service';
 import {DataService} from '../../../shared/data.service';
 
 @Component({

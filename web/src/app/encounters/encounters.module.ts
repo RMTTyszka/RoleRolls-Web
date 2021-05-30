@@ -8,21 +8,31 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from '@angular/material/dia
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {SharedModule} from '../shared/shared.module';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {MonstersModule} from '../monsters/monsters.module';
+import {MonsterTemplateSharedModule} from '../monsters/monsters-bases/monster-template-shared/monster-template-shared.module';
 
 const routes: Routes = [
   {path: '', component: EncountersComponent}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatFormFieldModule,
-    MatDialogModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    FlexLayoutModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatFormFieldModule,
+        MatDialogModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        SharedModule,
+        // Primeng
+        DynamicDialogModule,
+
+      // RR
+      MonsterTemplateSharedModule
+    ],
   declarations: [
     EncountersComponent,
     EncounterCreateEditComponent
