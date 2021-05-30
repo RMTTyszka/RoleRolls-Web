@@ -54,4 +54,12 @@ public class EncounterController extends BaseCrudController<Encounter, Encounter
 		}
 
 	}
+	@DeleteMapping(path="/{encounterId}/monsters/{monsterTemplateId}")
+	public ResponseEntity<?> addMonsterTemplate(@PathVariable UUID encounterId, @PathVariable UUID monsterTemplateId) {
+		Encounter encounter = repository.findById(encounterId).get();
+		encounter.removeMonsterTemplate(monsterTemplateId);
+		repository.save(encounter);
+		return ResponseEntity.ok().build();
+
+	}
 }

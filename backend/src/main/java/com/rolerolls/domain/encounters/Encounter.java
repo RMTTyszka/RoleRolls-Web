@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 public class Encounter extends com.rolerolls.shared.Entity {
@@ -61,5 +63,9 @@ public class Encounter extends com.rolerolls.shared.Entity {
 			this.monsters.add(monsterTemplate);
 			return true;
 		}
+	}
+
+	public void removeMonsterTemplate(UUID monsterTemplateId) {
+		this.monsters = this.monsters.stream().filter(e -> !e.getId().equals(monsterTemplateId)).collect(Collectors.toList());
 	}
 }
