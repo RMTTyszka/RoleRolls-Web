@@ -10,7 +10,7 @@ export interface IEditorInput<T> {
   entity: T;
 }
 
-export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnDestroy {
+export class BaseCreatorComponent<T extends Entity, TCreateInput> {
   entityIsLoading = true;
   isLoading = true;
   hasLoaded = false;
@@ -61,9 +61,6 @@ export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnD
         this.afterGetEntity();
       });
     }
-  }
-
-  ngOnDestroy(): void {
   }
 
   protected afterGetEntity() {

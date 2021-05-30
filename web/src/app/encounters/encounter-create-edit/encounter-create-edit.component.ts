@@ -2,13 +2,11 @@ import {Component, Inject, Injector, OnInit} from '@angular/core';
 import {EncountersService} from '../encounters.service';
 import {Encounter} from '../../shared/models/Encounter.model';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
-import {Race} from '../../shared/models/Race.model';
 import {MonsterModel} from '../../shared/models/creatures/monsters/MonsterModel.model';
-import {constants} from 'http2';
 import {MessageService} from 'primeng/api';
+import {HttpStatusCode} from '@angular/common/http';
 
 export class EncounterEditorProperies {
   name: 'name';
@@ -31,7 +29,7 @@ export class EncounterCreateEditComponent extends BaseCreatorComponent<Encounter
     injector: Injector,
     protected dialogRef: DynamicDialogRef,
     protected dialogConfig: DynamicDialogConfig,
-    protected service: EncountersService,
+    public service: EncountersService,
     private messageService: MessageService,
     ) {
     super(injector);
@@ -56,14 +54,37 @@ export class EncounterCreateEditComponent extends BaseCreatorComponent<Encounter
   addMonster(monsterTemplate: MonsterModel, arrayIndex: number) {
     this.service.addMonster(this.entity.id, monsterTemplate).subscribe(() => {
       this.monsters.controls[arrayIndex].setValue(monsterTemplate);
+      this.messageService.add({
+        key: 'mainToast',
+        detail: 'Monster template added',
+        severity: 'success',
+      });
     }, error => {
-      if (error.status === HTTP_STATUS_UNPROCESSABLE_ENTITY) {
+      if (error.status === HttpStatusCode.UnprocessableEntity) {
         this.messageService.add({
-          key: 'Failed to add monster',
-          detail: 'That monster has already been added before.'
+          key: 'mainToast',
+          detail: 'That monster has already been added before.',
+          severity: 'error',
         });
+        this.monsters.controls[arrayIndex].setValue(new MonsterModel());
       }
     });
+  }
+
+  removeMonsterPlace(index: number) {
+    const monsterTemplate = this.monsters.controls[index].value as MonsterModel;
+    if (monsterTemplate.id) {
+      this.service.removeMonster(this.entity.id, monsterTemplate.id).subscribe(() => {
+        this.monsters.removeAt(index);
+        this.messageService.add({
+          key: 'mainToast',
+          detail: 'Monster template removed',
+          severity: 'success',
+        });
+      });
+    } else {
+      this.monsters.removeAt(index);
+    }
   }
 
 }

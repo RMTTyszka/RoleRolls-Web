@@ -5,7 +5,6 @@ import {AttackDetails} from '../shared/models/AttackDetails.model';
 import {Combat} from '../shared/models/combat/Combat.model';
 import {Monster} from '../shared/models/creatures/monsters/Monster.model';
 import {Creature} from '../shared/models/creatures/Creature.model';
-import {isNullOrUndefined} from 'util';
 import {ActivatedRoute} from '@angular/router';
 import {AddOrRemoveCreatureToCombatInput} from '../shared/models/combat/AddOrRemoveCreatureToCombatInput';
 import {EndTurnInput} from '../shared/models/combat/EndTurnInput';
@@ -21,6 +20,7 @@ import {HeroesService} from '../heroes/heroes.service';
 import {MonsterService} from '../monsters/monster/monster.service';
 import {MasterToolAction} from '../masters/master-tools/MasterToolAction';
 import {DialogService} from 'primeng/dynamicdialog';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 export class CombatActionData {
   currentTargets: Creature[] = [];
@@ -136,7 +136,7 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
 
   get isSaved(): boolean {
-    return  !isNullOrUndefined(this.combat.id);
+    return  isNotNullOrUndefined(this.combat.id);
   }
   get hasStarted() {
     return this.combat.hasStarted;

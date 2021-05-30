@@ -16,7 +16,7 @@ export class MonsterSelectComponent implements OnInit {
   @Input() monster: Monster;
   @Input() combat: Combat;
   constructor(
-    private service: CampaignCombatMonsterService,
+    public service: CampaignCombatMonsterService,
   ) {
   }
 

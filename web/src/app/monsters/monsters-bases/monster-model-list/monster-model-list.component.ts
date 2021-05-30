@@ -18,7 +18,7 @@ import {MonsterModelConfig} from '../monster-model-config';
 export class MonsterBaseListComponent implements OnInit {
   config = new MonsterModelConfig();
   constructor(
-    protected service: MonsterModelsService,
+    public service: MonsterModelsService,
     protected dialog: DialogService,
     protected router: Router,
   ) {

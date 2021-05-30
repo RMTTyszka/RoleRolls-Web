@@ -48,7 +48,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel, Mo
     injector: Injector,
     public dialogRef: DynamicDialogRef,
     public dialogConfig: DynamicDialogConfig,
-    protected service: MonsterModelsService,
+    public service: MonsterModelsService,
     protected rolesService: RolesService,
     private dataService: DataService,
     protected racesService: RacesService,
@@ -65,7 +65,6 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel, Mo
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
   }
   afterGetEntity() {
     this.addDataToForm();

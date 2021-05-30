@@ -73,7 +73,7 @@ public class CampaignController extends BaseCrudController<Campaign, Campaign, C
 	}
 
 	@Override
-	protected Campaign updateInputToEntity(Campaign campaign) {
+	protected Campaign updateInputToEntity(UUID id, Campaign campaign) {
 		return null;
 	}
 

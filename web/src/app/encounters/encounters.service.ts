@@ -26,7 +26,11 @@ export class EncountersService extends BaseCrudService<Encounter, Encounter> {
     super(injector);
   }
 
-  addMonster(id: string, monsterTemplate: MonsterModel): Observable<void> {
-    return this.http.post<void>(this.serverUrl + this.path + `/${id}/monsters`, monsterTemplate);
+  addMonster(encounterId: string, monsterTemplate: MonsterModel): Observable<void> {
+    return this.http.post<void>(this.serverUrl + this.path + `/${encounterId}/monsters`, monsterTemplate);
+  }
+
+  removeMonster(encounterId: string, monsterTemplateId): Observable<void> {
+    return this.http.delete<void>(this.serverUrl + this.path + `/${encounterId}/monsters/${monsterTemplateId}`);
   }
 }

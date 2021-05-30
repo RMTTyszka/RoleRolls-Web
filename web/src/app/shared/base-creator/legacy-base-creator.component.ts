@@ -1,4 +1,4 @@
-import {Injector, OnDestroy, OnInit} from '@angular/core';
+import {Directive, Injector, OnDestroy, OnInit} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -12,6 +12,7 @@ export interface IEditorInput<T> {
   entity: T;
 }
 
+@Directive()
 export class LegacyBaseCreatorComponent<T extends Entity> implements OnInit, OnDestroy {
   entityIsLoading = true;
   isLoading = true;

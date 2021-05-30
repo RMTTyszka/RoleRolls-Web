@@ -18,7 +18,7 @@ export class MonsterCreateComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
   private monster: MonsterCreateInput;
-  private hasLoaded = false;
+  public hasLoaded = false;
   constructor(
     private service: MonsterService,
     public monsterModelService: MonsterModelsService,

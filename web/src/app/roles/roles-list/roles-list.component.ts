@@ -14,7 +14,7 @@ export class RolesListComponent implements  OnInit {
   config = new RoleConfig();
   constructor(
     injector: Injector,
-    protected service: RolesService,
+    public service: RolesService,
   ) {
    }
 

@@ -47,10 +47,10 @@ public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateI
     @GetMapping(path="/new")
     public abstract  @ResponseBody
     TCreateInput getNew();
-    @PutMapping(path="")
+    @PutMapping(path="/{id}")
     public @ResponseBody
-    BaseCrudResponse<T> update(@RequestBody TUpdateInput input) {
-        T entity = updateInputToEntity(input);
+    BaseCrudResponse<T> update(@PathVariable UUID id, @RequestBody TUpdateInput input) {
+        T entity = updateInputToEntity(id, input);
         return saveAndGetWeaponBaseCrudResponse(entity);
     }
 
@@ -64,7 +64,7 @@ public abstract class BaseCrudController<T extends Entity,TCreateInput, TUpdateI
     }
 
     protected abstract T createInputToEntity(TCreateInput input);
-    protected abstract T updateInputToEntity(TUpdateInput input);
+    protected abstract T updateInputToEntity(UUID id, TUpdateInput input);
 
     @PostMapping(path="")
     public @ResponseBody

@@ -12,27 +12,29 @@ import {SharedModule} from '../shared/shared.module';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {MonstersModule} from '../monsters/monsters.module';
 import {MonsterTemplateSharedModule} from '../monsters/monsters-bases/monster-template-shared/monster-template-shared.module';
+import {PanelModule} from 'primeng/panel';
 
 const routes: Routes = [
   {path: '', component: EncountersComponent}
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MatFormFieldModule,
-        MatDialogModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        FlexLayoutModule,
-        SharedModule,
-        // Primeng
-        DynamicDialogModule,
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    SharedModule,
+    // Primeng
+    DynamicDialogModule,
 
-      // RR
-      MonsterTemplateSharedModule
-    ],
+    // RR
+    MonsterTemplateSharedModule,
+    PanelModule
+  ],
   declarations: [
     EncountersComponent,
     EncounterCreateEditComponent

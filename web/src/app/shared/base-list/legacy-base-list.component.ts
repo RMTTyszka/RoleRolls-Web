@@ -1,10 +1,10 @@
-import {AfterViewInit, Injector, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Directive, Injector, OnInit, ViewChild} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {LegacyBaseCrudServiceComponent} from '../legacy-base-service/legacy-base-crud-service.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-
+@Directive()
 export class LegacyBaseListComponent<T extends Entity> implements OnInit, AfterViewInit {
 
   isLoading = true;

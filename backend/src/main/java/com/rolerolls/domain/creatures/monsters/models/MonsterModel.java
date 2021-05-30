@@ -6,6 +6,7 @@ import com.rolerolls.domain.races.Race;
 import com.rolerolls.domain.roles.Role;
 import com.rolerolls.shared.Bonus;
 import com.rolerolls.shared.DefaultEntity;
+import com.sun.org.apache.xpath.internal.operations.Equals;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,7 +86,5 @@ public class MonsterModel extends DefaultEntity {
 	@ElementCollection
 	@CollectionTable()
 	protected List<Bonus> bonuses = new ArrayList<Bonus>();
-	
-	
-	
+
 }

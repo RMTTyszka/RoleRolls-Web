@@ -12,7 +12,7 @@ import {CampaignCombatHeroService} from '../../creatures-shared/creature-base-se
 })
 export class CampaignSessionGatewayComponent implements OnInit {
 
-  private campaignId: string;
+  public campaignId: string;
   public campaign: Campaign = new Campaign();
   constructor(
     private readonly route: ActivatedRoute,

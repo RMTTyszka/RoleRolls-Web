@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static org.springframework.data.jpa.domain.Specification.where;
 
 
@@ -46,7 +48,7 @@ public class RaceController extends BaseCrudController<Race,Race, Race, RaceRepo
 	}
 
 	@Override
-	protected Race updateInputToEntity(Race race) {
+	protected Race updateInputToEntity(UUID id, Race race) {
 		return race;
 	}
 

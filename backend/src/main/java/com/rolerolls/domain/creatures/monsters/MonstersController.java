@@ -50,7 +50,7 @@ public class MonstersController extends BaseCrudController<Monster, NewMonsterDt
     }
 
     @Override
-    protected Monster updateInputToEntity(Monster monster) {
+    protected Monster updateInputToEntity(UUID id, Monster monster) {
         return monster;
     }
 

@@ -1,31 +1,34 @@
 <rr-editor-modal *ngIf="hasLoaded">
   <div modal-content>
     <form  [formGroup]="form">
-      <div class="p-fluid">
-        <div class="p-grid">
-          <label for="encounter-name-input" class="p-col">Name</label>
+        <div class="p-grid p-nogutter">
+          <label for="encounter-name-input" class="p-col-1">Name</label>
           <div class="p-col">
             <input id="encounter-name-input" type="text" pInputText formControlName="name">
           </div>
         </div>
-        <div class="p-grid">
-          <label for="encounter-level-input" class="p-col">Level</label>
+        <div class="p-grid p-nogutter">
+          <label for="encounter-level-input" class="p-col-1">Level</label>
           <div class="p-col">
             <input id="encounter-level-input" type="number" pInputText formControlName="level">
           </div>
         </div>
-        <div class="p-grid p-col-12">
-          <div *ngFor="let monster of monsters.controls; let i = index" formArrayName="monsters" class="p-col">
-            <rr-monster-template-select (monsterTemplateSelected)="monsterTemplateSelected($event, i)" [monsterTemplate]="monsters.controls[i].value"></rr-monster-template-select>
-            <button fxFlex="50" matButton>Remove</button>
+      <p-panel class="p-grid p-col-12 p-nogutter">
+        <ng-template pTemplate="header">
+          <div class="p-grid p-col-12 p-justify-between p-nogutter">
+            <div class="p-col-1">Monsters</div>
+            <button (click)="addMonsterPlace()" type="button" pButton class="p-col-1" icon="fas fa-plus"></button>
           </div>
+        </ng-template>
+        <div *ngFor="let monster of monsters.controls; let i = index" formArrayName="monsters" class="p-col-12 p-grid p-nogutter">
+          <rr-monster-template-select (monsterTemplateSelected)="monsterTemplateSelected($event, i)" [monsterTemplate]="monsters.controls[i].value" class="p-col-10"></rr-monster-template-select>
+          <button pButton icon="fas fa-times" class="p-col-2" (click)="removeMonsterPlace(i)"></button>
         </div>
-        <button (click)="addMonsterPlace()" type="button">Add Monster</button>
-      </div>
+      </p-panel>
     </form>
   </div>
   <div modal-footer>
     <button pButton label="Save" (click)="save()"></button>
   </div>
-
 </rr-editor-modal>
+
