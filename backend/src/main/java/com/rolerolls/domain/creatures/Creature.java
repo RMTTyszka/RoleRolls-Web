@@ -338,9 +338,6 @@ public class Creature extends Entity {
     }
     public void levelUp() {
         level++;
-        for (String attribute: Attributes.getList()) {
-            bonusAttributes.levelUp(attribute);
-        }
         skills.levelUp();
     }
     public Integer getInnateLevelBonus(Integer attributePoints) {
@@ -451,6 +448,10 @@ public class Creature extends Entity {
         getInventory().removeItem(weaponInstance);
         getInventory().addItem(removedWeapon);
         return null;
+    }
+
+    public void addAttributeBonusPoint(String attribute) {
+        this.bonusAttributes.levelUp(attribute);
     }
 
 }

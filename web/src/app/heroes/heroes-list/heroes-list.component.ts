@@ -12,7 +12,7 @@ import {HeroConfig} from '../hero-config';
 export class HeroesListComponent implements OnInit {
   config = new HeroConfig();
   constructor(
-    protected service: HeroesService,
+    public service: HeroesService,
   ) {
    }
    ngOnInit() {

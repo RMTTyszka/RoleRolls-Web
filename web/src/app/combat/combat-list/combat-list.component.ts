@@ -23,7 +23,7 @@ export class CombatListComponent extends LegacyBaseListComponent<Combat> impleme
   @Output() combatSelected = new EventEmitter<Combat>();
   constructor(
     injector: Injector,
-    protected service: CombatService,
+    public service: CombatService,
   ) {
     super(injector, service);
   }

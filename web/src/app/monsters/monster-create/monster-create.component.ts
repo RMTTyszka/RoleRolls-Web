@@ -4,7 +4,7 @@ import {MonsterService} from '../monster/monster.service';
 import {Monster} from '../../shared/models/creatures/monsters/Monster.model';
 import {createForm} from '../../shared/EditorExtension';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {MonsterModelsService} from '../monsters-bases/monster-models.service';
+import {MonsterModelsService} from '../monsters-bases/monster-template-provider/monster-models.service';
 import {MonsterCreateInput} from '../../shared/models/creatures/monsters/MonsterCreateInput.model';
 import {MonsterModel} from '../../shared/models/creatures/monsters/MonsterModel.model';
 
@@ -18,7 +18,7 @@ export class MonsterCreateComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
   private monster: MonsterCreateInput;
-  private hasLoaded = false;
+  public hasLoaded = false;
   constructor(
     private service: MonsterService,
     public monsterModelService: MonsterModelsService,

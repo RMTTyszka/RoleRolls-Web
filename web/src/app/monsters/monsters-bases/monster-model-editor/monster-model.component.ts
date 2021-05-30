@@ -8,7 +8,7 @@ import {RolesService} from '../../../roles/roles.service';
 import {RacesService} from '../../../races/races.service';
 import {BaseCreatorComponent} from '../../../shared/base-creator/base-creator.component';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {MonsterModelsService} from '../monster-models.service';
+import {MonsterModelsService} from '../monster-template-provider/monster-models.service';
 import {DataService} from '../../../shared/data.service';
 
 @Component({
@@ -48,7 +48,7 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel, Mo
     injector: Injector,
     public dialogRef: DynamicDialogRef,
     public dialogConfig: DynamicDialogConfig,
-    protected service: MonsterModelsService,
+    public service: MonsterModelsService,
     protected rolesService: RolesService,
     private dataService: DataService,
     protected racesService: RacesService,
@@ -65,7 +65,6 @@ export class MonsterModelComponent extends BaseCreatorComponent<MonsterModel, Mo
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
   }
   afterGetEntity() {
     this.addDataToForm();

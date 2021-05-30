@@ -6,9 +6,8 @@ import {LOH_API} from '../../loh.api';
 import {PagedOutput} from '../dtos/PagedOutput';
 import {tap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
-import {isNullOrUndefined} from 'util';
 
-export class LegacyBaseCrudServiceComponent<T extends Entity> implements OnInit {
+export class LegacyBaseCrudServiceComponent<T extends Entity> {
 
   path: string;
   serverUrl = LOH_API.myBackUrl;
@@ -21,9 +20,6 @@ export class LegacyBaseCrudServiceComponent<T extends Entity> implements OnInit 
   ) {
     this.http = injector.get(HttpClient);
    }
-
-  ngOnInit() {
-  }
 
   getAllPaged(filter: string = '', skipCount: number = 0, maxResultCount: number = 15): Observable<PagedOutput<T>> {
     let params: HttpParams;

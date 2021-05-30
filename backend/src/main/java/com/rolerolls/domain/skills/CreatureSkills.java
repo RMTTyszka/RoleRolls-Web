@@ -116,4 +116,20 @@ public class CreatureSkills extends Entity {
         return Arrays.asList(sports, nimbleness, relationship, knowledge, perception,
                 resistance, combat);
     }
+    public void addMinorSkillPoint(String skillName ) {
+        Skill skill = getSkillByMinorSkill(skillName);
+        if (skill.hasRemainingMinorPoints()) {
+            if (skill.canAddMinorPoint(skillName))
+                skill.addPoint(skillName);
+        }
+    }
+    public void addMajorSkillPoint(String skillName) {
+        Skill skill = getMajorSkill(skillName);
+        boolean hasManjorSkillPoints = getRemainingPoints() > 0;
+        if (hasManjorSkillPoints) {
+            if (skill.canAddMajorPoint()){
+                skill.addPoint();
+            }
+        }
+    }
 }

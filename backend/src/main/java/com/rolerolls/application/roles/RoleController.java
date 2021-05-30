@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static org.springframework.data.jpa.domain.Specification.where;
 
 
@@ -47,7 +49,7 @@ public class RoleController extends BaseCrudController<Role, Role, Role, RoleRep
 	}
 
 	@Override
-	protected Role updateInputToEntity(Role role) {
+	protected Role updateInputToEntity(UUID id, Role role) {
 		return role;
 	}
 

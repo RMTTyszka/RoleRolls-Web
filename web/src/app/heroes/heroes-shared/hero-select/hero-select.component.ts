@@ -14,7 +14,7 @@ export class HeroSelectComponent implements OnInit {
   @Input() hero: Hero;
   @Input() combat: Combat;
   constructor(
-    private service: CampaignCombatHeroService,
+    public service: CampaignCombatHeroService,
   ) {
   }
 

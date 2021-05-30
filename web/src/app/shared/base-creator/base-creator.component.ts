@@ -10,9 +10,10 @@ export interface IEditorInput<T> {
   entity: T;
 }
 
-export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnInit, OnDestroy {
+export class BaseCreatorComponent<T extends Entity, TCreateInput> {
   entityIsLoading = true;
   isLoading = true;
+  hasLoaded = false;
   action: EditorAction = EditorAction.update;
   entity: T;
   createEntity: TCreateInput;
@@ -32,9 +33,6 @@ export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnI
       this.router = injector.get(Router);
      }
 
-  ngOnInit() {
-    this.getEntity();
-  }
   getEntity(id?: string) {
     if (id) {
       this.action = EditorAction.update;
@@ -45,24 +43,24 @@ export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnI
 
         this.createForm(this.form, this.entity);
         this.isLoading = false;
+        this.hasLoaded = true;
         this.entityIsLoading = false;
         console.log(this.form.value);
         this.afterGetEntity();
       });
     } else {
       this.service.getNew().subscribe(newEntity => {
+        this.action = EditorAction.create;
         this.createEntity = newEntity;
         console.log(JSON.stringify(newEntity));
         this.createForm(this.form, newEntity);
         this.isLoading = false;
+        this.hasLoaded = true;
         this.entityIsLoading = false;
         console.log(this.form.value);
         this.afterGetEntity();
       });
     }
-  }
-
-  ngOnDestroy(): void {
   }
 
   protected afterGetEntity() {
@@ -71,7 +69,6 @@ export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnI
   }
 
   createForm(form: FormGroup, entity: any) {
-
     Object.entries(entity).forEach((entry) => {
       if (entry[1] instanceof Array) {
         const array = new FormArray([]);
@@ -98,12 +95,10 @@ export class BaseCreatorComponent<T extends Entity, TCreateInput> implements OnI
   }
 
   save() {
-
     if (this.action === EditorAction.create) {
       const entity: TCreateInput =  Object.assign(this.form.getRawValue());
       console.log(JSON.stringify(entity));
       this.service.create(entity).subscribe(updatedEntity => {
-
           this.dialogRef.close();
         }
       );

@@ -52,8 +52,8 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     }
 
     @Override
-    public BaseCrudResponse<Hero> update(@RequestBody HeroDto heroDto) {
-        Hero hero = updateInputToEntity(heroDto);
+    public BaseCrudResponse<Hero> update(@PathVariable UUID id, @RequestBody HeroDto heroDto) {
+        Hero hero = updateInputToEntity(id, heroDto);
         hero =  heroService.update(hero);
         BaseCrudResponse<Hero> output = new BaseCrudResponse<Hero>(true, "Successfully updated hero", hero);
         return output;
@@ -138,7 +138,7 @@ public class HeroController extends BaseCrudController<Hero, NewHeroDto, HeroDto
     }
 
     @Override
-    protected Hero updateInputToEntity(HeroDto hero) {
+    protected Hero updateInputToEntity(UUID id, HeroDto hero) {
         return mapper.map(hero);
     }
 }

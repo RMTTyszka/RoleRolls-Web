@@ -1,7 +1,7 @@
-package com.rolerolls.domain.adventures;
+package com.rolerolls.application.adventures;
 
-import com.rolerolls.application.adventures.encounters.Encounter;
-import com.rolerolls.application.adventures.encounters.EncounterRepository;
+import com.rolerolls.domain.places.Place;
+import com.rolerolls.domain.places.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @CrossOrigin
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/encounters",  produces = "application/json; charset=UTF-8")
-public class EncounterController {
+@RequestMapping(path="/places",  produces = "application/json; charset=UTF-8")
+public class PlaceController {
 
 	@Autowired
-	private EncounterRepository encounterRepository;
+	private PlaceRepository placeRepository;
 	
 	@GetMapping(path="/all")
-	public @ResponseBody Iterable<Encounter> getAllEncounters() {
+	public @ResponseBody Iterable<Place> getAllPlaces() {
 		
 		// This returns a JSON or XML with the users
-		return encounterRepository.findAll();
+		return placeRepository.findAll();
 	}
 }

@@ -1,9 +1,9 @@
 package com.rolerolls;
 
-import com.rolerolls.application.adventures.encounters.Encounter;
-import com.rolerolls.application.adventures.encounters.EncounterRepository;
-import com.rolerolls.application.adventures.environments.Enviroment;
-import com.rolerolls.application.adventures.environments.EnviromentRepository;
+import com.rolerolls.domain.encounters.Encounter;
+import com.rolerolls.domain.encounters.EncounterRepository;
+import com.rolerolls.application.environments.Enviroment;
+import com.rolerolls.application.environments.EnviromentRepository;
 import com.rolerolls.domain.contexts.PlayerRepository;
 import com.rolerolls.domain.items.equipables.armors.templates.ArmorTemplate;
 import com.rolerolls.domain.items.equipables.armors.templates.ArmorTemplateRepository;

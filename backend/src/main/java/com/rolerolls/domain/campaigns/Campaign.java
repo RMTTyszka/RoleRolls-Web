@@ -1,6 +1,6 @@
 package com.rolerolls.domain.campaigns;
 
-import com.rolerolls.application.adventures.adventures.Adventure;
+import com.rolerolls.domain.adventures.Adventure;
 import com.rolerolls.authentication.LohUserDetails;
 import com.rolerolls.application.campaigns.dtos.HeroNotFromAddedPlayerException;
 import com.rolerolls.domain.contexts.Player;

@@ -17,7 +17,7 @@ export class ItemTemplateSelectComponent implements OnInit {
   @Output() entitySelected = new EventEmitter<ItemTemplate>();
   constructor(
     private formGroupDirective: FormGroupDirective,
-    private itemTemplateApiService: ItemTemplateApiService
+    public itemTemplateApiService: ItemTemplateApiService
   ) {
   }
 
