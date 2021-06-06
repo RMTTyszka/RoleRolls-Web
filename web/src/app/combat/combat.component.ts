@@ -272,5 +272,9 @@ export class CombatComponent implements OnInit, OnDestroy {
       this._combatService.removeMonster(this.combat.id, selectedCreature.id);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
   }
+
+  deleteCombat() {
+
+  }
 }
 

@@ -61,7 +61,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
     );
   }
   update(entity: T): Observable<BaseCrudResponse<T>> {
-    return this.http.put<BaseCrudResponse<T>>( this.serverUrl + this.path, entity).pipe(
+    return this.http.put<BaseCrudResponse<T>>( this.serverUrl + this.path + `/${entity.id}`, entity).pipe(
       tap((response: BaseCrudResponse<T>) => {
         if (!response.success) {
         } else {

@@ -2,31 +2,36 @@
 
 
 <div fxLayout="row wrap" *ngIf="hasLoaded">
-  <p-toolbar fxFlex="100"><button pButton (click)="saveCombat()" label="Save"></button><button pButton (click)="deleteCombat()" label="Delete"></button></p-toolbar>
+  <p-toolbar fxFlex="100"><button *ngIf="isMaster" pButton (click)="saveCombat()" label="Save"></button><button *ngIf="isMaster" pButton (click)="deleteCombat()" label="Delete"></button></p-toolbar>
   <input fxFlex="100" pInputText [(ngModel)]="combat.name" placeholder="name">
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px" fxLayout="column">
-    <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
-     <div>Heroes</div>
-      <button pButton (click)="addHeroPlace()" label="Add Hero"></button>
-    </div>
-    <div *ngFor="let hero of heroes; let i = index" fxLayout="row"fxLayoutAlign="start end" fxLayoutGap="12px">
+    <p-panel header="Heroes">
+      <ng-template pTemplate="icons">
+        <button *ngIf="isMaster" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col" (click)="addHeroPlace()"></button>
+      </ng-template>
+      <div *ngFor="let hero of heroes; let i = index" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="2">
+        <div fxLayout="row" fxLayoutGap="12px">
         <rr-hero-select [hero]="hero" (heroSelected)="heroSelected($event, i)" [combat]="combat"></rr-hero-select>
-         <button pButton (click)="setSelectedCreature(hero, creatureType.Hero, actionMenu, $event)" icon="fas fa-list"></button>
-        <button *ngIf="isCurrentOnInitiative(hero.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
-    </div>
+        <button pButton (click)="setSelectedCreature(hero, creatureType.Hero, actionMenu, $event)" icon="fas fa-list"></button>
+        <button *ngIf="isCurrentOnInitiative(hero.id)" pButton (click)="endTurn()" class="p-button-secondary" icon="fas fa-hourglass-end"></button>
+      </div>
+      </div>
+    </p-panel>
+
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
-    <div fxLayout="row"fxLayoutGap="12px" fxLayoutAlign="space-between center">
-      <div>Enemies</div>
-      <button pButton (click)="addMonsterPlace()" label="Add Monster"></button>
-    </div>
-    <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start">
-      <div fxLayout="row" fxLayoutGap="12px">
-        <rr-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></rr-monster-select>
-        <button pButton (click)="setSelectedCreature(monster, creatureType.Monster, actionMenu, $event)" icon="fas fa-list"></button>
-        <button *ngIf="isCurrentOnInitiative(monster.id)" pButton label="endTurn" (click)="endTurn()" class="p-button-secondary"></button>
+    <p-panel header="Enemies">
+      <ng-template pTemplate="icons">
+        <button pButton (click)="addMonsterPlace()" type="button" icon="pi pi-plus" class="p-button-primary p-col" ></button>
+      </ng-template>
+      <div *ngFor="let monster of monsters; let i = index" fxLayout="row" fxLayoutAlign="space-between start" style="padding-bottom: 2px;">
+        <div fxLayout="row" fxLayoutGap="12px">
+          <rr-monster-select [monster]="monster" (monsterSelected)="monsterSelected($event, i)" [combat]="combat"></rr-monster-select>
+          <button pButton (click)="setSelectedCreature(monster, creatureType.Monster, actionMenu, $event)" icon="fas fa-list"></button>
+          <button *ngIf="isCurrentOnInitiative(monster.id)" pButton (click)="endTurn()" class="p-button-secondary" icon="fas fa-hourglass-end"></button>
+        </div>
       </div>
-    </div>
+    </p-panel>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="50" style="padding: 8px">
     <rr-attack-details [attackDetails]="attackDetails"></rr-attack-details>

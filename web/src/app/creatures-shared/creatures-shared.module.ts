@@ -41,6 +41,7 @@ import { CreatureAttributeDetailsComponent } from './creature-details/creature-a
 import { CreatureInventoryDetailsComponent } from './creature-details/creature-inventory-details/creature-inventory-details.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { CreatureEquipmentDetailsComponent } from './creature-details/creature-equipment-details/creature-equipment-details.component';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { CreatureEquipmentDetailsComponent } from './creature-details/creature-e
         RaceSharedModule,
         RolesSharedModule,
         InputTextModule,
-        SelectButtonModule
+        SelectButtonModule,
+        ProgressBarModule
 
     ],
   entryComponents: [RollsCardComponent]
