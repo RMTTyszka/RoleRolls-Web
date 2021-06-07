@@ -12,6 +12,7 @@ export class CombatLogComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.combatLogs = this.combatLogs.reverse();
   }
 
 }

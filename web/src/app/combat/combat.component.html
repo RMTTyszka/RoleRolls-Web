@@ -46,7 +46,7 @@
   </div>
 </div>
 
-<p-sidebar [(visible)]="actionModalOpened" position="right" [modal]="false">
+<p-sidebar [(visible)]="actionModalOpened" position="right" [modal]="false" styleClass="p-sidebar-md">
   <rr-combat-action-modal
     (attackAction)="heroFullAttack($event)"
     [combatData]="combatActionData"></rr-combat-action-modal>

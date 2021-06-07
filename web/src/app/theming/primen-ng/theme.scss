@@ -3294,7 +3294,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-radius: 3px;
 }
 .p-fieldset .p-fieldset-legend {
-  padding: 0.857rem 1rem;
+  padding: 0.5rem 1rem;
   border: 1px solid #c8c8c8;
   color: #333333;
   background: #f4f4f4;
@@ -3652,6 +3652,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 .p-sidebar .p-sidebar-header + .p-sidebar-content {
   padding-top: 0;
+  height: 100%;
 }
 .p-sidebar .p-sidebar-content {
   padding: 0.571rem 1rem;

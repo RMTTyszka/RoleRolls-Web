@@ -249,6 +249,7 @@ export class CombatComponent implements OnInit, OnDestroy {
       });
   }
   heroFullAttack(attackInput: AttackInput) {
+    this.actionModalOpened = false;
     this._combatService.fullAttack(this.combat.id, {attackerId: attackInput.attackerId, targetId: attackInput.targetId})
       .subscribe((val) => {
         this.attackDetails = val.attackDetails;
