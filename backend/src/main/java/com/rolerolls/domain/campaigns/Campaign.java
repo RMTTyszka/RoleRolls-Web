@@ -1,10 +1,11 @@
 package com.rolerolls.domain.campaigns;
 
-import com.rolerolls.domain.adventures.Adventure;
-import com.rolerolls.authentication.LohUserDetails;
 import com.rolerolls.application.campaigns.dtos.HeroNotFromAddedPlayerException;
+import com.rolerolls.authentication.LohUserDetails;
+import com.rolerolls.domain.adventures.Adventure;
 import com.rolerolls.domain.contexts.Player;
 import com.rolerolls.domain.creatures.heroes.Hero;
+import com.rolerolls.domain.encounters.Encounter;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +42,12 @@ public class Campaign extends com.rolerolls.shared.Entity {
 	@OneToMany
 	@Getter
 	@Setter
-	private List<Adventure> adventures = new ArrayList<Adventure>();
+	private List<Adventure> adventures = new ArrayList<>();
+
+	@OneToMany
+	@Getter
+	@Setter
+	private List<Encounter> encounters = new ArrayList<>();
 	
 
 	public void addPlayer(Player player) {
@@ -64,6 +70,16 @@ public class Campaign extends com.rolerolls.shared.Entity {
 	}
 	public void removeHeroFromPlayer(UUID playerId) {
 		heroes.removeIf(p -> p.getOwnerId().equals(playerId));
+	}
+	public void addEncounter(Encounter encounter){
+		if (!this.encounters.contains(encounter)){
+			this.encounters.add(encounter);
+		}
+	}
+	public void removeEncounter(Encounter encounter){
+		if (this.encounters.contains(encounter)){
+			this.encounters.remove(encounter);
+		}
 	}
 	public boolean isMaster() {
 		return ((LohUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId().equals(masterId);

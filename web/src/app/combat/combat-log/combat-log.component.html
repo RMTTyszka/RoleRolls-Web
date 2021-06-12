@@ -1,5 +1,5 @@
 <p-panel header="Combat History">
-<div *ngFor="let combatLog of combatLogs">
+<div *ngFor="let combatLog of orderedCombatLogs" class="p-pb-1">
   {{combatLog.log}}
 </div>
 </p-panel>
