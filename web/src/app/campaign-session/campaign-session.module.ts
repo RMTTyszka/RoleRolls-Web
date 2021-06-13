@@ -20,10 +20,11 @@ import {CardModule} from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
 import {ToastModule} from 'primeng/toast';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { CampaignEncountersComponent } from './campaign-encounters/campaign-encounters.component';
 
 
 @NgModule({
-  declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent],
+  declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent, CampaignEncountersComponent],
   imports: [
     CommonModule,
     CampaignSessionRoutingModule,

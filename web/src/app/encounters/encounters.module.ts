@@ -15,7 +15,7 @@ import {MonsterTemplateSharedModule} from '../monsters/monsters-bases/monster-te
 import {PanelModule} from 'primeng/panel';
 
 const routes: Routes = [
-  {path: '', component: EncountersComponent}
+  {path: '', component: EncountersComponent, data: {primaryColor: '#000'}}
 ];
 
 @NgModule({

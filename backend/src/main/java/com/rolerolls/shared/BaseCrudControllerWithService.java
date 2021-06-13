@@ -38,13 +38,21 @@ public abstract class BaseCrudControllerWithService<T extends Entity,TCreateInpu
     @PutMapping(path="/{id}")
     public @ResponseBody
     BaseCrudResponse<T> update(@PathVariable UUID id, @RequestBody TUpdateInput input) {
-        return this.service.update(id, input);
+        BaseCrudResponse<T> output = new BaseCrudResponse<>();
+        output.entity = this.service.update(id, input);
+        output.success = true;
+        output.message = "Successfully Updated";
+        return output;
     }
 
     @PostMapping(path="")
     public @ResponseBody
     BaseCrudResponse<T> add(@RequestBody TCreateInput input) throws Exception {
-        return this.service.add(input);
+        BaseCrudResponse<T> output = new BaseCrudResponse<>();
+        output.entity = this.service.add(input);
+        output.success = true;
+        output.message = "Successfully Created";
+        return output;
     }
     @DeleteMapping(path="/{id}")
     public @ResponseBody

@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Campaign extends com.rolerolls.shared.Entity {
@@ -44,7 +45,7 @@ public class Campaign extends com.rolerolls.shared.Entity {
 	@Setter
 	private List<Adventure> adventures = new ArrayList<>();
 
-	@OneToMany
+	@ManyToMany
 	@Getter
 	@Setter
 	private List<Encounter> encounters = new ArrayList<>();
@@ -76,9 +77,9 @@ public class Campaign extends com.rolerolls.shared.Entity {
 			this.encounters.add(encounter);
 		}
 	}
-	public void removeEncounter(Encounter encounter){
-		if (this.encounters.contains(encounter)){
-			this.encounters.remove(encounter);
+	public void removeEncounter(UUID encounterId){
+		if (this.encounters.stream().anyMatch(e -> e.getId().equals(encounterId))){
+			this.encounters = this.encounters.stream().filter(e -> !e.getId().equals(encounterId)).collect(Collectors.toList());
 		}
 	}
 	public boolean isMaster() {

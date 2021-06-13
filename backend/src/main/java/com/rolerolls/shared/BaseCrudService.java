@@ -40,26 +40,20 @@ public abstract class BaseCrudService<T extends Entity,TCreateInput, TUpdateInpu
 
     }
     public abstract TCreateInput getNew();
-    public BaseCrudResponse<T> update(UUID id, TUpdateInput input) {
+    public T update(UUID id, TUpdateInput input) {
         T entity = updateInputToEntity(id, input);
-        return saveAndGetWeaponBaseCrudResponse(entity);
-    }
-
-    private BaseCrudResponse<T> saveAndGetWeaponBaseCrudResponse(T entity) {
         T updatedEntity = repository.save(entity);
-        BaseCrudResponse response = new BaseCrudResponse<T>();
-        response.success = true;
-        response.message = "Successfully Created";
-        response.entity = updatedEntity;
-        return response;
+        return updatedEntity;
     }
 
     protected abstract T createInputToEntity(TCreateInput input);
     protected abstract T updateInputToEntity(UUID id, TUpdateInput input);
 
-    public BaseCrudResponse<T> add(TCreateInput input) throws Exception {
+    public T add(TCreateInput input) {
         T entity = createInputToEntity(input);
-        return saveAndGetWeaponBaseCrudResponse(entity);
+        T updatedEntity = repository.save(entity);
+
+        return updatedEntity;
     }
     public BaseCrudResponse<T> delete(UUID id) {
 
