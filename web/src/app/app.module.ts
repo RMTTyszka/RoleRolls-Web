@@ -14,6 +14,7 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import {ShopModule} from './shop/shop.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {UniverseInterceptor} from './interceptors/universe.interceptor';
+import {AppColorService} from './app-color.service';
 
 
 @NgModule({
@@ -42,4 +43,10 @@ import {UniverseInterceptor} from './interceptors/universe.interceptor';
     ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(appColorService: AppColorService) {
+    setTimeout(() => {
+      appColorService.init();
+    }, 0);
+  }
+}

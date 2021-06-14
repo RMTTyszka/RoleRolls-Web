@@ -2,6 +2,7 @@
 
 .dice-roll {
   border: 1px solid $primaryColor;
+  border-radius: 3px;
   max-height: 24px;
   min-height: 24px;
   max-width: 24px;
@@ -10,6 +11,7 @@
 }
 .success-dice-roll {
   border: 2px solid $successColor;
+  border-radius: 3px;
   max-height: 24px;
   min-height: 24px;
   max-width: 24px;
@@ -28,7 +30,20 @@
 }
 .success {
   color: $successColor;
+  border: $successColor solid 2px;
+  max-height: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  min-width: 18px;
+  border-radius: 3px;
 }
 .fail {
   color: $dangerColor;
+  border: $dangerColor solid 2px;
+  max-height: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  min-width: 18px;
+  border-radius: 3px;
+
 }

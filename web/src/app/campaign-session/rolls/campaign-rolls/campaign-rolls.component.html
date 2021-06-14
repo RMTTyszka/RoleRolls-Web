@@ -2,18 +2,20 @@
   <ng-container class="p-grid p-nogutter" style="overflow: scroll; height: 100%; padding-bottom: 12px">
     <div *ngFor="let result of rolls; let i = index" style="padding-bottom: 12px;">
       <p-card [styleClass]="i === 0 ? 'last-roll' : null">
-        <p-header class="p-grid p-align-center">
-          <div class="p-col-4" style="font-weight: bold">{{result.creatureName}}</div>
-          <div class="p-col-4">{{result.property}}</div>
-          <div class="p-col-4 p-grid p-nogutter" *ngIf="result.difficulty">
-            <div class="p-col-4" pTooltip="Difficulty">{{result.difficulty}}</div>
-            <div class="p-col-2">/</div>
-            <div class="p-col-4" pTooltip="Complexity">{{result.complexity}}</div>
+        <ng-template pTemplate="header">
+          <div  class="p-grid p-align-center p-pl-4">
+            <div class="p-col-4 p-text-bold">{{result.creatureName}}</div>
+            <div class="p-col-4">{{result.property}}</div>
+            <div class="p-col-4 p-grid p-nogutter" *ngIf="result.difficulty">
+              <div class="p-col-4" pTooltip="Difficulty">{{result.difficulty}}</div>
+              <div class="p-col-2">/</div>
+              <div class="p-col-4" pTooltip="Complexity">{{result.complexity}}</div>
+            </div>
           </div>
-        </p-header>
+        </ng-template>
         <div  class="p-grid p-align-center">
-          <i class="fas fa-check success" *ngIf="result.success"></i>
-          <i class="fas fa-times fail" *ngIf="!result.success"></i>
+          <i class="fas fa-check success p-col" *ngIf="result.success"></i>
+          <i class="fas fa-times fail p-col" *ngIf="!result.success"></i>
           <div *ngFor="let roll of result.rolls" class="p-col">
             <div *ngIf="roll.success && !roll.criticalSuccess" class="success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>
             <div *ngIf="roll.criticalSuccess" class="critical-success-dice-roll success-dice-roll" (mouseenter)="selectRoll(roll); rollOverlay.show($event)" (mouseleave)="rollOverlay.hide()">{{getRollTotal(roll)}}</div>

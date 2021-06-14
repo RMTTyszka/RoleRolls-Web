@@ -9,6 +9,9 @@ import {CombatLog} from '../../shared/models/combat/CombatLog';
 export class CombatLogComponent implements OnInit {
 
   @Input() combatLogs: CombatLog[];
+  get orderedCombatLogs() {
+    return this.combatLogs.reverse();
+  }
   constructor() { }
 
   ngOnInit() {

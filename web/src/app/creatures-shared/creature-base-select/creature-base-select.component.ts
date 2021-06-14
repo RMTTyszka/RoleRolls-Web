@@ -63,4 +63,11 @@ export class CreatureBaseSelectComponent implements OnInit, OnDestroy {
   get isCurrentOnInitiative() {
     return this.currentCreatureOnInitiativeId === this.creature.id || false;
   }
+
+  getLifePercentage() {
+    return this.creature.currentLife / this.creature.status.life * 100;
+  }
+  getMoralPercentage() {
+    return this.creature.currentMoral / this.creature.status.moral * 100;
+  }
 }

@@ -1,6 +1,13 @@
 @import "colors";
 
+$defaultPrimeNgSize: 24px;
+:root {
+  --primary-color: $primaryColor;
+}
 
+.p-autocomplete-dd .p-autocomplete-input {
+  max-height: $defaultPrimeNgSize;
+}
 #Buttons
 .p-selectbutton .p-button.p-highlight {
   background-color: $primaryColor !important;
@@ -15,6 +22,12 @@
   width: 100%;
   height: 100%;
 }
+.p-panel .p-panel-content {
+  padding: 4px;
+}
+.p-panel .p-panel-header {
+  padding: 4px;
+}
 .p-panel-content-wrapper {
   width: 100%;
   height: 100%;
@@ -27,11 +40,25 @@
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;
 }
+.p-button.p-button-icon-only {
+  height: $defaultPrimeNgSize;
+  width: $defaultPrimeNgSize;
+}
 .p-selectbutton .p-button {
   color: $infoColor !important;
 }
 .p-selectbutton .p-button.p-state-active {
   color: $secondaryColor !important;
+}
+
+#Inputs
+.p-inputgroup-addon {
+  height: $defaultPrimeNgSize !important;
+  width: $defaultPrimeNgSize !important;
+  min-width: $defaultPrimeNgSize !important;
+  max-width: $defaultPrimeNgSize !important;
+  min-height: $defaultPrimeNgSize !important;
+  max-height: $defaultPrimeNgSize !important;
 }
 .p-dialog {
   max-height: 100%;
@@ -41,9 +68,10 @@
   flex: 100 !important;
   overflow: scroll !important;
 }
-.p-button-secondary {
+.p-button.p-button-secondary {
   background-color: $secondaryColor !important;
   border-color: $borderColor !important;
+  color: $primaryColor;
 }
 .p-button-success {
   background-color: $successColor !important;
@@ -101,4 +129,18 @@
 .p-table .p-table-tbody > tr:focus > td:last-child {
   box-shadow: none;
   outline: none;
+}
+.p-toolbar {
+  padding: 4px;
+}
+#Tabs
+.ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-tabview-selected a {
+  background-color: red;
+}
+.p-tabview-selected {
+  color: #1A0E29;
+}
+$tabviewHeaderActiveBg: $primaryColor;
+html {
+  font-size: 16px;
 }

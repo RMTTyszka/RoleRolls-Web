@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface CampaignRepository extends BaseRepository<Campaign> {
     List<Campaign> findAllByIdIn(List<UUID> ids);
     List<Campaign> findAllByNameIgnoreCaseContaining(String filter, Specification<Campaign> spec, Pageable page);
+    List<EncountersOnly> findAllById(UUID id);
 }
+

@@ -249,6 +249,7 @@ export class CombatComponent implements OnInit, OnDestroy {
       });
   }
   heroFullAttack(attackInput: AttackInput) {
+    this.actionModalOpened = false;
     this._combatService.fullAttack(this.combat.id, {attackerId: attackInput.attackerId, targetId: attackInput.targetId})
       .subscribe((val) => {
         this.attackDetails = val.attackDetails;
@@ -271,6 +272,10 @@ export class CombatComponent implements OnInit, OnDestroy {
       this._combatService.removeHero(this.combat.id, selectedCreature.id) :
       this._combatService.removeMonster(this.combat.id, selectedCreature.id);
     observable.subscribe((combat) => this._combatManagement.combatUpdated.next(combat));
+  }
+
+  deleteCombat() {
+
   }
 }
 

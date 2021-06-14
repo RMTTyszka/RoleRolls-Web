@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,7 +33,9 @@ public class CombatService {
         Creature attacker = combat.findCreatureById(attackerId);
         Creature target = combat.findCreatureById(targetId);
         AttackDetails attackDetails = attacker.fullAttack(target, attackService);
-        combat.addLog(String.format("%s attacked %s and caused %d damage", attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM HH:mm:ss");
+        LocalDateTime date = LocalDateTime.now(ZoneId.of("GMT-03:00"));
+        combat.addLog(String.format("%s - %s attacked %s and caused %d damage", dateFormat.format(date), attacker.getName(), target.getName(), attackDetails.getTotalDamage()));
         combat = combatRepository.save(combat);
         return new CombatActionDto(combat, attackDetails, 0, 0, 0);
     }

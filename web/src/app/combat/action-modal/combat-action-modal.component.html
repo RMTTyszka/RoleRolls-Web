@@ -1,12 +1,11 @@
+<div style="height: 100%;">
 <form [formGroup]="form">
-
   <p-selectButton formControlName="combatAction" [options]="actions" ></p-selectButton>
   <ng-container *ngIf="action === 'attack'" [ngTemplateOutlet]="attackAction"> </ng-container>
-
-
-
   <ng-template #attackAction>
     <rr-combat-creature-select [creaturesOnCombat]="combatData.currentTargets" (creatureSelected)="targetSelected($event)"></rr-combat-creature-select>
     <button pButton (click)="this.attack()" label="Attack"></button>
   </ng-template>
 </form>
+</div>
+

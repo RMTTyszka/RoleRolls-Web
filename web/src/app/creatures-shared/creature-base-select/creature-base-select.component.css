@@ -3,3 +3,7 @@
   border-top: hidden;
   border-bottom: hidden;
 }
+.p-progressbar-value {
+  background-color: darkred !important;
+  height: 12px !important;
+}
