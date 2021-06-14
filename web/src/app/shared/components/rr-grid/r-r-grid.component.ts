@@ -96,7 +96,8 @@ get columns() {
           action: EditorAction.update
         },
         width: '100vw',
-        height: '100vh'
+        height: '100vh',
+        header: this.config.editorTitle
       })
         .onClose.subscribe();
 
