@@ -2094,7 +2094,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-radius: 0;
 }
 .p-datatable .p-datatable-header {
-  background: #f4f4f4;
+  background: var(--color-2);
   color: #333333;
   border: 1px solid #c8c8c8;
   border-width: 1px 1px 0 1px;
@@ -2102,7 +2102,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   font-weight: 700;
 }
 .p-datatable .p-datatable-footer {
-  background: #ffffff;
+  background: var(--color-2);
   color: #333333;
   border: 1px solid #c8c8c8;
   border-width: 0 1px 1px 1px;
@@ -2116,7 +2116,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-width: 1px 1px 1px 1px;
   font-weight: 700;
   color: #333333;
-  background: #f4f4f4;
+  background: var(--color-2);
   transition: background-color 0.2s, box-shadow 0.2s;
 }
 .p-datatable .p-datatable-tfoot > tr > td {
@@ -2126,7 +2126,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-width: 1px;
   font-weight: 700;
   color: #333333;
-  background: #f4f4f4;
+  background: var(--color-2);
 }
 .p-datatable .p-sortable-column .p-sortable-column-icon {
   color: #848484;
