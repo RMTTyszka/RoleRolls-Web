@@ -6,7 +6,7 @@ import {
   MONSTER_COLOR_2,
   MONSTER_COLOR_3,
   MONSTER_COLOR_4,
-  MONSTER_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, WARNING_COLOR
+  MONSTER_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, SUCCESS_HOVER_COLOR, WARNING_COLOR
 } from '../theming/rr-colors';
 
 export class MonstersColorConfig implements ModuleDataColor {
@@ -20,5 +20,6 @@ export class MonstersColorConfig implements ModuleDataColor {
   primaryColor = MONSTER_COLOR_4;
   secondaryColor = SECONDARY_COLOR;
   successColor = SUCCESS_COLOR;
+  successHoverColor = SUCCESS_HOVER_COLOR;
   warningColor = WARNING_COLOR;
 }

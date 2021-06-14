@@ -10,7 +10,8 @@ html {
   --color-3: #{$mainColor3};
   --color-4: #{$mainColor4};
   --color-5: #{$mainColor5};
-  --succes-color: #{$successColor};
+  --success-color: #{$successColor};
+  --success-hover-color: #{$successColorHover};
   --info-color: #{$infoColor};
   --warning-color: #{$warningColor};
   --danger-color: #{$dangerColor};
@@ -1825,17 +1826,17 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border: 1px solid var(--success-color);
 }
 .p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success > .p-button:enabled:hover, .p-splitbutton.p-button-success > .p-button:enabled:hover {
-  background: #107D11;
+  background: var(--success-hover-color);
   color: #ffffff;
-  border-color: #107D11;
+  border-color: var(--success-hover-color);
 }
 .p-button.p-button-success:enabled:focus, .p-buttonset.p-button-success > .p-button:enabled:focus, .p-splitbutton.p-button-success > .p-button:enabled:focus {
   box-shadow: 0 0 0 0.2rem #aae5aa;
 }
 .p-button.p-button-success:enabled:active, .p-buttonset.p-button-success > .p-button:enabled:active, .p-splitbutton.p-button-success > .p-button:enabled:active {
-  background: #0C6B0D;
+  background: var(--success-color);
   color: #ffffff;
-  border-color: #0C6B0D;
+  border-color: var(--success-color);
 }
 .p-button.p-button-success.p-button-outlined, .p-buttonset.p-button-success > .p-button.p-button-outlined, .p-splitbutton.p-button-success > .p-button.p-button-outlined {
   background-color: transparent;
@@ -1860,7 +1861,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-button.p-button-success.p-button-text:enabled:hover, .p-buttonset.p-button-success > .p-button.p-button-text:enabled:hover, .p-splitbutton.p-button-success > .p-button.p-button-text:enabled:hover {
   background: rgba(52, 168, 53, 0.04);
   border-color: transparent;
-  color: var(--success-color);
+  color: var(--success-hover-color);
 }
 .p-button.p-button-success.p-button-text:enabled:active, .p-buttonset.p-button-success > .p-button.p-button-text:enabled:active, .p-splitbutton.p-button-success > .p-button.p-button-text:enabled:active {
   background: rgba(52, 168, 53, 0.16);

@@ -2,6 +2,7 @@ export interface ModuleDataColor {
   primaryColor: string;
   secondaryColor: string;
   successColor: string;
+  successHoverColor: string;
   infoColor: string;
   warningColor: string;
   dangerColor: string;

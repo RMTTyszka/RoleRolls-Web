@@ -6,7 +6,7 @@ import {
   MAIN_COLOR_2,
   MAIN_COLOR_3,
   MAIN_COLOR_4,
-  MAIN_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, WARNING_COLOR
+  MAIN_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, SUCCESS_HOVER_COLOR, WARNING_COLOR
 } from './theming/rr-colors';
 
 export class DefaultDataColor implements ModuleDataColor {
@@ -20,5 +20,6 @@ export class DefaultDataColor implements ModuleDataColor {
   primaryColor = PRIMARY_COLOR;
   secondaryColor = SECONDARY_COLOR;
   successColor = SUCCESS_COLOR;
+  successHoverColor = SUCCESS_HOVER_COLOR;
   warningColor = WARNING_COLOR;
 }

@@ -54,6 +54,8 @@ export class AppColorService {
     root.style.setProperty('--danger-color', color.dangerColor);
     root.style.setProperty('--info-color', color.infoColor);
     root.style.setProperty('--warning-color', color.warningColor);
+    root.style.setProperty('--success-color', color.successColor);
+    root.style.setProperty('--success-hover-color', color.successHoverColor);
     root.style.setProperty('--color-1', color.color1);
     root.style.setProperty('--color-2', color.color2);
     root.style.setProperty('--color-3', color.color3);

@@ -19,6 +19,7 @@ export const  MAIN_COLOR_5 = '#182d37';
 export const PRIMARY_COLOR = '#30596c';
 export const SECONDARY_COLOR = '#f4f4f4';
 export const SUCCESS_COLOR = '#729b79';
+export const SUCCESS_HOVER_COLOR = '#5a8061';
 export const INFO_COLOR = '#62b6cb';
 export const WARNING_COLOR = '#f4d06f';
 export const DANGER_COLOR = '#ef6351';

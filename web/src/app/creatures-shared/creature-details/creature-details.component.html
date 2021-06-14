@@ -3,8 +3,8 @@
     <div clas="p-col-2" style="align-self: center;">
       {{creature.name}}
     </div>
-    <p-selectButton class="p-col-8 p-offset-2" [options]="tabs" [(ngModel)]="activeTab"></p-selectButton>
   </p-header>
+  <p-selectButton class="p-col-8 p-offset-2" [options]="tabs" [(ngModel)]="activeTab"></p-selectButton>
   <div class="p-grid p-justify-between p-align-center p-nogutter">
     <div class="p-col-6">Race: {{creature.race?.name}}</div>
     <div class="p-col-6">Life: {{creature.currentLife}}</div>

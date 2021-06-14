@@ -6,7 +6,7 @@ import {
   ITEM_COLOR_2,
   ITEM_COLOR_3,
   ITEM_COLOR_4,
-  ITEM_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, WARNING_COLOR
+  ITEM_COLOR_5, PRIMARY_COLOR, SECONDARY_COLOR, SUCCESS_COLOR, SUCCESS_HOVER_COLOR, WARNING_COLOR
 } from '../theming/rr-colors';
 
 export class ItemsColorConfig implements ModuleDataColor {
@@ -20,5 +20,6 @@ export class ItemsColorConfig implements ModuleDataColor {
   primaryColor = ITEM_COLOR_4;
   secondaryColor = SECONDARY_COLOR;
   successColor = SUCCESS_COLOR;
+  successHoverColor = SUCCESS_HOVER_COLOR;
   warningColor = WARNING_COLOR;
 }
