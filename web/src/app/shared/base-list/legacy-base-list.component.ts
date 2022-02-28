@@ -87,7 +87,7 @@ export class LegacyBaseListComponent<T extends Entity> implements OnInit, AfterV
 
   updateDisplayData() {
     if (this.paginator) {
-      this.paginator.length = this.paginator.length += this.data.length;
+      this.paginator.length = this.paginator.length + this.data.length;
       this.displayData = this.data;
     }
   }
