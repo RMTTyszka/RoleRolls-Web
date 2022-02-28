@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {MonsterModel} from '../shared/models/creatures/monsters/MonsterModel.model';
 import {BaseCrudResponse} from '../shared/models/BaseCrudResponse';
 import {tap} from 'rxjs/operators';
+import {EncounterConfig} from './encounter-config';
 
 // @ts-ignore
 @Injectable({
@@ -19,11 +20,12 @@ export class EncountersService extends BaseCrudService<Encounter, Encounter> {
   selectModalColumns: RRColumns[];
   selectModalTitle: string;
   selectPlaceholder: string;
-
+  config = new EncounterConfig();
   constructor(
     injector: Injector,
   ) {
     super(injector);
+    BaseCrudService.setConfig(this, this.config);
   }
 
   addMonster(encounterId: string, monsterTemplate: MonsterModel): Observable<void> {

@@ -1,2 +1,2 @@
-<rr-combat-list *ngIf="!selectedCombat" (combatSelected)="combatSelected($event)"></rr-combat-list>
+<rr-combat-list *ngIf="!selectedCombat" (combatSelected)="combatSelected($event)" (encounterSelected)="encounterSelected($event)"></rr-combat-list>
 <rr-combat *ngIf="selectedCombat"></rr-combat>

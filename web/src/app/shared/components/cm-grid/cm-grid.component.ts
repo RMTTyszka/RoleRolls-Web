@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {BaseEntityService} from '../../base-entity-service';
 import {Entity} from '../../models/Entity.model';
 import {LazyLoadEvent} from 'primeng/api';

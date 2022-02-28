@@ -3,12 +3,13 @@ import {CampaignSessionService} from '../campaign-session.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Campaign} from '../../shared/models/campaign/Campaign.model';
 import {CampaignCombatHeroService} from '../../creatures-shared/creature-base-select/campaign-combat-hero.service';
+import {CampaignEncounterService} from '../campaign-encounters/campaign-encounter.service';
 
 @Component({
   selector: 'rr-campaign-session-gateway',
   templateUrl: './campaign-session-gateway.component.html',
   styleUrls: ['./campaign-session-gateway.component.css'],
-  providers: [CampaignSessionService, CampaignCombatHeroService]
+  providers: [CampaignSessionService, CampaignCombatHeroService, CampaignEncounterService]
 })
 export class CampaignSessionGatewayComponent implements OnInit {
 

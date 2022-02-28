@@ -1,6 +1,7 @@
 <p-toolbar>
   <div class="p-toolbar-group-right">
     <button pButton type="button" icon="pi pi-plus" class="p-button-secondary" (click)="add()"></button>
+    <button pButton type="button" icon="pi pi-plus" class="p-button-secondary" (click)="addEncounter()"></button>
   </div>
 </p-toolbar>
 <rr-cm-grid [service]="service" [columns]="columns" (rowSelectedEvent)="combatSelected.emit($event)"></rr-cm-grid>
