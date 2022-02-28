@@ -10,15 +10,14 @@ import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
-  declarations: [BaseWeaponsListComponent, BaseWeaponsEditorComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ToolbarModule,
-    DynamicDialogModule,
-    WeaponsSharedModule,
-    ToastModule
-  ],
-  entryComponents: [BaseWeaponsEditorComponent]
+    declarations: [BaseWeaponsListComponent, BaseWeaponsEditorComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        ToolbarModule,
+        DynamicDialogModule,
+        WeaponsSharedModule,
+        ToastModule
+    ]
 })
 export class BaseWeaponsModule { }

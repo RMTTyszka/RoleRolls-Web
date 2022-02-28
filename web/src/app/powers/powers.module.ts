@@ -11,15 +11,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [PowersComponent, PowerEditorComponent],
-  providers: [
-    PowersService
-  ],
-  entryComponents: [PowerEditorComponent]
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule.forChild(routes)
+    ],
+    declarations: [PowersComponent, PowerEditorComponent],
+    providers: [
+        PowersService
+    ]
 })
 export class PowersModule { }

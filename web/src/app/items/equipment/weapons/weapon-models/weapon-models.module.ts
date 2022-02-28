@@ -9,14 +9,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
-  declarations: [WeaponModelListComponent, WeaponModelEditorComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ToolbarModule,
-    WeaponsSharedModule,
-    ReactiveFormsModule
-  ],
-  entryComponents: [WeaponModelEditorComponent]
+    declarations: [WeaponModelListComponent, WeaponModelEditorComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        ToolbarModule,
+        WeaponsSharedModule,
+        ReactiveFormsModule
+    ]
 })
 export class WeaponModelsModule { }

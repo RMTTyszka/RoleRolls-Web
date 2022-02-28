@@ -6,15 +6,14 @@ import {RoleSelectComponent} from './role-select/role-select.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    AutoCompleteModule
-  ],
-  exports: [
-    RoleSelectComponent
-  ],
-  declarations: [RoleSelectComponent],
-  entryComponents: []
+    imports: [
+        CommonModule,
+        SharedModule,
+        AutoCompleteModule
+    ],
+    exports: [
+        RoleSelectComponent
+    ],
+    declarations: [RoleSelectComponent]
 })
 export class RolesSharedModule { }

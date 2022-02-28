@@ -23,27 +23,26 @@ import {InputTextModule} from 'primeng/inputtext';
 
 
 @NgModule({
-  declarations: [UpdateCreatureToolComponent, BonusToolComponent, InventoryMasterToolComponent, MasterItemInstantiatorComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    EffectsSharedModule,
-    OverlayPanelModule,
-    MenuModule,
-    TieredMenuModule,
-    ChipsModule,
-    InputSwitchModule,
-    FlexLayoutModule,
-    DropdownModule,
-    SelectButtonModule,
-    FormsModule,
-    PanelModule,
-    ItemsSharedModule,
-    SharedModule,
-    InputTextModule,
-  ],
-  exports: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent],
-  entryComponents: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent]
+    declarations: [UpdateCreatureToolComponent, BonusToolComponent, InventoryMasterToolComponent, MasterItemInstantiatorComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        EffectsSharedModule,
+        OverlayPanelModule,
+        MenuModule,
+        TieredMenuModule,
+        ChipsModule,
+        InputSwitchModule,
+        FlexLayoutModule,
+        DropdownModule,
+        SelectButtonModule,
+        FormsModule,
+        PanelModule,
+        ItemsSharedModule,
+        SharedModule,
+        InputTextModule,
+    ],
+    exports: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent]
 })
 export class MasterToolsModule { }

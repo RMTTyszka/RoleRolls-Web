@@ -5,15 +5,14 @@ import {SharedModule} from 'src/app/shared/shared.module';
 import {PowerSelectorComponent} from './power-selector/power-selector.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  declarations: [
-    PowerManagementComponent,
-    PowerSelectorComponent
-  ],
-  exports: [PowerManagementComponent, PowerSelectorComponent],
-  entryComponents: [PowerSelectorComponent]
+    imports: [
+        CommonModule,
+        SharedModule
+    ],
+    declarations: [
+        PowerManagementComponent,
+        PowerSelectorComponent
+    ],
+    exports: [PowerManagementComponent, PowerSelectorComponent]
 })
 export class PowersSharedModule { }

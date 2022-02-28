@@ -6,14 +6,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DropdownModule,
-    ReactiveFormsModule,
-    AutoCompleteModule
-  ],
-  declarations: [BaseArmorSelectorComponent],
-  exports: [BaseArmorSelectorComponent],
-  entryComponents: [BaseArmorSelectorComponent]
+    imports: [
+        CommonModule,
+        DropdownModule,
+        ReactiveFormsModule,
+        AutoCompleteModule
+    ],
+    declarations: [BaseArmorSelectorComponent],
+    exports: [BaseArmorSelectorComponent]
 })
 export class BaseArmorSharedModule { }

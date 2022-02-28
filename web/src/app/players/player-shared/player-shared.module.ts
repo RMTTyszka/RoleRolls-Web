@@ -6,12 +6,11 @@ import {TableModule} from 'primeng/table';
 
 
 @NgModule({
-  declarations: [PlayerSelectModalComponent],
-  imports: [
-    CommonModule,
-    TableModule
-  ],
-  entryComponents: [PlayerSelectModalComponent],
-  exports: [PlayerSelectModalComponent]
+    declarations: [PlayerSelectModalComponent],
+    imports: [
+        CommonModule,
+        TableModule
+    ],
+    exports: [PlayerSelectModalComponent]
 })
 export class PlayerSharedModule { }

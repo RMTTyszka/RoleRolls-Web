@@ -22,24 +22,23 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HeroesSharedModule,
-    FlexLayoutModule,
-    CreaturesSharedModule,
-    SharedModule,
-    ToolbarModule,
-    InputTextModule,
-    MonstersSharedModule,
-    SelectButtonModule,
-    ReactiveFormsModule,
-    SidebarModule,
-    PanelModule,
-    MenuModule,
-    TieredMenuModule
-  ],
-  declarations: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
-  exports: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
-  entryComponents: [CombatActionModalComponent]
+    imports: [
+        CommonModule,
+        HeroesSharedModule,
+        FlexLayoutModule,
+        CreaturesSharedModule,
+        SharedModule,
+        ToolbarModule,
+        InputTextModule,
+        MonstersSharedModule,
+        SelectButtonModule,
+        ReactiveFormsModule,
+        SidebarModule,
+        PanelModule,
+        MenuModule,
+        TieredMenuModule
+    ],
+    declarations: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent],
+    exports: [CombatComponent, CombatListComponent, InitiativeComponent, CombatActionModalComponent, CombatLogComponent]
 })
 export class CombatModule { }

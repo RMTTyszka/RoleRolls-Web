@@ -21,20 +21,19 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [CampaignListComponent, CampaignEditorComponent, CampaignInvitationComponent, CampaignPlayerSelectComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ToolbarModule,
-    DynamicDialogModule,
-    SharedModule,
-    PlayerSharedModule,
-    HeroesSharedModule,
-    TabViewModule,
-    FieldsetModule,
-    PanelModule,
-    ListboxModule
-  ],
-  entryComponents: [CampaignEditorComponent, CampaignListComponent, CampaignPlayerSelectComponent]
+    declarations: [CampaignListComponent, CampaignEditorComponent, CampaignInvitationComponent, CampaignPlayerSelectComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ToolbarModule,
+        DynamicDialogModule,
+        SharedModule,
+        PlayerSharedModule,
+        HeroesSharedModule,
+        TabViewModule,
+        FieldsetModule,
+        PanelModule,
+        ListboxModule
+    ]
 })
 export class CampaignModule { }

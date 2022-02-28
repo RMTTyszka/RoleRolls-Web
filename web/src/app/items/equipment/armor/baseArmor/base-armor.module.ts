@@ -9,17 +9,15 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 
 @NgModule({
-  declarations: [BaseArmorListComponent, BaseArmorEditorComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ToolbarModule,
-    EquipmentSharedModule,
-    DynamicDialogModule
-  ], exports: [
-    BaseArmorListComponent, BaseArmorEditorComponent,
-  ], entryComponents: [
-    BaseArmorEditorComponent
-  ]
+    declarations: [BaseArmorListComponent, BaseArmorEditorComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        ToolbarModule,
+        EquipmentSharedModule,
+        DynamicDialogModule
+    ], exports: [
+        BaseArmorListComponent, BaseArmorEditorComponent,
+    ]
 })
 export class BaseArmorModule { }

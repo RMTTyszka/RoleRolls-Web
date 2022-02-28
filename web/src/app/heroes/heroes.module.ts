@@ -45,8 +45,6 @@ const routes: Routes = [
         ShopModule
     ],
     declarations: [HeroesListComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, HeroCreateComponent],
-  exports: [
-  ],
-    entryComponents: [HeroesGatewayComponent, NewHeroEditorComponent, HeroCreateComponent]
+    exports: []
 })
 export class HeroesModule { }

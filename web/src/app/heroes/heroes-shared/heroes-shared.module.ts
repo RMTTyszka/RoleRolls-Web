@@ -24,8 +24,7 @@ import {TableModule} from 'primeng/table';
         CreaturesSharedModule,
         TableModule
     ],
-  declarations: [HeroesSelectModalComponent, HeroSelectComponent],
-  entryComponents: [HeroesSelectModalComponent],
-  exports: [HeroesSelectModalComponent, HeroSelectComponent]
+    declarations: [HeroesSelectModalComponent, HeroSelectComponent],
+    exports: [HeroesSelectModalComponent, HeroSelectComponent]
 })
 export class HeroesSharedModule { }

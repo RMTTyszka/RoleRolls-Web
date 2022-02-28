@@ -17,8 +17,7 @@ import {CreaturesSharedModule} from '../../creatures-shared/creatures-shared.mod
         AutoCompleteModule,
         CreaturesSharedModule
     ],
-  exports: [MonsterBaseSelectorComponent, MonsterSelectComponent],
-  declarations: [MonsterBaseSelectorComponent, MonsterSelectComponent],
-  entryComponents: [MonsterBaseSelectorComponent]
+    exports: [MonsterBaseSelectorComponent, MonsterSelectComponent],
+    declarations: [MonsterBaseSelectorComponent, MonsterSelectComponent]
 })
 export class MonstersSharedModule { }

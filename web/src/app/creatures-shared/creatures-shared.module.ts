@@ -45,20 +45,20 @@ import {ProgressBarModule} from 'primeng/progressbar';
 
 
 @NgModule({
-  declarations: [HeroFundsComponent, CreatureStatsComponent,
-    InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent,
-    InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent,
-    CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
-    AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent,
-    CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent, RollsCardComponent, CreatureAttributeDetailsComponent, CreatureInventoryDetailsComponent, CreatureEquipmentDetailsComponent],
+    declarations: [HeroFundsComponent, CreatureStatsComponent,
+        InventoryArmorSelectComponent, BaseInventorySelectComponent, InventoryWeaponSelectComponent,
+        InventoryGlovesSelectComponent, InventoryBeltSelectComponent, InventoryHeadpieceSelectComponent,
+        CreatureResistancesComponent, InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
+        AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent,
+        CreatureEditorComponent, EquipmentComponent, InventoryComponent, CreatureSkillsComponent, RollsCardComponent, CreatureAttributeDetailsComponent, CreatureInventoryDetailsComponent, CreatureEquipmentDetailsComponent],
     exports: [
-      HeroFundsComponent, CreatureStatsComponent, EquipmentComponent,
-      InventoryArmorSelectComponent, InventoryWeaponSelectComponent,
-      InventoryGlovesSelectComponent, InventoryGlovesSelectComponent,
-      InventoryBeltSelectComponent, InventoryBeltSelectComponent,
-      InventoryHeadpieceSelectComponent, CreatureResistancesComponent,
-      InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
-      AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent, CreatureEditorComponent, InventoryComponent
+        HeroFundsComponent, CreatureStatsComponent, EquipmentComponent,
+        InventoryArmorSelectComponent, InventoryWeaponSelectComponent,
+        InventoryGlovesSelectComponent, InventoryGlovesSelectComponent,
+        InventoryBeltSelectComponent, InventoryBeltSelectComponent,
+        InventoryHeadpieceSelectComponent, CreatureResistancesComponent,
+        InventoryNeckaccesorySelectComponent, InventoryRingSelectComponent,
+        AttackDetailsComponent, CombatCreatureSelectComponent, CreatureBaseSelectComponent, CreatureDetailsComponent, CreatureEditorComponent, InventoryComponent
     ],
     imports: [
         CommonModule,
@@ -81,8 +81,6 @@ import {ProgressBarModule} from 'primeng/progressbar';
         InputTextModule,
         SelectButtonModule,
         ProgressBarModule
-
-    ],
-  entryComponents: [RollsCardComponent]
+    ]
 })
 export class CreaturesSharedModule { }

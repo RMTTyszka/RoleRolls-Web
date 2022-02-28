@@ -19,34 +19,30 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatFormFieldModule,
-    MatDialogModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    SharedModule,
-    // Primeng
-    DynamicDialogModule,
-
-    // RR
-    MonsterTemplateSharedModule,
-    PanelModule
-  ],
-  declarations: [
-    EncountersComponent,
-    EncounterCreateEditComponent
-  ],
-  entryComponents: [
-    EncounterCreateEditComponent
-  ],
-  exports: [
-    EncounterCreateEditComponent
-  ],
-  providers: [
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatFormFieldModule,
+        MatDialogModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        SharedModule,
+        // Primeng
+        DynamicDialogModule,
+        // RR
+        MonsterTemplateSharedModule,
+        PanelModule
+    ],
+    declarations: [
+        EncountersComponent,
+        EncounterCreateEditComponent
+    ],
+    exports: [
+        EncounterCreateEditComponent
+    ],
+    providers: [
+        { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
+    ]
 })
 export class EncountersModule { }

@@ -22,26 +22,23 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatTableModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatInputModule,
-    FormsModule,
-    SharedModule,
-    FlexLayoutModule,
-    PowersSharedModule,
-    DynamicDialogModule
-  ],
-  declarations: [RacesComponent, RaceEditorComponent],
-  providers: [
-    RacesService
-  ],
-  entryComponents: [
-    RaceEditorComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatTableModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSelectModule,
+        MatInputModule,
+        FormsModule,
+        SharedModule,
+        FlexLayoutModule,
+        PowersSharedModule,
+        DynamicDialogModule
+    ],
+    declarations: [RacesComponent, RaceEditorComponent],
+    providers: [
+        RacesService
+    ]
 })
 export class RacesModule { }

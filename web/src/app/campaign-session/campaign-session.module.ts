@@ -24,24 +24,23 @@ import { CampaignEncountersComponent } from './campaign-encounters/campaign-enco
 
 
 @NgModule({
-  declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent, CampaignEncountersComponent],
-  imports: [
-    CommonModule,
-    CampaignSessionRoutingModule,
-    TabViewModule,
-    TableModule,
-    CreaturesSharedModule,
-    CombatModule,
-    PanelModule,
-    OverlayPanelModule,
-    FormsModule,
-    CardModule,
-    TooltipModule,
-    ToastModule,
-    ScrollPanelModule
-  ],
-  entryComponents: [CampaignSessionGatewayComponent],
-  providers: [CampaignRollsService]
+    declarations: [CampaignSessionGatewayComponent, CampaignHeroesComponent, CampaignCombatComponent, CampaignHeroDetailsComponent, CampaignRollsComponent, CampaignEncountersComponent],
+    imports: [
+        CommonModule,
+        CampaignSessionRoutingModule,
+        TabViewModule,
+        TableModule,
+        CreaturesSharedModule,
+        CombatModule,
+        PanelModule,
+        OverlayPanelModule,
+        FormsModule,
+        CardModule,
+        TooltipModule,
+        ToastModule,
+        ScrollPanelModule
+    ],
+    providers: [CampaignRollsService]
 })
 export class CampaignSessionModule {
 }

@@ -27,31 +27,24 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    MonsterTemplateProviderModule,
-
-
-    RaceSharedModule,
-    RolesSharedModule,
-    MonstersSharedModule,
-    ToolbarModule,
-    CreaturesSharedModule,
-    DynamicDialogModule,
-    InputTextModule,
-
-  ],
-  declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent, MonsterCreateComponent],
-  providers: [
-    {provide: MatDialogRef, useValue: {}},
-    {provide: MAT_DIALOG_DATA, useValue: {}}
-  ],
-  exports: [
-  ],
-  entryComponents: [
-    MonsterComponent, MonsterModelComponent, MonsterCreateComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        MonsterTemplateProviderModule,
+        RaceSharedModule,
+        RolesSharedModule,
+        MonstersSharedModule,
+        ToolbarModule,
+        CreaturesSharedModule,
+        DynamicDialogModule,
+        InputTextModule,
+    ],
+    declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent, MonsterCreateComponent],
+    providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+    ],
+    exports: []
 })
 export class MonstersModule { }

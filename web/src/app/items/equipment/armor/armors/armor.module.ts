@@ -9,14 +9,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
-  declarations: [ArmorListComponent, ArmorEditorComponent],
-  entryComponents: [ArmorEditorComponent],
-  imports: [
-    CommonModule,
-    ToolbarModule,
-    ReactiveFormsModule,
-    SharedModule,
-    BaseArmorSharedModule
-  ]
+    declarations: [ArmorListComponent, ArmorEditorComponent],
+    imports: [
+        CommonModule,
+        ToolbarModule,
+        ReactiveFormsModule,
+        SharedModule,
+        BaseArmorSharedModule
+    ]
 })
 export class ArmorModule { }

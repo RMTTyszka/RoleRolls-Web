@@ -13,14 +13,13 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes),
-    DynamicDialogModule
-  ],
-  declarations: [RolesListComponent, RolesEditorComponent],
-  providers: [],
-  entryComponents: [RolesEditorComponent]
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule.forChild(routes),
+        DynamicDialogModule
+    ],
+    declarations: [RolesListComponent, RolesEditorComponent],
+    providers: []
 })
 export class RolesModule { }
