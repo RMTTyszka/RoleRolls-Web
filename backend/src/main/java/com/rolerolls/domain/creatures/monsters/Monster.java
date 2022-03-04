@@ -41,9 +41,9 @@ public class Monster extends Creature {
         level = 1;
         baseAttributes = new Attributes(8);
         bonusAttributes = new Attributes();
+
         this.name = name;
         this.race = race;
-        this.role = role;
         equipment = new Equipment();
         inventory = new Inventory();
         this.ownerId = ownerId;

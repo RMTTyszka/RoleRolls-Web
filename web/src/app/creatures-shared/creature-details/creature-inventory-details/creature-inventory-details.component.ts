@@ -35,7 +35,9 @@ export class CreatureInventoryDetailsComponent implements OnInit {
         path: ItemInstantiatorPath.campaign
       } as ItemInstantiatorModalData
     }).onClose.subscribe((creature: Creature) => {
-      this.creature = creature;
+      if (creature) {
+        this.creature = creature;
+      }
     });
   }
 

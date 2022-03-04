@@ -19,6 +19,7 @@ import com.rolerolls.domain.items.equipables.rings.instances.RingInstance;
 import com.rolerolls.domain.items.equipables.rings.instances.RingInstanceService;
 import com.rolerolls.domain.items.equipables.weapons.instances.WeaponInstance;
 import com.rolerolls.domain.items.equipables.weapons.instances.WeaponInstanceService;
+import com.rolerolls.domain.skills.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,8 @@ public class MonsterService {
     private InventoryRepository inventoryRepository;
     @Autowired
     private MonsterRepository monsterRepository;
+    @Autowired
+    private SkillsService skillsService;
 
     public Monster create(String monsterName, MonsterModel model, UUID playerId) throws Exception {
 
@@ -82,6 +85,7 @@ public class MonsterService {
         monster.getInventory().setCash1(100);
         monster.setEquipment(equipmentRepository.save(monster.getEquipment()));
         monster.setInventory(inventoryRepository.save(monster.getInventory()));
+        monster.setSkills(skillsService.save(monster.getSkills()));
         monster = monsterRepository.save(monster);
         return monster;
     }
