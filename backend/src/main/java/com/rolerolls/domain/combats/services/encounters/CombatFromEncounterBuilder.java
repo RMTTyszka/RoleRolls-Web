@@ -4,6 +4,8 @@ import com.rolerolls.domain.combats.Combat;
 import com.rolerolls.domain.combats.CombatRepository;
 import com.rolerolls.domain.creatures.monsters.Monster;
 import com.rolerolls.domain.creatures.monsters.MonsterRepository;
+import com.rolerolls.domain.creatures.monsters.models.MonsterModel;
+import com.rolerolls.domain.creatures.monsters.models.MonsterModelRepository;
 import com.rolerolls.domain.creatures.monsters.services.MonsterInstantiatorService;
 import com.rolerolls.domain.encounters.Encounter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,12 @@ public class CombatFromEncounterBuilder {
     public MonsterRepository monsterRepository;
     @Autowired
     private CombatRepository combatRepository;
+    @Autowired
+    private MonsterModelRepository monsterModelRepository;
     public Combat BuildFromEncounter(UUID campaignId, Encounter encounter) {
         Combat combat = new Combat();
-        List<Monster> monsters = encounter.getMonsters()
+        List<MonsterModel> monsterModels = monsterModelRepository.findAllByIdIn(encounter.getMonsterTemplateIds());
+        List<Monster> monsters = monsterModels
                 .stream()
                 .map(monsterTemplate -> monsterInstantiatorService.Instantiate(monsterTemplate, encounter.getLevel()))
                 .collect(Collectors.toList());

@@ -6,6 +6,6 @@ import {Combat} from '../shared/models/combat/Combat.model';
   providedIn: 'root'
 })
 export class CombatManagementService {
-  public combatUpdated = new BehaviorSubject<Combat>(new Combat());
+  public combatUpdated = new BehaviorSubject<Combat>(null);
   constructor() { }
 }

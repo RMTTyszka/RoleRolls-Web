@@ -5,23 +5,28 @@ import com.rolerolls.domain.creatures.monsters.models.MonsterModel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 public class Encounter extends com.rolerolls.shared.Entity {
 
 	private Integer level;
 
-	@OneToMany
+	@Getter
+	@Setter
+	@ElementCollection
+	private List<UUID> monsterTemplateIds = new ArrayList<>();
+	@Transient
 	@Getter
 	@Setter
 	private List<MonsterModel> monsters = new ArrayList<>();
-
 	@OneToMany
 	@Getter
 	@Setter
@@ -30,10 +35,10 @@ public class Encounter extends com.rolerolls.shared.Entity {
 	@Setter
 	private String name;
 
-	public Encounter(String name, Integer level, List<MonsterModel> monsters, List<Enviroment> enviroments) {
+	public Encounter(String name, Integer level, List<UUID> monsterTemplateIds, List<Enviroment> enviroments) {
 		this.level = level;
 		this.name = name;
-		this.monsters = monsters;
+		this.monsterTemplateIds = monsterTemplateIds;
 		this.enviroments = enviroments;
 	}
 
@@ -56,16 +61,12 @@ public class Encounter extends com.rolerolls.shared.Entity {
 	}
 
 	public Boolean addMonsterTemplate(MonsterModel monsterTemplate) {
-		boolean alreadyHasMonsterTemplate = this.getMonsters().stream().anyMatch(e -> e.getId().equals(monsterTemplate.getId()));
-		if (alreadyHasMonsterTemplate) {
-			return false;
-		} else {
-			this.monsters.add(monsterTemplate);
-			return true;
-		}
+		this.monsterTemplateIds.add(monsterTemplate.getId());
+		return true;
 	}
 
 	public void removeMonsterTemplate(UUID monsterTemplateId) {
-		this.monsters = this.monsters.stream().filter(e -> !e.getId().equals(monsterTemplateId)).collect(Collectors.toList());
+		AtomicInteger index = new AtomicInteger(0);
+		monsterTemplateIds.removeIf(templateId -> templateId.equals(monsterTemplateId) && index.getAndIncrement() < 1);
 	}
 }

@@ -59,7 +59,6 @@ export class CombatComponent implements OnInit, OnDestroy {
     private routeSnapshot: ActivatedRoute
   ) { }
   ngOnDestroy(): void {
-    this._combatManagement.combatUpdated.next(new Combat());
     this.usubscriber.next();
     this.usubscriber.complete();
   }
@@ -156,9 +155,12 @@ export class CombatComponent implements OnInit, OnDestroy {
   }
   removeHero(i: number) {
     const hero = this.heroes[i];
+    if (hero.id === undefined) {
+      this.heroes.splice(i, 1);
+      return;
+    }
     this._combatService.removeHero(this.combat.id, hero.id)
       .subscribe(combat => {
-        this.heroes.splice(i, 1);
         this._combatManagement.combatUpdated.next(combat);
       });
   }
@@ -197,7 +199,7 @@ export class CombatComponent implements OnInit, OnDestroy {
     }
   }
   addHeroPlace() {
-    this.heroes.push(new Monster());
+    this.heroes.push(new Hero());
   }
   addMonsterPlace() {
     this.monsters.push(new Monster());
@@ -243,6 +245,10 @@ export class CombatComponent implements OnInit, OnDestroy {
 
   removeMonster(i: number) {
     const monster = this.monsters[i] as Monster;
+    if (monster.id === undefined) {
+      this.monsters.splice(i, 1);
+      return;
+    }
     this._combatService.removeMonster(this.combat.id, monster.id)
       .subscribe(combat => {
         this._combatManagement.combatUpdated.next(combat);
@@ -276,6 +282,10 @@ export class CombatComponent implements OnInit, OnDestroy {
 
   deleteCombat() {
 
+  }
+
+  public closeCombat(): void {
+    this._combatManagement.combatUpdated.next(null);
   }
 }
 

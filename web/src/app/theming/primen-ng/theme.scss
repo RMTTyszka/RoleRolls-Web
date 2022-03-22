@@ -899,7 +899,9 @@ p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
 .p-inputgroup-addon:last-child {
   border-right: 1px solid #a6a6a6;
 }
-
+.p-inputgroup .p-inputwrapper>.p-component {
+  width: 100%;
+}
 .p-inputgroup > .p-component,
 .p-inputgroup > .p-float-label > .p-component {
   border-radius: 0;
