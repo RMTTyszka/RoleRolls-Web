@@ -40,9 +40,9 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 
             template.Name = updatedTemplate.Name;
 
-            var attributesToCreate = updatedTemplate.Attributes.Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id));
-            var attributesToUpdate= template.Attributes.Where(attribute => updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id));
-            var attributesToDelete= template.Attributes.Where(attribute => !updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id));
+            var attributesToCreate = updatedTemplate.Attributes.Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
+            var attributesToUpdate= template.Attributes.Where(attribute => updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
+            var attributesToDelete= template.Attributes.Where(attribute => !updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
 
             foreach (var attribute in attributesToUpdate) 
             {
@@ -50,9 +50,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 attribute.Name = updatedAttribute.Name;
             }
 
-            var skillsToCreate = updatedTemplate.Skills.Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id));
-            var skillsToUpdate= template.Skills.Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id));
-            var skillsToDelete= template.Skills.Where(skill => !updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id));
+
+            var skillsToCreate = updatedTemplate.Skills.Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
+            var skillsToUpdate= template.Skills.Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
+            var skillsToDelete= template.Skills.Where(skill => !updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
 
             var minorSkillsToCreate = new List<MinorSkillTemplate>();
             var minorSkillsToUpdate = new List<MinorSkillTemplate>();
@@ -63,23 +64,67 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 var updatedSkill= updatedTemplate.Skills.First(sk => sk.Id == skill.Id);
                 skill.Name = updatedSkill.Name;
 
-                var minorSkillsToCreate2 = updatedSkill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id));
-                var minorSToUpdate2 = skill.MinorSkills.Where(minorSkill => updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id));
-                var minorSToDelete2 = skill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id));
+                var minorSkillsToCreate2 = updatedSkill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
+                var minorSToUpdate2 = skill.MinorSkills.Where(minorSkill => updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
+                var minorSToDelete2 = skill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
 
                 minorSkillsToCreate.AddRange(minorSkillsToCreate2);
                 minorSkillsToUpdate.AddRange(minorSToUpdate2);
                 minorSkillsToDelete.AddRange(minorSToDelete2);
+
+                foreach (var minorSkill in minorSkillsToCreate)
+                {
+                    skill.MinorSkills.Add(minorSkill);
+                }
+                foreach (var minorSkill in minorSkillsToDelete)
+                {
+                    skill.MinorSkills.Remove(minorSkill);
+                }
+            }
+            foreach (var skill in skillsToCreate)
+            {
+                template.Skills.Add(skill);
+            }
+            foreach (var skill in skillsToDelete)
+            {
+                template.Skills.Remove(skill);
+                minorSkillsToDelete.AddRange(skill.MinorSkills);
             }
 
-            var lifesToCreate = updatedTemplate.Lifes.Where(life => !template.Lifes.Select(l => l.Id).Contains(life.Id));
-            var lifesToUpdate= template.Lifes.Where(life => updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id));
-            var lifesToDelete= template.Lifes.Where(life => !updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id));
+            var lifesToCreate = updatedTemplate.Lifes.Where(life => !template.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
+            var lifesToUpdate= template.Lifes.Where(life => updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
+            var lifesToDelete= template.Lifes.Where(life => !updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
 
             foreach (var lifes in lifesToUpdate)
             {
                 var updatedLife= updatedTemplate.Lifes.First(lf => lf.Id == lifes.Id);
                 lifes.Name = updatedLife.Name;
+            }
+            foreach (var life in lifesToCreate)
+            {
+                template.Lifes.Add(life);
+            }
+            foreach (var life in lifesToDelete)
+            {
+                template.Lifes.Remove(life);
+            }
+
+            foreach (var attribute in attributesToCreate)
+            {
+                template.Attributes.Add(attribute);
+            }
+            foreach (var attribute in attributesToDelete)
+            {
+                template.Attributes.Remove(attribute);
+                var skillsFromAttribute = template.Skills.Where(sk => sk.AttributeId == attribute.Id).ToList();
+                var minorSkills = skillsFromAttribute.SelectMany(sk => sk.MinorSkills).ToList();
+                foreach (var skill in skillsFromAttribute) 
+                {
+                    template.Skills.Remove(skill);
+                    skill.MinorSkills.RemoveAll(_ => true);
+                }
+                skillsToDelete.AddRange(skillsFromAttribute);
+                minorSkillsToDelete.AddRange(minorSkills);
             }
 
             await _dbContextl.AttributeTemplates.AddRangeAsync(attributesToCreate);
