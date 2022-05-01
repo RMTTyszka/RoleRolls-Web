@@ -14,7 +14,6 @@
             Id = Guid.NewGuid();
             MinorSkillTemplateId = skill.Id;
             Name = skill.Name;
-            SkillProficience = skill.SkillProficience;
         }
     }
    

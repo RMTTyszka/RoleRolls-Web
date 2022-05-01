@@ -33,3 +33,5 @@ C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\obj\Debug\net6.0\refin
 C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\obj\Debug\net6.0\RoleRollsPocketEdition.pdb
 C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\obj\Debug\net6.0\RoleRollsPocketEdition.genruntimeconfig.cache
 C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\obj\Debug\net6.0\ref\RoleRollsPocketEdition.dll
+C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\bin\Debug\net6.0\Humanizer.dll
+C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll

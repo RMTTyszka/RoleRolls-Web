@@ -6,11 +6,14 @@
         public int Value { get; set; }
         public Guid AttributeTemplateId { get; set; }
 
+        public Attribute()
+        {
+        }
+
         public Attribute(AttributeTemplate attribute)
         {
             Id = Guid.NewGuid();
             Name = attribute.Name;
-            Value = attribute.Value;
             AttributeTemplateId = attribute.Id;
         }
     }     

@@ -15,7 +15,6 @@
         {
             Id = Guid.NewGuid();
             Name = skill.Name;
-            Value = skill.Value;
             AttributeId = skill.AttributeId;
             SkillTemplateId = skill.Id;
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkill(minorSkill)).ToList();

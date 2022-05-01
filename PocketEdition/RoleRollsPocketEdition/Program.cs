@@ -1,5 +1,6 @@
+using RoleRollsPocketEdition.Configuration;
 using RoleRollsPocketEdition.Infrastructure;
-
+using System.Linq;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,7 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkNpgsql()
-    .AddDbContext<RoleRollsDbContext>();
+    .AddDbContext<RoleRollsDbContext>(options => 
+    {
+        builder.Configuration.GetConnectionString("RoleRolls");
+    });
+builder.Services.AddServices();
 
 var app = builder.Build();
 
@@ -18,6 +23,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+using (var scope = app.Services.CreateScope())
+{
+/*    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    dataContext.Database.Migrate();*/
 }
 
 app.UseHttpsRedirection();

@@ -10,24 +10,36 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Skill> Skills { get; set; }
         public DbSet<MinorSkill> MinorSkills { get; set; }
         public DbSet<Life> Lifes { get; set; }
+        public DbSet<CreatureTemplate> CreatureTemplates { get; set; }
         public DbSet<AttributeTemplate> AttributeTemplates { get; set; }
         public DbSet<SkillTemplate> SkillTemplates { get; set; }
         public DbSet<MinorSkillTemplate> MinorSkillTemplates { get; set; }
         public DbSet<LifeTemplate> LifeTemplates { get; set; }
 
 
+        public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options) 
+        {
+            options.UseNpgsql("Host=localhost:5432;Database=RoleRollsPocket;Username=postgres;Password=123qwe");
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
-            var entity = modelBuilder.Entity<Entity>(e =>
-            {
-                e.HasKey(x => x.Id);
-                e.Property(x => x.Id).HasDefaultValue(Guid.NewGuid());
-            }
-            );
 
-            var creature = modelBuilder.Entity<Creature>();
-            creature.ToTable("Creatures");
+            base.OnModelCreating(modelBuilder);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(Entity).IsAssignableFrom(entityType.ClrType))
+                {
+                    modelBuilder.Entity(entityType.ClrType).HasKey("Id");
+                }
+            }
+
         }
     }
 }
