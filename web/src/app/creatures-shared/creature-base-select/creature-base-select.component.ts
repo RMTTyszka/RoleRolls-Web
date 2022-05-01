@@ -33,7 +33,7 @@ export class CreatureBaseSelectComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._combatManagement.combatUpdated
       .pipe(takeUntil(this.unsubscriber)).subscribe(combat => {
-      this.currentCreatureOnInitiativeId = combat.currentInitiative.creature.id;
+      this.currentCreatureOnInitiativeId = combat.currentInitiative?.creature?.id;
       this.creature = combat.heroes.find(e => e.id === this.creature.id) || combat.monsters.find(e => e.id === this.creature.id);
     });
     this.service.onEntityChange
