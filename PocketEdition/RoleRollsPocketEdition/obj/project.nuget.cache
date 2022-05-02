@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "MHEKOsiHiK3u8I2Gw8juJDr9HOLxxVrPULFOYp0zwMtLti8t/wx687j/8QvDy8c6YlvAp6iO8tOjZp8Z8Bmz/g==",
+  "dgSpecHash": "THebM1mUrJY18ze1h2XhXkBJpQZBEMEIgs5Z5KUAm4IYmn1WDaqsiZ7VFZv0Je5jSK5zwRGfxBMTmdf7K44EOA==",
   "success": true,
   "projectFilePath": "C:\\Git\\RoleRolls-Web\\PocketEdition\\RoleRollsPocketEdition\\RoleRollsPocketEdition.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\rmtty\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\rmtty\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\rmtty\\.nuget\\packages\\linqkit.core\\1.2.2\\linqkit.core.1.2.2.nupkg.sha512",
     "C:\\Users\\rmtty\\.nuget\\packages\\linqkit.microsoft.entityframeworkcore\\6.1.2\\linqkit.microsoft.entityframeworkcore.6.1.2.nupkg.sha512",

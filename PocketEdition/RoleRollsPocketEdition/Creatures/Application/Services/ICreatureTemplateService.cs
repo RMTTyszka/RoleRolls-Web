@@ -6,6 +6,6 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
     {
         public Task<CreatureTemplate> Get(Guid id);
         public Task Create(CreatureTemplate template);
-        public Task Update(Guid id, CreatureTemplate template);
+        public Task<CreatureTemplateValidationResult> Update(Guid id, CreatureTemplate template);
     }
 }

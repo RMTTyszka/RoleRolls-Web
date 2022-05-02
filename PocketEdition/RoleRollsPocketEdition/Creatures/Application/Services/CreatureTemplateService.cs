@@ -29,8 +29,15 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             return template;
         }
 
-        public async Task Update(Guid id, CreatureTemplate updatedTemplate)
+        public async Task<CreatureTemplateValidationResult> Update(Guid id, CreatureTemplate updatedTemplate)
         {
+
+            var validation = ValidateInput(updatedTemplate);
+            if (validation != CreatureTemplateValidationResult.Ok) 
+            {
+                return validation;
+            }
+
             var template = await _dbContextl.CreatureTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
@@ -146,6 +153,21 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             _dbContextl.CreatureTemplates.Update(template);
 
             await _dbContextl.SaveChangesAsync();
+
+            return CreatureTemplateValidationResult.Ok;
+        }
+
+        private CreatureTemplateValidationResult ValidateInput(CreatureTemplate template)
+        {
+            var hasAttribute = template.Skills.All(skill => template.Attributes.Any(attribute => attribute.Id == skill.AttributeId));
+
+            if (!hasAttribute) 
+            {
+                return CreatureTemplateValidationResult.SkillWithoutAttribute;
+            }
+
+            return CreatureTemplateValidationResult.Ok;
+
         }
     }
 }

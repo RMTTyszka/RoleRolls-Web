@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Creatures.Domain;
 
 namespace RoleRollsPocketEdition.Infrastructure
@@ -15,6 +16,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<SkillTemplate> SkillTemplates { get; set; }
         public DbSet<MinorSkillTemplate> MinorSkillTemplates { get; set; }
         public DbSet<LifeTemplate> LifeTemplates { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)

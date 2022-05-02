@@ -43,6 +43,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "LinqKit.Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.1.2, )"

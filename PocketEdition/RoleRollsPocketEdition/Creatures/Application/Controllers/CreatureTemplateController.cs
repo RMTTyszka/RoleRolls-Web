@@ -27,9 +27,14 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
             return _creatureTemplateService.Create(template);
         }      
         [HttpPut("{id}")]
-        public Task Update([FromRoute] Guid id, [FromBody] CreatureTemplate template) 
+        public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CreatureTemplate template) 
         {
-            return _creatureTemplateService.Update(id, template);
+            var result = await _creatureTemplateService.Update(id, template);
+            if (result != CreatureTemplateValidationResult.Ok)
+            {
+                return new UnprocessableEntityObjectResult(result);
+            }
+            return Ok();
         }
     }
 }
