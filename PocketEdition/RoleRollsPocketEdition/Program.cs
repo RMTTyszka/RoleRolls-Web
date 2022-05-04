@@ -1,5 +1,8 @@
+using RoleRollsPocketEdition.Authentication.Application.Services;
+using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Configuration;
 using RoleRollsPocketEdition.Infrastructure;
+using System.Configuration;
 using System.Linq;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +16,10 @@ builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<RoleRollsDbContext>(options => 
     {
         builder.Configuration.GetConnectionString("RoleRolls");
-    });
+    }, ServiceLifetime.Transient);
 builder.Services.AddServices();
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,9 +35,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 
 app.Run();

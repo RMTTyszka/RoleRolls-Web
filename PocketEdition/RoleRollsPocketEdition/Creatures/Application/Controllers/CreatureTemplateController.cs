@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Authentication;
 using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
 
@@ -16,6 +17,7 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
             _creatureTemplateService = creatureTemplateService;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<CreatureTemplate> GetAsync(Guid id) 
         {
