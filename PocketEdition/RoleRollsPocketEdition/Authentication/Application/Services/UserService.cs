@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RoleRollsPocketEdition.Authentication.Application.Controllers;
 using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Infrastructure;
@@ -33,7 +34,7 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
             await _dbContext.AddAsync(user);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<string> LoginAsync(string email, string password)
+        public async Task<LoginResult> LoginAsync(string email, string password)
         {
             var user =  await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
             if (user is null)
@@ -44,7 +45,13 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
             var valid = user.Challenge(password);
             if (valid) 
             {
-                return GenerateJwtToken(user);
+                var jwt = GenerateJwtToken(user);
+                return new LoginResult
+                {
+                    UserId = user.Id,
+                    UserName = user.Email,
+                    Token = jwt
+                };
             }
             return null;
         }

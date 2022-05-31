@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
+import {LohAuthLoggedOnApp, LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
 import {pipe, Subject} from 'rxjs';
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {Message, MessageService} from 'primeng/api';
 import {debounceTime, tap, throttleTime} from 'rxjs/operators';
+import { LoggedApp } from '../shared/models/login/LoggedApp';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthenticationService {
   userNameChanged = new Subject<string>();
   onUserUnauthorized = new Subject<string>();
   lastRoute: string;
+  public loggedOn: LoggedApp;
   get isLogged() {
     return this.token && this.userName;
   }
@@ -38,6 +40,7 @@ export class AuthenticationService {
 
   public setToken(token: string) {
     localStorage.setItem(LohAuthTokenName, token);
+    localStorage.setItem(LohAuthLoggedOnApp, this.loggedOn.toString());
     this.token = token;
   }
   public getToken() {
@@ -72,6 +75,7 @@ export class AuthenticationService {
     this.userNameChanged.next(null);
     localStorage.removeItem(LohAuthTokenName);
     localStorage.removeItem(LohAuthUserName);
+    localStorage.removeItem(LohAuthLoggedOnApp);
   }
 
 

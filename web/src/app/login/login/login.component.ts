@@ -5,6 +5,7 @@ import {Message, MessageService} from 'primeng/api';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {LohAuthTokenName} from '../../authentication/AuthTokens';
 import {Router} from '@angular/router';
+import { LoggedApp } from 'src/app/shared/models/login/LoggedApp';
 
 @Component({
   selector: 'rr-login',
@@ -26,14 +27,14 @@ export class LoginComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.form = this.fb.group({
-      password: ['hell666'],
+      password: ['123qwe'],
       email: ['admin@rolerolls.com']
     });
     this.formCreated = this.fb.group({
       firstName: [],
       lastName: [],
       userName: [],
-      password: ['hell666'],
+      password: ['123qwe'],
       email: ['admin@rolerolls.com']
     });
   }

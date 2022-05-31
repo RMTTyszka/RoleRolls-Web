@@ -5,7 +5,7 @@
 
   <rr-main-header></rr-main-header>
 
-  <nav mat-tab-nav-bar>
+  <nav mat-tab-nav-bar *ngIf="loggedOn === loggedOnEnum.Normal">
     <a mat-tab-link routerLink=''>Party</a>
     <a mat-tab-link routerLink='encounters'>Encounters</a>
     <a mat-tab-link routerLink='campaigns'>Campaigns</a>
@@ -20,6 +20,9 @@
     <a mat-tab-link routerLink='tests'>Tests</a>
 
     <a routerLink='rolls'>Make Rolls</a>
+  </nav>
+  <nav mat-tab-nav-bar *ngIf="loggedOn === loggedOnEnum.Pocket">
+    <a mat-tab-link routerLink='/pocket/campaigns'>Campaigns</a>
   </nav>
   <br/>
 

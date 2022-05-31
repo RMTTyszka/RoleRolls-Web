@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Authentication.Users;
+﻿using RoleRollsPocketEdition.Authentication.Application.Controllers;
+using RoleRollsPocketEdition.Authentication.Users;
 
 namespace RoleRollsPocketEdition.Authentication.Application.Services
 {
@@ -6,6 +7,6 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
     {
         Task<User> Get(Guid id);
         Task CreateAsync(User user);
-        Task<string> LoginAsync(string email, string password);
+        Task<LoginResult> LoginAsync(string email, string password);
     }
 }

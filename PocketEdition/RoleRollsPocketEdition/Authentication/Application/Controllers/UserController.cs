@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Authentication.Users;
 
@@ -23,19 +24,25 @@ namespace RoleRollsPocketEdition.Authentication.Application.Controllers
             return Ok();
         }
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginInput input)
+        public async Task<ActionResult<LoginResult>> Login(LoginInput input)
         {
-            var jwt = await _userService.LoginAsync(input.Email, input.Password);
-            if (jwt is null) 
+            var loginResult = await _userService.LoginAsync(input.Email, input.Password);
+            if (loginResult is null) 
             {
                 return new UnauthorizedResult();
             }
-            return Ok(jwt);
+            return Ok(loginResult);
         }
     }
     public class LoginInput
     {
         public string Email { get; set; }
         public string Password { get; set; }
+    }   
+    public class LoginResult
+    {
+        public string Token { get; set; }
+        public string UserName { get; set; }
+        public Guid UserId{ get; set; }
     }
 }

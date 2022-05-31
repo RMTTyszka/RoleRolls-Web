@@ -4,10 +4,24 @@ using RoleRollsPocketEdition.Configuration;
 using RoleRollsPocketEdition.Infrastructure;
 using System.Configuration;
 using System.Linq;
+
+var RoleRollsPolicyOrigins = "rolerolls";
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: RoleRollsPolicyOrigins,
+                      policy =>
+                      {
+                          policy
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowAnyOrigin();
+                      });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +34,7 @@ builder.Services.AddEntityFrameworkNpgsql()
 builder.Services.AddServices();
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +51,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseMiddleware<JwtMiddleware>();
+app.UseCors(RoleRollsPolicyOrigins);
 app.MapControllers();
 
 app.Run();

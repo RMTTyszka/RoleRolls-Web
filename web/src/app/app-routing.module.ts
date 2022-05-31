@@ -6,6 +6,7 @@ import {MonstersColorConfig} from './monsters/monsters-color-config';
 import {ItemsColorConfig} from './items/items-color-config';
 
 const routes: Routes = [
+  {path: 'pocket', loadChildren: () => import('./pocket-role-rolls/pocket-role-rolls.module').then(m => m.PocketRoleRollsModule)},
   {path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule)},
   {path: 'rolls', loadChildren: () => import('./rolls/rolls.module').then(m => m.RollsModule)},
   {path: 'home', component: HomeComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'players', loadChildren: () => import('./players/players.module').then(m => m.PlayersModule)},
   {path: 'encounters', loadChildren: () => import('./encounters/encounters.module').then(m => m.EncountersModule)},
   {path: 'heroes', loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule), data: {colors: new HeroesColorConfig()}},
-  {path: 'monsters', loadChildren: () => import('./monsters/monsters.module').then(m => m.MonstersModule), data: {colors: new MonstersColorConfig()}},
+  {path: 'monsters', loadChildren: () => import('./monsters/monsters.module').then(m => m.MonstersModule),
+    data: {colors: new MonstersColorConfig()}},
   {path: 'tests', loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule)},
   {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)},
   {path: 'campaigns', loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule)},
