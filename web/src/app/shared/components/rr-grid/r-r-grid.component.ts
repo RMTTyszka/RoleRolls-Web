@@ -7,6 +7,7 @@ import {DialogService} from 'primeng/dynamicdialog';
 import {BaseComponentConfig} from '../base-component-config';
 import {EditorAction} from '../../dtos/ModalEntityData';
 import {UniverseService} from '../../../universes/universe.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rr-rr-grid',
@@ -31,7 +32,8 @@ get columns() {
   @Output() rowSelectedEvent = new EventEmitter<T>();
   constructor(
     private dialogService: DialogService,
-    private universeService: UniverseService
+    private universeService: UniverseService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -89,18 +91,21 @@ get columns() {
   rowSelected(event: {data: T}) {
     this.rowSelectedEvent.emit(event.data);
     if (!this.isSelect) {
-      this.dialogService.open(this.config.editor, {
-        data: {
-          entityId: event.data.id,
-          service: this.service,
-          action: EditorAction.update
-        },
-        width: '100vw',
-        height: '100vh',
-        header: this.config.editorTitle
-      })
-        .onClose.subscribe();
-
+      if (this.config.navigateOnRowSelect) {
+        this.router.navigate([this.config.navigateUrlOnRowSelect]);
+      } else {
+        this.dialogService.open(this.config.editor, {
+          data: {
+            entityId: event.data.id,
+            service: this.service,
+            action: EditorAction.update
+          },
+          width: '100vw',
+          height: '100vh',
+          header: this.config.editorTitle
+        })
+          .onClose.subscribe();
+      }
     }
   }
 

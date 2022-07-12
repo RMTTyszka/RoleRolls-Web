@@ -5,12 +5,11 @@ import { LoginModule } from '../login/login.module';
 import { LoginService } from '../login/login.service';
 import { PocketLoginService } from './pocket-login.service';
 import { PocketHomeComponent } from './pocket-home/pocket-home.component';
-import { PocketCampaignsComponent } from './pocket-campaigns/pocket-campaigns.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login/login.component';
 
 const routes: Routes = [
-  {path: 'campaings', component: PocketCampaignsComponent},
+  {path: 'campaings', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule)},
   {path: 'login', component: LoginComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', redirectTo: ''},
@@ -21,7 +20,6 @@ const routes: Routes = [
   declarations: [
     PocketLoginComponent,
     PocketHomeComponent,
-    PocketCampaignsComponent
   ],
   imports: [
     CommonModule,

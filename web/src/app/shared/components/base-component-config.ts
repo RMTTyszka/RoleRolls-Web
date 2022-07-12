@@ -13,4 +13,6 @@ export interface BaseComponentConfig {
   selectModalTitle: string;
   selectModalColumns: RRColumns[];
   entityListColumns: RRColumns[];
+  navigateUrlOnRowSelect: string;
+  navigateOnRowSelect: boolean;
 }
