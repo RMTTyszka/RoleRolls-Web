@@ -25,8 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Campaigns\Application\Controllers\" />
-    <Folder Include="NewFolder1\" />
+    <Folder Include="Campaigns\Application\Dtos\" />
   </ItemGroup>
 
 </Project>

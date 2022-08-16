@@ -4,6 +4,8 @@ import {RaceEditorComponent} from './race-editor/race-editor.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class RaceConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string = null;
+  navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig = null;
   editorTitle = 'Race';
   editor = RaceEditorComponent;

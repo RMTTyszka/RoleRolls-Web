@@ -4,6 +4,8 @@ import {RolesEditorComponent} from './roles-editor/roles-editor.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class RoleConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string;
+  navigateOnRowSelect: boolean;
   creatorOptions: DynamicDialogConfig = null;
   editorTitle = 'Role';
   editor = RolesEditorComponent;

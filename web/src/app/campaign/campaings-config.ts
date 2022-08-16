@@ -4,6 +4,8 @@ import {CampaignEditorComponent} from './campaign-editor/campaign-editor.compone
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class CampaingsConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string = null;
+  navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig;
   editorTitle = 'Campaign';
   editor = CampaignEditorComponent;

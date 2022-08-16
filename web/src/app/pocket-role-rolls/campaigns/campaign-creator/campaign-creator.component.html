@@ -1,1 +1,8 @@
-<p>campaign-creator works!</p>
+<rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
+               (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields">
+  <form form [formGroup]="form" *ngIf="!isLoading">
+  <p-fieldset legend="Hero">
+    <input type="text" pInputText placeholder="Name" formControlName="name" required>
+  </p-fieldset>
+    </form>
+</rr-cm-editor>

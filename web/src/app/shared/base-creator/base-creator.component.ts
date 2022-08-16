@@ -10,7 +10,7 @@ export interface IEditorInput<T> {
   entity: T;
 }
 
-export class BaseCreatorComponent<T extends Entity, TCreateInput> {
+export class BaseCreatorComponent<T extends Entity, TCreateInput extends Entity> {
   entityIsLoading = true;
   isLoading = true;
   hasLoaded = false;

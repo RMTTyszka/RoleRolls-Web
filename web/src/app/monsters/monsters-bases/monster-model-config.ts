@@ -4,6 +4,8 @@ import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class MonsterModelConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string = null;
+  navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig;
   editorTitle = 'Monster Model';
   entityListColumns: RRColumns[] = [

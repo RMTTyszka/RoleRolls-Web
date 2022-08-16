@@ -5,6 +5,8 @@ import {HeroCreateComponent} from './hero-create/hero-create.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class HeroConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string = null;
+  navigateOnRowSelect = false;
   editorTitle = 'Hero';
   editor = NewHeroEditorComponent;
   creator = HeroCreateComponent;

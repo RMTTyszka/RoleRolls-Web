@@ -5,6 +5,8 @@ import {MonsterCreateComponent} from './monster-create/monster-create.component'
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 
 export class MonsterConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string;
+  navigateOnRowSelect: boolean;
   creatorOptions: DynamicDialogConfig;
   editorTitle = 'Monsters';
   editor = MonsterComponent;

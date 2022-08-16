@@ -1,14 +1,14 @@
 import {EventEmitter, Injector, OnInit, Type} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {Entity} from '../models/Entity.model';
 import {LOH_API} from '../../loh.api';
 import {PagedOutput} from '../dtos/PagedOutput';
-import {tap} from 'rxjs/operators';
+import {map, tap, switchMap} from 'rxjs/operators';
 import {BaseCrudResponse} from '../models/BaseCrudResponse';
 import {RRColumns} from '../components/cm-grid/cm-grid.component';
 import {BaseComponentConfig} from '../components/base-component-config';
-export abstract class BaseCrudService<T extends Entity, TCreateInput> {
+export abstract class BaseCrudService<T extends Entity, TCreateInput extends Entity> {
   constructor(
     injector: Injector,
   ) {
@@ -58,6 +58,23 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput> {
   create(entity: TCreateInput): Observable<BaseCrudResponse<T>> {
     return this.http.post<BaseCrudResponse<T>>(this.serverUrl + this.path, entity).pipe(
       tap((response: BaseCrudResponse<T>) => this.entityCreated.next(response.entity))
+    );
+  }
+
+  createV2(entity: TCreateInput): Observable<BaseCrudResponse<T>> {
+    return this.http.post<never>(this.serverUrl + this.path, entity).pipe(
+      switchMap(() => {
+        return this.get(entity.id)
+        .pipe(
+          map((createEntity: T) => {
+            this.entityCreated.next(createEntity);
+            return {
+              entity: createEntity,
+              success: true
+            } as BaseCrudResponse<T>;
+          })
+        );
+      })
     );
   }
   update(entity: T): Observable<BaseCrudResponse<T>> {

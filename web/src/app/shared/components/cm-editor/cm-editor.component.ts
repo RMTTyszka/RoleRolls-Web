@@ -15,7 +15,7 @@ import {BaseCrudService} from '../../base-service/base-crud-service';
   templateUrl: './cm-editor.component.html',
   styleUrls: ['./cm-editor.component.css']
 })
-export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit, OnDestroy {
+export class CmEditorComponent<T extends Entity, TCreateInput extends Entity> implements OnInit, OnDestroy {
 
   private unsubscriber = new Subject<void>();
   private subscriptions: Subscription[] = [];
@@ -29,6 +29,7 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
   @Input() service: BaseCrudService<T, TCreateInput>;
   @Input() requiredFields: string[] = [];
   @Input() form: FormGroup;
+  @Input() v2: boolean;
   @Output() saved = new EventEmitter<T>();
   @Output() deleted = new EventEmitter<T>();
   @Output() loaded = new EventEmitter<T>();
@@ -89,7 +90,7 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
     let subscription: Observable<BaseCrudResponse<T>>;
     if (this.action === EditorAction.create) {
       const entity: TCreateInput = this.form.getRawValue();
-      subscription = this.service.create(entity);
+      subscription = this.v2 ? this.service.createV2(entity) : this.service.create(entity);
     } else if (this.action === EditorAction.update) {
       const entity: T = this.form.getRawValue();
       subscription = this.service.update(entity);
@@ -113,8 +114,8 @@ export class CmEditorComponent<T extends Entity, TCreateInput> implements OnInit
       }
       this.messageService.add({severity: messageType, summary: '', detail: response.message});
     });
-
   }
+
   delete() {
     this.confirmationService.confirm({
       message: 'Are you sure?',

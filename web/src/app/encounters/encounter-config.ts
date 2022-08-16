@@ -4,6 +4,8 @@ import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {EncounterCreateEditComponent} from './encounter-create-edit/encounter-create-edit.component';
 
 export class EncounterConfig implements BaseComponentConfig {
+  navigateUrlOnRowSelect: string = null;
+  navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig = null;
   editorTitle = 'Race';
   editor = EncounterCreateEditComponent;

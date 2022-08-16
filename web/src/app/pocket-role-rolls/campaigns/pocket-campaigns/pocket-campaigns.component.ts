@@ -10,7 +10,7 @@ import { PocketCampaignConfig } from '../pocket.campaign.config';
 })
 export class PocketCampaignsComponent implements OnInit {
 
-  public config = PocketCampaignConfig;
+  public config = new PocketCampaignConfig();
   constructor(
     public service: PocketCampaignsService
     ) { }
