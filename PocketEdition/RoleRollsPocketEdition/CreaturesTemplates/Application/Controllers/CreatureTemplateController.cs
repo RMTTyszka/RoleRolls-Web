@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.Authentication;
 using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 
 namespace RoleRollsPocketEdition.Creatures.Controllers
 {
@@ -19,19 +20,19 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<CreatureTemplate> GetAsync(Guid id) 
+        public async Task<CreatureTemplateModel> GetAsync(Guid id) 
         {
             return await _creatureTemplateService.Get(id);
         }
         [HttpPost("")]
-        public Task Create([FromBody] CreatureTemplate template) 
+        public Task Create([FromBody] CreatureTemplateModel template) 
         {
             return _creatureTemplateService.Create(template);
         }      
         [HttpPut("{id}")]
-        public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CreatureTemplate template) 
+        public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CreatureTemplateModel template) 
         {
-            var result = await _creatureTemplateService.Update(id, template);
+            var result = await _creatureTemplateService.UpdateAsync(id, template);
             if (result != CreatureTemplateValidationResult.Ok)
             {
                 return new UnprocessableEntityObjectResult(result);

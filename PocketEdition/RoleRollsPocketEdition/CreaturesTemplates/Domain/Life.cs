@@ -11,7 +11,7 @@
             Id = Guid.NewGuid();
             LifeTemplateId = life.Id;
             MaxValue = life.MaxValue;
-            Value = life.Value;
+            Value = life.MaxValue;
             Name = life.Name;
         }
 

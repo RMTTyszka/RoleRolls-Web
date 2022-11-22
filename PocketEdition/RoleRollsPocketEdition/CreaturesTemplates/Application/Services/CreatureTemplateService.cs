@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Services
@@ -13,23 +14,25 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             _dbContextl = dbContextl;
         }
 
-        public async Task Create(CreatureTemplate template)
+        public async Task Create(CreatureTemplateModel template)
         {
-            await _dbContextl.CreatureTemplates.AddAsync(template);
+            var creatureTemplate = new CreatureTemplate(template);
+            await _dbContextl.CreatureTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
         }      
-        public async Task<CreatureTemplate> Get(Guid id)
+        public async Task<CreatureTemplateModel> Get(Guid id)
         {
             var template = await _dbContextl.CreatureTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .Include(template => template.Lifes)
+                .Select(template => new CreatureTemplateModel(template))
                 .FirstOrDefaultAsync(template => template.Id == id);
             return template;
         }
 
-        public async Task<CreatureTemplateValidationResult> Update(Guid id, CreatureTemplate updatedTemplate)
+        public async Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CreatureTemplateModel updatedTemplate)
         {
 
             var validation = ValidateInput(updatedTemplate);
@@ -47,7 +50,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 
             template.Name = updatedTemplate.Name;
 
-            var attributesToCreate = updatedTemplate.Attributes.Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
+            var attributesToCreate = updatedTemplate.Attributes
+                .Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id))
+                .Select(attribute => new AttributeTemplate(attribute))
+                .ToList();
             var attributesToUpdate= template.Attributes.Where(attribute => updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
             var attributesToDelete= template.Attributes.Where(attribute => !updatedTemplate.Attributes.Select(a => a.Id).Contains(attribute.Id)).ToList();
 
@@ -58,7 +64,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             }
 
 
-            var skillsToCreate = updatedTemplate.Skills.Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
+            var skillsToCreate = updatedTemplate.Skills
+                .Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id))
+                .Select(skill => new SkillTemplate(skill))
+                .ToList();
             var skillsToUpdate= template.Skills.Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
             var skillsToDelete= template.Skills.Where(skill => !updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
 
@@ -71,7 +80,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 var updatedSkill= updatedTemplate.Skills.First(sk => sk.Id == skill.Id);
                 skill.Name = updatedSkill.Name;
 
-                var minorSkillsToCreate2 = updatedSkill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
+                var minorSkillsToCreate2 = updatedSkill.MinorSkills
+                    .Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id))
+                    .Select(minorSkill => new MinorSkillTemplate(minorSkill))
+                    .ToList();
                 var minorSToUpdate2 = skill.MinorSkills.Where(minorSkill => updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
                 var minorSToDelete2 = skill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
 
@@ -98,7 +110,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 minorSkillsToDelete.AddRange(skill.MinorSkills);
             }
 
-            var lifesToCreate = updatedTemplate.Lifes.Where(life => !template.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
+            var lifesToCreate = updatedTemplate.Lifes
+                .Where(life => !template.Lifes.Select(l => l.Id).Contains(life.Id))
+                .Select(life => new LifeTemplate(life))
+                .ToList();
             var lifesToUpdate= template.Lifes.Where(life => updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
             var lifesToDelete= template.Lifes.Where(life => !updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
 
@@ -157,7 +172,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             return CreatureTemplateValidationResult.Ok;
         }
 
-        private CreatureTemplateValidationResult ValidateInput(CreatureTemplate template)
+        private CreatureTemplateValidationResult ValidateInput(CreatureTemplateModel template)
         {
             var hasAttribute = template.Skills.All(skill => template.Attributes.Any(attribute => attribute.Id == skill.AttributeId));
 

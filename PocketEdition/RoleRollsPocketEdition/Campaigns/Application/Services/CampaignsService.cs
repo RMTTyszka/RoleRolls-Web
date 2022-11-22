@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -38,18 +39,21 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             else 
             {
                 campaign.CreatureTemplateId = campaignModel.CreatureTemplateId.Value;
+                creatureTemplate = await _dbContext.CreatureTemplates.FindAsync(campaign.CreatureTemplateId);
             }
 
-
-
             await _dbContext.Campaigns.AddAsync(campaign);
-            await _dbContext.CreatureTemplates.AddAsync(creatureTemplate);
+            if (!campaignModel.CreatureTemplateId.HasValue) 
+            { 
+                await _dbContext.CreatureTemplates.AddAsync(creatureTemplate);
+            }
             await _dbContext.SaveChangesAsync();
         }       
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
             var campaign = await _dbContext.Campaigns.FindAsync(id);
-            var output = new CampaignModel(campaign);
+            var creatureTemplate = await _dbContext.CreatureTemplates.FindAsync(campaign.CreatureTemplateId);
+            var output = new CampaignModel(campaign, creatureTemplate);
             return output;
         }       
         public async Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input) 
@@ -57,7 +61,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var query = _dbContext.Campaigns
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount)
-                .Select(campaign => new CampaignModel(campaign));
+                .Select(campaign => new CampaignModel(campaign, null));
             var campaigns = await query.ToListAsync();
             var totalCount = await query.CountAsync();
             var output = new PagedResult<CampaignModel>
@@ -76,6 +80,22 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
                 _dbContext.Campaigns.Remove(campaign);
                  await _dbContext.SaveChangesAsync();
             }
+        }                  
+        public async Task UpdateAsync(CampaignModel campaignModel) 
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignModel.Id);
+            campaign.Name = campaignModel.Name;
+
+            _dbContext.Campaigns.Update(campaign);
+            await _dbContext.SaveChangesAsync();
+        }      
+        public async Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute) 
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+            var creatureTemplate = await _dbContext.CreatureTemplates.FirstAsync(template => template.Id == campaign.CreatureTemplateId);
+            creatureTemplate.AddAttribute(attribute);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            await _dbContext.SaveChangesAsync();
         }       
     }
 }
