@@ -1,8 +1,33 @@
 <rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
                (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields">
-  <form form [formGroup]="form" *ngIf="!isLoading">
-  <p-fieldset legend="Hero">
-    <input type="text" pInputText placeholder="Name" formControlName="name" required>
-  </p-fieldset>
-    </form>
+
+                <form form [formGroup]="form" *ngIf="!isLoading">
+                  <p-fieldset legend="Campaign">
+                    <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                  </p-fieldset>
+                  <p-panel>
+                    <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                        <span class="p-panel-title p-col-6">Attributes</span>
+                        <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="attributeForm" *ngIf="!isLoading">
+                          <p-fieldset class="p-col-6">
+                            <input type="text" pInputText placeholder="Attribute Name" formControlName="name" required>
+                          </p-fieldset>
+                          <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addAttribute()"></button>
+                        </div>
+                    </p-header>
+                  <div formGroupName="creatureTemplate">
+                    <div formArrayName="attributes">
+                      <div *ngFor="let attribute of attributes.controls; let i=index">
+                        <div [formGroup]="attribute">
+                          <p-fieldset>
+                            <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                          </p-fieldset>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </p-panel>
+                </form>
+
 </rr-cm-editor>

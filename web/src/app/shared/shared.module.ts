@@ -31,6 +31,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {RRGridComponent} from './components/rr-grid/r-r-grid.component';
 import { RrSelectFieldComponent } from './components/rr-select-field/rr-select-field.component';
 import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-modal.component';
+import { PanelModule } from 'primeng/panel';
 
 @NgModule({
     imports: [
@@ -101,7 +102,8 @@ import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-m
         CmEditorComponent,
         AttributeSelectComponent,
         RRGridComponent,
-        RrSelectFieldComponent
+        RrSelectFieldComponent,
+        PanelModule
     ],
     providers: []
 })

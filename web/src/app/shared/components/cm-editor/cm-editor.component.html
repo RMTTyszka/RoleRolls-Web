@@ -2,7 +2,7 @@
   <div class="p-col-12 editor-content">
     <ng-content select="[title]"></ng-content>
     <ng-content select="[subtitle]"></ng-content>
-    <ng-content select="[form]"></ng-content>
+    <ng-content select="[form]" *ngIf="!isLoading"></ng-content>
     <ng-content select="[footer]"></ng-content>
   </div>
 
