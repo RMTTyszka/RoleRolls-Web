@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
-import { createForm } from 'src/app/shared/EditorExtension';
+import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { AttributeTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
@@ -58,6 +58,7 @@ export class CampaignCreatorComponent implements OnInit {
       formArray.controls.push(newFormGroup);
       this.attributeForm.reset();
       this.attributeForm.get('id').setValue(uuidv4());
+      this.skillsMapping.set(attribute.id, new FormArray([]));
     });
   }
 
@@ -73,6 +74,9 @@ export class CampaignCreatorComponent implements OnInit {
       formArray.controls.push(newFormGroup);
       this.skillForm.reset();
       this.skillForm.get('id').setValue(uuidv4());
+      const newSkillForm = new FormGroup({});
+      createForm(newSkillForm, skill);
+      this.skillsMapping.get(attribute.id).push(newSkillForm);
     });
   }
 
@@ -95,6 +99,7 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.attributes;
       formArray.removeAt(index);
+      this.skillsMapping.delete(attribute.id);
     });
   }
   public removeSkill(attributeControl: FormGroup, skillControl: FormControl, index: number) {
@@ -104,6 +109,7 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.skills;
       formArray.removeAt(index);
+      this.skillsMapping.get(skill.attributeId).removeAt(index);
     });
   }
   loaded(entity: PocketCampaignModel) {
@@ -124,9 +130,11 @@ export class CampaignCreatorComponent implements OnInit {
     this.ref.close(true);
   }
   private buildSkills() {
-    const skillByAttributeArray = this.form.get('creatureTemplate.skillsByAttribute') as FormGroup;
-    Object.entries(skillByAttributeArray.controls).forEach((skillByAttribute: [string, FormArray]) => {
-      this.skillsMapping.set(skillByAttribute[0], skillByAttribute[1]);
+    this.entity.creatureTemplate.attributes.forEach(attribute => {
+      this.skillsMapping.set(attribute.id, new FormArray([]));
+    });
+    this.entity.creatureTemplate.skills.forEach(skill => {
+      this.skillsMapping.get(skill.attributeId).push(getAsForm(skill));
     });
   }
 

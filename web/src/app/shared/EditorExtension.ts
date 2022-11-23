@@ -35,3 +35,8 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
     }
   });
 }
+export function getAsForm(entity: Entity, requiredFields: string[] = []): FormGroup {
+  const form = new FormGroup({});
+  createForm(form, entity, requiredFields);
+  return form;
+}
