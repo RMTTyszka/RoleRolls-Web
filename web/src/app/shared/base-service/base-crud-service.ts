@@ -91,4 +91,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
       tap((response: BaseCrudResponse<T>) => this.entityDeleted.next(response.entity))
     );
   }
+  protected get completePath(): string {
+    return this.serverUrl + this.path;
+  }
 }

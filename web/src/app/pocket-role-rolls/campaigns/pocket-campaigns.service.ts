@@ -5,7 +5,7 @@ import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { AttributeTemplateModel, CreatureTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { AttributeTemplateModel, CreatureTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
@@ -33,13 +33,27 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
       } as PocketCampaignModel);
    }
    override get(id: string): Observable<PocketCampaignModel> {
-       return super.get(id)
-       .pipe(tap((a) => {
-        a.creatureTemplate.attributes.push({
-          id: uuidv4(),
-          name: 'aaaaaa'
-        } as AttributeTemplateModel);
-       }));
+       return super.get(id);
+   }
+
+   public addAttribute(campaignId: string, attribute: AttributeTemplateModel): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes`, attribute);
+   }
+   public updateAttribute(campaignId: string, attributeId: string, attribute: AttributeTemplateModel): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}`, attribute);
+   }
+   public removeAttribute(campaignId: string, attributeId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}`);
+   }
+
+   public addSkill(campaignId: string, attributeId: string, skill: SkillTemplateModel): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills`, skill);
+   }
+   public updateSkill(campaignId: string, attributeId: string, skillId: string, skill: SkillTemplateModel): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`, skill);
+   }
+   public removeSkill(campaignId: string, attributeId: string, skillId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`);
    }
 }
 

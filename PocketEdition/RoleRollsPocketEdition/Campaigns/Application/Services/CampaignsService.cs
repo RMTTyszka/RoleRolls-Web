@@ -15,6 +15,14 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         {
             _dbContext = dbContext;
         }
+        private async Task<CreatureTemplate> GetCreatureTemplateAggregateAsync(Guid id) 
+        {
+            var creatureTemplate = await _dbContext.CreatureTemplates
+            .Include(template => template.Attributes)
+            .Include(template => template.Skills)
+            .FirstAsync(template => template.Id == id);
+            return creatureTemplate;
+        }
 
         public async Task CreateAsync(CampaignModel campaignModel) 
         {
@@ -52,7 +60,10 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
             var campaign = await _dbContext.Campaigns.FindAsync(id);
-            var creatureTemplate = await _dbContext.CreatureTemplates.FindAsync(campaign.CreatureTemplateId);
+            var creatureTemplate = await _dbContext.CreatureTemplates
+                .Include(template => template.Attributes)
+                .Include(template => template.Skills)
+                .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             var output = new CampaignModel(campaign, creatureTemplate);
             return output;
         }       
@@ -92,10 +103,52 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         public async Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute) 
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates.FirstAsync(template => template.Id == campaign.CreatureTemplateId);
-            creatureTemplate.AddAttribute(attribute);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            var creatureTemplate = await _dbContext.CreatureTemplates
+                .Include(template => template.Attributes)
+                .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
+            await creatureTemplate.AddAttributeAsync(attribute, _dbContext);
             await _dbContext.SaveChangesAsync();
-        }       
+        }         
+        public async Task RemoveAttribute(Guid campaignId, Guid attributeId) 
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+            var creatureTemplate = await _dbContext.CreatureTemplates
+                .Include(template => template.Attributes)
+                .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
+            creatureTemplate.RemoveAttribute(attributeId, _dbContext);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAttribute(Guid id, Guid attributeId, AttributeTemplateModel attribute)
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var creatureTemplate = await GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            creatureTemplate.UpdateAttribute(attributeId, attribute, _dbContext);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddSkill(Guid id, Guid attributeId, SkillTemplateModel skill)
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var creatureTemplate = await GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            await creatureTemplate.AddSkill(attributeId, skill, _dbContext);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveSkill(Guid id, Guid attributeId, Guid skillId)
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var creatureTemplate = await GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            creatureTemplate.RemoveSkill(skillId, _dbContext);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateSkill(Guid id, Guid attributeId, Guid skillId, SkillTemplateModel skill)
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var creatureTemplate = await GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            creatureTemplate.UpdateSkill(skillId, skill, _dbContext);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -8,11 +8,11 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         {
             MinorSkills = new List<MinorSkillTemplate>();
         }
-        public SkillTemplate(SkillTemplateModel skill)
+        public SkillTemplate(Guid attributeId, SkillTemplateModel skill)
         {
             Id = skill.Id;
             Name = skill.Name;
-            AttributeId = skill.AttributeId;
+            AttributeId = attributeId;
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplate(minorSkill)).ToList();
         }
 
@@ -21,5 +21,9 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 
         public List<MinorSkillTemplate> MinorSkills { get; set; }
 
+        internal void Update(SkillTemplateModel skillModel)
+        {
+            Name = skillModel.Name;
+        }
     }
 }

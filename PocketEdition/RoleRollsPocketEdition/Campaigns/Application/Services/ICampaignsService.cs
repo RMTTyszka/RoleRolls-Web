@@ -12,5 +12,10 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input);
         Task UpdateAsync(CampaignModel campaignModel);
         Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute);
+        Task RemoveAttribute(Guid campaignId, Guid attributeId);
+        Task UpdateAttribute(Guid id, Guid attributeId, AttributeTemplateModel attribute);
+        Task AddSkill(Guid id, Guid attributeId, SkillTemplateModel skill);
+        Task RemoveSkill(Guid id, Guid attributeId, Guid skillId);
+        Task UpdateSkill(Guid id, Guid attributeId, Guid skillId, SkillTemplateModel skill);
     }
 }

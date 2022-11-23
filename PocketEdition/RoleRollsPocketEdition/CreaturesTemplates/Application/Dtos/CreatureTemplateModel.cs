@@ -31,5 +31,10 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos
         public ICollection<SkillTemplateModel> Skills { get; set; }
 
         public ICollection<LifeTemplateModel> Lifes { get; set; }
+
+        public Dictionary<Guid, List<SkillTemplateModel>> SkillsByAttribute => Skills
+            .GroupBy(skill => skill.AttributeId)
+            .ToDictionary(groupedSkill => groupedSkill.Key, groupedSkill => groupedSkill
+            .ToList());
     }
 }

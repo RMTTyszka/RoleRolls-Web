@@ -11,10 +11,15 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 
         public AttributeTemplate(AttributeTemplateModel attribute)
         {
-            attribute.Id = attribute.Id;
-            attribute.Name = attribute.Name;
+            Id = attribute.Id;
+            Name = attribute.Name;
         }
 
         public string Name { get; set; }
+
+        internal void Update(AttributeTemplateModel attributeModel)
+        {
+            Name = attributeModel.Name;
+        }
     }
 }

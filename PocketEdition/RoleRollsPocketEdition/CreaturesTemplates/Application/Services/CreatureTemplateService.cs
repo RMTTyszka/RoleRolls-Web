@@ -66,7 +66,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 
             var skillsToCreate = updatedTemplate.Skills
                 .Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id))
-                .Select(skill => new SkillTemplate(skill))
+                .Select(skill => new SkillTemplate(skill.AttributeId, skill))
                 .ToList();
             var skillsToUpdate= template.Skills.Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
             var skillsToDelete= template.Skills.Where(skill => !updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();

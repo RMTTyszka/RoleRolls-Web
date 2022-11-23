@@ -6,6 +6,7 @@ export class CreatureTemplateModel extends Entity {
   public totalSkillsPoints: number;
   public attributes: AttributeTemplateModel[];
   public skills: SkillTemplateModel[];
+  public skillsByAttribute: Map<string, SkillTemplateModel[]>;
   public lifes: LifeTemplateModel[];
 
   constructor() {
@@ -22,7 +23,11 @@ export class AttributeTemplateModel extends Entity {
 
 export class SkillTemplateModel extends Entity {
   public attributeId: string;
-  public minorSkills: MinorSkillsTemplateModel;
+  public minorSkills: MinorSkillsTemplateModel[];
+  constructor() {
+    super();
+    this.minorSkills = [];
+  }
 }
 
 export class MinorSkillsTemplateModel extends Entity {

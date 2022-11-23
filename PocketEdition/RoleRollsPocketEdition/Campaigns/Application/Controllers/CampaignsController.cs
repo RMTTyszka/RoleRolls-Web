@@ -50,10 +50,40 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _creatureTemplateService.UpdateAsync(campaignModel.CreatureTemplateId.Value, campaignModel.CreatureTemplate);
             return Ok();
         }      
-        [HttpPost("{id}")]
+        [HttpPost("{id}/attributes")]
         public async Task<IActionResult> AddAttribute([FromRoute] Guid id, [FromBody] AttributeTemplateModel attribute)
         {
             await _campaignsService.AddAttribute(id, attribute);
+            return Ok();
+        }       
+        [HttpDelete("{id}/attributes/{attributeId}")]
+        public async Task<IActionResult> RemoveAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId)
+        {
+            await _campaignsService.RemoveAttribute(id, attributeId);
+            return Ok();
+        }
+        [HttpPut("{id}/attributes/{attributeId}")]
+        public async Task<IActionResult> UpdateAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromBody] AttributeTemplateModel attribute)
+        {
+            await _campaignsService.UpdateAttribute(id, attributeId, attribute);
+            return Ok();
+        }         
+        [HttpPost("{id}/attributes/{attributeId}/skills")]
+        public async Task<IActionResult> AddSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromBody] SkillTemplateModel skill)
+        {
+            await _campaignsService.AddSkill(id, attributeId, skill);
+            return Ok();
+        }       
+        [HttpDelete("{id}/attributes/{attributeId}/skills/{skillId}")]
+        public async Task<IActionResult> RemoveAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
+        {
+            await _campaignsService.RemoveSkill(id, attributeId, skillId);
+            return Ok();
+        }
+        [HttpPut("{id}/attributes/{attributeId}/skills/{skillId}")]
+        public async Task<IActionResult> UpdateSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] SkillTemplateModel skill)
+        {
+            await _campaignsService.UpdateSkill(id, attributeId, skillId, skill);
             return Ok();
         }    
         [HttpDelete("{id}")]
