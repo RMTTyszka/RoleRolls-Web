@@ -31,32 +31,52 @@
                   <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                     <span class="p-panel-title p-col">Skills</span>
                   </p-header>
-                    <div formGroupName="creatureTemplate">
-                      <div formArrayName="attributes">
-                        <div *ngFor="let attribute of attributes.controls; let i=index">
-                <p-panel>
-                  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-                    <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
-                      <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
-                          <p-fieldset class="p-col-6">
-                            <input type="text" pInputText placeholder="Skill Name" formControlName="name" required>
-                         </p-fieldset>
-                        <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addSkill(attribute)"></button>
-                      </div>
-                  </p-header>
-                  <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
-                  <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skill">
-                    <div class="p-inputgroup">
-                      <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
-                      <button class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
-                    </div>
+                  <div formGroupName="creatureTemplate">
+                    <div formArrayName="attributes">
+                      <div *ngFor="let attribute of attributes.controls; let i=index">
+                        <p-panel>
+                          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                            <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
+                              <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
+                                  <p-fieldset class="p-col-6">
+                                    <input type="text" pInputText placeholder="Skill Name" formControlName="name" required>
+                                </p-fieldset>
+                                <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addSkill(attribute)"></button>
+                              </div>
+                          </p-header>
+                          <div class="p-grid p-justify-between p-align-start p-nogutter">
+                            <div class="p-col-6">
+                              <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
+                                <div form [formGroup]="skill">
+                                  <div class="p-inputgroup">
+                                    <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
+                                    <button class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                    <button class="p-inputgroup-addon" (click)="selectSkill(skill)" pButton type="button" icon="pi pi-pencil" class="p-button-secondary"></button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="p-col-6">
+                              <div class="p-grid p-justify-between p-align-start p-nogutter">
+                                <div class="p-col-6" form [formGroup]="skill">
+                                  <div *ngFor="let minorSkill of selectedSkillMinorSkills; let minorSkillIndex=index">
+                                    {{minorSkill.get('name')}}
+                                  </div>
+                                </div>
+                                <div form class="p-col-6" [formGroup]="minorSkillForm">
+                                  <div class="p-inputgroup">
+                                    <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                                    <button class="p-inputgroup-addon" (click)="addMinorSkill()" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                      </p-panel>
                   </div>
                 </div>
-              </p-panel>
-                  </div>
-                      </div>
-                    </div>
-              </p-panel>
-            </form>
-
+              </div>
+            </p-panel>
+          </form>
 </rr-cm-editor>

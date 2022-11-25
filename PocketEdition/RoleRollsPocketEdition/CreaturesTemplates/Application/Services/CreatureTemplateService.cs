@@ -82,7 +82,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 
                 var minorSkillsToCreate2 = updatedSkill.MinorSkills
                     .Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id))
-                    .Select(minorSkill => new MinorSkillTemplate(minorSkill))
+                    .Select(minorSkill => new MinorSkillTemplate(skill.Id, minorSkill))
                     .ToList();
                 var minorSToUpdate2 = skill.MinorSkills.Where(minorSkill => updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
                 var minorSToDelete2 = skill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();

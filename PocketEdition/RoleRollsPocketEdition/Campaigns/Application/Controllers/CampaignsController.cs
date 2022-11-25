@@ -49,7 +49,13 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _campaignsService.UpdateAsync(campaignModel);
             await _creatureTemplateService.UpdateAsync(campaignModel.CreatureTemplateId.Value, campaignModel.CreatureTemplate);
             return Ok();
-        }      
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            await _campaignsService.DeleteAsync(id);
+            return Ok();
+        }
         [HttpPost("{id}/attributes")]
         public async Task<IActionResult> AddAttribute([FromRoute] Guid id, [FromBody] AttributeTemplateModel attribute)
         {
@@ -75,7 +81,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             return Ok();
         }       
         [HttpDelete("{id}/attributes/{attributeId}/skills/{skillId}")]
-        public async Task<IActionResult> RemoveAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
+        public async Task<IActionResult> RemoveSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
         {
             await _campaignsService.RemoveSkill(id, attributeId, skillId);
             return Ok();
@@ -85,12 +91,25 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         {
             await _campaignsService.UpdateSkill(id, attributeId, skillId, skill);
             return Ok();
-        }    
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        }       
+        [HttpPost("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills")]
+        public async Task<IActionResult> AddMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] MinorSkillTemplateModel minorSkill)
         {
-            await _campaignsService.DeleteAsync(id);
+            await _campaignsService.AddMinorSkillAsync(id, attributeId, skillId, minorSkill);
+            return Ok();
+        }       
+        [HttpDelete("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
+        public async Task<IActionResult> RemoveMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId)
+        {
+            await _campaignsService.RemoveMinorSkillAsync(id, attributeId, skillId, minorSkillId);
             return Ok();
         }
+        [HttpPut("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
+        public async Task<IActionResult> UpdateMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId, [FromBody] MinorSkillTemplateModel minorSkill)
+        {
+            await _campaignsService.UpdateMinorSkillAsync(id, attributeId, skillId, minorSkillId, minorSkill);
+            return Ok();
+        }    
+
     }
 }

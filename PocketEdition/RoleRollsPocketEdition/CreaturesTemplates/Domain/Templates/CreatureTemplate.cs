@@ -73,5 +73,26 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Skills.Add(newSkill);
             await dbContext.SkillTemplates.AddAsync(newSkill);
         }
+
+        internal async Task AddMinorSkillAsync(Guid skillId, MinorSkillTemplateModel minorSkill, RoleRollsDbContext dbContext)
+        {
+            var newMinorSkill = new MinorSkillTemplate(skillId, minorSkill);
+            var skill = Skills.First(skill => skill.Id == skillId);
+            await skill.AddMinorSkillAsync(newMinorSkill, dbContext);
+        }       
+        internal void UpdateMinorSkill(Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkillModel, RoleRollsDbContext dbContext)
+        {
+            var skill = Skills.First(skill => skill.Id == skillId);
+            var minorSkill = skill.MinorSkills.First(minorSkill => minorSkill.Id == minorSkillId);
+            minorSkill.Update(minorSkillModel, dbContext);
+        }
+
+        internal void RemoveMinorSkill(Guid skillId, Guid minorSkillId, RoleRollsDbContext dbContext)
+        {
+            var skill = Skills.First(skill => skill.Id == skillId);
+            var minorSkill = skill.MinorSkills.First(minorSkill => minorSkill.Id == minorSkillId);
+            skill.MinorSkills.Remove(minorSkill);
+            dbContext.MinorSkillTemplates.Remove(minorSkill);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Creatures.Domain
 {
@@ -13,7 +14,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Id = skill.Id;
             Name = skill.Name;
             AttributeId = attributeId;
-            MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplate(minorSkill)).ToList();
+            MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplate(skill.Id, minorSkill)).ToList();
         }
 
         public string Name { get; set; }
@@ -24,6 +25,12 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         internal void Update(SkillTemplateModel skillModel)
         {
             Name = skillModel.Name;
-        }
+        }        
+        internal async Task AddMinorSkillAsync(MinorSkillTemplate minorSkill, RoleRollsDbContext dbContext)
+        {
+            MinorSkills.Add(minorSkill);
+            await dbContext.MinorSkillTemplates.AddAsync(minorSkill);
+        }        
+
     }
 }
