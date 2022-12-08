@@ -26,7 +26,6 @@ export class CampaignCreatorComponent implements OnInit {
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
   public selectedSkillMinorSkills: FormGroup[] = [];
-  selectedSkill: SkillTemplateModel;
 
   public get attributes(): FormArray {
     return this.form?.get('creatureTemplate.attributes') as FormArray;
@@ -66,6 +65,24 @@ export class CampaignCreatorComponent implements OnInit {
     });
   }
 
+
+
+  public updateAttribute(attributeControl: FormGroup) {
+    const attribute = attributeControl.value as AttributeTemplateModel;
+    this.service.updateAttribute(this.entity.id, attribute.id, attribute)
+    .subscribe();
+  }
+
+
+  public removeAttribute(attributeControl: FormControl, index: number) {
+    const attribute = attributeControl.value as AttributeTemplateModel;
+    this.service.removeAttribute(this.entity.id, attribute.id)
+    .subscribe(() => {
+      const formArray = this.attributes;
+      formArray.removeAt(index);
+      this.skillsMapping.delete(attribute.id);
+    });
+  }
   public addSkill(attributeForm: FormGroup) {
     const attribute = attributeForm.value as AttributeTemplateModel;
     const skill = this.skillForm.value as SkillTemplateModel;
@@ -81,30 +98,15 @@ export class CampaignCreatorComponent implements OnInit {
       const newSkillForm = new FormGroup({});
       createForm(newSkillForm, skill);
       this.skillsMapping.get(attribute.id).push(newSkillForm);
+      this.minorsSkillBySkill.set(skill.id, new FormArray([]));
     });
   }
-
-  public updateAttribute(attributeControl: FormGroup) {
-    const attribute = attributeControl.value as AttributeTemplateModel;
-    this.service.updateAttribute(this.entity.id, attribute.id, attribute)
-    .subscribe();
-  }
-
   public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) {
     const attribute = attributeControl.value as AttributeTemplateModel;
     const skill = skillControl.value as SkillTemplateModel;
    // skill.attributeId = attribute.id;
     this.service.updateSkill(this.entity.id, attribute.id, skill.id, skill)
     .subscribe();
-  }
-  public removeAttribute(attributeControl: FormControl, index: number) {
-    const attribute = attributeControl.value as AttributeTemplateModel;
-    this.service.removeAttribute(this.entity.id, attribute.id)
-    .subscribe(() => {
-      const formArray = this.attributes;
-      formArray.removeAt(index);
-      this.skillsMapping.delete(attribute.id);
-    });
   }
   public removeSkill(attributeControl: FormGroup, skillControl: FormControl, index: number) {
     const skill = skillControl.value as SkillTemplateModel;
@@ -116,22 +118,31 @@ export class CampaignCreatorComponent implements OnInit {
       this.skillsMapping.get(skill.attributeId).removeAt(index);
     });
   }
-  public selectSkill(skillForm: FormGroup) {
-    if (skillForm) {
-      this.selectedSkill = skillForm.value as SkillTemplateModel;
-      this.selectedSkillMinorSkills = (skillForm.get('minorSkills') as FormArray).controls as FormGroup[];
-    }
-  }
 
-  public addMinorSkill() {
+  public addMinorSkill(skillForm: FormGroup) {
     const minorSkill = this.minorSkillForm.value as MinorSkillsTemplateModel;
-    minorSkill.skillId = this.selectedSkill.id;
-    this.service.addMinorSkill(this.entity.id, this.selectedSkill.attributeId, this.selectedSkill.id, minorSkill)
+    const skill = skillForm.value as SkillTemplateModel;
+    minorSkill.skillId = skill.id
+    this.service.addMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill)
     .subscribe(() => {
       const newFormGroup = new FormGroup({});
       createForm(newFormGroup, minorSkill);
-      this.selectedSkillMinorSkills.push(newFormGroup);
       this.minorsSkillBySkill.get(minorSkill.skillId).controls.push(newFormGroup);
+    });
+  }
+    public updateMinorSkill(skillControl: FormControl, minorSkillControl: FormControl) {
+      const skill = skillControl.value as SkillTemplateModel;
+      const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
+      this.service.updateMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill.id, minorSkill)
+      .subscribe(() => {
+      });
+  }
+  public removeMinorSkill(skillControl: FormControl, minorSkillControl: FormControl, index: number) {
+    const skill = skillControl.value as SkillTemplateModel;
+    const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
+    this.service.removeMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill.id)
+    .subscribe(() => {
+      this.minorsSkillBySkill.get(skill.id).removeAt(index);
     });
   }
   loaded(entity: PocketCampaignModel) {

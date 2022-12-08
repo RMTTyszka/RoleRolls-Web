@@ -34,43 +34,52 @@
                   <div formGroupName="creatureTemplate">
                     <div formArrayName="attributes">
                       <div *ngFor="let attribute of attributes.controls; let i=index">
-                        <p-panel>
+                        <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
                           <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                             <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
                               <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
                                   <p-fieldset class="p-col-6">
-                                    <input type="text" pInputText placeholder="Skill Name" formControlName="name" required>
-                                </p-fieldset>
-                                <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addSkill(attribute)"></button>
+                                    <div class="p-inputgroup">
+                                      <input type="text" pInputText placeholder="Skill Name" formControlName="name" required>
+                                      <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
+                                      </div>
+                                  </p-fieldset>
                               </div>
                           </p-header>
                           <div class="p-grid p-justify-between p-align-start p-nogutter">
                             <div class="p-col-6">
                               <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
                                 <div form [formGroup]="skill">
-                                  <div class="p-inputgroup">
-                                    <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
-                                    <button class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
-                                    <button class="p-inputgroup-addon" (click)="selectSkill(skill)" pButton type="button" icon="pi pi-pencil" class="p-button-secondary"></button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="p-col-6">
-                              <div class="p-grid p-justify-between p-align-start p-nogutter">
-                                <div class="p-col-6" form [formGroup]="skill">
-                                  <div *ngFor="let minorSkill of selectedSkillMinorSkills; let minorSkillIndex=index">
-                                    {{minorSkill.get('name')}}
-                                  </div>
-                                </div>
-                                <div form class="p-col-6" [formGroup]="minorSkillForm">
-                                  <div class="p-inputgroup">
-                                    <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                                    <button class="p-inputgroup-addon" (click)="addMinorSkill()" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
-                                  </div>
-                                </div>
-                              </div>
+                                  <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                                    <ng-template pTemplate="header">
+                                      <div class="p-inputgroup">
+                                        <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
+                                        <button class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                      </div>
+                                      <div form class="p-col-6" [formGroup]="minorSkillForm">
+                                        <div class="p-inputgroup">
+                                          <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                                          <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                    <div class="p-grid p-justify-between p-align-start p-nogutter">
+                                      <div class="p-col-6" form [formGroup]="skill">
+                                        <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
+                                          <div [formGroup]="minorSkill">
+                                            <div class="p-inputgroup">
+                                              <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
+                                              <button class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
 
+                                    </div>
+                                </p-panel>
+
+                                </div>
+                              </div>
                             </div>
                           </div>
                       </p-panel>
