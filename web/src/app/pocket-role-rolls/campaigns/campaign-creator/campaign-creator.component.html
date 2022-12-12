@@ -4,7 +4,7 @@
                   <p-fieldset legend="Campaign">
                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
                   </p-fieldset>
-                  <p-panel>
+                  <p-panel [toggleable]="true">
                     <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                         <span class="p-panel-title p-col-6">Attributes</span>
                         <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="attributeForm" *ngIf="!isLoading">
@@ -27,7 +27,7 @@
                     </div>
                   </div>
                 </p-panel>
-                <p-panel>
+                <p-panel [toggleable]="true">
                   <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                     <span class="p-panel-title p-col">Skills</span>
                   </p-header>
@@ -40,7 +40,7 @@
                               <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
                                   <p-fieldset class="p-col-6">
                                     <div class="p-inputgroup">
-                                      <input type="text" pInputText placeholder="Skill Name" formControlName="name" required>
+                                      <input type="text" pInputText placeholder="Add skill" formControlName="name" required>
                                       <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
                                       </div>
                                   </p-fieldset>
@@ -58,7 +58,7 @@
                                       </div>
                                       <div form class="p-col-6" [formGroup]="minorSkillForm">
                                         <div class="p-inputgroup">
-                                          <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                                          <input type="text" pInputText placeholder="add minor skill" formControlName="name" required>
                                           <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
                                         </div>
                                       </div>
@@ -87,5 +87,32 @@
                 </div>
               </div>
             </p-panel>
+                <p-panel [toggleable]="true">
+                  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                    <span class="p-panel-title p-col-6">Lifes</span>
+                    <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="lifeForm" *ngIf="!isLoading">
+                      <p-fieldset class="p-col-6">
+                        <input type="text" pInputText placeholder="Add Life" formControlName="name" required>
+                      </p-fieldset>
+                      <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addLife()"></button>
+                    </div>
+                </p-header>
+                <div formGroupName="creatureTemplate">
+                    <div formArrayName="lifes">
+                      <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
+                        <div [formGroup]="life">
+                          <div class="p-inputgroup">
+                             <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateLife(life)">
+                             <button class="p-inputgroup-addon" (click)="removeLife(life, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                          </div>
+                          <div class="p-inputgroup">
+                            <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateLife(life)">
+                            <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="5 + 4 * level + (level + 2) * Vitality" fitContent="true"></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+</p-panel>
           </form>
 </rr-cm-editor>

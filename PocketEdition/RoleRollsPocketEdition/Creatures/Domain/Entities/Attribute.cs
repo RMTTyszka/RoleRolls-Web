@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+
+namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class Attribute : Entity
     {
@@ -15,6 +17,11 @@
             Id = Guid.NewGuid();
             Name = attribute.Name;
             AttributeTemplateId = attribute.Id;
+        }
+
+        internal void Update(AttributeModel updatedAttribute)
+        {
+            Value = updatedAttribute.Value;
         }
     }     
    

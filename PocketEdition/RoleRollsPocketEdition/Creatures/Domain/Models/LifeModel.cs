@@ -1,24 +1,21 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿namespace RoleRollsPocketEdition.Creatures.Domain.Models
 {
-    public class Life : Entity
+    public class LifeModel
     {
+
+        public Guid Id { get; set; }
         public int MaxValue { get; set; }
         public int Value { get; set; }
         public string Name { get; set; }
         public Guid LifeTemplateId { get; set; }
-        public Life(LifeTemplate life)
+
+        public LifeModel(Life life)
         {
-            Id = Guid.NewGuid();
-            LifeTemplateId = life.Id;
+            Id = life.Id;
+            LifeTemplateId = life.LifeTemplateId;
             MaxValue = life.MaxValue;
             Value = life.MaxValue;
             Name = life.Name;
         }
-
-        public Life()
-        {
-        }
-
     }
-   
 }

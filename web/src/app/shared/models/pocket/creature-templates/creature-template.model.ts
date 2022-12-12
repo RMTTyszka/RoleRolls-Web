@@ -35,6 +35,5 @@ export class MinorSkillsTemplateModel extends Entity {
 }
 
 export class LifeTemplateModel extends Entity {
-  public value: number;
-  public maxValue: number;
+  public formula: string;
 }

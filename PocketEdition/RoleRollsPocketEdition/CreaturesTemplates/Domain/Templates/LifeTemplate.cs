@@ -12,10 +12,16 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         {
             Id = life.Id;
             Name = life.Name;
-            MaxValue = life.MaxValue;
+            Formula = life.Formula;
         }
 
         public string Name { get; set; }
-        public int MaxValue { get; set; }
+        public string Formula { get; set; }
+
+        internal void Update(LifeTemplateModel lifeModel)
+        {
+            Name = lifeModel.Name;
+            Formula = lifeModel.Formula;
+        }
     }
 }

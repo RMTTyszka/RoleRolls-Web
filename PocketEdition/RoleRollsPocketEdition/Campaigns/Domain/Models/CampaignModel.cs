@@ -27,5 +27,6 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Models
                 CreatureTemplate = new CreatureTemplateModel(creatureTemplate);
             }
         }
+
     }
 }

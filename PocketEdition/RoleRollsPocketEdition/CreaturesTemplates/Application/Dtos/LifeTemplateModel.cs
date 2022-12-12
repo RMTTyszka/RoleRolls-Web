@@ -12,11 +12,12 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos
         {
             Id = life.Id;
             Name = life.Name;
-            MaxValue = life.MaxValue;
+            Formula = life.Formula;
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int MaxValue { get; set; }
+        public string Formula { get; set; }
+
     }
 }

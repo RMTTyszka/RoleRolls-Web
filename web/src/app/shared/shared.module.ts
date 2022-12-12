@@ -32,6 +32,7 @@ import {RRGridComponent} from './components/rr-grid/r-r-grid.component';
 import { RrSelectFieldComponent } from './components/rr-select-field/rr-select-field.component';
 import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-modal.component';
 import { PanelModule } from 'primeng/panel';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
     imports: [
@@ -91,6 +92,7 @@ import { PanelModule } from 'primeng/panel';
         AccordionModule,
         ButtonModule,
         // PrimeNg
+        TooltipModule,
         TableModule,
         ToastModule,
         DropdownModule,

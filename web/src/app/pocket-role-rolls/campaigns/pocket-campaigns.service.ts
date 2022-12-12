@@ -5,13 +5,14 @@ import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { AttributeTemplateModel, CreatureTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
 
   public path = 'campaigns';
   public selectPlaceholder: string;
@@ -68,5 +69,15 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
    public removeMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`);
   }
+
+  public addLife(campaignId: string, life: LifeTemplateModel): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/lifes`, life);
+   }
+   public updateLife(campaignId: string, lifeId: string, life: LifeTemplateModel): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`, life);
+   }
+   public removeLife(campaignId: string, lifeId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
+   }
 }
 

@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+
+namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class Creature : Entity
     {
@@ -7,16 +9,31 @@
 
         public ICollection<Life> Lifes { get; set; }
 
+        public Guid CampaignId { get; set; }
+        public Guid CreatureTemplateId { get; set; }
+        public Guid OwnerId { get; set; }
 
-        public Creature FromTemplate(CreatureTemplate template) 
+        public string Name { get; set; }
+
+        public Creature()
+        {
+            Attributes = new List<Attribute>();
+            Skills = new List<Skill>();
+            Lifes = new List<Life>();
+        }
+
+        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId) 
         {
             var creature = new Creature
             {
                 Attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList(),
                 Skills = template.Skills.Select(skill => new Skill(skill)).ToList(),
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
+                CampaignId = campaignId,
+                CreatureTemplateId = template.Id
+            
             };
-            foreach (var life in Lifes)
+            foreach (var life in creature.Lifes)
             {
                 life.Value = life.MaxValue;
             }
@@ -38,7 +55,32 @@
             roll.AttributeId = attributeId.Value;
             var result = RollAttribute(roll);
             return result;
-        }       
+        }
+
+        internal bool Update(CreatureModel creatureModel)
+        {
+            if (Valid(creatureModel))
+            {
+                foreach (var attribute in Attributes)
+                {
+                    var updatedAttribute = creatureModel.Attributes.First(attr => attr.Id == attribute.Id);
+                    attribute.Update(updatedAttribute);
+                }           
+                foreach (var skill in Skills)
+                {
+                    var updatedSkill= creatureModel.Skills.First(sk => sk.Id == skill.Id);
+                    skill.Update(updatedSkill);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private bool Valid(CreatureModel creatureModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public RollsResult RollAttribute(RollCheck roll) 
         {
             var attribute = Attributes.FirstOrDefault(attribute => attribute.Id == roll.AttributeId);

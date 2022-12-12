@@ -21,5 +21,8 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         Task AddMinorSkillAsync(Guid id, Guid attributeId, Guid skillId, MinorSkillTemplateModel minorSkill);
         Task RemoveMinorSkillAsync(Guid id, Guid attributeId, Guid skillId, Guid minorSkillId);
         Task UpdateMinorSkillAsync(Guid id, Guid attributeId, Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkill);
+        Task AddLife(Guid id, LifeTemplateModel life);
+        Task RemoveLife(Guid id, Guid lifeId);
+        Task UpdateLife(Guid id, Guid lifeId, LifeTemplateModel life);
     }
 }

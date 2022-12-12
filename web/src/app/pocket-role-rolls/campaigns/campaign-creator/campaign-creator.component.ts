@@ -4,7 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { AttributeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { AttributeTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,6 +19,7 @@ export class CampaignCreatorComponent implements OnInit {
   public attributeForm = new FormGroup({});
   public skillForm = new FormGroup({});
   public minorSkillForm = new FormGroup({});
+  public lifeForm = new FormGroup({});
   public isLoading = true;
   public entity: PocketCampaignModel;
   public entityId: string;
@@ -29,6 +30,10 @@ export class CampaignCreatorComponent implements OnInit {
 
   public get attributes(): FormArray {
     return this.form?.get('creatureTemplate.attributes') as FormArray;
+  }
+
+  public get lifes(): FormArray {
+    return this.form?.get('creatureTemplate.lifes') as FormArray;
   }
   public get skills(): FormArray {
     return this.form?.get('creatureTemplate.skills') as FormArray;
@@ -64,7 +69,6 @@ export class CampaignCreatorComponent implements OnInit {
       this.skillsMapping.set(attribute.id, new FormArray([]));
     });
   }
-
 
 
   public updateAttribute(attributeControl: FormGroup) {
@@ -122,11 +126,13 @@ export class CampaignCreatorComponent implements OnInit {
   public addMinorSkill(skillForm: FormGroup) {
     const minorSkill = this.minorSkillForm.value as MinorSkillsTemplateModel;
     const skill = skillForm.value as SkillTemplateModel;
-    minorSkill.skillId = skill.id
+    minorSkill.skillId = skill.id;
     this.service.addMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill)
     .subscribe(() => {
       const newFormGroup = new FormGroup({});
       createForm(newFormGroup, minorSkill);
+      this.minorSkillForm.reset();
+      this.minorSkillForm.get('id').setValue(uuidv4());
       this.minorsSkillBySkill.get(minorSkill.skillId).controls.push(newFormGroup);
     });
   }
@@ -145,15 +151,48 @@ export class CampaignCreatorComponent implements OnInit {
       this.minorsSkillBySkill.get(skill.id).removeAt(index);
     });
   }
+
+  public addLife() {
+    const life = this.lifeForm.value as LifeTemplateModel;
+    life.formula = '';
+    this.service.addLife(this.entity.id, life)
+    .subscribe(() => {
+      const formArray = this.lifes;
+      const newFormGroup = new FormGroup({});
+      createForm(newFormGroup, this.lifeForm.value);
+      formArray.controls.push(newFormGroup);
+      this.lifeForm.reset();
+      this.lifeForm.get('id').setValue(uuidv4());
+    });
+  }
+
+  public updateLife(lifeControl: FormGroup) {
+    const life = lifeControl.value as LifeTemplateModel;
+    this.service.updateLife(this.entity.id, life.id, life)
+    .subscribe();
+  }
+
+
+  public removeLife(lifeControl: FormControl, index: number) {
+    const life = lifeControl.value as LifeTemplateModel;
+    this.service.removeLife(this.entity.id, life.id)
+    .subscribe(() => {
+      const formArray = this.lifes;
+      formArray.removeAt(index);
+    });
+  }
+
   loaded(entity: PocketCampaignModel) {
     this.isLoading = false;
     this.entity = entity;
     createForm(this.attributeForm, new AttributeTemplateModel());
     createForm(this.skillForm, new SkillTemplateModel());
     createForm(this.minorSkillForm, new MinorSkillsTemplateModel());
+    createForm(this.lifeForm, new LifeTemplateModel());
     this.attributeForm.get('id').setValue(uuidv4());
     this.skillForm.get('id').setValue(uuidv4());
     this.minorSkillForm.get('id').setValue(uuidv4());
+    this.lifeForm.get('id').setValue(uuidv4());
     this.buildSkills();
   }
 

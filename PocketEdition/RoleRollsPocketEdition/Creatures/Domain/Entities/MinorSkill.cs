@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+
+namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class MinorSkill : Entity
     {
@@ -14,6 +16,11 @@
             Id = Guid.NewGuid();
             MinorSkillTemplateId = skill.Id;
             Name = skill.Name;
+        }
+
+        internal void Update(MinorSkillModel updatedMinorSkill)
+        {
+            SkillProficience = updatedMinorSkill.SkillProficience;
         }
     }
    

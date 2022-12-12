@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+
+namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class Skill : Entity
     {
@@ -20,7 +22,15 @@
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkill(minorSkill)).ToList();
         }
 
-
+        internal void Update(SkillModel updatedSkill)
+        {
+            Value = updatedSkill.Value;
+            foreach (var minorSkill in MinorSkills)
+            {
+                var updatedMinorSkill = updatedSkill.MinorSkills.First(minorsk => minorsk.Id == minorSkill.Id);
+                minorSkill.Update(updatedMinorSkill);
+            }
+        }
     }
    
 }

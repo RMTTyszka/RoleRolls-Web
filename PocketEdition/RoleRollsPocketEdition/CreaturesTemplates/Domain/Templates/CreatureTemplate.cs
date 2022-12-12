@@ -28,6 +28,13 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         // 4
         public int TotalSkillsPoints { get; set; }
         public virtual List<AttributeTemplate> Attributes { get; set; }
+
+        internal Creature InstantiateCreature(string name, Guid campaignId)
+        {
+            var creature = Creature.FromTemplate(this, campaignId);
+            return creature;
+        }
+
         public ICollection<SkillTemplate> Skills { get; set; }
 
         public ICollection<LifeTemplate> Lifes { get; set; }
@@ -93,6 +100,27 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             var minorSkill = skill.MinorSkills.First(minorSkill => minorSkill.Id == minorSkillId);
             skill.MinorSkills.Remove(minorSkill);
             dbContext.MinorSkillTemplates.Remove(minorSkill);
+        }
+
+        internal async Task AddLifeAsync(LifeTemplateModel life, RoleRollsDbContext dbContext)
+        {
+            var newLife = new LifeTemplate(life);
+            Lifes.Add(newLife);
+            await dbContext.LifeTemplates.AddAsync(newLife);
+        }
+
+        internal void RemoveLife(Guid lifeId, RoleRollsDbContext dbContext)
+        {
+            var life = Lifes.First(life => life.Id == lifeId);
+            Lifes.Remove(life);
+            dbContext.LifeTemplates.Remove(life);
+        }
+
+        internal void UpdateLife(Guid lifeId, LifeTemplateModel lifeModel, RoleRollsDbContext dbContext)
+        {
+            var life = Lifes.First(life => life.Id == lifeId);
+            life.Update(lifeModel);
+            dbContext.LifeTemplates.Update(life);
         }
     }
 }

@@ -109,7 +109,26 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         {
             await _campaignsService.UpdateMinorSkillAsync(id, attributeId, skillId, minorSkillId, minorSkill);
             return Ok();
-        }    
+        }
+
+        [HttpPost("{id}/lifes")]
+        public async Task<IActionResult> AddLife([FromRoute] Guid id, [FromBody] LifeTemplateModel life)
+        {
+            await _campaignsService.AddLife(id, life);
+            return Ok();
+        }
+        [HttpDelete("{id}/lifes/{lifeId}")]
+        public async Task<IActionResult> RemoveLife([FromRoute] Guid id, [FromRoute] Guid lifeId)
+        {
+            await _campaignsService.RemoveLife(id, lifeId);
+            return Ok();
+        }
+        [HttpPut("{id}/lifes/{lifeId}")]
+        public async Task<IActionResult> UpdateLife([FromRoute] Guid id, [FromRoute] Guid lifeId, [FromBody] LifeTemplateModel life)
+        {
+            await _campaignsService.UpdateLife(id, lifeId, life);
+            return Ok();
+        }
 
     }
 }
