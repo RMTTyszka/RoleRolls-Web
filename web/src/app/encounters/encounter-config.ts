@@ -1,9 +1,11 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RRAction, RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {EncounterCreateEditComponent} from './encounter-create-edit/encounter-create-edit.component';
+import { Encounter } from '../shared/models/Encounter.model';
 
-export class EncounterConfig implements BaseComponentConfig {
+export class EncounterConfig implements BaseComponentConfig<Encounter> {
+  entityListActions: RRAction<Encounter>[] = [];
   navigateUrlOnRowSelect: string = null;
   navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig = null;

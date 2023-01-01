@@ -16,6 +16,8 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
+
+
     <tr [pSelectableRow]="entity">
       <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
     </tr>

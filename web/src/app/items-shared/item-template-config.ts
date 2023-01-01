@@ -1,8 +1,10 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RRAction, RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+import { ItemTemplate } from '../shared/models/items/ItemTemplate';
 
-export class ItemTemplateConfig implements BaseComponentConfig {
+export class ItemTemplateConfig implements BaseComponentConfig<ItemTemplate> {
+  entityListActions: RRAction<ItemTemplate>[] = [];
   navigateUrlOnRowSelect: string = null;
   navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig = null;

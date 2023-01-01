@@ -20,13 +20,16 @@ export class RRGridComponent<T extends Entity> implements OnInit {
   @Input('columns') _columns: RRColumns[];
   @Input() service: BaseCrudService<T, T>;
   @Input() create: Function;
-  @Input() config: BaseComponentConfig;
+  @Input() config: BaseComponentConfig<T>;
   @Input() isSelect: boolean;
   totalCount: number;
   loading = true;
   first = 0;
 get columns() {
   return this._columns || this.config.entityListColumns;
+}
+get actions() {
+  return this.config.entityListActions;
 }
 
   @Output() rowSelectedEvent = new EventEmitter<T>();
@@ -115,4 +118,8 @@ get columns() {
 export interface RRColumns {
   header: string;
   property: string;
+}
+export class RRAction<T> {
+  icon: string;
+  callBack: (rowData: T) => void;
 }

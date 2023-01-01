@@ -1,4 +1,4 @@
-<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true"
+<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
          (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
 >
   <ng-template pTemplate="caption" >
@@ -21,13 +21,18 @@
 <!--      <th *ngFor="let column of columns">
         <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
       </th>-->
+      <th *ngIf="actions.length > 0" style="width:5%"></th>
     </tr>
     <tr>
       <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
+
     <tr [pSelectableRow]="entity">
+      <td *ngFor="let action of actions">
+        <button pButton type="button" [icon]="action.icon" class="p-button-primary" (click)="action.callBack(entity)"></button>
+      </td>
       <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
     </tr>
   </ng-template>

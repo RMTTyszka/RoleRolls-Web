@@ -1,9 +1,11 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RRAction, RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {RolesEditorComponent} from './roles-editor/roles-editor.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+import { Role } from '../shared/models/Role.model';
 
-export class RoleConfig implements BaseComponentConfig {
+export class RoleConfig implements BaseComponentConfig<Role> {
+  entityListActions: RRAction<Role>[] = [];
   navigateUrlOnRowSelect: string;
   navigateOnRowSelect: boolean;
   creatorOptions: DynamicDialogConfig = null;

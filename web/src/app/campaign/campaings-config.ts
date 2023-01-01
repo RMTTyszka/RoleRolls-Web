@@ -1,9 +1,11 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
-import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RRAction, RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {CampaignEditorComponent} from './campaign-editor/campaign-editor.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+import { Campaign } from '../shared/models/campaign/Campaign.model';
 
-export class CampaingsConfig implements BaseComponentConfig {
+export class CampaingsConfig implements BaseComponentConfig<Campaign> {
+  entityListActions: RRAction<Campaign>[] = [];
   navigateUrlOnRowSelect: string = null;
   navigateOnRowSelect = false;
   creatorOptions: DynamicDialogConfig;

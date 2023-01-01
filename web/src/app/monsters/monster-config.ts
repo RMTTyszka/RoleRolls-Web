@@ -1,10 +1,12 @@
 import {BaseComponentConfig} from '../shared/components/base-component-config';
 import {MonsterComponent} from './monster/monster.component';
-import {RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
+import {RRAction, RRColumns} from '../shared/components/rr-grid/r-r-grid.component';
 import {MonsterCreateComponent} from './monster-create/monster-create.component';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+import { Monster } from '../shared/models/creatures/monsters/Monster.model';
 
-export class MonsterConfig implements BaseComponentConfig {
+export class MonsterConfig implements BaseComponentConfig<Monster> {
+  entityListActions: RRAction<Monster>[] = [];
   navigateUrlOnRowSelect: string;
   navigateOnRowSelect: boolean;
   creatorOptions: DynamicDialogConfig;

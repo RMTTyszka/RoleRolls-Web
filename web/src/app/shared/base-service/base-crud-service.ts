@@ -22,7 +22,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
   public abstract selectModalTitle: string;
   public abstract selectModalColumns: RRColumns[];
   public abstract entityListColumns: RRColumns[];
-  config: BaseComponentConfig;
+  config: BaseComponentConfig<T>;
   onSaveAction = new EventEmitter<boolean>();
   onEntityChange = new Subject<T>();
   serverUrl = LOH_API.myBackUrl;
@@ -30,7 +30,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
   entityDeleted = new Subject<T>();
   entityCreated = new Subject<T>();
   protected http: HttpClient;
-  public static setConfig(service: BaseCrudService<any, any>, config: BaseComponentConfig) {
+  public static setConfig<T2 extends Entity>(service: BaseCrudService<any, any>, config: BaseComponentConfig<T2>) {
     service.path = config.path;
     service.selectPlaceholder = config.selectPlaceholder;
     service.fieldName = config.fieldName;

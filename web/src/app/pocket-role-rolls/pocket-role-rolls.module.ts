@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login/login.component';
 
 const routes: Routes = [
-  {path: 'campaings', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule)},
+  {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule)},
   {path: 'login', component: LoginComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', redirectTo: ''},

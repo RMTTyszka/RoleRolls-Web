@@ -4,19 +4,26 @@ import { PocketCampaignsComponent } from './pocket-campaigns/pocket-campaigns.co
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CampaignCreatorComponent } from './campaign-creator/campaign-creator.component';
-
+import { PocketCampaignBodyshellComponent } from './pocket-campaign-bodyshell/pocket-campaign-bodyshell.component';
+import {SlideMenuModule} from 'primeng/slidemenu';
+import { CampaignRollsComponent } from './campaign-rolls/campaign-rolls.component';
 const routes: Routes = [
-  {path: '', component: PocketCampaignsComponent},
+  {path: ':id', component: PocketCampaignBodyshellComponent},
+  {path: '', component: PocketCampaignsComponent}
 ];
 
 @NgModule({
   declarations: [
     PocketCampaignsComponent,
-    CampaignCreatorComponent
+    CampaignCreatorComponent,
+    PocketCampaignBodyshellComponent,
+    CampaignRollsComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+
+    SlideMenuModule,
 
     SharedModule,
   ]
