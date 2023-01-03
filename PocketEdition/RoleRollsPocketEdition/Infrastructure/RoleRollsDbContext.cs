@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Campaigns.Domain;
+using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain;
 
 namespace RoleRollsPocketEdition.Infrastructure
@@ -19,6 +20,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<LifeTemplate> LifeTemplates { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
+        public DbSet<Roll> Rolls { get; set; }
 
 
         public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)

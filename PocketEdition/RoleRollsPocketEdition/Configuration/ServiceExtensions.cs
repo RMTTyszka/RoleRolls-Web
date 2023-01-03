@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition.Authentication.Application.Services;
+using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Services;
@@ -10,10 +11,11 @@ namespace RoleRollsPocketEdition.Configuration
     {
         public static IServiceCollection AddServices(this IServiceCollection services) 
         {
-            services.AddScoped<ICreatureTemplateService, CreatureTemplateService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignsService, CampaignsService>();
-            services.AddScoped<ICampaignRepository, CampaignRepository>();
+            services.AddTransient<ICreatureTemplateService, CreatureTemplateService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICampaignsService, CampaignsService>();
+            services.AddTransient<ICampaignRepository, CampaignRepository>();
+            services.AddTransient<IRollService, RollService>();
             return services;
         }
     }

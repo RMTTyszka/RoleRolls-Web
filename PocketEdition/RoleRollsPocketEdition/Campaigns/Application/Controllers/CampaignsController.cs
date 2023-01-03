@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Authentication;
+using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Services;
@@ -17,17 +18,19 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
 
         private readonly ICampaignsService _campaignsService;
         private readonly ICreatureTemplateService _creatureTemplateService;
+        private readonly IRollService _rollService;
 
-        public CampaignsController(ICampaignsService campaignsService, ICreatureTemplateService creatureTemplateService)
+        public CampaignsController(ICampaignsService campaignsService, ICreatureTemplateService creatureTemplateService, IRollService rollService)
         {
             _campaignsService = campaignsService;
             _creatureTemplateService = creatureTemplateService;
+            _rollService = rollService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<CampaignModel> GetAsync(Guid id)
+        [HttpGet("{campaignId}")]
+        public async Task<CampaignModel> GetAsync(Guid campaignId)
         {
-            return await _campaignsService.GetAsync(id);
+            return await _campaignsService.GetAsync(campaignId);
         }    
         [HttpGet()]
         public async Task<PagedResult<CampaignModel>> GetListAsync([FromQuery] PagedRequestInput input)
@@ -39,8 +42,8 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         {
             return _campaignsService.CreateAsync(template);
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] CampaignModel campaignModel)
+        [HttpPut("{campaignId}")]
+        public async Task<IActionResult> Update([FromRoute] Guid campaignId, [FromBody] CampaignModel campaignModel)
         {
             if (!campaignModel.CreatureTemplateId.HasValue)
             {
@@ -50,84 +53,112 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _creatureTemplateService.UpdateAsync(campaignModel.CreatureTemplateId.Value, campaignModel.CreatureTemplate);
             return Ok();
         }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        [HttpDelete("{campaignId}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid campaignId)
         {
-            await _campaignsService.DeleteAsync(id);
+            await _campaignsService.DeleteAsync(campaignId);
             return Ok();
         }
-        [HttpPost("{id}/attributes")]
-        public async Task<IActionResult> AddAttribute([FromRoute] Guid id, [FromBody] AttributeTemplateModel attribute)
+        [HttpPost("{campaignId}/attributes")]
+        public async Task<IActionResult> AddAttribute([FromRoute] Guid campaignId, [FromBody] AttributeTemplateModel attribute)
         {
-            await _campaignsService.AddAttribute(id, attribute);
+            await _campaignsService.AddAttribute(campaignId, attribute);
             return Ok();
         }       
-        [HttpDelete("{id}/attributes/{attributeId}")]
-        public async Task<IActionResult> RemoveAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId)
+        [HttpDelete("{campaignId}/attributes/{attributeId}")]
+        public async Task<IActionResult> RemoveAttribute([FromRoute] Guid campaignId, [FromRoute] Guid attributeId)
         {
-            await _campaignsService.RemoveAttribute(id, attributeId);
+            await _campaignsService.RemoveAttribute(campaignId, attributeId);
             return Ok();
         }
-        [HttpPut("{id}/attributes/{attributeId}")]
-        public async Task<IActionResult> UpdateAttribute([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromBody] AttributeTemplateModel attribute)
+        [HttpPut("{campaignId}/attributes/{attributeId}")]
+        public async Task<IActionResult> UpdateAttribute([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromBody] AttributeTemplateModel attribute)
         {
-            await _campaignsService.UpdateAttribute(id, attributeId, attribute);
+            await _campaignsService.UpdateAttribute(campaignId, attributeId, attribute);
             return Ok();
         }         
-        [HttpPost("{id}/attributes/{attributeId}/skills")]
-        public async Task<IActionResult> AddSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromBody] SkillTemplateModel skill)
+        [HttpPost("{campaignId}/attributes/{attributeId}/skills")]
+        public async Task<IActionResult> AddSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromBody] SkillTemplateModel skill)
         {
-            await _campaignsService.AddSkill(id, attributeId, skill);
+            await _campaignsService.AddSkill(campaignId, attributeId, skill);
             return Ok();
         }       
-        [HttpDelete("{id}/attributes/{attributeId}/skills/{skillId}")]
-        public async Task<IActionResult> RemoveSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
+        [HttpDelete("{campaignId}/attributes/{attributeId}/skills/{skillId}")]
+        public async Task<IActionResult> RemoveSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
         {
-            await _campaignsService.RemoveSkill(id, attributeId, skillId);
+            await _campaignsService.RemoveSkill(campaignId, attributeId, skillId);
             return Ok();
         }
-        [HttpPut("{id}/attributes/{attributeId}/skills/{skillId}")]
-        public async Task<IActionResult> UpdateSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] SkillTemplateModel skill)
+        [HttpPut("{campaignId}/attributes/{attributeId}/skills/{skillId}")]
+        public async Task<IActionResult> UpdateSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] SkillTemplateModel skill)
         {
-            await _campaignsService.UpdateSkill(id, attributeId, skillId, skill);
+            await _campaignsService.UpdateSkill(campaignId, attributeId, skillId, skill);
             return Ok();
         }       
-        [HttpPost("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills")]
-        public async Task<IActionResult> AddMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] MinorSkillTemplateModel minorSkill)
+        [HttpPost("{campaignId}/attributes/{attributeId}/skills/{skillId}/minor-skills")]
+        public async Task<IActionResult> AddMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] MinorSkillTemplateModel minorSkill)
         {
-            await _campaignsService.AddMinorSkillAsync(id, attributeId, skillId, minorSkill);
+            await _campaignsService.AddMinorSkillAsync(campaignId, attributeId, skillId, minorSkill);
             return Ok();
         }       
-        [HttpDelete("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
-        public async Task<IActionResult> RemoveMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId)
+        [HttpDelete("{campaignId}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
+        public async Task<IActionResult> RemoveMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId)
         {
-            await _campaignsService.RemoveMinorSkillAsync(id, attributeId, skillId, minorSkillId);
+            await _campaignsService.RemoveMinorSkillAsync(campaignId, attributeId, skillId, minorSkillId);
             return Ok();
         }
-        [HttpPut("{id}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
-        public async Task<IActionResult> UpdateMinorSkill([FromRoute] Guid id, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId, [FromBody] MinorSkillTemplateModel minorSkill)
+        [HttpPut("{campaignId}/attributes/{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
+        public async Task<IActionResult> UpdateMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId, [FromBody] MinorSkillTemplateModel minorSkill)
         {
-            await _campaignsService.UpdateMinorSkillAsync(id, attributeId, skillId, minorSkillId, minorSkill);
+            await _campaignsService.UpdateMinorSkillAsync(campaignId, attributeId, skillId, minorSkillId, minorSkill);
             return Ok();
         }
 
-        [HttpPost("{id}/lifes")]
-        public async Task<IActionResult> AddLife([FromRoute] Guid id, [FromBody] LifeTemplateModel life)
+        [HttpPost("{campaignId}/lifes")]
+        public async Task<IActionResult> AddLife([FromRoute] Guid campaignId, [FromBody] LifeTemplateModel life)
         {
-            await _campaignsService.AddLife(id, life);
+            await _campaignsService.AddLife(campaignId, life);
             return Ok();
         }
-        [HttpDelete("{id}/lifes/{lifeId}")]
-        public async Task<IActionResult> RemoveLife([FromRoute] Guid id, [FromRoute] Guid lifeId)
+        [HttpDelete("{campaignId}/lifes/{lifeId}")]
+        public async Task<IActionResult> RemoveLife([FromRoute] Guid campaignId, [FromRoute] Guid lifeId)
         {
-            await _campaignsService.RemoveLife(id, lifeId);
+            await _campaignsService.RemoveLife(campaignId, lifeId);
             return Ok();
         }
-        [HttpPut("{id}/lifes/{lifeId}")]
-        public async Task<IActionResult> UpdateLife([FromRoute] Guid id, [FromRoute] Guid lifeId, [FromBody] LifeTemplateModel life)
+        [HttpPut("{campaignId}/lifes/{lifeId}")]
+        public async Task<IActionResult> UpdateLife([FromRoute] Guid campaignId, [FromRoute] Guid lifeId, [FromBody] LifeTemplateModel life)
         {
-            await _campaignsService.UpdateLife(id, lifeId, life);
+            await _campaignsService.UpdateLife(campaignId, lifeId, life);
             return Ok();
+        }
+        [HttpGet("{id}/rolls")]
+        public async Task<IActionResult> GetRolls([FromRoute] Guid id, [FromQuery] PagedRequestInput input)
+        {
+            var result = await _rollService.GetAsync(id, input);
+            return Ok(result);
+        }      
+        [HttpGet("{campaignId}/rolls/{rollId}")]
+        public async Task<IActionResult> GetRoll([FromRoute] Guid campaignId, [FromRoute] Guid rollId, [FromQuery] PagedRequestInput input)
+        {
+            var result = await _rollService.GetAsync(campaignId, rollId);
+            if (result is null) 
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        [HttpPost("{campaignId}/rolls")]
+        public async Task<IActionResult> RollDice([FromRoute] Guid campaignId, [FromBody] RollInput input)
+        {
+            var result = await _rollService.RollAsync(campaignId, input);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id }, result);
+        }    
+        [HttpPost("{campaignId}/creatures/{creatureId}/rolls")]
+        public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
+        {
+            var result = await _rollService.RollAsync(campaignId, creatureId, input);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id }, result);
         }
 
     }
