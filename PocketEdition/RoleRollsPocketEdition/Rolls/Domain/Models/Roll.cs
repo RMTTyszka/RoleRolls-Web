@@ -6,7 +6,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid CampaignId { get; set; }
-        public Guid ActorId { get; set; }
+        public Guid? ActorId { get; set; }
         public string ActorName { get; set; }
 
         public string RolledDices { get; set; }
@@ -14,7 +14,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
 
         public Guid PropertyId { get; set; }
         public RollPropertyType PropertyType { get; set; }
-        public string PropertyName { get; set; }
+        public string? PropertyName { get; set; }
 
         public int NumberOfSuccesses { get; set; }
         public int NumberOfCriticalSuccesses { get; set; }
@@ -28,18 +28,20 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
             Id = roll.Id;
             CampaignId = roll.CampaignId;
             ActorId = roll.ActorId;
-            ActorName = roll.ActorName;
             RolledDices = roll.RolledDices;
             NumberOfDices = roll.NumberOfDices;
             PropertyId = roll.PropertyId;
             PropertyType = roll.PropertyType;
-            PropertyName = roll.PropertyName;
             NumberOfSuccesses = roll.NumberOfSuccesses;
             NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses;
             NumberOfCriticalFailures = roll.NumberOfCriticalFailures;
             Difficulty = roll.Difficulty;
             Complexity = roll.Complexity;
             Success = roll.Success;
+        }
+
+        public RollModel()
+        {
         }
     }
 }

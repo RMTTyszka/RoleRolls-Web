@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Infrastructure
     public class RoleRollsDbContext : DbContext
     { 
         public DbSet<Creature> Creatures { get; set; }
-        public DbSet<Creatures.Domain.Models.AttributeModel> Attributes { get; set; }
+        public DbSet<Creatures.Domain.Attribute> Attributes { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<MinorSkill> MinorSkills { get; set; }
         public DbSet<Life> Lifes { get; set; }

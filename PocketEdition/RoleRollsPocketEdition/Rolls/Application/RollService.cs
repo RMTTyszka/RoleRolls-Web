@@ -18,12 +18,66 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
 
         public async Task<PagedResult<RollModel>> GetAsync(Guid campaignId, PagedRequestInput input)
         {
-            var query = _roleRollsDbContext.Rolls
-                .Where(roll => roll.CampaignId == campaignId);
+            var query = from roll in _roleRollsDbContext.Rolls
+                .Where(roll => roll.CampaignId == campaignId)
+                        join creature in _roleRollsDbContext.Creatures on roll.ActorId equals creature.Id into joinedCreature
+                        from creature in joinedCreature.DefaultIfEmpty()
+                        join attribute in _roleRollsDbContext.Attributes on roll.PropertyId equals attribute.Id into joinedAttribute
+                        from attribute in joinedAttribute.DefaultIfEmpty()
+                        join attributeTemplate in _roleRollsDbContext.AttributeTemplates on attribute.Id equals attributeTemplate.Id into joinedAttributeTemplate
+                        from attributeTemplate in joinedAttributeTemplate.DefaultIfEmpty()
 
-            var rolls = await query
-                .Select(roll => new RollModel(roll))
+                        join skill in _roleRollsDbContext.Skills on roll.PropertyId equals skill.Id into joinedSkill
+                        from skill in joinedSkill.DefaultIfEmpty()
+                        join skillTemplate in _roleRollsDbContext.SkillTemplates on skill.Id equals skillTemplate.Id into joinedSkillTemplate
+                        from skillTemplate in joinedSkillTemplate.DefaultIfEmpty()
+
+                        join minorSkill in _roleRollsDbContext.MinorSkills on roll.PropertyId equals minorSkill.Id into joinedMinorSkill
+                        from minorSkill in joinedMinorSkill.DefaultIfEmpty()
+                        join minorSkillTemplate in _roleRollsDbContext.MinorSkillTemplates on minorSkill.Id equals minorSkillTemplate.Id into joinedMinorSkillTemplate
+                        from minorSkillTemplate in joinedMinorSkillTemplate.DefaultIfEmpty()
+                        select new
+                        {
+                            ActorName = (creature != null ? creature.Name : "MASTER"),
+                            ActorId = roll.ActorId,
+                            CampaignId = roll.CampaignId,
+                            Complexity = roll.Complexity,
+                            Difficulty = roll.Difficulty,
+                            Id = roll.Id,
+                            NumberOfCriticalFailures = roll.NumberOfCriticalFailures,
+                            NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses,
+                            NumberOfDices = roll.NumberOfDices,
+                            NumberOfSuccesses = roll.NumberOfSuccesses,
+                            PropertyId = roll.PropertyId,
+                            PropertyName = "",
+                            PropertyType = roll.PropertyType,
+                            RolledDices = roll.RolledDices,
+                            Success = roll.Success,
+                            AttributeName = (attributeTemplate != null ? attributeTemplate.Name : null),
+                            SkillName = (skillTemplate != null ? skillTemplate.Name : null),
+                            MinorSkillName = (minorSkillTemplate != null ? minorSkillTemplate.Name : null),
+                        };
+
+                    var rolls = await query
                 .ToListAsync();
+            var output = rolls.Select(roll => new RollModel
+            {
+                ActorName = roll.ActorName,
+                ActorId = roll.ActorId,
+                CampaignId = roll.CampaignId,
+                Complexity = roll.Complexity,
+                Difficulty = roll.Difficulty,
+                Id = roll.Id,
+                NumberOfCriticalFailures = roll.NumberOfCriticalFailures,
+                NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses,
+                NumberOfDices = roll.NumberOfDices,
+                NumberOfSuccesses = roll.NumberOfSuccesses,
+                PropertyId = roll.PropertyId,
+                PropertyName = roll.AttributeName ?? roll.SkillName ?? roll.MinorSkillName,
+                PropertyType = roll.PropertyType,
+                RolledDices = roll.RolledDices,
+                Success = roll.Success,
+            }).ToList();
 
             var totalCount = await query
                 .Skip(input.SkipCount)
@@ -32,7 +86,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
 
             return new PagedResult<RollModel>()
             {
-                Content = rolls,
+                Content = output,
                 TotalElements = totalCount
             };
 
