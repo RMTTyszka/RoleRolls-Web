@@ -16,10 +16,10 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             this._roleRollsDbContext = roleRollsDbContext;
         }
 
-        public async Task<PagedResult<RollModel>> GetAsync(Guid campaignId, PagedRequestInput input)
+        public async Task<PagedResult<RollModel>> GetAsync(Guid campaignId, Guid sceneId, PagedRequestInput input)
         {
             var query = from roll in _roleRollsDbContext.Rolls
-                .Where(roll => roll.CampaignId == campaignId)
+                .Where(roll => roll.CampaignId == campaignId && roll.SceneId == sceneId)
                         join creature in _roleRollsDbContext.Creatures on roll.ActorId equals creature.Id into joinedCreature
                         from creature in joinedCreature.DefaultIfEmpty()
                         join attribute in _roleRollsDbContext.Attributes on roll.PropertyId equals attribute.Id into joinedAttribute
@@ -41,6 +41,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                             ActorName = (creature != null ? creature.Name : "MASTER"),
                             ActorId = roll.ActorId,
                             CampaignId = roll.CampaignId,
+                            SceneId = roll.SceneId,
                             Complexity = roll.Complexity,
                             Difficulty = roll.Difficulty,
                             Id = roll.Id,
@@ -65,6 +66,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                 ActorName = roll.ActorName,
                 ActorId = roll.ActorId,
                 CampaignId = roll.CampaignId,
+                SceneId = roll.SceneId,
                 Complexity = roll.Complexity,
                 Difficulty = roll.Difficulty,
                 Id = roll.Id,
@@ -92,7 +94,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
 
         }
 
-        public async Task<RollModel?> GetAsync(Guid campaignId, Guid id)
+        public async Task<RollModel?> GetAsync(Guid campaignId, Guid sceneId, Guid id)
         {
             var roll = await _roleRollsDbContext.Rolls.FindAsync(id);
             if (roll is null) 
@@ -102,12 +104,12 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             return new RollModel(roll);
         }
 
-        public async Task<RollModel> RollAsync(Guid campaignId, Guid creatureId, RollInput input)
+        public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, Guid creatureId, RollInput input)
         {
             var creature = await _roleRollsDbContext.Creatures.FindAsync(creatureId);
             var property = GetPropertyValue(creature, input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.propertyValue, property.rollBonus + input.RollBonus, input.PropertyBonus, input.Difficulty, input.Complexity);
-            var roll = new Roll(campaignId, creatureId, input.Hidden);
+            var roll = new Roll(campaignId, sceneId, creatureId, input.Hidden);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 
@@ -116,10 +118,10 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             return rollResult;
         }
 
-        public async Task<RollModel> RollAsync(Guid campaignId, RollInput input)
+        public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
             var rollCommand = new RollDiceCommand(input.PropertyBonus, input.RollBonus, 0, input.Difficulty, input.Complexity);
-            var roll = new Roll(campaignId, null, input.Hidden);
+            var roll = new Roll(campaignId, sceneId, null, input.Hidden);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 

@@ -1,2 +1,18 @@
-<!-- <p-slideMenu [model]="menuItens"></p-slideMenu> -->
-<rr-campaign-rolls></rr-campaign-rolls>
+<p-panel>
+    <ng-template pTemplate="header">
+      <div class="p-grid p-justify-between p-align-center p-nogutter">
+        <p-cascadeSelect class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name"></p-cascadeSelect>
+        <div class="p-col-6">
+          <input pInput [(ngModel)]=newSceneName>
+          <button pButton (click)="newScene()" icon="plus"></button>
+        </div>
+      </div>
+    </ng-template>
+  <div class="p-grid p-justify-between p-align-center p-nogutter">
+      <rr-campaign-monsters class="p-col-6"></rr-campaign-monsters>
+      <rr-campaign-heroes class="p-col-6"></rr-campaign-heroes>
+      <span class="p-col-6"></span>
+      <rr-campaign-rolls class="p-col-6"></rr-campaign-rolls>
+  </div>
+</p-panel>
+

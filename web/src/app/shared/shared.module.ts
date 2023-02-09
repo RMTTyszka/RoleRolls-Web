@@ -33,6 +33,7 @@ import { RrSelectFieldComponent } from './components/rr-select-field/rr-select-f
 import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-modal.component';
 import { PanelModule } from 'primeng/panel';
 import { TooltipModule } from 'primeng/tooltip';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
 
 @NgModule({
     imports: [
@@ -58,6 +59,7 @@ import { TooltipModule } from 'primeng/tooltip';
         ToastModule,
         DropdownModule,
         ButtonModule,
+        CascadeSelectModule
     ],
     declarations: [
         PropertyPickerComponent,
@@ -105,7 +107,8 @@ import { TooltipModule } from 'primeng/tooltip';
         AttributeSelectComponent,
         RRGridComponent,
         RrSelectFieldComponent,
-        PanelModule
+        PanelModule,
+        CascadeSelectModule
     ],
     providers: []
 })

@@ -132,30 +132,30 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _campaignsService.UpdateLife(campaignId, lifeId, life);
             return Ok();
         }
-        [HttpGet("{id}/rolls")]
-        public async Task<IActionResult> GetRolls([FromRoute] Guid id, [FromQuery] PagedRequestInput input)
+        [HttpGet("{id}/scenes/{sceneId}/rolls")]
+        public async Task<IActionResult> GetRolls([FromRoute] Guid sceneId, [FromRoute] Guid id, [FromQuery] PagedRequestInput input)
         {
-            var result = await _rollService.GetAsync(id, input);
+            var result = await _rollService.GetAsync(id, sceneId, input);
             return Ok(result);
         }      
-        [HttpGet("{campaignId}/rolls/{rollId}")]
-        public async Task<IActionResult> GetRoll([FromRoute] Guid campaignId, [FromRoute] Guid rollId, [FromQuery] PagedRequestInput input)
+        [HttpGet("{campaignId}/scenes/{sceneId}/rolls/{rollId}")]
+        public async Task<IActionResult> GetRoll([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid rollId, [FromQuery] PagedRequestInput input)
         {
-            var result = await _rollService.GetAsync(campaignId, rollId);
+            var result = await _rollService.GetAsync(campaignId, sceneId, rollId);
             if (result is null) 
             {
                 return NotFound();
             }
             return Ok(result);
         }
-        [HttpPost("{campaignId}/rolls")]
-        public async Task<IActionResult> RollDice([FromRoute] Guid campaignId, [FromBody] RollInput input)
+        [HttpPost("{campaignId}/scenes/{sceneId}/rolls")]
+        public async Task<IActionResult> RollDice([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] RollInput input)
         {
-            var result = await _rollService.RollAsync(campaignId, input);
-            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id }, result);
+            var result = await _rollService.RollAsync(campaignId, sceneId, input);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id, sceneId = sceneId }, result);
         }    
-        [HttpPost("{campaignId}/creatures/{creatureId}/rolls")]
-        public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
+        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/rolls")]
+        public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
         {
             var result = await _rollService.RollAsync(campaignId, creatureId, input);
             return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id }, result);

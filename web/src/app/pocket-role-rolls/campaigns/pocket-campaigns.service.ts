@@ -4,6 +4,8 @@ import { map, tap } from 'rxjs/operators';
 import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
+import { PagedOutput } from 'src/app/shared/dtos/PagedOutput';
+import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { v4 as uuidv4 } from 'uuid';
@@ -79,5 +81,9 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
    public removeLife(campaignId: string, lifeId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
    }
+
+   public getScenes(campaignId: string): Observable<PagedOutput<CampaignScene>> {
+    return this.http.get<PagedOutput<CampaignScene>>(`${this.completePath}/${campaignId}/scenes`);
+  }
 }
 

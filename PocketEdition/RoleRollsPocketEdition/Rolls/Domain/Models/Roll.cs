@@ -22,11 +22,13 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public int Difficulty { get; set; }
         public int Complexity { get; set; }
         public bool Success { get; set; }
+        public Guid SceneId { get; internal set; }
 
         public RollModel(Roll roll)
         {
             Id = roll.Id;
             CampaignId = roll.CampaignId;
+            SceneId = roll.SceneId;
             ActorId = roll.ActorId;
             RolledDices = roll.RolledDices;
             NumberOfDices = roll.NumberOfDices;

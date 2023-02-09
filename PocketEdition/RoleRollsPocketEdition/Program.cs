@@ -4,6 +4,7 @@ using RoleRollsPocketEdition.Configuration;
 using RoleRollsPocketEdition.Infrastructure;
 using System.Configuration;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 
@@ -45,8 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 using (var scope = app.Services.CreateScope())
 {
-/*    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-    dataContext.Database.Migrate();*/
+    var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
+    dataContext.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

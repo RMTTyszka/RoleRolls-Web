@@ -7,6 +7,8 @@ import { CampaignCreatorComponent } from './campaign-creator/campaign-creator.co
 import { PocketCampaignBodyshellComponent } from './pocket-campaign-bodyshell/pocket-campaign-bodyshell.component';
 import {SlideMenuModule} from 'primeng/slidemenu';
 import { CampaignRollsComponent } from './campaign-rolls/campaign-rolls.component';
+import { CampaignHeroesComponent } from './campaign-heroes/campaign-heroes.component';
+import { CampaignMonstersComponent } from './campaign-monsters/campaign-monsters.component';
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
   {path: '', component: PocketCampaignsComponent}
@@ -17,7 +19,9 @@ const routes: Routes = [
     PocketCampaignsComponent,
     CampaignCreatorComponent,
     PocketCampaignBodyshellComponent,
-    CampaignRollsComponent
+    CampaignRollsComponent,
+    CampaignHeroesComponent,
+    CampaignMonstersComponent
   ],
   imports: [
     CommonModule,
