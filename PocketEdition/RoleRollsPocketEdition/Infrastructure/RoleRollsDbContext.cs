@@ -21,7 +21,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
-        public DbSet<CampaignScene> CampaignScenes { get; set; }
+        public DbSet<Scene> CampaignScenes { get; set; }
 
 
         public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)
@@ -46,6 +46,9 @@ namespace RoleRollsPocketEdition.Infrastructure
                     modelBuilder.Entity(entityType.ClrType).HasKey("Id");
                 }
             }
+
+            var scenes = modelBuilder.Entity<Scene>();
+            scenes.HasMany(scene => scene.Heroes);
 
         }
     }

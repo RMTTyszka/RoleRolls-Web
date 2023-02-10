@@ -1,9 +1,11 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Creatures.Domain.Models;
 
 namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class Creature : Entity
     {
+        public ICollection<Scene> Scenes{ get; set; }
         public ICollection<Attribute> Attributes { get; set; }
         public ICollection<Skill> Skills { get; set; }
 

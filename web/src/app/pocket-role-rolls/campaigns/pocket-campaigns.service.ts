@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
 
 
+
   public path = 'campaigns';
   public selectPlaceholder: string;
   public fieldName: string;
@@ -84,6 +85,10 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
 
    public getScenes(campaignId: string): Observable<PagedOutput<CampaignScene>> {
     return this.http.get<PagedOutput<CampaignScene>>(`${this.completePath}/${campaignId}/scenes`);
+  }
+
+  public addScene(campaignId: string, newScene: CampaignScene): Observable<CampaignScene> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes`, newScene);
   }
 }
 

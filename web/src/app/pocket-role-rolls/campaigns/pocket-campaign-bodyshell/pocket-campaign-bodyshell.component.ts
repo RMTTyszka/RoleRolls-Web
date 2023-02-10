@@ -5,11 +5,14 @@ import { forkJoin } from 'rxjs';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
+import { PocketCampaignDetailsService } from './pocket-campaign-details.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'rr-pocket-campaign-bodyshell',
   templateUrl: './pocket-campaign-bodyshell.component.html',
-  styleUrls: ['./pocket-campaign-bodyshell.component.scss']
+  styleUrls: ['./pocket-campaign-bodyshell.component.scss'],
+  providers: [PocketCampaignDetailsService]
 })
 export class PocketCampaignBodyshellComponent implements OnInit {
 
@@ -23,6 +26,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly campaignService: PocketCampaignsService,
+    private readonly detailsService: PocketCampaignDetailsService,
   ) {
     this.campaignId = this.route.snapshot.params['id'];
     forkJoin({
@@ -43,6 +47,19 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   ngOnInit(): void {
   }
   public newScene() {
+    const newScene = {
+      id: uuidv4(),
+      name: this.newSceneName
+    } as CampaignScene;
+    this.campaignService.addScene(this.campaignId, newScene)
+    .subscribe(() => {
+      this.newSceneName = '';
+      this.selectScene(newScene);
+    });
+  }
+  public selectScene(scene: CampaignScene) {
+    this.selectedScene = scene;
+    this.detailsService.sceneChanged.next(this.selectedScene);
   }
 
 }

@@ -1,11 +1,13 @@
 <p-panel>
     <ng-template pTemplate="header">
-      <div class="p-grid p-justify-between p-align-center p-nogutter">
-        <p-cascadeSelect class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name"></p-cascadeSelect>
-        <div class="p-col-6">
-          <input pInput [(ngModel)]=newSceneName>
-          <button pButton (click)="newScene()" icon="plus"></button>
-        </div>
+      <div class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <p-cascadeSelect class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene(op)"></p-cascadeSelect>
+        <p-fieldset class="align-right p-col-6">
+          <div class="p-inputgroup">
+            <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">
+            <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
+          </div>
+        </p-fieldset>
       </div>
     </ng-template>
   <div class="p-grid p-justify-between p-align-center p-nogutter">
