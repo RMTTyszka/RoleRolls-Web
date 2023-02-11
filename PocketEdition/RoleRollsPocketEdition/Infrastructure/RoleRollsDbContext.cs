@@ -3,6 +3,7 @@ using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Scenes.Domain.Entities;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {
@@ -22,6 +23,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
         public DbSet<Scene> CampaignScenes { get; set; }
+        public DbSet<SceneCreature> SceneCreatures { get; set; }
 
 
         public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)
@@ -48,8 +50,6 @@ namespace RoleRollsPocketEdition.Infrastructure
             }
 
             var scenes = modelBuilder.Entity<Scene>();
-            scenes.HasMany(scene => scene.Heroes);
-
         }
     }
 }

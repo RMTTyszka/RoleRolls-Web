@@ -16,6 +16,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddTransient<ICampaignsService, CampaignsService>();
             services.AddTransient<ICampaignRepository, CampaignRepository>();
             services.AddTransient<IRollService, RollService>();
+            services.AddTransient<ICreatureService, CreatureService>();
             return services;
         }
     }

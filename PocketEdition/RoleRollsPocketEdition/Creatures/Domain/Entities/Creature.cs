@@ -5,7 +5,6 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 {
     public class Creature : Entity
     {
-        public ICollection<Scene> Scenes{ get; set; }
         public ICollection<Attribute> Attributes { get; set; }
         public ICollection<Skill> Skills { get; set; }
 
@@ -17,6 +16,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 
         public string Name { get; set; }
 
+        public CreatureType Type { get; set; }
         public Creature()
         {
             Attributes = new List<Attribute>();
@@ -24,7 +24,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Lifes = new List<Life>();
         }
 
-        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId) 
+        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType type, string name) 
         {
             var creature = new Creature
             {
@@ -32,8 +32,10 @@ namespace RoleRollsPocketEdition.Creatures.Domain
                 Skills = template.Skills.Select(skill => new Skill(skill)).ToList(),
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
                 CampaignId = campaignId,
-                CreatureTemplateId = template.Id
-            
+                CreatureTemplateId = template.Id,
+                Type = type,
+                Name = name,
+
             };
             foreach (var life in creature.Lifes)
             {

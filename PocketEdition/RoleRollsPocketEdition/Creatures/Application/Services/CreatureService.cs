@@ -7,7 +7,7 @@ using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Services
 {
-    public class CreatureService
+    public class CreatureService : ICreatureService
     {
 
         private readonly RoleRollsDbContext _dbContext;
@@ -28,14 +28,14 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var creature = await GetFullCreature(id);
             var output = new CreatureModel(creature);
             return output;
-        }     
-        public async Task CreateAsync(string name, Guid campaignId)
+        }
+        public async Task CreateAsync(string name, Guid campaignId, CreatureType type)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
-            var creature = creatureTemplate.InstantiateCreature(name, campaignId);
+            var creature = creatureTemplate.InstantiateCreature(name, campaignId, type);
             await _dbContext.Creatures.AddAsync(creature);
-        }        
+        }
         public async Task<bool> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
         {
             var creature = await _dbContext.Creatures.FindAsync(creatureId);
