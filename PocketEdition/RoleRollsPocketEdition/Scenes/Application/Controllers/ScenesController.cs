@@ -38,6 +38,12 @@ namespace RoleRollsPocketEdition.Scenes.Application.Controllers
         public async Task UpdateAsync([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] SceneModel sceneModel)
         {
             await _scenesService.Update(campaignId, sceneId, sceneModel);
+        }   
+        [HttpDelete("{sceneId}")]
+
+        public async Task UpdateAsync([FromRoute] Guid campaignId, [FromRoute] Guid sceneId)
+        {
+            await _scenesService.DeleteAsync(campaignId, sceneId);
         }      
         [HttpPost("{sceneId}/heroes")]
 
@@ -51,5 +57,11 @@ namespace RoleRollsPocketEdition.Scenes.Application.Controllers
         {
             await _scenesService.AddMonster(campaignId, sceneId, creatureModels);
         }
+
+        [HttpDelete("{sceneId}/creatures/{creatureId}")]
+        public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId)
+        {
+            await _scenesService.RemoveCreature(campaignId, sceneId, creatureId);
+        }       
     }
 }

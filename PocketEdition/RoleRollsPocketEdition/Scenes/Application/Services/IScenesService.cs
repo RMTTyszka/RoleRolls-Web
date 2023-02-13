@@ -10,5 +10,7 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
         Task<List<SceneModel>> GetAllAsync(Guid campaignId);
         Task<SceneModel> GetAsync(Guid sceneId);
         Task Update(Guid campaignId, Guid sceneId, SceneModel sceneModel);
+        Task DeleteAsync(Guid campaignId, Guid sceneId);
+        Task RemoveCreature(Guid campaignId, Guid sceneId, Guid creatureId);
     }
 }

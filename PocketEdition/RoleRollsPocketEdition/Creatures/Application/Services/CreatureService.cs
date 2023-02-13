@@ -14,14 +14,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
 
-        public CreatureService(ICampaignRepository campaignsService)
-        {
-            _campaignRepository = campaignsService;
-        }
-
-        public CreatureService(RoleRollsDbContext dbContext)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService)
         {
             _dbContext = dbContext;
+            _campaignRepository = campaignsService;
         }
 
         public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)

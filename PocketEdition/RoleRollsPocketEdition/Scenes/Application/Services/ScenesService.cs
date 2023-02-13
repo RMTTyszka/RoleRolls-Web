@@ -75,5 +75,28 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
             await _roleRollsDbContext.SceneCreatures.AddRangeAsync(sceneCreatures);
             await _roleRollsDbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(Guid campaignId, Guid sceneId)
+        {
+            var sceneToDelete = await (from scene in _roleRollsDbContext.CampaignScenes
+                                .Where(scene => scene.Id == sceneId)
+                                join creature in _roleRollsDbContext.SceneCreatures on scene.Id equals creature.SceneId into creatures
+                                select new
+                                {
+                                    Scene = scene,
+                                    Creatures = creatures.ToList()
+                                }).FirstAsync();
+            _roleRollsDbContext.CampaignScenes.Remove(sceneToDelete.Scene);
+            _roleRollsDbContext.SceneCreatures.RemoveRange(sceneToDelete.Creatures);
+            await _roleRollsDbContext.SaveChangesAsync();
+
+        }
+
+        public async Task RemoveCreature(Guid campaignId, Guid sceneId, Guid creatureId)
+        {
+            var sceneCreature = await _roleRollsDbContext.SceneCreatures.FirstAsync(creature => creature.CreatureId == creatureId);
+            _roleRollsDbContext.SceneCreatures.Remove(sceneCreature);
+            await _roleRollsDbContext.SaveChangesAsync();
+        }
     }
 }
