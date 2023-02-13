@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Campaigns\Application\Dtos\" />
-    <Folder Include="Scenes\Application\" />
   </ItemGroup>
 
 </Project>

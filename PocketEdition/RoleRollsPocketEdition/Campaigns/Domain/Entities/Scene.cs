@@ -19,5 +19,9 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public Guid CampaignId { get; set; }
         public string Name { get; set; }
 
+        internal void Update(SceneModel sceneModel)
+        {
+            Name = sceneModel.Name;
+        }
     }
 }

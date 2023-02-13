@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Services;
+using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.Creatures.Domain.Models;
 using RoleRollsPocketEdition.Infrastructure;
@@ -23,6 +24,36 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             _dbContext = dbContext;
         }
 
+        public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
+        {
+            var query = _dbContext.Creatures
+                .AsNoTracking()
+                .Include(creature => creature.Attributes)
+                .Include(creature => creature.Lifes)
+                .Include(creature => creature.Skills)
+                .ThenInclude(skill => skill.MinorSkills)
+                .Where(creature => campaignId == creature.CampaignId);
+
+            if (input.CreatureIds.Any()) 
+            {
+                query = query.Where(creature => input.CreatureIds.Contains(creature.Id));
+            }
+
+            if (input.OwnerId.HasValue) 
+            {
+                query = query.Where(creature => input.OwnerId == creature.OwnerId);
+            }
+
+            if (input.CreatureType.HasValue) 
+            {
+                query = query.Where(creature => creature.Type == input.CreatureType.Value);
+            }
+                
+            var creatures = await query
+                .Select(creature => new CreatureModel(creature))
+                .ToListAsync();
+            return creatures;
+        }
         public async Task<CreatureModel> GetAsync(Guid id)
         {
             var creature = await GetFullCreature(id);
@@ -47,15 +78,26 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             return success;
         }
 
-        private Task<Creature> GetFullCreature(Guid id)
+        private async Task<Creature> GetFullCreature(Guid id)
         {
-            var creature = _dbContext.Creatures
+            var creature = await _dbContext.Creatures
                 .Include(creature => creature.Attributes)
                 .Include(creature => creature.Lifes)
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == id);
             return creature;
+        }
+        private async Task<List<Creature>> GetFullCreatures(List<Guid> ids)
+        {
+            var creatures = await _dbContext.Creatures
+                .Include(creature => creature.Attributes)
+                .Include(creature => creature.Lifes)
+                .Include(creature => creature.Skills)
+                .ThenInclude(skill => skill.MinorSkills)
+                .Where(creature => ids.Contains(creature.Id))
+                .ToListAsync();
+            return creatures;
         }
     }
 }

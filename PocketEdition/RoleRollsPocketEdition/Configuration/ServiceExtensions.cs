@@ -4,6 +4,7 @@ using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Scenes.Application.Services;
 
 namespace RoleRollsPocketEdition.Configuration
 {
@@ -17,6 +18,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddTransient<ICampaignRepository, CampaignRepository>();
             services.AddTransient<IRollService, RollService>();
             services.AddTransient<ICreatureService, CreatureService>();
+            services.AddTransient<IScenesService, ScenesService>();
             return services;
         }
     }
