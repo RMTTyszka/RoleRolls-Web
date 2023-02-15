@@ -36,6 +36,7 @@ export class AuthenticationService {
       .subscribe((message: string) => {
       this.notifyUserAboutUnauthorizedAccess(message);
     });
+    this.getUser();
   }
 
   public setToken(token: string) {

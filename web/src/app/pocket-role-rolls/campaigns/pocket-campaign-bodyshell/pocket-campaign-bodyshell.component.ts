@@ -35,7 +35,10 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     })
     .subscribe((result) => {
       this.campaign = result.campaign;
-      this.scenes = result.scenes.content;
+      this.scenes = result.scenes;
+      if (this.scenes.length > 0) {
+        this.selectScene(this.scenes[0]);
+      }
     });
     this.menuItens = [
       {
@@ -54,6 +57,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     this.campaignService.addScene(this.campaignId, newScene)
     .subscribe(() => {
       this.newSceneName = '';
+      this.scenes.push(newScene);
       this.selectScene(newScene);
     });
   }

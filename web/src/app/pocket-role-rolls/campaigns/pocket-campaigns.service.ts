@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -5,6 +6,7 @@ import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
 import { PagedOutput } from 'src/app/shared/dtos/PagedOutput';
+import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
@@ -83,12 +85,20 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
    }
 
-   public getScenes(campaignId: string): Observable<PagedOutput<CampaignScene>> {
-    return this.http.get<PagedOutput<CampaignScene>>(`${this.completePath}/${campaignId}/scenes`);
+   public getScenes(campaignId: string): Observable<CampaignScene[]> {
+    return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes`);
   }
 
   public addScene(campaignId: string, newScene: CampaignScene): Observable<CampaignScene> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes`, newScene);
+  }
+
+  public removeScene(campaignId: string, sceneId: string): Observable<CampaignScene> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}`);
+  }
+  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<CampaignScene[]> {
+    const params = new HttpParams().set('creatureType', creatureType);
+    return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
 }
 

@@ -1,7 +1,7 @@
 <p-panel>
     <ng-template pTemplate="header">
       <div class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-        <p-cascadeSelect class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene(op)"></p-cascadeSelect>
+        <p-dropdown class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene(op)"></p-dropdown>
         <p-fieldset class="align-right p-col-6">
           <div class="p-inputgroup">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">

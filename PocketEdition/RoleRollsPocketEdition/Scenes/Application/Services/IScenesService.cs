@@ -1,9 +1,12 @@
-﻿using RoleRollsPocketEdition.Scenes.Domain.Models;
+﻿using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.Scenes.Domain.Models;
 
 namespace RoleRollsPocketEdition.Scenes.Application.Services
 {
     public interface IScenesService
     {
+        Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType);
         Task AddHero(Guid campaignId, Guid sceneId, List<SceneCreatureModel> creatures);
         Task AddMonster(Guid campaignId, Guid sceneId, List<SceneCreatureModel> creatures);
         Task Create(Guid campaignId, SceneModel sceneModel);

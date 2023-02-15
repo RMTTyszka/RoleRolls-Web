@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 using RoleRollsPocketEdition.Scenes.Domain.Models;
 
@@ -45,6 +46,12 @@ namespace RoleRollsPocketEdition.Scenes.Application.Controllers
         {
             await _scenesService.DeleteAsync(campaignId, sceneId);
         }      
+        [HttpGet("{sceneId}/creatures")]
+
+        public async Task GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
+        {
+            await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
+        }        
         [HttpPost("{sceneId}/heroes")]
 
         public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
@@ -59,7 +66,7 @@ namespace RoleRollsPocketEdition.Scenes.Application.Controllers
         }
 
         [HttpDelete("{sceneId}/creatures/{creatureId}")]
-        public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId)
+        public async Task RemoveCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId)
         {
             await _scenesService.RemoveCreature(campaignId, sceneId, creatureId);
         }       
