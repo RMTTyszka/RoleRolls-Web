@@ -35,6 +35,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     })
     .subscribe((result) => {
       this.campaign = result.campaign;
+      this.detailsService.campaignLoaded.next(this.campaign);
       this.scenes = result.scenes;
       if (this.scenes.length > 0) {
         this.selectScene(this.scenes[0]);

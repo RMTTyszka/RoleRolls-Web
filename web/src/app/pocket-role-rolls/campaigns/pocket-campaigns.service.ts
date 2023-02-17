@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
@@ -28,21 +29,28 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public serverUrl = LOH_API.myPocketBackUrl;
   constructor(
     injector: Injector,
+    private authenticationService: AuthenticationService,
   ) {
     super(injector);
    }
 
    override getNew() :Observable<PocketCampaignModel> {
-      return of<PocketCampaignModel>({
-        id: uuidv4(),
-        name: 'New Campaign',
-        creatureTemplate: new CreatureTemplateModel()
-      } as PocketCampaignModel);
+    const campaignModel = {
+      id: uuidv4(),
+      name: 'New Campaign',
+      creatureTemplate: new CreatureTemplateModel(),
+      masterId: this.authenticationService.userId
+    } as PocketCampaignModel;
+      return of<PocketCampaignModel>(campaignModel);
    }
    override get(id: string): Observable<PocketCampaignModel> {
        return super.get(id);
    }
 
+   override beforeCreate(entity: PocketCampaignModel): PocketCampaignModel {
+      entity.creatureTemplate = null;
+      return entity;
+   }
    public addAttribute(campaignId: string, attribute: AttributeTemplateModel): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes`, attribute);
    }

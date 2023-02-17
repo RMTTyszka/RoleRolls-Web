@@ -7,6 +7,7 @@ import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pock
 import { AttributeTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
   selector: 'rr-campaign-creator',

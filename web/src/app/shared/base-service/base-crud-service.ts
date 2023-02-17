@@ -62,6 +62,7 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
   }
 
   createV2(entity: TCreateInput): Observable<BaseCrudResponse<T>> {
+    entity = this.beforeCreate(entity);
     return this.http.post<never>(this.serverUrl + this.path, entity).pipe(
       switchMap(() => {
         return this.get(entity.id)
@@ -76,6 +77,9 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
         );
       })
     );
+  }
+  beforeCreate(entity: TCreateInput): TCreateInput {
+    return entity;
   }
   update(entity: T): Observable<BaseCrudResponse<T>> {
     return this.http.put<BaseCrudResponse<T>>( this.serverUrl + this.path + `/${entity.id}`, entity).pipe(

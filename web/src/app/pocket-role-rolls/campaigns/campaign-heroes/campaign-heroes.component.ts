@@ -27,11 +27,18 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     private readonly detailsService: PocketCampaignDetailsService,
     private authService: AuthenticationService,
   ) {
+    this.subscribeToCampaignLoaded();
     this.subscribeToSceneChanges();
    }
 
+  private subscribeToCampaignLoaded() {
+    this.subscriptionManager.add('campaignLoaded', this.detailsService.campaignLoaded.subscribe((campaign: PocketCampaignModel) => {
+        this.campaign = campaign;
+    }));
+  }
+
   private subscribeToSceneChanges() {
-    this.subscriptionManager.add('', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
+    this.subscriptionManager.add('sceneChanged', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
         this.scene = scene;
         this.refreshHeroes();
     }));
