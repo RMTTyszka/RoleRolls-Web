@@ -34,6 +34,10 @@ import { RrSelectModalComponent } from './components/rr-select-modal/rr-select-m
 import { PanelModule } from 'primeng/panel';
 import { TooltipModule } from 'primeng/tooltip';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
     imports: [
@@ -54,12 +58,16 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
         MatButtonToggleModule,
         MatBadgeModule,
         MatButtonModule,
+        ClipboardModule,
         // PrimeNg
         TableModule,
         ToastModule,
         DropdownModule,
         ButtonModule,
-        CascadeSelectModule
+        CascadeSelectModule,
+        DialogModule,
+        InputNumberModule,
+        PanelModule,
     ],
     declarations: [
         PropertyPickerComponent,
@@ -93,6 +101,7 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
         MatListModule,
         AccordionModule,
         ButtonModule,
+        ClipboardModule,
         // PrimeNg
         TooltipModule,
         TableModule,
@@ -108,7 +117,10 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
         RRGridComponent,
         RrSelectFieldComponent,
         PanelModule,
-        CascadeSelectModule
+        CascadeSelectModule,
+        OverlayPanelModule,
+        DialogModule,
+        InputNumberModule,
     ],
     providers: []
 })

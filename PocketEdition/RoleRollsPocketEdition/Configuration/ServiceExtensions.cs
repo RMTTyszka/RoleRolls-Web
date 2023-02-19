@@ -19,6 +19,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddTransient<IRollService, RollService>();
             services.AddTransient<ICreatureService, CreatureService>();
             services.AddTransient<IScenesService, ScenesService>();
+            services.AddScoped<ICurrentUser, CurrentUser>();
             return services;
         }
     }

@@ -5,7 +5,7 @@ export function getInput<T>(form: FormGroup, input: T): T {
   return {} as T;
 }
 
-export function createForm(form: FormGroup, entity: Entity, requiredFields: string[] = []) {
+export function createForm(form: FormGroup, entity: Entity, requiredFields: string[] = [], disabledFields: string[] = []) {
   Object.entries(entity).forEach((entry) => {
     // console.log(entry);
     if (entry[1] instanceof Array) {
@@ -34,9 +34,15 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
       control.setValidators(Validators.required);
     }
   });
+  disabledFields.forEach(field => {
+    const control = form.get(field);
+    if (control) {
+      control.disable();
+    }
+  });
 }
-export function getAsForm(entity: Entity, requiredFields: string[] = []): FormGroup {
+export function getAsForm(entity: Entity, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
   const form = new FormGroup({});
-  createForm(form, entity, requiredFields);
+  createForm(form, entity, requiredFields, disabledFields);
   return form;
 }

@@ -24,6 +24,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Roll> Rolls { get; set; }
         public DbSet<Scene> CampaignScenes { get; set; }
         public DbSet<SceneCreature> SceneCreatures { get; set; }
+        public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
 
 
         public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)

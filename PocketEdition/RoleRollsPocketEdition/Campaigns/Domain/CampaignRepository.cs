@@ -22,5 +22,10 @@ namespace RoleRollsPocketEdition.Campaigns.Domain
             .FirstAsync(template => template.Id == id);
             return creatureTemplate;
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

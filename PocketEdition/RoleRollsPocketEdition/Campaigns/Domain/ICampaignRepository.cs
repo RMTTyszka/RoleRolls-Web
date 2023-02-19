@@ -5,5 +5,6 @@ namespace RoleRollsPocketEdition.Campaigns.Domain
     public interface ICampaignRepository
     {
         Task<CreatureTemplate> GetCreatureTemplateAggregateAsync(Guid id);
+        Task SaveChangesAsync();
     }
 }

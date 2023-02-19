@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Models
         public Guid MasterId { get; set; }
         public Guid? CreatureTemplateId { get; set; }
 
-        public CreatureTemplateModel CreatureTemplate { get; set; }
+        public CreatureTemplateModel? CreatureTemplate { get; set; }
         public string Name { get; set; }
 
         public CampaignModel()

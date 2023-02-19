@@ -1,3 +1,4 @@
+import { CreatureType } from "../../creatures/CreatureType";
 import { PocketEntity } from "../pocket-entity";
 
 
@@ -7,6 +8,7 @@ export class PocketCreature extends PocketEntity {
   public attributes: PocketAttribute[] = [];
   public skills: PocketSkill[] = [];
   public lifes: PocketLife[] = [];
+  public creatureType: CreatureType;
 }
 
 export class PocketAttribute extends PocketEntity {

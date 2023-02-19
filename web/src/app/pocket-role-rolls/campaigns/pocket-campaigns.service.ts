@@ -8,15 +8,21 @@ import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
 import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
 import { PagedOutput } from 'src/app/shared/dtos/PagedOutput';
 import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
+import { AcceptInvitationInput } from 'src/app/shared/models/pocket/campaigns/accept-invitation-input';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
+import { CampaignPlayer } from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
+
+
 
 
 
@@ -93,6 +99,15 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
    }
 
+
+
+   public getCreatureTemplate(id: string): Observable<CreatureTemplateModel> {
+    return this.http.get<CreatureTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
+  }
+  public createCreature(campaignId: string, creature: PocketCreature) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/creatures/`, creature);
+  }
+
    public getScenes(campaignId: string): Observable<CampaignScene[]> {
     return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes`);
   }
@@ -107,6 +122,19 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<CampaignScene[]> {
     const params = new HttpParams().set('creatureType', creatureType);
     return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
+  }
+
+  public getPlayers(campaignId: string): Observable<CampaignPlayer[]> {
+    return this.http.get<CampaignPlayer[]>(`${this.completePath}/${campaignId}/players`, {});
+  }
+  public invitePlayer(campaignId: string): Observable<string> {
+    return this.http.post<string>(`${this.completePath}/${campaignId}/players`, {});
+  }
+  public acceptInvitation(campaignId: string, invitationCode: string): Observable<never> {
+    const input = {
+      invitationCode: invitationCode
+    } as AcceptInvitationInput;
+    return this.http.put<never>(`${this.completePath}/${campaignId}/players`, input);
   }
 }
 

@@ -10,6 +10,7 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings _appSettings;
+        private readonly ICurrentUser _currentUser;
 
         public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
@@ -17,17 +18,17 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService)
+        public async Task Invoke(HttpContext context, IUserService userService, ICurrentUser currentUser)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                attachUserToContext(context, userService, token);
+                attachUserToContext(context, userService, token, currentUser);
 
             await _next(context);
         }
 
-        private void attachUserToContext(HttpContext context, IUserService userService, string token)
+        private void attachUserToContext(HttpContext context, IUserService userService, string token, ICurrentUser currentUser)
         {
             try
             {
@@ -46,8 +47,13 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
+                var user = userService.Get(userId);
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.Get(userId);
+                context.Items["User"] = user;
+                currentUser.User = new UserModel
+                {
+                    Id = userId,
+                };
             }
             catch
             {

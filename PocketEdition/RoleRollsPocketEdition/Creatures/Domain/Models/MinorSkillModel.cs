@@ -2,6 +2,10 @@
 {
     public class MinorSkillModel
     {
+        public MinorSkillModel()
+        {
+
+        }
         public Guid Id { get; set; }
         public Guid MinorSkillTemplateId { get; set; }
         public string Name { get; set; }

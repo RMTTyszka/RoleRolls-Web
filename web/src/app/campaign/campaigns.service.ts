@@ -70,14 +70,14 @@ export class CampaignsService extends BaseCrudService<Campaign, Campaign> {
     return this.http.delete(this.serverUrl + this.path + `/${campaignId}/hero/${heroId}`);
   }
 
-  getHeroes(id: string) {
+  public getHeroes(id: string) {
     return this.http.get<Player[]>(this.serverUrl + this.path + `/${id}/heroes/`);
   }
 
-  saveRoll(campaignId: string, roll: CreatureRollResult) {
+  public saveRoll(campaignId: string, roll: CreatureRollResult) {
     return this.http.post<void>(this.serverUrl + this.path + `/${campaignId}/rolls`, roll);
   }
-  getRolls(campaignId: string) {
+  public getRolls(campaignId: string) {
     return this.http.get<CreatureRollResult[]>(this.serverUrl + this.path + `/${campaignId}/rolls`);
   }
 }

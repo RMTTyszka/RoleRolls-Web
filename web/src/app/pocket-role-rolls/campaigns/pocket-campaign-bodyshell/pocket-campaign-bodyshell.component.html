@@ -8,6 +8,11 @@
             <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
           </div>
         </p-fieldset>
+        <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event)" #invitationButton></button>
+<!--         <button *ngIf="!isMaster" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button>
+ -->        <button *ngIf="isMaster && !notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
+        <!--  <button *ngIf="!isMaster && notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button> -->
+         <button *ngIf="notInvited" pButton label="accept invitation" icon="pi pi-plus" class="p-button-secondary" (click)="openAcceptInvitation()"></button>
       </div>
     </ng-template>
   <div class="p-grid p-justify-between p-align-center p-nogutter">
@@ -17,4 +22,23 @@
       <rr-campaign-rolls class="p-col-6"></rr-campaign-rolls>
   </div>
 </p-panel>
+
+
+
+<p-overlayPanel #invitationCodeOverlay>
+  <ng-template pTemplate>
+    <div class="p-inputgroup">
+      <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
+      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+
+<p-dialog header="Insert Invitation Code" [(visible)]="displayInsertInvitationCode">
+  <input type="text" pInputText placeholder="Invitation Code" [(ngModel)]="invitationCode">
+  <ng-template pTemplate="footer">
+    <button pButton label="Send" (click)="acceptInvitation()"></button>
+</ng-template>
+</p-dialog>
 

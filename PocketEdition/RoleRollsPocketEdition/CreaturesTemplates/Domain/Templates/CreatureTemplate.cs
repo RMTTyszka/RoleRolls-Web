@@ -50,6 +50,17 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         {
             var attribute = Attributes.First(attribute => attribute.Id == attributeId);
             Attributes.Remove(attribute);
+            var skills = Skills.Where(skill => skill.AttributeId == attributeId);
+            foreach (var skill in skills)
+            {
+                Skills.Remove(skill);
+                foreach (var minorSkill in skill.MinorSkills)
+                {
+                    skill.MinorSkills.Remove(minorSkill);
+                    dbContext.MinorSkillTemplates.Remove(minorSkill);
+                }
+                dbContext.SkillTemplates.Remove(skill);
+            }
             dbContext.AttributeTemplates.Remove(attribute);
         }
 

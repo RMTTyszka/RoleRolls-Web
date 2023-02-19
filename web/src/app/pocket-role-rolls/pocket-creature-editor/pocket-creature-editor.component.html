@@ -1,0 +1,85 @@
+<form form [formGroup]="form" *ngIf="loaded">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      Name
+    </span>
+    <input pInputText formControlName="name">
+  </div>
+  <p-panel [toggleable]="true">
+    <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <span class="p-panel-title p-col-6">Attributes</span>
+    </p-header>
+    <div formArrayName="attributes">
+      <div *ngFor="let attribute of attributes.controls; let i=index">
+        <div [formGroup]="attribute">
+          <div class="p-inputgroup">
+            <input type="text" pInputText  formControlName="name" >
+            <span class="p-inputgroup-addon">
+              <p-inputNumber formControlName="value" ></p-inputNumber>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</p-panel>
+<p-panel [toggleable]="true">
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col">Skills</span>
+  </p-header>
+    <div formArrayName="attributes">
+      <div *ngFor="let attribute of attributes.controls; let i=index">
+        <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+            <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
+          </p-header>
+          <div class="p-grid p-justify-between p-align-start p-nogutter">
+            <div class="p-col-6">
+              <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
+                <div form [formGroup]="skill">
+                  <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                    <ng-template pTemplate="header">
+                      <div class="p-inputgroup">
+                        <input type="text" pInputText  placeholder="Name" formControlName="name" required>
+                      </div>
+                    </ng-template>
+                    <div class="p-grid p-justify-between p-align-start p-nogutter">
+                      <div class="p-col-6" form [formGroup]="skill">
+                        <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
+                          <div [formGroup]="minorSkill">
+                            <div class="p-inputgroup">
+                              <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                              <span class="p-inputgroup-addon">
+                                <p-dropdown [options]="minorSkillProficiences" formControlName="skillProficience" optionLabel="name" optionValue="value" ></p-dropdown>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                </p-panel>
+                </div>
+              </div>
+            </div>
+          </div>
+      </p-panel>
+  </div>
+</div>
+</p-panel>
+<p-panel [toggleable]="true">
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col-6">Lifes</span>
+  </p-header>
+    <div formArrayName="lifes">
+      <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
+        <div [formGroup]="life">
+          <div class="p-inputgroup">
+             <input type="text" pInputText placeholder="Name" formControlName="name" required>
+          </div>
+        </div>
+      </div>
+    </div>
+</p-panel>
+</form>
+<button pButton label="Save" (click)=save()></button>

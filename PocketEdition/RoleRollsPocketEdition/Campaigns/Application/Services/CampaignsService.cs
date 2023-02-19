@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Campaigns.Application.Dtos;
+using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
@@ -99,6 +101,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
                 .Include(template => template.Attributes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             await creatureTemplate.AddAttributeAsync(attribute, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }         
         public async Task RemoveAttribute(Guid campaignId, Guid attributeId) 
@@ -108,6 +111,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
                 .Include(template => template.Attributes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             creatureTemplate.RemoveAttribute(attributeId, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -116,6 +120,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateAttribute(attributeId, attribute, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -124,6 +129,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             await creatureTemplate.AddSkill(attributeId, skill, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -132,6 +138,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.RemoveSkill(skillId, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -140,6 +147,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateSkill(skillId, skill, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -148,6 +156,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             await creatureTemplate.AddMinorSkillAsync(skillId, minorSkill, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -156,6 +165,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.RemoveMinorSkill(skillId, minorSkillId, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -164,6 +174,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateMinorSkill(skillId, minorSkillId, minorSkill, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -174,6 +185,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             await creatureTemplate.AddLifeAsync(life, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -184,6 +196,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             creatureTemplate.RemoveLife(lifeId, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -192,7 +205,40 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateLife(lifeId, life, _dbContext);
+            _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<List<CampaignPlayerModel>> GetPlayersAsync(Guid campaignId)
+        {
+            var players = await _dbContext.CampaignPlayers.Where(player => player.CampaignId == campaignId && player.PlayerId.HasValue)
+                .AsNoTracking()
+                .Select(player => new CampaignPlayerModel(player))
+                .ToListAsync();
+            return players;
+        }
+
+        public async Task<Guid> Invite(Guid campaignId)
+        {
+            var campaignPlayer = CampaignPlayer.FromInvite(campaignId);
+            await _dbContext.CampaignPlayers.AddAsync(campaignPlayer);
+            await _dbContext.SaveChangesAsync();
+            return campaignPlayer.InvidationCode.Value;
+;       }
+        public async Task<ValidationResult<InvitationResult>> AcceptInvite(Guid campaignId, Guid playerId, Guid invitationCode)
+        {
+            var invitationResult = new ValidationResult<InvitationResult>();
+            var campaignPlayer = await _dbContext.CampaignPlayers.FirstOrDefaultAsync(campaignPlayer => campaignPlayer.CampaignId == campaignId && campaignPlayer.InvidationCode == invitationCode);
+            if (campaignPlayer is not null)
+            {
+                campaignPlayer.PlayerId = playerId;
+                _dbContext.CampaignPlayers.Update(campaignPlayer);
+                await _dbContext.SaveChangesAsync();
+                invitationResult.Result = InvitationResult.Ok;
+                return invitationResult;
+            }
+            invitationResult.Result = InvitationResult.WrongCode;
+            return invitationResult;
+;       }
     }
 }

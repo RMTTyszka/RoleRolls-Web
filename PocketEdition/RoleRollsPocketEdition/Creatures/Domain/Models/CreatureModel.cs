@@ -2,6 +2,10 @@
 {
     public class CreatureModel
     {
+        public CreatureModel()
+        {
+
+        }
 
         public CreatureModel(Creature creature)
         {

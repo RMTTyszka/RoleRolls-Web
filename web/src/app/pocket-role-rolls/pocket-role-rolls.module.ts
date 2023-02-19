@@ -7,6 +7,7 @@ import { PocketLoginService } from './pocket-login.service';
 import { PocketHomeComponent } from './pocket-home/pocket-home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login/login.component';
+import { PocketCreatureEditorComponent } from './pocket-creature-editor/pocket-creature-editor.component';
 
 const routes: Routes = [
   {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule)},

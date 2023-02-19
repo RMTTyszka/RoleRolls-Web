@@ -23,13 +23,14 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         public async Task<CreatureTemplateModel> Get(Guid id)
         {
             var template = await _dbContextl.CreatureTemplates
+                .AsNoTracking()
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .Include(template => template.Lifes)
-                .Select(template => new CreatureTemplateModel(template))
                 .FirstOrDefaultAsync(template => template.Id == id);
-            return template;
+            var output = new CreatureTemplateModel(template);
+            return output;
         }
 
         public async Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CreatureTemplateModel updatedTemplate)

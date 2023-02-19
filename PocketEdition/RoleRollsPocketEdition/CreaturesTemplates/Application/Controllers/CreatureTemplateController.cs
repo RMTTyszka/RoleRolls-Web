@@ -18,7 +18,6 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
             _creatureTemplateService = creatureTemplateService;
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<CreatureTemplateModel> GetAsync(Guid id) 
         {

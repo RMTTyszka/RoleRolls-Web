@@ -1,4 +1,6 @@
-﻿using RoleRollsPocketEdition.Campaigns.Domain.Models;
+﻿using RoleRollsPocketEdition.Campaigns.Application.Dtos;
+using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 using RoleRollsPocketEdition.Global.Dtos;
 
@@ -12,6 +14,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input);
         Task UpdateAsync(CampaignModel campaignModel);
         Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute);
+        Task<List<CampaignPlayerModel>> GetPlayersAsync(Guid campaignId);
         Task RemoveAttribute(Guid campaignId, Guid attributeId);
         Task UpdateAttribute(Guid id, Guid attributeId, AttributeTemplateModel attribute);
         Task AddSkill(Guid id, Guid attributeId, SkillTemplateModel skill);
@@ -24,5 +27,8 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
         Task AddLife(Guid id, LifeTemplateModel life);
         Task RemoveLife(Guid id, Guid lifeId);
         Task UpdateLife(Guid id, Guid lifeId, LifeTemplateModel life);
+
+        Task<ValidationResult<InvitationResult>> AcceptInvite(Guid campaignId, Guid playerId, Guid invitationCode);
+        Task<Guid> Invite(Guid campaignId);
     }
 }

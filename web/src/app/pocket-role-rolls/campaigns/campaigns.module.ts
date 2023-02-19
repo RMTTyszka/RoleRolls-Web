@@ -9,6 +9,10 @@ import {SlideMenuModule} from 'primeng/slidemenu';
 import { CampaignRollsComponent } from './campaign-rolls/campaign-rolls.component';
 import { CampaignHeroesComponent } from './campaign-heroes/campaign-heroes.component';
 import { CampaignMonstersComponent } from './campaign-monsters/campaign-monsters.component';
+import { PanelModule } from 'primeng/panel';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { PocketCreatureEditorComponent } from '../pocket-creature-editor/pocket-creature-editor.component';
+
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
   {path: '', component: PocketCampaignsComponent}
@@ -21,7 +25,8 @@ const routes: Routes = [
     PocketCampaignBodyshellComponent,
     CampaignRollsComponent,
     CampaignHeroesComponent,
-    CampaignMonstersComponent
+    CampaignMonstersComponent,
+    PocketCreatureEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +35,8 @@ const routes: Routes = [
     SlideMenuModule,
 
     SharedModule,
+    PanelModule,
+    DynamicDialogModule,
   ]
 })
 export class CampaignsModule { }

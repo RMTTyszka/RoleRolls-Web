@@ -17,7 +17,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public heroes: PocketHero[] = [];
 
   public get isMaster() {
-    return this.campaign.masterId == this.authService.userId;
+    return this.campaign.masterId === this.authService.userId;
   }
   private subscriptionManager = new SubscriptionManager();
   private scene: CampaignScene = new CampaignScene();

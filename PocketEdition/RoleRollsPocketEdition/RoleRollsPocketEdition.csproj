@@ -24,8 +24,4 @@
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Campaigns\Application\Dtos\" />
-  </ItemGroup>
-
 </Project>
