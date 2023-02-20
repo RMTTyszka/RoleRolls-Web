@@ -3,6 +3,10 @@
     public class LifeModel
     {
 
+        public LifeModel()
+        {
+
+        }
         public Guid Id { get; set; }
         public int MaxValue { get; set; }
         public int Value { get; set; }

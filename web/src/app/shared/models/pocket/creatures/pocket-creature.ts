@@ -14,17 +14,20 @@ export class PocketCreature extends PocketEntity {
 export class PocketAttribute extends PocketEntity {
   public name: string;
   public value: number;
+  public attributeTemplateId: string;
 }
 
 export class PocketSkill extends PocketEntity {
   public name: string;
   public attributeId: string;
+  public skillTemplateId: string;
   public value: number;
   public minorSkills: PocketMinorSkill[] = [];
 }
 export class PocketMinorSkill extends PocketEntity {
   public name: string;
   public skillId: string;
+  public minorSkillTemplateId: string;
   public skillProficience: PocketSkillProficience;
 }
 export class PocketLife extends PocketEntity {

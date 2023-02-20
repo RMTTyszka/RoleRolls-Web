@@ -1,0 +1,30 @@
+<div *ngIf="form">
+  <form form [formGroup]="form">
+    <input pInputText formControlName="propertyName" style="width: 100%;">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Complexity
+      </span>
+      <p-inputNumber placeholder formControlName='complexity'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Difficulty
+      </span>
+      <p-inputNumber placeholder formControlName='difficulty'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Property Bonus
+      </span>
+      <p-inputNumber placeholder formControlName='propertyBonus'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Dice Bonus
+      </span>
+      <p-inputNumber placeholder formControlName='rollBonus'></p-inputNumber>
+    </div>
+  </form>
+  <button pButton label="Roll" (click)="roll()"></button>
+</div>

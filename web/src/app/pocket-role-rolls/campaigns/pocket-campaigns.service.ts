@@ -16,11 +16,13 @@ import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-crea
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { v4 as uuidv4 } from 'uuid';
+import { RollInput } from './models/RollInput';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
 
 
 
@@ -131,6 +133,13 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   }
   public addCreatureToScene(campaignId: string, sceneId: string, input: SceneCreature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/heroes`, [input]);
+  }
+  public removeCreatureFromScene(campaignId: string, sceneId: string, creatureId: string) {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}`);
+  }
+
+  public rollForCreature(campaignId: string, sceneId: string, creatureId: string, rollInput: RollInput) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/rolls`, rollInput);
   }
 
   public getPlayers(campaignId: string): Observable<CampaignPlayer[]> {

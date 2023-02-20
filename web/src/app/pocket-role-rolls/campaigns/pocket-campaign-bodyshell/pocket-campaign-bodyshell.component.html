@@ -7,7 +7,7 @@
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">
             <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
           </div>
-          <div class="p-inputgroup">
+          <div class="p-inputgroup" *ngIf="isMaster && selectedScene">
             <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
           </div>
         </p-fieldset>

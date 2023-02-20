@@ -6,7 +6,6 @@ export class CreatureTemplateModel extends Entity {
   public totalSkillsPoints: number;
   public attributes: AttributeTemplateModel[];
   public skills: SkillTemplateModel[];
-  public skillsByAttribute: Map<string, SkillTemplateModel[]>;
   public lifes: LifeTemplateModel[];
 
   constructor() {

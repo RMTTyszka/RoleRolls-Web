@@ -41,7 +41,7 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
     }
   });
 }
-export function getAsForm(entity: Entity, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
+export function getAsForm(entity: any, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
   const form = new FormGroup({});
   createForm(form, entity, requiredFields, disabledFields);
   return form;

@@ -67,8 +67,14 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
         }
         public Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType) 
         {
+            var creatureQuery = _roleRollsDbContext.Creatures.AsNoTracking()
+                .Include(c => c.Attributes)
+                .Include(c => c.Lifes)
+                .Include(c => c.Skills)
+                .ThenInclude(s => s.MinorSkills);
+
             var creatures = from sceneCreature in _roleRollsDbContext.SceneCreatures.Where(scene => scene.SceneId == sceneId)
-                            join creature in _roleRollsDbContext.Creatures.AsNoTracking() on sceneCreature.CreatureId equals creature.Id
+                            join creature in creatureQuery on sceneCreature.CreatureId equals creature.Id
                             where creature.Type == creatureType
                             select new CreatureModel(creature);
             return creatures.ToListAsync();
