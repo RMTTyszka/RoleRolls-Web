@@ -12,6 +12,8 @@ import { CampaignMonstersComponent } from './campaign-monsters/campaign-monsters
 import { PanelModule } from 'primeng/panel';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PocketCreatureEditorComponent } from '../pocket-creature-editor/pocket-creature-editor.component';
+import { PocketCreatureSelectComponent } from './pocket-creature-select/pocket-creature-select.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -27,6 +29,7 @@ const routes: Routes = [
     CampaignHeroesComponent,
     CampaignMonstersComponent,
     PocketCreatureEditorComponent,
+    PocketCreatureSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,7 @@ const routes: Routes = [
     SharedModule,
     PanelModule,
     DynamicDialogModule,
+    AutoCompleteModule
   ]
 })
 export class CampaignsModule { }

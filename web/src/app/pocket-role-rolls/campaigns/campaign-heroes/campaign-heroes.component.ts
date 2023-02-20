@@ -3,7 +3,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { PocketHero } from 'src/app/shared/models/pocket/creatures/pocket-creature';
+import { PocketCreature, PocketHero } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { SubscriptionManager } from 'src/app/shared/utils/subscription-manager';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
@@ -29,6 +29,11 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   ) {
     this.subscribeToCampaignLoaded();
     this.subscribeToSceneChanges();
+    this.subscribeToHeroAdded();
+   }
+
+   public isOwner(hero: PocketHero) {
+    return this.authService.userId === hero.ownerId;
    }
 
   private subscribeToCampaignLoaded() {
@@ -43,8 +48,17 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
         this.refreshHeroes();
     }));
   }
+
+  private subscribeToHeroAdded() {
+    this.subscriptionManager.add('heroAddedToScene', this.detailsService.heroAddedToScene.subscribe(() => {
+        this.refreshHeroes();
+    }));
+  }
   private refreshHeroes() {
-    this.campaignService.getSceneCreatures(this.scene.campaignId, this.scene.id, CreatureType.Hero);
+    this.campaignService.getSceneCreatures(this.scene.campaignId, this.scene.id, CreatureType.Hero)
+    .subscribe((heroes: PocketCreature[]) => {
+      this.heroes = heroes as PocketHero[];
+    });
   }
 
   ngOnInit(): void {

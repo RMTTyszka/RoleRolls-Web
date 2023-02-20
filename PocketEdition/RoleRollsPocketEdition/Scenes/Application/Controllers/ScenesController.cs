@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Models;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 using RoleRollsPocketEdition.Scenes.Domain.Models;
 
@@ -48,9 +49,9 @@ namespace RoleRollsPocketEdition.Scenes.Application.Controllers
         }      
         [HttpGet("{sceneId}/creatures")]
 
-        public async Task GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
+        public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
         {
-            await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
+            return await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
         }        
         [HttpPost("{sceneId}/heroes")]
 

@@ -12,6 +12,7 @@ import { AcceptInvitationInput } from 'src/app/shared/models/pocket/campaigns/ac
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { CampaignPlayer } from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
+import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,6 +21,8 @@ import { v4 as uuidv4 } from 'uuid';
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
+
 
 
 
@@ -104,6 +107,9 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
    public getCreatureTemplate(id: string): Observable<CreatureTemplateModel> {
     return this.http.get<CreatureTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
   }
+  public getCreatures(campaignId: string): Observable<PocketCreature[]> {
+    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`);
+  }
   public createCreature(campaignId: string, creature: PocketCreature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/creatures/`, creature);
   }
@@ -119,9 +125,12 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public removeScene(campaignId: string, sceneId: string): Observable<CampaignScene> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}`);
   }
-  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<CampaignScene[]> {
+  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<PocketCreature[]> {
     const params = new HttpParams().set('creatureType', creatureType);
-    return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
+    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
+  }
+  public addCreatureToScene(campaignId: string, sceneId: string, input: SceneCreature) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/heroes`, [input]);
   }
 
   public getPlayers(campaignId: string): Observable<CampaignPlayer[]> {

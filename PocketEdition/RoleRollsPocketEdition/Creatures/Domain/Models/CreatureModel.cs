@@ -9,6 +9,8 @@
 
         public CreatureModel(Creature creature)
         {
+            Id = creature.Id;
+            OwnerId = creature.OwnerId;
             this.Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute)).ToList();
             this.Skills = creature.Skills.Select(skill => new SkillModel(skill)).ToList();
             this.Lifes = creature.Lifes.Select(life => new LifeModel(life)).ToList();
@@ -23,5 +25,7 @@
         public string Name { get; set; }
 
         public CreatureType Type { get; set; }
+        public Guid Id { get; set; }
+        public Guid OwnerId { get; set; }
     }
 }

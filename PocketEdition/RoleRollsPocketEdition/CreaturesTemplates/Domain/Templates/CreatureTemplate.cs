@@ -29,9 +29,10 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         public int TotalSkillsPoints { get; set; }
         public virtual List<AttributeTemplate> Attributes { get; set; }
 
-        internal Creature InstantiateCreature(string name, Guid campaignId, CreatureType type)
+        internal Creature InstantiateCreature(string name, Guid campaignId, CreatureType type, Guid ownerId)
         {
             var creature = Creature.FromTemplate(this, campaignId, type, name);
+            creature.OwnerId = ownerId;
             return creature;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
@@ -13,11 +14,13 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
+        private readonly ICurrentUser _currentUser;
 
-        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignsService;
+            _currentUser = currentUser;
         }
 
         public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
@@ -46,9 +49,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             }
                 
             var creatures = await query
-                .Select(creature => new CreatureModel(creature))
                 .ToListAsync();
-            return creatures;
+            var output = creatures.Select(creature => new CreatureModel(creature))
+                .ToList();
+            return output;
         }
         public async Task<CreatureModel> GetAsync(Guid id)
         {
@@ -58,10 +62,12 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         }
         public async Task CreateAsync(string name, Guid campaignId, CreatureType type)
         {
+            var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
-            var creature = creatureTemplate.InstantiateCreature(name, campaignId, type);
+            var creature = creatureTemplate.InstantiateCreature(name, campaignId, type, ownerId);
             await _dbContext.Creatures.AddAsync(creature);
+            await _dbContext.SaveChangesAsync();
         }
         public async Task<bool> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
         {
@@ -70,6 +76,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             if (success)
             {
                 _dbContext.Creatures.Update(creature);
+                await _dbContext.SaveChangesAsync();
             }
             return success;
         }

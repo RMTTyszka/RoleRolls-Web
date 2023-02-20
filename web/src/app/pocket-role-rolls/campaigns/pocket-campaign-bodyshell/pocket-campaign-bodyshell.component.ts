@@ -14,6 +14,8 @@ import { finalize } from 'rxjs/operators';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
+import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
+import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
 
 @Component({
   selector: 'rr-pocket-campaign-bodyshell',
@@ -113,6 +115,16 @@ export class PocketCampaignBodyshellComponent implements OnInit {
         campaign: this.campaign,
         action: EditorAction.create
       }
+    });
+  }
+  public addHero(hero: PocketCreature){
+    const input = {
+      creatureId: hero.id,
+      hidden: false
+    } as SceneCreature;
+    this.campaignService.addCreatureToScene(this.campaignId, this.selectedScene.id, input)
+    .subscribe(() => {
+      this.detailsService.heroAddedToScene.next();
     });
   }
 }

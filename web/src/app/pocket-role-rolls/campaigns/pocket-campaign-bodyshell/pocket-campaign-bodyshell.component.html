@@ -1,11 +1,14 @@
 <p-panel>
     <ng-template pTemplate="header">
       <div class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-        <p-dropdown class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene(op)"></p-dropdown>
+        <p-dropdown class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-dropdown>
         <p-fieldset class="align-right p-col-6">
           <div class="p-inputgroup">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">
             <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
+          </div>
+          <div class="p-inputgroup">
+            <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
           </div>
         </p-fieldset>
         <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event)" #invitationButton></button>
@@ -16,8 +19,8 @@
       </div>
     </ng-template>
   <div class="p-grid p-justify-between p-align-center p-nogutter">
-      <rr-campaign-monsters class="p-col-6"></rr-campaign-monsters>
-      <rr-campaign-heroes class="p-col-6"></rr-campaign-heroes>
+    <rr-campaign-heroes class="p-col-6"></rr-campaign-heroes>
+    <rr-campaign-monsters class="p-col-6"></rr-campaign-monsters>
       <span class="p-col-6"></span>
       <rr-campaign-rolls class="p-col-6"></rr-campaign-rolls>
   </div>
