@@ -6,7 +6,7 @@ namespace RoleRollsPocketEdition.Rolls.Domain.Commands
 {
     public class RollDiceCommand
     {
-        public RollDiceCommand(int propertyValue, int rollBonus, int propertyBonus, int difficulty, int complexity)
+        public RollDiceCommand(int propertyValue, int propertyBonus, int rollBonus, int difficulty, int complexity)
         {
             PropertyValue = propertyValue;
             RollBonus = rollBonus;

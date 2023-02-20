@@ -126,21 +126,24 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   }
   private roll(hero: PocketHero, propertyType: RollOrigin, propertyId: string) {
     const input = {
-      propertyId: propertyId,
       propertyType: propertyType,
       creatureId: hero.id,
     } as RollInput;
     if (propertyType === RollOrigin.Attribute) {
       const attribute = hero.attributes.find(a => a.attributeTemplateId === propertyId);
+      input.propertyId = attribute.id;
       input.propertyName = attribute.name;
       input.propertyValue = attribute.value;
     } else if (propertyType === RollOrigin.Skill) {
       const skill = hero.skills.find(s => s.skillTemplateId === propertyId);
+      input.propertyId = skill.id;
       input.propertyName = skill.name;
       input.propertyValue = skill.value;
     } else if (propertyType === RollOrigin.MinorSkill) {
       const skill = hero.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
-      input.propertyName = skill.name;
+      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
+      input.propertyId = skill.id;
+      input.propertyName = minorSkills.name;
       input.propertyValue = skill.value;
     }
     this.displayRollSidebar = true;

@@ -157,8 +157,8 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/rolls")]
         public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
         {
-            var result = await _rollService.RollAsync(campaignId, creatureId, input);
-            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id }, result);
+            var result = await _rollService.RollAsync(campaignId, sceneId, creatureId, input);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, rollId = result.Id , sceneId  = sceneId }, result);
         }
 
     }
