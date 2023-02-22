@@ -38,14 +38,14 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
 
         public Roll Process(RollDiceCommand command)
         {
-            NumberOfDices = command.PropertyValue;
+            NumberOfDices = command.PredefinedRolls.Any() ? command.PredefinedRolls.Count() : command.PropertyValue;
             Complexity = command.Complexity;
             Difficulty = command.Difficulty;
             RollBonus = command.RollBonus;
             var rolls = new List<int>();
             foreach (var rollIndex in Enumerable.Range( 0, NumberOfDices))
             {
-                var roll = RollDice();
+                var roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[rollIndex] : RollDice();
                 rolls.Add(roll);
                 var rollWithBonus = roll += RollBonus;
                 if (rollWithBonus >= Complexity)

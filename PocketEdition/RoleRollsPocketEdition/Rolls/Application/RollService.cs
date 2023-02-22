@@ -113,7 +113,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = GetPropertyValue(creature, input.PropertyType, input.PropertyId);
-            var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity);
+            var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity, input.Rolls);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Hidden);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
@@ -125,7 +125,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
 
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
-            var rollCommand = new RollDiceCommand(input.PropertyBonus, input.PropertyBonus, input.RollBonus, input.Difficulty, input.Complexity);
+            var rollCommand = new RollDiceCommand(input.PropertyBonus, input.PropertyBonus, input.RollBonus, input.Difficulty, input.Complexity, input.Rolls);
             var roll = new Roll(campaignId, sceneId, null, input.Hidden);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);

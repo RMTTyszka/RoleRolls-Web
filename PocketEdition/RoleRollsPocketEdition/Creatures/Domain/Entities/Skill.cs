@@ -27,7 +27,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Value = updatedSkill.Value;
             foreach (var minorSkill in MinorSkills)
             {
-                var updatedMinorSkill = updatedSkill.MinorSkills.First(minorsk => minorsk.Id == minorSkill.Id);
+                var updatedMinorSkill = updatedSkill.MinorSkills.First(minorsk => minorsk.MinorSkillTemplateId == minorSkill.MinorSkillTemplateId);
                 minorSkill.Update(updatedMinorSkill);
             }
         }

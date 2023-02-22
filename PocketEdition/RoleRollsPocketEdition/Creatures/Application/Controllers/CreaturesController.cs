@@ -32,7 +32,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
         [HttpPost("")]
         public async Task CreateAsync([FromRoute] Guid campaignId, [FromBody] CreatureModel creatureModel)
         {
-            await _creatureService.CreateAsync(creatureModel.Name, campaignId, creatureModel.Type);
+            await _creatureService.CreateAsync(campaignId, creatureModel);
         }      
         [HttpPost("creatureId")]
         public async Task UpdateAsync([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] CreatureModel creatureModel)

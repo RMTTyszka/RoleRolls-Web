@@ -11,4 +11,6 @@ export class RollInput {
   public rollBonus: number;
   public hidden: boolean;
   public creatureId: string;
+  public rollsAsString = '';
+  public rolls: number[];
 }

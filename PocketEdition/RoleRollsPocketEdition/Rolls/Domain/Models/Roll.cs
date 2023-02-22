@@ -23,6 +23,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public int Complexity { get; set; }
         public bool Success { get; set; }
         public Guid SceneId { get; internal set; }
+        public int RollBonus { get; set; }
 
         public RollModel(Roll roll)
         {
@@ -40,6 +41,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
             Difficulty = roll.Difficulty;
             Complexity = roll.Complexity;
             Success = roll.Success;
+            RollBonus = roll.RollBonus;
         }
 
         public RollModel()

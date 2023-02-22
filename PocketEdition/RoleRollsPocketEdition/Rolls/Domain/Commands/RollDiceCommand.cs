@@ -6,13 +6,14 @@ namespace RoleRollsPocketEdition.Rolls.Domain.Commands
 {
     public class RollDiceCommand
     {
-        public RollDiceCommand(int propertyValue, int propertyBonus, int rollBonus, int difficulty, int complexity)
+        public RollDiceCommand(int propertyValue, int propertyBonus, int rollBonus, int difficulty, int complexity, List<int> predefinedRolls)
         {
             PropertyValue = propertyValue;
             RollBonus = rollBonus;
             PropertyBonus = propertyBonus;
             Difficulty = difficulty;
             Complexity = complexity;
+            PredefinedRolls = predefinedRolls;
         }
 
         public int PropertyValue { get; init; } 
@@ -20,5 +21,6 @@ namespace RoleRollsPocketEdition.Rolls.Domain.Commands
         public int PropertyBonus { get; init; } 
         public int Difficulty { get; init; }
         public int Complexity { get; init; }
+        public List<int> PredefinedRolls { get; init; }
     }
 }

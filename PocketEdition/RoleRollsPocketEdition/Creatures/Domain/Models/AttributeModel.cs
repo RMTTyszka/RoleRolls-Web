@@ -16,6 +16,7 @@
             Id = attribute.Id;
             Name = attribute.Name;
             AttributeTemplateId = attribute.AttributeTemplateId;
+            Value = attribute.Value;
         }
     }
 

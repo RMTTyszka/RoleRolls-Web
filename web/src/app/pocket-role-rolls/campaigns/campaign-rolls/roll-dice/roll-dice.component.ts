@@ -31,14 +31,19 @@ export class RollDiceComponent implements OnInit {
       this.rollInput.difficulty = 0;
       this.rollInput.propertyBonus = 0;
       this.rollInput.rollBonus = 0;
+      this.rollInput.rollsAsString = '';
       this.form = getAsForm(rollInput, [], ['propertyName']);
     });
   }
 
   public roll() {
     const rollInput = this.form.value as RollInput;
+    rollInput.rolls = rollInput.rollsAsString ? rollInput.rollsAsString.split(',').map(a => Number(a)) : [];
     this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
     .subscribe();
+  }
+  public cleanRolls() {
+    this.form.get('rollsAsString').reset();
   }
 
 }

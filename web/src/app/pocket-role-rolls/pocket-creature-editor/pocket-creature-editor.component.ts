@@ -11,6 +11,7 @@ import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pock
 import { CreatureTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'rr-pocket-creature-editor',
@@ -81,11 +82,19 @@ export class PocketCreatureEditorComponent implements OnInit {
       if (this.editorAction === EditorAction.create) {
         creature.attributes.forEach(attribute => {
           attribute.value = 0;
+          attribute.attributeTemplateId = attribute.id;
+          attribute.id = uuidv4();
         });
         creature.skills.forEach(skill => {
           skill.value = 0;
+          skill.skillTemplateId = skill.id;
+          skill.id = uuidv4();
+          skill.attributeId = creature.attributes.find(a => a.attributeTemplateId === skill.attributeId).id;
           skill.minorSkills.forEach(minorSkill => {
             minorSkill.skillProficience = PocketSkillProficience.Normal;
+            minorSkill.minorSkillTemplateId = minorSkill.id;
+            minorSkill.id = uuidv4();
+            minorSkill.skillId = skill.id;
           });
         });
         creature.name = '';
@@ -109,7 +118,7 @@ export class PocketCreatureEditorComponent implements OnInit {
     });
   }
   public save() {
-    const creature = this.form.value as PocketCreature;
+    const creature = this.form.getRawValue() as PocketCreature;
     creature.creatureType = CreatureType.Hero;
     this.campaignService.createCreature(this.campaign.id, creature).subscribe(() => {
       this.dialogRef.close();

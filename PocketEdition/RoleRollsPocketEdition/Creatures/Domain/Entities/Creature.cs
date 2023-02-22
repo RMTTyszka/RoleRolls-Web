@@ -67,12 +67,12 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             {
                 foreach (var attribute in Attributes)
                 {
-                    var updatedAttribute = creatureModel.Attributes.First(attr => attr.Id == attribute.Id);
+                    var updatedAttribute = creatureModel.Attributes.First(attr => attr.AttributeTemplateId == attribute.AttributeTemplateId);
                     attribute.Update(updatedAttribute);
                 }           
                 foreach (var skill in Skills)
                 {
-                    var updatedSkill= creatureModel.Skills.First(sk => sk.Id == skill.Id);
+                    var updatedSkill= creatureModel.Skills.First(sk => sk.SkillTemplateId == skill.SkillTemplateId);
                     skill.Update(updatedSkill);
                 }
                 return true;
@@ -82,7 +82,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 
         private bool Valid(CreatureModel creatureModel)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public RollsResult RollAttribute(RollCheck roll) 
