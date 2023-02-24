@@ -125,3 +125,6 @@ server/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
 server/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/server-config.json
 server/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 /server/.metadata
+web/src/app/pocket-role-rolls/campaigns/campaign-heroes/campaign-heroes.component.ts
+PocketEdition/RoleRollsPocketEdition/.vs/RoleRollsPocketEdition/DesignTimeBuild/.dtbcache.v2
+PocketEdition/RoleRollsPocketEdition/.vs/RoleRollsPocketEdition/v17/.futdcache.v1
