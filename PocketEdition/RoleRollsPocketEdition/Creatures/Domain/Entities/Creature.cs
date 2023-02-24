@@ -26,10 +26,11 @@ namespace RoleRollsPocketEdition.Creatures.Domain
 
         public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType type, string name) 
         {
+            var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
             {
-                Attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList(),
-                Skills = template.Skills.Select(skill => new Skill(skill)).ToList(),
+                Attributes = attributes,
+                Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeId))).ToList(),
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,

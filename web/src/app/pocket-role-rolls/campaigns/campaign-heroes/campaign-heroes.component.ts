@@ -142,7 +142,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     } else if (propertyType === RollOrigin.MinorSkill) {
       const skill = hero.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
       const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
-      input.propertyId = skill.id;
+      input.propertyId = minorSkills.id;
       input.propertyName = minorSkills.name;
       input.propertyValue = skill.value;
     }

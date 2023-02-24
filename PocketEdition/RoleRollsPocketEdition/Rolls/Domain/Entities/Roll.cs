@@ -1,5 +1,6 @@
 ﻿using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.Rolls.Domain.Commands;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -24,16 +25,19 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public bool Success { get; set; }
 
         public bool Hidden { get; set; }
+        public DateTime DateTime { get; set; }
 
         public Roll()
         {
         }
-        public Roll(Guid campaignId, Guid sceneId, Guid? actorId, bool hidden)
+        public Roll(Guid campaignId, Guid sceneId, Guid? actorId, Guid propertyId, RollPropertyType propertyType, bool hidden)
         {
             CampaignId = campaignId;
             ActorId = actorId;
             Hidden = hidden;
             SceneId = sceneId;
+            PropertyId = propertyId;
+            PropertyType = propertyType;
         }
 
         public Roll Process(RollDiceCommand command)
@@ -68,13 +72,14 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
                 Success = true;
             }
             RolledDices = JsonSerializer.Serialize(rolls);
+            this.DateTime = DateTime.UtcNow;
             return this;
         }
 
         private int RollDice()
         {
             var randomMaker = new Random();
-            var roll = randomMaker.Next(20);
+            var roll = randomMaker.Next(20) + 1;
             return roll;
         }
     }

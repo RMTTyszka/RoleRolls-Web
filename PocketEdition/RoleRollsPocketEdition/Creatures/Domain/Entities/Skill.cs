@@ -13,11 +13,11 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         {
         }
 
-        public Skill(SkillTemplate skill)
+        public Skill(SkillTemplate skill, Attribute attribute)
         {
             Id = Guid.NewGuid();
             Name = skill.Name;
-            AttributeId = skill.AttributeId;
+            AttributeId = attribute.Id;
             SkillTemplateId = skill.Id;
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkill(minorSkill)).ToList();
         }

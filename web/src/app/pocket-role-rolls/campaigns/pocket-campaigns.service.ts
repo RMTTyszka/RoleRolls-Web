@@ -16,12 +16,14 @@ import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-crea
 import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { v4 as uuidv4 } from 'uuid';
+import { PocketRoll } from './models/pocket-roll.model';
 import { RollInput } from './models/RollInput';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
 
 
 
@@ -113,7 +115,7 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`);
   }
   public createCreature(campaignId: string, creature: PocketCreature) {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/creatures/`, creature);
+    return this.http.post<never>(`${this.completePath}/${campaignId}/creatures`, creature);
   }
 
    public getScenes(campaignId: string): Observable<CampaignScene[]> {
@@ -153,6 +155,12 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
       invitationCode: invitationCode
     } as AcceptInvitationInput;
     return this.http.put<never>(`${this.completePath}/${campaignId}/players`, input);
+  }
+
+
+  public getSceneRolls(campaignId: string, sceneId: string, skipCount: number, maxResultCount: number) {
+    const params = new HttpParams().set('skipCount', skipCount).set('maxResultCount', maxResultCount);
+    return this.http.get<PagedOutput<PocketRoll>>(`${this.completePath}/${campaignId}/scenes/${sceneId}/rolls`, {params});
   }
 }
 

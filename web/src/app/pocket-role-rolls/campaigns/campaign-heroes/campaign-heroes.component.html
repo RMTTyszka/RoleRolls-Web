@@ -1,18 +1,21 @@
-<div *ngFor="let hero of heroes">
-  <div class="p-inputgroup">
-    <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeHero(hero)"></button>
-    <span class="p-inputgroup-addon">
-      {{hero.name}}
-    </span>
-    <ng-container *ngFor="let life of hero.lifes">
-      <span *ngIf="isMaster || isOwner(hero)" class="p-inputgroup-addon">
-        {{life.name}} | {{life.value}}
-    </span>
-  </ng-container>
-  <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon"
-   (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
+<p-panel header="Heroes">
+  <div *ngFor="let hero of heroes">
+    <div class="p-inputgroup">
+      <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeHero(hero)"></button>
+      <span class="p-inputgroup-addon">
+        {{hero.name}}
+      </span>
+      <ng-container *ngFor="let life of hero.lifes">
+        <span *ngIf="isMaster || isOwner(hero)" class="p-inputgroup-addon">
+          {{life.name}} | {{life.value}}
+      </span>
+    </ng-container>
+    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon"
+     (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
+    </div>
   </div>
-</div>
+</p-panel>
+
 
 
 <p-overlayPanel #rollPanel>
@@ -22,6 +25,6 @@
 </p-overlayPanel>
 
 
-<p-sidebar [(visible)]="displayRollSidebar" position="right">
+<p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-sidebar>

@@ -1,1 +1,30 @@
-<p>campaign-monsters works!</p>
+<p-panel header="Monsters">
+  <div *ngFor="let monster of monsters">
+    <div class="p-inputgroup">
+      <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeMonster(monster)"></button>
+      <span class="p-inputgroup-addon">
+        {{monster.name}}
+      </span>
+      <ng-container *ngFor="let life of monster.lifes">
+        <span *ngIf="isMaster" class="p-inputgroup-addon">
+          {{life.name}} | {{life.value}}
+      </span>
+    </ng-container>
+    <button *ngIf="isMaster" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon"
+     (click)="selectMonsterForRoll(monster); rollPanel.toggle($event)"></button>
+    </div>
+  </div>
+</p-panel>
+
+
+
+<p-overlayPanel #rollPanel>
+  <ng-template pTemplate>
+    <p-tieredMenu [model]="rollOptions"></p-tieredMenu>
+  </ng-template>
+</p-overlayPanel>
+
+
+<p-sidebar [(visible)]="displayRollSidebar" position="right" >
+  <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
+</p-sidebar>

@@ -1,1 +1,37 @@
-<p>campaign-rolls works!</p>
+<p-panel header="Rolls" class="card" *ngIf="loaded">
+  <p-table [columns]="columns" [value]="rolls" [scrollable]="true" [rows]="5" scrollHeight="250px"
+      [virtualScroll]="true" [virtualRowHeight]="40" [lazy]="true" (onLazyLoad)="getList($event)">
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th>Creature</th>
+              <th>Property</th>
+              <th>Dices</th>
+              <th>Success</th>
+              <th>Date</th>
+              <th>Complexity</th>
+              <th>Difficulty</th>
+              <th>Roll Bonus</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-roll>
+          <tr style="height:40px">
+            <td>{{roll.actorName}}</td>
+            <td>{{roll.propertyName}}</td>
+            <td>{{roll.rolledDices}}</td>
+            <td>{{roll.success}}</td>
+            <td>{{roll.dateTime | date:'d.M.YY - HH:mm'}}</td>
+            <td>{{roll.complexity}}</td>
+            <td>{{roll.difficulty}}</td>
+            <td>{{roll.rollBonus}}</td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody" let-columns="columns">
+          <tr style="height:40px">
+              <td *ngFor="let col of columns">
+                  <div class="loading-text"></div>
+                  <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</p-panel>

@@ -47,3 +47,6 @@ export enum PocketSkillProficience {
 export class PocketHero extends PocketCreature {
   public ownerId: string;
 }
+
+export class PocketMonster extends PocketCreature {
+}

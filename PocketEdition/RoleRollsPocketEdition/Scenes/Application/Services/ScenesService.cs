@@ -23,7 +23,7 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
             var scenes = await _roleRollsDbContext.CampaignScenes
                 .AsNoTracking()
                 .Where(scene => scene.CampaignId == campaignId)
-                .Select(scene => new SceneModel(scene.Id, scene.Name))
+                .Select(scene => new SceneModel(scene.Id, scene.Name, scene.CampaignId))
                 .ToListAsync();
             return scenes;
         }
@@ -32,7 +32,7 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
             var scene = await _roleRollsDbContext.CampaignScenes
                 .AsNoTracking()
                 .Where(scene => scene.Id == sceneId)
-                .Select(scene => new SceneModel(scene.Id, scene.Name))
+                .Select(scene => new SceneModel(scene.Id, scene.Name, scene.CampaignId))
                 .FirstOrDefaultAsync();
             return scene;
         }
