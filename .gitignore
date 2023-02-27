@@ -46,6 +46,7 @@ local.properties
 *.loadpath
 *.recommenders
 *.log
+**obj/
 
 # Eclipse Core
 *.project
@@ -128,3 +129,4 @@ server/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 web/src/app/pocket-role-rolls/campaigns/campaign-heroes/campaign-heroes.component.ts
 PocketEdition/RoleRollsPocketEdition/.vs/RoleRollsPocketEdition/DesignTimeBuild/.dtbcache.v2
 PocketEdition/RoleRollsPocketEdition/.vs/RoleRollsPocketEdition/v17/.futdcache.v1
+PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.dll
