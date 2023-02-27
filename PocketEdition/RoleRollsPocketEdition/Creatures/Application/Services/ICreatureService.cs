@@ -6,7 +6,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
 {
     public interface ICreatureService
     {
-        Task CreateAsync(Guid campaignId, CreatureModel creature);
+        Task<CreatureModel> CreateAsync(Guid campaignId, CreatureModel creature);
         Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input);
         Task<CreatureModel> GetAsync(Guid id);
         Task<bool> UpdateAsync(Guid creatureId, CreatureModel creatureModel);

@@ -30,9 +30,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
             return creatures;
         }     
         [HttpPost("")]
-        public async Task CreateAsync([FromRoute] Guid campaignId, [FromBody] CreatureModel creatureModel)
+        public async Task<IActionResult> CreateAsync([FromRoute] Guid campaignId, [FromBody] CreatureModel creatureModel)
         {
-            await _creatureService.CreateAsync(campaignId, creatureModel);
+            var creature = await _creatureService.CreateAsync(campaignId, creatureModel);
+            return CreatedAtAction(nameof(GetAsync), new { campaignId = campaignId, creatureId = creature.Id }, creature);
         }      
         [HttpPost("creatureId")]
         public async Task UpdateAsync([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] CreatureModel creatureModel)

@@ -60,7 +60,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var output = new CreatureModel(creature);
             return output;
         }
-        public async Task CreateAsync(Guid campaignId, CreatureModel creatureModel)
+        public async Task<CreatureModel> CreateAsync(Guid campaignId, CreatureModel creatureModel)
         {
             var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
@@ -69,6 +69,8 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             creature.Update(creatureModel);
             await _dbContext.Creatures.AddAsync(creature);
             await _dbContext.SaveChangesAsync();
+            var output = new CreatureModel(creature);
+            return output;
         }
         public async Task<bool> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
         {
