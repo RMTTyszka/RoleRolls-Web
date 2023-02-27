@@ -129,3 +129,4 @@ server/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 web/src/app/pocket-role-rolls/campaigns/campaign-heroes/campaign-heroes.component.ts
 **obj**
 **.vs**
+PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/refint/RoleRollsPocketEdition.dll
