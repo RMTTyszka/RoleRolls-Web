@@ -42,6 +42,9 @@ export class CampaignCreatorComponent implements OnInit {
   public attributeSkills(attributeId: string): FormArray {
     return this.skillsMapping.get(attributeId);
   }
+  public get isUpdate() {
+    return this.action === EditorAction.update
+  }
 
   constructor(
     public service: PocketCampaignsService,

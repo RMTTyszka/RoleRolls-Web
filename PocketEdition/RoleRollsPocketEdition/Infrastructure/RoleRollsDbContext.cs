@@ -33,7 +33,7 @@ namespace RoleRollsPocketEdition.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) 
         {
-            options.UseNpgsql("Host=localhost:5432;Database=RoleRollsPocket;Username=postgres;Password=123qwe");
+            options.UseNpgsql("Host=localhost:5432;Database=RoleRollsPocket;Username=postgres;Password=postgres");
         }
 
 
