@@ -21,6 +21,8 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         public Guid AttributeId { get; set; }
 
         public List<MinorSkillTemplate> MinorSkills { get; set; }
+        
+        public int PointsLimit => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
 
         internal void Update(SkillTemplateModel skillModel)
         {

@@ -1,7 +1,7 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { LOH_API } from 'src/app/loh.api';
 import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
@@ -141,7 +141,13 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   }
 
   public rollForCreature(campaignId: string, sceneId: string, creatureId: string, rollInput: RollInput) {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/rolls`, rollInput);
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/rolls`, rollInput, {observe: 'response'})
+    .pipe(
+      switchMap((response: HttpResponse<never>) => {
+        debugger
+        const location = response.headers.get('Location')
+        return this.http.get<PocketRoll>(location)
+      }))
   }
 
   public getPlayers(campaignId: string): Observable<CampaignPlayer[]> {

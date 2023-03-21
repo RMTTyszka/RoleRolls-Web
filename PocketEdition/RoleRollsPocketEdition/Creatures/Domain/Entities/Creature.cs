@@ -62,7 +62,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             return result;
         }
 
-        internal bool Update(CreatureModel creatureModel)
+        internal CreatureUpdateValidationResult Update(CreatureModel creatureModel)
         {
             if (Valid(creatureModel))
             {
@@ -74,11 +74,17 @@ namespace RoleRollsPocketEdition.Creatures.Domain
                 foreach (var skill in Skills)
                 {
                     var updatedSkill= creatureModel.Skills.First(sk => sk.SkillTemplateId == skill.SkillTemplateId);
-                    skill.Update(updatedSkill);
+                    var result = skill.Update(updatedSkill);
+                    if (result.Validation == CreatureUpdateValidation.Ok)
+                    {
+                        continue;
+                    }
+
+                    return result;
                 }
-                return true;
+                return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);
             }
-            return false;
+            return new CreatureUpdateValidationResult(CreatureUpdateValidation.InvalidModel, null);
         }
 
         private bool Valid(CreatureModel creatureModel)

@@ -72,16 +72,16 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var output = new CreatureModel(creature);
             return output;
         }
-        public async Task<bool> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
+        public async Task<CreatureUpdateValidationResult> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
         {
             var creature = await _dbContext.Creatures.FindAsync(creatureId);
-            var success = creature.Update(creatureModel);
-            if (success)
+            var result = creature.Update(creatureModel);
+            if (result.Validation == CreatureUpdateValidation.Ok)
             {
                 _dbContext.Creatures.Update(creature);
                 await _dbContext.SaveChangesAsync();
             }
-            return success;
+            return result;
         }
 
         private async Task<Creature> GetFullCreature(Guid id)

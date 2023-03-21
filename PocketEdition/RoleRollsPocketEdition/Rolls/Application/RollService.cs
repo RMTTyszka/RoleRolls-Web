@@ -153,7 +153,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                     var minorSkill = creature.Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
                     var skill = creature.Skills.First(skill => skill.Id == minorSkill.SkillId);
                     var attribute = creature.Attributes.First(attribute => attribute.Id == skill.AttributeId);
-                    var rollBonus = minorSkill.GetProficiency();
+                    var rollBonus = minorSkill.Points;
                     return (attribute.Value, rollBonus);
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         public Guid MinorSkillTemplateId { get; set; }
         public Guid SkillId { get; set; }
         public string Name { get; set; }
-        public SkillProficience SkillProficience { get; set; }
+        public int Points { get; set; }
 
         public MinorSkill()
         {
@@ -19,22 +19,9 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Name = skill.Name;
         }
 
-        internal void Update(MinorSkillModel updatedMinorSkill)
+        internal void Update(int points)
         {
-            SkillProficience = updatedMinorSkill.SkillProficience;
-        }
-
-        internal int GetProficiency()
-        {
-            return SkillProficience switch
-            {
-                SkillProficience.Expert => 4,
-                SkillProficience.Good => 2,
-                SkillProficience.Normal => 0,
-                SkillProficience.Bad => -1,
-                SkillProficience.Crap => -3,
-                _ => throw new ArgumentOutOfRangeException(),
-            };
+            Points = points;
         }
     }
    

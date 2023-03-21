@@ -6,6 +6,8 @@ import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-s
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { RollInput } from '../../models/RollInput';
 import { PocketCampaignsService } from '../../pocket-campaigns.service';
+import { switchMap } from '../../../../../../node_modules/rxjs/operators';
+import { PocketRoll } from '../../models/pocket-roll.model';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -19,6 +21,7 @@ export class RollDiceComponent implements OnInit {
   @Input() public scene: CampaignScene;
   public rollInput: RollInput;
   public form: FormGroup;
+  public rollResult: PocketRoll;
 
   constructor(
     private readonly campaignsService: PocketCampaignsService
@@ -40,7 +43,9 @@ export class RollDiceComponent implements OnInit {
     const rollInput = this.form.value as RollInput;
     rollInput.rolls = rollInput.rollsAsString ? rollInput.rollsAsString.split(',').map(a => Number(a)) : [];
     this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
-    .subscribe();
+    .subscribe((roll: PocketRoll) => {
+      this.rollResult = roll;
+    });
   }
   public cleanRolls() {
     this.form.get('rollsAsString').reset();

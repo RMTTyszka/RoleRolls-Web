@@ -1,6 +1,6 @@
 <p-panel header="Rolls" class="card" *ngIf="loaded">
-  <p-table [columns]="columns" [value]="rolls" [scrollable]="true" [rows]="5" scrollHeight="250px"
-      [virtualScroll]="true" [virtualRowHeight]="40" [lazy]="true" (onLazyLoad)="getList($event)">
+  <p-table [columns]="columns" [value]="rolls" [scrollable]="true" [rows]="100" scrollHeight="250px"
+      [virtualScroll]="true" [virtualRowHeight]="40" [lazy]="false" >
       <ng-template pTemplate="header" let-columns>
           <tr>
               <th>Creature</th>

@@ -9,6 +9,9 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         public Guid AttributeId { get; set; }
         public Guid SkillTemplateId { get; set; }
         public List<MinorSkill> MinorSkills { get; set; }
+
+        public int PointsLimit => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
+        public int UsedPoints => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
         public Skill()
         {
         }
@@ -22,14 +25,22 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkill(minorSkill)).ToList();
         }
 
-        internal void Update(SkillModel updatedSkill)
+        internal CreatureUpdateValidationResult Update(SkillModel updatedSkill)
         {
             Value = updatedSkill.Value;
             foreach (var minorSkill in MinorSkills)
             {
                 var updatedMinorSkill = updatedSkill.MinorSkills.First(minorsk => minorsk.MinorSkillTemplateId == minorSkill.MinorSkillTemplateId);
-                minorSkill.Update(updatedMinorSkill);
+                var totalPointAfterUpdate = UsedPoints - minorSkill.Points + updatedMinorSkill.Points;
+                if (totalPointAfterUpdate > PointsLimit)
+                {
+                    return new CreatureUpdateValidationResult(CreatureUpdateValidation.SkillPointsGreaterThanAllowed,
+                        Name);
+                }
+
+                minorSkill.Update(updatedMinorSkill.Points);
             }
+            return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);
         }
     }
    

@@ -75,7 +75,8 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   public newScene() {
     const newScene = {
       id: uuidv4(),
-      name: this.newSceneName
+      name: this.newSceneName,
+      campaignId: this.campaignId
     } as CampaignScene;
     this.campaignService.addScene(this.campaignId, newScene)
     .subscribe(() => {
