@@ -36,6 +36,11 @@ $defaultPrimeNgSize: 24px;
   width: 100%;
   height: 100%;
 }
+.p-panel {
+  input:disabled {
+    color: aqua
+  }
+}
 .p-button {
   background-color: $primaryColor !important;
   border-color: $primaryColor !important;

@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
                           .AllowAnyOrigin();
                       });
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers(op => op.SuppressAsyncSuffixInActionNames = false);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();

@@ -39,18 +39,24 @@
                 <div form [formGroup]="skill">
                   <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
                     <ng-template pTemplate="header">
-                      <div class="p-inputgroup">
-                        <input type="text" pInputText  placeholder="Name" formControlName="name" required>
+                      <div class="p-grid p-justify-between p-align-center p-nogutter">
+   
+                        <div class="p-inputgroup p-col-4">
+                          <input type="text" pInputText  placeholder="Name" formControlName="name" required>
+                        </div>
+                        <div class="p-inputgroup p-col-4">
+                          <input type="text"pInputText formControlName="remainingPoints" required>
+                        </div>
                       </div>
-                    </ng-template>
+                  </ng-template>
                     <div class="p-grid p-justify-between p-align-start p-nogutter">
                       <div class="p-col-6" form [formGroup]="skill">
                         <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
-                          <div [formGroup]="minorSkill">
+                          <div form [formGroup]="minorSkill">
                             <div class="p-inputgroup">
                               <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                              <span class="p-inputgroup-addon">
-                                <p-dropdown [options]="minorSkillProficiences" formControlName="skillProficience" optionLabel="name" optionValue="value" ></p-dropdown>
+                              <span class="p-inputgroup-addon" style="min-width: 48px;" >
+                                <input style="max-width: 48px;" formControlName="points" type="number" pInputText placeholder="Value" (blur)="print()">
                               </span>
                             </div>
                           </div>
@@ -82,4 +88,4 @@
     </div>
 </p-panel>
 </form>
-<button pButton label="Save" (click)=save()></button>
+<button pButton label="Save" (click)=save() [disabled]=!canSave()></button>

@@ -23,12 +23,15 @@ export class PocketSkill extends PocketEntity {
   public skillTemplateId: string;
   public value: number;
   public minorSkills: PocketMinorSkill[] = [];
+  public pointsLimit: number;
+  public usedPoints: number;
+
 }
 export class PocketMinorSkill extends PocketEntity {
   public name: string;
   public skillId: string;
   public minorSkillTemplateId: string;
-  public skillProficience: PocketSkillProficience;
+  public points: number;
 }
 export class PocketLife extends PocketEntity {
   public name: string;

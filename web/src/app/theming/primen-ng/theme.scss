@@ -1081,7 +1081,11 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
 :-ms-input-placeholder {
   color: #666666;
 }
-
+.p-panel {
+  input:disabled {
+    background-color: #fafafa
+  }
+}
 .p-input-filled .p-inputtext {
   background-color: #f4f4f4;
 }

@@ -22,6 +22,11 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
         public async Task<ActionResult<CreatureModel>> GetAsync([FromRoute] Guid campaignId, [FromRoute] Guid creatureId)
         {
             var creature = await _creatureService.GetAsync(creatureId);
+            if (creature is null)
+            {
+                return NotFound();
+            }
+
             return Ok(creature);
         }    
         [HttpGet("")]
