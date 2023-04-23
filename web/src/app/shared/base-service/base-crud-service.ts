@@ -92,7 +92,11 @@ export abstract class BaseCrudService<T extends Entity, TCreateInput extends Ent
   }
   delete(id: string): Observable<BaseCrudResponse<T>> {
     return this.http.delete<BaseCrudResponse<T>>(this.serverUrl + this.path + `/${id}`).pipe(
-      tap((response: BaseCrudResponse<T>) => this.entityDeleted.next(response.entity))
+      tap((response: BaseCrudResponse<T>) => {
+        if (response) {
+          this.entityDeleted.next(response.entity)
+        }
+      })
     );
   }
   protected get completePath(): string {

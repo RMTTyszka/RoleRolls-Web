@@ -59,6 +59,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                             SkillName = (skillTemplate != null ? skillTemplate.Name : null),
                             MinorSkillName = (minorSkillTemplate != null ? minorSkillTemplate.Name : null),
                             DateTime = roll.DateTime,
+                            Description = roll.Description,
                         };
 
    
@@ -90,6 +91,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                 RolledDices = roll.RolledDices,
                 Success = roll.Success,
                 DateTime = roll.DateTime,
+                Description = roll.Description,
             }).ToList();
 
             return new PagedResult<RollModel>()
@@ -120,7 +122,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = GetPropertyValue(creature, input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden);
+            var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 
@@ -132,7 +134,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
             var rollCommand = new RollDiceCommand(input.PropertyBonus, input.PropertyBonus, input.RollBonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, null, input.PropertyId, input.PropertyType, input.Hidden);
+            var roll = new Roll(campaignId, sceneId, null, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 

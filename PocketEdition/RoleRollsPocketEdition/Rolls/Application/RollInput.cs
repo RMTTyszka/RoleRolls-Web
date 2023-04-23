@@ -13,6 +13,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
         public int RollBonus { get; set; }
         public bool Hidden { get; set; }
 
+        public string Description { get; set; }
         public List<int> Rolls { get; set; } = new List<int>();
 
     }

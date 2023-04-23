@@ -13,7 +13,7 @@
         </p-fieldset>
         <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event)" #invitationButton></button>
 <!--         <button *ngIf="!isMaster" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button>
- -->        <button *ngIf="isMaster && !notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
+ -->        <button *ngIf="!notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
         <!--  <button *ngIf="!isMaster && notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button> -->
          <button *ngIf="notInvited" pButton label="accept invitation" icon="pi pi-plus" class="p-button-secondary" (click)="openAcceptInvitation()"></button>
       </div>

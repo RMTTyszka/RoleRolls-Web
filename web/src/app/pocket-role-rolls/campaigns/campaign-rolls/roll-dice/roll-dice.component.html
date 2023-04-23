@@ -25,7 +25,6 @@
       </span>
       <p-inputNumber placeholder formControlName='rollBonus'></p-inputNumber>
     </div>
-
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon placeholder" pTooltip="type your rolls separated by ','">
         Rolls
@@ -33,6 +32,12 @@
       <input pInputText formControlName="rollsAsString" style="width: 100%;">
       <button pButton class="p-inputgroup-addon p-button-secondary" type="button" icon="fas fa-times-circle" (click)="cleanRolls()">
       </button>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Description
+      </span>
+      <input pInputText placeholder formControlName='description' style="width: 100%;">
     </div>
 
   </form>

@@ -13,4 +13,5 @@ export class RollInput {
   public creatureId: string;
   public rollsAsString = '';
   public rolls: number[];
+  public description: string;
 }

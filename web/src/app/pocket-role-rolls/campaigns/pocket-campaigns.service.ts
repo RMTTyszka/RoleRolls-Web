@@ -33,6 +33,7 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
 
 
 
+
   public path = 'campaigns';
   public selectPlaceholder: string;
   public fieldName: string;
@@ -114,11 +115,19 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public getCreatures(campaignId: string): Observable<PocketCreature[]> {
     return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`);
   }
+  public getCreature(campaignId: string, creatureId: string): Observable<PocketCreature> {
+    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/${creatureId}`);
+  }
+  public instantiateNewCreature(campaignId: string):  Observable<PocketCreature> {
+    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/new`, );
+  }
   public createCreature(campaignId: string, creature: PocketCreature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/creatures`, creature);
   }
-
-   public getScenes(campaignId: string): Observable<CampaignScene[]> {
+  public updateCreature(campaignId: string, creature: PocketCreature) {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/creatures/${creature.id}`, creature);
+  }
+  public getScenes(campaignId: string): Observable<CampaignScene[]> {
     return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes`);
   }
 
@@ -144,7 +153,6 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/rolls`, rollInput, {observe: 'response'})
     .pipe(
       switchMap((response: HttpResponse<never>) => {
-        debugger
         const location = response.headers.get('Location')
         return this.http.get<PocketRoll>(location)
       }))

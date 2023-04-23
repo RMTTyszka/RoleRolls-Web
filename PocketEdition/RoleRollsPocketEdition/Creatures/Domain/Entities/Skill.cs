@@ -10,8 +10,8 @@ namespace RoleRollsPocketEdition.Creatures.Domain
         public Guid SkillTemplateId { get; set; }
         public List<MinorSkill> MinorSkills { get; set; }
 
-        public int PointsLimit => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
-        public int UsedPoints => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
+        public int PointsLimit => Math.Max(MinorSkills.Count * 3 - MinorSkills.Count - 1, 0); 
+        public int UsedPoints => MinorSkills.Sum(minorSkill => minorSkill.Points); 
         public Skill()
         {
         }

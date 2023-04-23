@@ -12,11 +12,16 @@ import { RollInput } from '../models/RollInput';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { RollOrigin } from './RollOrigin';
+import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
+import { PocketCreatureEditorComponent } from 'src/app/pocket-role-rolls/pocket-creature-editor/pocket-creature-editor.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { TakeDamangeInput } from '../models/TakeDamangeInput';
 
 @Component({
   selector: 'rr-campaign-heroes',
   templateUrl: './campaign-heroes.component.html',
-  styleUrls: ['./campaign-heroes.component.scss']
+  styleUrls: ['./campaign-heroes.component.scss'],
+  providers: [DialogService]
 })
 export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public heroes: PocketHero[] = [];
@@ -26,7 +31,9 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   }
   public rollOptions: MenuItem[] = [];
   public displayRollSidebar = false;
+  public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
+  public takeDamageInputEmitter = new Subject<TakeDamangeInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedHeroForRoll: PocketHero;
@@ -39,6 +46,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     private readonly campaignService: PocketCampaignsService,
     private readonly detailsService: PocketCampaignDetailsService,
     private authService: AuthenticationService,
+    private readonly dialogService: DialogService,
   ) {
     this.subscribeToCampaignLoaded();
     this.subscribeToSceneChanges();
@@ -49,6 +57,17 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     return this.authService.userId === hero.ownerId;
    }
 
+   public editHero(hero: PocketHero) {
+    this.dialogService.open(PocketCreatureEditorComponent, {
+      width: '100vw',
+      height: '100vh',
+      data: {
+        campaign: this.campaign,
+        action: EditorAction.update,
+        creatureId: hero.id
+      }
+    });
+   }
    public removeHero(hero: PocketHero) {
     this.campaignService.removeCreatureFromScene(this.campaign.id, this.scene.id, hero.id).subscribe(() => {
       this.refreshHeroes();
@@ -148,6 +167,13 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     }
     this.displayRollSidebar = true;
     this.rollInputEmitter.next(input);
+  }
+  private takeDamage(hero: PocketHero) {
+    const input = {
+      
+    } as TakeDamangeInput
+    this.displayTakeDamageSidebar = true;
+    this.takeDamageInputEmitter.next(input);
   }
   ngOnInit(): void {
   }

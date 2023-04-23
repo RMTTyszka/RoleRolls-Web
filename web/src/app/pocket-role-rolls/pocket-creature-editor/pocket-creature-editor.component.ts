@@ -13,23 +13,27 @@ import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/po
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
+import { HttpErrorResponse, HttpStatusCode } from '../../../../node_modules/@angular/common/http/http';
+import { MessageService, Message } from '../../../../node_modules/primeng/api';
+import { Creature } from '../../shared/models/creatures/Creature.model';
 
 @Component({
   selector: 'rr-pocket-creature-editor',
   templateUrl: './pocket-creature-editor.component.html',
-  styleUrls: ['./pocket-creature-editor.component.scss']
+  styleUrls: ['./pocket-creature-editor.component.scss'],
+  providers: [MessageService]
 })
 export class PocketCreatureEditorComponent implements OnInit {
-
 
   public loaded = false;
   public form: FormGroup;
   public campaign: PocketCampaignModel;
-  public template: PocketCreature;
+  // public template: PocketCreature;
   public creature: PocketCreature;
   public editorAction: EditorAction;
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
+  public creatureId: string;
 
   public get attributes(): FormArray {
     return this.form.get('attributes') as FormArray;
@@ -52,64 +56,45 @@ export class PocketCreatureEditorComponent implements OnInit {
     public config: DynamicDialogConfig,
     public dialogRef: DynamicDialogRef,
     public detectChanges: ChangeDetectorRef,
+    public messageService: MessageService,
 
   ) {
     this.campaign = config.data.campaign;
     this.editorAction = config.data.action;
+    if (this.editorAction === EditorAction.update) {
+      this.creatureId = config.data.creatureId;
+    }
    }
 
-  ngOnInit(): void {
-    this.campaignService.getCreatureTemplate(this.campaign.creatureTemplateId)
-    .pipe(map((template => {
-      const creature = template as unknown as PocketCreature;
-      if (this.editorAction === EditorAction.create) {
-        creature.attributes.forEach(attribute => {
-          attribute.value = 0;
-          attribute.attributeTemplateId = attribute.id;
-          attribute.id = uuidv4();
-        });
-        creature.skills.forEach(skill => {
-          skill.value = 0;
-          skill.usedPoints = 0;
-          skill.skillTemplateId = skill.id;
-          skill.id = uuidv4();
-          skill.attributeId = creature.attributes.find(a => a.attributeTemplateId === skill.attributeId).id;
-          skill.minorSkills.forEach(minorSkill => {
-            minorSkill.points = 0;
-            minorSkill.minorSkillTemplateId = minorSkill.id;
-            minorSkill.id = uuidv4();
-            minorSkill.skillId = skill.id;
-          });
-        });
-        creature.name = '';
-      }
-      this.creature = creature;
-      return creature;
-    }))).subscribe((template: PocketCreature) => {
-      this.template = template;
-      this.form = getAsForm(this.creature);
-      this.attributes.controls.forEach(attribute => {
-        attribute.get('name').disable();
-      });
-      this.skills.controls.forEach((skill: FormGroup) => {
-        skill.get('name').disable();
-        skill.get('pointsLimit').disable();
-        skill.get('usedPoints').disable();
-        skill.addControl('remainingPoints', new FormControl())
-        this.setRemainingPoints(skill);
-        skill.setValidators(validateSkillValue);
-        (skill.get('minorSkills') as FormArray).controls.forEach(minorSkill => {
-          minorSkill.get('name').disable();
-          minorSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
-          this.subscriptionManager.add(minorSkill.get('name').value, minorSkill.get('points').valueChanges.subscribe(() => {
-            this.setRemainingPoints(skill);
-            skill.get('usedPoints').updateValueAndValidity();
-          }));
-        });
-      });
-      this.buildSkills();
-      this.loaded = true;
+  async ngOnInit(): Promise<void> {
+    if (this.editorAction === EditorAction.create) {
+      this.creature = await this.campaignService.instantiateNewCreature(this.campaign.id).toPromise();;
+    } else {
+      this.creature = await this.campaignService.getCreature(this.campaign.id, this.creatureId).toPromise();;
+    }
+    this.form = getAsForm(this.creature);
+    this.attributes.controls.forEach(attribute => {
+      attribute.get('name').disable();
     });
+    this.skills.controls.forEach((skill: FormGroup) => {
+      skill.get('name').disable();
+      skill.get('pointsLimit').disable();
+      skill.get('usedPoints').disable();
+      skill.addControl('remainingPoints', new FormControl())
+      skill.get('remainingPoints').disable();
+      this.setRemainingPoints(skill);
+      skill.setValidators(validateSkillValue);
+      (skill.get('minorSkills') as FormArray).controls.forEach(minorSkill => {
+        minorSkill.get('name').disable();
+        minorSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
+        this.subscriptionManager.add(minorSkill.get('name').value, minorSkill.get('points').valueChanges.subscribe(() => {
+          this.setRemainingPoints(skill);
+          skill.get('usedPoints').updateValueAndValidity();
+        }));
+      });
+    });
+    this.buildSkills();
+    this.loaded = true;
   }
   public print() {
     console.log(this.form)
@@ -120,8 +105,18 @@ export class PocketCreatureEditorComponent implements OnInit {
   public save() {
     const creature = this.form.getRawValue() as PocketCreature;
     creature.creatureType = CreatureType.Hero;
-    this.campaignService.createCreature(this.campaign.id, creature).subscribe(() => {
+    const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature) 
+    : this.campaignService.updateCreature(this.campaign.id, creature);
+    saveAction.subscribe(() => {
       this.dialogRef.close();
+    }, (error: HttpErrorResponse) => {
+      if (error.status === HttpStatusCode.UnprocessableEntity) {
+        this.messageService.add({
+          severity: 'error',
+          summary: `The ${error.error.invalidProperty} has invalid points`,
+          detail: 'Allocated points greater than available points.'
+        } as Message)
+      }
     });
   }
   private setRemainingPoints(skill: FormGroup): void {
@@ -132,10 +127,10 @@ export class PocketCreatureEditorComponent implements OnInit {
     skill.get('remainingPoints').setValue(maxPoints - value);
   }
   private buildSkills() {
-    this.template.attributes.forEach(attribute => {
+    this.creature.attributes.forEach(attribute => {
       this.skillsMapping.set(attribute.id, new FormArray([]));
     });
-    this.template.skills.forEach(skill => {
+    this.creature.skills.forEach(skill => {
       const skillForm = (this.form.get('skills') as FormArray).controls.filter(control => control.get('skillTemplateId').value == skill.skillTemplateId)[0];
       this.skillsMapping.get(skill.attributeId).push(skillForm);
       this.minorsSkillBySkill.set(skill.id, new FormArray([]));

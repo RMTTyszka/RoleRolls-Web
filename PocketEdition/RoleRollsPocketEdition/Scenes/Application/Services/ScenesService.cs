@@ -81,7 +81,15 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
         }
         public async Task AddHero(Guid campaignId, Guid sceneId, List<SceneCreatureModel> creatures)
         {
-            var sceneCreatures = creatures.Select(creature => new SceneCreature
+            var creatureIds = creatures.Select(creature => creature.CreatureId);
+            var existingCreaturesIds = await _roleRollsDbContext.SceneCreatures
+                .Where(creature => creatureIds.Contains(creature.CreatureId))
+                .Where(creature => creature.SceneId == sceneId)
+                .Select(creature => creature.CreatureId)
+                .ToListAsync();
+            var newCreatures = creatures.Where(creature => !existingCreaturesIds.Contains(creature.CreatureId))
+                .ToList();
+            var sceneCreatures = newCreatures.Select(creature => new SceneCreature
             {
                 CreatureId = creature.CreatureId,
                 SceneId = sceneId,

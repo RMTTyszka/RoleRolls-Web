@@ -11,11 +11,11 @@
         {
             Id = creature.Id;
             OwnerId = creature.OwnerId;
-            this.Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute)).ToList();
-            this.Skills = creature.Skills.Select(skill => new SkillModel(skill)).ToList();
-            this.Lifes = creature.Lifes.Select(life => new LifeModel(life)).ToList();
-            this.Name = creature.Name;
-            this.Type = creature.Type;
+            Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute)).ToList();
+            Skills = creature.Skills.Select(skill => new SkillModel(skill)).ToList();
+            Lifes = creature.Lifes.Select(life => new LifeModel(life)).ToList();
+            Name = creature.Name;
+            Type = creature.Type;
         }
 
         public List<AttributeModel> Attributes { get; set; }

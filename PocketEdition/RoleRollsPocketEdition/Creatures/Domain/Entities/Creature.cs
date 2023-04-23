@@ -24,7 +24,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain
             Lifes = new List<Life>();
         }
 
-        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType type, string name) 
+        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
@@ -34,9 +34,6 @@ namespace RoleRollsPocketEdition.Creatures.Domain
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,
-                Type = type,
-                Name = name,
-
             };
             foreach (var life in creature.Lifes)
             {

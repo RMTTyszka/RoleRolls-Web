@@ -11,6 +11,7 @@
               <th>Complexity</th>
               <th>Difficulty</th>
               <th>Roll Bonus</th>
+              <th>Description</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-roll>
@@ -22,7 +23,7 @@
             <td>{{roll.dateTime | date:'d.M.YY - HH:mm'}}</td>
             <td>{{roll.complexity}}</td>
             <td>{{roll.difficulty}}</td>
-            <td>{{roll.rollBonus}}</td>
+            <td>{{roll.description}}</td>
           </tr>
       </ng-template>
       <ng-template pTemplate="loadingbody" let-columns="columns">

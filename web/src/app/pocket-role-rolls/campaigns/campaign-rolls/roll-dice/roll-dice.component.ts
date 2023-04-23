@@ -35,6 +35,7 @@ export class RollDiceComponent implements OnInit {
       this.rollInput.propertyBonus = 0;
       this.rollInput.rollBonus = 0;
       this.rollInput.rollsAsString = '';
+      this.rollInput.description = '';
       this.form = getAsForm(rollInput, [], ['propertyName']);
     });
   }

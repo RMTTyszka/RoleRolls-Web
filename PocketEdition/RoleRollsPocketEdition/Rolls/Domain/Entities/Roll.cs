@@ -26,11 +26,13 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
 
         public bool Hidden { get; set; }
         public DateTime DateTime { get; set; }
+        public string Description { get; set; }
 
         public Roll()
         {
         }
-        public Roll(Guid campaignId, Guid sceneId, Guid? actorId, Guid propertyId, RollPropertyType propertyType, bool hidden)
+        public Roll(Guid campaignId, Guid sceneId, Guid? actorId, Guid propertyId, RollPropertyType propertyType,
+            bool hidden, string description)
         {
             CampaignId = campaignId;
             ActorId = actorId;
@@ -38,6 +40,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
             SceneId = sceneId;
             PropertyId = propertyId;
             PropertyType = propertyType;
+            Description = description;
         }
 
         public Roll Process(RollDiceCommand command)

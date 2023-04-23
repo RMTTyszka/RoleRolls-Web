@@ -2,7 +2,7 @@
   <div *ngFor="let hero of heroes">
     <div class="p-inputgroup">
       <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeHero(hero)"></button>
-      <span class="p-inputgroup-addon">
+      <span class="p-inputgroup-addon" (click)='editHero(hero)'>
         {{hero.name}}
       </span>
       <ng-container *ngFor="let life of hero.lifes">
@@ -12,11 +12,11 @@
     </ng-container>
     <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon"
      (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
+    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-tint" class="p-inputgroup-addon"
+     (click)="takeDamage(hero); damagePanel.toggle($event)"></button>
     </div>
   </div>
 </p-panel>
-
-
 
 <p-overlayPanel #rollPanel>
   <ng-template pTemplate>
@@ -24,7 +24,10 @@
   </ng-template>
 </p-overlayPanel>
 
-
 <p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
+</p-sidebar>
+
+<p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">
+  <rr-pocket-take-damage [inputEmitter]="takeDamageInputEmitter" [campaign]="campaign" [scene]="scene"></rr-pocket-take-damage>
 </p-sidebar>

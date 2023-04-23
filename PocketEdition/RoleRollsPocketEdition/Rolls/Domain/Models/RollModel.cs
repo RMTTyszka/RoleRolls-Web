@@ -25,6 +25,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public Guid SceneId { get; internal set; }
         public int RollBonus { get; set; }
         public DateTime DateTime { get; set; }
+        public string Description { get; set; }
 
         public RollModel(Roll roll)
         {
@@ -44,6 +45,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
             Success = roll.Success;
             RollBonus = roll.RollBonus;
             DateTime = roll.DateTime;
+            Description = roll.Description;
         }
 
         public RollModel()

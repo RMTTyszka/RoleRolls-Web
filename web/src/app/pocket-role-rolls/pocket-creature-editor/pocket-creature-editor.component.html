@@ -37,15 +37,16 @@
             <div class="p-col-6">
               <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
                 <div form [formGroup]="skill">
-                  <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                  <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
                     <ng-template pTemplate="header">
                       <div class="p-grid p-justify-between p-align-center p-nogutter">
    
                         <div class="p-inputgroup p-col-4">
                           <input type="text" pInputText  placeholder="Name" formControlName="name" required>
                         </div>
-                        <div class="p-inputgroup p-col-4">
-                          <input type="text"pInputText formControlName="remainingPoints" required>
+                        <div class="p-inputgroup p-col-4 p-grid">
+                          <span>Remaining Points </span>
+                          <input type="text"pInputText formControlName="remainingPoints"required class="point-block">
                         </div>
                       </div>
                   </ng-template>
@@ -55,14 +56,13 @@
                           <div form [formGroup]="minorSkill">
                             <div class="p-inputgroup">
                               <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                              <span class="p-inputgroup-addon" style="min-width: 48px;" >
-                                <input style="max-width: 48px;" formControlName="points" type="number" pInputText placeholder="Value" (blur)="print()">
+                              <span class="p-inputgroup-addon point-block">
+                                <input class="point-block" formControlName="points" type="number" pInputText placeholder="Value" (blur)="print()">
                               </span>
                             </div>
                           </div>
                         </div>
                       </div>
-
                     </div>
                 </p-panel>
                 </div>
@@ -89,3 +89,4 @@
 </p-panel>
 </form>
 <button pButton label="Save" (click)=save() [disabled]=!canSave()></button>
+<p-messages></p-messages>

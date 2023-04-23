@@ -1,3 +1,4 @@
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PocketCampaignsComponent } from './pocket-campaigns/pocket-campaigns.component';
@@ -17,6 +18,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { RollDiceComponent } from './campaign-rolls/roll-dice/roll-dice.component';
+import { MessagesModule } from 'primeng/messages';
+import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-damage.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -34,6 +37,7 @@ const routes: Routes = [
     PocketCreatureEditorComponent,
     PocketCreatureSelectComponent,
     RollDiceComponent,
+    PocketTakeDamageComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +51,8 @@ const routes: Routes = [
     AutoCompleteModule,
     TieredMenuModule,
     SidebarModule,
+    MessagesModule,
+    ConfirmDialogModule
   ]
 })
 export class CampaignsModule { }

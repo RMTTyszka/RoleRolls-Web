@@ -60,21 +60,26 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var output = new CreatureModel(creature);
             return output;
         }
-        public async Task<CreatureModel> CreateAsync(Guid campaignId, CreatureModel creatureModel)
+        public async Task<CreatureUpdateValidationResult> CreateAsync(Guid campaignId, CreatureModel creatureModel)
         {
             var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Type, ownerId);
-            creature.Update(creatureModel);
-            await _dbContext.Creatures.AddAsync(creature);
-            await _dbContext.SaveChangesAsync();
-            var output = new CreatureModel(creature);
-            return output;
+            var result = creature.Update(creatureModel);
+            if (result.Validation == CreatureUpdateValidation.Ok)
+            {
+                await _dbContext.Creatures.AddAsync(creature);
+                await _dbContext.SaveChangesAsync();
+                result.Creature = new CreatureModel(creature);
+                return result;
+            }
+            return result;
+
         }
         public async Task<CreatureUpdateValidationResult> UpdateAsync(Guid creatureId, CreatureModel creatureModel)
         {
-            var creature = await _dbContext.Creatures.FindAsync(creatureId);
+            var creature = await GetFullCreature(creatureId);
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
@@ -82,6 +87,15 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 await _dbContext.SaveChangesAsync();
             }
             return result;
+        }
+
+        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId)
+        {
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            var creature = Creature.FromTemplate(creatureTemplate, campaignId);
+            var output = new CreatureModel(creature);
+            return output;
         }
 
         private async Task<Creature> GetFullCreature(Guid id)

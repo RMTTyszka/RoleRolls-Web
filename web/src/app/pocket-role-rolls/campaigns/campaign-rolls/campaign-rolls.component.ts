@@ -32,6 +32,9 @@ export class CampaignRollsComponent implements OnInit, OnDestroy {
     {
       header: 'Date', field: 'dateTime'
     },
+    {
+      header: 'Description', field: 'description'
+    },
 
 ];
   public loaded = false;

@@ -18,7 +18,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
             _creatureService = creatureService;
         }
 
-        [HttpGet("creatureId")]
+        [HttpGet("{creatureId}")]
         public async Task<ActionResult<CreatureModel>> GetAsync([FromRoute] Guid campaignId, [FromRoute] Guid creatureId)
         {
             var creature = await _creatureService.GetAsync(creatureId);
@@ -35,15 +35,27 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
             var creatures = await _creatureService.GetAllAsync(campaignId, input);
             return creatures;
         }     
+        [HttpGet("new")]
+        public async Task<ActionResult<CreatureModel>> NewAsync([FromRoute] Guid campaignId)
+        {
+            var creature = await _creatureService.InstantiateFromTemplate(campaignId);
+            return Ok(creature);
+        }  
         [HttpPost("")]
         public async Task<IActionResult> CreateAsync([FromRoute] Guid campaignId, [FromBody] CreatureModel creatureModel)
         {
-            var creature = await _creatureService.CreateAsync(campaignId, creatureModel);
-            Response.Headers.AccessControlAllowHeaders = "Location";
-            Response.Headers.AccessControlExposeHeaders = "Location";
-            return CreatedAtAction(nameof(GetAsync), new { campaignId = campaignId, creatureId = creature.Id }, null);
+            var result = await _creatureService.CreateAsync(campaignId, creatureModel);
+            if (result.Validation == CreatureUpdateValidation.Ok)
+            {
+                Response.Headers.AccessControlAllowHeaders = "Location";
+                Response.Headers.AccessControlExposeHeaders = "Location";
+                return CreatedAtAction(nameof(GetAsync), new { campaignId = campaignId, creatureId = result.Creature.Id }, null); 
+            }
+
+            return new UnprocessableEntityObjectResult(result);
+
         }      
-        [HttpPost("creatureId")]
+        [HttpPut("{creatureId}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] CreatureModel creatureModel)
         {
             var result = await _creatureService.UpdateAsync(creatureId, creatureModel);

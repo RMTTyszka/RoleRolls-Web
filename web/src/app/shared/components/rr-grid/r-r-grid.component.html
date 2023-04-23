@@ -17,21 +17,21 @@
     </div>
   </ng-template>
   <ng-template pTemplate="header">
-    <tr>
 <!--      <th *ngFor="let column of columns">
         <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
       </th>-->
-      <th *ngIf="actions.length > 0" style="width:5%"></th>
-    </tr>
     <tr>
+      <th *ngIf="actions.length > 0" style="width:5%"></th>
       <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
 
     <tr [pSelectableRow]="entity">
-      <td *ngFor="let action of actions">
-        <button pButton type="button" [icon]="action.icon" class="p-button-primary" (click)="action.callBack(entity)"></button>
+      <td *ngIf="actions.length > 0" style="width:5%">
+      <ng-container *ngFor="let action of actions">
+        <button *ngIf="action.condition(entity)" pButton type="button" [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity)" style="margin-right: 4px;"></button>
+      </ng-container>
       </td>
       <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
     </tr>
