@@ -1,4 +1,6 @@
-<form form [formGroup]="form" *ngIf="loaded">
+<div class="modal-container">
+  <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
+    
   <div class="p-inputgroup">
     <span class="p-inputgroup-addon">
       Name
@@ -81,12 +83,16 @@
       <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
         <div [formGroup]="life">
           <div class="p-inputgroup">
-             <input type="text" pInputText placeholder="Name" formControlName="name" required>
+             <input type="text" pInputText placeholder="Name" formControlName="name">
+          </div>
+          <div class="p-inputgroup">
+             <input type="text" pInputText placeholder="Value" formControlName="maxValue">
           </div>
         </div>
       </div>
     </div>
 </p-panel>
-</form>
-<button pButton label="Save" (click)=save() [disabled]=!canSave()></button>
+  </form>
+  <button style="display: flex; flex: initial" pButton label="Save" (click)=save() [disabled]=!canSave()></button>
+</div>
 <p-messages></p-messages>

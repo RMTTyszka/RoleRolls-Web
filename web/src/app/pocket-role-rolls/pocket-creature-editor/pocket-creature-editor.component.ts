@@ -86,7 +86,7 @@ export class PocketCreatureEditorComponent implements OnInit {
       skill.setValidators(validateSkillValue);
       (skill.get('minorSkills') as FormArray).controls.forEach(minorSkill => {
         minorSkill.get('name').disable();
-        minorSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
+        //minorSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
         this.subscriptionManager.add(minorSkill.get('name').value, minorSkill.get('points').valueChanges.subscribe(() => {
           this.setRemainingPoints(skill);
           skill.get('usedPoints').updateValueAndValidity();
@@ -94,6 +94,7 @@ export class PocketCreatureEditorComponent implements OnInit {
       });
     });
     this.buildSkills();
+    (this.form.get('lifes') as FormArray).disable();
     this.loaded = true;
   }
   public print() {

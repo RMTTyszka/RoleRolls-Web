@@ -14,9 +14,12 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Models
             creature.ProcessLifes();
             Id = creature.Id;
             OwnerId = creature.OwnerId;
-            Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute)).ToList();
-            Skills = creature.Skills.Select(skill => new SkillModel(skill)).ToList();
-            Lifes = creature.Lifes.Select(life => new LifeModel(life)).ToList();
+            Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute))
+                .OrderBy(a => a.Name).ToList();
+            Skills = creature.Skills.Select(skill => new SkillModel(skill))
+                .OrderBy(a => a.Name).ToList();
+            Lifes = creature.Lifes.Select(life => new LifeModel(life))
+                .OrderBy(a => a.Name).ToList();
             Name = creature.Name;
             Type = creature.Type;
         }

@@ -115,7 +115,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       data: {
         campaign: this.campaign,
         action: EditorAction.create
-      }
+      },
     });
   }
   public addHero(hero: PocketCreature){

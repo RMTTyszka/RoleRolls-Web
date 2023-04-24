@@ -48,12 +48,12 @@ builder.Services.AddMassTransit(configurador =>
             r.Interval(5, TimeSpan.FromSeconds(5));
         });
     });
-    configurador.AddEntityFrameworkOutbox<RoleRollsDbContext>(o =>
+    /*configurador.AddEntityFrameworkOutbox<RoleRollsDbContext>(o =>
     {
         o.UsePostgres();
         o.UseBusOutbox();
     });
-    configurador.AddTransactionalEnlistmentBus();
+    configurador.AddTransactionalEnlistmentBus();*/
 });
 
 var app = builder.Build();
