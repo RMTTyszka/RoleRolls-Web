@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
     public enum SkillProficience 
     {

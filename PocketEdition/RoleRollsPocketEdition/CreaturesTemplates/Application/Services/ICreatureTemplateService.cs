@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain;
 
-namespace RoleRollsPocketEdition.Creatures.Application.Services
+namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
 {
     public interface ICreatureTemplateService
     {

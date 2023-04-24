@@ -2,9 +2,11 @@ using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Configuration;
 using RoleRollsPocketEdition.Infrastructure;
-using System.Configuration;
-using System.Linq;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using RoleRollsPocketEdition.Campaigns.Application.Handlers;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 
@@ -35,6 +37,19 @@ builder.Services.AddEntityFrameworkNpgsql()
 builder.Services.AddServices();
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddMassTransit(configurador =>
+{
+    configurador.AddConsumer<CampaignUpdatedHandler>();
+    configurador.UsingInMemory((context, cfg) =>
+    {
+        cfg.ConfigureEndpoints(context);
+        cfg.UseMessageRetry(r =>
+        {
+            r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(5));
+        });
+        cfg.UseInMemoryOutbox();
+    });
+});
 
 var app = builder.Build();
 

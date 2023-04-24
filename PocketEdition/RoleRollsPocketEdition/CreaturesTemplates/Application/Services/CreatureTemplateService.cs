@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Creatures.Application.Services
+namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
 {
     public class CreatureTemplateService : ICreatureTemplateService
     {

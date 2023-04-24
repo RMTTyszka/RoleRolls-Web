@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
-using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain.Models;
 using RoleRollsPocketEdition.Infrastructure;
 

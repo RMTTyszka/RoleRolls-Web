@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
+﻿namespace RoleRollsPocketEdition.Rolls.Domain.Entities
 {
     public enum RollPropertyType
     {

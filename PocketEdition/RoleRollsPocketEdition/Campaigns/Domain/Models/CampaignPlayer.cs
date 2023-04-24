@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
+namespace RoleRollsPocketEdition.Campaigns.Domain.Models
 {
     public class CampaignPlayerModel
     {

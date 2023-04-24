@@ -1,6 +1,8 @@
 ﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.Global;
 
-namespace RoleRollsPocketEdition.Creatures.Domain
+namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
     public class Skill : Entity
     {

@@ -1,7 +1,8 @@
 ﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Creatures.Domain
+namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates
 {
     public class MinorSkillTemplate : Entity
     {

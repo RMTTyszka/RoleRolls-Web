@@ -3,14 +3,19 @@ using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Entities;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.Global;
+using RoleRollsPocketEdition.Rolls.Domain.Entities;
 using RoleRollsPocketEdition.Scenes.Domain.Entities;
+using Attribute = RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {
     public class RoleRollsDbContext : DbContext
     { 
         public DbSet<Creature> Creatures { get; set; }
-        public DbSet<Creatures.Domain.Attribute> Attributes { get; set; }
+        public DbSet<Attribute> Attributes { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<MinorSkill> MinorSkills { get; set; }
         public DbSet<Life> Lifes { get; set; }

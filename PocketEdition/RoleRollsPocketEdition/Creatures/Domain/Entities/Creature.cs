@@ -1,7 +1,9 @@
-﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain.Models;
+﻿using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.Global;
 
-namespace RoleRollsPocketEdition.Creatures.Domain
+namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
     public class Creature : Entity
     {

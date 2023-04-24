@@ -1,5 +1,7 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain.Models
 {

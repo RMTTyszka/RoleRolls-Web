@@ -1,9 +1,10 @@
 ﻿using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
-using RoleRollsPocketEdition.Campaigns.Domain.Services;
 using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Services;
+using RoleRollsPocketEdition.Rolls.Application;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 
 namespace RoleRollsPocketEdition.Configuration

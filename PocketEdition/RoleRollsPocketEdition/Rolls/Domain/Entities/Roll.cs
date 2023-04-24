@@ -1,10 +1,8 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using System.Text.Json;
+using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Rolls.Domain.Commands;
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
+namespace RoleRollsPocketEdition.Rolls.Domain.Entities
 {
     public class Roll : Entity
     {

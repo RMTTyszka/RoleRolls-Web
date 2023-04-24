@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using RoleRollsPocketEdition.Rolls.Domain.Entities;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
+namespace RoleRollsPocketEdition.Rolls.Domain.Models
 {
     public class RollModel
     {

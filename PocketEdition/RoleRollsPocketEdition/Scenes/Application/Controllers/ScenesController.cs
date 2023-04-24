@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain.Models;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 using RoleRollsPocketEdition.Scenes.Domain.Models;

@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain.Models
+﻿using RoleRollsPocketEdition.Creatures.Domain.Entities;
+
+namespace RoleRollsPocketEdition.Creatures.Domain.Models
 {
     public class CreatureModel
     {

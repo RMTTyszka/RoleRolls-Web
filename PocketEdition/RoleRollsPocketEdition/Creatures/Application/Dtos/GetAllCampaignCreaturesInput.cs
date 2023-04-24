@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Dtos
 {

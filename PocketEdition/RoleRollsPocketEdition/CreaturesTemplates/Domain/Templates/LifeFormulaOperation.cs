@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.Global;
+
+namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates
 {
     public class LifeFormulaOperation : Entity
     {

@@ -1,10 +1,9 @@
 ﻿using RoleRollsPocketEdition.Campaigns.Application.Dtos;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 using RoleRollsPocketEdition.Global.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Services
+namespace RoleRollsPocketEdition.Campaigns.Application.Services
 {
     public interface ICampaignsService
     {

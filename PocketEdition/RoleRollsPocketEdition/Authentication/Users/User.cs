@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using RoleRollsPocketEdition.Creatures.Domain;
 using System.Security.Cryptography;
+using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.Authentication.Users
 {

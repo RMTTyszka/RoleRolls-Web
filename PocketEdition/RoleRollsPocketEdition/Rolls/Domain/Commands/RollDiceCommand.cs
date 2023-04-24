@@ -1,5 +1,4 @@
-﻿using RoleRollsPocketEdition.Campaigns.Application.Services;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain;
 
 namespace RoleRollsPocketEdition.Rolls.Domain.Commands

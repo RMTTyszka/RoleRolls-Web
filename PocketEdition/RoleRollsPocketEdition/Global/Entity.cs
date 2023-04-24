@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿namespace RoleRollsPocketEdition.Global
 {
     public abstract class Entity
     {

@@ -1,7 +1,9 @@
-﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+﻿using RoleRollsPocketEdition.Creatures.Domain.Entities;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Creatures.Domain
+namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates
 {
     public class CreatureTemplate : Entity
     {

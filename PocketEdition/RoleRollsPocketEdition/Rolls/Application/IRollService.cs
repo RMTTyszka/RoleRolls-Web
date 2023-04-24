@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Global.Dtos;
+﻿using RoleRollsPocketEdition.Global.Dtos;
+using RoleRollsPocketEdition.Rolls.Domain.Models;
 
-namespace RoleRollsPocketEdition.Campaigns.Application.Services
+namespace RoleRollsPocketEdition.Rolls.Application
 {
     public interface IRollService
     {

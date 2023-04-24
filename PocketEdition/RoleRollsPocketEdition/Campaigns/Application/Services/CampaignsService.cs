@@ -1,23 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Application.Dtos;
+using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Campaigns.Domain.Events;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
-using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Services
+namespace RoleRollsPocketEdition.Campaigns.Application.Services
 {
     public class CampaignsService : ICampaignsService
     {
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
+        private readonly IBus _bus;
 
-        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository)
+        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository, IBus bus)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignRepository;
+            _bus = bus;
         }
 
 
@@ -103,6 +108,12 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             await creatureTemplate.AddAttributeAsync(attribute, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new AttributeAdded
+            {
+                Attribute = attribute,
+                CampaignId = campaignId,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }         
         public async Task RemoveAttribute(Guid campaignId, Guid attributeId) 
         {
@@ -113,6 +124,12 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             creatureTemplate.RemoveAttribute(attributeId, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new AttributeRemoved
+            {
+                AttributeId = attributeId,
+                CampaignId = campaignId,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }
 
         public async Task UpdateAttribute(Guid id, Guid attributeId, AttributeTemplateModel attribute)
@@ -122,6 +139,12 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Services
             creatureTemplate.UpdateAttribute(attributeId, attribute, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new AttributeUpdated
+            {
+                Attribute = attribute,
+                CampaignId = id,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }
 
         public async Task AddSkill(Guid id, Guid attributeId, SkillTemplateModel skill)

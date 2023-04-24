@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Application.Dtos;
+using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Campaigns.Domain.Services;
+using RoleRollsPocketEdition.Campaigns.Domain.Models;
 
 namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
 {

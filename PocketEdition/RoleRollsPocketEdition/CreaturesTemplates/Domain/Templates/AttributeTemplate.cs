@@ -1,6 +1,7 @@
 ﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.Global;
 
-namespace RoleRollsPocketEdition.Creatures.Domain
+namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates
 {
     public class AttributeTemplate : Entity
     {

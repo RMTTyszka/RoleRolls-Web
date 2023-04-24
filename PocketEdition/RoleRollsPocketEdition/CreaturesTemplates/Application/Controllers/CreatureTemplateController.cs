@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoleRollsPocketEdition.Authentication;
-using RoleRollsPocketEdition.Creatures.Application.Services;
-using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Application.Services;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain;
 
-namespace RoleRollsPocketEdition.Creatures.Controllers
+namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Controllers
 {
     [ApiController]
     [Route("creature-templates")]

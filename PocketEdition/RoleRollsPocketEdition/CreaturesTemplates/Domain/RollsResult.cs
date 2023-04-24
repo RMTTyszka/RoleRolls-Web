@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿namespace RoleRollsPocketEdition.CreaturesTemplates.Domain
 {
     public class RollsResult
     {

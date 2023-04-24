@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain;
+using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Domain.Commands;
+using RoleRollsPocketEdition.Rolls.Domain.Entities;
+using RoleRollsPocketEdition.Rolls.Domain.Models;
 
-namespace RoleRollsPocketEdition.Campaigns.Application.Services
+namespace RoleRollsPocketEdition.Rolls.Application
 {
     public class RollService : IRollService
     {

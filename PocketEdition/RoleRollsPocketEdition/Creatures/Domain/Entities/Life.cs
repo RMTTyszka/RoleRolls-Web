@@ -1,4 +1,7 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain
+﻿using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.Global;
+
+namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
     public class Life : Entity
     {

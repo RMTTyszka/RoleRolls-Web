@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Domain.Models
+﻿using Attribute = RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute;
+
+namespace RoleRollsPocketEdition.Creatures.Domain.Models
 {
     public class AttributeModel
     {
