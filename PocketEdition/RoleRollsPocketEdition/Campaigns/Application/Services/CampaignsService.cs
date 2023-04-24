@@ -240,35 +240,53 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             });
         }
 
-        public async Task AddLife(Guid id, LifeTemplateModel life)
+        public async Task AddLife(Guid campaignId, LifeTemplateModel life)
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CreatureTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             await creatureTemplate.AddLifeAsync(life, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new LifeAdded
+            {
+                Life = life,
+                CampaignId = campaignId,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }
 
-        public async Task RemoveLife(Guid id, Guid lifeId)
+        public async Task RemoveLife(Guid campaignId, Guid lifeId)
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CreatureTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             creatureTemplate.RemoveLife(lifeId, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new LifeRemoved
+            {
+                LifeId = lifeId,
+                CampaignId = campaignId,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }
 
-        public async Task UpdateLife(Guid id, Guid lifeId, LifeTemplateModel life)
+        public async Task UpdateLife(Guid campaignId, Guid lifeId, LifeTemplateModel life)
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(id);
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateLife(lifeId, life, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(new LifeUpdated
+            {
+                Life = life,
+                CampaignId = campaignId,
+                CreatureTemplateId = creatureTemplate.Id
+            });
         }
 
         public async Task<List<CampaignPlayerModel>> GetPlayersAsync(Guid campaignId)

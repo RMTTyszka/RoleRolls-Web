@@ -11,6 +11,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Models
 
         public CreatureModel(Creature creature)
         {
+            creature.ProcessLifes();
             Id = creature.Id;
             OwnerId = creature.OwnerId;
             Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute)).ToList();

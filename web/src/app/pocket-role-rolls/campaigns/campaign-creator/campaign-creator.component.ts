@@ -130,14 +130,14 @@ export class CampaignCreatorComponent implements OnInit {
   public addMinorSkill(skillForm: FormGroup) {
     const minorSkill = this.minorSkillForm.value as MinorSkillsTemplateModel;
     const skill = skillForm.value as SkillTemplateModel;
-    minorSkill.skillId = skill.id;
+    minorSkill.skillTemplateId = skill.id;
     this.service.addMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill)
     .subscribe(() => {
       const newFormGroup = new FormGroup({});
       createForm(newFormGroup, minorSkill);
       this.minorSkillForm.reset();
       this.minorSkillForm.get('id').setValue(uuidv4());
-      this.minorsSkillBySkill.get(minorSkill.skillId).controls.push(newFormGroup);
+      this.minorsSkillBySkill.get(minorSkill.skillTemplateId).controls.push(newFormGroup);
     });
   }
     public updateMinorSkill(skillControl: FormControl, minorSkillControl: FormControl) {

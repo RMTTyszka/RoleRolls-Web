@@ -30,7 +30,7 @@ export class SkillTemplateModel extends Entity {
 }
 
 export class MinorSkillsTemplateModel extends Entity {
-  public skillId: string;
+  public skillTemplateId: string;
 }
 
 export class LifeTemplateModel extends Entity {

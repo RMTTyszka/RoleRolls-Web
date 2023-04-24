@@ -106,6 +106,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == id);
+            creature.ProcessLifes();
             return creature;
         }
         private async Task<List<Creature>> GetFullCreatures(List<Guid> ids)

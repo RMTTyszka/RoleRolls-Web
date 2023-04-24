@@ -16,7 +16,10 @@ public class CampaignUpdatedHandler :
     IConsumer<SkillRemoved>,  
 IConsumer<MinorSkillAdded>,
     IConsumer<MinorSkillUpdated>,
-    IConsumer<MinorSkillRemoved>
+    IConsumer<MinorSkillRemoved>,
+    IConsumer<LifeAdded>,
+    IConsumer<LifeUpdated>,
+    IConsumer<LifeRemoved>
 {
     private readonly RoleRollsDbContext _dbContext;
 
@@ -213,6 +216,64 @@ IConsumer<MinorSkillAdded>,
             var minorSkill =
                 creature.Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.MinorSkillTemplateId == context.Message.MinorSkillId);
             _dbContext.MinorSkills.Remove(minorSkill);
+        }
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task Consume(ConsumeContext<LifeAdded> context)
+    {
+        var template = await
+            _dbContext.CreatureTemplates
+                .Include(template => template.Attributes)
+                .Include(template => template.Lifes)
+                .Include(template => template.Skills)
+                .ThenInclude(skill => skill.MinorSkills)
+                .FirstAsync(template => template.Id == context.Message.CreatureTemplateId);
+        var creatures = await _dbContext.Creatures
+            .Include(creature => creature.Attributes)
+            .Include(creature => creature.Skills)
+            .ThenInclude(skill => skill.MinorSkills)
+            .Where(creature => creature.CampaignId == context.Message.CampaignId)
+            .ToListAsync();
+        var life = template.Lifes.First(life => life.Id == context.Message.Life.Id);
+        foreach (var creature in creatures)
+        {
+            var newLife = new Life(life);
+            creature.Lifes.Add(newLife);
+            await _dbContext.Lifes.AddAsync(newLife);
+        }
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task Consume(ConsumeContext<LifeUpdated> context)
+    {
+        var creatures = await _dbContext.Creatures
+            .Include(creature => creature.Lifes)
+            .Where(creature => creature.CampaignId == context.Message.CampaignId)
+            .ToListAsync();
+        foreach (var creature in creatures)
+        {
+            var lifeToUpdated =
+                creature.Lifes.First(attribute => attribute.LifeTemplateId == context.Message.Life.Id);
+            lifeToUpdated.Name = context.Message.Life.Name;
+            lifeToUpdated.Formula = context.Message.Life.Formula;
+            _dbContext.Lifes.Update(lifeToUpdated);
+        }
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task Consume(ConsumeContext<LifeRemoved> context)
+    {
+        var creatures = await _dbContext.Creatures
+            .Include(creature => creature.Lifes)
+            .Where(creature => creature.CampaignId == context.Message.CampaignId)
+            .ToListAsync();
+        foreach (var creature in creatures)
+        {
+            var life =
+                creature.Lifes.First(life => life.LifeTemplateId == context.Message.LifeId);
+            creature.Lifes.Remove(life);
+            _dbContext.Lifes.Remove(life);
         }
         await _dbContext.SaveChangesAsync();
     }

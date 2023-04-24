@@ -142,6 +142,14 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
             result.Rolls = rolls;
             return result;
         }
+
+        public void ProcessLifes()
+        {
+            foreach (var life in Lifes)
+            {
+                life.CalculateMaxValue(this);
+            }
+        }
     }
    
 }
