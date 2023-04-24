@@ -58,15 +58,18 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
    }
 
    public editHero(hero: PocketHero) {
-    this.dialogService.open(PocketCreatureEditorComponent, {
-      width: '100vw',
-      height: '100vh',
-      data: {
-        campaign: this.campaign,
-        action: EditorAction.update,
-        creatureId: hero.id
-      }
-    });
+     if (this.isOwner(hero) || this.isMaster) {
+      this.dialogService.open(PocketCreatureEditorComponent, {
+        width: '100vw',
+        height: '100vh',
+        data: {
+          campaign: this.campaign,
+          action: EditorAction.update,
+          creatureId: hero.id
+        }
+      });
+     }
+
    }
    public removeHero(hero: PocketHero) {
     this.campaignService.removeCreatureFromScene(this.campaign.id, this.scene.id, hero.id).subscribe(() => {

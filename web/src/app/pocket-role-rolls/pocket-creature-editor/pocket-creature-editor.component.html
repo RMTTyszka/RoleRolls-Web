@@ -7,7 +7,7 @@
     </span>
     <input pInputText formControlName="name">
   </div>
-  <p-panel [toggleable]="true">
+  <p-panel [toggleable]="true" [collapsed]=false>
     <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
         <span class="p-panel-title p-col-6">Attributes</span>
     </p-header>
@@ -31,7 +31,7 @@
   </p-header>
     <div formArrayName="attributes">
       <div *ngFor="let attribute of attributes.controls; let i=index">
-        <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+        <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" [collapsed]=true toggler="header">
           <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
             <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
           </p-header>

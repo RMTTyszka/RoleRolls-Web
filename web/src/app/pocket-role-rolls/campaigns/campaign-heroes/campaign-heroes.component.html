@@ -2,9 +2,9 @@
   <div *ngFor="let hero of heroes">
     <div class="p-inputgroup">
       <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeHero(hero)"></button>
-      <span class="p-inputgroup-addon" (click)='editHero(hero)'>
+      <button pButton class="p-inputgroup-addon p-button-secondary" (click)='editHero(hero)'>
         {{hero.name}}
-      </span>
+      </button>
       <ng-container *ngFor="let life of hero.lifes">
         <span *ngIf="isMaster || isOwner(hero)" class="p-inputgroup-addon">
           {{life.name}} | {{life.value}}

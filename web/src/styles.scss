@@ -137,6 +137,9 @@
 .clickable {
   cursor: pointer;
 }
+.clickable-input {
+  border: 2px solid $primaryColor;
+}
 .overflow-scroll {
   overflow: scroll;
 }
