@@ -25,7 +25,7 @@
 </p-overlayPanel>
 
 <p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false">
-  <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
+  <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-sidebar>
 
 <p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">

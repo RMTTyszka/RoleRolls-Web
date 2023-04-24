@@ -61,6 +61,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                             MinorSkillName = (minorSkillTemplate != null ? minorSkillTemplate.Name : null),
                             DateTime = roll.DateTime,
                             Description = roll.Description,
+                            RollBonus = roll.RollBonus
                         };
 
    
@@ -93,6 +94,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 Success = roll.Success,
                 DateTime = roll.DateTime,
                 Description = roll.Description,
+                RollBonus = roll.RollBonus
             }).ToList();
 
             return new PagedResult<RollModel>()

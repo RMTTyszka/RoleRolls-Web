@@ -28,6 +28,7 @@ export class CampaignCreatorComponent implements OnInit {
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
   public selectedSkillMinorSkills: FormGroup[] = [];
+  public disabled: boolean;
 
   public get attributes(): FormArray {
     return this.form?.get('creatureTemplate.attributes') as FormArray;
@@ -51,6 +52,7 @@ export class CampaignCreatorComponent implements OnInit {
     public ref: DynamicDialogRef,
     public formBuilder: FormBuilder,
     public config: DynamicDialogConfig,
+    public authService: AuthenticationService,
   ) {
     this.action = config.data.action;
     this.entityId = config.data.entityId;
@@ -198,6 +200,14 @@ export class CampaignCreatorComponent implements OnInit {
     this.minorSkillForm.get('id').setValue(uuidv4());
     this.lifeForm.get('id').setValue(uuidv4());
     this.buildSkills();
+    this.disabled = !this.authService.isMaster(this.entity.masterId);
+    if (this.disabled) {
+      this.form.disable();
+      this.attributeForm.disable();
+      this.skillForm.disable();
+      this.minorSkillForm.disable();
+      this.lifeForm.disable();
+    }
   }
 
   deleted() {

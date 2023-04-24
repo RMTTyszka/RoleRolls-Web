@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
@@ -16,6 +16,7 @@ import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { PocketCreatureEditorComponent } from 'src/app/pocket-role-rolls/pocket-creature-editor/pocket-creature-editor.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TakeDamangeInput } from '../models/TakeDamangeInput';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
   selector: 'rr-campaign-heroes',
@@ -25,7 +26,6 @@ import { TakeDamangeInput } from '../models/TakeDamangeInput';
 })
 export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public heroes: PocketHero[] = [];
-
   public get isMaster() {
     return this.campaign.masterId === this.authService.userId;
   }
@@ -33,6 +33,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public displayRollSidebar = false;
   public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
+  public rollResultEmitter = new Subject<boolean>();
   public takeDamageInputEmitter = new Subject<TakeDamangeInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
@@ -51,6 +52,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     this.subscribeToCampaignLoaded();
     this.subscribeToSceneChanges();
     this.subscribeToHeroAdded();
+    this.subscribeToRollResult();
    }
 
    public isOwner(hero: PocketHero) {
@@ -97,6 +99,12 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   private subscribeToHeroAdded() {
     this.subscriptionManager.add('heroAddedToScene', this.detailsService.heroAddedToScene.subscribe(() => {
         this.refreshHeroes();
+    }));
+  }
+
+  private subscribeToRollResult() {
+    this.subscriptionManager.add('rollResultEmitter', this.rollResultEmitter.subscribe(() => {
+        this.displayRollSidebar = false;
     }));
   }
   private refreshHeroes() {

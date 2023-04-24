@@ -122,6 +122,7 @@ export interface RRColumns {
 export class RRAction<T> {
   icon: string;
   csClass: string | null | undefined;
+  toolType: string | null | undefined;
   callBack: (rowData: T) => void;
   condition: (rowData: T) => boolean;
 }

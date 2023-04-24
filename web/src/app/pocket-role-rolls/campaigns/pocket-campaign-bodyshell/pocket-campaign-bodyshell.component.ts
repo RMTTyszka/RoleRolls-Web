@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
@@ -26,6 +26,7 @@ import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-crea
 export class PocketCampaignBodyshellComponent implements OnInit {
 
   public campaignId: string;
+  public loadMe = false;
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   public campaignPlayers: CampaignPlayer[] = [];
 
@@ -58,7 +59,13 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       this.scenes = result.scenes;
       this.campaignPlayers = result.players;
       if (this.scenes.length > 0) {
-        this.selectScene(this.scenes[0]);
+        const currentScene = this.detailsService.currentScene;
+        if (currentScene) {
+          const currentSceneIndex = this.scenes.findIndex(s => s.id == currentScene.id);
+          this.selectScene(this.scenes[currentSceneIndex]);
+        } else {
+          this.selectScene(this.scenes[0]);
+        }
       }
       this.isMaster = this.authenticationService.userId === this.campaign.masterId;
       this.notInvited = !this.campaignPlayers.some(c => c.playerId === this.authenticationService.userId);
@@ -68,6 +75,9 @@ export class PocketCampaignBodyshellComponent implements OnInit {
         icon: 'fist-raised'
       } as MenuItem,
     ];
+    setTimeout(() => {
+      this.loadMe = true;
+    }, 500)
    }
 
   ngOnInit(): void {

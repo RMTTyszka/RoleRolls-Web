@@ -47,6 +47,9 @@ export class AuthenticationService {
   public getToken() {
     return localStorage.getItem(LohAuthTokenName);
   }
+  public isMaster(masterId: string): boolean {
+    return this.userId === masterId;
+  }
 
   public publishNewUserName(userName: string, userId: string) {
     localStorage.setItem(LohAuthUserName, userName);

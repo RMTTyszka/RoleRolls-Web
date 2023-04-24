@@ -17,6 +17,7 @@ import { PocketRoll } from '../../models/pocket-roll.model';
 export class RollDiceComponent implements OnInit {
 
   @Input() public rollInputEmitter: Subject<RollInput>;
+  @Input() public rollResultEmitter: Subject<boolean>;
   @Input() public campaign: PocketCampaignModel;
   @Input() public scene: CampaignScene;
   public rollInput: RollInput;
@@ -46,6 +47,7 @@ export class RollDiceComponent implements OnInit {
     this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
     .subscribe((roll: PocketRoll) => {
       this.rollResult = roll;
+      this.rollResultEmitter.next(true);
     });
   }
   public cleanRolls() {

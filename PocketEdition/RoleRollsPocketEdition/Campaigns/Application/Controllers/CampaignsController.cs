@@ -153,12 +153,16 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         public async Task<IActionResult> RollDice([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] RollInput input)
         {
             var result = await _rollService.RollAsync(campaignId, sceneId, input);
+            Response.Headers.AccessControlAllowHeaders = "Location";
+            Response.Headers.AccessControlExposeHeaders = "Location";
             return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id, sceneId = sceneId }, result);
         }    
         [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/rolls")]
         public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
         {
             var result = await _rollService.RollAsync(campaignId, sceneId, creatureId, input);
+            Response.Headers.AccessControlAllowHeaders = "Location";
+            Response.Headers.AccessControlExposeHeaders = "Location";
             return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, rollId = result.Id , sceneId  = sceneId }, result);
         }
 

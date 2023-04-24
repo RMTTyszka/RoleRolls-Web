@@ -13,7 +13,7 @@
                           <p-fieldset class="p-col-6">
                             <input type="text" pInputText placeholder="Attribute Name" formControlName="name" required>
                           </p-fieldset>
-                          <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addAttribute()"></button>
+                          <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addAttribute()" [disabled]=disabled></button>
                         </div>
                     </p-header>
                   <div formGroupName="creatureTemplate">
@@ -22,7 +22,7 @@
                         <div [formGroup]="attribute">
                           <div class="p-inputgroup">
                              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateAttribute(attribute)">
-                             <button class="p-inputgroup-addon" (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                             <button  [disabled]=disabled class="p-inputgroup-addon" (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                           </div>
                         </div>
                       </div>
@@ -43,7 +43,7 @@
                                   <p-fieldset class="p-col-6">
                                     <div class="p-inputgroup">
                                       <input type="text" pInputText placeholder="Add skill" formControlName="name" required>
-                                      <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
+                                      <button [disabled]=disabled class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
                                       </div>
                                   </p-fieldset>
                               </div>
@@ -56,12 +56,12 @@
                                     <ng-template pTemplate="header">
                                       <div class="p-inputgroup">
                                         <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
-                                        <button class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                        <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                                       </div>
                                       <div form class="p-col-6" [formGroup]="minorSkillForm">
                                         <div class="p-inputgroup">
                                           <input type="text" pInputText placeholder="add minor skill" formControlName="name" required>
-                                          <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                                          <button [disabled]=disabled class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
                                         </div>
                                       </div>
                                     </ng-template>
@@ -71,7 +71,7 @@
                                           <div [formGroup]="minorSkill">
                                             <div class="p-inputgroup">
                                               <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
-                                              <button class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                              <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                                             </div>
                                           </div>
                                         </div>
@@ -96,7 +96,7 @@
                       <p-fieldset class="p-col-6">
                         <input type="text" pInputText placeholder="Add Life" formControlName="name" required>
                       </p-fieldset>
-                      <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addLife()"></button>
+                      <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addLife()"></button>
                     </div>
                 </p-header>
                 <div formGroupName="creatureTemplate">
@@ -105,11 +105,11 @@
                         <div [formGroup]="life">
                           <div class="p-inputgroup">
                              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateLife(life)">
-                             <button class="p-inputgroup-addon" (click)="removeLife(life, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                             <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeLife(life, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                           </div>
                           <div class="p-inputgroup">
                             <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateLife(life)">
-                            <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="5 + 4 * level + (level + 2) * Vitality" fitContent="true"></button>
+                            <button [disabled]=disabled class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="5 + 4 * level + (level + 2) * Vitality" fitContent="true"></button>
                           </div>
                         </div>
                       </div>
