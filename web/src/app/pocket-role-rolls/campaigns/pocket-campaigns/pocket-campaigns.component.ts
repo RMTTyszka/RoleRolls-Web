@@ -33,7 +33,7 @@ export class PocketCampaignsComponent implements OnInit {
             return true;
           }),
           csClass: null,
-          toolType: 'Start Session'
+          tooltip: 'Start Session'
         },
         {
           icon: 'pi pi-times-circle',
@@ -44,7 +44,7 @@ export class PocketCampaignsComponent implements OnInit {
             return this.isMaster(entity.masterId);
           }),
           csClass: 'p-button-danger',
-          toolType: 'Remove'
+          tooltip: 'Remove'
         },
       )
     };

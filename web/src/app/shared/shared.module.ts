@@ -68,6 +68,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
         DialogModule,
         InputNumberModule,
         PanelModule,
+        TooltipModule
     ],
     declarations: [
         PropertyPickerComponent,

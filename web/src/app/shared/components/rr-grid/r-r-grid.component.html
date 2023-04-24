@@ -30,7 +30,7 @@
     <tr [pSelectableRow]="entity">
       <td *ngIf="actions.length > 0" style="width:5%">
       <ng-container *ngFor="let action of actions">
-        <button *ngIf="action.condition(entity)" pButton type="button" [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity)" style="margin-right: 4px;"></button>
+        <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity)" style="margin-right: 4px;"></button>
       </ng-container>
       </td>
       <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
