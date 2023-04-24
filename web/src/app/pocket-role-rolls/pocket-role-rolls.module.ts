@@ -8,11 +8,14 @@ import { PocketHomeComponent } from './pocket-home/pocket-home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login/login.component';
 import { PocketCreatureEditorComponent } from './pocket-creature-editor/pocket-creature-editor.component';
+import { CanActivateAuthGuard } from 'src/app/pocket-role-rolls/pocket-login/auth-guard';
+import { AuthGuardGuard } from './auth-guard.guard';
 
 const routes: Routes = [
-  {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule)},
+  {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule),
+    canActivateChild: [CanActivateAuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: 'pocket/campaigns'},
   {path: '**', redirectTo: ''},
 
 ];
@@ -28,7 +31,7 @@ const routes: Routes = [
     LoginModule
   ],
   providers: [
-    { provide: LoginService, useClass: PocketLoginService}
+    { provide: LoginService, useClass: PocketLoginService }
   ]
 })
 export class PocketRoleRollsModule { }

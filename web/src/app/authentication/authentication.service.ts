@@ -19,7 +19,7 @@ export class AuthenticationService {
   lastRoute: string;
   public loggedOn: LoggedApp;
   get isLogged() {
-    return this.token && this.userName;
+    return Boolean(this.token && this.userName);
   }
   constructor(
     private router: Router, private messageService: MessageService, private activatedRoute: ActivatedRoute

@@ -45,10 +45,15 @@ builder.Services.AddMassTransit(configurador =>
         cfg.ConfigureEndpoints(context);
         cfg.UseMessageRetry(r =>
         {
-            r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(5));
+            r.Interval(5, TimeSpan.FromSeconds(5));
         });
-        cfg.UseInMemoryOutbox();
     });
+    configurador.AddEntityFrameworkOutbox<RoleRollsDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+    configurador.AddTransactionalEnlistmentBus();
 });
 
 var app = builder.Build();

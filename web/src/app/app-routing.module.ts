@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)},
   {path: 'campaigns', loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule)},
   {path: 'campaign-session', loadChildren: () => import('./campaign-session/campaign-session.module').then(m => m.CampaignSessionModule)},
-  {path: '**', redirectTo: 'home'}
+  {path: '**', redirectTo: 'pocket'}
 ];
 
 @NgModule({

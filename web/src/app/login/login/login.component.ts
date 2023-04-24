@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../authentication/authentication.service
 import {LohAuthTokenName} from '../../authentication/AuthTokens';
 import {Router} from '@angular/router';
 import { LoggedApp } from 'src/app/shared/models/login/LoggedApp';
+import { HttpErrorResponse } from '../../../../node_modules/@angular/common/http/http';
 
 @Component({
   selector: 'rr-login',
@@ -52,6 +53,13 @@ export class LoginComponent implements OnInit {
           summary: 'Logged in',
           severity: 'success'});
         this.router.navigateByUrl(this.authService.lastRoute);
+      }, (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.messageService.add(<Message>{
+            summary: 'Error on user creation',
+            detail: 'Invalid Email or Password',
+            severity: 'error'});
+        }
       });
   }
   add() {
