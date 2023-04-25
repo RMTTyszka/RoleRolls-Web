@@ -20,7 +20,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Models
             Id = life.Id;
             LifeTemplateId = life.LifeTemplateId;
             MaxValue = life.MaxValue;
-            Value = life.MaxValue;
+            Value = life.Value;
             Name = life.Name;
         }
     }

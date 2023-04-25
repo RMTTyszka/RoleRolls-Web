@@ -17,6 +17,7 @@ import { PocketCreatureSelectComponent } from './pocket-creature-select/pocket-c
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { SidebarModule } from 'primeng/sidebar';
+import { DividerModule } from 'primeng/divider';
 import { RollDiceComponent } from './campaign-rolls/roll-dice/roll-dice.component';
 import { MessagesModule } from 'primeng/messages';
 import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-damage.component';
@@ -52,7 +53,8 @@ const routes: Routes = [
     TieredMenuModule,
     SidebarModule,
     MessagesModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DividerModule
   ]
 })
 export class CampaignsModule { }

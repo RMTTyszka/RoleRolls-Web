@@ -6,14 +6,14 @@
         {{hero.name}}
       </button>
       <ng-container *ngFor="let life of hero.lifes">
-        <span *ngIf="isMaster || isOwner(hero)" class="p-inputgroup-addon">
+        <span *ngIf="isMaster || isOwner(hero) || true" class="p-inputgroup-addon">
           {{life.name}} | {{life.value}}
       </span>
     </ng-container>
-    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon"
+    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon" pTooltip="Roll dice"
      (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
-    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-tint" class="p-inputgroup-addon"
-     (click)="takeDamage(hero); damagePanel.toggle($event)"></button>
+    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-tint" class="p-inputgroup-addon" pTooltip="Damage/Heal"
+     (click)="takeDamage(hero)"></button>
     </div>
   </div>
 </p-panel>

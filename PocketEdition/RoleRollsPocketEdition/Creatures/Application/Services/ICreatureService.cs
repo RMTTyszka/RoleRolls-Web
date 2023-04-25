@@ -11,5 +11,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         Task<CreatureModel> GetAsync(Guid id);
         Task<CreatureUpdateValidationResult> UpdateAsync(Guid creatureId, CreatureModel creatureModel);
         Task<CreatureModel> InstantiateFromTemplate(Guid campaignId);
+        Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
+        Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
     }
 }

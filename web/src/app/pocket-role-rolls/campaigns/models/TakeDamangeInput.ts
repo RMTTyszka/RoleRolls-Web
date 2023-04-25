@@ -1,5 +1,5 @@
-import { RollOrigin } from '../campaign-heroes/RollOrigin';
+import { PocketCreature } from '../../../shared/models/pocket/creatures/pocket-creature';
 
-export class TakeDamangeInput {
-
+export class TakeDamageInput {
+    public creature: PocketCreature;
 }

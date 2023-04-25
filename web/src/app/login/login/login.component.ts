@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.form = this.fb.group({
+/*       password: [''],
+      email: [''] */
       password: ['123qwe'],
       email: ['admin@rolerolls.com']
     });
@@ -35,6 +37,8 @@ export class LoginComponent implements OnInit {
       firstName: [],
       lastName: [],
       userName: [],
+/*       password: [''],
+      email: [''] */
       password: ['123qwe'],
       email: ['admin@rolerolls.com']
     });
@@ -65,12 +69,13 @@ export class LoginComponent implements OnInit {
   add() {
     this.service.addUser(this.formCreated.getRawValue())
       .subscribe(output => {
-        if (!output.success) {
+        if (output && !output.success) {
           this.messageService.add(<Message>{
             summary: 'Error on user creation',
             detail: output.invalidPassword ? 'Invalid Password' : 'Username or Email alredy registered by another user',
             severity: 'error'});
         } else {
+          debugger
           this.messageService.add(<Message>{
             summary: 'User successfully created',
             severity: 'success'});

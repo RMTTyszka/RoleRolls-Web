@@ -69,6 +69,10 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
+                foreach (var life in creature.Lifes)
+                {
+                    life.Value = life.MaxValue;
+                }
                 await _dbContext.Creatures.AddAsync(creature);
                 await _dbContext.SaveChangesAsync();
                 result.Creature = new CreatureModel(creature);
@@ -96,6 +100,22 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var creature = Creature.FromTemplate(creatureTemplate, campaignId);
             var output = new CreatureModel(creature);
             return output;
+        }
+        public async Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input)
+        {
+            // TODO history
+            var creature = await GetFullCreature(creatureId);
+            creature.TakeDamage(input.LifeId, input.Value);
+            _dbContext.Creatures.Update(creature);
+            await _dbContext.SaveChangesAsync();
+        }      
+        public async Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input)
+        {
+            // TODO history
+            var creature = await GetFullCreature(creatureId);
+            creature.Heal(input.LifeId, input.Value);
+            _dbContext.Creatures.Update(creature);
+            await _dbContext.SaveChangesAsync();
         }
 
         private async Task<Creature> GetFullCreature(Guid id)

@@ -150,6 +150,19 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
                 life.CalculateMaxValue(this);
             }
         }
+
+        public void TakeDamage(Guid lifeId, int value)
+        {
+            var life = Lifes.First(life => life.Id == lifeId);
+            life.Value -= value;
+        }
+
+        public void Heal(Guid lifeId, int value)
+        {
+            var life = Lifes.First(life => life.Id == lifeId);
+            life.Value += value;
+            life.Value = Math.Min(life.Value, life.MaxValue);
+        }
     }
    
 }

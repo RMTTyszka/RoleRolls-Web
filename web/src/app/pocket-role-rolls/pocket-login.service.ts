@@ -35,6 +35,6 @@ export class PocketLoginService {
       })));
   }
   addUser(input: CreateUserInput): Observable<never> {
-    return this.httpClient.post<never>(this.serverUrl + 'users', input);
+    return this.httpClient.post<never>(this.serverUrl + 'users', input, { headers: new HttpHeaders({ timeout: `${30000000}` }) });
   }
 }

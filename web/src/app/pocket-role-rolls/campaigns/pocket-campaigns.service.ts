@@ -18,6 +18,7 @@ import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-cr
 import { v4 as uuidv4 } from 'uuid';
 import { PocketRoll } from './models/pocket-roll.model';
 import { RollInput } from './models/RollInput';
+import { TakeDamageApiInput } from 'src/app/pocket-role-rolls/campaigns/models/TakeDamageApiInput';
 
 @Injectable({
   providedIn: 'root'
@@ -126,6 +127,12 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   }
   public updateCreature(campaignId: string, creature: PocketCreature) {
     return this.http.put<never>(`${this.completePath}/${campaignId}/creatures/${creature.id}`, creature);
+  }
+  public takeDamage(campaignId: string, sceneId: string, creatureId: string, input: TakeDamageApiInput) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/damage`, input);
+  }
+  public heal(campaignId: string, sceneId: string, creatureId: string, input: TakeDamageApiInput) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/heal`, input);
   }
   public getScenes(campaignId: string): Observable<CampaignScene[]> {
     return this.http.get<CampaignScene[]>(`${this.completePath}/${campaignId}/scenes`);

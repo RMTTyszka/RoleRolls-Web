@@ -126,7 +126,7 @@ $dangerColor: #ef6351;
 $borderColor: #c8c8c8;
 
 .success-color {
-  background-color: $successColor;
+  background-color: $successColor !important;
 }
 .success-label-color {
   color: $successColor;
@@ -138,7 +138,7 @@ $borderColor: #c8c8c8;
   color: $infoColor;
 }
 .danger-color {
-  background-color: $dangerColor;
+  background-color: $dangerColor !important;
 }
 .danger-label-color {
   color: $dangerColor;

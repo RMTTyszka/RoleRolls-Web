@@ -15,7 +15,7 @@ import { RollOrigin } from './RollOrigin';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { PocketCreatureEditorComponent } from 'src/app/pocket-role-rolls/pocket-creature-editor/pocket-creature-editor.component';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TakeDamangeInput } from '../models/TakeDamangeInput';
+import { TakeDamageInput } from '../models/TakeDamangeInput';
 import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
@@ -34,7 +34,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
   public rollResultEmitter = new Subject<boolean>();
-  public takeDamageInputEmitter = new Subject<TakeDamangeInput>();
+  public takeDamageInputEmitter = new Subject<TakeDamageInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedHeroForRoll: PocketHero;
@@ -53,6 +53,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     this.subscribeToSceneChanges();
     this.subscribeToHeroAdded();
     this.subscribeToRollResult();
+    this.subscribeToHeroTookDamage();
    }
 
    public isOwner(hero: PocketHero) {
@@ -75,7 +76,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
    }
    public removeHero(hero: PocketHero) {
     this.campaignService.removeCreatureFromScene(this.campaign.id, this.scene.id, hero.id).subscribe(() => {
-      this.refreshHeroes();
+      this.refreshHeroes(false);
     });
    }
    public selectHeroForRoll(hero: PocketHero) {
@@ -92,13 +93,19 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   private subscribeToSceneChanges() {
     this.subscriptionManager.add('sceneChanged', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
         this.scene = scene;
-        this.refreshHeroes();
+        this.refreshHeroes(false);
     }));
   }
 
   private subscribeToHeroAdded() {
     this.subscriptionManager.add('heroAddedToScene', this.detailsService.heroAddedToScene.subscribe(() => {
-        this.refreshHeroes();
+        this.refreshHeroes(false);
+    }));
+  }
+
+  private subscribeToHeroTookDamage() {
+    this.subscriptionManager.add('heroTookDamage', this.detailsService.heroTookDamage.subscribe(() => {
+        this.refreshHeroes(true);
     }));
   }
 
@@ -107,10 +114,19 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
         this.displayRollSidebar = false;
     }));
   }
-  private refreshHeroes() {
+  private refreshHeroes(keepObjects: boolean) {
     this.campaignService.getSceneCreatures(this.scene.campaignId, this.scene.id, CreatureType.Hero)
     .subscribe((heroes: PocketCreature[]) => {
-      this.heroes = heroes as PocketHero[];
+      if (!keepObjects) {
+        this.heroes = heroes as PocketHero[];
+      } else {
+        this.heroes.forEach(hero => {
+          const updatedHero = heroes.filter(h => h.id == hero.id)[0];
+          if (updatedHero) {
+            Object.assign(hero, updatedHero)
+          }
+        });
+      }
     });
   }
 
@@ -179,10 +195,10 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     this.displayRollSidebar = true;
     this.rollInputEmitter.next(input);
   }
-  private takeDamage(hero: PocketHero) {
+  public takeDamage(hero: PocketHero) {
     const input = {
-      
-    } as TakeDamangeInput
+      creature: hero
+    } as TakeDamageInput
     this.displayTakeDamageSidebar = true;
     this.takeDamageInputEmitter.next(input);
   }

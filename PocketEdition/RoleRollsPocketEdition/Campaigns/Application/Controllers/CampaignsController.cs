@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.Authentication;
 using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
+using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
@@ -19,13 +20,15 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
 
         private readonly ICampaignsService _campaignsService;
         private readonly ICreatureTemplateService _creatureTemplateService;
+        private readonly ICreatureService _creatureService;
         private readonly IRollService _rollService;
 
-        public CampaignsController(ICampaignsService campaignsService, ICreatureTemplateService creatureTemplateService, IRollService rollService)
+        public CampaignsController(ICampaignsService campaignsService, ICreatureTemplateService creatureTemplateService, IRollService rollService, ICreatureService creatureService)
         {
             _campaignsService = campaignsService;
             _creatureTemplateService = creatureTemplateService;
             _rollService = rollService;
+            _creatureService = creatureService;
         }
 
         [HttpGet("{campaignId}")]
@@ -164,6 +167,18 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             Response.Headers.AccessControlAllowHeaders = "Location";
             Response.Headers.AccessControlExposeHeaders = "Location";
             return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, rollId = result.Id , sceneId  = sceneId }, result);
+        }       
+        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/damage")]
+        public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
+        {
+            await _creatureService.TakeDamage(campaignId, sceneId, creatureId, input);
+            return Ok();
+        }      
+        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/heal")]
+        public async Task<IActionResult> Heal([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
+        {
+            await _creatureService.Heal(campaignId, sceneId, creatureId, input);
+            return Ok();
         }
 
     }
