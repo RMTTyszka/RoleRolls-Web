@@ -1,20 +1,20 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormGroup, FormControl, ValidatorFn, ValidationErrors, AbstractControl, Validators } from '@angular/forms';
-import { DropdownItem } from 'primeng/dropdown';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DropdownItem } from 'primeng/dropdown/primeng-dropdown';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog/primeng-dynamicdialog';
 import { map, tap } from 'rxjs/operators';
-import { CampaignsService } from 'src/app/campaign/campaigns.service';
-import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
-import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
-import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
-import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { CreatureTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
-import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/pocket/creatures/pocket-creature';
+import { CampaignsService } from '../../campaign/campaigns.service';
+import { EditorAction } from '../../shared/dtos/ModalEntityData';
+import { createForm, getAsForm } from '../../shared/EditorExtension';
+import { CreatureType } from '../../shared/models/creatures/CreatureType';
+import { PocketCampaignModel } from '../../shared/models/pocket/campaigns/pocket.campaign.model';
+import { CreatureTemplateModel } from '../../shared/models/pocket/creature-templates/creature-template.model';
+import { PocketCreature, PocketSkillProficience } from '../../shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
-import { HttpErrorResponse, HttpStatusCode } from '../../../../node_modules/@angular/common/http/http';
-import { MessageService, Message } from '../../../../node_modules/primeng/api';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http/http';
+import { MessageService, Message } from 'primeng/api/primeng-api';
 import { Creature } from '../../shared/models/creatures/Creature.model';
 
 @Component({
@@ -31,6 +31,7 @@ export class PocketCreatureEditorComponent implements OnInit {
   // public template: PocketCreature;
   public creature: PocketCreature;
   public editorAction: EditorAction;
+  public creatureType: CreatureType;
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
   public creatureId: string;
@@ -60,6 +61,7 @@ export class PocketCreatureEditorComponent implements OnInit {
 
   ) {
     this.campaign = config.data.campaign;
+    this.creatureType = config.data.creatureType;
     this.editorAction = config.data.action;
     if (this.editorAction === EditorAction.update) {
       this.creatureId = config.data.creatureId;
@@ -105,11 +107,11 @@ export class PocketCreatureEditorComponent implements OnInit {
   }
   public save() {
     const creature = this.form.getRawValue() as PocketCreature;
-    creature.creatureType = CreatureType.Hero;
+    creature.type = this.creatureType;
     const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature) 
     : this.campaignService.updateCreature(this.campaign.id, creature);
     saveAction.subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close(creature.id);
     }, (error: HttpErrorResponse) => {
       if (error.status === HttpStatusCode.UnprocessableEntity) {
         this.messageService.add({

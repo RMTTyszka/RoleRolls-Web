@@ -1,21 +1,22 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api/primeng-api';
 import { forkJoin } from 'rxjs';
-import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
-import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
+import { CampaignScene } from '../../../shared/models/pocket/campaigns/campaign-scene-model';
+import { PocketCampaignModel } from '../../../shared/models/pocket/campaigns/pocket.campaign.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { PocketCampaignDetailsService } from './pocket-campaign-details.service';
 import { v4 as uuidv4 } from 'uuid';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { OverlayPanel } from 'primeng/overlaypanel';
-import { CampaignPlayer } from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
+import { AuthenticationService } from '../../../authentication/authentication.service';
+import { OverlayPanel } from 'primeng/overlaypanel/primeng-overlaypanel';
+import { CampaignPlayer } from '../../../shared/models/pocket/campaigns/CampaignPlayer.model';
 import { finalize } from 'rxjs/operators';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog/primeng-dynamicdialog';
 import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
-import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
-import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
-import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
+import { EditorAction } from '../../../shared/dtos/ModalEntityData';
+import { PocketCreature } from '../../../shared/models/pocket/creatures/pocket-creature';
+import { SceneCreature } from '../../../shared/models/pocket/campaigns/scene-creature.model';
+import { CreatureType } from '../../../shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'rr-pocket-campaign-bodyshell',
@@ -124,7 +125,8 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       height: '100vh',
       data: {
         campaign: this.campaign,
-        action: EditorAction.create
+        action: EditorAction.create,
+        creatureType: CreatureType.Hero
       },
     });
   }
@@ -133,7 +135,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       creatureId: hero.id,
       hidden: false
     } as SceneCreature;
-    this.campaignService.addCreatureToScene(this.campaignId, this.selectedScene.id, input)
+    this.campaignService.addHeroToScene(this.campaignId, this.selectedScene.id, input)
     .subscribe(() => {
       this.detailsService.heroAddedToScene.next();
     });

@@ -1,4 +1,8 @@
-<p-panel header="Monsters">
+<p-panel>
+    <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <span class="p-panel-title p-col-6">Monsters</span>
+        <button *ngIf=isMaster pButton type="button" pTooltip="Add Monster" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="createMonster()"></button>
+    </p-header>
   <div *ngFor="let monster of monsters">
     <div class="p-inputgroup">
       <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeMonster(monster)"></button>
@@ -26,5 +30,5 @@
 
 
 <p-sidebar [(visible)]="displayRollSidebar" position="right" >
-  <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
+  <rr-roll-dice [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-sidebar>

@@ -1,22 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api/primeng-api';
 import { Subject } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
-import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
-import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { CreatureTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
-import { PocketCreature, PocketHero } from 'src/app/shared/models/pocket/creatures/pocket-creature';
-import { SubscriptionManager } from 'src/app/shared/utils/subscription-manager';
+import { AuthenticationService } from '../../../authentication/authentication.service';
+import { CreatureType } from '../../../shared/models/creatures/CreatureType';
+import { CampaignScene } from '../../../shared/models/pocket/campaigns/campaign-scene-model';
+import { PocketCampaignModel } from '../../../shared/models/pocket/campaigns/pocket.campaign.model';
+import { CreatureTemplateModel, SkillTemplateModel } from '../../../shared/models/pocket/creature-templates/creature-template.model';
+import { PocketCreature, PocketHero } from '../../../shared/models/pocket/creatures/pocket-creature';
+import { SubscriptionManager } from '../../../shared/utils/subscription-manager';
 import { RollInput } from '../models/RollInput';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
-import { RollOrigin } from './RollOrigin';
-import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
-import { PocketCreatureEditorComponent } from 'src/app/pocket-role-rolls/pocket-creature-editor/pocket-creature-editor.component';
-import { DialogService } from 'primeng/dynamicdialog';
+import { RollOrigin } from '../models/RollOrigin';
+import { EditorAction } from '../../../shared/dtos/ModalEntityData';
+import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
+import { DialogService } from 'primeng/dynamicdialog/primeng-dynamicdialog';
 import { TakeDamageInput } from '../models/TakeDamangeInput';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { OverlayPanel } from 'primeng/overlaypanel/primeng-overlaypanel';
 
 @Component({
   selector: 'rr-campaign-heroes',
@@ -32,9 +32,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   public rollOptions: MenuItem[] = [];
   public displayRollSidebar = false;
   public displayTakeDamageSidebar = false;
-  public rollInputEmitter = new Subject<RollInput>();
-  public rollResultEmitter = new Subject<boolean>();
-  public takeDamageInputEmitter = new Subject<TakeDamageInput>();
+
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedHeroForRoll: PocketHero;
@@ -110,7 +108,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToRollResult() {
-    this.subscriptionManager.add('rollResultEmitter', this.rollResultEmitter.subscribe(() => {
+    this.subscriptionManager.add('rollResultEmitter', this.detailsService.rollResultEmitter.subscribe(() => {
         this.displayRollSidebar = false;
     }));
   }
@@ -193,14 +191,14 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
       input.propertyValue = skill.value;
     }
     this.displayRollSidebar = true;
-    this.rollInputEmitter.next(input);
+    this.detailsService.rollInputEmitter.next(input);
   }
   public takeDamage(hero: PocketHero) {
     const input = {
       creature: hero
     } as TakeDamageInput
     this.displayTakeDamageSidebar = true;
-    this.takeDamageInputEmitter.next(input);
+    this.detailsService.takeDamageInputEmitter.next(input);
   }
   ngOnInit(): void {
   }

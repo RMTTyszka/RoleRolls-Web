@@ -1,17 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api/primeng-api';
 import { Subject } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
-import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
-import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { CreatureTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
-import { PocketCreature, PocketMonster } from 'src/app/shared/models/pocket/creatures/pocket-creature';
-import { SubscriptionManager } from 'src/app/shared/utils/subscription-manager';
-import { RollOrigin } from '../campaign-heroes/RollOrigin';
+import { AuthenticationService } from '../../../authentication/authentication.service';
+import { CreatureType } from '../../../shared/models/creatures/CreatureType';
+import { CampaignScene } from '../../../shared/models/pocket/campaigns/campaign-scene-model';
+import { PocketCampaignModel } from '../../../shared/models/pocket/campaigns/pocket.campaign.model';
+import { CreatureTemplateModel, SkillTemplateModel } from '../../../shared/models/pocket/creature-templates/creature-template.model';
+import { PocketCreature, PocketMonster } from '../../../shared/models/pocket/creatures/pocket-creature';
+import { SubscriptionManager } from '../../../shared/utils/subscription-manager';
+import { RollOrigin } from '../models/RollOrigin';
 import { RollInput } from '../models/RollInput';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
+import { DialogService } from 'primeng/dynamicdialog/primeng-dynamicdialog';
+import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
+import { EditorAction } from '../../../shared/dtos/ModalEntityData';
+import { SceneCreature } from '../../../shared/models/pocket/campaigns/scene-creature.model';
 
 @Component({
   selector: 'rr-campaign-monsters',
@@ -19,6 +23,7 @@ import { PocketCampaignsService } from '../pocket-campaigns.service';
   styleUrls: ['./campaign-monsters.component.scss']
 })
 export class CampaignMonstersComponent implements OnInit, OnDestroy {
+
   public monsters: PocketMonster[] = [];
 
   public get isMaster() {
@@ -26,7 +31,6 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
   }
   public rollOptions: MenuItem[] = [];
   public displayRollSidebar = false;
-  public rollInputEmitter = new Subject<RollInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedMonsterForRoll: PocketMonster;
@@ -39,10 +43,32 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
     private readonly campaignService: PocketCampaignsService,
     private readonly detailsService: PocketCampaignDetailsService,
     private authService: AuthenticationService,
+    private dialogService: DialogService,
   ) {
     this.subscribeToCampaignLoaded();
     this.subscribeToSceneChanges();
-   // this.subscribeToMonsterAdded();
+    this.subscribeToMonsterAdded();
+   }
+
+   public createMonster() {
+    this.dialogService.open(PocketCreatureEditorComponent, {
+      width: '100vw',
+      height: '100vh',
+      data: {
+        campaign: this.campaign,
+        action: EditorAction.create,
+        creatureType: CreatureType.Monster
+      },
+    }).onClose.subscribe((monsterId: string) => {
+      if (monsterId) {
+        this.campaignService.addMonsterToScene(this.campaign.id, this.scene.id, {
+          creatureId: monsterId,
+          hidden: false
+        } as SceneCreature).subscribe(() => {
+          this.detailsService.monsterAddedToScene.next();
+        })
+      }
+    });
    }
 
    public removeMonster(monster: PocketMonster) {
@@ -68,11 +94,11 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
     }));
   }
 
-/*   private subscribeToMonsterAdded() {
+  private subscribeToMonsterAdded() {
     this.subscriptionManager.add('monsterAddedToScene', this.detailsService.monsterAddedToScene.subscribe(() => {
         this.refreshMonsteres();
     }));
-  } */
+  }
   private refreshMonsteres() {
     this.campaignService.getSceneCreatures(this.scene.campaignId, this.scene.id, CreatureType.Monster)
     .subscribe((monsteres: PocketCreature[]) => {
@@ -143,7 +169,7 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
       input.propertyValue = skill.value;
     }
     this.displayRollSidebar = true;
-    this.rollInputEmitter.next(input);
+    this.detailsService.rollInputEmitter.next(input);
   }
   ngOnInit(): void {
   }
