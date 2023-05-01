@@ -1,27 +1,20 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormArray, FormGroup, FormControl, ValidatorFn, ValidationErrors, AbstractControl, Validators } from '@angular/forms';
-import { DropdownItem } from 'primeng/dropdown/primeng-dropdown';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog/primeng-dynamicdialog';
-import { map, tap } from 'rxjs/operators';
-import { CampaignsService } from '../../campaign/campaigns.service';
+import { FormArray, FormGroup, FormControl, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from '../../shared/dtos/ModalEntityData';
-import { createForm, getAsForm } from '../../shared/EditorExtension';
 import { CreatureType } from '../../shared/models/creatures/CreatureType';
 import { PocketCampaignModel } from '../../shared/models/pocket/campaigns/pocket.campaign.model';
-import { CreatureTemplateModel } from '../../shared/models/pocket/creature-templates/creature-template.model';
-import { PocketCreature, PocketSkillProficience } from '../../shared/models/pocket/creatures/pocket-creature';
+import { PocketCreature } from '../../shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
-import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http/http';
-import { MessageService, Message } from 'primeng/api/primeng-api';
-import { Creature } from '../../shared/models/creatures/Creature.model';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { getAsForm } from 'src/app/shared/EditorExtension';
+import { Message, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'rr-pocket-creature-editor',
   templateUrl: './pocket-creature-editor.component.html',
-  styleUrls: ['./pocket-creature-editor.component.scss'],
-  providers: [MessageService]
+  styleUrls: ['./pocket-creature-editor.component.scss']
 })
 export class PocketCreatureEditorComponent implements OnInit {
 

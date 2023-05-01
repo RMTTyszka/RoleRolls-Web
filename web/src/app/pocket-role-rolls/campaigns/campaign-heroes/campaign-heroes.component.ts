@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api/primeng-api';
+import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { CreatureType } from '../../../shared/models/creatures/CreatureType';
@@ -14,9 +14,8 @@ import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { RollOrigin } from '../models/RollOrigin';
 import { EditorAction } from '../../../shared/dtos/ModalEntityData';
 import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
-import { DialogService } from 'primeng/dynamicdialog/primeng-dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { TakeDamageInput } from '../models/TakeDamangeInput';
-import { OverlayPanel } from 'primeng/overlaypanel/primeng-overlaypanel';
 
 @Component({
   selector: 'rr-campaign-heroes',

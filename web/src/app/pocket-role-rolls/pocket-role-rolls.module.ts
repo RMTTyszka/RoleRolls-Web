@@ -10,6 +10,7 @@ import { LoginComponent } from '../login/login/login.component';
 import { PocketCreatureEditorComponent } from './pocket-creature-editor/pocket-creature-editor.component';
 import { CanActivateAuthGuard } from 'src/app/pocket-role-rolls/pocket-login/auth-guard';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { MessagesModule } from '../../../node_modules/primeng/messages';
 
 const routes: Routes = [
   {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule),
@@ -28,7 +29,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    LoginModule
+    LoginModule,
+    MessagesModule
   ],
   providers: [
     { provide: LoginService, useClass: PocketLoginService }

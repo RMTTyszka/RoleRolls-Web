@@ -6,7 +6,7 @@ import {AuthenticationService} from '../../authentication/authentication.service
 import {LohAuthTokenName} from '../../authentication/AuthTokens';
 import {Router} from '@angular/router';
 import { LoggedApp } from 'src/app/shared/models/login/LoggedApp';
-import { HttpErrorResponse } from '../../../../node_modules/@angular/common/http/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'rr-login',

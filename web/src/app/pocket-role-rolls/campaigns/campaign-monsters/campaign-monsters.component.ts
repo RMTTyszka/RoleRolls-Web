@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api/primeng-api';
+import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { CreatureType } from '../../../shared/models/creatures/CreatureType';
@@ -12,7 +12,7 @@ import { RollOrigin } from '../models/RollOrigin';
 import { RollInput } from '../models/RollInput';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
-import { DialogService } from 'primeng/dynamicdialog/primeng-dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
 import { EditorAction } from '../../../shared/dtos/ModalEntityData';
 import { SceneCreature } from '../../../shared/models/pocket/campaigns/scene-creature.model';

@@ -8,7 +8,7 @@ export class PocketCreature extends PocketEntity {
   public attributes: PocketAttribute[] = [];
   public skills: PocketSkill[] = [];
   public lifes: PocketLife[] = [];
-  public creatureType: CreatureType;
+  public type: CreatureType;
 }
 
 export class PocketAttribute extends PocketEntity {

@@ -1,4 +1,4 @@
-import { HttpParams, HttpResponse } from '@angular/common/http/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';

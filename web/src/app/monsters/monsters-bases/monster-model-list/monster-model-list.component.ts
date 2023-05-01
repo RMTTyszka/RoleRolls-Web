@@ -3,7 +3,6 @@ import {LegacyBaseListComponent} from 'src/app/shared/base-list/legacy-base-list
 import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
 import {MonsterModelComponent} from '../monster-model-editor/monster-model.component';
 import {Router} from '@angular/router';
-import {DeviceDetectorService} from 'ngx-device-detector';
 import {LegacyMonstersBaseService} from '../legacy-monsters-base.service';
 import {MonsterModelsService} from '../monster-template-provider/monster-models.service';
 import {DialogService} from 'primeng/dynamicdialog';
