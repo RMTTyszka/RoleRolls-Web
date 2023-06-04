@@ -70,9 +70,9 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
+ app.UseHttpsRedirection();
 app.UseMiddleware<JwtMiddleware>();
-app.UseCors(RoleRollsPolicyOrigins);
+ app.UseCors(RoleRollsPolicyOrigins);
 app.MapControllers();
 
 app.Run();

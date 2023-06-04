@@ -13,9 +13,9 @@ import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocke
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { RollOrigin } from '../models/RollOrigin';
 import { EditorAction } from '../../../shared/dtos/ModalEntityData';
-import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TakeDamageInput } from '../models/TakeDamangeInput';
+import { PocketCreatureEditor2Component } from '../../pocket-creature-editor2/pocket-creature-editor2.component';
 
 @Component({
   selector: 'rr-campaign-heroes',
@@ -59,7 +59,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
 
    public editHero(hero: PocketHero) {
      if (this.isOwner(hero) || this.isMaster) {
-      this.dialogService.open(PocketCreatureEditorComponent, {
+      this.dialogService.open(PocketCreatureEditor2Component, {
         width: '100vw',
         height: '100vh',
         data: {

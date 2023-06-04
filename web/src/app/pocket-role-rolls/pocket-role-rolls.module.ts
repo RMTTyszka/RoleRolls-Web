@@ -7,7 +7,6 @@ import { PocketLoginService } from './pocket-login.service';
 import { PocketHomeComponent } from './pocket-home/pocket-home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login/login.component';
-import { PocketCreatureEditorComponent } from './pocket-creature-editor/pocket-creature-editor.component';
 import { CanActivateAuthGuard } from 'src/app/pocket-role-rolls/pocket-login/auth-guard';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { MessagesModule } from '../../../node_modules/primeng/messages';

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PrimeIcons } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { CampaignScene } from '../../../shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from '../../../shared/models/pocket/campaigns/pocket.campaign.model';
@@ -12,11 +12,11 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 import { CampaignPlayer } from '../../../shared/models/pocket/campaigns/CampaignPlayer.model';
 import { finalize } from 'rxjs/operators';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
 import { EditorAction } from '../../../shared/dtos/ModalEntityData';
 import { PocketCreature } from '../../../shared/models/pocket/creatures/pocket-creature';
 import { SceneCreature } from '../../../shared/models/pocket/campaigns/scene-creature.model';
 import { CreatureType } from '../../../shared/models/creatures/CreatureType';
+import { PocketCreatureEditor2Component } from '../../pocket-creature-editor2/pocket-creature-editor2.component';
 
 @Component({
   selector: 'rr-pocket-campaign-bodyshell',
@@ -35,6 +35,14 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   public newSceneName: string;
   public scenes: CampaignScene[] = [];
   public menuItens: MenuItem[] = [];
+  public sideBarItens: MenuItem[] = [
+    {
+      tooltipOptions: {
+        tooltipLabel: 'Roll Simulation',
+      },
+      icon: PrimeIcons.PERCENTAGE
+    } as MenuItem
+  ];
   @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
   @ViewChild('invitationButton') public invitationButton: TemplateRef<any>;
   public invitationCode: string;
@@ -120,7 +128,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     });
   }
   public createHero(){
-    this.dialogService.open(PocketCreatureEditorComponent, {
+    this.dialogService.open(PocketCreatureEditor2Component, {
       width: '100vw',
       height: '100vh',
       data: {

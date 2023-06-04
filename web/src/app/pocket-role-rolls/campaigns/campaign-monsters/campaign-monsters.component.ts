@@ -13,9 +13,9 @@ import { RollInput } from '../models/RollInput';
 import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocket-campaign-details.service';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pocket-creature-editor.component';
 import { EditorAction } from '../../../shared/dtos/ModalEntityData';
 import { SceneCreature } from '../../../shared/models/pocket/campaigns/scene-creature.model';
+import { PocketCreatureEditor2Component } from '../../pocket-creature-editor2/pocket-creature-editor2.component';
 
 @Component({
   selector: 'rr-campaign-monsters',
@@ -51,7 +51,7 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
    }
 
    public createMonster() {
-    this.dialogService.open(PocketCreatureEditorComponent, {
+    this.dialogService.open(PocketCreatureEditor2Component, {
       width: '100vw',
       height: '100vh',
       data: {
