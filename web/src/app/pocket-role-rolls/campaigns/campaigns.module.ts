@@ -22,6 +22,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-damage.component';
 import { PocketCreatureEditor2Component } from '../pocket-creature-editor2/pocket-creature-editor2.component';
 import { PocketCreatureEditorComponent } from '../pocket-creature-editor/pocket-creature-editor.component';
+import { CdDiscoveryComponent } from './cd-discovery/cd-discovery.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -40,7 +41,8 @@ const routes: Routes = [
     PocketCreatureSelectComponent,
     RollDiceComponent,
     PocketTakeDamageComponent,
-    PocketCreatureEditorComponent
+    PocketCreatureEditorComponent,
+    CdDiscoveryComponent
   ],
   imports: [
     CommonModule,

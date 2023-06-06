@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.CreaturesTemplates.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
 using RoleRollsPocketEdition.Global;
+using RoleRollsPocketEdition.Rolls.Domain.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
@@ -85,12 +86,24 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
             }
             return new CreatureUpdateValidationResult(CreatureUpdateValidation.InvalidModel, null);
         }
-
-        private bool Valid(CreatureModel creatureModel)
+        public (int propertyValue, int rollBonus) GetPropertyValue(RollPropertyType propertyType, Guid propertyId)
         {
-            return true;
+            switch (propertyType)
+            {
+                case RollPropertyType.Attribute:
+                    return (Attributes.First(attribute => attribute.Id == propertyId).Value, 0);
+                case RollPropertyType.Skill:
+                    return (Skills.First(skill => skill.Id == propertyId).Value, 0);
+                case RollPropertyType.MinorSkill:
+                    var minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    var skill = Skills.First(skill => skill.Id == minorSkill.SkillId);
+                    var attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
+                    var rollBonus = minorSkill.Points;
+                    return (attribute.Value, rollBonus);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
-
         public RollsResult RollAttribute(RollCheck roll) 
         {
             var attribute = Attributes.FirstOrDefault(attribute => attribute.Id == roll.AttributeId);
@@ -103,7 +116,10 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
             }
             return Roll(roll, attribute.Value);
         }
-
+        private bool Valid(CreatureModel creatureModel)
+        {
+            return true;
+        }
         private RollsResult Roll(RollCheck roll, int level)
         {
             var random = new Random();

@@ -5,6 +5,7 @@ using RoleRollsPocketEdition.Creatures.Application.Services;
 using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Services;
 using RoleRollsPocketEdition.Rolls.Application;
+using RoleRollsPocketEdition.Rolls.Domain.Services;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 
 namespace RoleRollsPocketEdition.Configuration

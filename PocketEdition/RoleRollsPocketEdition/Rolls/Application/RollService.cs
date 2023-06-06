@@ -123,7 +123,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == creatureId);
-            var property = GetPropertyValue(creature, input.PropertyType, input.PropertyId);
+            var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity, input.Rolls);
             var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
@@ -146,23 +146,6 @@ namespace RoleRollsPocketEdition.Rolls.Application
             return rollResult;
         }
 
-        private (int propertyValue, int rollBonus) GetPropertyValue(Creature creature, RollPropertyType propertyType, Guid propertyId)
-        {
-            switch (propertyType)
-            {
-                case RollPropertyType.Attribute:
-                    return (creature.Attributes.First(attribute => attribute.Id == propertyId).Value, 0);
-                case RollPropertyType.Skill:
-                    return (creature.Skills.First(skill => skill.Id == propertyId).Value, 0);
-                case RollPropertyType.MinorSkill:
-                    var minorSkill = creature.Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
-                    var skill = creature.Skills.First(skill => skill.Id == minorSkill.SkillId);
-                    var attribute = creature.Attributes.First(attribute => attribute.Id == skill.AttributeId);
-                    var rollBonus = minorSkill.Points;
-                    return (attribute.Value, rollBonus);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+  
     }
 }

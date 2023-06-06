@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Rolls.Application;
+﻿namespace RoleRollsPocketEdition.Rolls.Domain.Services;
 
 public interface ICdDiscoveryService
 {

@@ -16,6 +16,7 @@ import { EditorAction } from '../../../shared/dtos/ModalEntityData';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TakeDamageInput } from '../models/TakeDamangeInput';
 import { PocketCreatureEditor2Component } from '../../pocket-creature-editor2/pocket-creature-editor2.component';
+import { DiscoveryCdInput } from 'src/app/pocket-role-rolls/campaigns/cd-discovery/tokens/discovery-cd-input';
 
 @Component({
   selector: 'rr-campaign-heroes',
@@ -167,6 +168,46 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
       this.rollOptions.push(attributeMenu);
     });
   }
+  private populateCdDiscoveryOptions() {
+    this.creatureTemplate.attributes.forEach(attribute => {
+      const attributeMenu = {
+        label: attribute.name,
+        items: [
+          {
+            label: `Roll ${attribute.name}`,
+            command: (event) => {
+              this.discoveryCd(this.selectedHeroForRoll, RollOrigin.Attribute, attribute.id);
+            }
+          } as MenuItem
+        ]
+      } as MenuItem;
+      const skills = this.creatureTemplate.skills.filter(skill => skill.attributeId === attribute.id) as SkillTemplateModel[];
+      skills.forEach(skill => {
+        const skillMenu = {
+          label: skill.name,
+          items: [
+            {
+              label: `Roll ${skill.name}`,
+              command: (event) => {
+                this.discoveryCd(this.selectedHeroForRoll, RollOrigin.Skill, skill.id);
+              }
+            } as MenuItem
+          ]
+        } as MenuItem;
+        skill.minorSkills.forEach(minorSkill => {
+          const minorSkillMenu = {
+            label: minorSkill.name,
+            command: (event) => {
+              this.discoveryCd(this.selectedHeroForRoll, RollOrigin.MinorSkill, minorSkill.id);
+            }
+          } as MenuItem;
+          skillMenu.items.push(minorSkillMenu);
+        });
+        attributeMenu.items.push(skillMenu);
+      });
+      this.rollOptions.push(attributeMenu);
+    });
+  }
   private roll(hero: PocketHero, propertyType: RollOrigin, propertyId: string) {
     const input = {
       propertyType: propertyType,
@@ -177,6 +218,31 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
       input.propertyId = attribute.id;
       input.propertyName = attribute.name;
       input.propertyValue = attribute.value;
+    } else if (propertyType === RollOrigin.Skill) {
+      const skill = hero.skills.find(s => s.skillTemplateId === propertyId);
+      input.propertyId = skill.id;
+      input.propertyName = skill.name;
+      input.propertyValue = skill.value;
+    } else if (propertyType === RollOrigin.MinorSkill) {
+      const skill = hero.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
+      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
+      input.propertyId = minorSkills.id;
+      input.propertyName = minorSkills.name;
+      input.propertyValue = skill.value;
+    }
+    this.displayRollSidebar = true;
+    this.detailsService.rollInputEmitter.next(input);
+  }
+  
+  private discoveryCd(hero: PocketHero, propertyType: RollOrigin, propertyId: string) {
+    const input = {
+      propertyType: propertyType,
+    } as DiscoveryCdInput;
+    const propertyName = '';
+    if (propertyType === RollOrigin.Attribute) {
+      const attribute = hero.attributes.find(a => a.attributeTemplateId === propertyId);
+      input.propertyId = attribute.id;
+      input.propertyName = attribute.name;
     } else if (propertyType === RollOrigin.Skill) {
       const skill = hero.skills.find(s => s.skillTemplateId === propertyId);
       input.propertyId = skill.id;
