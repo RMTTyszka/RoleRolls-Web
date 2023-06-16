@@ -1,3 +1,4 @@
+using System.Net;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Configuration;
@@ -9,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Campaigns.Application.Handlers;
 
 var RoleRollsPolicyOrigins = "rolerolls";
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,10 +32,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<RoleRollsDbContext>(options => 
     {
-        builder.Configuration.GetConnectionString("RoleRolls");
     }, ServiceLifetime.Transient);
 builder.Services.AddServices();
-
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddMassTransit(configurador =>
 {
@@ -55,7 +53,11 @@ builder.Services.AddMassTransit(configurador =>
     });
     configurador.AddTransactionalEnlistmentBus();*/
 });
-
+/*builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+    options.HttpsPort = 5125;
+});*/
 var app = builder.Build();
 
 /*// Configure the HTTP request pipeline.

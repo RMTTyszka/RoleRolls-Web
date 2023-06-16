@@ -6,6 +6,8 @@ using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Domain.Models;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.Rolls.Application;
+using RoleRollsPocketEdition.Rolls.Domain.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Services
 {
@@ -15,12 +17,14 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
         private readonly ICurrentUser _currentUser;
+        private readonly ICdSimulationService _simulationService;
 
-        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, ICdSimulationService simulationService)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignsService;
             _currentUser = currentUser;
+            _simulationService = simulationService;
         }
 
         public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
@@ -116,6 +120,16 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             creature.Heal(input.LifeId, input.Value);
             _dbContext.Creatures.Update(creature);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<CdSimulationResult>> SimulateCd(Guid campaignId, Guid sceneId, Guid creatureId,
+            SimulateCdInput input)
+        {
+            var creature = await GetFullCreature(creatureId);
+            var propertyValue = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
+            var simulation = _simulationService.GetDc(propertyValue.propertyValue, propertyValue.rollBonus,
+                input.ExpectedChance);
+            return simulation;
         }
 
         private async Task<Creature> GetFullCreature(Guid id)

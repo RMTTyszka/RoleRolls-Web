@@ -1,6 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Domain.Events;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.Attributes;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.Lifes;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.MinorSkills;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
 using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using Attribute = RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute;

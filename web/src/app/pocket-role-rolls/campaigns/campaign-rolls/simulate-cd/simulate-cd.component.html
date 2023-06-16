@@ -1,0 +1,25 @@
+<div class="p-grid p-jc-between">
+  <div class="p-inputgroup p-col-10">
+    <input pInput placeholder="Desirable Chance" [(ngModel)]="expectedChance" [disabled]="calculating"/>
+    <span class="p-inputgroup-addon">%</span>
+    <button class="p-inputgroup-addon" (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-button-secondary" [disabled]="calculating"></button>
+  </div>
+    <p-progressSpinner class="p-col-2" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>
+</div>
+
+<p-table [value]="chances" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+      <tr>
+        <th>Complexity</th>
+        <th>Difficulty</th>
+          <th>Chance</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-chance>
+      <tr>
+        <td>{{chance.complexity}}</td>
+        <td>{{chance.difficulty}}</td>
+        <td>{{chance.chance}}</td>
+      </tr>
+  </ng-template>
+</p-table>

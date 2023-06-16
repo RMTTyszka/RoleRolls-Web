@@ -10,12 +10,16 @@ namespace RoleRollsPocketEdition.Rolls.Application
 {
     public class RollService : IRollService
     {
+
         private readonly RoleRollsDbContext _roleRollsDbContext;
 
         public RollService(RoleRollsDbContext roleRollsDbContext)
         {
-            this._roleRollsDbContext = roleRollsDbContext;
+            _roleRollsDbContext = roleRollsDbContext;
         }
+        
+
+
 
         public async Task<PagedResult<RollModel>> GetAsync(Guid campaignId, Guid sceneId, PagedRequestInput input)
         {
@@ -41,27 +45,27 @@ namespace RoleRollsPocketEdition.Rolls.Application
                         select new
                         {
                             ActorName = (creature != null ? creature.Name : "MASTER"),
-                            ActorId = roll.ActorId,
-                            CampaignId = roll.CampaignId,
-                            SceneId = roll.SceneId,
-                            Complexity = roll.Complexity,
-                            Difficulty = roll.Difficulty,
-                            Id = roll.Id,
-                            NumberOfCriticalFailures = roll.NumberOfCriticalFailures,
-                            NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses,
-                            NumberOfDices = roll.NumberOfDices,
-                            NumberOfSuccesses = roll.NumberOfSuccesses,
-                            PropertyId = roll.PropertyId,
+                            roll.ActorId,
+                            roll.CampaignId,
+                            roll.SceneId,
+                            roll.Complexity,
+                            roll.Difficulty,
+                            roll.Id,
+                            roll.NumberOfCriticalFailures,
+                            roll.NumberOfCriticalSuccesses,
+                            roll.NumberOfDices,
+                            roll.NumberOfSuccesses,
+                            roll.PropertyId,
                             PropertyName = "",
-                            PropertyType = roll.PropertyType,
-                            RolledDices = roll.RolledDices,
-                            Success = roll.Success,
+                            roll.PropertyType,
+                            roll.RolledDices,
+                            roll.Success,
                             AttributeName = (attributeTemplate != null ? attributeTemplate.Name : null),
                             SkillName = (skillTemplate != null ? skillTemplate.Name : null),
                             MinorSkillName = (minorSkillTemplate != null ? minorSkillTemplate.Name : null),
-                            DateTime = roll.DateTime,
-                            Description = roll.Description,
-                            RollBonus = roll.RollBonus
+                            roll.DateTime,
+                            roll.Description,
+                            roll.RollBonus
                         };
 
    
@@ -97,7 +101,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 RollBonus = roll.RollBonus
             }).ToList();
 
-            return new PagedResult<RollModel>()
+            return new PagedResult<RollModel>
             {
                 Content = output,
                 TotalElements = totalCount
@@ -123,7 +127,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == creatureId);
-            var property = GetPropertyValue(creature, input.PropertyType, input.PropertyId);
+            var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity, input.Rolls);
             var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
@@ -144,25 +148,6 @@ namespace RoleRollsPocketEdition.Rolls.Application
             await _roleRollsDbContext.AddAsync(roll);
             await _roleRollsDbContext.SaveChangesAsync();
             return rollResult;
-        }
-
-        private (int propertyValue, int rollBonus) GetPropertyValue(Creature creature, RollPropertyType propertyType, Guid propertyId)
-        {
-            switch (propertyType)
-            {
-                case RollPropertyType.Attribute:
-                    return (creature.Attributes.First(attribute => attribute.Id == propertyId).Value, 0);
-                case RollPropertyType.Skill:
-                    return (creature.Skills.First(skill => skill.Id == propertyId).Value, 0);
-                case RollPropertyType.MinorSkill:
-                    var minorSkill = creature.Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
-                    var skill = creature.Skills.First(skill => skill.Id == minorSkill.SkillId);
-                    var attribute = creature.Attributes.First(attribute => attribute.Id == skill.AttributeId);
-                    var rollBonus = minorSkill.Points;
-                    return (attribute.Value, rollBonus);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 }

@@ -75,11 +75,12 @@ export class LoginComponent implements OnInit {
             detail: output.invalidPassword ? 'Invalid Password' : 'Username or Email alredy registered by another user',
             severity: 'error'});
         } else {
-          debugger
           this.messageService.add(<Message>{
             summary: 'User successfully created',
             severity: 'success'});
         }
+      }, error => {
+        debugger
       });
   }
 

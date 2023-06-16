@@ -32,14 +32,16 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<SceneCreature> SceneCreatures { get; set; }
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
 
+        private readonly IConfiguration _configuration;
 
-        public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options)
+        public RoleRollsDbContext(DbContextOptions<RoleRollsDbContext> options, IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) 
         {
-            options.UseNpgsql("Host=localhost:5432;Database=RoleRollsPocket;Username=postgres;Password=postgres");
+            options.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
 
 

@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.CreaturesTemplates.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
 using RoleRollsPocketEdition.Global;
+using RoleRollsPocketEdition.Rolls.Domain.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Domain.Entities
 {
@@ -25,7 +26,24 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
             Skills = new List<Skill>();
             Lifes = new List<Life>();
         }
-
+        public (int propertyValue, int rollBonus) GetPropertyValue(RollPropertyType propertyType, Guid propertyId)
+        {
+            switch (propertyType)
+            {
+                case RollPropertyType.Attribute:
+                    return (Attributes.First(attribute => attribute.Id == propertyId).Value, 0);
+                case RollPropertyType.Skill:
+                    return (Skills.First(skill => skill.Id == propertyId).Value, 0);
+                case RollPropertyType.MinorSkill:
+                    var minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    var skill = Skills.First(skill => skill.Id == minorSkill.SkillId);
+                    var attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
+                    var rollBonus = minorSkill.Points;
+                    return (attribute.Value, rollBonus);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         public static Creature FromTemplate(CreatureTemplate template, Guid campaignId) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();

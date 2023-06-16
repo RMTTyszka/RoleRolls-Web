@@ -19,11 +19,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { PocketRoll } from './models/pocket-roll.model';
 import { RollInput } from './models/RollInput';
 import { TakeDamageApiInput } from 'src/app/pocket-role-rolls/campaigns/models/TakeDamageApiInput';
+import { SimulateCdInput } from './models/SimulateCdInput';
+import { SimulateCdResult } from './models/simulate-cd-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
 
 
 
@@ -156,6 +159,9 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}`);
   }
 
+  public simulateCd(campaignId: string, sceneId: string, input: SimulateCdInput): Observable<SimulateCdResult[]> {
+    return this.http.post<SimulateCdResult[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${input.creatureId}/roll-simulations`, input)
+  }
   public rollForCreature(campaignId: string, sceneId: string, creatureId: string, rollInput: RollInput) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/rolls`, rollInput, {observe: 'response'})
     .pipe(

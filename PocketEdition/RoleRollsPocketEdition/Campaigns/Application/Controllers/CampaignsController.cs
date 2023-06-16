@@ -167,6 +167,12 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             Response.Headers.AccessControlAllowHeaders = "Location";
             Response.Headers.AccessControlExposeHeaders = "Location";
             return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, rollId = result.Id , sceneId  = sceneId }, result);
+        }        
+        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/roll-simulations")]
+        public async Task<IActionResult> SimulateCd([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] SimulateCdInput input)
+        {
+            var result = await _creatureService.SimulateCd(campaignId, sceneId, creatureId, input);
+            return Ok(result);
         }       
         [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/damage")]
         public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)

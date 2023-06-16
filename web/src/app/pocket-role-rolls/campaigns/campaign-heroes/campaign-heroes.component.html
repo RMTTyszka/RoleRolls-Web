@@ -14,6 +14,8 @@
      (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
     <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-tint" class="p-inputgroup-addon" pTooltip="Damage/Heal"
      (click)="takeDamage(hero)"></button>
+      <button *ngIf="isMaster" pButton icon="fas fa-calculator" class="p-inputgroup-addon" pTooltip="Simulate CD"
+     (click)="selectHeroForSimulateCd(hero); simulateCdPanel.toggle($event)"></button>
     </div>
   </div>
 </p-panel>
@@ -24,8 +26,18 @@
   </ng-template>
 </p-overlayPanel>
 
+<p-overlayPanel #simulateCdPanel>
+  <ng-template pTemplate>
+    <p-tieredMenu [model]="simluateCdOptions"></p-tieredMenu>
+  </ng-template>
+</p-overlayPanel>
+
 <p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
+</p-sidebar>
+
+<p-sidebar [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false" [style]="{width:'40em'}">
+  <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
 </p-sidebar>
 
 <p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">

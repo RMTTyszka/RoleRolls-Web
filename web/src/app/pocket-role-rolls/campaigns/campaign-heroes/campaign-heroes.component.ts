@@ -1,3 +1,4 @@
+import { SimulateCdInput } from './../models/SimulateCdInput';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
@@ -30,14 +31,19 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     return this.campaign.masterId === this.authService.userId;
   }
   public rollOptions: MenuItem[] = [];
+  public simluateCdOptions: MenuItem[] = [];
   public displayRollSidebar = false;
+  public displaySimulateCdSidebar = false;
   public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
+  public simulateCdInputEmitter = new Subject<SimulateCdInput>();
   public rollResultEmitter = new Subject<boolean>();
+  public simulateCdResultEmitter = new Subject<boolean>();
   public takeDamageInputEmitter = new Subject<TakeDamageInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedHeroForRoll: PocketHero;
+  private selectedHeroForSimulateCd: PocketHero;
   private subscriptionManager = new SubscriptionManager();
 
   private get creatureTemplate(): CreatureTemplateModel {
@@ -53,6 +59,7 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     this.subscribeToSceneChanges();
     this.subscribeToHeroAdded();
     this.subscribeToRollResult();
+    this.subscribeToSimulateCdResult();
     this.subscribeToHeroTookDamage();
    }
 
@@ -82,11 +89,15 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
    public selectHeroForRoll(hero: PocketHero) {
     this.selectedHeroForRoll = hero;
    }
+     public selectHeroForSimulateCd(hero: PocketHero) {
+    this.selectedHeroForSimulateCd = hero;
+   }
 
   private subscribeToCampaignLoaded() {
     this.subscriptionManager.add('campaignLoaded', this.detailsService.campaignLoaded.subscribe((campaign: PocketCampaignModel) => {
         this.campaign = campaign;
         this.populateRollOptions();
+        this.populateSimulateCdOptions();
     }));
   }
 
@@ -111,6 +122,11 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
 
   private subscribeToRollResult() {
     this.subscriptionManager.add('rollResultEmitter', this.rollResultEmitter.subscribe(() => {
+        this.displayRollSidebar = false;
+    }));
+  }
+  private subscribeToSimulateCdResult() {
+    this.subscriptionManager.add('simulateCdResultEmitter', this.simulateCdResultEmitter.subscribe(() => {
         this.displayRollSidebar = false;
     }));
   }
@@ -170,6 +186,46 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
       this.rollOptions.push(attributeMenu);
     });
   }
+  private populateSimulateCdOptions() {
+    this.creatureTemplate.attributes.forEach(attribute => {
+      const attributeMenu = {
+        label: attribute.name,
+        items: [
+          {
+            label: `Roll ${attribute.name}`,
+            command: (event) => {
+              this.simulateCd(this.selectedHeroForSimulateCd, RollOrigin.Attribute, attribute.id);
+            }
+          } as MenuItem
+        ]
+      } as MenuItem;
+      const skills = this.creatureTemplate.skills.filter(skill => skill.attributeId === attribute.id) as SkillTemplateModel[];
+      skills.forEach(skill => {
+        const skillMenu = {
+          label: skill.name,
+          items: [
+            {
+              label: `Roll ${skill.name}`,
+              command: (event) => {
+                this.simulateCd(this.selectedHeroForSimulateCd, RollOrigin.Skill, skill.id);
+              }
+            } as MenuItem
+          ]
+        } as MenuItem;
+        skill.minorSkills.forEach(minorSkill => {
+          const minorSkillMenu = {
+            label: minorSkill.name,
+            command: (event) => {
+              this.simulateCd(this.selectedHeroForSimulateCd, RollOrigin.MinorSkill, minorSkill.id);
+            }
+          } as MenuItem;
+          skillMenu.items.push(minorSkillMenu);
+        });
+        attributeMenu.items.push(skillMenu);
+      });
+      this.simluateCdOptions.push(attributeMenu);
+    });
+  }
   private roll(hero: PocketHero, propertyType: RollOrigin, propertyId: string) {
     const input = {
       propertyType: propertyType,
@@ -194,6 +250,25 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
     }
     this.displayRollSidebar = true;
     this.rollInputEmitter.next(input);
+  }
+  private simulateCd(hero: PocketHero, propertyType: RollOrigin, propertyId: string) {
+    const input = {
+      propertyType: propertyType,
+      creatureId: hero.id,
+    } as SimulateCdInput;
+    if (propertyType === RollOrigin.Attribute) {
+      const attribute = hero.attributes.find(a => a.attributeTemplateId === propertyId);
+      input.propertyId = attribute.id;
+    } else if (propertyType === RollOrigin.Skill) {
+      const skill = hero.skills.find(s => s.skillTemplateId === propertyId);
+      input.propertyId = skill.id;
+    } else if (propertyType === RollOrigin.MinorSkill) {
+      const skill = hero.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
+      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
+      input.propertyId = minorSkills.id;
+    }
+    this.displaySimulateCdSidebar = true;
+    this.simulateCdInputEmitter.next(input);
   }
   public takeDamage(hero: PocketHero) {
     const input = {
