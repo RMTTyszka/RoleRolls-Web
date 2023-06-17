@@ -44,7 +44,7 @@ public class CdSimulationService : ICdSimulationService
             }
         }
 
-        return results;
+        return results.OrderBy(c => c.Chance).ToList();
     } 
 
     public decimal VerifyDc(int points, int bonus, int difficulty, int complexity) {

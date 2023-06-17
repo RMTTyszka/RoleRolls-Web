@@ -83,6 +83,7 @@ namespace RoleRollsPocketEdition.Creatures.Domain.Entities
         {
             if (Valid(creatureModel))
             {
+                Name = creatureModel.Name;
                 foreach (var attribute in Attributes)
                 {
                     var updatedAttribute = creatureModel.Attributes.First(attr => attr.AttributeTemplateId == attribute.AttributeTemplateId);
