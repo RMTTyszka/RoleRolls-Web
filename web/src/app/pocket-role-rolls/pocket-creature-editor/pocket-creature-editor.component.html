@@ -1,6 +1,6 @@
 <div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
-    
+
   <div class="p-inputgroup">
     <span class="p-inputgroup-addon">
       Name
@@ -42,7 +42,7 @@
                   <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
                     <ng-template pTemplate="header">
                       <div class="p-grid p-justify-between p-align-center p-nogutter">
-   
+
                         <div class="p-inputgroup p-col-4">
                           <input type="text" pInputText  placeholder="Name" formControlName="name" required>
                         </div>
@@ -86,7 +86,10 @@
              <input type="text" pInputText placeholder="Name" formControlName="name">
           </div>
           <div class="p-inputgroup">
-             <input type="text" pInputText placeholder="Value" formControlName="maxValue">
+             <input type="text" pInputText placeholder="Max" formControlName="maxValue">
+          </div>
+               <div class="p-inputgroup">
+             <input type="text" pInputText placeholder="Value" formControlName="value">
           </div>
         </div>
       </div>

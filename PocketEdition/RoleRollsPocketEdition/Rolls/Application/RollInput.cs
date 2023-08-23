@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Rolls.Domain.Entities;
+﻿using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Rolls.Application
 {

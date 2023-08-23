@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using System;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Scenes.Domain.Models;
 
@@ -20,7 +20,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public Guid CampaignId { get; set; }
         public string Name { get; set; }
 
-        internal void Update(SceneModel sceneModel)
+        public void Update(SceneModel sceneModel)
         {
             Name = sceneModel.Name;
         }

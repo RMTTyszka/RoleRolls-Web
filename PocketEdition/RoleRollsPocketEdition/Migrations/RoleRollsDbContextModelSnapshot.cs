@@ -269,7 +269,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("CampaignScenes");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -295,7 +295,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("Attributes");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Creature", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,7 +322,26 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("Creatures");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Life", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Defense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Formula")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Defenses");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Life", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,7 +374,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("Lifes");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.MinorSkill", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.MinorSkill", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,7 +400,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("MinorSkills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Skill", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Skill", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -410,7 +429,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.AttributeTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.AttributeTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -430,7 +449,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("AttributeTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.CreatureTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.CreatureTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +470,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("CreatureTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.LifeTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.LifeTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -475,7 +494,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("LifeTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.MinorSkillTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.MinorSkillTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -495,7 +514,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("MinorSkillTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.SkillTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.SkillTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -518,7 +537,36 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("SkillTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Rolls.Domain.Entities.Roll", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Powers.Entities.Power", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ActionType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TargetDefense")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UseAttribute")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Powers");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Rolls.Entities.Roll", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -605,67 +653,67 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("SceneCreatures");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Domain.Entities.Creature", null)
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
                         .WithMany("Attributes")
                         .HasForeignKey("CreatureId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Life", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Life", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Domain.Entities.Creature", null)
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
                         .WithMany("Lifes")
                         .HasForeignKey("CreatureId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.MinorSkill", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.MinorSkill", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Domain.Entities.Skill", null)
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Skill", null)
                         .WithMany("MinorSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Skill", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Skill", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Domain.Entities.Creature", null)
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
                         .WithMany("Skills")
                         .HasForeignKey("CreatureId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.AttributeTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.AttributeTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.CreatureTemplate", null)
+                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Entities.CreatureTemplate", null)
                         .WithMany("Attributes")
                         .HasForeignKey("CreatureTemplateId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.LifeTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.LifeTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.CreatureTemplate", null)
+                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Entities.CreatureTemplate", null)
                         .WithMany("Lifes")
                         .HasForeignKey("CreatureTemplateId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.MinorSkillTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.MinorSkillTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.SkillTemplate", null)
+                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Entities.SkillTemplate", null)
                         .WithMany("MinorSkills")
                         .HasForeignKey("SkillTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.SkillTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.SkillTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.CreatureTemplate", null)
+                    b.HasOne("RoleRollsPocketEdition.CreaturesTemplates.Entities.CreatureTemplate", null)
                         .WithMany("Skills")
                         .HasForeignKey("CreatureTemplateId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Creature", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
                 {
                     b.Navigation("Attributes");
 
@@ -674,12 +722,12 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Skills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Domain.Entities.Skill", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Skill", b =>
                 {
                     b.Navigation("MinorSkills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.CreatureTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.CreatureTemplate", b =>
                 {
                     b.Navigation("Attributes");
 
@@ -688,7 +736,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Skills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates.SkillTemplate", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.CreaturesTemplates.Entities.SkillTemplate", b =>
                 {
                     b.Navigation("MinorSkills");
                 });

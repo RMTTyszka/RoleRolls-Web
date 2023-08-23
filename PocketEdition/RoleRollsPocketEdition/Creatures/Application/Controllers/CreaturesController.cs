@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Application.Services;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.Creatures.Models;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Controllers
 {

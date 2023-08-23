@@ -2,10 +2,9 @@
 using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Creatures.Application.Services;
-using RoleRollsPocketEdition.Creatures.Domain;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Services;
 using RoleRollsPocketEdition.Rolls.Application;
-using RoleRollsPocketEdition.Rolls.Domain.Services;
+using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Application.Services;
 
 namespace RoleRollsPocketEdition.Configuration
@@ -22,7 +21,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddTransient<ICreatureService, CreatureService>();
             services.AddTransient<IScenesService, ScenesService>();
             services.AddScoped<ICurrentUser, CurrentUser>();
-            services.AddScoped<ICdSimulationService, CdSimulationService>();
+            services.AddScoped<IRollSimulationService, RollSimulationService>();
             return services;
         }
     }

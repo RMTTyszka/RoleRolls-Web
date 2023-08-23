@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using System;
 using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
         public Guid? PlayerId { get; set; }
         public Guid? InvidationCode { get; set; } 
 
-        internal static CampaignPlayer FromInvite(Guid campaignId)
+        public static CampaignPlayer FromInvite(Guid campaignId)
         {
             var campaignPlayer = new CampaignPlayer
             {

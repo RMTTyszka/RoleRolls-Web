@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Attributes;
+﻿using System;
+
+namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Attributes;
 
 public class AttributeRemoved
 {

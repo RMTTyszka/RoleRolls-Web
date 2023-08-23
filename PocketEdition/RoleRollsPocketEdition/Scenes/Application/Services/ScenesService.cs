@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.Creatures.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Scenes.Domain.Entities;
 using RoleRollsPocketEdition.Scenes.Domain.Models;

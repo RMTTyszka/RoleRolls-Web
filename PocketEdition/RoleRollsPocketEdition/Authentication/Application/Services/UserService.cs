@@ -4,10 +4,10 @@ using Microsoft.IdentityModel.Tokens;
 using RoleRollsPocketEdition.Authentication.Application.Controllers;
 using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Authentication.Users;
-using RoleRollsPocketEdition.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Authentication.Application.Services
 {

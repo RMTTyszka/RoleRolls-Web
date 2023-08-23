@@ -1,5 +1,5 @@
 ﻿using RoleRollsPocketEdition.Global.Dtos;
-using RoleRollsPocketEdition.Rolls.Domain.Models;
+using RoleRollsPocketEdition.Rolls.Models;
 
 namespace RoleRollsPocketEdition.Rolls.Application
 {

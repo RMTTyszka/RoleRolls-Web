@@ -1,6 +1,6 @@
 ﻿using RoleRollsPocketEdition.Campaigns.Application.Dtos;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
-using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Global.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Application.Services

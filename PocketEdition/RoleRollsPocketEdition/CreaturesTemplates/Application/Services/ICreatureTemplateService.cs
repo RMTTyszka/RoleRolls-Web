@@ -1,5 +1,4 @@
-﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain;
+﻿using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 
 namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
 {

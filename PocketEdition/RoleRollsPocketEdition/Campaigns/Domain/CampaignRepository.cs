@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain

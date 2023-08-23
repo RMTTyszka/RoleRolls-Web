@@ -1,5 +1,6 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+﻿using System;
+using System.Threading.Tasks;
+using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain
 {

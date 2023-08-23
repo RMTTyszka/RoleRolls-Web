@@ -1,15 +1,14 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Users;
-using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.Creatures.Domain.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Global;
-using RoleRollsPocketEdition.Rolls.Domain.Entities;
+using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Domain.Entities;
-using Attribute = RoleRollsPocketEdition.Creatures.Domain.Entities.Attribute;
+using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {
@@ -31,6 +30,8 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Scene> CampaignScenes { get; set; }
         public DbSet<SceneCreature> SceneCreatures { get; set; }
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
+        public DbSet<Power> Powers { get; set; }
+        public DbSet<Defense> Defenses { get; set; }
 
         private readonly IConfiguration _configuration;
 

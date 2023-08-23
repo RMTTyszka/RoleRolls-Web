@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
+﻿using System;
+using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
 

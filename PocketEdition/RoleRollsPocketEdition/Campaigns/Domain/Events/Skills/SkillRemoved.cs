@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
+﻿using System;
+
+namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
 
 public class SkillRemoved
 {

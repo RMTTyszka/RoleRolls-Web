@@ -10,8 +10,8 @@ using RoleRollsPocketEdition.Campaigns.Domain.Events.Lifes;
 using RoleRollsPocketEdition.Campaigns.Domain.Events.MinorSkills;
 using RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
-using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 

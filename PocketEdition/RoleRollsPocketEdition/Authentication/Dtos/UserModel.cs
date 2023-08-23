@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Authentication.Dtos
+﻿using System;
+
+namespace RoleRollsPocketEdition.Authentication.Dtos
 {
     public class UserModel
     {

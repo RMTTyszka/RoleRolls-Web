@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Domain.Events.MinorSkills;
+﻿using System;
+
+namespace RoleRollsPocketEdition.Campaigns.Domain.Events.MinorSkills;
 
 public class MinorSkillRemoved
 {

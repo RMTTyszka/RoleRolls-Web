@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Creatures.Domain.Entities;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
-using RoleRollsPocketEdition.Rolls.Domain.Commands;
-using RoleRollsPocketEdition.Rolls.Domain.Entities;
-using RoleRollsPocketEdition.Rolls.Domain.Models;
+using RoleRollsPocketEdition.Rolls.Commands;
+using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Rolls.Models;
 
 namespace RoleRollsPocketEdition.Rolls.Application
 {

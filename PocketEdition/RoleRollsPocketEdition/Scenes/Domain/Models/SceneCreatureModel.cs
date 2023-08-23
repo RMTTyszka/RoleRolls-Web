@@ -1,4 +1,6 @@
-﻿namespace RoleRollsPocketEdition.Scenes.Domain.Models
+﻿using System;
+
+namespace RoleRollsPocketEdition.Scenes.Domain.Models
 {
     public class SceneCreatureModel
     {

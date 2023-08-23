@@ -2,12 +2,11 @@
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.Creatures.Domain.Entities;
-using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Application;
-using RoleRollsPocketEdition.Rolls.Domain.Services;
+using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Services
 {
@@ -17,9 +16,9 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
         private readonly ICurrentUser _currentUser;
-        private readonly ICdSimulationService _simulationService;
+        private readonly IRollSimulationService _simulationService;
 
-        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, ICdSimulationService simulationService)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, IRollSimulationService simulationService)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignsService;

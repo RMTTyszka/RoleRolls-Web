@@ -4,9 +4,8 @@ using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Application.Services;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Application.Services;
+using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Rolls.Application;
 

@@ -1,16 +1,17 @@
+using System.Configuration;
 using System.Net;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Configuration;
-using RoleRollsPocketEdition.Infrastructure;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Campaigns.Application.Handlers;
+using RoleRollsPocketEdition.Infrastructure;
 
 var RoleRollsPolicyOrigins = "rolerolls";
-
+var assembly = typeof(RoleRollsDbContext).Assembly;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -30,8 +31,9 @@ builder.Services.AddControllers(op => op.SuppressAsyncSuffixInActionNames = fals
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkNpgsql()
-    .AddDbContext<RoleRollsDbContext>(options => 
+    .AddDbContext<RoleRollsDbContext>(options =>
     {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("RoleRolls"), x => x.MigrationsAssembly(typeof(RoleRollsDbContext).Assembly.ToString()));
     }, ServiceLifetime.Transient);
 builder.Services.AddServices();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));

@@ -1,4 +1,7 @@
-﻿namespace RoleRollsPocketEdition.Global
+﻿
+using System;
+
+namespace RoleRollsPocketEdition.Global
 {
     public abstract class Entity
     {

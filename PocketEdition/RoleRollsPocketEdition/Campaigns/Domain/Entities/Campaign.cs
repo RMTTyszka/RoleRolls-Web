@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Global;
+﻿using System;
+using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
 {

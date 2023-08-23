@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Creatures.Domain;
+﻿using System;
 using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.Scenes.Domain.Entities

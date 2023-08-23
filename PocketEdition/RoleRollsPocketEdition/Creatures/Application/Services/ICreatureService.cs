@@ -1,8 +1,7 @@
 ﻿using RoleRollsPocketEdition.Creatures.Application.Dtos;
-using RoleRollsPocketEdition.Creatures.Domain;
-using RoleRollsPocketEdition.Creatures.Domain.Models;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Rolls.Application;
-using RoleRollsPocketEdition.Rolls.Domain.Services;
+using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Services
 {

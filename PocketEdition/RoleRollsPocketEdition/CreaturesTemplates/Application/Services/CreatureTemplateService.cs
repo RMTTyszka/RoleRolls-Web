@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.CreaturesTemplates.Application.Dtos;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Templates;
+using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
