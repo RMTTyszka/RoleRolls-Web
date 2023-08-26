@@ -22,6 +22,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddTransient<IScenesService, ScenesService>();
             services.AddScoped<ICurrentUser, CurrentUser>();
             services.AddScoped<IRollSimulationService, RollSimulationService>();
+            services.AddScoped<IDefenseTemplateService, DefenseTemplateService>();
             return services;
         }
     }

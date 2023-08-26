@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Global;
+using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Entities
@@ -12,6 +13,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public ICollection<Skill> Skills { get; set; }
 
         public ICollection<Life> Lifes { get; set; }
+        public ICollection<Defense> Defenses { get; set; }
 
         public Guid CampaignId { get; set; }
         public Guid CreatureTemplateId { get; set; }
@@ -181,6 +183,19 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var life = Lifes.First(life => life.Id == lifeId);
             life.Value += value;
             life.Value = Math.Min(life.Value, life.MaxValue);
+        }
+
+        public async Task AddDefenseAsync(Defense defense, RoleRollsDbContext dbContext)
+        {
+           Defenses.Add(defense);
+           await dbContext.AddAsync(defense);
+        }
+
+        public async Task UpdateDefense(DefenseTemplateModel defenseTemplateModel, RoleRollsDbContext dbContext)
+        {
+            var defense = Defenses.First(defense => defense.DefenseTemplateId == defenseTemplateModel.Id);
+            defense.Update(defenseTemplateModel);
+            dbContext.Update(defense);
         }
     }
    

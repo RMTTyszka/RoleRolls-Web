@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Powers.Entities;
@@ -32,6 +33,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
         public DbSet<Power> Powers { get; set; }
         public DbSet<Defense> Defenses { get; set; }
+        public DbSet<DefenseTemplate> DefenseTemplates { get; set; }
 
         private readonly IConfiguration _configuration;
 

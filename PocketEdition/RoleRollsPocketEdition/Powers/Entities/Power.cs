@@ -9,5 +9,6 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public string Name { get; set; }
         public string UseAttribute { get; set; }
         public string TargetDefense { get; set; }
+        public Guid PowerTemplateId { get; set; }
     }
 }

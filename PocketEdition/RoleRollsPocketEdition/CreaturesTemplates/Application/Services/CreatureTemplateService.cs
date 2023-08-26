@@ -63,8 +63,6 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
                 var updatedAttribute = updatedTemplate.Attributes.First(attr => attr.Id == attribute.Id);
                 attribute.Name = updatedAttribute.Name;
             }
-
-
             var skillsToCreate = updatedTemplate.Skills
                 .Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id))
                 .Select(skill => new SkillTemplate(skill.AttributeId, skill))
