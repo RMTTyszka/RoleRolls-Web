@@ -59,6 +59,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             };
             foreach (var life in creature.Lifes)
             {
+                life.CalculateMaxValue(creature);
                 life.Value = life.MaxValue;
             }
 

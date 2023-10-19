@@ -25,8 +25,9 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
 
-            await template.AddDefenseAsync(model, _dbContext);
+            var defenseAdded = await template.AddDefenseAsync(model, _dbContext);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(defenseAdded);
         }      
 
         public async Task UpdateAsync(Guid creatureTemplateId, DefenseTemplateModel model)
@@ -39,8 +40,9 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Application.Services
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
             
-            template.UpdateDefense(model, _dbContext);
+            var defenseUpdated = template.UpdateDefense(model, _dbContext);
             await _dbContext.SaveChangesAsync();
+            await _bus.Publish(defenseUpdated);
         }
         public async Task RemoveAsync(Guid creatureTemplateId, Guid defenseTemplateId)
         {

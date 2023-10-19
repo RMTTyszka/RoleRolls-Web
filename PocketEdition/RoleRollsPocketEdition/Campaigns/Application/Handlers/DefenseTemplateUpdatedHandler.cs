@@ -22,7 +22,7 @@ public class DefenseTemplateUpdatedHandler :
     public async Task Consume(ConsumeContext<DefenseTemplateAdded> context)
     {
         var creaturesQuery = from campaign in _dbContext.Campaigns
-            join creature in _dbContext.Creatures on campaign.Id equals creature.CampaignId
+            join creature in _dbContext.Creatures.Include(c => c.Defenses) on campaign.Id equals creature.CampaignId
             select creature;
         var creatures = await creaturesQuery.ToListAsync();
         foreach (var creature in creatures)
@@ -35,9 +35,9 @@ public class DefenseTemplateUpdatedHandler :
     public async Task Consume(ConsumeContext<DefenseTemplateUpdated> context)
     {
         var creaturesQuery = from campaign in _dbContext.Campaigns
-            join creature in _dbContext.Creatures on campaign.Id equals creature.CampaignId
+            join creature in _dbContext.Creatures.Include(c => c.Defenses) on campaign.Id equals creature.CampaignId
             join creatureTemplate in _dbContext.CreatureTemplates on campaign.CreatureTemplateId equals creatureTemplate.Id
-            where creatureTemplate.CreatureTemplateId == context.Message.DefenseTemplateModel.Id
+            where creature.Defenses.Select(e => e.DefenseTemplateId).Contains(context.Message.DefenseTemplateModel.Id) 
             select creature;
         var creatures = await creaturesQuery.ToListAsync();
         foreach (var creature in creatures)

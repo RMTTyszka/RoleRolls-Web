@@ -1,5 +1,6 @@
 ﻿using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
+using RoleRollsPocketEdition.CreaturesTemplates.Domain.Events;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Infrastructure;
@@ -140,11 +141,12 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Entities
             life.Update(lifeModel);
             dbContext.LifeTemplates.Update(life);
         }
-        public async Task AddDefenseAsync(DefenseTemplateModel defense, RoleRollsDbContext dbContext)
+        public async Task<DefenseTemplateAdded> AddDefenseAsync(DefenseTemplateModel defense, RoleRollsDbContext dbContext)
         {
             var newDefense = new DefenseTemplate(defense);
             Defenses.Add(newDefense);
             await dbContext.DefenseTemplates.AddAsync(newDefense);
+            return DefenseTemplateAdded.FromDefenseTemplate(defense);
         }
 
         public void RemoveDefense(Guid defenseId, RoleRollsDbContext dbContext)
@@ -154,11 +156,12 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Entities
             dbContext.DefenseTemplates.Remove(defense);
         }
 
-        public void UpdateDefense(DefenseTemplateModel defenseModel, RoleRollsDbContext dbContext)
+        public DefenseTemplateUpdated UpdateDefense(DefenseTemplateModel defenseModel, RoleRollsDbContext dbContext)
         {
             var defense = Defenses.First(defense => defense.Id == defenseModel.Id);
             defense.Update(defenseModel);
             dbContext.DefenseTemplates.Update(defense);
+            return DefenseTemplateUpdated.FromDefenseTemplate(defenseModel);
         }
     }
 }
