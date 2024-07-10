@@ -24,6 +24,7 @@ export class CmEditorComponent<T extends Entity, TCreateInput extends Entity> im
   @Input() entityId: string;
   @Input() disableSave = false;
   @Input() hasDelete = true;
+  @Input() hasSave = true;
   @Input() disableDelete = false;
   @Input() action: EditorAction;
   @Input() service: BaseCrudService<T, TCreateInput>;

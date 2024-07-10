@@ -34,6 +34,7 @@ export class PocketCreatureEditorComponent implements OnInit {
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
   public creatureId: string;
+  public creatureType: CreatureType;
 
   public get attributes(): FormArray {
     return this.form.get('attributes') as FormArray;
@@ -61,6 +62,7 @@ export class PocketCreatureEditorComponent implements OnInit {
   ) {
     this.campaign = config.data.campaign;
     this.editorAction = config.data.action;
+    this.creatureType = config.data.creatureType;
     if (this.editorAction === EditorAction.update) {
       this.creatureId = config.data.creatureId;
     }
@@ -68,7 +70,7 @@ export class PocketCreatureEditorComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (this.editorAction === EditorAction.create) {
-      this.creature = await this.campaignService.instantiateNewCreature(this.campaign.id).toPromise();;
+      this.creature = await this.campaignService.instantiateNewCreature(this.campaign.id, this.creatureType).toPromise();;
     } else {
       this.creature = await this.campaignService.getCreature(this.campaign.id, this.creatureId).toPromise();;
     }
@@ -106,7 +108,7 @@ export class PocketCreatureEditorComponent implements OnInit {
   public save() {
     const creature = this.form.getRawValue() as PocketCreature;
     creature.creatureType = CreatureType.Hero;
-    const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature) 
+    const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature)
     : this.campaignService.updateCreature(this.campaign.id, creature);
     saveAction.subscribe(() => {
       this.dialogRef.close();

@@ -46,7 +46,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     throw new ArgumentOutOfRangeException();
             }
         }
-        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId) 
+        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType creatureType) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
@@ -56,6 +56,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,
+                Type = creatureType
             };
             foreach (var life in creature.Lifes)
             {
@@ -197,6 +198,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var defense = Defenses.First(defense => defense.DefenseTemplateId == defenseTemplateModel.Id);
             defense.Update(defenseTemplateModel);
             dbContext.Update(defense);
+        }
+
+        public void FullRestore()
+        {
+            ProcessLifes();
         }
     }
    

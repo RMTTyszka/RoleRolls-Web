@@ -72,11 +72,17 @@ export class AuthenticationService {
     if (userId) {
       this.userId = userId;
     }
+    const loggedOn = localStorage.getItem(LohAuthLoggedOnApp)
+    if (loggedOn) {
+      this.loggedOn = loggedOn as unknown as LoggedApp;
+    }
+
   }
   public cleanTokenAndUserName() {
     this.token = null;
     this.userName = null;
     this.userNameChanged.next(null);
+    this.loggedOn = null;
     localStorage.removeItem(LohAuthTokenName);
     localStorage.removeItem(LohAuthUserName);
     localStorage.removeItem(LohAuthLoggedOnApp);

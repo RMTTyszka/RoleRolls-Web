@@ -1,45 +1,7 @@
 <p-panel header="Heroes">
   <div *ngFor="let hero of heroes">
-    <div class="p-inputgroup">
-      <button pButton icon="pi pi-minus" *ngIf="isMaster" class="p-inputgroup-addon" (click)="removeHero(hero)"></button>
-      <button pButton class="p-inputgroup-addon p-button-secondary" (click)='editHero(hero)'>
-        {{hero.name}}
-      </button>
-      <ng-container *ngFor="let life of hero.lifes">
-        <span *ngIf="isMaster || isOwner(hero) || true" class="p-inputgroup-addon">
-          {{life.name}} | {{life.value}}
-      </span>
-    </ng-container>
-    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon" pTooltip="Roll dice"
-     (click)="selectHeroForRoll(hero); rollPanel.toggle($event)"></button>
-    <button *ngIf="isMaster || isOwner(hero)" pButton icon="fas fa-tint" class="p-inputgroup-addon" pTooltip="Damage/Heal"
-     (click)="takeDamage(hero)"></button>
-      <button *ngIf="isMaster" pButton icon="fas fa-calculator" class="p-inputgroup-addon" pTooltip="Simulate CD"
-     (click)="selectHeroForSimulateCd(hero); simulateCdPanel.toggle($event)"></button>
-    </div>
+    <rr-campaign-creature-row [creature]="hero"></rr-campaign-creature-row>
   </div>
 </p-panel>
 
-<p-overlayPanel #rollPanel>
-  <ng-template pTemplate>
-    <p-tieredMenu [model]="rollOptions"></p-tieredMenu>
-  </ng-template>
-</p-overlayPanel>
 
-<p-overlayPanel #simulateCdPanel>
-  <ng-template pTemplate>
-    <p-tieredMenu [model]="simluateCdOptions"></p-tieredMenu>
-  </ng-template>
-</p-overlayPanel>
-
-<p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false">
-  <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
-</p-sidebar>
-
-<p-sidebar [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false" [style]="{width:'40em'}">
-  <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
-</p-sidebar>
-
-<p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">
-  <rr-pocket-take-damage [inputEmitter]="takeDamageInputEmitter" [campaign]="campaign" [scene]="scene"></rr-pocket-take-damage>
-</p-sidebar>

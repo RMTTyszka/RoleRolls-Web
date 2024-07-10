@@ -35,7 +35,7 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Entities
 
         public Creature InstantiateCreature(string name, Guid campaignId, CreatureType type, Guid ownerId)
         {
-            var creature = Creature.FromTemplate(this, campaignId);
+            var creature = Creature.FromTemplate(this, campaignId, type);
             creature.OwnerId = ownerId;
             creature.Type = type;
             creature.Name = name;

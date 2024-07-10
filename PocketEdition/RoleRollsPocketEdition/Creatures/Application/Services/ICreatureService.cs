@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition.Creatures.Application.Dtos;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Rolls.Application;
 using RoleRollsPocketEdition.Rolls.Services;
@@ -11,7 +12,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
         Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input);
         Task<CreatureModel> GetAsync(Guid id);
         Task<CreatureUpdateValidationResult> UpdateAsync(Guid creatureId, CreatureModel creatureModel);
-        Task<CreatureModel> InstantiateFromTemplate(Guid campaignId);
+        Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureType creatureType);
         Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
         Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
 

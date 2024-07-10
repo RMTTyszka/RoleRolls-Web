@@ -2,9 +2,11 @@
 
 @import 'app/theming/colors';
 @import 'app/theming/primen-ng/theme';
+@import '../node_modules/primeflex/primeflex.css';
 // @import 'app/theming/prime-ng-theming';
 
 @import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
+
 
 .font-base {
   font-family: 'IM Fell English SC';

@@ -23,6 +23,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-damage.component';
 import { SimulateCdComponent } from './campaign-rolls/simulate-cd/simulate-cd.component';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { CampaignCreatureRowComponent } from './campaign-creature-row/campaign-creature-row.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
     RollDiceComponent,
     PocketTakeDamageComponent,
     SimulateCdComponent,
+    CampaignCreatureRowComponent,
   ],
   imports: [
     CommonModule,

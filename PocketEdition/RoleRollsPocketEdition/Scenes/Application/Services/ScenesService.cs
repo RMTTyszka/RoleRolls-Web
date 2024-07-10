@@ -108,8 +108,14 @@ namespace RoleRollsPocketEdition.Scenes.Application.Services
                 SceneId = sceneId,
                 Hidden = creature.Hidden,
                 CreatureType = CreatureType.Monster
-
             }).ToList(); ;
+            var monsterIds = creatures.Select(c => c.CreatureId).ToList();
+            var monsters = await _roleRollsDbContext.Creatures.Where(e => monsterIds.Contains(e.Id))
+                .ToListAsync();
+            foreach (var monster in monsters)
+            {
+                monster.FullRestore();
+            }
             await _roleRollsDbContext.SceneCreatures.AddRangeAsync(sceneCreatures);
             await _roleRollsDbContext.SaveChangesAsync();
         }

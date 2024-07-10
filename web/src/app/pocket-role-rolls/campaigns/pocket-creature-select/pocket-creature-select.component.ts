@@ -5,6 +5,7 @@ import { createForm } from 'src/app/shared/EditorExtension';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
+import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'rr-pocket-creature-select',
@@ -14,6 +15,7 @@ import { PocketCampaignsService } from '../pocket-campaigns.service';
 export class PocketCreatureSelectComponent implements OnInit {
   @Input() campaign: PocketCampaignModel;
   @Input() placeholder: string;
+  @Input() creatureType: CreatureType;
   @Output() creatureSelected = new EventEmitter<PocketCreature>();
   result: string[] = [];
   creatures: PocketCreature[] = [];
@@ -26,15 +28,15 @@ export class PocketCreatureSelectComponent implements OnInit {
   }
 
   search(event) {
-    this.campaignsService.getCreatures(this.campaign.id).pipe(
+    this.campaignsService.getCreatures(this.campaign.id, this.creatureType).pipe(
       tap(resp => this.creatures = resp),
       map(resp => resp.map(creature => creature.name))
           ).subscribe(response => this.result = response);
   }
-  selected(race: string) {
-    const selectedRace = this.creatures.find(r => r.name === race);
+  selected(creatureName: string) {
+    const selectedCreature = this.creatures.find(r => r.name === creatureName);
     const form = new FormGroup({});
-    createForm(form , selectedRace);
-    this.creatureSelected.emit(selectedRace);
+    createForm(form , selectedCreature);
+    this.creatureSelected.emit(selectedCreature);
   }
 }

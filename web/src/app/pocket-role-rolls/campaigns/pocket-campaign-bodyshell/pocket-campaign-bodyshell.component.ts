@@ -16,6 +16,7 @@ import { PocketCreatureEditorComponent } from '../../pocket-creature-editor/pock
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
+import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 
 @Component({
   selector: 'rr-pocket-campaign-bodyshell',
@@ -40,6 +41,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   public isMaster: boolean;
   public notInvited: boolean;
   public displayInsertInvitationCode: boolean;
+  public creatureTypeEnum = CreatureType;
   constructor(
     private readonly route: ActivatedRoute,
     private readonly campaignService: PocketCampaignsService,
@@ -124,7 +126,8 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       height: '100vh',
       data: {
         campaign: this.campaign,
-        action: EditorAction.create
+        action: EditorAction.create,
+        creatureType: CreatureType.Hero
       },
     });
   }
@@ -133,7 +136,7 @@ export class PocketCampaignBodyshellComponent implements OnInit {
       creatureId: hero.id,
       hidden: false
     } as SceneCreature;
-    this.campaignService.addCreatureToScene(this.campaignId, this.selectedScene.id, input)
+    this.campaignService.addHeroToScene(this.campaignId, this.selectedScene.id, input)
     .subscribe(() => {
       this.detailsService.heroAddedToScene.next();
     });

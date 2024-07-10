@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Application.Services;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
 
 namespace RoleRollsPocketEdition.Creatures.Application.Controllers
@@ -35,9 +36,9 @@ namespace RoleRollsPocketEdition.Creatures.Application.Controllers
             return creatures;
         }     
         [HttpGet("new")]
-        public async Task<ActionResult<CreatureModel>> NewAsync([FromRoute] Guid campaignId)
+        public async Task<ActionResult<CreatureModel>> NewAsync([FromRoute] Guid campaignId, [FromQuery] CreatureType creatureType)
         {
-            var creature = await _creatureService.InstantiateFromTemplate(campaignId);
+            var creature = await _creatureService.InstantiateFromTemplate(campaignId, creatureType);
             return Ok(creature);
         }  
         [HttpPost("")]

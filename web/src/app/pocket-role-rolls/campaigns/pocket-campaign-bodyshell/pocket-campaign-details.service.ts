@@ -11,6 +11,9 @@ export class PocketCampaignDetailsService {
   public sceneChanged = new Subject<CampaignScene>();
   public campaignLoaded = new Subject<PocketCampaignModel>();
   public heroAddedToScene = new Subject<void>();
+  public heroRemovedToScene = new Subject<void>();
+  public monsterAddedToScene = new Subject<void>();
+  public monsterRemovedToScene = new Subject<void>();
   public heroTookDamage = new Subject<void>();
   public campaign: PocketCampaignModel;
 

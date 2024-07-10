@@ -116,14 +116,20 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
    public getCreatureTemplate(id: string): Observable<CreatureTemplateModel> {
     return this.http.get<CreatureTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
   }
-  public getCreatures(campaignId: string): Observable<PocketCreature[]> {
-    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`);
+  public getCreatures(campaignId: string, creatureType: CreatureType): Observable<PocketCreature[]> {
+    const params = new HttpParams().set('creatureType', creatureType)
+    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`, {
+      params
+    });
   }
   public getCreature(campaignId: string, creatureId: string): Observable<PocketCreature> {
     return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/${creatureId}`);
   }
-  public instantiateNewCreature(campaignId: string):  Observable<PocketCreature> {
-    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/new`, );
+  public instantiateNewCreature(campaignId: string, creatureType: CreatureType):  Observable<PocketCreature> {
+    const params = new HttpParams().set('creatureType', creatureType)
+    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/new`, {
+      params
+    }, );
   }
   public createCreature(campaignId: string, creature: PocketCreature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/creatures`, creature);
@@ -152,8 +158,11 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     const params = new HttpParams().set('creatureType', creatureType);
     return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
-  public addCreatureToScene(campaignId: string, sceneId: string, input: SceneCreature) {
+  public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/heroes`, [input]);
+  }
+  public addMonsterToScene(campaignId: string, sceneId: string, input: SceneCreature) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/monsters`, [input]);
   }
   public removeCreatureFromScene(campaignId: string, sceneId: string, creatureId: string) {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}`);

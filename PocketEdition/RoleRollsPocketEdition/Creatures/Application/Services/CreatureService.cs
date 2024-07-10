@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Creatures.Application.Dtos;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
@@ -34,6 +35,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 .Include(creature => creature.Lifes)
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
+                .WhereIf(input.CreatureType.HasValue, creature => creature.Type == input.CreatureType)
                 .Where(creature => campaignId == creature.CampaignId);
 
             if (input.CreatureIds.Any()) 
@@ -44,11 +46,6 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             if (input.OwnerId.HasValue) 
             {
                 query = query.Where(creature => input.OwnerId == creature.OwnerId);
-            }
-
-            if (input.CreatureType.HasValue) 
-            {
-                query = query.Where(creature => creature.Type == input.CreatureType.Value);
             }
                 
             var creatures = await query
@@ -96,11 +93,11 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             return result;
         }
 
-        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId)
+        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureType creatureType)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
-            var creature = Creature.FromTemplate(creatureTemplate, campaignId);
+            var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureType);
             var output = new CreatureModel(creature);
             return output;
         }

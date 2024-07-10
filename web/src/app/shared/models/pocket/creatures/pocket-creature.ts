@@ -9,6 +9,7 @@ export class PocketCreature extends PocketEntity {
   public skills: PocketSkill[] = [];
   public lifes: PocketLife[] = [];
   public creatureType: CreatureType;
+  public ownerId: string;
 }
 
 export class PocketAttribute extends PocketEntity {
@@ -48,7 +49,6 @@ export enum PocketSkillProficience {
 
 
 export class PocketHero extends PocketCreature {
-  public ownerId: string;
 }
 
 export class PocketMonster extends PocketCreature {

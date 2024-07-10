@@ -47,7 +47,9 @@ export class RollDiceComponent implements OnInit {
     this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
     .subscribe((roll: PocketRoll) => {
       this.rollResult = roll;
-      this.rollResultEmitter.next(true);
+      if (this.rollResultEmitter) {
+        this.rollResultEmitter.next(true);
+      }
     });
   }
   public cleanRolls() {

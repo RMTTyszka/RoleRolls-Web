@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LOH_API} from './loh.api';
 import { AuthenticationService } from './authentication/authentication.service';
@@ -9,7 +9,7 @@ import { LoggedApp } from './shared/models/login/LoggedApp';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   serverUrl = LOH_API.myBackUrl;
 
   public loggedOnEnum = LoggedApp;
@@ -21,6 +21,11 @@ export class AppComponent {
     private authenticationService: AuthenticationService,
   ) {
 
+  }
+  public ngOnInit(): void {
+    if (this.loggedOn) {
+      this.authenticationService.loggedOn = LoggedApp.Pocket;
+    }
   }
 
   resetDummies() {

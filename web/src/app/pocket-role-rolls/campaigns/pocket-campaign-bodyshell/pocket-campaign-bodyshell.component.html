@@ -8,7 +8,7 @@
             <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
           </div>
           <div class="p-inputgroup" *ngIf="isMaster && selectedScene">
-            <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
+            <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" [creatureType]="creatureTypeEnum.Hero" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
           </div>
         </p-fieldset>
         <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event)" #invitationButton></button>
