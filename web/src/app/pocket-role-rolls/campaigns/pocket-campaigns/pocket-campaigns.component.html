@@ -1,1 +1,19 @@
-<rr-rr-grid [service]="service" [config]="config" ></rr-rr-grid>
+<rr-rr-grid [service]="service" [config]="config" [headerActions]="actions"></rr-rr-grid>
+
+<p-overlayPanel #invitationCodeOverlay>
+  <ng-template pTemplate>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon"> Invitation Code</span>
+      <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
+      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+
+<p-dialog header="Insert Invitation Code" [(visible)]="displayInsertInvitationCode">
+  <input type="text" pInputText placeholder="Invitation Code" [(ngModel)]="invitationCode">
+  <ng-template pTemplate="footer">
+    <button pButton label="Send" (click)="acceptInvitation()"></button>
+</ng-template>
+</p-dialog>

@@ -1,5 +1,5 @@
 <rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
-               (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields" [hasDelete]="false" [hasSave]="false">
+               (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields" [hasDelete]="false" [hasSave]="action === actionEnum.create">
                 <form form [formGroup]="form" *ngIf="!isLoading">
                   <p-fieldset legend="Campaign">
                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
@@ -11,7 +11,7 @@
                         <span class="p-panel-title p-col-6">Attributes</span>
                         <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="attributeForm" *ngIf="!isLoading">
                           <p-fieldset class="p-col-6">
-                            <input type="text" pInputText placeholder="Attribute Name" formControlName="name" required>
+                            <input type="text" pInputText placeholder="Attribute Name" formControlName="name" required (keydown.enter)="addAttribute()">
                           </p-fieldset>
                           <button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addAttribute()" [disabled]=disabled></button>
                         </div>
@@ -42,7 +42,7 @@
                               <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
                                   <p-fieldset class="p-col-6">
                                     <div class="p-inputgroup">
-                                      <input type="text" pInputText placeholder="Add skill" formControlName="name" required>
+                                      <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkill(attribute)">
                                       <button [disabled]=disabled class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
                                       </div>
                                   </p-fieldset>
@@ -60,7 +60,7 @@
                                       </div>
                                       <div form class="p-col-6" [formGroup]="minorSkillForm">
                                         <div class="p-inputgroup">
-                                          <input type="text" pInputText placeholder="add minor skill" formControlName="name" required>
+                                          <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addMinorSkill(skill)">
                                           <button [disabled]=disabled class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
                                         </div>
                                       </div>
@@ -94,7 +94,7 @@
                     <span class="p-panel-title p-col-6">Lifes</span>
                     <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="lifeForm" *ngIf="!isLoading">
                       <p-fieldset class="p-col-6">
-                        <input type="text" pInputText placeholder="Add Life" formControlName="name" required>
+                        <input type="text" pInputText placeholder="Add Life" formControlName="name" required (keydown.enter)="addLife()">
                       </p-fieldset>
                       <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addLife()"></button>
                     </div>

@@ -16,6 +16,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 })
 export class CampaignCreatorComponent implements OnInit {
   public action = EditorAction.create;
+  public actionEnum = EditorAction;
   public form = new FormGroup({});
   public attributeForm = new FormGroup({});
   public skillForm = new FormGroup({});

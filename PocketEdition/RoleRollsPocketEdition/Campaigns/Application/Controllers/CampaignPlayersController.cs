@@ -31,14 +31,5 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             var invitationCode = await _campaignsService.Invite(campaignId);
             return invitationCode;
         }       
-        [HttpPut]
-        public async Task<ActionResult> AcceptInvitationAsync([FromRoute] Guid campaignId, [FromBody] AcceptInvitationInput input)
-        {
-            var result = await _campaignsService.AcceptInvite(campaignId, _currentUser.User.Id, input.InvitationCode);
-            if (result.Result == Dtos.InvitationResult.Ok) {
-                return Ok();
-            }
-            return new UnprocessableEntityObjectResult(result.Result);
-        }
     }
 }

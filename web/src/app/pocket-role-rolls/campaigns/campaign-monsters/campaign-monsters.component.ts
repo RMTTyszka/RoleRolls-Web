@@ -28,18 +28,17 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
   public get isMaster() {
     return this.campaign.masterId === this.authService.userId;
   }
+  public get loaded() {
+    return this.campaign && this.scene;
+  }
   public rollOptions: MenuItem[] = [];
   public displayRollSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
   public scene: CampaignScene = new CampaignScene();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   public creatureTypeEnum = CreatureType;
-  private selectedMonsterForRoll: PocketMonster;
   private subscriptionManager = new SubscriptionManager();
 
-  private get creatureTemplate(): CreatureTemplateModel {
-    return this.campaign.creatureTemplate;
-  }
   constructor(
     private readonly campaignService: PocketCampaignsService,
     private readonly detailsService: PocketCampaignDetailsService,
@@ -70,9 +69,6 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
       this.refreshMonsteres();
     });
    }
-   public selectMonsterForRoll(monster: PocketMonster) {
-    this.selectedMonsterForRoll = monster;
-   }
    public addMonster(creature: PocketCreature){
     const input = {
       creatureId: creature.id,
@@ -84,11 +80,9 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
       this.refreshMonsteres();
     });
   }
-
   private subscribeToCampaignLoaded() {
     this.subscriptionManager.add('campaignLoaded', this.detailsService.campaignLoaded.subscribe((campaign: PocketCampaignModel) => {
         this.campaign = campaign;
-        this.populateRollOptions();
     }));
   }
 
@@ -106,71 +100,6 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
     });
   }
 
-  private populateRollOptions() {
-    this.creatureTemplate.attributes.forEach(attribute => {
-      const attributeMenu = {
-        label: attribute.name,
-        items: [
-          {
-            label: `Roll ${attribute.name}`,
-            command: (event) => {
-              this.roll(this.selectedMonsterForRoll, RollOrigin.Attribute, attribute.id);
-            }
-          } as MenuItem
-        ]
-      } as MenuItem;
-      const skills = this.creatureTemplate.skills.filter(skill => skill.attributeId === attribute.id) as SkillTemplateModel[];
-      skills.forEach(skill => {
-        const skillMenu = {
-          label: skill.name,
-          items: [
-            {
-              label: `Roll ${skill.name}`,
-              command: (event) => {
-                this.roll(this.selectedMonsterForRoll, RollOrigin.Skill, skill.id);
-              }
-            } as MenuItem
-          ]
-        } as MenuItem;
-        skill.minorSkills.forEach(minorSkill => {
-          const minorSkillMenu = {
-            label: minorSkill.name,
-            command: (event) => {
-              this.roll(this.selectedMonsterForRoll, RollOrigin.MinorSkill, minorSkill.id);
-            }
-          } as MenuItem;
-          skillMenu.items.push(minorSkillMenu);
-        });
-        attributeMenu.items.push(skillMenu);
-      });
-      this.rollOptions.push(attributeMenu);
-    });
-  }
-  private roll(monster: PocketMonster, propertyType: RollOrigin, propertyId: string) {
-    const input = {
-      propertyType: propertyType,
-      creatureId: monster.id,
-    } as RollInput;
-    if (propertyType === RollOrigin.Attribute) {
-      const attribute = monster.attributes.find(a => a.attributeTemplateId === propertyId);
-      input.propertyId = attribute.id;
-      input.propertyName = attribute.name;
-      input.propertyValue = attribute.value;
-    } else if (propertyType === RollOrigin.Skill) {
-      const skill = monster.skills.find(s => s.skillTemplateId === propertyId);
-      input.propertyId = skill.id;
-      input.propertyName = skill.name;
-      input.propertyValue = skill.value;
-    } else if (propertyType === RollOrigin.MinorSkill) {
-      const skill = monster.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
-      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
-      input.propertyId = skill.id;
-      input.propertyName = minorSkills.name;
-      input.propertyValue = skill.value;
-    }
-    this.displayRollSidebar = true;
-    this.rollInputEmitter.next(input);
-  }
   ngOnInit(): void {
   }
   ngOnDestroy(): void {

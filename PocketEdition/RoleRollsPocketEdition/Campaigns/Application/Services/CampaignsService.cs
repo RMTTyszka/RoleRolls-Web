@@ -1,6 +1,7 @@
 ﻿using System.Transactions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Application.Dtos;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Campaigns.Domain.Entities;
@@ -22,12 +23,14 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
         private readonly RoleRollsDbContext _dbContext;
         private readonly ICampaignRepository _campaignRepository;
         private readonly IBus _bus;
+        private readonly ICurrentUser _currentUser;
 
-        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository, IBus bus)
+        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository, IBus bus, ICurrentUser currentUser)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignRepository;
             _bus = bus;
+            _currentUser = currentUser;
         }
 
 
@@ -71,9 +74,15 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             var output = new CampaignModel(campaign, creatureTemplate);
             return output;
         }       
-        public async Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input) 
+        public async Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input)
         {
-            var query = _dbContext.Campaigns
+            var query = (from campaign in _dbContext.Campaigns
+                        .AsNoTracking()
+                join invited in _dbContext.CampaignPlayers
+                        .Where(player => player.PlayerId == _currentUser.User.Id)
+                    on campaign.Id equals invited.CampaignId into groupedPlayers
+                where campaign.MasterId == _currentUser.User.Id || groupedPlayers.Any()
+                select campaign)
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount)
                 .Select(campaign => new CampaignModel(campaign, null));
@@ -309,10 +318,10 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             await _dbContext.SaveChangesAsync();
             return campaignPlayer.InvidationCode.Value;
 ;       }
-        public async Task<ValidationResult<InvitationResult>> AcceptInvite(Guid campaignId, Guid playerId, Guid invitationCode)
+        public async Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode)
         {
             var invitationResult = new ValidationResult<InvitationResult>();
-            var campaignPlayer = await _dbContext.CampaignPlayers.FirstOrDefaultAsync(campaignPlayer => campaignPlayer.CampaignId == campaignId && campaignPlayer.InvidationCode == invitationCode);
+            var campaignPlayer = await _dbContext.CampaignPlayers.FirstOrDefaultAsync(campaignPlayer => campaignPlayer.InvidationCode == invitationCode);
             if (campaignPlayer is not null)
             {
                 campaignPlayer.PlayerId = playerId;

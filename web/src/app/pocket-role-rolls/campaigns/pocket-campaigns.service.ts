@@ -186,11 +186,11 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public invitePlayer(campaignId: string): Observable<string> {
     return this.http.post<string>(`${this.completePath}/${campaignId}/players`, {});
   }
-  public acceptInvitation(campaignId: string, invitationCode: string): Observable<never> {
+  public acceptInvitation(invitationCode: string): Observable<never> {
     const input = {
       invitationCode: invitationCode
     } as AcceptInvitationInput;
-    return this.http.put<never>(`${this.completePath}/${campaignId}/players`, input);
+    return this.http.put<never>(`${this.completePath}/invitations`, input);
   }
 
 

@@ -27,7 +27,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
         Task RemoveLife(Guid id, Guid lifeId);
         Task UpdateLife(Guid id, Guid lifeId, LifeTemplateModel life);
 
-        Task<ValidationResult<InvitationResult>> AcceptInvite(Guid campaignId, Guid playerId, Guid invitationCode);
+        Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode);
         Task<Guid> Invite(Guid campaignId);
     }
 }

@@ -11,6 +11,7 @@
       </div>
       <div class="p-grid p-justify-end p-align-center p-nogutter">
         <div class="p-col">
+          <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack()"></button>
           <button *ngIf="create" pButton type="button" icon="pi pi-plus" class="p-button-secondary" (click)="create()"></button>
         </div>
       </div>
@@ -21,16 +22,16 @@
         <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
       </th>-->
     <tr>
-      <th *ngIf="actions.length > 0" style="width:5%"></th>
+      <th *ngIf="actions.length > 0" [ngStyle]="actionsWidth()"></th>
       <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
 
     <tr [pSelectableRow]="entity">
-      <td *ngIf="actions.length > 0" style="width:5%">
+      <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()">
       <ng-container *ngFor="let action of actions">
-        <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity)" style="margin-right: 4px;"></button>
+        <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity, $event.target)" style="margin-right: 4px;"></button>
       </ng-container>
       </td>
       <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>

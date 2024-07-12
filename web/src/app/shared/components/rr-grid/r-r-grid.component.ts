@@ -22,6 +22,7 @@ export class RRGridComponent<T extends Entity> implements OnInit {
   @Input() create: Function;
   @Input() config: BaseComponentConfig<T>;
   @Input() isSelect: boolean;
+  @Input() headerActions: RRAction<void>[] = [];
   totalCount: number;
   loading = true;
   first = 0;
@@ -30,6 +31,9 @@ get columns() {
 }
 get actions() {
   return this.config.entityListActions;
+}
+public actionsWidth() {
+  return {width: `${this.actions.length * 3}%`}
 }
 
   @Output() rowSelectedEvent = new EventEmitter<T>();
@@ -123,6 +127,6 @@ export class RRAction<T> {
   icon: string;
   csClass: string | null | undefined;
   tooltip: string | null | undefined;
-  callBack: (rowData: T) => void;
+  callBack: (rowData: T, target: any) => void;
   condition: (rowData: T) => boolean;
 }

@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
     this.form = this.fb.group({
 /*       password: [''],
       email: [''] */
-      password: ['123qwe'],
-      email: ['admin@rolerolls.com']
+      password: [],
+      email: []
     });
     this.formCreated = this.fb.group({
       firstName: [],
@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
       userName: [],
 /*       password: [''],
       email: [''] */
-      password: ['123qwe'],
-      email: ['admin@rolerolls.com']
+      password: [],
+      email: []
     });
   }
 

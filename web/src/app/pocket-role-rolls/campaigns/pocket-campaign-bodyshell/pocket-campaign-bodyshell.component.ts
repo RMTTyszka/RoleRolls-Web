@@ -35,12 +35,9 @@ export class PocketCampaignBodyshellComponent implements OnInit {
   public newSceneName: string;
   public scenes: CampaignScene[] = [];
   public menuItens: MenuItem[] = [];
-  @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
-  @ViewChild('invitationButton') public invitationButton: TemplateRef<any>;
-  public invitationCode: string;
+
   public isMaster: boolean;
   public notInvited: boolean;
-  public displayInsertInvitationCode: boolean;
   public creatureTypeEnum = CreatureType;
   constructor(
     private readonly route: ActivatedRoute,
@@ -101,25 +98,8 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     this.selectedScene = scene;
     this.detailsService.sceneChanged.next(this.selectedScene);
   }
-  public invitePlayer(event: any){
-    this.campaignService.invitePlayer(this.campaignId).subscribe((code: string) => {
-      this.invitationCode = code;
-      this.invitationCodeOverlay.toggle(event);
-    });
-  }
 
-  public openAcceptInvitation() {
-    this.displayInsertInvitationCode = true;
-  }
-  public acceptInvitation(){
-    this.campaignService.acceptInvitation(this.campaignId, this.invitationCode)
-    .pipe(finalize(() => {
-      this.displayInsertInvitationCode = false;
-      this.invitationCode = null;
-    })).subscribe(() => {
-      this.notInvited = false;
-    });
-  }
+
   public createHero(){
     this.dialogService.open(PocketCreatureEditorComponent, {
       width: '100vw',

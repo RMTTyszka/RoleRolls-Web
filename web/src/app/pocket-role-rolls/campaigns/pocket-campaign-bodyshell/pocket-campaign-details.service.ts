@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { StorageService } from '../../../../../node_modules/ngx-webstorage-service';
@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 export class PocketCampaignDetailsService {
 
   public sceneChanged = new Subject<CampaignScene>();
-  public campaignLoaded = new Subject<PocketCampaignModel>();
+  public campaignLoaded = new BehaviorSubject<PocketCampaignModel>(null);
   public heroAddedToScene = new Subject<void>();
   public heroRemovedToScene = new Subject<void>();
   public monsterAddedToScene = new Subject<void>();

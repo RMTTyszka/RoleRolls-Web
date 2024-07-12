@@ -95,9 +95,11 @@ export class CampaignCreatureRowComponent implements OnInit {
 
   private subscribeToCampaignLoaded() {
     this.subscriptionManager.add('campaignLoaded', this.detailsService.campaignLoaded.subscribe((campaign: PocketCampaignModel) => {
+      if (campaign) {
         this.campaign = campaign;
         this.populateRollOptions();
         this.populateSimulateCdOptions();
+      }
     }));
   }
   private subscribeToSceneChanges() {
