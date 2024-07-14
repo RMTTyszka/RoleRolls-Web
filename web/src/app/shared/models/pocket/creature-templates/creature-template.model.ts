@@ -36,3 +36,6 @@ export class MinorSkillsTemplateModel extends Entity {
 export class LifeTemplateModel extends Entity {
   public formula: string;
 }
+export class DefenseTemplateModel extends Entity {
+  public formula: string;
+}

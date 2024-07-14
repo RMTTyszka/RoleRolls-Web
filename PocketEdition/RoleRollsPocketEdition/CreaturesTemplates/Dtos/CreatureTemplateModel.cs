@@ -19,7 +19,10 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Dtos
             Attributes = template.Attributes.Select(attribute => new AttributeTemplateModel(attribute)).ToList();
             Skills = template.Skills.Select(skill => new SkillTemplateModel(skill)).ToList();
             Lifes = template.Lifes.Select(life => new LifeTemplateModel(life)).ToList();
+            Defenses = template.Defenses.Select(defense => new DefenseTemplateModel(defense)).ToList();
         }
+
+        public List<DefenseTemplateModel> Defenses { get; set; } = new();
 
         public Guid Id { get; set; }
         public string Name { get; set; }

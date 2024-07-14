@@ -4,7 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { AttributeTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
@@ -21,6 +21,7 @@ export class CampaignCreatorComponent implements OnInit {
   public attributeForm = new FormGroup({});
   public skillForm = new FormGroup({});
   public minorSkillForm = new FormGroup({});
+  public defenseForm = new FormGroup({});
   public lifeForm = new FormGroup({});
   public isLoading = true;
   public entity: PocketCampaignModel;
@@ -40,6 +41,9 @@ export class CampaignCreatorComponent implements OnInit {
   }
   public get skills(): FormArray {
     return this.form?.get('creatureTemplate.skills') as FormArray;
+  }
+  public get defenses(): FormArray {
+    return this.form?.get('creatureTemplate.defenses') as FormArray;
   }
   public attributeSkills(attributeId: string): FormArray {
     return this.skillsMapping.get(attributeId);
@@ -189,6 +193,36 @@ export class CampaignCreatorComponent implements OnInit {
     });
   }
 
+  public addDefense() {
+    const defense = this.lifeForm.value as DefenseTemplateModel;
+    defense.formula = '';
+    this.service.addDefense(this.entity.id, defense)
+    .subscribe(() => {
+      const formArray = this.defenses;
+      const newFormGroup = new FormGroup({});
+      createForm(newFormGroup, this.defenseForm.value);
+      formArray.controls.push(newFormGroup);
+      this.defenseForm.reset();
+      this.defenseForm.get('id').setValue(uuidv4());
+    });
+  }
+
+  public updateDefense(defenseControl: FormGroup) {
+    const defense = defenseControl.value as DefenseTemplateModel;
+    this.service.updateDefense(this.entity.id, defense.id, defense)
+    .subscribe();
+  }
+
+
+  public removeDefense(defenseControl: FormControl, index: number) {
+    const defense = defenseControl.value as LifeTemplateModel;
+    this.service.removeDefense(this.entity.id, defense.id)
+    .subscribe(() => {
+      const formArray = this.defenses;
+      formArray.removeAt(index);
+    });
+  }
+
   loaded(entity: PocketCampaignModel) {
     this.isLoading = false;
     this.entity = entity;
@@ -196,6 +230,8 @@ export class CampaignCreatorComponent implements OnInit {
     createForm(this.skillForm, new SkillTemplateModel());
     createForm(this.minorSkillForm, new MinorSkillsTemplateModel());
     createForm(this.lifeForm, new LifeTemplateModel());
+    createForm(this.defenseForm, new DefenseTemplateModel());
+
     this.attributeForm.get('id').setValue(uuidv4());
     this.skillForm.get('id').setValue(uuidv4());
     this.minorSkillForm.get('id').setValue(uuidv4());

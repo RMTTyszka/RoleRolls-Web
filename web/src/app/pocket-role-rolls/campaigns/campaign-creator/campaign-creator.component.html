@@ -115,7 +115,36 @@
                       </div>
                     </div>
                   </div>
+
 </p-panel>
+<p-panel [toggleable]="true">
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col-6">Lifes</span>
+    <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
+      <p-fieldset class="p-col-6">
+        <input type="text" pInputText placeholder="Add Life" formControlName="name" required (keydown.enter)="addDefense()">
+      </p-fieldset>
+      <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addDefense()"></button>
+    </div>
+</p-header>
+<div formGroupName="creatureTemplate">
+  <div formArrayName="defenses">
+    <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
+      <div [formGroup]="life">
+        <div class="p-inputgroup">
+           <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
+           <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeDefense(life, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+        </div>
+        <div class="p-inputgroup">
+          <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateDefense(defense)">
+          <button [disabled]=disabled class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="10 + level + Agility" fitContent="true"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</p-panel>
+
 </ng-container>
 </form>
 </rr-cm-editor>

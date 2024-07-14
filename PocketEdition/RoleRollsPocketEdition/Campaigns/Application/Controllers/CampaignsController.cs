@@ -135,6 +135,24 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _campaignsService.UpdateLife(campaignId, lifeId, life);
             return Ok();
         }
+        [HttpPost("{campaignId}/defenses")]
+        public async Task<IActionResult> AddDefense([FromRoute] Guid campaignId, [FromBody] DefenseTemplateModel defense)
+        {
+            await _campaignsService.AddDefense(campaignId, defense);
+            return Ok();
+        }
+        [HttpDelete("{campaignId}/defenses/{lifeId}")]
+        public async Task<IActionResult> RemoveDefense([FromRoute] Guid campaignId, [FromRoute] Guid lifeId)
+        {
+            await _campaignsService.RemoveDefense(campaignId, lifeId);
+            return Ok();
+        }
+        [HttpPut("{campaignId}/defenses/{lifeId}")]
+        public async Task<IActionResult> UpdateDefense([FromRoute] Guid campaignId, [FromRoute] Guid lifeId, [FromBody] DefenseTemplateModel life)
+        {
+            await _campaignsService.UpdateDefense(campaignId, lifeId, life);
+            return Ok();
+        }
         [HttpGet("{id}/scenes/{sceneId}/rolls")]
         public async Task<IActionResult> GetRolls([FromRoute] Guid sceneId, [FromRoute] Guid id, [FromQuery] PagedRequestInput input)
         {

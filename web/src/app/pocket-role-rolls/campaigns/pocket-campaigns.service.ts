@@ -13,7 +13,7 @@ import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-s
 import { CampaignPlayer } from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
-import { AttributeTemplateModel, CreatureTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import { AttributeTemplateModel, CreatureTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { v4 as uuidv4 } from 'uuid';
 import { PocketRoll } from './models/pocket-roll.model';
@@ -26,6 +26,7 @@ import { SimulateCdResult } from './models/simulate-cd-result';
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
+
 
 
 
@@ -109,6 +110,16 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
    }
    public removeLife(campaignId: string, lifeId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
+   }
+
+   public addDefense(campaignId: string, defense: DefenseTemplateModel) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/defenses`, defense);
+  }
+  public updateDefense(campaignId: string, defenseId: string, defense: DefenseTemplateModel): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/defenses/${defenseId}`, defense);
+   }
+   public removeDefense(campaignId: string, defenseId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/defenses/${defenseId}`);
    }
 
 

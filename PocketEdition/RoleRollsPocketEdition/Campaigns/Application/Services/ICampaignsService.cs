@@ -29,5 +29,8 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
 
         Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode);
         Task<Guid> Invite(Guid campaignId);
+        Task AddDefense(Guid campaignId, DefenseTemplateModel defense);
+        Task RemoveDefense(Guid campaignId, Guid defenseId);
+        Task UpdateDefense(Guid campaignId, Guid defenseId, DefenseTemplateModel defense);
     }
 }

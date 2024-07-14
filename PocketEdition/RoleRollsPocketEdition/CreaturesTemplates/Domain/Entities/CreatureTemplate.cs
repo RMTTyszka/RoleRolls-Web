@@ -14,6 +14,7 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Entities
             Attributes = new List<AttributeTemplate>();
             Skills = new List<SkillTemplate>();
             Lifes = new List<LifeTemplate>();
+            Defenses = new List<DefenseTemplate>();
         }
         public CreatureTemplate(CreatureTemplateModel template) : base()
         {
