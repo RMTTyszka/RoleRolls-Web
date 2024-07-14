@@ -50,12 +50,14 @@ export class CampaignRollsComponent implements OnInit, OnDestroy {
   ) {
     this.subscriptionManager.add('sceneChanged', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
       this.scene = scene;
-/*       this.getList({
+      if (this.scene)
+ {
+  this.loaded = true;
+  this.getList();
+   }/*       this.getList({
         rows: 5,
         first: 0
       } as LazyLoadEvent); */
-      this.loaded = true;
-    this.getList();
     this.subscriptionManager.add('pollingRolls', interval(5000).subscribe(() => {
       this.getList();
       }))

@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class PocketCampaignDetailsService {
 
-  public sceneChanged = new Subject<CampaignScene>();
+  public sceneChanged = new BehaviorSubject<CampaignScene>(null);
   public campaignLoaded = new BehaviorSubject<PocketCampaignModel>(null);
   public heroAddedToScene = new Subject<void>();
   public heroRemovedToScene = new Subject<void>();

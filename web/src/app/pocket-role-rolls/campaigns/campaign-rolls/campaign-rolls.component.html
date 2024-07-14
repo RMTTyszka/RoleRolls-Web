@@ -1,5 +1,5 @@
 <p-panel header="Rolls" class="card" *ngIf="loaded">
-  <p-table [columns]="columns" [value]="rolls">
+  <p-table [columns]="columns" [value]="rolls" *ngIf="scene">
       <ng-template pTemplate="header" let-columns>
           <tr>
               <th>Creature</th>

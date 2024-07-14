@@ -66,7 +66,9 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
   private subscribeToSceneChanges() {
     this.subscriptionManager.add('sceneChanged', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
         this.scene = scene;
-        this.refreshCreaturees(false);
+        if (this.scene) {
+          this.refreshCreaturees(false);
+        }
     }));
   }
 
