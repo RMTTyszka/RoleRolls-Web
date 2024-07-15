@@ -40,6 +40,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.AddMassTransit(configurador =>
 {
     configurador.AddConsumer<CampaignUpdatedHandler>();
+    configurador.AddConsumer<DefenseTemplateUpdatedHandler>();
     configurador.UsingInMemory((context, cfg) =>
     {
         cfg.ConfigureEndpoints(context);

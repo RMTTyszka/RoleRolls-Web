@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Creatures.Entities;
+﻿using RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Events;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Infrastructure;
@@ -150,11 +150,15 @@ namespace RoleRollsPocketEdition.CreaturesTemplates.Entities
             return DefenseTemplateAdded.FromDefenseTemplate(defense);
         }
 
-        public void RemoveDefense(Guid defenseId, RoleRollsDbContext dbContext)
+        public DefenseTemplateRemoved RemoveDefense(Guid defenseId, RoleRollsDbContext dbContext)
         {
             var defense = Defenses.First(defense => defense.Id == defenseId);
             Defenses.Remove(defense);
             dbContext.DefenseTemplates.Remove(defense);
+            return new DefenseTemplateRemoved
+            {
+                DefenseTemplateId = defenseId
+            };
         }
 
         public DefenseTemplateUpdated UpdateDefense(DefenseTemplateModel defenseModel, RoleRollsDbContext dbContext)

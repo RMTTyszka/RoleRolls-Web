@@ -33,8 +33,9 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
                 .AsNoTracking()
                 .Include(creature => creature.Attributes)
                 .Include(creature => creature.Lifes)
+                .Include(creature => creature.Defenses)
                 .Include(creature => creature.Skills)
-                .ThenInclude(skill => skill.MinorSkills)
+                    .ThenInclude(skill => skill.MinorSkills)
                 .WhereIf(input.CreatureType.HasValue, creature => creature.Type == input.CreatureType)
                 .Where(creature => campaignId == creature.CampaignId);
 
@@ -133,6 +134,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var creature = await _dbContext.Creatures
                 .Include(creature => creature.Attributes)
                 .Include(creature => creature.Lifes)
+                .Include(creature => creature.Defenses)
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == id);

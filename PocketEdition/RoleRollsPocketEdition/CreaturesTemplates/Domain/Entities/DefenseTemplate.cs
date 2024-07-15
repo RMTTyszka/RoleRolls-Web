@@ -3,7 +3,7 @@ using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
 
-public class DefenseTemplate : Entity
+public class DefenseTemplate : Entity, IDefenseTemplate
 {
     public DefenseTemplate()
     {

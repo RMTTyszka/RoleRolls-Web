@@ -47,6 +47,9 @@ export class PocketCreatureEditorComponent implements OnInit {
   public get lifes(): FormArray {
     return this.form.get('lifes') as FormArray;
   }
+  public get defenses(): FormArray {
+    return this.form.get('defenses') as FormArray;
+  }
   public attributeSkills(attributeId: string): FormArray {
     return this.skillsMapping.get(attributeId);
   }

@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.CreaturesTemplates.Domain.Events;
+namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
 
 public class DefenseTemplateRemoved
 {

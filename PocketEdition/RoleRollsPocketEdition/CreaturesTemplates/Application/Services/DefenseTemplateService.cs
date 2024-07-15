@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Events;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Infrastructure;

@@ -326,47 +326,32 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Services
             var creatureTemplate = await _dbContext.CreatureTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
-            await creatureTemplate.AddDefenseAsync(defense, _dbContext);
+            var defenseAdded = await creatureTemplate.AddDefenseAsync(defense, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
-            await _bus.Publish(new DefenseAdded
-            {
-                Defense = defense,
-                CampaignId = campaignId,
-                CreatureTemplateId = creatureTemplate.Id
-            });
+            await _bus.Publish(defenseAdded);
         }
 
         public async Task RemoveDefense(Guid campaignId, Guid defenseId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CreatureTemplates
-                .Include(template => template.Lifes)
+                .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
-            creatureTemplate.RemoveDefense(defenseId, _dbContext);
+            var defenseRemoved = creatureTemplate.RemoveDefense(defenseId, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
-            await _bus.Publish(new DefenseRemoved
-            {
-                DefenseId = defenseId,
-                CampaignId = campaignId,
-                CreatureTemplateId = creatureTemplate.Id
-            });
+            await _bus.Publish(defenseRemoved);
         }
 
         public async Task UpdateDefense(Guid campaignId, Guid defenseId, DefenseTemplateModel defense)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
-            creatureTemplate.UpdateDefense(defense, _dbContext);
+            var defenseUpdate = creatureTemplate.UpdateDefense(defense, _dbContext);
             _dbContext.CreatureTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
-            await _bus.Publish(new DefenseUpdated
-            {
-                Defenses = defense,
-                CampaignId = campaignId,
-                CreatureTemplateId = creatureTemplate.Id
-            });
+            await _bus.Publish(defenseUpdate);
         }
 
         public async Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode)

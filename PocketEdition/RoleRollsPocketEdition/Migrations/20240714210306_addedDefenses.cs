@@ -44,6 +44,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     table.PrimaryKey("PK_DefenseTemplates", x => x.Id);
                     table.ForeignKey(
+                        
                         name: "FK_DefenseTemplates_CreatureTemplates_CreatureTemplateId",
                         column: x => x.CreatureTemplateId,
                         principalTable: "CreatureTemplates",

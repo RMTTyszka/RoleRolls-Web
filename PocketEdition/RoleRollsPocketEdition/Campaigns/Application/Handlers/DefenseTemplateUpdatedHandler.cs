@@ -1,8 +1,8 @@
 using EFCore.BulkExtensions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
 using RoleRollsPocketEdition.Creatures.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Events;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Campaigns.Application.Handlers;

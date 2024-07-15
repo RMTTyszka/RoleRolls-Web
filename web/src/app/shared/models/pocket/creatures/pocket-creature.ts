@@ -8,6 +8,7 @@ export class PocketCreature extends PocketEntity {
   public attributes: PocketAttribute[] = [];
   public skills: PocketSkill[] = [];
   public lifes: PocketLife[] = [];
+  public defenses: PocketDefense[] = [];
   public creatureType: CreatureType;
   public ownerId: string;
 }
@@ -38,6 +39,10 @@ export class PocketLife extends PocketEntity {
   public name: string;
   public value: number;
   public maxValue: number;
+}
+export class PocketDefense extends PocketEntity {
+  public name: string;
+  public value: number;
 }
 export enum PocketSkillProficience {
   Expert = 0, // +4

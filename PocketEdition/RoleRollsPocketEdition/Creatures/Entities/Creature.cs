@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Creatures.Models;
+﻿using System.Data;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
 using RoleRollsPocketEdition.Global;
@@ -27,6 +28,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Attributes = new List<Attribute>();
             Skills = new List<Skill>();
             Lifes = new List<Life>();
+            Defenses = new List<Defense>();
         }
         public (int propertyValue, int rollBonus) GetPropertyValue(RollPropertyType propertyType, Guid propertyId)
         {
@@ -203,6 +205,22 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public void FullRestore()
         {
             ProcessLifes();
+        }
+
+        public int ApplyFormula(string formula)
+        {
+            var replacesFormula = Attributes.Aggregate(formula,
+                (formula, attribute) => formula.Replace(attribute.Name, attribute.Value.ToString()));
+     
+            DataTable dt = new DataTable();
+            var result = dt.Compute(replacesFormula,"");
+
+            if (int.TryParse(result.ToString(), out var value))
+            {
+                return value;
+            }
+
+            return 0;
         }
     }
    

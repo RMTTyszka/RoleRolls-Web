@@ -169,6 +169,12 @@
 
 
 
+  <ItemGroup>
+    <Folder Include="CreaturesTemplates\Domain\Events\" />
+  </ItemGroup>
+
+
+
 
 
 </Project>

@@ -95,6 +95,23 @@
       </div>
     </div>
 </p-panel>
+<p-panel [toggleable]="true">
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col-6">Defenses</span>
+  </p-header>
+    <div formArrayName="defenses">
+      <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
+        <div [formGroup]="defense">
+          <div class="p-inputgroup">
+             <input type="text" pInputText placeholder="Name" formControlName="name">
+          </div>
+               <div class="p-inputgroup">
+             <input type="text" pInputText placeholder="Value" formControlName="value">
+          </div>
+        </div>
+      </div>
+    </div>
+</p-panel>
   </form>
   <button style="display: flex; flex: initial" pButton label="Save" (click)=save() [disabled]=!canSave()></button>
 </div>

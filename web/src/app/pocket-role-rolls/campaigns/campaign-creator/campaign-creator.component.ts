@@ -194,7 +194,7 @@ export class CampaignCreatorComponent implements OnInit {
   }
 
   public addDefense() {
-    const defense = this.lifeForm.value as DefenseTemplateModel;
+    const defense = this.defenseForm.value as DefenseTemplateModel;
     defense.formula = '';
     this.service.addDefense(this.entity.id, defense)
     .subscribe(() => {
@@ -236,6 +236,8 @@ export class CampaignCreatorComponent implements OnInit {
     this.skillForm.get('id').setValue(uuidv4());
     this.minorSkillForm.get('id').setValue(uuidv4());
     this.lifeForm.get('id').setValue(uuidv4());
+    this.defenseForm.get('id').setValue(uuidv4());
+
     this.buildSkills();
     this.disabled = !this.authService.isMaster(this.entity.masterId);
     if (this.disabled) {
