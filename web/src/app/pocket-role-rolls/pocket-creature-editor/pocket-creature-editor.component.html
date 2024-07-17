@@ -84,13 +84,15 @@
         <div [formGroup]="life">
           <div class="p-inputgroup">
              <input type="text" pInputText placeholder="Name" formControlName="name">
+             <div class="p-inputgroup-addon p-input-filled life-value" >
+              <input type="text" pInputText placeholder="Value" formControlName="value">
+           </div>
+           <div class="p-inputgroup-addon life-max-value" pTooltip="Max Value">
+            <input type="text" pInputText placeholder="Max" formControlName="maxValue">
+         </div>
           </div>
-          <div class="p-inputgroup">
-             <input type="text" pInputText placeholder="Max" formControlName="maxValue">
-          </div>
-               <div class="p-inputgroup">
-             <input type="text" pInputText placeholder="Value" formControlName="value">
-          </div>
+
+
         </div>
       </div>
     </div>
@@ -104,10 +106,11 @@
         <div [formGroup]="defense">
           <div class="p-inputgroup">
              <input type="text" pInputText placeholder="Name" formControlName="name">
+             <div class="p-inputgroup-addon">
+              <input type="text" pInputText placeholder="Value" formControlName="value">
+           </div>
           </div>
-               <div class="p-inputgroup">
-             <input type="text" pInputText placeholder="Value" formControlName="value">
-          </div>
+
         </div>
       </div>
     </div>

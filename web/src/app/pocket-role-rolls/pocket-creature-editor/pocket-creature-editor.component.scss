@@ -1,3 +1,5 @@
+@import '../../theming/colors';
+
 :host {
   width: 100%;
 }
@@ -9,4 +11,9 @@
 
 .modal-container {
 
+}
+.life-max-value {
+  background-color: $dangerColor;
+}
+.life-value {
 }

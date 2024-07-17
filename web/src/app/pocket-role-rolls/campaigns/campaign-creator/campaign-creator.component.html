@@ -122,7 +122,7 @@
     <span class="p-panel-title p-col-6">Defenses</span>
     <div class="p-col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
       <p-fieldset class="p-col-6">
-        <input type="text" pInputText placeholder="Add Life" formControlName="name" required (keydown.enter)="addDefense()">
+        <input type="text" pInputText placeholder="Add Defense" formControlName="name" required (keydown.enter)="addDefense()">
       </p-fieldset>
       <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="addDefense()"></button>
     </div>
