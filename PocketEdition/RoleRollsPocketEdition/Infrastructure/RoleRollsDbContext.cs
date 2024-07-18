@@ -20,6 +20,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Skill> Skills { get; set; }
         public DbSet<MinorSkill> MinorSkills { get; set; }
         public DbSet<Life> Lifes { get; set; }
+        public DbSet<CreaturePower> CreaturePowers { get; set; }
         public DbSet<CreatureTemplate> CreatureTemplates { get; set; }
         public DbSet<AttributeTemplate> AttributeTemplates { get; set; }
         public DbSet<SkillTemplate> SkillTemplates { get; set; }
@@ -31,7 +32,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Scene> CampaignScenes { get; set; }
         public DbSet<SceneCreature> SceneCreatures { get; set; }
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
-        public DbSet<Power> Powers { get; set; }
+        public DbSet<PowerTemplate> PowerTemplates { get; set; }
         public DbSet<Defense> Defenses { get; set; }
         public DbSet<DefenseTemplate> DefenseTemplates { get; set; }
 

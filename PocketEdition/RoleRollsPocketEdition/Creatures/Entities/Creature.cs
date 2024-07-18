@@ -15,6 +15,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public ICollection<Life> Lifes { get; set; }
         public ICollection<Defense> Defenses { get; set; }
+        public ICollection<CreaturePower> Powers { get; set; }
 
         public Guid CampaignId { get; set; }
         public Guid CreatureTemplateId { get; set; }
