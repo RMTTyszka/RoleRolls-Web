@@ -70,10 +70,7 @@ namespace RoleRollsPocketEdition.Creatures.Application.Services
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
-                foreach (var life in creature.Lifes)
-                {
-                    life.Value = life.MaxValue;
-                }
+                creature.FullRestore();
                 await _dbContext.Creatures.AddAsync(creature);
                 await _dbContext.SaveChangesAsync();
                 result.Creature = new CreatureModel(creature);

@@ -25,7 +25,8 @@ import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
   providers: [PocketCampaignDetailsService, DialogService]
 })
 export class PocketCampaignBodyshellComponent implements OnInit {
-
+  @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
+  public invitationCode: string;
   public campaignId: string;
   public loadMe = false;
   public campaign: PocketCampaignModel = new PocketCampaignModel();
@@ -99,6 +100,12 @@ export class PocketCampaignBodyshellComponent implements OnInit {
     this.detailsService.sceneChanged.next(this.selectedScene);
   }
 
+  public invitePlayer(target: any){
+    this.campaignService.invitePlayer(this.campaign.id).subscribe((code: string) => {
+      this.invitationCode = code;
+      this.invitationCodeOverlay.toggle(true, target);
+    });
+  }
 
   public createHero(){
     this.dialogService.open(PocketCreatureEditorComponent, {

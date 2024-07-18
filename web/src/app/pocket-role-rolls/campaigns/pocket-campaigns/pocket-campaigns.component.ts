@@ -1,6 +1,6 @@
 import { ConfirmationService } from 'primeng/api';
 import { AuthenticationService } from './../../../authentication/authentication.service';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponentConfig } from 'src/app/shared/components/base-component-config';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
@@ -23,6 +23,7 @@ export class PocketCampaignsComponent implements OnInit {
   public invitationCode: string;
   public config = new PocketCampaignConfig();
   public actions: RRAction<void>[] = [];
+  public refreshGrid = new EventEmitter<never>();
   constructor(
     public service: PocketCampaignsService,
     private readonly authenticationService: AuthenticationService,
@@ -90,6 +91,7 @@ export class PocketCampaignsComponent implements OnInit {
       this.displayInsertInvitationCode = false;
       this.invitationCode = null;
     })).subscribe(() => {
+      this.refreshGrid.next();
     });
   }
   private invitePlayer(entity: PocketCampaignModel, target: any){

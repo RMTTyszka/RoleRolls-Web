@@ -205,6 +205,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public void FullRestore()
         {
             ProcessLifes();
+            foreach (var life in Lifes)
+            {
+                life.Value = life.MaxValue;
+            }
         }
 
         public int ApplyFormula(string formula)

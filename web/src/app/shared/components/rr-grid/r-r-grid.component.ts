@@ -22,6 +22,7 @@ export class RRGridComponent<T extends Entity> implements OnInit {
   @Input() create: Function;
   @Input() config: BaseComponentConfig<T>;
   @Input() isSelect: boolean;
+  @Input() refresh: EventEmitter<never>;
   @Input() headerActions: RRAction<void>[] = [];
   totalCount: number;
   loading = true;
@@ -47,6 +48,11 @@ public actionsWidth() {
     this.universeService.universeChanged.subscribe(() => {
       this.get();
     });
+    if (this.refresh) {
+      this.refresh.subscribe(() => {
+        this.get();
+      })
+    }
     this.service.entityUpdated.subscribe(entity => this.updateData(entity));
     this.service.entityCreated.subscribe(entity => this.addData(entity));
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));

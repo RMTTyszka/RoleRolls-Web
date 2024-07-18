@@ -11,11 +11,8 @@
             <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" [creatureType]="creatureTypeEnum.Hero" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
           </div>
         </p-fieldset>
-        <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event)" #invitationButton></button>
-<!--         <button *ngIf="!isMaster" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button>
- -->        <button *ngIf="!notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
-        <!--  <button *ngIf="!isMaster && notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary"></button> -->
-         <button *ngIf="notInvited" pButton label="accept invitation" icon="pi pi-plus" class="p-button-secondary" (click)="openAcceptInvitation()"></button>
+        <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event.target)" #invitationButton></button>
+        <button *ngIf="!notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
       </div>
     </ng-template>
   <div class="p-grid p-justify-between p-align-start">
@@ -25,5 +22,15 @@
       <rr-campaign-rolls class="p-col-6"></rr-campaign-rolls>
   </div>
 </p-panel>
+
+<p-overlayPanel #invitationCodeOverlay>
+  <ng-template pTemplate>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon"> Invitation Code</span>
+      <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
+      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode" (click)="invitationCodeOverlay.toggle(false)"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
 
 

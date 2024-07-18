@@ -39,7 +39,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             if (int.TryParse(result.ToString(), out var value))
             {
                 MaxValue = value;
-                Value = value;
             }
         }
     }
