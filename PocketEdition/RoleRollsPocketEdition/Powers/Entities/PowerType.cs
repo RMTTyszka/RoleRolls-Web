@@ -2,8 +2,8 @@ namespace RoleRollsPocketEdition.Powers.Entities
 {
     public enum PowerType
     {
-        Combat = 1,
-        Utility = 2,
-        Passive = 2,
+        Instant = 0,
+        Buff = 1,
+        None = 2,
     }
 }

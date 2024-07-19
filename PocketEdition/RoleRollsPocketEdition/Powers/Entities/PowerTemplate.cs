@@ -8,13 +8,23 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public Campaign Campaign { get; set; }
         public Guid CampaignId { get; set; }
         public PowerType Type { get; set; }
+        public PowerDurationType PowerDurationType { get; set; }
+        public int? Duration { get; set; }
         public PowerActionType  ActionType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string CastFormula { get; set; }
+        public string CastDescription { get; set; }
         public Guid? UseAttributeId { get; set; }
         public Guid? TargetDefenseId { get; set; }
         public int? Useges { get; set; }
         public UsageType? UsageType { get; set; }
+    }
+
+    public enum PowerDurationType
+    {
+        Instant = 0,
+        Turns = 1,
     }
 
     public enum UsageType
