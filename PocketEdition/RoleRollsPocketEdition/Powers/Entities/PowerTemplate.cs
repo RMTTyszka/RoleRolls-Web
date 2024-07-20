@@ -17,7 +17,7 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public string CastDescription { get; set; }
         public Guid? UseAttributeId { get; set; }
         public Guid? TargetDefenseId { get; set; }
-        public int? Useges { get; set; }
+        public string UsagesFormula { get; set; }
         public UsageType? UsageType { get; set; }
     }
 
@@ -25,6 +25,8 @@ namespace RoleRollsPocketEdition.Powers.Entities
     {
         Instant = 0,
         Turns = 1,
+        Encounter = 2,
+        Session = 3
     }
 
     public enum UsageType
