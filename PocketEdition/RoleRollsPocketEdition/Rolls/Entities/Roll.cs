@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Rolls.Commands;
 
@@ -8,7 +9,8 @@ namespace RoleRollsPocketEdition.Rolls.Entities
     {
         public Guid CampaignId { get; set; }
         public Guid SceneId { get; set; }
-        public Guid? ActorId { get; set; }
+        public Guid ActorId { get; set; }
+        public ActionActorType ActorType { get; set; }
         public string RolledDices { get; set; }
         public int NumberOfDices { get; set; }
         public int RollBonus { get; set; }
@@ -29,7 +31,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         public Roll()
         {
         }
-        public Roll(Guid campaignId, Guid sceneId, Guid? actorId, Guid propertyId, RollPropertyType propertyType,
+        public Roll(Guid campaignId, Guid sceneId, Guid actorId, Guid propertyId, RollPropertyType propertyType,
             bool hidden, string description)
         {
             CampaignId = campaignId;

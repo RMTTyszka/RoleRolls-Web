@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Application.Dtos;
 using RoleRollsPocketEdition.Campaigns.Domain;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Campaigns.Domain.Events;
 using RoleRollsPocketEdition.Campaigns.Domain.Events.Attributes;
 using RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
@@ -14,6 +13,7 @@ using RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 
 namespace RoleRollsPocketEdition.Campaigns.Domain.Models
 {

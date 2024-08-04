@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Commands;
@@ -11,10 +12,12 @@ namespace RoleRollsPocketEdition.Rolls.Application
     {
 
         private readonly RoleRollsDbContext _roleRollsDbContext;
+        private readonly ICurrentUser _currentUser;
 
-        public RollService(RoleRollsDbContext roleRollsDbContext)
+        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser)
         {
             _roleRollsDbContext = roleRollsDbContext;
+            _currentUser = currentUser;
         }
         
 
@@ -140,7 +143,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
             var rollCommand = new RollDiceCommand(input.PropertyBonus, input.PropertyBonus, input.RollBonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, null, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
+            var roll = new Roll(campaignId, sceneId, _currentUser.User.Id, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 

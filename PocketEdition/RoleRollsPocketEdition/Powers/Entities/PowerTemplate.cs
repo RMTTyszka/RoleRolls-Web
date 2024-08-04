@@ -1,4 +1,4 @@
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Global;
 
 namespace RoleRollsPocketEdition.Powers.Entities

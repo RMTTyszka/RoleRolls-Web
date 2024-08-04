@@ -1,8 +1,7 @@
-﻿using System;
-using RoleRollsPocketEdition.Global;
+﻿using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Scenes.Domain.Models;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Entities
+namespace RoleRollsPocketEdition.Domain.Campaigns.Entities
 {
     public class Scene : Entity
     {

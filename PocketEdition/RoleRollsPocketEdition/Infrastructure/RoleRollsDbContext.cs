@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Users;
-using RoleRollsPocketEdition.Campaigns.Domain.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
