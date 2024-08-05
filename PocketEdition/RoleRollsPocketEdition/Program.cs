@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Campaigns.Application.Handlers;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
 var RoleRollsPolicyOrigins = "rolerolls";
@@ -36,6 +37,7 @@ builder.Services.AddEntityFrameworkNpgsql()
         options.UseNpgsql(builder.Configuration.GetConnectionString("RoleRolls"), x => x.MigrationsAssembly(typeof(RoleRollsDbContext).Assembly.ToString()));
     }, ServiceLifetime.Transient);
 builder.Services.AddServices();
+builder.Services.AddImplementationsUsingInterfaceB(typeof(Program).Assembly);
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddMassTransit(configurador =>
 {
