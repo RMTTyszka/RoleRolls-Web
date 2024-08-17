@@ -24,7 +24,7 @@ public class CampaignSceneHistoryService : ICampaignSceneHistoryService, ITransi
 
     public CampaignSceneHistoryService(RoleRollsDbContext dbContext, IMemoryCache memoryCache)
     {
-        this._dbContext = dbContext;
+        _dbContext = dbContext;
         _memoryCache = memoryCache;
     }
 
