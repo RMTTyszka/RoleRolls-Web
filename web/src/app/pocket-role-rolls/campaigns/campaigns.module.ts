@@ -24,6 +24,7 @@ import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-dama
 import { SimulateCdComponent } from './campaign-rolls/simulate-cd/simulate-cd.component';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { CampaignCreatureRowComponent } from './campaign-creature-row/campaign-creature-row.component';
+import { CampaignHistoryComponent } from './campaign-history/campaign-history.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -44,6 +45,7 @@ const routes: Routes = [
     PocketTakeDamageComponent,
     SimulateCdComponent,
     CampaignCreatureRowComponent,
+    CampaignHistoryComponent,
   ],
   imports: [
     CommonModule,

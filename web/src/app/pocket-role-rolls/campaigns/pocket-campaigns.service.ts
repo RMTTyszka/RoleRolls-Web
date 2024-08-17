@@ -26,19 +26,6 @@ import { SimulateCdResult } from './models/simulate-cd-result';
   providedIn: 'root'
 })
 export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel, PocketCampaignModel> {
-
-
-
-
-
-
-
-
-
-
-
-
-
   public path = 'campaigns';
   public selectPlaceholder: string;
   public fieldName: string;
