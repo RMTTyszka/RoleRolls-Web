@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Application.Services;
+using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Global.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Commands;
@@ -13,11 +15,13 @@ namespace RoleRollsPocketEdition.Rolls.Application
 
         private readonly RoleRollsDbContext _roleRollsDbContext;
         private readonly ICurrentUser _currentUser;
+        private readonly IHubContext<SceneHub, ISceneHub> _hubContext;
 
-        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser)
+        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, IHubContext<SceneHub, ISceneHub> hubContext)
         {
             _roleRollsDbContext = roleRollsDbContext;
             _currentUser = currentUser;
+            _hubContext = hubContext;
         }
         
 
@@ -103,6 +107,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 RollBonus = roll.RollBonus
             }).ToList();
 
+            _hubContext.Clients.All.UpdateHistory("hehehehehe");
             return new PagedResult<RollModel>
             {
                 Content = output,
@@ -137,6 +142,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
 
             await _roleRollsDbContext.AddAsync(roll);
             await _roleRollsDbContext.SaveChangesAsync();
+            _hubContext.Clients.All.UpdateHistory("hehehehehe");
             return rollResult;
         }
 

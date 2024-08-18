@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Campaigns.Application.Handlers;
 using RoleRollsPocketEdition.Core;
+using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;
 
 var RoleRollsPolicyOrigins = "rolerolls";
@@ -24,6 +25,7 @@ builder.Services.AddCors(options =>
                           policy
                           .AllowAnyHeader()
                           .AllowAnyMethod()
+                          .AllowCredentials()
                           .AllowAnyOrigin();
                       });
 });
@@ -58,19 +60,10 @@ builder.Services.AddMassTransit(configurador =>
     });
     configurador.AddTransactionalEnlistmentBus();*/
 });
-/*builder.Services.AddHttpsRedirection(options =>
-{
-    options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-    options.HttpsPort = 5125;
-});*/
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
-/*// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}*/
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
@@ -80,6 +73,9 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseMiddleware<JwtMiddleware>();
 app.UseCors(RoleRollsPolicyOrigins);
+app.MapHub<SceneHub>("/sceneHub")
+    .RequireCors(RoleRollsPolicyOrigins)
+    .AllowAnonymous();
 app.MapControllers();
 
 app.Run();

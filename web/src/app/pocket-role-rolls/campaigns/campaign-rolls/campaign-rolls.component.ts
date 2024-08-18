@@ -58,9 +58,9 @@ export class CampaignRollsComponent implements OnInit, OnDestroy {
         rows: 5,
         first: 0
       } as LazyLoadEvent); */
-    this.subscriptionManager.add('pollingRolls', interval(5000).subscribe(() => {
+/*    this.subscriptionManager.add('pollingRolls', interval(5000).subscribe(() => {
       this.getList();
-      }))
+      }))*/
     }));
 
    }
