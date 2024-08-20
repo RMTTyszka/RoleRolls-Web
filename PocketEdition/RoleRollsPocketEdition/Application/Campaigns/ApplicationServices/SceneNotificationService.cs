@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using RoleRollsPocketEdition.Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 
@@ -6,7 +7,7 @@ namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 
 public interface ISceneNotificationService
 {
-    Task NotifyScene(Guid sceneId, string message);
+    Task NotifyScene(Guid sceneId, SceneHistoryDto message);
 }
 
 public class SceneNotificationService : ISceneNotificationService, ITransientDepency
@@ -18,7 +19,7 @@ public class SceneNotificationService : ISceneNotificationService, ITransientDep
         _hubContext = hubContext;
     }
 
-    public async Task NotifyScene(Guid sceneId, string message)
+    public async Task NotifyScene(Guid sceneId, SceneHistoryDto message)
     {
         await _hubContext.Clients.Group(SceneHub.SceneGroup(sceneId)).UpdateHistory(message);
     }

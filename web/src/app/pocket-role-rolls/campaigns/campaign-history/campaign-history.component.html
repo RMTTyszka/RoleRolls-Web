@@ -1,1 +1,8 @@
-<p>campaign-history works!</p>
+<p-timeline [value]="histories">
+  <ng-template pTemplate="content" let-event>
+    {{event.message}}
+  </ng-template>
+  <ng-template pTemplate="opposite" let-event>
+    <small class="p-text-secondary">{{event.dateTime}}</small>
+  </ng-template>
+</p-timeline>

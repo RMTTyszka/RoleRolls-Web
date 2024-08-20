@@ -23,10 +23,10 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials()
-                          .AllowAnyOrigin();
+                              .WithOrigins("http://localhost:4200")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowCredentials();
                       });
 });
 builder.Services.AddControllers(op => op.SuppressAsyncSuffixInActionNames = false);

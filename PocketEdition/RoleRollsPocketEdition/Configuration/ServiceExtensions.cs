@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Authentication.Application.Services;
+﻿using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain;
 using RoleRollsPocketEdition.Creatures.Application.Services;
@@ -23,6 +24,7 @@ namespace RoleRollsPocketEdition.Configuration
             services.AddScoped<ICurrentUser, CurrentUser>();
             services.AddScoped<IRollSimulationService, RollSimulationService>();
             services.AddScoped<IDefenseTemplateService, DefenseTemplateService>();
+            services.AddScoped<ICampaignSceneHistoryBuilderService, CampaignSceneHistoryBuilderService>();
             return services;
         }
     }

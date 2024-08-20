@@ -25,6 +25,7 @@ import { SimulateCdComponent } from './campaign-rolls/simulate-cd/simulate-cd.co
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { CampaignCreatureRowComponent } from './campaign-creature-row/campaign-creature-row.component';
 import { CampaignHistoryComponent } from './campaign-history/campaign-history.component';
+import {TimelineModule} from "primeng/timeline";
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -47,22 +48,23 @@ const routes: Routes = [
     CampaignCreatureRowComponent,
     CampaignHistoryComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
 
-    SlideMenuModule,
+        SlideMenuModule,
 
-    SharedModule,
-    PanelModule,
-    DynamicDialogModule,
-    AutoCompleteModule,
-    TieredMenuModule,
-    SidebarModule,
-    MessagesModule,
-    ConfirmDialogModule,
-    DividerModule,
-    ProgressSpinnerModule
-  ]
+        SharedModule,
+        PanelModule,
+        DynamicDialogModule,
+        AutoCompleteModule,
+        TieredMenuModule,
+        SidebarModule,
+        MessagesModule,
+        ConfirmDialogModule,
+        DividerModule,
+        ProgressSpinnerModule,
+        TimelineModule
+    ]
 })
 export class CampaignsModule { }

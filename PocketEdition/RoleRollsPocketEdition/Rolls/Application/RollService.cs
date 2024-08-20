@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Global.Dtos;
@@ -15,13 +17,15 @@ namespace RoleRollsPocketEdition.Rolls.Application
 
         private readonly RoleRollsDbContext _roleRollsDbContext;
         private readonly ICurrentUser _currentUser;
-        private readonly IHubContext<SceneHub, ISceneHub> _hubContext;
+        private readonly ISceneNotificationService _sceneNotificationService;
+        private readonly ICampaignSceneHistoryBuilderService _historyService;
 
-        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, IHubContext<SceneHub, ISceneHub> hubContext)
+        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService historyService)
         {
             _roleRollsDbContext = roleRollsDbContext;
             _currentUser = currentUser;
-            _hubContext = hubContext;
+            _sceneNotificationService = sceneNotificationService;
+            _historyService = historyService;
         }
         
 
@@ -107,7 +111,6 @@ namespace RoleRollsPocketEdition.Rolls.Application
                 RollBonus = roll.RollBonus
             }).ToList();
 
-            _hubContext.Clients.All.UpdateHistory("hehehehehe");
             return new PagedResult<RollModel>
             {
                 Content = output,
@@ -142,7 +145,8 @@ namespace RoleRollsPocketEdition.Rolls.Application
 
             await _roleRollsDbContext.AddAsync(roll);
             await _roleRollsDbContext.SaveChangesAsync();
-            _hubContext.Clients.All.UpdateHistory("hehehehehe");
+            var history = await _historyService.BuildHistory(roll);
+            _sceneNotificationService.NotifyScene(sceneId, history);
             return rollResult;
         }
 

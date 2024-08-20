@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition.Authentication;
 using RoleRollsPocketEdition.Campaigns.Application.Services;
 using RoleRollsPocketEdition.Campaigns.Domain.Models;
@@ -19,17 +20,25 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
 
         private readonly ICreatureService _creatureService;
         private readonly IRollService _rollService;
+        private readonly ICampaignSceneHistoryBuilderService _campaignSceneHistoryBuilderService;
 
-        public CampaignScenesController(IRollService rollService, ICreatureService creatureService)
+        public CampaignScenesController(IRollService rollService, ICreatureService creatureService, ICampaignSceneHistoryBuilderService campaignSceneHistoryBuilderService)
         {
             _rollService = rollService;
             _creatureService = creatureService;
+            _campaignSceneHistoryBuilderService = campaignSceneHistoryBuilderService;
         }
 
         [HttpGet("{sceneId}/rolls")]
         public async Task<IActionResult> GetRolls([FromRoute] Guid sceneId, [FromRoute] Guid campaignId, [FromQuery] PagedRequestInput input)
         {
             var result = await _rollService.GetAsync(campaignId, sceneId, input);
+            return Ok(result);
+        }  
+        [HttpGet("{sceneId}/history")]
+        public async Task<IActionResult> GetHistory([FromRoute] Guid sceneId, [FromRoute] Guid campaignId)
+        {
+            var result = await _campaignSceneHistoryBuilderService.GetListV2(campaignId, sceneId);
             return Ok(result);
         }      
         [HttpGet("{sceneId}/rolls/{rollId}")]
