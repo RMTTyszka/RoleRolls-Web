@@ -1,4 +1,7 @@
+import {HistoryType} from "./history-type";
+
 export class HistoryDto {
-  public dateTime: string;
-  public message: string;
+  public asOfDate: string;
+  public type: HistoryType;
+  public actor: string;
 }

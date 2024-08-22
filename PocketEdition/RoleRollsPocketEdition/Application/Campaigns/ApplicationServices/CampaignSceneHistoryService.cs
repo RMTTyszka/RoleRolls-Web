@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using RoleRollsPocketEdition.Application.Campaigns.Dtos;
@@ -12,8 +13,8 @@ public interface ICampaignSceneHistoryBuilderService
 {
     Task<List<CampaignSceneHistoryOutput>> GetList(Guid campaignId, Guid sceneId, GetSceneHistoryInput input);
     DateTime? GetLastHistoryTime(Guid campaignId, Guid sceneId);
-    Task<SceneHistoryDto> BuildHistory(Roll roll);
-    Task<List<SceneHistoryDto>> GetListV2(Guid campaignId, Guid sceneId);
+    Task<SceneHistory> BuildHistory(Roll roll);
+    Task<List<SceneHistory>> GetListV2(Guid campaignId, Guid sceneId);
 }
 
 public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderService, ITransientDepency
@@ -43,20 +44,20 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
             .ToList();
         return history;
     }     
-    public async Task<List<SceneHistoryDto>> GetListV2(Guid campaignId, Guid sceneId)
+    public async Task<List<SceneHistory>> GetListV2(Guid campaignId, Guid sceneId)
     {
         var rolls = await _dbContext.Rolls
             .AsNoTracking()
             .Where(roll => roll.SceneId == sceneId)
             .ToListAsync();
-        var history = new List<SceneHistoryDto>();
+        var history = new List<SceneHistory>();
         foreach (var roll in rolls)
         {
             history.Add(await BuildHistory(roll));   
         }
-        return history;
+        return history.OrderByDescending(e => e.AsOfDate).ToList();
     }     
-    public async Task<SceneHistoryDto> BuildHistory(Roll roll)
+    public async Task<SceneHistory> BuildHistory(Roll roll)
     {
         var actor = await _dbContext.Creatures.Where(c => c.Id == roll.ActorId)
             .Select(c => c.Name)
@@ -74,11 +75,16 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
                 .FirstAsync(),
             _ => throw new ArgumentOutOfRangeException()
         };
-        var message = $"{actor}: check for {property}, rolled {roll.RolledDices} CD: {roll.Complexity}/{roll.Difficulty}";
-        return new SceneHistoryDto
+        return new RollSceneHistory
         {
-            DateTime = DateTime.Now,
-            Message = message
+            AsOfDate = roll.DateTime,
+            Actor = actor,
+            Bonus = roll.RollBonus,
+            Rolls = roll.RolledDices,
+            Success = roll.Success,
+            Complexity = roll.Complexity,
+            Difficulty = roll.Difficulty,
+            Property = property
         };
     }    
     public DateTime? GetLastHistoryTime(Guid campaignId, Guid sceneId)

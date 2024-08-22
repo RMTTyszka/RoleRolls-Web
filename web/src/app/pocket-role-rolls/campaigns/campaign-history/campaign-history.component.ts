@@ -23,16 +23,10 @@ export class CampaignHistoryComponent implements OnInit, OnDestroy {
     private sceneNotificationService: SceneNotificationService,
     private campaignSceneHistoryService: CampaignSceneHistoryService,
     ) {
-    this.subscriptionManager.add('sceneChanged', this.campaignDetailsService.sceneChanged.subscribe((scene: CampaignScene) => {
-      this.scene = scene;
-      if (scene) {
-        this.sceneNotificationService.joinScene(scene.id)
-      }
-    }))
     this.subscriptionManager.add('historyUpdated', this.sceneNotificationService.historyUpdated.subscribe((history: HistoryDto) => {
       console.log(history);
-      if (!this.histories.find(h => h.dateTime == history.dateTime)) {
-        this.histories.push(history);
+      if (!this.histories.find(h => h.asOfDate == history.asOfDate)) {
+        this.histories.unshift(history);
       }
     }))
     this.subscriptionManager.add('campaignLoaded', this.campaignDetailsService.campaignLoaded.subscribe((campaignModel: PocketCampaignModel) => {
@@ -41,6 +35,7 @@ export class CampaignHistoryComponent implements OnInit, OnDestroy {
         this.subscriptionManager.add('sceneChanged', this.campaignDetailsService.sceneChanged.subscribe((campaignScene: CampaignScene) => {
           if (campaignScene) {
             this.scene = campaignScene;
+            this.sceneNotificationService.joinScene(campaignScene.id)
             this.campaignSceneHistoryService.getHistory(this.campaign.id, this.scene .id).subscribe((histories: HistoryDto[]) => {
               this.histories = histories;
             });

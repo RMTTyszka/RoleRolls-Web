@@ -1,8 +1,6 @@
-<p-timeline [value]="histories">
-  <ng-template pTemplate="content" let-event>
-    {{event.message}}
+<p-card *ngFor="let history of histories">
+  <ng-template pTemplate="header">
+    <span>{{history.asOfDate | date: 'yyyy-MM-dd HH:mm'}}</span> -  <span>{{history.actor}}</span>
   </ng-template>
-  <ng-template pTemplate="opposite" let-event>
-    <small class="p-text-secondary">{{event.dateTime}}</small>
-  </ng-template>
-</p-timeline>
+  <rr-history-details [history]="history"></rr-history-details>
+</p-card>

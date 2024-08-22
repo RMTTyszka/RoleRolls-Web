@@ -33,16 +33,20 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         }
         public (int propertyValue, int rollBonus) GetPropertyValue(RollPropertyType propertyType, Guid propertyId)
         {
+            Attribute? attribute;
+            Skill? skill;
             switch (propertyType)
             {
                 case RollPropertyType.Attribute:
-                    return (Attributes.First(attribute => attribute.Id == propertyId).Value, 0);
+                    return (Attributes.First(at => at.Id == propertyId).Value, 0);
                 case RollPropertyType.Skill:
-                    return (Skills.First(skill => skill.Id == propertyId).Value, 0);
+                    skill = Skills.First(sk => sk.Id == propertyId);
+                    attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
+                    return (attribute.Value, 0);
                 case RollPropertyType.MinorSkill:
                     var minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
-                    var skill = Skills.First(skill => skill.Id == minorSkill.SkillId);
-                    var attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
+                    skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
+                    attribute = Attributes.First(at => at.Id == skill.AttributeId);
                     var rollBonus = minorSkill.Points;
                     return (attribute.Value, rollBonus);
                 default:

@@ -4,8 +4,11 @@ import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-s
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { StorageService } from '../../../../../node_modules/ngx-webstorage-service';
 import { tap } from 'rxjs/operators';
+import { v4 as uuidv4 } from 'uuid';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PocketCampaignDetailsService {
 
   public sceneChanged = new BehaviorSubject<CampaignScene>(null);
@@ -16,6 +19,7 @@ export class PocketCampaignDetailsService {
   public monsterRemovedToScene = new Subject<void>();
   public heroTookDamage = new Subject<void>();
   public campaign: PocketCampaignModel;
+  public x = uuidv4();
 
   public get currentScene(): CampaignScene {
     if (this.campaign) {

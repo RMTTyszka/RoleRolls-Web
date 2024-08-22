@@ -39,7 +39,7 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         public async Task<IActionResult> GetHistory([FromRoute] Guid sceneId, [FromRoute] Guid campaignId)
         {
             var result = await _campaignSceneHistoryBuilderService.GetListV2(campaignId, sceneId);
-            return Ok(result);
+            return Ok(result.Select(e => (object)e));
         }      
         [HttpGet("{sceneId}/rolls/{rollId}")]
         public async Task<IActionResult> GetRoll([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid rollId, [FromQuery] PagedRequestInput input)

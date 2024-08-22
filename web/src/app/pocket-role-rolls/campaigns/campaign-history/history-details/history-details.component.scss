@@ -1,0 +1,11 @@
+@import '../../../../theming/colors';
+
+.roll-property {
+  color: $infoColor;
+}
+.roll-success {
+  color: $successColor;
+}
+.roll-failure {
+  color: $dangerColor;
+}

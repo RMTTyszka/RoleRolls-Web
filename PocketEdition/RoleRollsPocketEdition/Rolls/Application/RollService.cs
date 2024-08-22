@@ -146,7 +146,7 @@ namespace RoleRollsPocketEdition.Rolls.Application
             await _roleRollsDbContext.AddAsync(roll);
             await _roleRollsDbContext.SaveChangesAsync();
             var history = await _historyService.BuildHistory(roll);
-            _sceneNotificationService.NotifyScene(sceneId, history);
+            await _sceneNotificationService.NotifyScene(sceneId, history);
             return rollResult;
         }
 
@@ -159,6 +159,8 @@ namespace RoleRollsPocketEdition.Rolls.Application
 
             await _roleRollsDbContext.AddAsync(roll);
             await _roleRollsDbContext.SaveChangesAsync();
+            var history = await _historyService.BuildHistory(roll);
+            await _sceneNotificationService.NotifyScene(sceneId, history);
             return rollResult;
         }
     }

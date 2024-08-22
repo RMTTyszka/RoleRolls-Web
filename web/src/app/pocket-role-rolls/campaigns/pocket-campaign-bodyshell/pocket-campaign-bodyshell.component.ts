@@ -22,7 +22,7 @@ import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
   selector: 'rr-pocket-campaign-bodyshell',
   templateUrl: './pocket-campaign-bodyshell.component.html',
   styleUrls: ['./pocket-campaign-bodyshell.component.scss'],
-  providers: [PocketCampaignDetailsService, DialogService]
+  providers: [DialogService]
 })
 export class PocketCampaignBodyshellComponent implements OnInit {
   @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;

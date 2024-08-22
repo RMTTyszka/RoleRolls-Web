@@ -6,7 +6,7 @@ namespace RoleRollsPocketEdition.Core.NotificationUpdate;
 public class SceneHub : Hub<ISceneHub>
 {
     public static string SceneGroup(Guid sceneId) => $"SceneGroup_{sceneId}";
-    public async Task UpdateHistory(string scene, SceneHistoryDto message)
+    public async Task UpdateHistory(string scene, SceneHistory message)
     {
         await Clients.Group(scene).UpdateHistory(message);
     }
@@ -23,5 +23,5 @@ public class SceneHub : Hub<ISceneHub>
 
 public interface ISceneHub  
 {
-    Task UpdateHistory(SceneHistoryDto message);
+    Task UpdateHistory(SceneHistory message);
 }

@@ -39,12 +39,16 @@ export class SceneNotificationService {
         this.historyUpdated.next(message)
       });
       for (const string of this.groupsToJoin) {
+        console.log('JoinGroup');
         this.connection.invoke("JoinGroup", string);
       }
       this.groupsToJoin = [];
       this.connection.onclose(async error => {
         console.error(error);
         await this.start();
+      })
+      this.connection.onreconnected(() => {
+        console.error("Reconectederror");
       })
     } catch (error) {
       console.error("Error during connection startup:", error);
@@ -53,6 +57,7 @@ export class SceneNotificationService {
   }
   public async joinScene(sceneId: string) {
     if (this.connection.state === HubConnectionState.Connected) {
+      console.log('JoinGroup');
       return this.connection.invoke("JoinGroup", 'SceneGroup_'+sceneId);
     } else {
       this.groupsToJoin.push('SceneGroup_'+sceneId);

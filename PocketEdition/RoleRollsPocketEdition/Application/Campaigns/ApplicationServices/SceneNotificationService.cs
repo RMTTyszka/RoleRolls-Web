@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 
 public interface ISceneNotificationService
 {
-    Task NotifyScene(Guid sceneId, SceneHistoryDto message);
+    Task NotifyScene(Guid sceneId, SceneHistory message);
 }
 
 public class SceneNotificationService : ISceneNotificationService, ITransientDepency
@@ -19,7 +19,7 @@ public class SceneNotificationService : ISceneNotificationService, ITransientDep
         _hubContext = hubContext;
     }
 
-    public async Task NotifyScene(Guid sceneId, SceneHistoryDto message)
+    public async Task NotifyScene(Guid sceneId, SceneHistory message)
     {
         await _hubContext.Clients.Group(SceneHub.SceneGroup(sceneId)).UpdateHistory(message);
     }

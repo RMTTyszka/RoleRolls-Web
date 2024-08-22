@@ -26,6 +26,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { CampaignCreatureRowComponent } from './campaign-creature-row/campaign-creature-row.component';
 import { CampaignHistoryComponent } from './campaign-history/campaign-history.component';
 import {TimelineModule} from "primeng/timeline";
+import {CardModule} from "primeng/card";
+import { HistoryDetailsComponent } from './campaign-history/history-details/history-details.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -47,6 +49,7 @@ const routes: Routes = [
     SimulateCdComponent,
     CampaignCreatureRowComponent,
     CampaignHistoryComponent,
+    HistoryDetailsComponent,
   ],
     imports: [
         CommonModule,
@@ -64,7 +67,8 @@ const routes: Routes = [
         ConfirmDialogModule,
         DividerModule,
         ProgressSpinnerModule,
-        TimelineModule
+        TimelineModule,
+        CardModule
     ]
 })
 export class CampaignsModule { }
