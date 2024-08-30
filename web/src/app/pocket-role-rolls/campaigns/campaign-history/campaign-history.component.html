@@ -1,6 +1,7 @@
-<p-card *ngFor="let history of histories">
-  <ng-template pTemplate="header">
-    <span>{{history.asOfDate | date: 'yyyy-MM-dd HH:mm'}}</span> -  <span>{{history.actor}}</span>
-  </ng-template>
-  <rr-history-details [history]="history"></rr-history-details>
-</p-card>
+
+<div *ngFor="let history of histories" style="padding-bottom: 8px;">
+  <span>{{history.asOfDate | date: 'yyyy-MM-dd HH:mm'}}</span> -  <span>{{history.actor}}</span>
+  <p-card >
+    <rr-history-details [history]="history"></rr-history-details>
+  </p-card>
+</div>

@@ -1,7 +1,9 @@
 ﻿using System.Data;
+using Microsoft.AspNetCore.Connections.Features;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.CreaturesTemplates.Entities;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Global;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Entities;
@@ -181,17 +183,41 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
         }
 
-        public void TakeDamage(Guid lifeId, int value)
+        public SceneAction TakeDamage(Guid lifeId, int value)
         {
             var life = Lifes.First(life => life.Id == lifeId);
             life.Value -= value;
+            return new SceneAction
+            {
+                Description = $"{Name} took {value} of {life.Name} damage",
+                ActorType = Type switch
+                {
+                    CreatureType.Hero => ActionActorType.Hero,
+                    CreatureType.Monster => ActionActorType.Monster,
+                    _ => throw new ArgumentOutOfRangeException()
+                },
+                Id = Guid.NewGuid(),
+                ActorId = Id,
+            };
         }
 
-        public void Heal(Guid lifeId, int value)
+        public SceneAction Heal(Guid lifeId, int value)
         {
             var life = Lifes.First(life => life.Id == lifeId);
             life.Value += value;
             life.Value = Math.Min(life.Value, life.MaxValue);
+            return new SceneAction
+            {
+                Description = $"{Name} healed {value} of {life.Name}",
+                ActorType = Type switch
+                {
+                    CreatureType.Hero => ActionActorType.Hero,
+                    CreatureType.Monster => ActionActorType.Monster,
+                    _ => throw new ArgumentOutOfRangeException()
+                },
+                Id = Guid.NewGuid(),
+                ActorId = Id
+            };
         }
 
         public async Task AddDefenseAsync(Defense defense, RoleRollsDbContext dbContext)

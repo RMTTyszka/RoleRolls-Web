@@ -25,7 +25,6 @@ namespace RoleRollsPocketEdition.Authentication.Application.Services
         public async Task<User> Get(Guid id)
         {
             var user = await _dbContext.Users.FindAsync(id);
-            await _dbContext.DisposeAsync();
             return user;
         }
         public async Task CreateAsync(User user)

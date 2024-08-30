@@ -19,6 +19,11 @@ public class RollSceneHistory : SceneHistory
     public int Difficulty { get; set; }
     public int Complexity { get; set; }
     public override SceneHistoryType Type => SceneHistoryType.Roll;
-
+    public Guid Id { get; set; }
+}
+public class ActionSceneHistory : SceneHistory
+{
+    public override SceneHistoryType Type => SceneHistoryType.Action;
+    public string Description { get; set; }
 }
 

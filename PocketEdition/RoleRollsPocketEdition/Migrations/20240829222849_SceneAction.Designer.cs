@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829222849_SceneAction")]
+    partial class SceneAction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -608,9 +611,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("SceneId")
-                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

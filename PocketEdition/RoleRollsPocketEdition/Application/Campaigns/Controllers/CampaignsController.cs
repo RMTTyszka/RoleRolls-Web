@@ -62,19 +62,5 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
             await _campaignsService.DeleteAsync(campaignId);
             return Ok();
         }
-
-        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/damage")]
-        public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
-        {
-            await _creatureService.TakeDamage(campaignId, sceneId, creatureId, input);
-            return Ok();
-        }      
-        [HttpPost("{campaignId}/scenes/{sceneId}/creatures/{creatureId}/heal")]
-        public async Task<IActionResult> Heal([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
-        {
-            await _creatureService.Heal(campaignId, sceneId, creatureId, input);
-            return Ok();
-        }
-
     }
 }

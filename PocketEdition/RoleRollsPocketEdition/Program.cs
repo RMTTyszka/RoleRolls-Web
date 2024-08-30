@@ -5,6 +5,7 @@ using RoleRollsPocketEdition.Authentication.Dtos;
 using RoleRollsPocketEdition.Configuration;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Campaigns.Application.Handlers;
@@ -30,16 +31,20 @@ builder.Services.AddCors(options =>
                       });
 });
 builder.Services.AddControllers(op => op.SuppressAsyncSuffixInActionNames = false);
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache(op =>
+{
+    op.SizeLimit = null;
+});
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<RoleRollsDbContext>(options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("RoleRolls"), x => x.MigrationsAssembly(typeof(RoleRollsDbContext).Assembly.ToString()));
-    }, ServiceLifetime.Transient);
+    });
 builder.Services.AddServices();
-builder.Services.AddImplementationsUsingInterfaceB(typeof(Program).Assembly);
+builder.Services.AddTransientServices(typeof(Program).Assembly);
+builder.Services.AddScopedServices(typeof(Program).Assembly);
+
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddMassTransit(configurador =>
 {
@@ -77,5 +82,4 @@ app.MapHub<SceneHub>("/sceneHub")
     .RequireCors(RoleRollsPolicyOrigins)
     .AllowAnonymous();
 app.MapControllers();
-
 app.Run();

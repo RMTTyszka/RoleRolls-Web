@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { HistoryDto } from '../../models/history-dto';
 import {HistoryType} from "../../models/history-type";
 import {RollHistoryDto} from "../../models/roll-history-dto";
+import {ActionHistoryDto} from "../../models/action-history-dto";
 
 @Component({
   selector: 'rr-history-details',
@@ -11,6 +12,7 @@ import {RollHistoryDto} from "../../models/roll-history-dto";
 export class HistoryDetailsComponent implements OnInit {
   @Input() public history: HistoryDto;
   public rollHistory: RollHistoryDto;
+  public actionHistory: ActionHistoryDto;
   public historyTypeEnum = HistoryType;
 
   constructor() {
@@ -22,8 +24,12 @@ export class HistoryDetailsComponent implements OnInit {
   }
   private defineType(history: HistoryDto) {
     switch (history.type) {
+      case HistoryType.Action:
+        this.actionHistory = this.history as ActionHistoryDto;
+        break;
       case HistoryType.Roll:
         this.rollHistory = this.history as RollHistoryDto;
+        break;
     }
   }
 }

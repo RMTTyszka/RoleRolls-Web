@@ -21,12 +21,14 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         private readonly ICreatureService _creatureService;
         private readonly IRollService _rollService;
         private readonly ICampaignSceneHistoryBuilderService _campaignSceneHistoryBuilderService;
+        private readonly ICreatureActionsService _creatureActionsService;
 
-        public CampaignScenesController(IRollService rollService, ICreatureService creatureService, ICampaignSceneHistoryBuilderService campaignSceneHistoryBuilderService)
+        public CampaignScenesController(IRollService rollService, ICreatureService creatureService, ICampaignSceneHistoryBuilderService campaignSceneHistoryBuilderService, ICreatureActionsService creatureActionsService)
         {
             _rollService = rollService;
             _creatureService = creatureService;
             _campaignSceneHistoryBuilderService = campaignSceneHistoryBuilderService;
+            _creatureActionsService = creatureActionsService;
         }
 
         [HttpGet("{sceneId}/rolls")]
@@ -76,13 +78,13 @@ namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
         [HttpPost("{sceneId}/creatures/{creatureId}/damage")]
         public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
         {
-            await _creatureService.TakeDamage(campaignId, sceneId, creatureId, input);
+            await _creatureActionsService.TakeDamage(campaignId, sceneId, creatureId, input);
             return Ok();
         }      
         [HttpPost("{sceneId}/creatures/{creatureId}/heal")]
         public async Task<IActionResult> Heal([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
         {
-            await _creatureService.Heal(campaignId, sceneId, creatureId, input);
+            await _creatureActionsService.Heal(campaignId, sceneId, creatureId, input);
             return Ok();
         }
 

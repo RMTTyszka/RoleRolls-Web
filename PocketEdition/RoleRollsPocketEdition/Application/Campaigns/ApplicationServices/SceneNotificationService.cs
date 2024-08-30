@@ -10,7 +10,7 @@ public interface ISceneNotificationService
     Task NotifyScene(Guid sceneId, SceneHistory message);
 }
 
-public class SceneNotificationService : ISceneNotificationService, ITransientDepency
+public class SceneNotificationService : ISceneNotificationService, ITransientDependency
 {
     private readonly IHubContext<SceneHub, ISceneHub> _hubContext;
 

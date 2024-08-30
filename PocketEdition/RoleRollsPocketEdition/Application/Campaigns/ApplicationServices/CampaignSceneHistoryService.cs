@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using RoleRollsPocketEdition.Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Core;
+using RoleRollsPocketEdition.Creatures.Models;
+using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Host.Campaigns.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Entities;
@@ -12,12 +14,12 @@ namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 public interface ICampaignSceneHistoryBuilderService
 {
     Task<List<CampaignSceneHistoryOutput>> GetList(Guid campaignId, Guid sceneId, GetSceneHistoryInput input);
-    DateTime? GetLastHistoryTime(Guid campaignId, Guid sceneId);
     Task<SceneHistory> BuildHistory(Roll roll);
     Task<List<SceneHistory>> GetListV2(Guid campaignId, Guid sceneId);
+    Task<SceneHistory> BuildHistory(SceneAction result);
 }
 
-public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderService, ITransientDepency
+public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderService, ITransientDependency
 {
     private readonly RoleRollsDbContext _dbContext;
     private readonly IMemoryCache _memoryCache;
@@ -49,19 +51,53 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
         var rolls = await _dbContext.Rolls
             .AsNoTracking()
             .Where(roll => roll.SceneId == sceneId)
+            .ToListAsync();       
+        var actions = await _dbContext.SceneActions
+            .AsNoTracking()
+            .Where(roll => roll.SceneId == sceneId)
             .ToListAsync();
         var history = new List<SceneHistory>();
         foreach (var roll in rolls)
         {
             history.Add(await BuildHistory(roll));   
+        }    
+        foreach (var action in actions)
+        {
+            history.Add(await BuildHistory(action));   
         }
         return history.OrderByDescending(e => e.AsOfDate).ToList();
-    }     
-    public async Task<SceneHistory> BuildHistory(Roll roll)
+    }
+
+    public async Task<SceneHistory> BuildHistory(SceneAction result)
     {
-        var actor = await _dbContext.Creatures.Where(c => c.Id == roll.ActorId)
+        var actor = await GetActor(result.ActorId);
+        return new ActionSceneHistory
+        {
+            Actor = actor,
+            AsOfDate = DateTime.Now,
+            Description = result.Description,
+        };
+    }
+
+    private async Task<string> GetActor(Guid actorId)
+    {
+        if (_memoryCache.TryGetValue<string>($"Actor_{actorId}", out var resultActor))
+        {
+            return resultActor;
+        }
+        var actor = await _dbContext.Creatures
+            .AsNoTracking()
+            .Where(c => c.Id == actorId)
             .Select(c => c.Name)
             .FirstAsync();
+        _memoryCache.Set($"Actor_{actorId}", actor);
+        return actor;
+    }
+
+
+    public async Task<SceneHistory> BuildHistory(Roll roll)
+    {
+        var actor = await GetActor(roll.ActorId);
         var property = roll.PropertyType switch
         {
             RollPropertyType.Attribute => await _dbContext.Attributes.Where(e => e.Id == roll.PropertyId)
@@ -84,14 +120,8 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
             Success = roll.Success,
             Complexity = roll.Complexity,
             Difficulty = roll.Difficulty,
-            Property = property
+            Property = property,
+            Id = roll.Id
         };
     }    
-    public DateTime? GetLastHistoryTime(Guid campaignId, Guid sceneId)
-    {
-        if (_memoryCache.TryGetValue<DateTime?>(HistoryCacheKey(sceneId), out var lastDate));
-        {
-            return lastDate;
-        }
-    }
 }

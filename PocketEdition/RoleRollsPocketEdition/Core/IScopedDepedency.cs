@@ -1,6 +1,5 @@
 namespace RoleRollsPocketEdition.Core;
 
-public interface ITransientDepency
+public interface IScopedDepedency
 {
-    
 }
