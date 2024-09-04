@@ -39,12 +39,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<DefenseTemplate> DefenseTemplates { get; set; }
         public DbSet<SceneAction> SceneActions { get; set; }
         public DbSet<ItemTemplate> ItemTemplates { get; set; }
-        public DbSet<ArmorTemplate> ArmorTemplates { get; set; }
-        public DbSet<WeaponTemplate> WeaponTemplates { get; set; }
-        
         public DbSet<ItemInstance> ItemInstances { get; set; }
-        public DbSet<ArmorInstance> ArmorInstances { get; set; }
-        public DbSet<WeaponInstance> WeaponInstances { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -78,9 +73,13 @@ namespace RoleRollsPocketEdition.Infrastructure
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if (typeof(Entity).IsAssignableFrom(entityType.ClrType))
+                if (typeof(Entity).IsAssignableFrom(entityType.ClrType) && entityType.BaseType is null)
                 {
                     modelBuilder.Entity(entityType.ClrType).HasKey("Id");
+                }
+                else
+                {
+                    Console.WriteLine($"Entity type {entityType.ClrType} is not supported");
                 }
             }
 
