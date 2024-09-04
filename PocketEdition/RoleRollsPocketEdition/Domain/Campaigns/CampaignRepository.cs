@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.CreaturesTemplates.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain
+namespace RoleRollsPocketEdition.Domain.Campaigns
 {
     public class CampaignRepository : ICampaignRepository
     {

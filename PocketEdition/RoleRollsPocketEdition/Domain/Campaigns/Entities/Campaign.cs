@@ -1,5 +1,5 @@
-﻿using RoleRollsPocketEdition.Global;
-using RoleRollsPocketEdition.Powers.Entities;
+﻿using RoleRollsPocketEdition.Core;
+using RoleRollsPocketEdition.Domain.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Domain.Campaigns.Entities
 {

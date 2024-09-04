@@ -1,6 +1,6 @@
-using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Defenses;
+namespace RoleRollsPocketEdition.Domain.Campaigns.Events.Defenses;
 
 public class DefenseTemplateUpdated
 {

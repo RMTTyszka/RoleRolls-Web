@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RoleRollsPocketEdition.Campaigns.Application.Handlers;
+using RoleRollsPocketEdition.Application.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;

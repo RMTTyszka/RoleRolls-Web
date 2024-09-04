@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Global;
+﻿using RoleRollsPocketEdition.Core;
 
 namespace RoleRollsPocketEdition.Authentication.Users
 {

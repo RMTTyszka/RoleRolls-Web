@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition.Authentication.Application.Services;
-using RoleRollsPocketEdition.Campaigns.Application.Dtos;
-using RoleRollsPocketEdition.Campaigns.Application.Services;
-using RoleRollsPocketEdition.Campaigns.Domain.Models;
+using RoleRollsPocketEdition.Domain.Campaigns.Models;
 
-namespace RoleRollsPocketEdition.Campaigns.Application.Controllers
+namespace RoleRollsPocketEdition.Application.Campaigns.Controllers
 {
     [Route("campaigns/{campaignId}/players")]
     public class CampaignPlayersController : ControllerBase

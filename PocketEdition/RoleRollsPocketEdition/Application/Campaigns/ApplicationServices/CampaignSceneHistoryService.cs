@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using RoleRollsPocketEdition.Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Host.Campaigns.Dtos;
+using RoleRollsPocketEdition.Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Infrastructure;
-using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
 

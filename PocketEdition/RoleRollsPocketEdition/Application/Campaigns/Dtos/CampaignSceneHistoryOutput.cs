@@ -1,7 +1,7 @@
 using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Domain.Rolls.Entities;
 
-namespace RoleRollsPocketEdition.Host.Campaigns.Dtos;
+namespace RoleRollsPocketEdition.Application.Campaigns.Dtos;
 
 public class CampaignSceneHistoryOutput
 {

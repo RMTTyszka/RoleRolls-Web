@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Host.Campaigns.Dtos;
+namespace RoleRollsPocketEdition.Application.Campaigns.Dtos;
 
 public class GetSceneHistoryInput
 {

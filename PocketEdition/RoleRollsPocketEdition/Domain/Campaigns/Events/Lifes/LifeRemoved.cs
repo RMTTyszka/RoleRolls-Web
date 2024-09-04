@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Lifes;
+﻿namespace RoleRollsPocketEdition.Domain.Campaigns.Events.Lifes;
 
 public class LifeRemoved
 {

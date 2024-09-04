@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events;
+﻿namespace RoleRollsPocketEdition.Domain.Campaigns.Events;
 
 public class CampaignUpdated
 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Domain.Campaigns.Repositories;

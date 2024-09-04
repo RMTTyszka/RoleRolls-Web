@@ -1,15 +1,14 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Authentication.Users;
-using RoleRollsPocketEdition.Creatures.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Domain.Entities;
-using RoleRollsPocketEdition.CreaturesTemplates.Entities;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Global;
-using RoleRollsPocketEdition.Powers.Entities;
-using RoleRollsPocketEdition.Rolls.Entities;
-using RoleRollsPocketEdition.Scenes.Domain.Entities;
-using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
+using RoleRollsPocketEdition.Domain.Creatures.Entities;
+using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition.Domain.Powers.Entities;
+using RoleRollsPocketEdition.Domain.Rolls.Entities;
+using RoleRollsPocketEdition.Domain.Scenes.Entities;
+using Attribute = RoleRollsPocketEdition.Domain.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {

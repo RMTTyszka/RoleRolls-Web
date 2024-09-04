@@ -32,4 +32,13 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Rolls\" />
+    <Folder Include="Application\Scenes\" />
+    <Folder Include="Domain\Creatures\" />
+    <Folder Include="Domain\CreatureTemplates\" />
+    <Folder Include="Domain\Rolls\" />
+    <Folder Include="Domain\Scenes\" />
+  </ItemGroup>
+
 </Project>

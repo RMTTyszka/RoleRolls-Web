@@ -1,7 +1,6 @@
-﻿using System;
-using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Attributes;
+namespace RoleRollsPocketEdition.Domain.Campaigns.Events.Attributes;
 
 public class AttributeAdded
 {

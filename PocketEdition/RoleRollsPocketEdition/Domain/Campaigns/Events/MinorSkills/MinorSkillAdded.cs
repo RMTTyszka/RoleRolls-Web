@@ -1,7 +1,6 @@
-﻿using System;
-using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events.MinorSkills;
+namespace RoleRollsPocketEdition.Domain.Campaigns.Events.MinorSkills;
 
 public class MinorSkillAdded
 {

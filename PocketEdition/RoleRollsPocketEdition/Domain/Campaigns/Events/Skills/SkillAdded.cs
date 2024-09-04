@@ -1,7 +1,6 @@
-﻿using System;
-using RoleRollsPocketEdition.CreaturesTemplates.Dtos;
+﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Domain.Events.Skills;
+namespace RoleRollsPocketEdition.Domain.Campaigns.Events.Skills;
 
 public class SkillAdded
 {
