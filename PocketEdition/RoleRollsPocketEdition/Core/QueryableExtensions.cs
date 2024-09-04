@@ -1,4 +1,7 @@
 using System.Linq.Expressions;
+using System.Reflection;
+using PostSharp.Aspects.Advices;
+using RoleRollsPocketEdition.Core.Dtos;
 
 namespace RoleRollsPocketEdition.Core;
 
@@ -9,5 +12,10 @@ public static class QueryableExtensions
         return condition
             ? query.Where(predicate)
             : query;
+    }   
+    public static IQueryable<T> PageBy<T>(this IQueryable<T> query, PagedRequestInput input)
+    {
+        return query.Skip(input.SkipCount).Take(input.MaxResultCount);
     }
+    
 }
