@@ -1,10 +1,13 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Index.HPRtree;
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition.Domain.Itens;
 using RoleRollsPocketEdition.Domain.Powers.Entities;
 using RoleRollsPocketEdition.Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Domain.Scenes.Entities;
@@ -35,6 +38,13 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Defense> Defenses { get; set; }
         public DbSet<DefenseTemplate> DefenseTemplates { get; set; }
         public DbSet<SceneAction> SceneActions { get; set; }
+        public DbSet<ItemTemplate> ItemTemplates { get; set; }
+        public DbSet<ArmorTemplate> ArmorTemplates { get; set; }
+        public DbSet<WeaponTemplate> WeaponTemplates { get; set; }
+        
+        public DbSet<ItemInstance> ItemInstances { get; set; }
+        public DbSet<ArmorInstance> ArmorInstances { get; set; }
+        public DbSet<WeaponInstance> WeaponInstances { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -54,6 +64,18 @@ namespace RoleRollsPocketEdition.Infrastructure
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ItemTemplate>()
+                .HasDiscriminator<string>("ItemType")
+                .HasValue<ArmorTemplate>("Armor")
+                .HasValue<WeaponTemplate>("Weapon")
+                .HasValue<ItemTemplate>("Item");
+            
+            modelBuilder.Entity<ItemInstance>()
+                .HasDiscriminator<string>("ItemType")
+                .HasValue<ArmorInstance>("Armor")
+                .HasValue<WeaponInstance>("Weapon")
+                .HasValue<ItemInstance>("Item");
+            
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(Entity).IsAssignableFrom(entityType.ClrType))

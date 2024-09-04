@@ -26,13 +26,20 @@ namespace RoleRollsPocketEdition.Domain.Creatures.Entities
         public string Name { get; set; }
 
         public CreatureType Type { get; set; }
+        public Equipment Equipment { get; set; }
+        public Inventory Inventory { get; set; }
         public Creature()
         {
             Attributes = new List<Attribute>();
             Skills = new List<Skill>();
             Lifes = new List<Life>();
             Defenses = new List<Defense>();
+            Equipment = new Equipment();
+            Inventory = new Inventory();
         }
+
+
+
         public (int propertyValue, int rollBonus) GetPropertyValue(RollPropertyType propertyType, Guid propertyId)
         {
             Attribute? attribute;

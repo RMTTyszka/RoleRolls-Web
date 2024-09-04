@@ -33,12 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Rolls\" />
-    <Folder Include="Application\Scenes\" />
-    <Folder Include="Domain\Creatures\" />
-    <Folder Include="Domain\CreatureTemplates\" />
-    <Folder Include="Domain\Rolls\" />
-    <Folder Include="Domain\Scenes\" />
+    <Folder Include="_Application\Rolls\" />
+    <Folder Include="_Application\Scenes\" />
+    <Folder Include="_Domain\Creatures\" />
+    <Folder Include="_Domain\CreatureTemplates\" />
+    <Folder Include="_Domain\Rolls\" />
+    <Folder Include="_Domain\Scenes\" />
   </ItemGroup>
 
 </Project>
