@@ -18,12 +18,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/Role-Rolls",
+            "outputPath": {
+              "base": "dist/Role-Rolls"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -35,7 +38,8 @@
               "src/styles.scss",
               "node_modules/primeflex/primeflex.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -62,14 +66,10 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": false,
-              "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false
+              "extractLicenses": false
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true

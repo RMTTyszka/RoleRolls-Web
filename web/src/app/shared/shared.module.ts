@@ -27,28 +27,31 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatSortModule,
-        MatIconModule,
-        MatButtonToggleModule,
-        MatBadgeModule,
-        ClipboardModule,
-        // PrimeNg
-        TableModule,
-        ToastModule,
-        DropdownModule,
-        ButtonModule,
-        CascadeSelectModule,
-        DialogModule,
-        InputNumberModule,
-        PanelModule,
-        TooltipModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonToggleModule,
+    MatBadgeModule,
+    ClipboardModule,
+    // PrimeNg
+    TableModule,
+    ToastModule,
+    DropdownModule,
+    ButtonModule,
+    CascadeSelectModule,
+    DialogModule,
+    InputNumberModule,
+    PanelModule,
+    TooltipModule,
+    MatTabGroup,
+    MatTab
+  ],
     declarations: [
         PropertyPickerComponent,
         BonusesComponent,
