@@ -1,1 +1,52 @@
-<rr-rr-grid [service]="service" [config]="config" [headerActions]="actions" [refresh]="refreshGrid"></rr-rr-grid>
+<div class="p-grid">
+<div class="p-col-6">
+  <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
+           (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
+  >
+    <ng-template pTemplate="caption" >
+      <div class="p-grid p-nogutter p-justify-between">
+        <div class="p-col-6">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+          </div>
+        </div>
+        <div class="p-grid p-justify-end p-align-center p-nogutter">
+          <div class="p-col">
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <!--      <th *ngFor="let column of columns">
+              <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
+            </th>-->
+      <tr>
+        <th *ngIf="actions.length > 0" [ngStyle]="actionsWidth()"></th>
+        <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-entity>
+
+      <tr [pSelectableRow]="entity">
+        <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()">
+          <ng-container *ngFor="let action of actions">
+            <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity, $event.target)" style="margin-right: 4px;"></button>
+          </ng-container>
+        </td>
+        <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft" let-state>
+      {{state.first}}
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <span>Records: {{totalCount}}</span>
+    </ng-template>
+  </p-table>
+</div>
+  <div class="p-col-6">
+    <rr-campaign-item-creator [item]="selectedItem"></rr-campaign-item-creator>
+</div>
+</div>
+

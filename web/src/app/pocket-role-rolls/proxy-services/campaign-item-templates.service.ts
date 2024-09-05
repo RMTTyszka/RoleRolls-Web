@@ -29,7 +29,7 @@ import {ItemTemplateModel} from "../../shared/models/pocket/itens/ItemTemplateMo
 @Injectable({
   providedIn: 'root'
 })
-export class CampaignItensService extends BaseCrudService<ItemTemplateModel, ItemTemplateModel> {
+export class CampaignItemTemplatesService extends BaseCrudService<ItemTemplateModel, ItemTemplateModel> {
   public path = 'item-templates';
   public selectPlaceholder: string;
   public fieldName: string;
