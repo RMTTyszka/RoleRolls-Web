@@ -1,7 +1,5 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {LegacyBaseCreatorComponent} from '../../shared/base-creator/legacy-base-creator.component';
 import {Race} from '../../shared/models/Race.model';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {Bonus} from 'src/app/shared/models/Bonus.model';
 import {FormArray} from '@angular/forms';
 import {

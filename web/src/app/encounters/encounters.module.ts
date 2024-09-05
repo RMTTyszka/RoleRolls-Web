@@ -3,16 +3,13 @@ import {CommonModule} from '@angular/common';
 import {EncountersComponent} from './encounters/encounters.component';
 import {RouterModule, Routes} from '@angular/router';
 import {EncounterCreateEditComponent} from './encounter-create-edit/encounter-create-edit.component';
-import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
-import {MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS, MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
-import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {SharedModule} from '../shared/shared.module';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {MonstersModule} from '../monsters/monsters.module';
 import {MonsterTemplateSharedModule} from '../monsters/monsters-bases/monster-template-shared/monster-template-shared.module';
 import {PanelModule} from 'primeng/panel';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
 
 const routes: Routes = [
   {path: '', component: EncountersComponent, data: {primaryColor: '#000'}}
@@ -22,9 +19,6 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        MatFormFieldModule,
-        MatDialogModule,
-        MatInputModule,
         ReactiveFormsModule,
 
         SharedModule,

@@ -80,14 +80,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Role-Rolls:build"
+            "buildTarget": "Role-Rolls:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Role-Rolls:build:production"
+              "buildTarget": "Role-Rolls:build:production"
             },
             "development": {
-              "browserTarget": "Role-Rolls:build:development"
+              "buildTarget": "Role-Rolls:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,7 +95,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Role-Rolls:build"
+            "buildTarget": "Role-Rolls:build"
           }
         },
         "test": {

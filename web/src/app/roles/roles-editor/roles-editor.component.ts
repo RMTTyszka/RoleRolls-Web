@@ -1,9 +1,6 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-base-creator.component';
 import {FormArray} from '@angular/forms';
 import {Role} from 'src/app/shared/models/Role.model';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
-import {RoleService} from './role.service';
 import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {BaseCreatorComponent} from '../../shared/base-creator/base-creator.component';
 import {RolesService} from '../roles.service';

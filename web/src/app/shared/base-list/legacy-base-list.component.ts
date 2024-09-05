@@ -1,9 +1,9 @@
 import {AfterViewInit, Directive, Injector, OnInit, ViewChild} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {LegacyBaseCrudServiceComponent} from '../legacy-base-service/legacy-base-crud-service.component';
-import {MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {Router} from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import {MatPaginator, PageEvent } from '@angular/material/paginator';
 @Directive()
 export class LegacyBaseListComponent<T extends Entity> implements OnInit, AfterViewInit {
 

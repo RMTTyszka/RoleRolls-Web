@@ -1,22 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
-import {MatLegacyPaginatorModule as MatPaginatorModule} from '@angular/material/legacy-paginator';
 import {MatSortModule} from '@angular/material/sort';
-import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-chips';
-import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
-import {MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tabs';
 import {MatIconModule} from '@angular/material/icon';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {PropertyPickerComponent} from './property-picker/property-picker.component';
 import {MatBadgeModule} from '@angular/material/badge';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 import {BonusesComponent} from './bonuses/bonuses.component';
-import {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';
 import {EditorModalComponent} from './UI/editor-modal/editor-modal.component';
 import {AccordionModule} from 'primeng/accordion';
 import {ButtonModule} from 'primeng/button';
@@ -37,25 +26,17 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MatTableModule,
-        MatPaginatorModule,
         MatSortModule,
-        MatCardModule,
-        MatInputModule,
-        MatDialogModule,
-        MatTooltipModule,
-        MatTabsModule,
         MatIconModule,
-        MatChipsModule,
         MatButtonToggleModule,
         MatBadgeModule,
-        MatButtonModule,
         ClipboardModule,
         // PrimeNg
         TableModule,
@@ -83,20 +64,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
     exports: [
         FormsModule,
         ReactiveFormsModule,
-        MatTableModule,
-        MatPaginatorModule,
         MatSortModule,
-        MatCardModule,
-        MatInputModule,
-        MatDialogModule,
-        MatTooltipModule,
-        MatTabsModule,
         MatIconModule,
-        MatChipsModule,
         MatButtonToggleModule,
         MatBadgeModule,
-        MatButtonModule,
-        MatListModule,
         AccordionModule,
         ButtonModule,
         ClipboardModule,
