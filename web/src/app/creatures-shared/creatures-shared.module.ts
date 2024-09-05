@@ -14,7 +14,7 @@ import {InventoryNeckaccesorySelectComponent} from './inventory/inventory-neckac
 import {InventoryRingSelectComponent} from './inventory/inventory-ring-select/inventory-ring-select.component';
 import {AttackDetailsComponent} from './attack-details/attack-details.component';
 import {PanelModule} from 'primeng/panel';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {CombatCreatureSelectComponent} from './combat-creature-select/combat-creature-select.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { CreatureBaseSelectComponent } from './creature-base-select/creature-base-select.component';
@@ -66,7 +66,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
         AutoCompleteModule,
         ReactiveFormsModule,
         PanelModule,
-        FlexLayoutModule,
+
         DropdownModule,
         FormsModule,
         OverlayPanelModule,

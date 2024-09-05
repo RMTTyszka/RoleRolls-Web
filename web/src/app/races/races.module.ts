@@ -11,7 +11,7 @@ import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-i
 import {FormsModule} from '@angular/forms';
 import {RaceEditorComponent} from './race-editor/race-editor.component';
 import {SharedModule} from '../shared/shared.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {PowersSharedModule} from '../powers/powers-shared/powers-shared.module';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
@@ -32,7 +32,6 @@ export const routes: Routes = [
         MatInputModule,
         FormsModule,
         SharedModule,
-        FlexLayoutModule,
         PowersSharedModule,
         DynamicDialogModule
     ],

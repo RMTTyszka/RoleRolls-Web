@@ -9,7 +9,7 @@ import {MenuModule} from 'primeng/menu';
 import {TieredMenuModule} from 'primeng/tieredmenu';
 import {ChipsModule} from 'primeng/chips';
 import {InputSwitchModule} from 'primeng/inputswitch';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
 import { BonusToolComponent } from './bonus-tool/bonus-tool.component';
 import {DropdownModule} from 'primeng/dropdown';
 import {SelectButtonModule} from 'primeng/selectbutton';
@@ -34,7 +34,7 @@ import {InputTextModule} from 'primeng/inputtext';
         TieredMenuModule,
         ChipsModule,
         InputSwitchModule,
-        FlexLayoutModule,
+
         DropdownModule,
         SelectButtonModule,
         FormsModule,

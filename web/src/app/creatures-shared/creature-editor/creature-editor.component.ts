@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from '../../shared/data.service';
 import {Race} from '../../shared/models/Race.model';
-import {FormGroup} from '@angular/forms';
+import {FormGroup, UntypedFormGroup} from '@angular/forms';
 import {Bonus} from '../../shared/models/Bonus.model';
 import {Creature} from '../../shared/models/creatures/Creature.model';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -23,7 +23,7 @@ import {CreatureEditorService} from './creature-editor.service';
 })
 export class CreatureEditorComponent<T extends Creature, TCreateInput extends Entity> implements OnInit {
   public action: EditorAction;
-  public form = new FormGroup({});
+  public form = new UntypedFormGroup({});
   public attributes: string[] = [];
   public isLoading = true;
   public entity: T;

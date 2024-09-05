@@ -5,7 +5,6 @@ import {RollsComponent} from './rolls.component';
 import {SharedModule} from '../shared/shared.module';
 import {RollsRoutingModule} from './rolls-routing.module';
 import {MakeTestComponent} from './make-test/make-test.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {InputTextModule} from 'primeng/inputtext';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputMaskModule} from 'primeng/inputmask';
@@ -18,7 +17,6 @@ import {CardModule} from 'primeng/card';
     SharedModule,
     RollsRoutingModule,
 
-    FlexLayoutModule,
     ReactiveFormsModule,
     FormsModule,
     InputTextModule,

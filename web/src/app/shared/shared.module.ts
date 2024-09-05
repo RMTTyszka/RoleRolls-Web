@@ -4,7 +4,6 @@ import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-t
 import {MatLegacyPaginatorModule as MatPaginatorModule} from '@angular/material/legacy-paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-chips';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
@@ -44,7 +43,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        FlexLayoutModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
@@ -85,7 +83,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     exports: [
         FormsModule,
         ReactiveFormsModule,
-        FlexLayoutModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,

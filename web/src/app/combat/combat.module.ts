@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CombatComponent} from './combat.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HeroesSharedModule} from '../heroes/heroes-shared/heroes-shared.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 import { CombatListComponent } from './combat-list/combat-list.component';
 import {SharedModule} from '../shared/shared.module';
@@ -25,7 +25,7 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
     imports: [
         CommonModule,
         HeroesSharedModule,
-        FlexLayoutModule,
+
         CreaturesSharedModule,
         SharedModule,
         ToolbarModule,

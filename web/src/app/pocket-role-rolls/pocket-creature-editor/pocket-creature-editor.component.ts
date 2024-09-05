@@ -1,21 +1,17 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormGroup, FormControl, ValidatorFn, ValidationErrors, AbstractControl, Validators } from '@angular/forms';
-import { DropdownItem } from 'primeng/dropdown';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { map, tap } from 'rxjs/operators';
-import { CampaignsService } from 'src/app/campaign/campaigns.service';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
 import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { CreatureTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
 import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
-import { HttpErrorResponse, HttpStatusCode } from '../../../../node_modules/@angular/common/http/http';
-import { MessageService, Message } from '../../../../node_modules/primeng/api';
 import { Creature } from '../../shared/models/creatures/Creature.model';
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {Message, MessageService} from "primeng/api";
 
 @Component({
   selector: 'rr-pocket-creature-editor',

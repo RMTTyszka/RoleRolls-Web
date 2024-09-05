@@ -7,7 +7,7 @@ import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/
 import {MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS, MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
 import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {SharedModule} from '../shared/shared.module';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {MonstersModule} from '../monsters/monsters.module';
@@ -26,7 +26,7 @@ const routes: Routes = [
         MatDialogModule,
         MatInputModule,
         ReactiveFormsModule,
-        FlexLayoutModule,
+
         SharedModule,
         // Primeng
         DynamicDialogModule,

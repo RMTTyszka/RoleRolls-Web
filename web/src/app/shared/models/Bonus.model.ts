@@ -9,7 +9,7 @@ export class Bonus {
     bonusType: BonusTypeEnum = 'Innate';
     constructor(prop: string) {
       this.property = prop;
-      this.id = uuidv4();
+      this.id = uuidv4() as never;
     }
 }
 

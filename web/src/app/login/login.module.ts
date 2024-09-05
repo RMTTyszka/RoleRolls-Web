@@ -5,7 +5,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {PanelModule} from 'primeng/panel';
-import {FlexModule} from '@angular/flex-layout';
+
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import {FlexModule} from '@angular/flex-layout';
     LoginRoutingModule,
     ReactiveFormsModule,
     PanelModule,
-    FlexModule
+
   ]
 })
 export class LoginModule { }

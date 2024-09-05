@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup} from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
@@ -8,6 +8,7 @@ import { AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorS
 import { PocketCampaignsService } from '../pocket-campaigns.service';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import {Entity} from "../../../shared/models/Entity.model";
 
 @Component({
   selector: 'rr-campaign-creator',
@@ -17,7 +18,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 export class CampaignCreatorComponent implements OnInit {
   @Input() public action = EditorAction.create;
   public actionEnum = EditorAction;
-  public form = new FormGroup({});
+  public form = new UntypedFormGroup({});
   public attributeForm = new FormGroup({});
   public skillForm = new FormGroup({});
   public minorSkillForm = new FormGroup({});
@@ -71,10 +72,10 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.attributes;
       const newFormGroup = new FormGroup({});
-      createForm(newFormGroup, this.attributeForm.value);
+      createForm(newFormGroup, this.attributeForm.value as Entity);
       formArray.controls.push(newFormGroup);
       this.attributeForm.reset();
-      this.attributeForm.get('id').setValue(uuidv4());
+      this.attributeForm.get('id').setValue(uuidv4() as never);
       this.skillsMapping.set(attribute.id, new FormArray([]));
     });
   }
@@ -104,10 +105,10 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.skills;
       const newFormGroup = new FormGroup({});
-      createForm(newFormGroup, this.skillForm.value);
+      createForm(newFormGroup, this.skillForm.value as Entity);
       formArray.controls.push(newFormGroup);
       this.skillForm.reset();
-      this.skillForm.get('id').setValue(uuidv4());
+      this.skillForm.get('id').setValue(uuidv4() as never);
       const newSkillForm = new FormGroup({});
       createForm(newSkillForm, skill);
       this.skillsMapping.get(attribute.id).push(newSkillForm);
@@ -141,7 +142,7 @@ export class CampaignCreatorComponent implements OnInit {
       const newFormGroup = new FormGroup({});
       createForm(newFormGroup, minorSkill);
       this.minorSkillForm.reset();
-      this.minorSkillForm.get('id').setValue(uuidv4());
+      this.minorSkillForm.get('id').setValue(uuidv4() as never);
       this.minorsSkillBySkill.get(minorSkill.skillTemplateId).controls.push(newFormGroup);
     });
   }
@@ -168,10 +169,10 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.lifes;
       const newFormGroup = new FormGroup({});
-      createForm(newFormGroup, this.lifeForm.value);
+      createForm(newFormGroup, this.lifeForm.value as Entity);
       formArray.controls.push(newFormGroup);
       this.lifeForm.reset();
-      this.lifeForm.get('id').setValue(uuidv4());
+      this.lifeForm.get('id').setValue(uuidv4() as never);
     });
   }
 
@@ -198,10 +199,10 @@ export class CampaignCreatorComponent implements OnInit {
     .subscribe(() => {
       const formArray = this.defenses;
       const newFormGroup = new FormGroup({});
-      createForm(newFormGroup, this.defenseForm.value);
+      createForm(newFormGroup, this.defenseForm.value as Entity);
       formArray.controls.push(newFormGroup);
       this.defenseForm.reset();
-      this.defenseForm.get('id').setValue(uuidv4());
+      this.defenseForm.get('id').setValue(uuidv4() as never);
     });
   }
 
@@ -230,11 +231,11 @@ export class CampaignCreatorComponent implements OnInit {
     createForm(this.lifeForm, new LifeTemplateModel());
     createForm(this.defenseForm, new DefenseTemplateModel());
 
-    this.attributeForm.get('id').setValue(uuidv4());
-    this.skillForm.get('id').setValue(uuidv4());
-    this.minorSkillForm.get('id').setValue(uuidv4());
-    this.lifeForm.get('id').setValue(uuidv4());
-    this.defenseForm.get('id').setValue(uuidv4());
+    this.attributeForm.get('id').setValue(uuidv4() as never);
+    this.skillForm.get('id').setValue(uuidv4() as never);
+    this.minorSkillForm.get('id').setValue(uuidv4() as never);
+    this.lifeForm.get('id').setValue(uuidv4() as never);
+    this.defenseForm.get('id').setValue(uuidv4() as never);
 
     this.buildSkills();
     this.disabled = !this.authService.isMaster(this.entity.masterId);
