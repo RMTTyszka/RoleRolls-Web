@@ -2,7 +2,7 @@ import {Component, Inject, Injector, OnInit} from '@angular/core';
 import {LegacyBaseCreatorComponent} from 'src/app/shared/base-creator/legacy-base-creator.component';
 import {Power, PowerCategory} from 'src/app/shared/models/Power.model';
 import {PowerService} from '../power.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {Race} from 'src/app/shared/models/Race.model';
 
 @Component({

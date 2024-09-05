@@ -10,7 +10,7 @@ import {MonstersComponent} from './monsters.component';
 import {RaceSharedModule} from '../races/shared/race-shared.module';
 import {RolesSharedModule} from '../roles/roles-shared/roles-shared.module';
 import {MonstersSharedModule} from './monsters-shared/monsters-shared.module';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ToolbarModule} from 'primeng/toolbar';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 import { MonsterCreateComponent } from './monster-create/monster-create.component';

@@ -1,7 +1,7 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {LegacyBaseSelectorComponent} from 'src/app/shared/legacy-base-selector/legacy-base-selector.component';
 import {MonsterModel} from 'src/app/shared/models/creatures/monsters/MonsterModel.model';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {Router} from '@angular/router';
 import {LegacyMonstersBaseService} from '../../monsters-bases/legacy-monsters-base.service';
 

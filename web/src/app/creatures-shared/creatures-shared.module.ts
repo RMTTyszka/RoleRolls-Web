@@ -23,7 +23,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import { CreatureDetailsComponent } from './creature-details/creature-details.component';
 import { CreatureEditorComponent } from './creature-editor/creature-editor.component';
 import {EquipmentComponent} from './equipment/equipment.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
 import {AccordionModule} from 'primeng/accordion';
 import {SharedModule} from '../shared/shared.module';
 import {HeroesModule} from '../heroes/heroes.module';

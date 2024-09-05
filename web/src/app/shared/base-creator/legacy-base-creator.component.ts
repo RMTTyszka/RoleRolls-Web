@@ -1,7 +1,7 @@
 import {Directive, Injector, OnDestroy, OnInit} from '@angular/core';
 import {Entity} from '../models/Entity.model';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {Subscription} from 'rxjs';
 import {DataService} from '../data.service';
 import {BaseEntityService} from '../base-entity-service';

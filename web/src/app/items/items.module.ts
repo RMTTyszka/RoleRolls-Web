@@ -3,9 +3,9 @@ import {CommonModule} from '@angular/common';
 
 import {ItemsRoutingModule} from './items-routing.module';
 import {ItemsComponent} from './items.component';
-import { MatListModule } from '@angular/material/list';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({

@@ -2,7 +2,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {LegacyBaseSelectorComponent} from 'src/app/shared/legacy-base-selector/legacy-base-selector.component';
 import {Power} from 'src/app/shared/models/Power.model';
 import {PowersService} from '../../powers.service';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'rr-power-selector',
