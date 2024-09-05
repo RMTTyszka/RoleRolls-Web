@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PostSharp.Aspects;
+using PostSharp.Serialization;
 
 namespace RoleRollsPocketEdition.Core;
 
-[Serializable]
+[PSerializable]
 public class NoTrackingAspect : OnMethodBoundaryAspect
 {
     public override void OnEntry(MethodExecutionArgs args)

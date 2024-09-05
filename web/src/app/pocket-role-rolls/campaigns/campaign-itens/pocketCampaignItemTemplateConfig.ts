@@ -6,17 +6,17 @@ import { PocketCampaignModel } from "src/app/shared/models/pocket/campaigns/pock
 import { CampaignCreatorComponent } from "./campaign-creator/campaign-creator.component";
 import {CampaignEditorBodyShellComponent} from "./campaign-editor-body-shell/campaign-editor-body-shell.component";
 
-export class PocketCampaignConfig implements BaseComponentConfig<PocketCampaignModel> {
+export class PocketCampaignItemTemplateConfig implements BaseComponentConfig<PocketCampaignModel> {
   entityListActions: RRAction<PocketCampaignModel>[] = [];
 
   editor = CampaignEditorBodyShellComponent;
   creator = CampaignEditorBodyShellComponent;
   creatorOptions: DynamicDialogConfig;
-  path = 'campaigns';
-  selectPlaceholder = 'Campaigns';
+  path = 'item-templates';
+  selectPlaceholder = 'Item Template';
   fieldName: 'name';
-  editorTitle: 'Campaigns';
-  selectModalTitle: 'Campaigns';
+  editorTitle: 'Item Template';
+  selectModalTitle: 'Item Template';
   selectModalColumns: RRColumns[] = [
     {
       header: 'Name',
@@ -29,6 +29,6 @@ export class PocketCampaignConfig implements BaseComponentConfig<PocketCampaignM
       property: 'name'
     } as RRColumns
   ];
-  navigateUrlOnRowSelect: 'campaigns/';
+  navigateUrlOnRowSelect: 'item-templates/';
   navigateOnRowSelect: boolean;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
@@ -15,7 +15,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
   styleUrls: ['./campaign-creator.component.scss']
 })
 export class CampaignCreatorComponent implements OnInit {
-  public action = EditorAction.create;
+  @Input() public action = EditorAction.create;
   public actionEnum = EditorAction;
   public form = new FormGroup({});
   public attributeForm = new FormGroup({});
@@ -25,7 +25,7 @@ export class CampaignCreatorComponent implements OnInit {
   public lifeForm = new FormGroup({});
   public isLoading = true;
   public entity: PocketCampaignModel;
-  public entityId: string;
+  @Input() public entityId: string;
   public requiredFields = ['name'];
   public skillsMapping = new Map<string, FormArray>();
   public minorsSkillBySkill = new Map<string, FormArray>();
@@ -56,11 +56,9 @@ export class CampaignCreatorComponent implements OnInit {
     public service: PocketCampaignsService,
     public ref: DynamicDialogRef,
     public formBuilder: FormBuilder,
-    public config: DynamicDialogConfig,
     public authService: AuthenticationService,
   ) {
-    this.action = config.data.action;
-    this.entityId = config.data.entityId;
+
    }
 
   ngOnInit(): void {

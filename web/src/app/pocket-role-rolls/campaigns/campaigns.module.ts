@@ -28,6 +28,10 @@ import { CampaignHistoryComponent } from './campaign-history/campaign-history.co
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
 import { HistoryDetailsComponent } from './campaign-history/history-details/history-details.component';
+import {TabViewModule} from "primeng/tabview";
+import { CampaignEditorBodyShellComponent } from './campaign-editor-body-shell/campaign-editor-body-shell.component';
+import { CampaignItensComponent } from './campaign-itens/campaign-itens.component';
+import { CampaignItemCreatorComponent } from './campaign-itens/campaign-item-creator/campaign-item-creator.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -50,6 +54,9 @@ const routes: Routes = [
     CampaignCreatureRowComponent,
     CampaignHistoryComponent,
     HistoryDetailsComponent,
+    CampaignEditorBodyShellComponent,
+    CampaignItensComponent,
+    CampaignItemCreatorComponent,
   ],
     imports: [
         CommonModule,
@@ -68,7 +75,8 @@ const routes: Routes = [
         DividerModule,
         ProgressSpinnerModule,
         TimelineModule,
-        CardModule
+        CardModule,
+        TabViewModule
     ]
 })
 export class CampaignsModule { }
