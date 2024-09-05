@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'campaigns', loadChildren: () => import('./campaigns/campaigns.module').then(m => m.CampaignsModule),
     canActivateChild: [CanActivateAuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: '', redirectTo: 'pocket/campaigns'},
+  {path: '', redirectTo: 'pocket/campaigns', pathMatch: 'full'},
   {path: '**', redirectTo: ''},
 
 ];
