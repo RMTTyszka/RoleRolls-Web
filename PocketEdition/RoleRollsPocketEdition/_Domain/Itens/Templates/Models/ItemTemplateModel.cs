@@ -8,10 +8,8 @@ public class ItemTemplateModel
     public Guid Id { get; set; }
     public string Name { get; set; }
     public Guid? PowerId { get; set; }
-    public PowerTemplate? Power { get; set; }
     public ItemType Type { get; set; }
     public Guid? CampaignId { get; set; }
-    public Campaign? Campaign { get; set; }
 
     public ItemTemplateModel()
     {
