@@ -1,8 +1,11 @@
 <p-panel [toggleable]="false">
   <ng-template pTemplate="header">
-      <span class="font-bold">
+    <div class="flex p-align-center gap-2">
+            <span class="font-bold">
                Item
             </span>
+    </div>
+
   </ng-template>
   <ng-template pTemplate="icons">
     <button class="p-panel-header-icon p-link mr-2" (click)="refreshForm()">
@@ -12,7 +15,8 @@
   <ng-template pTemplate="footer">
     <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
   </ng-template>
-
+  <p-tabMenu [model]="itemTypeMenuItens" [(activeItem)]="selectedItemType">
+  </p-tabMenu>
   <form [formGroup]="form">
     <div class="flex flex-column gap-2">
       <label for="itemTemplateName">Name</label>

@@ -20,11 +20,12 @@
 
     <a routerLink='rolls'>Make Rolls</a>
   </nav>
-  <nav mat-tab-nav-bar *ngIf="loggedOn === loggedOnEnum.Pocket">
+  <nav mat-tab-nav-bar *ngIf="loggedOn === loggedOnEnum.Pocket" [tabPanel]="tabPanel">
     <a mat-tab-link routerLink='/pocket/campaigns'>Campaigns</a>
   </nav>
   <br/>
-
-  <router-outlet fxLayout="column"></router-outlet>
+  <mat-tab-nav-panel #tabPanel>
+      <router-outlet fxLayout="column"></router-outlet>
+  </mat-tab-nav-panel>
 </div>
 

@@ -43,6 +43,7 @@ import {
   CampaignItemCreatorComponent
 } from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-item-creator/campaign-item-creator.component";
 import {InputTextModule} from "primeng/inputtext";
+import {TabMenuModule} from "primeng/tabmenu";
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -88,7 +89,8 @@ const routes: Routes = [
     TimelineModule,
     CardModule,
     TabViewModule,
-    InputTextModule
+    InputTextModule,
+    TabMenuModule
   ]
 })
 export class CampaignsModule { }

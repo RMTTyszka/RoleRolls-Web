@@ -6,6 +6,9 @@ import {PocketCampaignModel} from "src/app/shared/models/pocket/campaigns/pocket
 import {EditorAction} from "src/app/shared/dtos/ModalEntityData";
 import {CampaignItemTemplatesService} from "../../../proxy-services/campaign-item-templates.service";
 import {AuthenticationService} from "src/app/authentication/authentication.service";
+import {
+  CampaignEditorDetailsServiceService
+} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-editor-details-service.service";
 
 @Component({
   selector: 'rr-campaign-itens',
@@ -19,14 +22,13 @@ export class CampaignItensTempladeComponent implements OnInit {
   public columns: RRColumns[] = [];
   public actions: RRAction<ItemTemplateModel>[];
   @Input() public campaign: PocketCampaignModel;
-  public selectedItemSignal = signal<ItemTemplateModel>(null);
-  public actionSignal = signal<EditorAction>(EditorAction.create);
   public isMaster(masterId: string): boolean {
     return this.authenticationService.userId === masterId;
   }
   constructor(
     private service: CampaignItemTemplatesService,
     private authenticationService: AuthenticationService,
+    private detailsServiceService: CampaignEditorDetailsServiceService,
   ) {
   }
 
@@ -52,8 +54,8 @@ export class CampaignItensTempladeComponent implements OnInit {
     ]
   }
   public rowSelected(event: {data: ItemTemplateModel}) {
-    this.selectedItemSignal.set(event.data);
-    this.actionSignal.set(EditorAction.update);
+    this.detailsServiceService.itemTemplate.next(event.data);
+    this.detailsServiceService.itemTemplateEditorAction.next(EditorAction.update);
   }
   public actionsWidth() {
     return {width: `${this.actions.length * 3}%`}

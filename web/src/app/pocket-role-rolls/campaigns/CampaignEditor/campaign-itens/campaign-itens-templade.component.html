@@ -46,7 +46,7 @@
   </p-table>
 </div>
   <div class="p-col-6">
-    <rr-campaign-item-creator *ngIf="campaign" [item]="selectedItemSignal()" [action]="actionSignal()" [campaign]="campaign" (saved)="get(null, 0, 25)"></rr-campaign-item-creator>
+    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" (saved)="get(null, 0, 25)"></rr-campaign-item-creator>
 </div>
 </div>
 

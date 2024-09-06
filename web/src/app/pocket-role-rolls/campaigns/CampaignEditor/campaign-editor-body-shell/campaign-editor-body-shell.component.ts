@@ -1,7 +1,8 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, signal} from '@angular/core';
 import {DynamicDialogConfig} from "primeng/dynamicdialog";
 import {EditorAction} from "src/app/shared/dtos/ModalEntityData";
 import {PocketCampaignModel} from "src/app/shared/models/pocket/campaigns/pocket.campaign.model";
+import {ChangeDetection} from "@angular/cli/lib/config/workspace-schema";
 
 @Component({
   selector: 'rr-campaign-editor-body-shell',
