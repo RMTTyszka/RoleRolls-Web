@@ -11,7 +11,7 @@ import {
 } from "../../shared/models/pocket/creature-templates/creature-template.model";
 import {CreatureType} from "../../shared/models/creatures/CreatureType";
 import {PocketCreature} from "../../shared/models/pocket/creatures/pocket-creature";
-import {HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import {TakeDamageApiInput} from "../campaigns/models/TakeDamageApiInput";
 import {CampaignScene} from "../../shared/models/pocket/campaigns/campaign-scene-model";
 import {SceneCreature} from "../../shared/models/pocket/campaigns/scene-creature.model";
@@ -29,7 +29,7 @@ import {ItemTemplateModel} from "../../shared/models/pocket/itens/ItemTemplateMo
 @Injectable({
   providedIn: 'root'
 })
-export class CampaignItemTemplatesService extends BaseCrudService<ItemTemplateModel, ItemTemplateModel> {
+export class CampaignItemTemplatesService {
   public path = 'item-templates';
   public selectPlaceholder: string;
   public fieldName: string;
@@ -37,34 +37,44 @@ export class CampaignItemTemplatesService extends BaseCrudService<ItemTemplateMo
   public selectModalColumns: RRColumns[];
   public entityListColumns: RRColumns[];
   public serverUrl = LOH_API.myPocketBackUrl;
+  private get completePath(): string {
+    return this.serverUrl + this.path;
+  }
   constructor(
-    injector: Injector,
+    private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
   ) {
-    super(injector);
   }
 
-  override getNew() :Observable<ItemTemplateModel> {
+  public getNew() :Observable<ItemTemplateModel> {
     const campaignModel = {
       id: uuidv4(),
       name: 'New Campaign',
     } as ItemTemplateModel;
     return of<ItemTemplateModel>(campaignModel);
   }
-  override get(id: string): Observable<ItemTemplateModel> {
-    return super.get(id);
+   get(itemId: string): Observable<ItemTemplateModel> {
+    return this.httpClient.get<ItemTemplateModel>(`${this.completePath}/${itemId}`);
   }
 
-  override beforeCreate(entity: ItemTemplateModel): ItemTemplateModel {
-    return entity;
+  public addItem(item: ItemTemplateModel): Observable<never> {
+    return this.httpClient.post<never>(`${this.completePath}`, item);
   }
-  public addItem(campaignId: string, item: ItemTemplateModel): Observable<never> {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes`, item);
+  public updateItem(itemId: string, item: ItemTemplateModel): Observable<never> {
+    return this.httpClient.put<never>(`${this.completePath}/${itemId}`, item);
   }
-  public updateItem(campaignId: string, itemId: string, item: ItemTemplateModel): Observable<never> {
-    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${itemId}`, item);
+  public removeItem(itemId: string): Observable<never> {
+    return this.httpClient.delete<never>(`${this.completePath}/${itemId}`);
   }
-  public removeItem(campaignId: string, itemId: string): Observable<never> {
-    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${itemId}`);
+
+  list(campaingId: string, filter: string, skipCount: number, maxResultCount: number) {
+    let params = new HttpParams()
+      .set('filter', filter)
+      .set('skipCount', skipCount)
+      .set('maxResultCount', maxResultCount)
+      .set('campaignId', campaingId);
+    return this.httpClient.get<PagedOutput<ItemTemplateModel>>(`${this.completePath}`, {
+      params
+    });
   }
 }

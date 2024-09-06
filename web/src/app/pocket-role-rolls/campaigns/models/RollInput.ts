@@ -1,4 +1,4 @@
-import { RollOrigin } from '../campaign-heroes/RollOrigin';
+import {RollOrigin} from "../CampaignInstance/campaign-heroes/RollOrigin";
 
 export class RollInput {
   public propertyName: string;

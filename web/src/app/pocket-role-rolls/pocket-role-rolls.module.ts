@@ -28,7 +28,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    LoginModule
+    LoginModule,
+
   ],
   providers: [
     { provide: LoginService, useClass: PocketLoginService }

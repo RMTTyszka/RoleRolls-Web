@@ -1,0 +1,24 @@
+<p-panel [toggleable]="false">
+  <ng-template pTemplate="header">
+      <span class="font-bold">
+               Item
+            </span>
+  </ng-template>
+  <ng-template pTemplate="icons">
+    <button class="p-panel-header-icon p-link mr-2" (click)="refreshForm()">
+      <span class="pi pi-plus"></span>
+    </button>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
+  </ng-template>
+
+  <form [formGroup]="form">
+    <div class="flex flex-column gap-2">
+      <label for="itemTemplateName">Name</label>
+      <input id="itemTemplateName" pInputText formControlName="name" type="text">
+    </div>
+  </form>
+</p-panel>
+
+

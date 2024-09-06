@@ -1,5 +1,5 @@
 import { PocketEntity } from "src/app/shared/models/pocket/pocket-entity"
-import { RollOrigin } from "../campaign-heroes/RollOrigin";
+import {RollOrigin} from "../CampaignInstance/campaign-heroes/RollOrigin";
 
 export class PocketRoll extends PocketEntity{
   public campaignId: string;

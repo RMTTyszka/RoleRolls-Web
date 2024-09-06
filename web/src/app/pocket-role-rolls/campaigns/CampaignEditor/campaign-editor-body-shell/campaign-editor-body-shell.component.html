@@ -1,0 +1,8 @@
+<p-tabView>
+  <p-tabPanel header="Creature Template">
+  <rr-campaign-creator [action]="action" [entityId]="entityId" (campaignLoaded)="campaignLoaded($event)"></rr-campaign-creator>
+  </p-tabPanel>
+  <p-tabPanel header="Itens">
+    <rr-campaign-itens *ngIf="campaign" [campaign]="campaign"></rr-campaign-itens>
+  </p-tabPanel>
+</p-tabView>

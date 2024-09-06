@@ -4,34 +4,45 @@ import { CommonModule } from '@angular/common';
 import { PocketCampaignsComponent } from './pocket-campaigns/pocket-campaigns.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CampaignCreatorComponent } from './campaign-creator/campaign-creator.component';
-import { PocketCampaignBodyshellComponent } from './pocket-campaign-bodyshell/pocket-campaign-bodyshell.component';
 import {SlideMenuModule} from 'primeng/slidemenu';
-import { CampaignRollsComponent } from './campaign-rolls/campaign-rolls.component';
-import { CampaignHeroesComponent } from './campaign-heroes/campaign-heroes.component';
-import { CampaignMonstersComponent } from './campaign-monsters/campaign-monsters.component';
 import { PanelModule } from 'primeng/panel';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PocketCreatureEditorComponent } from '../pocket-creature-editor/pocket-creature-editor.component';
-import { PocketCreatureSelectComponent } from './pocket-creature-select/pocket-creature-select.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { DividerModule } from 'primeng/divider';
-import { RollDiceComponent } from './campaign-rolls/roll-dice/roll-dice.component';
 import { MessagesModule } from 'primeng/messages';
-import { PocketTakeDamageComponent } from './pocket-take-damage/pocket-take-damage.component';
-import { SimulateCdComponent } from './campaign-rolls/simulate-cd/simulate-cd.component';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import { CampaignCreatureRowComponent } from './campaign-creature-row/campaign-creature-row.component';
-import { CampaignHistoryComponent } from './campaign-history/campaign-history.component';
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
-import { HistoryDetailsComponent } from './campaign-history/history-details/history-details.component';
 import {TabViewModule} from "primeng/tabview";
-import { CampaignEditorBodyShellComponent } from './campaign-editor-body-shell/campaign-editor-body-shell.component';
-import { CampaignItensComponent } from './campaign-itens/campaign-itens.component';
-import { CampaignItemCreatorComponent } from './campaign-itens/campaign-item-creator/campaign-item-creator.component';
+import {
+  PocketCampaignBodyshellComponent
+} from "./CampaignInstance/pocket-campaign-bodyshell/pocket-campaign-bodyshell.component";
+import {CampaignCreatorComponent} from "./CampaignEditor/campaign-creator/campaign-creator.component";
+import {CampaignRollsComponent} from "./CampaignInstance/campaign-rolls/campaign-rolls.component";
+import {CampaignHeroesComponent} from "./CampaignInstance/campaign-heroes/campaign-heroes.component";
+import {CampaignMonstersComponent} from "./CampaignInstance/campaign-monsters/campaign-monsters.component";
+import {
+  PocketCreatureSelectComponent
+} from "./CampaignInstance/pocket-creature-select/pocket-creature-select.component";
+import {RollDiceComponent} from "./CampaignInstance/campaign-rolls/roll-dice/roll-dice.component";
+import {PocketTakeDamageComponent} from "./CampaignInstance/pocket-take-damage/pocket-take-damage.component";
+import {SimulateCdComponent} from "./CampaignInstance/campaign-rolls/simulate-cd/simulate-cd.component";
+import {CampaignCreatureRowComponent} from "./CampaignInstance/campaign-creature-row/campaign-creature-row.component";
+import {CampaignHistoryComponent} from "./CampaignInstance/campaign-history/campaign-history.component";
+import {HistoryDetailsComponent} from "./CampaignInstance/campaign-history/history-details/history-details.component";
+import {
+  CampaignEditorBodyShellComponent
+} from "./CampaignEditor/campaign-editor-body-shell/campaign-editor-body-shell.component";
+import {
+  CampaignItensTempladeComponent
+} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-itens-templade.component";
+import {
+  CampaignItemCreatorComponent
+} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-item-creator/campaign-item-creator.component";
+import {InputTextModule} from "primeng/inputtext";
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -55,28 +66,29 @@ const routes: Routes = [
     CampaignHistoryComponent,
     HistoryDetailsComponent,
     CampaignEditorBodyShellComponent,
-    CampaignItensComponent,
+    CampaignItensTempladeComponent,
     CampaignItemCreatorComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
 
-        SlideMenuModule,
+    SlideMenuModule,
 
-        SharedModule,
-        PanelModule,
-        DynamicDialogModule,
-        AutoCompleteModule,
-        TieredMenuModule,
-        SidebarModule,
-        MessagesModule,
-        ConfirmDialogModule,
-        DividerModule,
-        ProgressSpinnerModule,
-        TimelineModule,
-        CardModule,
-        TabViewModule
-    ]
+    SharedModule,
+    PanelModule,
+    DynamicDialogModule,
+    AutoCompleteModule,
+    TieredMenuModule,
+    SidebarModule,
+    MessagesModule,
+    ConfirmDialogModule,
+    DividerModule,
+    ProgressSpinnerModule,
+    TimelineModule,
+    CardModule,
+    TabViewModule,
+    InputTextModule
+  ]
 })
 export class CampaignsModule { }

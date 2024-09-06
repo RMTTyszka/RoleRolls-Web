@@ -1,5 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormArray, FormGroup, FormControl, ValidatorFn, ValidationErrors, AbstractControl, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormGroup,
+  FormControl,
+  ValidatorFn,
+  ValidationErrors,
+  AbstractControl,
+  Validators,
+  UntypedFormGroup, UntypedFormArray
+} from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
 import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
@@ -7,9 +16,7 @@ import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
-import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
-import { Creature } from '../../shared/models/creatures/Creature.model';
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {Message, MessageService} from "primeng/api";
 
@@ -22,31 +29,31 @@ import {Message, MessageService} from "primeng/api";
 export class PocketCreatureEditorComponent implements OnInit {
 
   public loaded = false;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public campaign: PocketCampaignModel;
   // public template: PocketCreature;
   public creature: PocketCreature;
   public editorAction: EditorAction;
-  public skillsMapping = new Map<string, FormArray>();
-  public minorsSkillBySkill = new Map<string, FormArray>();
+  public skillsMapping = new Map<string, UntypedFormArray>();
+  public minorsSkillBySkill = new Map<string, UntypedFormArray>();
   public creatureId: string;
   public creatureType: CreatureType;
 
-  public get attributes(): FormArray {
-    return this.form.get('attributes') as FormArray;
+  public get attributes(): UntypedFormArray {
+    return this.form.get('attributes') as UntypedFormArray;
   }
 
-  public get skills(): FormArray {
-    return this.form.get('skills') as FormArray;
+  public get skills(): UntypedFormArray {
+    return this.form.get('skills') as UntypedFormArray;
   }
 
-  public get lifes(): FormArray {
-    return this.form.get('lifes') as FormArray;
+  public get lifes(): UntypedFormArray {
+    return this.form.get('lifes') as UntypedFormArray;
   }
-  public get defenses(): FormArray {
-    return this.form.get('defenses') as FormArray;
+  public get defenses(): UntypedFormArray {
+    return this.form.get('defenses') as UntypedFormArray;
   }
-  public attributeSkills(attributeId: string): FormArray {
+  public attributeSkills(attributeId: string): UntypedFormArray {
     return this.skillsMapping.get(attributeId);
   }
 
