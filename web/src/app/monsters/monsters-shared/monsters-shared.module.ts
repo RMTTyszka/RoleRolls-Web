@@ -7,16 +7,25 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {PanelModule} from 'primeng/panel';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CreaturesSharedModule} from '../../creatures-shared/creatures-shared.module';
+import {MatFormField} from "@angular/material/form-field";
+import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {MatPaginator} from "@angular/material/paginator";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SharedModule,
-        OverlayPanelModule,
-        PanelModule,
-        AutoCompleteModule,
-        CreaturesSharedModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    OverlayPanelModule,
+    PanelModule,
+    AutoCompleteModule,
+    CreaturesSharedModule,
+    MatFormField,
+    MatCard,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    MatPaginator
+  ],
     exports: [MonsterBaseSelectorComponent, MonsterSelectComponent],
     declarations: [MonsterBaseSelectorComponent, MonsterSelectComponent]
 })

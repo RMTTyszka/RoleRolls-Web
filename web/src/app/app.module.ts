@@ -15,6 +15,7 @@ import {ShopModule} from './shop/shop.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {UniverseInterceptor} from './interceptors/universe.interceptor';
 import {AppColorService} from './app-color.service';
+import {MatTabLink, MatTabNav} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -23,18 +24,20 @@ import {AppColorService} from './app-color.service';
     HomeComponent,
     MainHeaderComponent
   ],
-    imports: [
-        CommonModule,
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        SharedModule,
-        LoginModule,
-        ShopModule,
-        ConfirmDialogModule
+  imports: [
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    LoginModule,
+    ShopModule,
+    ConfirmDialogModule,
+    MatTabNav,
+    MatTabLink
 
-    ],
+  ],
   providers: [
     MessageService,
     ConfirmationService,

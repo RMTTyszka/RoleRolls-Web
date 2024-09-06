@@ -17,6 +17,7 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {MonsterTemplateProviderModule} from './monsters-bases/monster-template-provider/monster-template-provider.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 
 const routes: Routes = [
@@ -26,19 +27,21 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SharedModule,
-        MonsterTemplateProviderModule,
-        RaceSharedModule,
-        RolesSharedModule,
-        MonstersSharedModule,
-        ToolbarModule,
-        CreaturesSharedModule,
-        DynamicDialogModule,
-        InputTextModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    MonsterTemplateProviderModule,
+    RaceSharedModule,
+    RolesSharedModule,
+    MonstersSharedModule,
+    ToolbarModule,
+    CreaturesSharedModule,
+    DynamicDialogModule,
+    InputTextModule,
+    MatTab,
+    MatTabGroup,
+  ],
     declarations: [MonstersListComponent, MonsterComponent, MonsterModelComponent, MonsterBaseListComponent, MonstersComponent, MonsterCreateComponent],
     providers: [
         { provide: MatDialogRef, useValue: {} },

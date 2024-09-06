@@ -6,6 +6,7 @@ import {PowerSelectorComponent} from './power-selector/power-selector.component'
 import {MatPaginator} from "@angular/material/paginator";
 import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {MatFormField} from "@angular/material/form-field";
+import {MatList, MatListItem} from "@angular/material/list";
 
 @NgModule({
   imports: [
@@ -16,7 +17,9 @@ import {MatFormField} from "@angular/material/form-field";
     MatCardSubtitle,
     MatCardTitle,
     MatCard,
-    MatFormField
+    MatFormField,
+    MatListItem,
+    MatList
   ],
     declarations: [
         PowerManagementComponent,

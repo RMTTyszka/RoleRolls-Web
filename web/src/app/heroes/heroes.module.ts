@@ -19,6 +19,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 import {ShopModule} from '../shop/shop.module';
 import { HeroCreateComponent } from './hero-create/hero-create.component';
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 const routes: Routes = [
   {path: '/:id', component: HeroesGatewayComponent},
@@ -27,23 +28,25 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SharedModule,
-        DialogModule,
-        DynamicDialogModule,
-        RaceSharedModule,
-        RolesSharedModule,
-        TooltipModule,
-        ToastModule,
-        TabViewModule,
-        ArmorSharedModule,
-        FieldsetModule,
-        AutoCompleteModule,
-        CreaturesSharedModule,
-        ShopModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    DialogModule,
+    DynamicDialogModule,
+    RaceSharedModule,
+    RolesSharedModule,
+    TooltipModule,
+    ToastModule,
+    TabViewModule,
+    ArmorSharedModule,
+    FieldsetModule,
+    AutoCompleteModule,
+    CreaturesSharedModule,
+    ShopModule,
+    MatTabGroup,
+    MatTab
+  ],
     declarations: [HeroesListComponent, HeroesGatewayComponent, NewHeroEditorComponent, NewHeroAddButtonComponent, HeroCreateComponent],
     exports: []
 })
