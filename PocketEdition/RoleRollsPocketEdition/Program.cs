@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition.Application.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
+using RoleRollsPocketEdition.Domain.Itens.Models;
 using RoleRollsPocketEdition.Infrastructure;
 
 var RoleRollsPolicyOrigins = "rolerolls";
@@ -30,7 +31,11 @@ builder.Services.AddCors(options =>
                               .AllowCredentials();
                       });
 });
-builder.Services.AddControllers(op => op.SuppressAsyncSuffixInActionNames = false);
+builder.Services.AddControllers(op =>
+    {
+        op.SuppressAsyncSuffixInActionNames = false;
+    })
+    .AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache(op =>
 {

@@ -39,6 +39,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<DefenseTemplate> DefenseTemplates { get; set; }
         public DbSet<SceneAction> SceneActions { get; set; }
         public DbSet<ItemTemplate> ItemTemplates { get; set; }
+        public DbSet<WeaponTemplate> WeaponTemplates { get; set; }
         public DbSet<ItemInstance> ItemInstances { get; set; }
 
         private readonly IConfiguration _configuration;

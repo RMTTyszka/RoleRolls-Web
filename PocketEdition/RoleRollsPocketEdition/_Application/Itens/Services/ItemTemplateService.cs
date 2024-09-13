@@ -10,9 +10,11 @@ namespace RoleRollsPocketEdition._Application.Itens.Services;
 
 public interface IItemTemplateService
 {
-    Task<PagedResult<ItemTemplateModel>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input);
+    Task<PagedResult<object>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input);
     Task<ItemTemplateModel> GetItemAsync(Guid id);
     Task InsertItem(ItemTemplateModel item);
+    Task InsertWeapon(WeaponTemplateModel item);
+    Task UpdateWeapon(Guid id, WeaponTemplateModel item);
     Task UpdateItem(Guid id, ItemTemplateModel item);
     Task DeleteItem(Guid id);
 }
@@ -27,7 +29,7 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
     }
 
     [NoTrackingAspect]
-    public async Task<PagedResult<ItemTemplateModel>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input)
+    public async Task<PagedResult<object>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input)
     {
             var query = _roleRollsDbContext.ItemTemplates
                 .AsNoTracking()
@@ -36,9 +38,9 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
             var totalItems = await query.CountAsync();
             var items = await query
                 .PageBy(input)
-                .Select(e => new ItemTemplateModel(e))
                 .ToListAsync();
-            return new PagedResult<ItemTemplateModel>(totalItems, items);
+            var fixedItems = items.Select(e => e.ToUpperClass()).ToList();
+            return new PagedResult<object>(totalItems, fixedItems);
     }    
     [NoTrackingAspect]
     public async Task<ItemTemplateModel> GetItemAsync(Guid id)
@@ -55,7 +57,26 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
         var template = new ItemTemplate(item);
         await _roleRollsDbContext.ItemTemplates.AddAsync(template);
         await _roleRollsDbContext.SaveChangesAsync();
-    }    
+    }
+
+    public async Task InsertWeapon(WeaponTemplateModel item)
+    {
+        var template = new WeaponTemplate(item);
+        await _roleRollsDbContext.WeaponTemplates.AddAsync(template);
+        await _roleRollsDbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateWeapon(Guid id, WeaponTemplateModel item)
+    {
+        var template = await _roleRollsDbContext.WeaponTemplates.FindAsync(id);
+        if (template is not null)
+        {
+            template.Update(item);
+            _roleRollsDbContext.ItemTemplates.Update(template);
+            await _roleRollsDbContext.SaveChangesAsync();   
+        }
+    }
+
     public async Task UpdateItem(Guid id, ItemTemplateModel item)
     {
         var template = await _roleRollsDbContext.ItemTemplates.FindAsync(id);

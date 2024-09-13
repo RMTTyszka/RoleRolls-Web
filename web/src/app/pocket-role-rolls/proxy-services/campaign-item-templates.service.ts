@@ -24,7 +24,7 @@ import {CampaignPlayer} from "../../shared/models/pocket/campaigns/CampaignPlaye
 import {AcceptInvitationInput} from "../../shared/models/pocket/campaigns/accept-invitation-input";
 import {PagedOutput} from "../../shared/dtos/PagedOutput";
 import { v4 as uuidv4 } from 'uuid';
-import {ItemTemplateModel} from "../../shared/models/pocket/itens/ItemTemplateModel";
+import {ItemTemplateModel, WeaponTemplateModel} from "../../shared/models/pocket/itens/ItemTemplateModel";
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +76,13 @@ export class CampaignItemTemplatesService {
     return this.httpClient.get<PagedOutput<ItemTemplateModel>>(`${this.completePath}`, {
       params
     });
+  }
+
+  addWeapon(weaponTemplate: WeaponTemplateModel) {
+    return this.httpClient.post<never>(`${this.serverUrl}weapon-templates`, weaponTemplate);
+  }
+
+  updateWeapon(id: string, weaponTemplate: WeaponTemplateModel) {
+    return this.httpClient.put<never>(`${this.serverUrl}weapon-templates/${id}`, weaponTemplate);
   }
 }

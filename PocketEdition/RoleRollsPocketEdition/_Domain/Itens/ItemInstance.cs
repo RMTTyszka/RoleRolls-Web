@@ -12,4 +12,7 @@ public class ItemInstance : Entity
     public Guid? PowerId { get; set; }
     public PowerTemplate? Power { get; set; }
     public int Level { get; set; }
+    
+    public Guid TemplateId { get; set; }
+    public ItemTemplate Template { get; set; }
 }

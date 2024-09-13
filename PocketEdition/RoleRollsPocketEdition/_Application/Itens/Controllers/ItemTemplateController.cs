@@ -20,7 +20,7 @@ public class ItemTemplateController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<PagedResult<ItemTemplateModel>> GetItemsAsync([FromQuery] Guid? campaignId, [FromQuery] GetAllItensTemplateInput input)
+    public async Task<PagedResult<object>> GetItemsAsync([FromQuery] Guid? campaignId, [FromQuery] GetAllItensTemplateInput input)
     {
         return await _itemTemplateService.GetItemsAsync(campaignId, input);
     }    

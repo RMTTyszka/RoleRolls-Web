@@ -1,3 +1,4 @@
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Domain.Itens.Models;
@@ -27,15 +28,22 @@ public class ItemTemplate : Entity
     public Guid? CampaignId { get; set; }
     public Campaign? Campaign { get; set; }
 
+
     public void Update(ItemTemplateModel item)
     {
         Name = item.Name;
         PowerId = item.PowerId;
+    }
+
+    public virtual object ToUpperClass()
+    {
+        return new ItemTemplateModel(this);
     }
 }
 
 public enum ItemType
 {
     Consumable = 0,
-    Equipable = 1
+    Weapon = 1,
+    Armor = 2
 }

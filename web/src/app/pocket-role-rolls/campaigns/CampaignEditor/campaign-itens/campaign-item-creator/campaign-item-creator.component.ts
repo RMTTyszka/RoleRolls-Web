@@ -66,11 +66,28 @@ private subscription: SubscriptionManager = new SubscriptionManager();
   }
 
   public async save() {
-    const itemTemplate = this.form.value as ItemTemplateModel
     if (this.action === EditorAction.create) {
-      await this.service.addItem(itemTemplate).toPromise();
+      switch (this.itemType) {
+        case ItemCreatorItemType.Item:
+          const itemTemplate = this.form.value as ItemTemplateModel
+          await this.service.addItem(itemTemplate).toPromise();
+          break
+        case ItemCreatorItemType.Weapon:
+          const weaponTemplate = this.form.value as WeaponTemplateModel
+          await this.service.addWeapon(weaponTemplate).toPromise();
+          break
+      }
     } else {
-      await this.service.updateItem(this.item.id, itemTemplate).toPromise();
+      switch (this.itemType) {
+        case ItemCreatorItemType.Item:
+          const itemTemplate = this.form.value as ItemTemplateModel
+          await this.service.updateItem(this.item.id, itemTemplate).toPromise();
+          break
+        case ItemCreatorItemType.Weapon:
+          const weaponTemplate = this.form.value as WeaponTemplateModel
+          await this.service.updateWeapon(this.item.id, weaponTemplate).toPromise();
+          break
+      }
     }
     this.saved.next();
     this.refreshForm();
@@ -108,8 +125,10 @@ private subscription: SubscriptionManager = new SubscriptionManager();
     if (item && this.form) {
       this.populateForm(item);
       this.form.get('size').setValue(item.size);
-      this.form.get('size').setValidators(Validators.required);
+    } else {
+      this.form.get('type').setValue(ItemType.Equipable);
     }
+    this.form.get('size').setValidators(Validators.required);
   }
   private configurarFormAsItem() {
     this.itemType = ItemCreatorItemType.Item;
