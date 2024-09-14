@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition._Domain.Rolls.Commands;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Models;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Domain.Rolls.Commands;
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Models;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Rolls.Application
+namespace RoleRollsPocketEdition._Application.Rolls.Application
 {
     public class RollService : IRollService
     {

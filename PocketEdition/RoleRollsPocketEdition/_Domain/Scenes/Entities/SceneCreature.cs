@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
+﻿using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.Scenes.Entities
+namespace RoleRollsPocketEdition._Domain.Scenes.Entities
 {
     public class SceneCreature : Entity
     {

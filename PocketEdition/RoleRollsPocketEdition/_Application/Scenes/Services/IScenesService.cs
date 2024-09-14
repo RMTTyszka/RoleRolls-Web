@@ -1,8 +1,8 @@
-﻿using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.Scenes.Models;
+﻿using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Scenes.Models;
 
-namespace RoleRollsPocketEdition.Application.Scenes.Services
+namespace RoleRollsPocketEdition._Application.Scenes.Services
 {
     public interface IScenesService
     {

@@ -1,7 +1,4 @@
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
-
-namespace RoleRollsPocketEdition.Domain.Itens.Models;
+namespace RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
 public class ItemTemplateModel
 {

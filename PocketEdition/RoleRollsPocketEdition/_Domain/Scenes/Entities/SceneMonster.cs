@@ -1,6 +1,6 @@
 ﻿using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.Scenes.Entities
+namespace RoleRollsPocketEdition._Domain.Scenes.Entities
 {
     public class SceneMonster: Entity
     {

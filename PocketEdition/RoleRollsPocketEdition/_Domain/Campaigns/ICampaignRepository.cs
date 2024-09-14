@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+﻿using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns
+namespace RoleRollsPocketEdition._Domain.Campaigns
 {
     public interface ICampaignRepository
     {

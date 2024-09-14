@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+﻿using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.Creatures.Entities
+namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 {
     public class MinorSkill : Entity
     {

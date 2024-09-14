@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Domain.Creatures.Entities;
+﻿using RoleRollsPocketEdition._Domain.Creatures.Entities;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Models
+namespace RoleRollsPocketEdition._Application.Creatures.Models
 {
     public class LifeModel
     {

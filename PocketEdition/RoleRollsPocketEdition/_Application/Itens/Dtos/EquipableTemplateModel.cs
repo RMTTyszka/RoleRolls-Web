@@ -1,5 +1,6 @@
-using RoleRollsPocketEdition.Domain.Itens;
-using RoleRollsPocketEdition.Domain.Itens.Models;
+using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
+using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
 namespace RoleRollsPocketEdition._Application.Itens.Dtos;
 

@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Application.Creatures.Models;
+﻿using RoleRollsPocketEdition._Application.Creatures.Models;
 
-namespace RoleRollsPocketEdition.Application.Creatures;
+namespace RoleRollsPocketEdition._Application.Creatures;
 
 public class CreatureUpdateValidationResult
 {

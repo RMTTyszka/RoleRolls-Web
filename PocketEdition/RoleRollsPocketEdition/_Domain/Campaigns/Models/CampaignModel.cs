@@ -1,8 +1,8 @@
-﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns.Models
+namespace RoleRollsPocketEdition._Domain.Campaigns.Models
 {
     public class CampaignModel
     {

@@ -1,7 +1,6 @@
 using RoleRollsPocketEdition._Application.Itens.Dtos;
-using RoleRollsPocketEdition.Domain.Itens.Models;
 
-namespace RoleRollsPocketEdition.Domain.Itens;
+namespace RoleRollsPocketEdition._Domain.Itens.Templates;
 
 public class EquipableTemplate : ItemTemplate
 {

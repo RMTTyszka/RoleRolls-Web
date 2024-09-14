@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Domain.Rolls.Services;
+namespace RoleRollsPocketEdition._Domain.Rolls.Services;
 
 public interface IRollSimulationService
 {

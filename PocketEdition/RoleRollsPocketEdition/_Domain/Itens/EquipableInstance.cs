@@ -1,4 +1,6 @@
-namespace RoleRollsPocketEdition.Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
+
+namespace RoleRollsPocketEdition._Domain.Itens;
 
 public class EquipableInstance : ItemInstance
 {

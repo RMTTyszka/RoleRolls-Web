@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+﻿using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 
-namespace RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos
+namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 {
     public class SkillTemplateModel
     {

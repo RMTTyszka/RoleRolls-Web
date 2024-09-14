@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Domain.Rolls.Entities;
+﻿using RoleRollsPocketEdition._Domain.Rolls.Entities;
 
-namespace RoleRollsPocketEdition.Application.Rolls.Application
+namespace RoleRollsPocketEdition._Application.Rolls.Application
 {
     public class RollInput
     {

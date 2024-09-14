@@ -1,7 +1,6 @@
-using Newtonsoft.Json;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.Dtos;
+namespace RoleRollsPocketEdition._Application.Campaigns.Dtos;
 
 public abstract class SceneHistory
 {

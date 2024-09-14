@@ -1,6 +1,6 @@
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Dtos;
+namespace RoleRollsPocketEdition._Application.Creatures.Dtos;
 
 public class SimulateCdInput
 {

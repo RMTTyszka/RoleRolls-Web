@@ -1,7 +1,7 @@
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Itens;
 
-namespace RoleRollsPocketEdition.Domain.Creatures.Entities;
+namespace RoleRollsPocketEdition._Domain.Creatures.Entities;
 
 public class Inventory : Entity
 {

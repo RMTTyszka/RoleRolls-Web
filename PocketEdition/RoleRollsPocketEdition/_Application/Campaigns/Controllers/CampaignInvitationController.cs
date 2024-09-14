@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
-using RoleRollsPocketEdition.Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition._Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.Controllers
+namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
 {
     [Route("campaigns/invitations")]
     public class CampaignInvitationController : ControllerBase

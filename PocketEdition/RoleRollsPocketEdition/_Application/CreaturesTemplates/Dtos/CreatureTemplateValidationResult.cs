@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos
+﻿namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 {
     public enum CreatureTemplateValidationResult
     {

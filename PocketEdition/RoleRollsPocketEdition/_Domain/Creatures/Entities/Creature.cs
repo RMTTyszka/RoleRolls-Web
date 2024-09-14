@@ -1,14 +1,14 @@
 ﻿using System.Data;
-using RoleRollsPocketEdition.Application.Creatures;
-using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Application.Creatures;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Domain.Creatures.Entities
+namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 {
     public class Creature : Entity
     {

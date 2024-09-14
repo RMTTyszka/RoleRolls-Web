@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Application.Creatures.Dtos;
-using RoleRollsPocketEdition.Application.Creatures.Models;
+using RoleRollsPocketEdition._Application.Creatures.Dtos;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Domain.Campaigns;
+using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Services;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns;
-using RoleRollsPocketEdition.Domain.Campaigns.Repositories;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Services;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Services
+namespace RoleRollsPocketEdition._Application.Creatures.Services
 {
     public class CreatureService : ICreatureService
     {

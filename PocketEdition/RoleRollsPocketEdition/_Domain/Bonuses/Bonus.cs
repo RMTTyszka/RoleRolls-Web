@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Domain.Bonuses;
+namespace RoleRollsPocketEdition._Domain.Bonuses;
 
 public class Bonus
 {

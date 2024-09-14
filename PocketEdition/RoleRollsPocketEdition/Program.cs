@@ -2,16 +2,15 @@ using System.Configuration;
 using System.Net;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Authentication.Dtos;
-using RoleRollsPocketEdition.Configuration;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RoleRollsPocketEdition.Application.Campaigns.Handlers;
+using RoleRollsPocketEdition._Application.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
+using RoleRollsPocketEdition.Core.Configuration;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
-using RoleRollsPocketEdition.Domain.Itens.Models;
 using RoleRollsPocketEdition.Infrastructure;
 
 var RoleRollsPolicyOrigins = "rolerolls";

@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Domain.Rolls.Commands
+﻿namespace RoleRollsPocketEdition._Domain.Rolls.Commands
 {
     public class RollDiceCommand
     {

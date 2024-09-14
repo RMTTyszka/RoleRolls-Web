@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Domain.Powers.Entities
+namespace RoleRollsPocketEdition._Domain.Powers.Entities
 {
     public enum PowerActionType
     {

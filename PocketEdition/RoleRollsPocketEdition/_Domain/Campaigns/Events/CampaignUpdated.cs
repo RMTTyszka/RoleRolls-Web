@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Domain.Campaigns.Events;
+﻿namespace RoleRollsPocketEdition._Domain.Campaigns.Events;
 
 public class CampaignUpdated
 {

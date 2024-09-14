@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Domain.Creatures.Entities;
+﻿using RoleRollsPocketEdition._Domain.Creatures.Entities;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Dtos
+namespace RoleRollsPocketEdition._Application.Creatures.Dtos
 {
     public class GetAllCampaignCreaturesInput
     {

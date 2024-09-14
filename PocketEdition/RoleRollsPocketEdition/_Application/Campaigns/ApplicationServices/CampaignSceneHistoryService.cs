@@ -1,13 +1,12 @@
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using RoleRollsPocketEdition.Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
+namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
 
 public interface ICampaignSceneHistoryBuilderService
 {

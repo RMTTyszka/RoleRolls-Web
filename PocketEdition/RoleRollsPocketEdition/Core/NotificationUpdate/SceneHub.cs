@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
-using RoleRollsPocketEdition.Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.Dtos;
 
 namespace RoleRollsPocketEdition.Core.NotificationUpdate;
 

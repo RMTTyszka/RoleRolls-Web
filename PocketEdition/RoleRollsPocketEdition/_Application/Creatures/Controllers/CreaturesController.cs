@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoleRollsPocketEdition.Application.Creatures.Dtos;
-using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Application.Creatures.Services;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Application.Creatures.Dtos;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Application.Creatures.Services;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Controllers
+namespace RoleRollsPocketEdition._Application.Creatures.Controllers
 {
     [Route("campaigns/{campaignId}/creatures")]
     [ApiController]

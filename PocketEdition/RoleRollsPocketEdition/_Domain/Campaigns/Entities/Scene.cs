@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Scenes.Models;
+﻿using RoleRollsPocketEdition._Domain.Scenes.Models;
+using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns.Entities
+namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
 {
     public class Scene : Entity
     {

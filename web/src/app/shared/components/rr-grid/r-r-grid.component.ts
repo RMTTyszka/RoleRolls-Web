@@ -128,6 +128,7 @@ public actionsWidth() {
 export interface RRColumns {
   header: string;
   property: string;
+  format?: (obj: any, value: any) => any;
 }
 export class RRAction<T> {
   icon: string;

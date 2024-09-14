@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Application.Creatures;
+﻿namespace RoleRollsPocketEdition._Application.Creatures;
 
 public enum CreatureUpdateValidation
 {

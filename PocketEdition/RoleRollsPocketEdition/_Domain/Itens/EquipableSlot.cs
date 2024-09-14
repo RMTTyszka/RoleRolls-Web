@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Domain.Itens;
+namespace RoleRollsPocketEdition._Domain.Itens;
 
 public enum EquipableSlot
 {

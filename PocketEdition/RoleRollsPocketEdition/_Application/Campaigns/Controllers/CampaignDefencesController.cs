@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
-using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Authentication;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.Controllers
+namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
 {
         [Authorize]
     [ApiController]

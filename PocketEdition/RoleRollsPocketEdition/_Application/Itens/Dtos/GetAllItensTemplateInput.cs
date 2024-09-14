@@ -1,5 +1,5 @@
+using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Domain.Itens;
 
 namespace RoleRollsPocketEdition._Application.Itens.Dtos;
 

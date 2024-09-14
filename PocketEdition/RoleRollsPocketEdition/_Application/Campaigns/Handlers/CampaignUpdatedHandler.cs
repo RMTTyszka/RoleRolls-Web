@@ -1,14 +1,14 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Attributes;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Lifes;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.MinorSkills;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Skills;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Attributes;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Lifes;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.MinorSkills;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Skills;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
-using Attribute = RoleRollsPocketEdition.Domain.Creatures.Entities.Attribute;
+using Attribute = RoleRollsPocketEdition._Domain.Creatures.Entities.Attribute;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.Handlers;
+namespace RoleRollsPocketEdition._Application.Campaigns.Handlers;
 
 public class CampaignUpdatedHandler : 
     IConsumer<AttributeAdded>,

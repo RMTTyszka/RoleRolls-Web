@@ -5,26 +5,34 @@
                Item
             </span>
     </div>
-
   </ng-template>
   <ng-template pTemplate="icons">
-    <button class="p-panel-header-icon p-link mr-2" (click)="refreshForm()">
-      <span class="pi pi-plus"></span>
-    </button>
+    <div class="flex flex-wrap gap-3">
+      <div class="flex align-items-center" *ngFor="let itemTypeOption of itemTypesOptions">
+        <p-radioButton
+          [name]="itemTypeOption.name"
+          [value]="itemTypeOption.value"
+          [ngModel]="itemType()"
+          (ngModelChange)="itemType.set($event)"
+          [label]="itemTypeOption.name"/>
+      </div>
+    </div>
   </ng-template>
   <ng-template pTemplate="footer">
     <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
   </ng-template>
-  <p-tabMenu [model]="itemTypeMenuItens" [(activeItem)]="selectedItemType">
-  </p-tabMenu>
   <form [formGroup]="form">
     <div class="flex flex-column gap-2">
-      <label for="itemTemplateName">{{form.get('name').value}}</label>
-      <input id="itemTemplateName" pInputText formControlName="name" type="text">
+      <label for="itemTemplateName">Item Name</label>
+      <input id="itemTemplateName" [required]="true" pInputText formControlName="name" type="text">
     </div>
-    <div *ngIf="itemType === itemTypeEnum.Weapon" class="flex flex-column gap-2">
-      <label for="weaponSize">Size</label>
-      <input id="weaponSize" pInputText formControlName="size" type="text">
+    <div *ngIf="itemType() === itemTypeEnum.Weapon" class="flex flex-column gap-2">
+      <label for="weaponCategory">Category</label>
+      <p-dropdown id="weaponCategory" [required]="true" formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
+    </div>
+    <div *ngIf="itemType() === itemTypeEnum.Armor" class="flex flex-column gap-2">
+      <label for="armorCategory">Category</label>
+      <p-dropdown id="armorCategory" [required]="true" formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
     </div>
   </form>
 </p-panel>

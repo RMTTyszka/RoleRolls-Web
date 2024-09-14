@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns.Repositories;
+namespace RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 
 public interface ICreatureRepository
 {

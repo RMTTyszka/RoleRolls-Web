@@ -1,10 +1,10 @@
-using RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
-using RoleRollsPocketEdition.Application.Creatures.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition._Application.Creatures.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Repositories;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Services;
+namespace RoleRollsPocketEdition._Application.Creatures.Services;
 
 public interface ICreatureActionsService
 {

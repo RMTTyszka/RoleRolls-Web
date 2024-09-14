@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Commands;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Commands;
 
-namespace RoleRollsPocketEdition.Domain.Rolls.Entities
+namespace RoleRollsPocketEdition._Domain.Rolls.Entities
 {
     public class Roll : Entity
     {

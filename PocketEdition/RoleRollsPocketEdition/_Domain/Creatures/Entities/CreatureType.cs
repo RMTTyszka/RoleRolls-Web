@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Domain.Creatures.Entities
+﻿namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 {
     public enum CreatureType
     {

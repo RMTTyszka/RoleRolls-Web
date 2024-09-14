@@ -1,3 +1,5 @@
+import {EquipableSlot} from "src/app/shared/models/items/EquipableSlot";
+
 export class ItemTemplateModel{
   public id: string;
   public campaignId: string;
@@ -5,14 +7,28 @@ export class ItemTemplateModel{
   public name: string;
   public type: ItemType;
 }
-export class WeaponTemplateModel extends ItemTemplateModel{
-  public size: WeaponSize;
+export class EquipableTemplateModel extends ItemTemplateModel {
+  public slot: EquipableSlot;
+}
+export class WeaponTemplateModel extends EquipableTemplateModel{
+  public category: WeaponCategory;
+}
+
+export class ArmorTemplateModel extends EquipableTemplateModel{
+  public category: ArmorCategory;
 }
 export enum ItemType {
   Consumable = 0,
-  Equipable = 1
+  Weapon = 1,
+  Armor = 2,
 }
-export enum WeaponSize
+export enum WeaponCategory
+{
+  Light = 0,
+  Medium = 1,
+  Heavy = 2,
+}
+export enum ArmorCategory
 {
   Light = 0,
   Medium = 1,

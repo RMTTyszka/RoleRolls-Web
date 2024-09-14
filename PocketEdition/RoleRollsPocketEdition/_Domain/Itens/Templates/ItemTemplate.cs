@@ -1,10 +1,9 @@
-using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
+using RoleRollsPocketEdition._Domain.Powers.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Itens.Models;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Itens;
+namespace RoleRollsPocketEdition._Domain.Itens.Templates;
 
 public class ItemTemplate : Entity
 {
@@ -45,5 +44,5 @@ public enum ItemType
 {
     Consumable = 0,
     Weapon = 1,
-    Armor = 2
+    Armor = 2,
 }

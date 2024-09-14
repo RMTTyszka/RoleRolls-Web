@@ -1,7 +1,7 @@
-using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
+namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 
 public class DefenseTemplate : Entity, IDefenseTemplate
 {

@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
+﻿using RoleRollsPocketEdition._Domain.Powers.Entities;
+using RoleRollsPocketEdition.Core;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns.Entities
+namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
 {
     public class Campaign : Entity
     {

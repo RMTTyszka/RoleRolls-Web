@@ -1,17 +1,17 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Index.HPRtree;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
+using RoleRollsPocketEdition._Domain.Powers.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
+using RoleRollsPocketEdition._Domain.Scenes.Entities;
 using RoleRollsPocketEdition.Authentication.Users;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
-using RoleRollsPocketEdition.Domain.Itens;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
-using RoleRollsPocketEdition.Domain.Scenes.Entities;
-using Attribute = RoleRollsPocketEdition.Domain.Creatures.Entities.Attribute;
+using Attribute = RoleRollsPocketEdition._Domain.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {
@@ -40,6 +40,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<SceneAction> SceneActions { get; set; }
         public DbSet<ItemTemplate> ItemTemplates { get; set; }
         public DbSet<WeaponTemplate> WeaponTemplates { get; set; }
+        public DbSet<ArmorTemplate> ArmorTemplates { get; set; }
         public DbSet<ItemInstance> ItemInstances { get; set; }
 
         private readonly IConfiguration _configuration;

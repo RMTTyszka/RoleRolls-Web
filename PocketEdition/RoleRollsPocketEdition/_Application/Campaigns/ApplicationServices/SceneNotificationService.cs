@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.SignalR;
-using RoleRollsPocketEdition.Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.Dtos;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices;
+namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
 
 public interface ISceneNotificationService
 {

@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Domain.Scenes.Models
+﻿namespace RoleRollsPocketEdition._Domain.Scenes.Models
 {
     public class SceneModel
     {

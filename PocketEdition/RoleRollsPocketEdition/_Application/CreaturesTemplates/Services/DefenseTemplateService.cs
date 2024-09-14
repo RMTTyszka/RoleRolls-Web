@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Defenses;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.CreaturesTemplates.Services
+namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
 {
     public class DefenseTemplateService : IDefenseTemplateService
     {

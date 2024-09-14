@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Application.Campaigns.Dtos
+﻿namespace RoleRollsPocketEdition._Application.Campaigns.Dtos
 {
     public enum InvitationResult
     {

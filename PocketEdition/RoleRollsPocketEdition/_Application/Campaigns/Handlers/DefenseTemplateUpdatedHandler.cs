@@ -1,11 +1,11 @@
 using EFCore.BulkExtensions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Defenses;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.Handlers;
+namespace RoleRollsPocketEdition._Application.Campaigns.Handlers;
 
 public class DefenseTemplateUpdatedHandler : 
     IConsumer<DefenseTemplateAdded>,

@@ -1,9 +1,9 @@
-﻿using RoleRollsPocketEdition.Application.Creatures.Dtos;
-using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.Rolls.Services;
+﻿using RoleRollsPocketEdition._Application.Creatures.Dtos;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Services;
 
-namespace RoleRollsPocketEdition.Application.Creatures.Services
+namespace RoleRollsPocketEdition._Application.Creatures.Services
 {
     public interface ICreatureService
     {

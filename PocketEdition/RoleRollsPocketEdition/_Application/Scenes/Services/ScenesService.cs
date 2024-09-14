@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.Scenes.Entities;
-using RoleRollsPocketEdition.Domain.Scenes.Models;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Scenes.Entities;
+using RoleRollsPocketEdition._Domain.Scenes.Models;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Scenes.Services
+namespace RoleRollsPocketEdition._Application.Scenes.Services
 {
 
     public class ScenesService : IScenesService

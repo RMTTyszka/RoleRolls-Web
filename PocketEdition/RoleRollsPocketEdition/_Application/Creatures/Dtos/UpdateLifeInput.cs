@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Application.Creatures.Dtos;
+﻿namespace RoleRollsPocketEdition._Application.Creatures.Dtos;
 
 public class UpdateLifeInput
 {

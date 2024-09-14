@@ -1,6 +1,11 @@
-import {Component, effect, input, Input, OnInit, signal} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LazyLoadEvent} from "primeng/api";
-import {ItemTemplateModel} from "src/app/shared/models/pocket/itens/ItemTemplateModel";
+import {
+  ArmorCategory,
+  ItemTemplateModel,
+  ItemType,
+  WeaponCategory
+} from "src/app/shared/models/pocket/itens/ItemTemplateModel";
 import {RRAction, RRColumns} from "src/app/shared/components/rr-grid/r-r-grid.component";
 import {PocketCampaignModel} from "src/app/shared/models/pocket/campaigns/pocket.campaign.model";
 import {EditorAction} from "src/app/shared/dtos/ModalEntityData";
@@ -37,7 +42,47 @@ export class CampaignItensTempladeComponent implements OnInit {
       {
         header: 'Name',
         property: 'name'
-      } as RRColumns
+      } as RRColumns,
+      {
+        header: 'Type',
+        property: 'type',
+        format: (item: ItemTemplateModel, value: ItemType) => {
+          switch(value) {
+            case ItemType.Consumable:
+              return "Item"
+            case ItemType.Weapon:
+              return "Weapon"
+            case ItemType.Armor:
+              return "Armor"
+          }
+        }
+      } as RRColumns,
+      {
+        header: 'Category',
+        property: 'category',
+        format: (item: ItemTemplateModel, value: WeaponCategory | ArmorCategory) => {
+          if (item.type === ItemType.Weapon) {
+            switch(value) {
+              case WeaponCategory.Light:
+                return "Light"
+              case WeaponCategory.Medium:
+                return "Medium"
+              case WeaponCategory.Heavy:
+                return "Heavy"
+            }
+          }
+          if (item.type === ItemType.Armor) {
+            switch(value) {
+              case ArmorCategory.Light:
+                return "Light"
+              case ArmorCategory.Medium:
+                return "Medium"
+              case ArmorCategory.Heavy:
+                return "Heavy"
+            }
+          }
+        }
+      } as RRColumns,
     ];
     this.actions = [
       {
@@ -60,10 +105,14 @@ export class CampaignItensTempladeComponent implements OnInit {
   public actionsWidth() {
     return {width: `${this.actions.length * 3}%`}
   }
-  public resolve(path, obj) {
-    return path.split('.').reduce(function(prev, curr) {
+  public resolve(column: RRColumns, obj) {
+    const value = column.property.split('.').reduce(function(prev, curr) {
       return prev ? prev[curr] : null;
     }, obj || self);
+    if (column.format) {
+      return column.format(obj, value)
+    }
+    return value;
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
     this.service.list(this.campaign.id, filter, skipCount, maxResultCount).subscribe(response => {

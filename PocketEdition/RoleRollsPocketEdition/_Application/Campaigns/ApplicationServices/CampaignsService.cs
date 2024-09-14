@@ -1,20 +1,20 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Application.Campaigns.Dtos;
-using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Application.Campaigns.Dtos;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Attributes;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Lifes;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.MinorSkills;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Skills;
+using RoleRollsPocketEdition._Domain.Campaigns.Models;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Domain.Campaigns;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Attributes;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Lifes;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.MinorSkills;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Skills;
-using RoleRollsPocketEdition.Domain.Campaigns.Models;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Application.Campaigns.ApplicationServices
+namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
 {
     public class CampaignsService : ICampaignsService
     {

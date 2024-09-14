@@ -1,7 +1,7 @@
+using RoleRollsPocketEdition._Domain.Powers.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Creatures.Entities;
+namespace RoleRollsPocketEdition._Domain.Creatures.Entities;
 
 public class CreaturePower : Entity
 {

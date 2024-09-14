@@ -24,7 +24,11 @@ import {CampaignPlayer} from "../../shared/models/pocket/campaigns/CampaignPlaye
 import {AcceptInvitationInput} from "../../shared/models/pocket/campaigns/accept-invitation-input";
 import {PagedOutput} from "../../shared/dtos/PagedOutput";
 import { v4 as uuidv4 } from 'uuid';
-import {ItemTemplateModel, WeaponTemplateModel} from "../../shared/models/pocket/itens/ItemTemplateModel";
+import {
+  ArmorTemplateModel,
+  ItemTemplateModel,
+  WeaponTemplateModel
+} from "../../shared/models/pocket/itens/ItemTemplateModel";
 
 @Injectable({
   providedIn: 'root'
@@ -84,5 +88,12 @@ export class CampaignItemTemplatesService {
 
   updateWeapon(id: string, weaponTemplate: WeaponTemplateModel) {
     return this.httpClient.put<never>(`${this.serverUrl}weapon-templates/${id}`, weaponTemplate);
+  }
+
+  addArmor(template: ArmorTemplateModel) {
+    return this.httpClient.post<never>(`${this.serverUrl}armor-templates`, template);
+  }
+  updateArmor(id: string, template: ArmorTemplateModel) {
+    return this.httpClient.put<never>(`${this.serverUrl}armor-templates/${id}`, template);
   }
 }

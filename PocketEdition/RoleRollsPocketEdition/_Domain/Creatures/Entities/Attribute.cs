@@ -1,8 +1,8 @@
-﻿using RoleRollsPocketEdition.Application.Creatures.Models;
+﻿using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.CreatureTemplates.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Creatures.Entities
+namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 {
     public class Attribute : Entity
     {

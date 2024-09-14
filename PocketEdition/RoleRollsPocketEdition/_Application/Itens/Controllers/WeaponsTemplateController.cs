@@ -1,13 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition._Application.Itens.Dtos;
-using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Domain.Itens;
-using RoleRollsPocketEdition.Domain.Itens.Models;
-using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition._Application.Itens.Services;
+using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
-namespace RoleRollsPocketEdition._Application.Itens.Services;
+namespace RoleRollsPocketEdition._Application.Itens.Controllers;
 
 [Route("weapon-templates")]
 public class WeaponTemplateController : ControllerBase

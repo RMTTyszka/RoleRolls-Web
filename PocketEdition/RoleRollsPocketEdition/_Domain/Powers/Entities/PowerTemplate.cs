@@ -1,7 +1,7 @@
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Powers.Entities
+namespace RoleRollsPocketEdition._Domain.Powers.Entities
 {
     public class PowerTemplate : Entity
     {

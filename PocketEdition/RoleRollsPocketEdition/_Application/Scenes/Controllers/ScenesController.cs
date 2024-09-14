@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RoleRollsPocketEdition.Application.Creatures.Models;
-using RoleRollsPocketEdition.Application.Scenes.Services;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
-using RoleRollsPocketEdition.Domain.Scenes.Models;
+using RoleRollsPocketEdition._Application.Creatures.Models;
+using RoleRollsPocketEdition._Application.Scenes.Services;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Scenes.Models;
 
-namespace RoleRollsPocketEdition.Application.Scenes.Controllers
+namespace RoleRollsPocketEdition._Application.Scenes.Controllers
 {
     [Route("campaigns/{campaignId}/scenes")]
     public class ScenesController : ControllerBase

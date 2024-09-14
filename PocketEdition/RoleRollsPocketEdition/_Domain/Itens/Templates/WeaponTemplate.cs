@@ -1,24 +1,26 @@
-using RoleRollsPocketEdition._Domain.Itens;
-using RoleRollsPocketEdition.Domain.Itens.Models;
+using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
-namespace RoleRollsPocketEdition.Domain.Itens;
+namespace RoleRollsPocketEdition._Domain.Itens.Templates;
 
 public class WeaponTemplate : EquipableTemplate
 {
-    public WeaponSize Size { get; set; }
+    public WeaponCategory Category { get; set; }
+    public WeaponDamageType DamageType { get; set; }
     public WeaponTemplate()
     {
         
     }
     public WeaponTemplate(WeaponTemplateModel item) : base(item)
     {
-        Size = item.Size;
+        Category = item.Category;
+        DamageType = item.DamageType;
     }
 
     public void Update(WeaponTemplateModel item)
     {
         base.Update(item);
-        Size = item.Size;
+        Category = item.Category;
+        DamageType = item.DamageType;
     }
     public override object ToUpperClass()
     {

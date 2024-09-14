@@ -1,10 +1,10 @@
-﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Campaigns.Events.Defenses;
-using RoleRollsPocketEdition.Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 
-namespace RoleRollsPocketEdition.Domain.CreatureTemplates.Entities
+namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
 {
     public class CreatureTemplate : Entity
     {

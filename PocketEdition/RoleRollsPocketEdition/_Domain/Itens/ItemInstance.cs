@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
+using RoleRollsPocketEdition._Domain.Powers.Entities;
 using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Domain.Powers.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Itens;
+namespace RoleRollsPocketEdition._Domain.Itens;
 
 public class ItemInstance : Entity
 {

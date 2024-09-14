@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, WritableSignal} from '@angular/core';
+import {Component, effect, EventEmitter, Input, OnDestroy, OnInit, Output, signal} from '@angular/core';
 import {
+  ArmorCategory,
+  ArmorTemplateModel,
   ItemTemplateModel,
   ItemType,
-  WeaponSize,
+  WeaponCategory,
   WeaponTemplateModel
 } from "src/app/shared/models/pocket/itens/ItemTemplateModel";
 import {EditorAction} from "src/app/shared/dtos/ModalEntityData";
@@ -14,10 +16,6 @@ import {SubscriptionManager} from "src/app/shared/utils/subscription-manager";
 import {
   CampaignEditorDetailsServiceService
 } from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-editor-details-service.service";
-import {MenuItem} from "primeng/api";
-import {
-  ItemCreatorItemType
-} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-item-creator/tokens/item-creator-item-type";
 
 
 @Component({
@@ -30,34 +28,64 @@ export class CampaignItemCreatorComponent implements OnInit, OnDestroy {
   public action: EditorAction = EditorAction.create;
   @Output() public saved = new EventEmitter<never>();
   public form: FormGroup;
-  public itemTypeMenuItens: MenuItem[] = [];
-  public itemType: ItemCreatorItemType = ItemCreatorItemType.Item;
-  public itemTypeEnum = ItemCreatorItemType;
+  public itemType = signal(ItemType.Consumable);
+  public itemTypeEnum = ItemType;
+  public weaponCategories = [
+    {key: 'Light', value: WeaponCategory.Light},
+    {key: 'Medium', value: WeaponCategory.Medium},
+    {key: 'Heavy', value: WeaponCategory.Heavy},
+  ]
+  public armorCategories = [
+    {key: 'Light', value: ArmorCategory.Light},
+    {key: 'Medium', value: ArmorCategory.Medium},
+    {key: 'Heavy', value: ArmorCategory.Heavy},
+  ]
   public get canSave(): boolean {
     return this.form.valid;
   }
   @Input() private campaign: PocketCampaignModel;
 private subscription: SubscriptionManager = new SubscriptionManager();
-  selectedItemType: MenuItem | undefined | WritableSignal<MenuItem | undefined>;
+  itemTypesOptions = [
+    {name: 'Item', value: ItemType.Consumable},
+    {name: 'Weapon', value: ItemType.Weapon},
+    {name: 'Armor', value: ItemType.Armor},
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private service: CampaignItemTemplatesService,
     private detailsServiceService: CampaignEditorDetailsServiceService,
   ) {
-    this.buildItemTypesMenu();
+    effect(() => {
+      switch (this.itemType()) {
+        case ItemType.Consumable:
+          this.configurarFormAsItem()
+          break;
+        case ItemType.Weapon:
+          this.configurarFormAaWeapon()
+          break;
+        case ItemType.Armor:
+          this.configurarFormAsArmor()
+          break;
+      }
+    });
   }
 
   ngOnInit(): void {
+
     this.createForm();
     this.subscription.add('itemTemplate', this.detailsServiceService.itemTemplate.subscribe((item: ItemTemplateModel) => {
       this.item = item;
-      this.populateForm(item)
+      if (item) {
+        this.itemType.set(item.type)
+      }
     }));
     this.subscription.add('itemTemplateEditorAction', this.detailsServiceService.itemTemplateEditorAction.subscribe((editorAction: EditorAction) => {
       if (editorAction !== this.action) {
         this.action = editorAction;
-        this.selectedItemType = null;
-        this.buildItemTypesMenu();
+        if (editorAction === EditorAction.create) {
+          this.itemType.set(ItemType.Consumable);
+        }
       }
     }));
   }
@@ -67,25 +95,33 @@ private subscription: SubscriptionManager = new SubscriptionManager();
 
   public async save() {
     if (this.action === EditorAction.create) {
-      switch (this.itemType) {
-        case ItemCreatorItemType.Item:
+      switch (this.itemType()) {
+        case ItemType.Consumable:
           const itemTemplate = this.form.value as ItemTemplateModel
           await this.service.addItem(itemTemplate).toPromise();
           break
-        case ItemCreatorItemType.Weapon:
+        case ItemType.Weapon:
           const weaponTemplate = this.form.value as WeaponTemplateModel
           await this.service.addWeapon(weaponTemplate).toPromise();
           break
+        case ItemType.Armor:
+          const template = this.form.value as ArmorTemplateModel
+          await this.service.addArmor(template).toPromise();
+          break
       }
     } else {
-      switch (this.itemType) {
-        case ItemCreatorItemType.Item:
+      switch (this.itemType()) {
+        case ItemType.Consumable:
           const itemTemplate = this.form.value as ItemTemplateModel
           await this.service.updateItem(this.item.id, itemTemplate).toPromise();
           break
-        case ItemCreatorItemType.Weapon:
+        case ItemType.Weapon:
           const weaponTemplate = this.form.value as WeaponTemplateModel
           await this.service.updateWeapon(this.item.id, weaponTemplate).toPromise();
+          break
+        case ItemType.Armor:
+          const template = this.form.value as ArmorTemplateModel
+          await this.service.updateArmor(this.item.id, template).toPromise();
           break
       }
     }
@@ -99,7 +135,7 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       id: [uuidv4(), Validators.required],
       type: [ItemType.Consumable, Validators.required],
       powerId: [null, Validators.nullValidator],
-      size: [null, Validators.nullValidator],
+      category: [null, Validators.nullValidator],
     })
   }
 
@@ -109,7 +145,6 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       id: uuidv4(),
     });
     this.action = EditorAction.create;
-    this.buildItemTypesMenu();
   }
 
   private populateForm(item: ItemTemplateModel) {
@@ -118,47 +153,34 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.form.get('id').setValue(item.id);
       this.form.get('campaignId').setValue(item.campaignId);
       this.form.get('type').setValue(item.type);
-      this.form.get('size').setValidators(Validators.nullValidator);
+      this.form.get('category').setValidators(Validators.nullValidator);
     }
   }
   private populateFormAsWeapon(item: WeaponTemplateModel) {
     if (item && this.form) {
       this.populateForm(item);
-      this.form.get('size').setValue(item.size);
+      this.form.get('category').setValue(item.category);
     } else {
-      this.form.get('type').setValue(ItemType.Equipable);
+      this.form.get('type').setValue(ItemType.Weapon);
     }
-    this.form.get('size').setValidators(Validators.required);
+    this.form.get('category').setValidators(Validators.required);
+  }
+  private populateFormAsArmor(item: ArmorTemplateModel) {
+    if (item && this.form) {
+      this.populateForm(item);
+      this.form.get('category').setValue(item.category);
+    } else {
+      this.form.get('type').setValue(ItemType.Armor);
+    }
+    this.form.get('category').setValidators(Validators.required);
   }
   private configurarFormAsItem() {
-    this.itemType = ItemCreatorItemType.Item;
     this.populateForm(this.item);
   }
   private configurarFormAaWeapon() {
-    this.itemType = ItemCreatorItemType.Weapon;
     this.populateFormAsWeapon(this.item as WeaponTemplateModel);
   }
-
-  private buildItemTypesMenu() {
-    this.itemTypeMenuItens = [
-      {
-        icon: 'fas fa-briefcase',
-        tooltip: 'Item',
-        command: event => {
-          this.configurarFormAsItem();
-        },
-        disabled: this.action === EditorAction.update
-      } as MenuItem,
-        {
-        icon: 'fas fa-gavel',
-        tooltip: 'Weapon',
-        command: event => {
-          this.configurarFormAaWeapon();
-        },
-        disabled: this.action === EditorAction.update
-      } as MenuItem,
-    ]
-    this.selectedItemType = this.itemTypeMenuItens[0];
-    this.selectedItemType.command.call([]);
+  private configurarFormAsArmor() {
+    this.populateFormAsArmor(this.item as ArmorTemplateModel);
   }
 }

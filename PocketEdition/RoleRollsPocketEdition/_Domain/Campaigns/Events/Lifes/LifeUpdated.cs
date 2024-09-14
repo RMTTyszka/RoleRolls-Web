@@ -1,6 +1,6 @@
-﻿using RoleRollsPocketEdition.Application.CreaturesTemplates.Dtos;
+﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 
-namespace RoleRollsPocketEdition.Domain.Campaigns.Events.Lifes;
+namespace RoleRollsPocketEdition._Domain.Campaigns.Events.Lifes;
 
 public class LifeUpdated
 {

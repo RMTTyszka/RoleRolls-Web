@@ -1,7 +1,7 @@
-using RoleRollsPocketEdition.Domain.Rolls.Commands;
-using RoleRollsPocketEdition.Domain.Rolls.Entities;
+using RoleRollsPocketEdition._Domain.Rolls.Commands;
+using RoleRollsPocketEdition._Domain.Rolls.Entities;
 
-namespace RoleRollsPocketEdition.Domain.Rolls.Services;
+namespace RoleRollsPocketEdition._Domain.Rolls.Services;
 
 public class RollSimulationService : IRollSimulationService
 {

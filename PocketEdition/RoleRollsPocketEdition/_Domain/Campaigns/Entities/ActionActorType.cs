@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Domain.Campaigns.Entities;
+namespace RoleRollsPocketEdition._Domain.Campaigns.Entities;
 
 public enum ActionActorType
 {

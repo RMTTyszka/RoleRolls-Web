@@ -1,4 +1,4 @@
-namespace RoleRollsPocketEdition.Application.Creatures.Models;
+namespace RoleRollsPocketEdition._Application.Creatures.Models;
 
 public class TakeDamageResult
 {

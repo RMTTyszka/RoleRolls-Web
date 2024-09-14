@@ -1,7 +1,7 @@
-﻿using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Domain.Rolls.Models;
+﻿using RoleRollsPocketEdition._Domain.Rolls.Models;
+using RoleRollsPocketEdition.Core.Dtos;
 
-namespace RoleRollsPocketEdition.Application.Rolls.Application
+namespace RoleRollsPocketEdition._Application.Rolls.Application
 {
     public interface IRollService
     {
