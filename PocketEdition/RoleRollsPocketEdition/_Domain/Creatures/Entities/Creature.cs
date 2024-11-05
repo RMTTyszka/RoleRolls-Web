@@ -4,6 +4,7 @@ using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition._Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
@@ -263,6 +264,16 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             }
 
             return 0;
+        }
+
+        public void AddItem(ItemInstance item)
+        {
+            Inventory.AddItem(item);
+        }
+
+        public void Destroy(ItemInstance item)
+        {
+            Inventory.Destroy(item);
         }
     }
    

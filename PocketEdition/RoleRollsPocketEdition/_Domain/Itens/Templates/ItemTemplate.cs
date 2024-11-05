@@ -1,3 +1,4 @@
+using RoleRollsPocketEdition._Application.Itens.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 using RoleRollsPocketEdition._Domain.Powers.Entities;
@@ -37,6 +38,18 @@ public class ItemTemplate : Entity
     public virtual object ToUpperClass()
     {
         return new ItemTemplateModel(this);
+    }
+
+    public ItemInstance Instantiate(ItemInstanceUpdate input)
+    {
+        return new ItemInstance
+        {
+            Id = Guid.NewGuid(),
+            Name = input.Name ?? Name,
+            PowerId = PowerId,
+            Level = input.Level,
+            TemplateId = Id,
+        };
     }
 }
 

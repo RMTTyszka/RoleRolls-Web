@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using RoleRollsPocketEdition._Application.Itens.Dtos;
 using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition._Domain.Powers.Entities;
 using RoleRollsPocketEdition.Core;
@@ -16,4 +17,9 @@ public class ItemInstance : Entity
     
     public Guid TemplateId { get; set; }
     public ItemTemplate Template { get; set; }
+
+    public void Update(ItemInstanceUpdate input)
+    {
+        throw new NotImplementedException();
+    }
 }
