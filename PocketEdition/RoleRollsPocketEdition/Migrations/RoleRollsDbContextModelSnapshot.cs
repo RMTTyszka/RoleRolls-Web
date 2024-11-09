@@ -946,6 +946,13 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasDiscriminator().HasValue("Armor");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition._Domain.Itens.Templates.ConsumableTemplate", b =>
+                {
+                    b.HasBaseType("RoleRollsPocketEdition._Domain.Itens.Templates.ItemTemplate");
+
+                    b.HasDiscriminator().HasValue("Consumable");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition._Domain.Itens.Templates.WeaponTemplate", b =>
                 {
                     b.HasBaseType("RoleRollsPocketEdition._Domain.Itens.Templates.ItemTemplate");

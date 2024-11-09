@@ -115,6 +115,9 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       powerId: [null, Validators.nullValidator],
       category: [null, Validators.nullValidator],
     });
+    this.form.statusChanges.subscribe(() => {
+      this.logInvalidFields();
+    });
   }
 
   refreshForm() {
@@ -131,8 +134,9 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.form.get('id').setValue(item.id);
       this.form.get('campaignId').setValue(item.campaignId);
       this.form.get('type').setValue(item.type);
-      this.form.get('category').setValidators(Validators.nullValidator);
     }
+    this.form.get('category').setValidators(Validators.nullValidator);
+    this.form.get('category').updateValueAndValidity();
   }
   private populateFormAsWeapon(item: WeaponTemplateModel) {
     if (item && this.form) {
@@ -142,6 +146,7 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.form.get('type').setValue(ItemType.Weapon);
     }
     this.form.get('category').setValidators(Validators.required);
+    this.form.get('category').updateValueAndValidity();
   }
   private populateFormAsArmor(item: ArmorTemplateModel) {
     if (item && this.form) {
@@ -151,6 +156,7 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.form.get('type').setValue(ItemType.Armor);
     }
     this.form.get('category').setValidators(Validators.required);
+    this.form.get('category').updateValueAndValidity();
   }
   private configurarFormAsItem() {
     this.populateForm(this.item);
@@ -185,5 +191,25 @@ private subscription: SubscriptionManager = new SubscriptionManager();
           break;
       }
     });
+  }
+  logInvalidFields(): void {
+    const invalidFields = [];
+
+    // Percorre todos os controles do formulário
+    Object.keys(this.form.controls).forEach((key) => {
+      const control = this.form.get(key);
+
+      // Se o controle for inválido, adiciona ao array de campos inválidos
+      if (control?.invalid) {
+        invalidFields.push(key);
+      }
+    });
+
+    // Loga os campos inválidos no console
+    if (invalidFields.length > 0) {
+      console.log('Campos inválidos:', invalidFields);
+    } else {
+      console.log('Todos os campos são válidos');
+    }
   }
 }

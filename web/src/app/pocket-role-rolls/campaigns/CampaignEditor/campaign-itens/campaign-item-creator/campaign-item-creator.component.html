@@ -16,11 +16,11 @@
     </div>
     <div *ngIf="itemType() === itemTypeEnum.Weapon" class="flex flex-column gap-2">
       <label for="weaponCategory">Category</label>
-      <p-dropdown id="weaponCategory" [required]="true" formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
+      <p-dropdown id="weaponCategory"  formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
     </div>
     <div *ngIf="itemType() === itemTypeEnum.Armor" class="flex flex-column gap-2">
       <label for="armorCategory">Category</label>
-      <p-dropdown id="armorCategory" [required]="true" formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
+      <p-dropdown id="armorCategory"  formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
     </div>
   </form>
 </p-panel>

@@ -44,13 +44,13 @@ export class CampaignItemTemplatesService {
   }
 
   public addItem(item: ItemTemplateModel): Observable<never> {
-    return this.httpClient.post<never>(`${this.completePath(this.path)}`, item);
+    return this.httpClient.post<never>(`${this.completePath(this.resolvePath(ItemType.Consumable))}`, item);
   }
   public updateItem(itemId: string, item: ItemTemplateModel): Observable<never> {
-    return this.httpClient.put<never>(`${this.completePath(this.path)}/${itemId}`, item);
+    return this.httpClient.put<never>(`${this.completePath(this.resolvePath(ItemType.Consumable))}/${itemId}`, item);
   }
   public removeItem(itemId: string): Observable<never> {
-    return this.httpClient.delete<never>(`${this.completePath(this.path)}/${itemId}`);
+    return this.httpClient.delete<never>(`${this.completePath(this.resolvePath(ItemType.Consumable))}/${itemId}`);
   }
 
     list(campaingId: string, itemType: ItemType, filter: string, skipCount: number, maxResultCount: number) {

@@ -4,9 +4,14 @@ namespace RoleRollsPocketEdition._Domain.Itens.Templates;
 
 public class ConsumableTemplate : ItemTemplate
 {
-    public void Update(ItemTemplateModel item)
+
+    public ConsumableTemplate()
     {
-        base.Update(item);
+        
+    }
+
+    public ConsumableTemplate(ConsumableTemplateModel template) : base(template)
+    {
     }
     public virtual object ToUpperClass()
     {

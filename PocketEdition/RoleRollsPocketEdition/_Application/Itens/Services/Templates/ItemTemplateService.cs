@@ -13,10 +13,10 @@ public interface IItemTemplateService
     Task<PagedResult<T>> GetItemsAsync<T, TEntity>(Guid? campaignId, GetAllItensTemplateInput input) where T : ItemTemplateModel, new()
         where TEntity : ItemTemplate;
     Task<ItemTemplateModel> GetItemAsync(Guid id);
-    Task InsertItem(ItemTemplateModel item);
+    Task InsertItem(ConsumableTemplateModel item);
     Task InsertWeapon(WeaponTemplateModel item);
     Task UpdateWeapon(Guid id, WeaponTemplateModel item);
-    Task UpdateItem(Guid id, ItemTemplateModel item);
+    Task UpdateItem(Guid id, ConsumableTemplateModel item);
     Task DeleteItem(Guid id);
     Task InsertArmor(ArmorTemplateModel item);
     Task UpdateArmor(Guid id, ArmorTemplateModel item);
@@ -56,9 +56,9 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
             return item;
     }
 
-    public async Task InsertItem(ItemTemplateModel item)
+    public async Task InsertItem(ConsumableTemplateModel item)
     {
-        var template = new ItemTemplate(item);
+        var template = new ConsumableTemplate(item);
         await _roleRollsDbContext.ItemTemplates.AddAsync(template);
         await _roleRollsDbContext.SaveChangesAsync();
     }
@@ -81,9 +81,9 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
         }
     }
 
-    public async Task UpdateItem(Guid id, ItemTemplateModel item)
+    public async Task UpdateItem(Guid id, ConsumableTemplateModel item)
     {
-        var template = await _roleRollsDbContext.ItemTemplates.FindAsync(id);
+        var template = await _roleRollsDbContext.ConsumableTemplates.FindAsync(id);
         template.Update(item);
         _roleRollsDbContext.ItemTemplates.Update(template);
         await _roleRollsDbContext.SaveChangesAsync();

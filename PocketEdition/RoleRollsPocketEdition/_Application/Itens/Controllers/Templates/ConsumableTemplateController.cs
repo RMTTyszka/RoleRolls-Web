@@ -13,12 +13,12 @@ public class ConsumableTemplateController : BaseItemTemplateController<Consumabl
     }
 
     [HttpPost("")]
-    public async Task Insert([FromBody] WeaponTemplateModel item)
+    public async Task Insert([FromBody] ConsumableTemplateModel item)
     {
         await _itemTemplateService.InsertItem(item);
     }    
     [HttpPut("{id}")]
-    public async Task Update([FromRoute] Guid id, [FromBody] WeaponTemplateModel item)
+    public async Task Update([FromRoute] Guid id, [FromBody] ConsumableTemplateModel item)
     {
         await _itemTemplateService.UpdateItem(id, item);
 
