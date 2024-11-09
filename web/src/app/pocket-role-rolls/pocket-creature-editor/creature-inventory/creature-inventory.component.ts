@@ -6,6 +6,8 @@ import {FormGroup, UntypedFormArray, UntypedFormGroup} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import {SubscriptionManager} from 'src/app/shared/utils/subscription-manager';
+import {DialogService} from 'primeng/dynamicdialog';
+import {ItemInstantiatorComponent} from 'src/app/pocket-role-rolls/items/item-instantiator/item-instantiator.component';
 
 @Component({
   selector: 'rr-creature-inventory',
@@ -25,6 +27,8 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
   public get itensArray() {
     return this.form?.get('inventory.itens') as UntypedFormArray;
   }
+  constructor(private dialogService: DialogService) {
+  }
 
   public ngOnInit(): void {
     this.subscriptionManager.add('itensArray', this.itensArray.valueChanges.subscribe(() => {
@@ -35,6 +39,13 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
         } as ItemModel;
       });
     }));
+  }
+  public instanteItem() {
+    this.dialogService.open(ItemInstantiatorComponent, {
+      data: {
+        creature: this.creature
+      }
+    })
   }
   ngOnDestroy(): void {
     this.subscriptionManager.clear();

@@ -17,7 +17,6 @@ export class PocketCampaignDetailsService {
   public monsterRemovedToScene = new Subject<void>();
   public heroTookDamage = new Subject<void>();
   public campaign: PocketCampaignModel;
-  public x = uuidv4();
 
   public get currentScene(): CampaignScene {
     if (this.campaign) {

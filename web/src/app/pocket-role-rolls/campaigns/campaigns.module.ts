@@ -37,8 +37,8 @@ import {
   CampaignEditorBodyShellComponent
 } from "./CampaignEditor/campaign-editor-body-shell/campaign-editor-body-shell.component";
 import {
-  CampaignItensTempladeComponent
-} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-itens-templade.component";
+  CampaignItensTemplateComponent
+} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-itens-template.component";
 import {
   CampaignItemCreatorComponent
 } from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-item-creator/campaign-item-creator.component";
@@ -70,7 +70,7 @@ const routes: Routes = [
     CampaignHistoryComponent,
     HistoryDetailsComponent,
     CampaignEditorBodyShellComponent,
-    CampaignItensTempladeComponent,
+    CampaignItensTemplateComponent,
     CampaignItemCreatorComponent,
   ],
   imports: [

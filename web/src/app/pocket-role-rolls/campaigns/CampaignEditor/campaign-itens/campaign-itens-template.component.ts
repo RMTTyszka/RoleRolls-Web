@@ -17,10 +17,10 @@ import {
 
 @Component({
   selector: 'rr-campaign-itens',
-  templateUrl: './campaign-itens-templade.component.html',
-  styleUrls: ['./campaign-itens-templade.component.scss']
+  templateUrl: './campaign-itens-template.component.html',
+  styleUrls: ['./campaign-itens-template.component.scss']
 })
-export class CampaignItensTempladeComponent implements OnInit {
+export class CampaignItensTemplateComponent implements OnInit {
   public data: ItemTemplateModel[];
   public totalCount: number;
   public loading: boolean;

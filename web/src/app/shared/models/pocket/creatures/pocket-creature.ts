@@ -13,6 +13,7 @@ export class PocketCreature extends PocketEntity {
   public creatureType: CreatureType;
   public inventory: PocketInventory = new PocketInventory();
   public ownerId: string;
+  public level: number;
 }
 
 export class PocketAttribute extends PocketEntity {
