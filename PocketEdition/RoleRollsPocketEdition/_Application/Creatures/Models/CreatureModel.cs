@@ -24,6 +24,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Models
                 .OrderBy(a => a.Name).ToList();
             Name = creature.Name;
             Type = creature.Type;
+            Inventory = InventoryModel.FromCreature(creature);
         }
 
         public List<DefenseModel> Defenses { get; set; }
@@ -37,5 +38,6 @@ namespace RoleRollsPocketEdition._Application.Creatures.Models
         public CreatureType Type { get; set; }
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
+        public InventoryModel Inventory { get; set; }
     }
 }

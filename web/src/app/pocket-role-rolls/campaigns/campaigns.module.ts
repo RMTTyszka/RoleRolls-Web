@@ -45,6 +45,8 @@ import {
 import {InputTextModule} from "primeng/inputtext";
 import {TabMenuModule} from "primeng/tabmenu";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {CreatureEquipmentComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-equipment/creature-equipment.component';
+import {CreatureInventoryComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-inventory/creature-inventory.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -92,7 +94,9 @@ const routes: Routes = [
     TabViewModule,
     InputTextModule,
     TabMenuModule,
-    RadioButtonModule
+    RadioButtonModule,
+    CreatureEquipmentComponent,
+    CreatureInventoryComponent
   ]
 })
 export class CampaignsModule { }

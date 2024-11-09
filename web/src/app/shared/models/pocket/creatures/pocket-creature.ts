@@ -1,5 +1,6 @@
 import { CreatureType } from "../../creatures/CreatureType";
 import { PocketEntity } from "../pocket-entity";
+import {PocketInventory} from 'src/app/shared/models/pocket/creatures/pocket-inventory';
 
 
 
@@ -10,6 +11,7 @@ export class PocketCreature extends PocketEntity {
   public lifes: PocketLife[] = [];
   public defenses: PocketDefense[] = [];
   public creatureType: CreatureType;
+  public inventory: PocketInventory = new PocketInventory();
   public ownerId: string;
 }
 
