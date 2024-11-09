@@ -65,6 +65,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                 .HasDiscriminator<string>("ItemType")
                 .HasValue<ArmorTemplate>("Armor")
                 .HasValue<WeaponTemplate>("Weapon")
+                .HasValue<ConsumableTemplate>("Consumable")
                 .HasValue<ItemTemplate>("Item");
             
             modelBuilder.Entity<ItemInstance>()

@@ -8,9 +8,12 @@ public class WeaponTemplateModel : EquipableTemplateModel
     {
         
     }
-    public WeaponTemplateModel(WeaponTemplate weaponTemplate) : base(weaponTemplate)
+    public static WeaponTemplateModel FromTemplate(WeaponTemplate template)
     {
-        Category = weaponTemplate.Category;
+        var equipable = ItemTemplateModel.FromTemplate<WeaponTemplateModel>(template);
+        equipable.Category = template.Category;
+        equipable.DamageType = template.DamageType;
+        return equipable;
     }
 
     public WeaponCategory Category { get; set; }

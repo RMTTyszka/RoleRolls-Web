@@ -1,3 +1,5 @@
+using RoleRollsPocketEdition._Application.Itens.Dtos;
+
 namespace RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
 public class ItemTemplateModel
@@ -8,17 +10,16 @@ public class ItemTemplateModel
     public ItemType Type { get; set; }
     public Guid? CampaignId { get; set; }
 
-    public ItemTemplateModel()
-    {
-        
-    }
 
-    public ItemTemplateModel(ItemTemplate entity)
+    public static T FromTemplate<T>(ItemTemplate entity) where T : ItemTemplateModel, new()
     {
-        Id = entity.Id;
-        Name = entity.Name;
-        PowerId = entity.PowerId;
-        Type = entity.Type;
-        CampaignId = entity.CampaignId;
+        return new T
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            PowerId = entity.PowerId,
+            Type = entity.Type,
+            CampaignId = entity.CampaignId,
+        };
     }
 }

@@ -8,9 +8,11 @@ public class ArmorTemplateModel : EquipableTemplateModel
     {
         
     }
-    public ArmorTemplateModel(ArmorTemplate template) : base(template)
+    public static ArmorTemplateModel FromTemplate(ArmorTemplate template)
     {
-        Category = template.Category;       
+        var armor = EquipableTemplateModel.FromTemplate<ArmorTemplateModel>(template);
+        armor.Category = template.Category;
+        return armor;
     }
 
     public ArmorCategory Category { get; set; }

@@ -1,3 +1,13 @@
+<div class="flex flex-wrap gap-3">
+  <div class="flex align-items-center" *ngFor="let itemTypeOption of itemTypesOptions">
+    <p-radioButton
+      [name]="itemTypeOption.name"
+      [value]="itemTypeOption.value"
+      [ngModel]="itemType()"
+      (ngModelChange)="itemType.set($event)"
+      [label]="itemTypeOption.name"/>
+  </div>
+</div>
 <div class="p-grid">
 <div class="p-col-6">
   <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
@@ -45,7 +55,7 @@
   </p-table>
 </div>
   <div class="p-col-6">
-    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" (saved)="get(null, 0, 25)"></rr-campaign-item-creator>
+    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" [itemType]="itemType" (saved)="get(null, 0, 25)"></rr-campaign-item-creator>
 </div>
 </div>
 

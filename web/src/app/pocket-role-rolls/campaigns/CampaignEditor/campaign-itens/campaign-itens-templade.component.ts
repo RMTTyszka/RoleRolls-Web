@@ -1,19 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LazyLoadEvent} from "primeng/api";
+import {Component, effect, Input, OnInit, signal} from '@angular/core';
+import {LazyLoadEvent} from 'primeng/api';
 import {
   ArmorCategory,
   ItemTemplateModel,
   ItemType,
   WeaponCategory
-} from "src/app/shared/models/pocket/itens/ItemTemplateModel";
-import {RRAction, RRColumns} from "src/app/shared/components/rr-grid/r-r-grid.component";
-import {PocketCampaignModel} from "src/app/shared/models/pocket/campaigns/pocket.campaign.model";
-import {EditorAction} from "src/app/shared/dtos/ModalEntityData";
-import {CampaignItemTemplatesService} from "../../../proxy-services/campaign-item-templates.service";
-import {AuthenticationService} from "src/app/authentication/authentication.service";
+} from 'src/app/shared/models/pocket/itens/ItemTemplateModel';
+import {RRAction, RRColumns} from 'src/app/shared/components/rr-grid/r-r-grid.component';
+import {PocketCampaignModel} from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
+import {EditorAction} from 'src/app/shared/dtos/ModalEntityData';
+import {CampaignItemTemplatesService} from '../../../proxy-services/campaign-item-templates.service';
+import {AuthenticationService} from 'src/app/authentication/authentication.service';
 import {
   CampaignEditorDetailsServiceService
-} from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-editor-details-service.service";
+} from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-editor-details-service.service';
 
 @Component({
   selector: 'rr-campaign-itens',
@@ -27,14 +27,24 @@ export class CampaignItensTempladeComponent implements OnInit {
   public columns: RRColumns[] = [];
   public actions: RRAction<ItemTemplateModel>[];
   @Input() public campaign: PocketCampaignModel;
+  public itemType = signal(ItemType.Consumable);
+  public itemTypeEnum = ItemType;
+  public itemTypesOptions = [
+    {name: 'All', value: null},
+    {name: 'Item', value: ItemType.Consumable},
+    {name: 'Weapon', value: ItemType.Weapon},
+    {name: 'Armor', value: ItemType.Armor},
+  ];
   public isMaster(masterId: string): boolean {
     return this.authenticationService.userId === masterId;
   }
+
   constructor(
     private service: CampaignItemTemplatesService,
     private authenticationService: AuthenticationService,
     private detailsServiceService: CampaignEditorDetailsServiceService,
   ) {
+    this.listenToItemTypeChanges();
   }
 
   ngOnInit(): void {
@@ -47,13 +57,13 @@ export class CampaignItensTempladeComponent implements OnInit {
         header: 'Type',
         property: 'type',
         format: (item: ItemTemplateModel, value: ItemType) => {
-          switch(value) {
+          switch (value) {
             case ItemType.Consumable:
-              return "Item"
+              return 'Item';
             case ItemType.Weapon:
-              return "Weapon"
+              return 'Weapon';
             case ItemType.Armor:
-              return "Armor"
+              return 'Armor';
           }
         }
       } as RRColumns,
@@ -62,23 +72,23 @@ export class CampaignItensTempladeComponent implements OnInit {
         property: 'category',
         format: (item: ItemTemplateModel, value: WeaponCategory | ArmorCategory) => {
           if (item.type === ItemType.Weapon) {
-            switch(value) {
+            switch (value) {
               case WeaponCategory.Light:
-                return "Light"
+                return 'Light';
               case WeaponCategory.Medium:
-                return "Medium"
+                return 'Medium';
               case WeaponCategory.Heavy:
-                return "Heavy"
+                return 'Heavy';
             }
           }
           if (item.type === ItemType.Armor) {
-            switch(value) {
+            switch (value) {
               case ArmorCategory.Light:
-                return "Light"
+                return 'Light';
               case ArmorCategory.Medium:
-                return "Medium"
+                return 'Medium';
               case ArmorCategory.Heavy:
-                return "Heavy"
+                return 'Heavy';
             }
           }
         }
@@ -96,26 +106,26 @@ export class CampaignItensTempladeComponent implements OnInit {
         csClass: 'p-button-danger',
         tooltip: 'Remove'
       } as RRAction<ItemTemplateModel>
-    ]
+    ];
   }
   public rowSelected(event: {data: ItemTemplateModel}) {
     this.detailsServiceService.itemTemplate.next(event.data);
     this.detailsServiceService.itemTemplateEditorAction.next(EditorAction.update);
   }
   public actionsWidth() {
-    return {width: `${this.actions.length * 3}%`}
+    return {width: `${this.actions.length * 3}%`};
   }
   public resolve(column: RRColumns, obj) {
     const value = column.property.split('.').reduce(function(prev, curr) {
       return prev ? prev[curr] : null;
     }, obj || self);
     if (column.format) {
-      return column.format(obj, value)
+      return column.format(obj, value);
     }
     return value;
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
-    this.service.list(this.campaign.id, filter, skipCount, maxResultCount).subscribe(response => {
+    this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
       this.data = response.content;
       this.totalCount = response.totalElements;
       this.loading = false;
@@ -128,5 +138,10 @@ export class CampaignItensTempladeComponent implements OnInit {
   onLazyLoadEvent(event: LazyLoadEvent) {
     this.loading = true;
     this.get('', event.first / event.rows, event.rows);
+  }
+  private listenToItemTypeChanges() {
+    effect(() => {
+        this.get('', 0, 25);
+    });
   }
 }

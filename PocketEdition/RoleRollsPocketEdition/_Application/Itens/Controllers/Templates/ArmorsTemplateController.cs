@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition._Application.Itens.Services;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
 namespace RoleRollsPocketEdition._Application.Itens.Controllers;
 
 [Route("armor-templates")]
-public class ArmorsTemplateController : ControllerBase
+public class ArmorsTemplateController : BaseItemTemplateController<ArmorTemplateModel, ArmorTemplate>
 {
-    private readonly IItemTemplateService _itemTemplateService;
-
-    public ArmorsTemplateController(IItemTemplateService itemTemplateService)
+    public ArmorsTemplateController(IItemTemplateService itemTemplateService) : base(itemTemplateService)
     {
-        _itemTemplateService = itemTemplateService;
     }
 
     [HttpPost("")]

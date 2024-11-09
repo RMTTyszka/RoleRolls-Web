@@ -13,9 +13,10 @@ public class EquipableTemplateModel : ItemTemplateModel
         
     }
 
-    public EquipableTemplateModel(EquipableTemplate template) : base(template)
+    public static T FromTemplate<T>(EquipableTemplate template) where T : EquipableTemplateModel, new()
     {
-        Slot = template.Slot;
+        var equipable = ItemTemplateModel.FromTemplate<T>(template);
+        equipable.Slot = template.Slot;
+        return equipable;
     }
-
 }

@@ -19,8 +19,8 @@ public class ArmorTemplate : EquipableTemplate
         base.Update(item);
         Category = item.Category;
     }
-    public override object ToUpperClass()
+    public virtual object ToUpperClass()
     {
-        return new ArmorTemplateModel(this);
+        return ArmorTemplateModel.FromTemplate(this);
     }
 }

@@ -35,9 +35,9 @@ public class ItemTemplate : Entity
         PowerId = item.PowerId;
     }
 
-    public virtual object ToUpperClass()
+    public virtual T ToUpperClass<T>() where T : ItemTemplateModel, new()
     {
-        return new ItemTemplateModel(this);
+        return ItemTemplateModel.FromTemplate<T>(this);
     }
 
     public ItemInstance Instantiate(ItemInstanceUpdate input)

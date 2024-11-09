@@ -6,18 +6,6 @@
             </span>
     </div>
   </ng-template>
-  <ng-template pTemplate="icons">
-    <div class="flex flex-wrap gap-3">
-      <div class="flex align-items-center" *ngFor="let itemTypeOption of itemTypesOptions">
-        <p-radioButton
-          [name]="itemTypeOption.name"
-          [value]="itemTypeOption.value"
-          [ngModel]="itemType()"
-          (ngModelChange)="itemType.set($event)"
-          [label]="itemTypeOption.name"/>
-      </div>
-    </div>
-  </ng-template>
   <ng-template pTemplate="footer">
     <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
   </ng-template>

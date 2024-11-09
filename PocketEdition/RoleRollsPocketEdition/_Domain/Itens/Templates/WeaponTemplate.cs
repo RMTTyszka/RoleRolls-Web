@@ -22,8 +22,8 @@ public class WeaponTemplate : EquipableTemplate
         Category = item.Category;
         DamageType = item.DamageType;
     }
-    public override object ToUpperClass()
+    public virtual object ToUpperClass()
     {
-        return new WeaponTemplateModel(this);
+        return WeaponTemplateModel.FromTemplate(this);
     }
 }

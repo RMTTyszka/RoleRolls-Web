@@ -10,7 +10,8 @@ namespace RoleRollsPocketEdition._Application.Itens.Services;
 
 public interface IItemTemplateService
 {
-    Task<PagedResult<object>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input);
+    Task<PagedResult<T>> GetItemsAsync<T, TEntity>(Guid? campaignId, GetAllItensTemplateInput input) where T : ItemTemplateModel, new()
+        where TEntity : ItemTemplate;
     Task<ItemTemplateModel> GetItemAsync(Guid id);
     Task InsertItem(ItemTemplateModel item);
     Task InsertWeapon(WeaponTemplateModel item);
@@ -31,25 +32,26 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
     }
 
     [NoTrackingAspect]
-    public async Task<PagedResult<object>> GetItemsAsync(Guid? campaignId, GetAllItensTemplateInput input)
+    public async Task<PagedResult<T>> GetItemsAsync<T, TEntity>(Guid? campaignId, GetAllItensTemplateInput input) where T : ItemTemplateModel, new()
+    where TEntity : ItemTemplate
     {
-            var query = _roleRollsDbContext.ItemTemplates
-                .AsNoTracking()
-                .WhereIf(campaignId.HasValue, c => c.CampaignId == campaignId)
-                .WhereIf(input.ItemType.HasValue, c => c.Type == input.ItemType);
+        var dbSet = _roleRollsDbContext.Set<TEntity>();
+        var query = dbSet
+            .AsNoTracking()
+            .WhereIf(campaignId.HasValue, c => c.CampaignId == campaignId);
             var totalItems = await query.CountAsync();
             var items = await query
                 .PageBy(input)
                 .ToListAsync();
-            var fixedItems = items.Select(e => e.ToUpperClass()).ToList();
-            return new PagedResult<object>(totalItems, fixedItems);
+            var fixedItems = items.Select(e => e.ToUpperClass<T>()).ToList();
+            return new PagedResult<T>(totalItems, fixedItems);
     }    
     [NoTrackingAspect]
     public async Task<ItemTemplateModel> GetItemAsync(Guid id)
     {
             var item = await _roleRollsDbContext.ItemTemplates
                 .Where(e => e.Id == id)
-                .Select(e => new ItemTemplateModel(e))
+                .Select(e =>ItemTemplateModel.FromTemplate<ItemTemplateModel>(e))
                 .FirstOrDefaultAsync();
             return item;
     }
