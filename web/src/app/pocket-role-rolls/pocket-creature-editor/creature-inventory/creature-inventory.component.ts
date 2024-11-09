@@ -24,8 +24,9 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
   @Input() public form: UntypedFormGroup;
   public itens: ItemModel[] = [];
   public subscriptionManager = new SubscriptionManager();
+  @Input() public creature: PocketCreature;
   public get itensArray() {
-    return this.form?.get('inventory.itens') as UntypedFormArray;
+    return this.form?.get('inventory.items') as UntypedFormArray;
   }
   constructor(private dialogService: DialogService) {
   }
@@ -42,10 +43,13 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
   }
   public instanteItem() {
     this.dialogService.open(ItemInstantiatorComponent, {
+      width: '80%',
+      height: '95%',
+      baseZIndex: 10000,
       data: {
         creature: this.creature
       }
-    })
+    });
   }
   ngOnDestroy(): void {
     this.subscriptionManager.clear();

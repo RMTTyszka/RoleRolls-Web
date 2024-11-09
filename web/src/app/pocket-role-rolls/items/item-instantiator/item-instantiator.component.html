@@ -1,18 +1,31 @@
-<div class="flex flex-wrap gap-3">
-  <div class="flex align-items-center" *ngFor="let itemTypeOption of itemTypesOptions">
-    <p-radioButton
-      [name]="itemTypeOption.name"
-      [value]="itemTypeOption.value"
-      [ngModel]="itemType()"
-      (ngModelChange)="itemType.set($event)"
-      [label]="itemTypeOption.name"/>
+<p-panel>
+  <div class="flex flex-wrap gap-3">
+    <div class="flex align-items-center" *ngFor="let itemTypeOption of itemTypesOptions">
+      <p-radioButton
+        [name]="itemTypeOption.name"
+        [value]="itemTypeOption.value"
+        [ngModel]="itemType()"
+        (ngModelChange)="itemType.set($event)"
+        [label]="itemTypeOption.name"/>
+    </div>
   </div>
-</div>
-<div class="p-grid">
-  <div class="p-col-6">
-    <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
-             (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
-    >
-    </p-table>
-  </div>]
-</div>
+  <p-table #tt [value]="data" [paginator]="true" [tableStyle]="{ 'min-width': '50rem', 'min-height': '50rem' }" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true"
+           (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading" styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="caption" >
+      <div class="p-grid p-nogutter p-justify-between">
+        <div class="p-col-6">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+          </div>
+        </div>
+        <div class="p-grid p-justify-end p-align-center p-nogutter">
+          <div class="p-col">
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-table>
+</p-panel>
+

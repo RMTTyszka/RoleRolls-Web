@@ -7,6 +7,11 @@
   <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
     <span class="p-panel-title p-col-6">Items</span>
   </p-header>
+  <ng-template pTemplate="icons">
+    <button class="p-panel-header-icon" (click)="instanteItem()">
+      <span class="pi pi-plus"></span>
+    </button>
+  </ng-template>
   <p-table [value]="itens" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>

@@ -1,4 +1,4 @@
-import {Component, effect, signal} from '@angular/core';
+import {ChangeDetectorRef, Component, effect, signal} from '@angular/core';
 import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {PocketCreature} from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import {NgForOf} from '@angular/common';
@@ -21,6 +21,8 @@ import {
   ConfirmNameAndLevelComponent
 } from 'src/app/pocket-role-rolls/items/item-instantiator/confirm-name-and-level/confirm-name-and-level.component';
 import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
+import {PanelModule} from 'primeng/panel';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-item-instantiator',
@@ -29,24 +31,32 @@ import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instant
     NgForOf,
     RadioButtonModule,
     TableModule,
-    FormsModule
+    FormsModule,
+    PanelModule,
+    InputTextModule
   ],
   templateUrl: './item-instantiator.component.html',
   styleUrl: './item-instantiator.component.scss'
 })
 export class ItemInstantiatorComponent {
   public columns: RRColumns[];
-  public loading: boolean;
+  public loading = false;
   public itemType = signal(ItemType.Consumable);
   public data: ItemTemplateModel[] = [];
   public totalCount: number;
   instance: DynamicDialogComponent | undefined;
   private creature: PocketCreature;
 
-
+  public itemTypesOptions = [
+    {name: 'All', value: null},
+    {name: 'Item', value: ItemType.Consumable},
+    {name: 'Weapon', value: ItemType.Weapon},
+    {name: 'Armor', value: ItemType.Armor},
+  ];
   constructor(public ref: DynamicDialogRef,
               private dialogService: DialogService,
               private service: CampaignItemTemplatesService,
+              private cdr: ChangeDetectorRef,
               private detailsServiceService: PocketCampaignDetailsService,
               ) {
     this.instance = this.dialogService.getInstance(this.ref);
@@ -107,14 +117,17 @@ export class ItemInstantiatorComponent {
       this.data = response.content;
       this.totalCount = response.totalElements;
       this.loading = false;
-    }, error => {
+      this.cdr.detectChanges();
+      }, error => {
       this.data = [];
       this.totalCount = 0;
       this.loading = false;
+      this.cdr.detectChanges();
     });
   }
   onLazyLoadEvent(event: LazyLoadEvent) {
     this.loading = true;
+    this.cdr.detectChanges();
     this.get('', event.first / event.rows, event.rows);
   }
   private listenToItemTypeChanges() {
