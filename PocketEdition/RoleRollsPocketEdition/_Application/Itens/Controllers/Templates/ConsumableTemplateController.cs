@@ -6,7 +6,7 @@ using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 namespace RoleRollsPocketEdition._Application.Itens.Controllers;
 
 [Route("consumable-templates")]
-public class ConsumableTemplateController : BaseItemTemplateController<ConsumableTemplateModel, ItemTemplate>
+public class ConsumableTemplateController : BaseItemTemplateController<ConsumableTemplateModel, ConsumableTemplate>
 {
     public ConsumableTemplateController(IItemTemplateService itemTemplateService) : base(itemTemplateService)
     {

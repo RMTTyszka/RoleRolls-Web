@@ -165,6 +165,15 @@ private subscription: SubscriptionManager = new SubscriptionManager();
   private listenToItemTypeChanges() {
     effect(() => {
       switch (this.itemType()) {
+        case null:
+          this.form.disable();
+          break;
+        default:
+          this.form.enable();
+          break;
+      }
+      switch (this.itemType()) {
+        case null:
         case ItemType.Consumable:
           this.configurarFormAsItem();
           break;
