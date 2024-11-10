@@ -9,8 +9,12 @@
         [label]="itemTypeOption.name"/>
     </div>
   </div>
-  <p-table #tt [value]="data" [paginator]="true" [tableStyle]="{ 'min-width': '50rem', 'min-height': '50rem' }" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true"
-           (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading" styleClass="p-datatable-sm"
+  <p-table #tt [value]="data" [paginator]="true"
+           [tableStyle]="{ 'min-width': '100rem'}" selectionMode="single" [rows]="15"
+           [lazyLoadOnInit]="true" [lazy]="true"
+           (onLazyLoad)="onLazyLoadEvent($event)"
+           (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount"
+           [loading]="loading" styleClass="p-datatable-sm"
   >
     <ng-template pTemplate="caption" >
       <div class="p-grid p-nogutter p-justify-between">
@@ -25,6 +29,25 @@
           </div>
         </div>
       </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <!--      <th *ngFor="let column of columns">
+              <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
+            </th>-->
+      <tr>
+        <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-entity>
+      <tr [pSelectableRow]="entity">
+        <td *ngFor="let column of columns">{{resolve(column, entity)}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft" let-state>
+      {{state.first}}
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <span>Records: {{totalCount}}</span>
     </ng-template>
   </p-table>
 </p-panel>

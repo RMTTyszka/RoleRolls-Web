@@ -463,6 +463,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid>("CreatureTemplateId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");

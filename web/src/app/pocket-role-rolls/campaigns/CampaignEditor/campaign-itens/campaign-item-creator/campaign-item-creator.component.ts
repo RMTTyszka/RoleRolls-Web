@@ -133,8 +133,9 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.form.get('name').setValue(item.name);
       this.form.get('id').setValue(item.id);
       this.form.get('campaignId').setValue(item.campaignId);
-      this.form.get('type').setValue(item.type);
     }
+    this.form.get('type').setValue(ItemType.Consumable);
+    this.form.get('category').setValue(null);
     this.form.get('category').setValidators(Validators.nullValidator);
     this.form.get('category').updateValueAndValidity();
   }
@@ -143,8 +144,9 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.populateForm(item);
       this.form.get('category').setValue(item.category);
     } else {
-      this.form.get('type').setValue(ItemType.Weapon);
+      this.form.get('category').setValue(null);
     }
+    this.form.get('type').setValue(ItemType.Weapon);
     this.form.get('category').setValidators(Validators.required);
     this.form.get('category').updateValueAndValidity();
   }
@@ -153,8 +155,9 @@ private subscription: SubscriptionManager = new SubscriptionManager();
       this.populateForm(item);
       this.form.get('category').setValue(item.category);
     } else {
-      this.form.get('type').setValue(ItemType.Armor);
+      this.form.get('category').setValue(null);
     }
+    this.form.get('type').setValue(ItemType.Armor);
     this.form.get('category').setValidators(Validators.required);
     this.form.get('category').updateValueAndValidity();
   }

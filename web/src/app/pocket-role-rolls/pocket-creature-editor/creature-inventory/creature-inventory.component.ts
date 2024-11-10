@@ -2,12 +2,15 @@ import {Component, effect, Input, OnDestroy, OnInit, Signal} from '@angular/core
 import {PocketCreature} from 'src/app/shared/models/pocket/creatures/pocket-creature';
 import {ItemModel} from 'src/app/shared/models/pocket/creatures/item-model';
 import {PocketInventory} from 'src/app/shared/models/pocket/creatures/pocket-inventory';
-import {FormGroup, UntypedFormArray, UntypedFormGroup} from '@angular/forms';
+import {FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import {SubscriptionManager} from 'src/app/shared/utils/subscription-manager';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ItemInstantiatorComponent} from 'src/app/pocket-role-rolls/items/item-instantiator/item-instantiator.component';
+import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
+import {ItemInstantiatorService} from 'src/app/pocket-role-rolls/items/item-instantiator/services/item-instantiator.service';
+import {createForm} from 'src/app/shared/EditorExtension';
 
 @Component({
   selector: 'rr-creature-inventory',
@@ -28,7 +31,10 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
   public get itensArray() {
     return this.form?.get('inventory.items') as UntypedFormArray;
   }
-  constructor(private dialogService: DialogService) {
+  constructor(
+    private dialogService: DialogService,
+    private itemInstantiatorService: ItemInstantiatorService,
+  ) {
   }
 
   public ngOnInit(): void {
@@ -48,6 +54,10 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
       data: {
         creature: this.creature
+      }
+    }).onClose.subscribe((item: ItemModel) => {
+      if (item) {
+        this.itensArray.push(createForm(new UntypedFormGroup({}), item));
       }
     });
   }

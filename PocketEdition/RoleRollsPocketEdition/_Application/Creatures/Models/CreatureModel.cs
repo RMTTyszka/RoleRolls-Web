@@ -23,6 +23,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Models
             Defenses = creature.Defenses.Select(defense => new DefenseModel(defense, creature))
                 .OrderBy(a => a.Name).ToList();
             Name = creature.Name;
+            Level = creature.Level;
             Type = creature.Type;
             Inventory = InventoryModel.FromCreature(creature);
         }
@@ -34,6 +35,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Models
 
         public List<LifeModel> Lifes { get; set; }
         public string Name { get; set; }
+        public int Level { get; set; }
 
         public CreatureType Type { get; set; }
         public Guid Id { get; set; }

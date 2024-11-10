@@ -36,6 +36,8 @@ namespace RoleRollsPocketEdition._Application.Creatures.Services
                 .Include(creature => creature.Attributes)
                 .Include(creature => creature.Lifes)
                 .Include(creature => creature.Defenses)
+                .Include(creature => creature.Inventory)
+                .ThenInclude(inventory => inventory.Items)
                 .Include(creature => creature.Skills)
                     .ThenInclude(skill => skill.MinorSkills)
                 .WhereIf(input.CreatureType.HasValue, creature => creature.Type == input.CreatureType)

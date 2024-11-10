@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, effect, signal} from '@angular/core';
 import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {PocketCreature} from 'src/app/shared/models/pocket/creatures/pocket-creature';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
@@ -23,6 +23,8 @@ import {
 import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
 import {PanelModule} from 'primeng/panel';
 import {InputTextModule} from 'primeng/inputtext';
+import {ButtonDirective} from 'primeng/button';
+import {ItemInstantiatorService} from 'src/app/pocket-role-rolls/items/item-instantiator/services/item-instantiator.service';
 
 @Component({
   selector: 'rr-item-instantiator',
@@ -33,7 +35,9 @@ import {InputTextModule} from 'primeng/inputtext';
     TableModule,
     FormsModule,
     PanelModule,
-    InputTextModule
+    InputTextModule,
+    ButtonDirective,
+    NgIf
   ],
   templateUrl: './item-instantiator.component.html',
   styleUrl: './item-instantiator.component.scss'
@@ -58,6 +62,7 @@ export class ItemInstantiatorComponent {
               private service: CampaignItemTemplatesService,
               private cdr: ChangeDetectorRef,
               private detailsServiceService: PocketCampaignDetailsService,
+              private itemInstantiatorService: ItemInstantiatorService,
               ) {
     this.instance = this.dialogService.getInstance(this.ref);
   }
@@ -125,6 +130,15 @@ export class ItemInstantiatorComponent {
       this.cdr.detectChanges();
     });
   }
+  public resolve(column: RRColumns, obj) {
+    const value = column.property.split('.').reduce(function(prev, curr) {
+      return prev ? prev[curr] : null;
+    }, obj || self);
+    if (column.format) {
+      return column.format(obj, value);
+    }
+    return value;
+  }
   onLazyLoadEvent(event: LazyLoadEvent) {
     this.loading = true;
     this.cdr.detectChanges();
@@ -147,8 +161,13 @@ export class ItemInstantiatorComponent {
         itemTemplate: event.data,
         level: this.creature.level
       }
-    }).onClose.subscribe((input: InstantiateItemInput) => {
-      this.ref.close(input);
+    }).onClose.subscribe(async (input: InstantiateItemInput) => {
+      if (input) {
+        const item = await this.itemInstantiatorService.addItem(this.detailsServiceService.campaign.id, this.creature.id, input).toPromise();
+        this.ref.close(item);
+      } else {
+        this.ref.close(null);
+      }
     });
   }
 }

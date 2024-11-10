@@ -9,13 +9,17 @@ import {ItemTemplate} from 'src/app/shared/models/items/ItemTemplate';
 import {ItemTemplateModel} from 'src/app/shared/models/pocket/itens/ItemTemplateModel';
 import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
+import {ButtonDirective} from 'primeng/button';
+import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'rr-confirm-name-and-level',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    InputTextModule
+    InputTextModule,
+    ButtonDirective
   ],
   templateUrl: './confirm-name-and-level.component.html',
   styleUrl: './confirm-name-and-level.component.scss'
@@ -34,10 +38,19 @@ export class ConfirmNameAndLevelComponent {
     if (this.instance && this.instance.data) {
       this.itemTemplate = this.instance.data['itemTemplate'] as ItemTemplateModel;
       this.form =  new UntypedFormGroup({
-        name: new UntypedFormControl([this.itemTemplate.name, Validators.required]),
-        level: new UntypedFormControl([this.instance.data['level'] as number, Validators.required]),
+        id: new UntypedFormControl(uuidv4(), Validators.required),
+        name: new UntypedFormControl(this.itemTemplate.name, Validators.required),
+        templateId: new UntypedFormControl(this.itemTemplate.id, Validators.required),
+        level: new UntypedFormControl(this.instance.data['level'] as number, Validators.required),
       });
     }
+  }
+  add() {
+    const itemInput = this.form.value as InstantiateItemInput;
+    this.ref.close(itemInput);
+  }
+  cancel() {
+    this.ref.close();
   }
   ngOnDestroy() {
     if (this.ref) {

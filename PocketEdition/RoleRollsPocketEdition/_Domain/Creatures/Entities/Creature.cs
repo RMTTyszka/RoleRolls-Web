@@ -25,6 +25,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public Guid OwnerId { get; set; }
 
         public string Name { get; set; }
+        public int Level { get; set; }
 
         public CreatureType Type { get; set; }
         public Equipment Equipment { get; set; }
@@ -37,6 +38,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             Defenses = new List<Defense>();
             Equipment = new Equipment();
             Inventory = new Inventory();
+            Level = 1;
         }
 
 
