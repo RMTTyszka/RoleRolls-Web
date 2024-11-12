@@ -8,8 +8,6 @@ namespace RoleRollsPocketEdition._Domain.Itens;
 
 public class ItemInstance : Entity
 {
-    [Key]
-    public new Guid Id { get; set; }
     public string Name { get; set; }
     public Guid? PowerId { get; set; }
     public PowerTemplate? Power { get; set; }
