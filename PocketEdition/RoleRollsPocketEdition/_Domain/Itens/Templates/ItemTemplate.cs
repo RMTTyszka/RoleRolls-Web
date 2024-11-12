@@ -49,6 +49,7 @@ public class ItemTemplate : Entity
             PowerId = PowerId,
             Level = input.Level,
             TemplateId = Id,
+            Template = this
         };
     }
 }

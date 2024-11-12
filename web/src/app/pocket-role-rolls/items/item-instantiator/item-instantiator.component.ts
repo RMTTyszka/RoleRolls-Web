@@ -24,7 +24,7 @@ import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instant
 import {PanelModule} from 'primeng/panel';
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonDirective} from 'primeng/button';
-import {ItemInstantiatorService} from 'src/app/pocket-role-rolls/items/item-instantiator/services/item-instantiator.service';
+import {ItemInstanceService} from 'src/app/pocket-role-rolls/items/item-instantiator/services/item-instance.service';
 
 @Component({
   selector: 'rr-item-instantiator',
@@ -62,7 +62,7 @@ export class ItemInstantiatorComponent {
               private service: CampaignItemTemplatesService,
               private cdr: ChangeDetectorRef,
               private detailsServiceService: PocketCampaignDetailsService,
-              private itemInstantiatorService: ItemInstantiatorService,
+              private itemInstantiatorService: ItemInstanceService,
               ) {
     this.instance = this.dialogService.getInstance(this.ref);
   }
@@ -150,11 +150,6 @@ export class ItemInstantiatorComponent {
     });
   }
 
-  ngOnDestroy() {
-    if (this.ref) {
-      this.ref.close();
-    }
-  }
   public rowSelected(event: {data: ItemTemplateModel}) {
     this.dialogService.open(ConfirmNameAndLevelComponent, {
       data: {

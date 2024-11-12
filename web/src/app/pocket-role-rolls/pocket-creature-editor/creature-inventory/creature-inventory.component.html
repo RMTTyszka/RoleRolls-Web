@@ -15,12 +15,16 @@
   <p-table [value]="itens" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
+        <th style="width: 5px;">
         <th>Name</th>
         <th>Level</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item>
+    <ng-template pTemplate="body" let-item let-index>
       <tr>
+        <td style="width: 5px;">
+          <button pButton type="button" pTooltip="Remove" icon="pi pi-times" [class]="'p-button-danger'" (click)="remove(item, index)" style="margin-right: 4px;"></button>
+        </td>
         <td>{{ item.name }}</td>
         <td>{{ item.level }}</td>
       </tr>

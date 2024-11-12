@@ -52,9 +52,4 @@ export class ConfirmNameAndLevelComponent {
   cancel() {
     this.ref.close();
   }
-  ngOnDestroy() {
-    if (this.ref) {
-      this.ref.close();
-    }
-  }
 }

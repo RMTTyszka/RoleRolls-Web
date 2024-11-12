@@ -268,9 +268,10 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             return 0;
         }
 
-        public void AddItem(ItemInstance item)
+        public async Task AddItem(ItemInstance item, RoleRollsDbContext context)
         {
             Inventory.AddItem(item);
+            await context.ItemInstances.AddAsync(item);
         }
 
         public void Destroy(ItemInstance item)

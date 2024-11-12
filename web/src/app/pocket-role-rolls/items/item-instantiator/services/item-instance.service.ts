@@ -9,7 +9,7 @@ import {ItemModel} from 'src/app/shared/models/pocket/creatures/item-model';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemInstantiatorService {
+export class ItemInstanceService {
   public serverUrl = LOH_API.myPocketBackUrl;
   constructor(
     private httpClient: HttpClient,
@@ -17,5 +17,9 @@ export class ItemInstantiatorService {
 
   public addItem(campaignId: string, creatureId: string, item: InstantiateItemInput): Observable<ItemModel> {
     return this.httpClient.post<ItemModel>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/itens`, item);
+  }
+
+  removeItem(campaignId: string, creatureId: string, id: string) {
+    return this.httpClient.delete<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/itens/${id}`);
   }
 }

@@ -26,6 +26,10 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
         var creatures = await _dbContext.Creatures
             .Include(creature => creature.Attributes)
             .Include(creature => creature.Lifes)
+            .Include(creature => creature.Defenses)
+            .Include(creature => creature.Inventory)
+            .ThenInclude(inventory => inventory.Items)
+            .ThenInclude(item => item.Template)
             .Include(creature => creature.Skills)
             .ThenInclude(skill => skill.MinorSkills)
             .Where(creature => ids.Contains(creature.Id))
@@ -38,6 +42,9 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
             .Include(creature => creature.Attributes)
             .Include(creature => creature.Lifes)
             .Include(creature => creature.Defenses)
+            .Include(creature => creature.Inventory)
+            .ThenInclude(inventory => inventory.Items)
+            .ThenInclude(item => item.Template)
             .Include(creature => creature.Skills)
             .ThenInclude(skill => skill.MinorSkills)
             .FirstAsync(creature => creature.Id == id);
