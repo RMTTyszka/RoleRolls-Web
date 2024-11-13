@@ -44,6 +44,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<ArmorTemplate> ArmorTemplates { get; set; }
         public DbSet<ItemInstance> ItemInstances { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
 
         private readonly IConfiguration _configuration;
 

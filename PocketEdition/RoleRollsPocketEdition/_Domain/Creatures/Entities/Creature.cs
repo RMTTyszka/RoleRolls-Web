@@ -278,6 +278,16 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         {
             Inventory.Destroy(item);
         }
+
+        public async Task Equip(ItemInstance item, EquipableSlot slot, RoleRollsDbContext context)
+        {
+            Equipment.Equip(item, slot, context);
+        }
+
+        public async Task Unequip(Guid itemId, EquipableSlot slot, RoleRollsDbContext context)
+        {
+            Equipment.Unequip(itemId, slot, context);
+        }
     }
    
 }

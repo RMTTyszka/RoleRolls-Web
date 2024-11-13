@@ -15,6 +15,7 @@ import {ButtonDirective} from 'primeng/button';
 import {NgIf, NgStyle} from '@angular/common';
 import {PocketCampaignDetailsService} from '../../campaigns/CampaignInstance/pocket-campaign-bodyshell/pocket-campaign-details.service';
 import {ConfirmationService} from 'primeng/api';
+import {CreatureEquipmentComponent} from '../creature-equipment/creature-equipment.component';
 
 @Component({
   selector: 'rr-creature-inventory',
@@ -24,7 +25,8 @@ import {ConfirmationService} from 'primeng/api';
     PanelModule,
     ButtonDirective,
     NgIf,
-    NgStyle
+    NgStyle,
+    CreatureEquipmentComponent
   ],
   templateUrl: './creature-inventory.component.html',
   styleUrl: './creature-inventory.component.scss'

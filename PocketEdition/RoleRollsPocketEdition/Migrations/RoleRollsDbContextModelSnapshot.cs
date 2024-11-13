@@ -550,6 +550,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("FeetId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("HandsId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("HeadId")
                         .HasColumnType("uuid");
 
@@ -581,6 +584,8 @@ namespace RoleRollsPocketEdition.Migrations
                         .IsUnique();
 
                     b.HasIndex("FeetId");
+
+                    b.HasIndex("HandsId");
 
                     b.HasIndex("HeadId");
 
@@ -1084,7 +1089,7 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("ArmsId");
 
-                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.EquipableInstance", "Chest")
+                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.ArmorInstance", "Chest")
                         .WithMany()
                         .HasForeignKey("ChestId");
 
@@ -1098,6 +1103,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("FeetId");
 
+                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.EquipableInstance", "Hands")
+                        .WithMany()
+                        .HasForeignKey("HandsId");
+
                     b.HasOne("RoleRollsPocketEdition._Domain.Itens.EquipableInstance", "Head")
                         .WithMany()
                         .HasForeignKey("HeadId");
@@ -1106,7 +1115,7 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("LeftRingId");
 
-                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.EquipableInstance", "MainHand")
+                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.WeaponInstance", "MainHand")
                         .WithMany()
                         .HasForeignKey("MainHandId");
 
@@ -1114,7 +1123,7 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("NeckId");
 
-                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.EquipableInstance", "OffHand")
+                    b.HasOne("RoleRollsPocketEdition._Domain.Itens.WeaponInstance", "OffHand")
                         .WithMany()
                         .HasForeignKey("OffHandId");
 
@@ -1133,6 +1142,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Creature");
 
                     b.Navigation("Feet");
+
+                    b.Navigation("Hands");
 
                     b.Navigation("Head");
 
