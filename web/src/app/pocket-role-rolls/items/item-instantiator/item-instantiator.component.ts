@@ -65,6 +65,7 @@ export class ItemInstantiatorComponent {
               private itemInstantiatorService: ItemInstanceService,
               ) {
     this.instance = this.dialogService.getInstance(this.ref);
+    this.listenToItemTypeChanges();
   }
   ngOnInit() {
     if (this.instance && this.instance.data) {
@@ -165,4 +166,5 @@ export class ItemInstantiatorComponent {
       }
     });
   }
+
 }
