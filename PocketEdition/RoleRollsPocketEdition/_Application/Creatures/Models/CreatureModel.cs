@@ -26,7 +26,10 @@ namespace RoleRollsPocketEdition._Application.Creatures.Models
             Level = creature.Level;
             Type = creature.Type;
             Inventory = InventoryModel.FromCreature(creature);
+            Equipment = EquipmentModel.FromCreature(creature);
         }
+
+        public EquipmentModel Equipment { get; set; }
 
         public List<DefenseModel> Defenses { get; set; }
 

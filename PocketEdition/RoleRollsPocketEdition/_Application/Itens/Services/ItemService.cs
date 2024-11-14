@@ -8,7 +8,7 @@ namespace RoleRollsPocketEdition._Application.Itens.Services;
 
 public interface IItemService
 {
-    Task<ItemModel> GetAsync(Guid itemId);
+    Task<ItemModel?> GetAsync(Guid itemId);
 
 }
 
@@ -24,7 +24,7 @@ public class ItemService : IItemService, ITransientDependency
     }
 
     [NoTrackingAspect]
-    public async Task<ItemModel> GetAsync(Guid itemId)
+    public async Task<ItemModel?> GetAsync(Guid itemId)
     {
         var item = await _context.ItemInstances.SingleAsync(x => x.Id == itemId);
         return ItemModel.FromItem(item);

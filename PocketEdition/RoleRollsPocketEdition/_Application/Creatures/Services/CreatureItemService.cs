@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition._Application.Itens.Dtos;
 using RoleRollsPocketEdition._Application.Itens.Services;
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -8,7 +9,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Services;
 
 public interface ICreatureItemService
 {
-    Task<ItemModel> Instantiate(Guid campaignId, Guid creatureId, ItemInstantiateInput input);
+    Task<ItemModel?> Instantiate(Guid campaignId, Guid creatureId, ItemInstantiateInput input);
     Task Destroy(Guid campaignId, Guid creatureId, Guid id);
     Task Update(Guid campaignId, Guid creatureId, Guid id, ItemInstanceUpdate input);
 }
@@ -25,7 +26,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
         _itemService = itemServic;
         _unitOfWork = unitOfWork;
     }
-    public async Task<ItemModel> Instantiate(Guid campaignId, Guid creatureId, ItemInstantiateInput input)
+    public async Task<ItemModel?> Instantiate(Guid campaignId, Guid creatureId, ItemInstantiateInput input)
     {
         var template = await _context.ItemTemplates.SingleAsync(x => x.Id == input.TemplateId);
         var creature = await _context.Creatures

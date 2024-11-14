@@ -1,0 +1,6 @@
+<div *ngIf="slot" class="p-inputgroup">
+  <input class="slot" type="text" pInputText  [ngModel]="slot" [disabled]="true">
+  <span class="p-inputgroup-addon item">
+    <input  pInputText ="value" [ngModel]="item.name" [disabled]="true">
+  </span>
+</div>

@@ -17,7 +17,7 @@ public class CreatureItemController : ControllerBase
 
 
     [HttpPost("")]
-    public async Task<ItemModel> Instantiate([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] ItemInstantiateInput item)
+    public async Task<ItemModel?> Instantiate([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] ItemInstantiateInput item)
     {
         return await _itemService.Instantiate(campaignId, creatureId, item);
     }    

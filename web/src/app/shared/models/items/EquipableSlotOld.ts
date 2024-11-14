@@ -1,4 +1,4 @@
-export enum EquipableSlot {
+export enum EquipableSlotOld {
     Weapon,
     Chest,
     Hands,

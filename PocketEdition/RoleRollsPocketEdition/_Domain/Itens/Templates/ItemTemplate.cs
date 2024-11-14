@@ -40,7 +40,7 @@ public class ItemTemplate : Entity
         return ItemTemplateModel.FromTemplate<T>(this);
     }
 
-    public ItemInstance Instantiate(ItemInstanceUpdate input)
+    public ItemInstance? Instantiate(ItemInstanceUpdate input)
     {
         return new ItemInstance
         {

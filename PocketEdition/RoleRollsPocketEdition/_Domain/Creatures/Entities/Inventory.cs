@@ -7,9 +7,9 @@ public class Inventory : Entity
 {
     public Guid CreatureId { get; set; }
     public Creature Creature { get; set; }
-    public List<ItemInstance> Items { get; set; } = new();
+    public List<ItemInstance?> Items { get; set; } = new();
 
-    public void AddItem(ItemInstance item)
+    public void AddItem(ItemInstance? item)
     {
         if (Items.Any(e => e.Id == item.Id))
         {
@@ -18,7 +18,7 @@ public class Inventory : Entity
         Items.Add(item);
     }
 
-    public void Destroy(ItemInstance item)
+    public void Destroy(ItemInstance? item)
     {
         Items.Remove(item);
     }

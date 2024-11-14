@@ -7,18 +7,24 @@ namespace RoleRollsPocketEdition._Application.Itens.Dtos;
 
 public class ItemModel
 {
-    public static ItemModel FromItem(ItemInstance item)
+    protected ItemModel(ItemInstance item)
     {
-        return new ItemModel
+        Name = item.Name;
+        PowerId = item.PowerId;
+        Id = item.Id;
+        Level = item.Level;
+        TemplateId = item.TemplateId;
+        Power = PowerModel.FromPower(item.Power);
+        Template = ItemTemplateModel.FromTemplate<ItemTemplateModel>(item.Template);       
+    }
+    public static ItemModel? FromItem(ItemInstance? item)
+    {
+        if (item == null)
         {
-            Name = item.Name,
-            PowerId = item.PowerId,
-            Id = item.Id,
-            Level = item.Level,
-            TemplateId = item.TemplateId,
-            Power = PowerModel.FromPower(item.Power),
-            Template = ItemTemplateModel.FromTemplate<ItemTemplateModel>(item.Template),
-        };
+            return null;
+        }
+
+        return new ItemModel(item);
     }
 
     public ItemTemplateModel Template { get; set; }

@@ -1,4 +1,4 @@
-import {EquipableSlot} from "src/app/shared/models/items/EquipableSlot";
+import {EquipableSlotOld} from "src/app/shared/models/items/EquipableSlotOld";
 
 export class ItemTemplateModel{
   public id: string;
@@ -8,7 +8,7 @@ export class ItemTemplateModel{
   public type: ItemType;
 }
 export class EquipableTemplateModel extends ItemTemplateModel {
-  public slot: EquipableSlot;
+  public slot: EquipableSlotOld;
 }
 export class WeaponTemplateModel extends EquipableTemplateModel{
   public category: WeaponCategory;
