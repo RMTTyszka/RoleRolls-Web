@@ -22,7 +22,7 @@ export class CreatureDetailsComponent implements OnInit, OnDestroy {
   @Input() public creature: Creature;
   @Input() public isMaster = false;
   private campaign: Campaign;
-  private unsubscriber = new Subject<boolean>();
+  private unsubscriber = new Subject<void>();
 
   activeTab: 'attributes' | 'equipment' | 'inventory';
   tabs:  SelectItem[] = [

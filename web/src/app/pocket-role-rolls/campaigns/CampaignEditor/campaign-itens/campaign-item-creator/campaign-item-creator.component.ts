@@ -26,7 +26,7 @@ import {
 export class CampaignItemCreatorComponent implements OnInit, OnDestroy {
   public item: ItemTemplateModel | WeaponTemplateModel;
   public action: EditorAction = EditorAction.create;
-  @Output() public saved = new EventEmitter<never>();
+  @Output() public saved = new EventEmitter<void>();
   public form: FormGroup;
   @Input() public itemType: Signal<ItemType>;
   public itemTypeEnum = ItemType;

@@ -23,7 +23,7 @@ export class PocketCampaignsComponent implements OnInit {
   public invitationCode: string;
   public config = new PocketCampaignConfig();
   public actions: RRAction<void>[] = [];
-  public refreshGrid = new EventEmitter<never>();
+  public refreshGrid = new EventEmitter<void>();
   constructor(
     public service: PocketCampaignsService,
     private readonly authenticationService: AuthenticationService,

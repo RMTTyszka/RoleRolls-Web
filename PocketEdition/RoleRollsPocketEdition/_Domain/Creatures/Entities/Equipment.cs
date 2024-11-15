@@ -1,4 +1,5 @@
 using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -8,34 +9,35 @@ public class Equipment : Entity
 {
     public Guid CreatureId { get; set; }
     public Creature Creature { get; set; }
-    public WeaponInstance? MainHand { get; set; }
-    public WeaponInstance? OffHand { get; set; }
-    public EquipableInstance? Head { get; set; }
-    public ArmorInstance? Chest { get; set; }
-    public EquipableInstance? Feet { get; set; }
-    public EquipableInstance? Arms { get; set; }
-    public EquipableInstance? Hands { get; set; }
-    public EquipableInstance? Waist { get; set; }
-    public EquipableInstance? Neck { get; set; }
-    public EquipableInstance? LeftRing { get; set; }
-    public EquipableInstance? RightRing { get; set; }
+    public ItemInstance? MainHand { get; set; }
+    public ItemInstance? OffHand { get; set; }
+    public ItemInstance? Head { get; set; }
+    public ItemInstance? Chest { get; set; }
+    public ItemInstance? Feet { get; set; }
+    public ItemInstance? Arms { get; set; }
+    public ItemInstance? Hands { get; set; }
+    public ItemInstance? Waist { get; set; }
+    public ItemInstance? Neck { get; set; }
+    public ItemInstance? LeftRing { get; set; }
+    public ItemInstance? RightRing { get; set; }
     
 
 
-    public async Task Equip(ItemInstance item, EquipableSlot slot, RoleRollsDbContext context)
+    public async Task Equip(ItemInstance item, EquipableSlot slot)
     {
         switch (slot)
         {
             case EquipableSlot.MainHand:
-                if (item is WeaponInstance instance)
+                if (item.Template is WeaponTemplate)
                 {
                     var equipedItem = MainHand;
                     if (equipedItem != null)
                     {
-                        await Creature.AddItem(equipedItem, context);
+                        await Creature.AddItem(equipedItem);
                     }
 
-                    MainHand = instance;
+                    MainHand = item;
+                    await Creature.RemoveItem(item);
                     break;
                 }
                 return;
@@ -50,28 +52,27 @@ public class Equipment : Entity
             case EquipableSlot.Head:
                 break;
             case EquipableSlot.OffHand:
-                if (item is WeaponInstance weaponInstance)
+                if (item.Template is WeaponTemplate)
                 {
                     var equipedItem = OffHand;
                     if (equipedItem != null)
                     {
-                        await Creature.AddItem(equipedItem, context);
+                        await Creature.AddItem(equipedItem);
                     }
-                    OffHand = weaponInstance;
-                    break;
+                    OffHand = item;
                 }
-                return;
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
         }
     }
 
-    public async Task Unequip(Guid itemId, EquipableSlot slot, RoleRollsDbContext context)
+    public async Task Unequip(Guid itemId, EquipableSlot slot)
     {
         var item = GetItem(slot);
         if (item is not null)
         {
-            await Creature.AddItem(item, context);
+            await Creature.AddItem(item);
             ItemBySlot[slot] = null;
         }
     }

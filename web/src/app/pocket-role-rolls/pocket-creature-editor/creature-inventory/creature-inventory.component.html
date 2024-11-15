@@ -16,7 +16,7 @@
   <p-table [value]="itens" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 5px;">
+        <th style="width: 8rem;">
         <th>Name</th>
         <th>Level</th>
       </tr>
@@ -25,7 +25,7 @@
       <tr>
         <td style="width: 5px;">
           <button pButton type="button" pTooltip="Remove" icon="pi pi-times" [class]="'p-button-danger'" (click)="remove(item, index)" style="margin-right: 4px;"></button>
-          <button *ngIf="item.slot != null" pButton type="button" pTooltip="Equip" icon="fas fa-shirt" [class]="'p-button-primary'" (click)="remove(item, index)" style="margin-right: 4px;"></button>
+          <button *ngIf="item.template.type !== itemType.Consumable" pButton type="button" pTooltip="Equip" icon="fas fa-tshirt" [class]="'p-button-primary'" (click)="equip(item, index)" style="margin-right: 4px;"></button>
         </td>
         <td>{{ item.name }}</td>
         <td>{{ item.level }}</td>

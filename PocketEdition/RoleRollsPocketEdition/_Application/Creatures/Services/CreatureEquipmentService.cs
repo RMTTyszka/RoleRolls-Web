@@ -28,11 +28,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
     }
     public async Task Equip(Guid campaignId, Guid creatureId, EquipItemInput input)
     {
-        var creature = await _context.Creatures
-            .Include(creature => creature.Inventory)
-            .ThenInclude(inventory => inventory.Items)
-            .Include(creature => creature.Equipment)
-            .SingleAsync(x => x.Id == creatureId);
+        var creature = await _creatureRepository.GetFullCreature(creatureId);
         var item = creature.Inventory.Get(input.ItemId);
         if (creature.Equipment.Id == Guid.Empty)
         {
@@ -42,7 +38,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
             await _context.Equipment.AddAsync(creature.Equipment);
             await _context.SaveChangesAsync();
         }
-        await creature.Equip(item, input.Slot, _context);
+        await creature.Equip(item, input.Slot);
         
         using (_unitOfWork.Begin())
         {
@@ -66,7 +62,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
             await _context.Equipment.AddAsync(creature.Equipment);
             await _context.SaveChangesAsync();
         }
-        await creature.Unequip(input.ItemId, input.Slot, _context);
+        await creature.Unequip(input.ItemId, input.Slot);
         
         using (_unitOfWork.Begin())
         {

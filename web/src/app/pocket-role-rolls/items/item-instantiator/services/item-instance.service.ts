@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {LOH_API} from 'src/app/loh.api';
 import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
 import {ItemModel} from 'src/app/shared/models/pocket/creatures/item-model';
+import {EquipInput} from '../../../pocket-creature-editor/tokens/equip-input';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class ItemInstanceService {
 
   removeItem(campaignId: string, creatureId: string, id: string) {
     return this.httpClient.delete<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/itens/${id}`);
+  }
+
+  equip(campaignId: string, creatureId: string, item: EquipInput) {
+    return this.httpClient.post<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/equipment`, item);
   }
 }
