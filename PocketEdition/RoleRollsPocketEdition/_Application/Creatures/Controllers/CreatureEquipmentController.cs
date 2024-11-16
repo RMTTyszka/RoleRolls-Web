@@ -3,10 +3,11 @@ using RoleRollsPocketEdition._Application.Creatures.Dtos;
 using RoleRollsPocketEdition._Application.Creatures.Services;
 using RoleRollsPocketEdition._Application.Itens.Dtos;
 using RoleRollsPocketEdition._Application.Itens.Services;
+using RoleRollsPocketEdition._Domain.Itens;
 
 namespace RoleRollsPocketEdition._Application.Creatures.Controllers;
 
-[Route("campaigns/{campaingId}/creatures/{creatureId}/equipment")]
+[Route("campaigns/{campaingId}/creatures/{creatureId}/equipments")]
 public class CreatureEquipmentController : ControllerBase
 {
     private readonly ICreatureEquipmentService _itemService;
@@ -22,11 +23,10 @@ public class CreatureEquipmentController : ControllerBase
     {
         await _itemService.Equip(campaignId, creatureId, input);
     }    
-    [HttpDelete("")]
-    public async Task Unequip([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromBody] EquipItemInput input)
+    [HttpDelete("slots/{slot}")]
+    public async Task Unequip([FromRoute] Guid campaignId, [FromRoute] Guid creatureId, [FromRoute] EquipableSlot slot)
     {
-        await _itemService.Unequip(campaignId, creatureId, input);
-
+        await _itemService.Unequip(campaignId, creatureId, slot);
     }   
 
 }

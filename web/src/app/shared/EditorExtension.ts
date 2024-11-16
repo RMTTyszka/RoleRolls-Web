@@ -1,4 +1,13 @@
-import {FormArray, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  isFormControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import {Entity} from './models/Entity.model';
 import {PocketCreature} from './models/pocket/creatures/pocket-creature';
 
@@ -48,28 +57,33 @@ export function getAsForm(entity: any, requiredFields: string[] = [], disabledFi
   createForm(form, entity, requiredFields, disabledFields);
   return form;
 }
-export function ultraPatchValue(form: UntypedFormGroup, entity: Entity) {
+export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityName: string) {
+  const localEntityName = entityName; // Cópia local
   Object.entries(entity).forEach((entry) => {
-    // console.log(entry);
     if (entry[1] instanceof Array) {
       const array = form.get(entry[0]) as UntypedFormArray;
+      array.clear({emitEvent: false});
       entry[1].forEach((property, index) => {
         if (property instanceof Object) {
-          const newGroup = array.at(index) as UntypedFormGroup;
-          ultraPatchValue(newGroup, property);
+          array.push(getAsForm(property));
         } else {
-          array.at(index).setValue(property);
+          array.push(property);
         }
       });
     } else if (entry[1] instanceof Object) {
       const newGroup = form.get(entry[0]) as UntypedFormGroup;
       if (newGroup) {
-        ultraPatchValue(newGroup, entry[1]);
+        ultraPatchValue(newGroup, entry[1], localEntityName);
       }
     } else {
       const control = form.get(entry[0]) as UntypedFormControl;
       if (control) {
-        control.setValue(entry[1]);
+        if (control instanceof FormGroup && entry[1] == null) {
+          (control.parent as UntypedFormGroup).removeControl(entry[0]);
+          (control.parent as UntypedFormGroup).addControl(entry[0], new FormControl(null));
+        } else {
+          control.setValue(entry[1]);
+        }
       }
     }
   });

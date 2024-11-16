@@ -3,6 +3,7 @@ using RoleRollsPocketEdition._Application.Creatures.Dtos;
 using RoleRollsPocketEdition._Application.Itens.Dtos;
 using RoleRollsPocketEdition._Application.Itens.Services;
 using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
+using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -11,7 +12,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Services;
 public interface ICreatureEquipmentService
 {
     Task Equip(Guid campaignId, Guid creatureId, EquipItemInput input);
-    Task Unequip(Guid campaignId, Guid creatureId, EquipItemInput input);
+    Task Unequip(Guid campaignId, Guid creatureId, EquipableSlot slot);
 }
 
 public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDependency
@@ -47,13 +48,9 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
         }
     }
 
-    public async Task Unequip(Guid campaignId, Guid creatureId, EquipItemInput input)
+    public async Task Unequip(Guid campaignId, Guid creatureId, EquipableSlot slot)
     {
-        var creature = await _context.Creatures
-            .Include(creature => creature.Inventory)
-            .ThenInclude(inventory => inventory.Items)
-            .Include(creature => creature.Equipment)
-            .SingleAsync(x => x.Id == creatureId);
+        var creature = await _creatureRepository.GetFullCreature(creatureId);
         if (creature.Equipment.Id == Guid.Empty)
         {
             creature.Equipment.Id = Guid.NewGuid();
@@ -62,7 +59,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
             await _context.Equipment.AddAsync(creature.Equipment);
             await _context.SaveChangesAsync();
         }
-        await creature.Unequip(input.ItemId, input.Slot);
+        creature.Unequip(slot);
         
         using (_unitOfWork.Begin())
         {

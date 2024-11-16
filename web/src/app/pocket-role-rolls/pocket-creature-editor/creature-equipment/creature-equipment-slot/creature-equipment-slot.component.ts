@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormsModule, UntypedFormGroup} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {ItemModel} from '../../../../shared/models/pocket/creatures/item-model';
 import {InputTextModule} from 'primeng/inputtext';
 import {NgIf, NgStyle} from '@angular/common';
@@ -12,6 +12,8 @@ import {TooltipModule} from 'primeng/tooltip';
 import {ItemInstanceService} from '../../../items/item-instantiator/services/item-instance.service';
 import {PocketCampaignDetailsService} from '../../../campaigns/CampaignInstance/pocket-campaign-bodyshell/pocket-campaign-details.service';
 import {EquipableSlot} from '../../../../shared/models/pocket/itens/equipable-slot';
+import {Entity} from '../../../../shared/models/Entity.model';
+import {getAsForm} from '../../../../shared/EditorExtension';
 @Component({
   selector: 'rr-creature-equipment-slot',
   standalone: true,

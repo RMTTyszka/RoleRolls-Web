@@ -7,7 +7,7 @@ import {
   ValidationErrors,
   AbstractControl,
   Validators,
-  UntypedFormGroup, UntypedFormArray
+  UntypedFormGroup, UntypedFormArray, UntypedFormControl
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
@@ -21,6 +21,7 @@ import {HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
 import {Message, MessageService} from 'primeng/api';
 import {CreatureDetailsService} from './creature-details.service';
 import {firstValueFrom} from 'rxjs';
+import {Entity} from '../../shared/models/Entity.model';
 
 
 @Component({
@@ -83,7 +84,7 @@ export class PocketCreatureEditorComponent implements OnInit {
     } else {
       this.creature = await this.campaignService.getCreature(this.campaign.id, this.creatureId).toPromise();
     }
-    this.form = getAsForm(this.creature);
+    this.form = this.getAsForm(this.creature);
     this.attributes.controls.forEach(attribute => {
       attribute.get('name').disable();
     });
@@ -159,8 +160,81 @@ export class PocketCreatureEditorComponent implements OnInit {
   private subscribeToRefreshCreature() {
     this.subscriptionManager.add('refreshCreature', this.creatureDetailsService.refreshCreature.subscribe(async () => {
       this.creature = await firstValueFrom(this.campaignService.getCreature(this.campaign.id, this.creatureId));
-      ultraPatchValue(this.form, this.creature);
+      this.ultraPatchValue(this.form, this.creature, 'creature');
     }));
+  }
+  public createForm(form: FormGroup, entity: Entity, requiredFields: string[] = [], disabledFields: string[] = []) {
+    Object.entries(entity).forEach((entry) => {
+      // console.log(entry);
+      if (entry[1] instanceof Array) {
+        const array = new FormArray([]);
+        entry[1].forEach(property => {
+          if (property instanceof Object) {
+            const newGroup: FormGroup = new FormGroup({});
+            this.createForm(newGroup, property);
+            array.push(newGroup);
+          } else {
+            array.push(new FormControl(property, []));
+          }
+        });
+        form.addControl(entry[0], array);
+      } else if (entry[1] instanceof Object) {
+        const newGroup: FormGroup = new FormGroup({});
+        this.createForm(newGroup, entry[1]);
+        form.addControl(entry[0], newGroup);
+      } else {
+        form.addControl(entry[0], new FormControl(entry[1], []));
+      }
+    });
+    requiredFields.forEach(field => {
+      const control = form.get(field);
+      if (control) {
+        control.setValidators(Validators.required);
+      }
+    });
+    disabledFields.forEach(field => {
+      const control = form.get(field);
+      if (control) {
+        control.disable();
+      }
+    });
+  }
+  public getAsForm(entity: any, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
+    const form = new FormGroup({});
+    this.createForm(form, entity, requiredFields, disabledFields);
+    return form;
+  }
+  public ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityName: string) {
+    const localEntityName = entityName; // Cópia local
+    Object.entries(entity).forEach((xentry) => {
+      const entry = JSON.parse(JSON.stringify(xentry));
+      if (entry[1] instanceof Array) {
+        const array = form.get(entry[0]) as UntypedFormArray;
+        array.clear({emitEvent: false});
+        entry[1].forEach((property, index) => {
+          if (property instanceof Object) {
+            array.push(this.getAsForm(property));
+          } else {
+            array.push(property);
+          }
+        });
+      } else if (entry[1] instanceof Object) {
+        const newGroup = form.get(entry[0]) as UntypedFormGroup;
+        if (newGroup) {
+          this.ultraPatchValue(newGroup, entry[1], localEntityName);
+        }
+      } else {
+        const control = form.get(entry[0]) as UntypedFormControl;
+        if (control) {
+          if (control instanceof FormGroup && entry[1] == null) {
+            (control.parent as UntypedFormGroup).removeControl(entry[0]);
+            (control.parent as UntypedFormGroup).addControl(entry[0], new FormControl(null));
+          } else {
+            control.setValue(entry[1]);
+          }
+        }
+      }
+    });
   }
 }
 
