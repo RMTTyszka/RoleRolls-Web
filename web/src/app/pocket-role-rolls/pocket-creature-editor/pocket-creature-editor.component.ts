@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorAction } from 'src/app/shared/dtos/ModalEntityData';
-import { createForm, getAsForm } from 'src/app/shared/EditorExtension';
+import {createForm, getAsForm, ultraPatchValue} from 'src/app/shared/EditorExtension';
 import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/pocket/creatures/pocket-creature';
@@ -19,6 +19,9 @@ import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
 import {HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
 import {Message, MessageService} from 'primeng/api';
+import {CreatureDetailsService} from './creature-details.service';
+import {firstValueFrom} from 'rxjs';
+
 
 @Component({
   selector: 'rr-pocket-creature-editor',
@@ -48,6 +51,7 @@ export class PocketCreatureEditorComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     public detectChanges: ChangeDetectorRef,
     public messageService: MessageService,
+    public creatureDetailsService: CreatureDetailsService,
 
   ) {
     this.campaign = config.data.campaign;
@@ -103,6 +107,7 @@ export class PocketCreatureEditorComponent implements OnInit {
     this.buildSkills();
     (this.form.get('lifes') as FormArray).disable();
     (this.form.get('defenses') as FormArray).disable();
+    this.subscribeToRefreshCreature();
     this.loaded = true;
   }
   public print() {
@@ -151,6 +156,12 @@ export class PocketCreatureEditorComponent implements OnInit {
     });
   }
 
+  private subscribeToRefreshCreature() {
+    this.subscriptionManager.add('refreshCreature', this.creatureDetailsService.refreshCreature.subscribe(async () => {
+      this.creature = await firstValueFrom(this.campaignService.getCreature(this.campaign.id, this.creatureId));
+      ultraPatchValue(this.form, this.creature);
+    }));
+  }
 }
 
 const validateSkillValue: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

@@ -1,6 +1,7 @@
 using NetTopologySuite.Index.HPRtree;
 using RoleRollsPocketEdition._Application.Powers;
 using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition._Domain.Itens.Templates.Models;
 
 namespace RoleRollsPocketEdition._Application.Itens.Dtos;
@@ -15,7 +16,12 @@ public class ItemModel
         Level = item.Level;
         TemplateId = item.TemplateId;
         Power = PowerModel.FromPower(item.Power);
-        Template = ItemTemplateModel.FromTemplate<ItemTemplateModel>(item.Template);       
+        Template = item.Template switch
+        {
+            WeaponTemplate template => WeaponTemplateModel.FromTemplate(template),
+            ArmorTemplate template => ArmorTemplateModel.FromTemplate(template),
+            _ => ItemTemplateModel.FromTemplate<ConsumableTemplateModel>(item.Template)
+        };
     }
     public static ItemModel? FromItem(ItemInstance? item)
     {

@@ -268,25 +268,28 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             return 0;
         }
 
-        public async Task AddItem(ItemInstance? item, RoleRollsDbContext context)
+        public async Task AddItemToInventory(ItemInstance? item)
         {
             Inventory.AddItem(item);
-            await context.ItemInstances.AddAsync(item);
+        }
+        public async Task RemoveItem(ItemInstance? item)
+        {
+            Inventory.Remove(item);
         }
 
         public void Destroy(ItemInstance? item)
         {
-            Inventory.Destroy(item);
+            Inventory.Remove(item);
         }
 
-        public async Task Equip(ItemInstance item, EquipableSlot slot, RoleRollsDbContext context)
+        public async Task Equip(ItemInstance item, EquipableSlot slot)
         {
-            Equipment.Equip(item, slot, context);
+            Equipment.Equip(item, slot);
         }
 
-        public async Task Unequip(Guid itemId, EquipableSlot slot, RoleRollsDbContext context)
+        public async Task Unequip(Guid itemId, EquipableSlot slot)
         {
-            Equipment.Unequip(itemId, slot, context);
+            Equipment.Unequip(itemId, slot);
         }
     }
    

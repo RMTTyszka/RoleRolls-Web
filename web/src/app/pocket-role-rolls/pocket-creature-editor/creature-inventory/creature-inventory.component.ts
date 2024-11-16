@@ -17,7 +17,9 @@ import {CreatureEquipmentComponent} from '../creature-equipment/creature-equipme
 import {ItemType} from '../../../shared/models/pocket/itens/ItemTemplateModel';
 import {EquipInput} from '../tokens/equip-input';
 import {EquipableSlot} from '../../../shared/models/pocket/itens/equipable-slot';
-import {firstValueFrom} from 'rxjs';
+import {distinctUntilChanged, firstValueFrom} from 'rxjs';
+import {CreatureDetailsService} from '../creature-details.service';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'rr-creature-inventory',
@@ -47,13 +49,16 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
     private campaignDetailsService: PocketCampaignDetailsService,
+    private creatureDetailsService: CreatureDetailsService,
   ) {
   }
 
   public ngOnInit(): void {
     this.populateItens();
-    this.subscriptionManager.add('itensArray', this.itensArray.valueChanges.subscribe(() => {
-    this.populateItens();
+    this.subscriptionManager.add('itensArray', this.itensArray.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe(() => {
+      this.populateItens();
     }));
   }
   public instanteItem() {
@@ -124,6 +129,6 @@ export class CreatureInventoryComponent implements OnInit, OnDestroy {
   }
   private async equipItem(index: number, input: EquipInput) {
     await firstValueFrom(this.itemInstanceService.equip(this.campaignDetailsService.campaign.id, this.creature.id, input));
-    this.itensArray.removeAt(index);
+    this.creatureDetailsService.refreshCreature.next();
   }
 }

@@ -73,8 +73,6 @@ namespace RoleRollsPocketEdition.Infrastructure
             
             modelBuilder.Entity<ItemInstance>()
                 .HasDiscriminator<string>("ItemType")
-                .HasValue<ArmorInstance>("Armor")
-                .HasValue<WeaponInstance>("Weapon")
                 .HasValue<ItemInstance>("Item");
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

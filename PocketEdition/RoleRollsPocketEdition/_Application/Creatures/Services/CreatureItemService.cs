@@ -42,11 +42,12 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             await _context.Inventory.AddAsync(creature.Inventory);
             await _context.SaveChangesAsync();
         }
-        await creature.AddItem(item, _context);
+        await creature.AddItemToInventory(item);
         
         using (_unitOfWork.Begin())
         {
             _context.Creatures.Update(creature);
+            await _context.ItemInstances.AddAsync(item);
             _unitOfWork.Commit();
         }
 
@@ -60,6 +61,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             .ThenInclude(inventory => inventory.Items)     
             .SingleAsync(x => x.Id == creatureId);
         creature.Destroy(item);
+        _context.ItemInstances.Remove(item);
         using (_unitOfWork.Begin())
         {
             _context.ItemInstances.Remove(item);
