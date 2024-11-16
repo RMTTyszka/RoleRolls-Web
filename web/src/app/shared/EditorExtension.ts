@@ -1,4 +1,4 @@
-import {FormArray, FormControl, FormGroup, UntypedFormArray, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Entity} from './models/Entity.model';
 import {PocketCreature} from './models/pocket/creatures/pocket-creature';
 
@@ -63,10 +63,14 @@ export function ultraPatchValue(form: UntypedFormGroup, entity: Entity) {
       });
     } else if (entry[1] instanceof Object) {
       const newGroup = form.get(entry[0]) as UntypedFormGroup;
-      ultraPatchValue(newGroup, entry[1]);
+      if (newGroup) {
+        ultraPatchValue(newGroup, entry[1]);
+      }
     } else {
-      const control = form.get(entry[0]) as UntypedFormGroup;
-      control.setValue(entry[1]);
+      const control = form.get(entry[0]) as UntypedFormControl;
+      if (control) {
+        control.setValue(entry[1]);
+      }
     }
   });
 }

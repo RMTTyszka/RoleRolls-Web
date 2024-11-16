@@ -42,7 +42,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             await _context.Inventory.AddAsync(creature.Inventory);
             await _context.SaveChangesAsync();
         }
-        await creature.AddItemToInventory(item);
+        creature.AddItemToInventory(item);
         
         using (_unitOfWork.Begin())
         {

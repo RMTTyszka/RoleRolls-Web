@@ -6,6 +6,7 @@ import {LOH_API} from 'src/app/loh.api';
 import {InstantiateItemInput} from 'src/app/pocket-role-rolls/items/item-instantiator/models/instantiate-item-input';
 import {ItemModel} from 'src/app/shared/models/pocket/creatures/item-model';
 import {EquipInput} from '../../../pocket-creature-editor/tokens/equip-input';
+import {EquipableSlot} from '../../../../shared/models/pocket/itens/equipable-slot';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,9 @@ export class ItemInstanceService {
   }
 
   equip(campaignId: string, creatureId: string, item: EquipInput) {
-    return this.httpClient.post<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/equipment`, item);
+    return this.httpClient.post<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/equipments`, item);
+  }
+  unequip(campaignId: string, creatureId: string, slot: EquipableSlot) {
+    return this.httpClient.delete<never>(`${this.serverUrl}campaigns/${campaignId}/creatures/${creatureId}/equipments/slots/${slot}`);
   }
 }

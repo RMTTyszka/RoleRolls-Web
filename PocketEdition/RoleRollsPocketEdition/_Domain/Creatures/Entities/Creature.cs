@@ -268,7 +268,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             return 0;
         }
 
-        public async Task AddItemToInventory(ItemInstance? item)
+        public void AddItemToInventory(ItemInstance? item)
         {
             Inventory.AddItem(item);
         }
@@ -287,9 +287,9 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             Equipment.Equip(item, slot);
         }
 
-        public async Task Unequip(Guid itemId, EquipableSlot slot)
-        {
-            Equipment.Unequip(itemId, slot);
+        public void Unequip(EquipableSlot slot)
+        { 
+            Equipment.Unequip(slot);
         }
     }
    

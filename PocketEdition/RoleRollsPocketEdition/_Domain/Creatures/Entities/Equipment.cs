@@ -23,7 +23,7 @@ public class Equipment : Entity
     
 
 
-    public async Task Equip(ItemInstance item, EquipableSlot slot)
+    public void Equip(ItemInstance item, EquipableSlot slot)
     {
         switch (slot)
         {
@@ -33,11 +33,11 @@ public class Equipment : Entity
                     var equipedItem = MainHand;
                     if (equipedItem != null)
                     {
-                        await Creature.AddItem(equipedItem);
+                        Creature.AddItemToInventory(equipedItem);
                     }
 
                     MainHand = item;
-                    await Creature.RemoveItem(item);
+                    Creature.RemoveItem(item);
                     break;
                 }
                 return;
@@ -57,7 +57,7 @@ public class Equipment : Entity
                     var equipedItem = OffHand;
                     if (equipedItem != null)
                     {
-                        await Creature.AddItem(equipedItem);
+                        Creature.AddItemToInventory(equipedItem);
                     }
                     OffHand = item;
                 }
@@ -67,14 +67,33 @@ public class Equipment : Entity
         }
     }
 
-    public async Task Unequip(Guid itemId, EquipableSlot slot)
+    public void Unequip(EquipableSlot slot)
     {
         var item = GetItem(slot);
         if (item is not null)
         {
-            await Creature.AddItem(item);
-            ItemBySlot[slot] = null;
+            Creature.AddItemToInventory(item);
+            UnequipSlot(slot);
         }
+    }
+
+    private void UnequipSlot(EquipableSlot slot)
+    {
+        var unequipActions = new Dictionary<EquipableSlot, Action>
+        {
+            { EquipableSlot.MainHand, () => MainHand = null },
+            { EquipableSlot.Chest, () => Chest = null },
+            { EquipableSlot.Hands, () => Hands = null },
+            { EquipableSlot.Arms, () => Arms = null },
+            { EquipableSlot.RightRing, () => RightRing = null },
+            { EquipableSlot.LeftRing, () => LeftRing = null },
+            { EquipableSlot.Neck, () => Neck = null },
+            { EquipableSlot.Feet, () => Feet = null },
+            { EquipableSlot.Waist, () => Waist = null },
+            { EquipableSlot.Head, () => Head = null },
+            { EquipableSlot.OffHand, () => OffHand = null },
+        };
+        unequipActions[slot]();
     }
 
     private ItemInstance? GetItem(EquipableSlot slot)
@@ -97,5 +116,6 @@ public class Equipment : Entity
         { EquipableSlot.Head, Head },
         { EquipableSlot.OffHand, OffHand },
     };
+
 }
 
