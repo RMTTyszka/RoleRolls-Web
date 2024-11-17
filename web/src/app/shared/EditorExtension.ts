@@ -58,7 +58,6 @@ export function getAsForm(entity: any, requiredFields: string[] = [], disabledFi
   return form;
 }
 export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityName: string) {
-  const localEntityName = entityName; // Cópia local
   Object.entries(entity).forEach((entry) => {
     if (entry[1] instanceof Array) {
       const array = form.get(entry[0]) as UntypedFormArray;
@@ -71,9 +70,14 @@ export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityNa
         }
       });
     } else if (entry[1] instanceof Object) {
-      const newGroup = form.get(entry[0]) as UntypedFormGroup;
-      if (newGroup) {
-        ultraPatchValue(newGroup, entry[1], localEntityName);
+      let newGroup = form.get(entry[0]) as UntypedFormGroup;
+      if (newGroup instanceof FormControl) {
+        newGroup = getAsForm(entry[1]);
+        form.removeControl(entry[0]);
+        form.addControl(entry[0] , newGroup);
+        ultraPatchValue(newGroup, entry[1], entry[0]);
+      } else {
+        ultraPatchValue(newGroup, entry[1], entry[0]);
       }
     } else {
       const control = form.get(entry[0]) as UntypedFormControl;

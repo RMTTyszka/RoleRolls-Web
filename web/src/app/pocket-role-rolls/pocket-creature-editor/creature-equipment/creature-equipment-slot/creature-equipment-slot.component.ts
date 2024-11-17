@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {ItemModel} from '../../../../shared/models/pocket/creatures/item-model';
 import {InputTextModule} from 'primeng/inputtext';
@@ -28,7 +28,7 @@ import {getAsForm} from '../../../../shared/EditorExtension';
   templateUrl: './creature-equipment-slot.component.html',
   styleUrl: './creature-equipment-slot.component.scss'
 })
-export class CreatureEquipmentSlotComponent implements OnInit {
+export class CreatureEquipmentSlotComponent implements OnInit, OnDestroy {
 
   public item: ItemModel;
   @Input() public slot: string;
@@ -43,6 +43,10 @@ export class CreatureEquipmentSlotComponent implements OnInit {
     private campaignDetailsService: PocketCampaignDetailsService,
     private creatureDetailsService: CreatureDetailsService,
   ) {
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionManager.clear();
   }
   ngOnInit() {
     this.getItems();
