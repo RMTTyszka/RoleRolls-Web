@@ -7,6 +7,7 @@ export class CreatureTemplateModel extends Entity {
   public attributes: AttributeTemplateModel[];
   public skills: SkillTemplateModel[];
   public lifes: LifeTemplateModel[];
+  public defenses: DefenseTemplateModel[];
 
   constructor() {
     super();

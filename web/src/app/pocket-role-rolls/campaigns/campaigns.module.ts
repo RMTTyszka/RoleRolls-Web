@@ -47,6 +47,9 @@ import {TabMenuModule} from "primeng/tabmenu";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {CreatureEquipmentComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-equipment/creature-equipment.component';
 import {CreatureInventoryComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-inventory/creature-inventory.component';
+import {
+    ItemConfigurationComponent
+} from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/item-configuration.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -73,30 +76,31 @@ const routes: Routes = [
     CampaignItensTemplateComponent,
     CampaignItemCreatorComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
 
-    SlideMenuModule,
+        SlideMenuModule,
 
-    SharedModule,
-    PanelModule,
-    DynamicDialogModule,
-    AutoCompleteModule,
-    TieredMenuModule,
-    SidebarModule,
-    MessagesModule,
-    ConfirmDialogModule,
-    DividerModule,
-    ProgressSpinnerModule,
-    TimelineModule,
-    CardModule,
-    TabViewModule,
-    InputTextModule,
-    TabMenuModule,
-    RadioButtonModule,
-    CreatureEquipmentComponent,
-    CreatureInventoryComponent
-  ]
+        SharedModule,
+        PanelModule,
+        DynamicDialogModule,
+        AutoCompleteModule,
+        TieredMenuModule,
+        SidebarModule,
+        MessagesModule,
+        ConfirmDialogModule,
+        DividerModule,
+        ProgressSpinnerModule,
+        TimelineModule,
+        CardModule,
+        TabViewModule,
+        InputTextModule,
+        TabMenuModule,
+        RadioButtonModule,
+        CreatureEquipmentComponent,
+        CreatureInventoryComponent,
+        ItemConfigurationComponent
+    ]
 })
 export class CampaignsModule { }

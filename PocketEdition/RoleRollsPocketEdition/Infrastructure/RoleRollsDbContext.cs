@@ -5,6 +5,7 @@ using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Configurations;
 using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition._Domain.Powers.Entities;
 using RoleRollsPocketEdition._Domain.Rolls.Entities;
@@ -45,6 +46,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<ItemInstance?> ItemInstances { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<ItemConfiguration> ItemConfigurations { get; set; }
 
         private readonly IConfiguration _configuration;
 

@@ -30,16 +30,24 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 (formula, attribute) => formula.Replace(attribute.Name, attribute.Value.ToString()));
      
             DataTable dt = new DataTable();
-            var result = dt.Compute(replacesFormula,"");
-            if (result is null)
+            try
             {
-                return;
-            }
+                var result = dt.Compute(replacesFormula,"");
+                if (result is null)
+                {
+                    return;
+                }
 
-            if (int.TryParse(result.ToString(), out var value))
-            {
-                MaxValue = value;
+                if (int.TryParse(result.ToString(), out var value))
+                {
+                    MaxValue = value;
+                }
             }
+            catch (Exception)
+            {
+                MaxValue = 0;
+            }
+            
         }
     }
    

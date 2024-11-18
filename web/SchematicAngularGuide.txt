@@ -1,0 +1,101 @@
+
+Sim, você pode criar um schematics no Angular para gerar serviços com essa estrutura padrão. Aqui está uma visão geral do processo para criar um schematic:
+
+### Passos para criar o Schematic:
+
+1. **Configurar o projeto do Schematic:**
+   - Crie um novo projeto para seu schematic:
+     ```bash
+     ng generate workspace-schematic my-schematic
+     cd projects/my-schematic
+     ```
+   - Altere para o diretório do projeto do schematic.
+
+2. **Adicionar o template do serviço:**
+   - No diretório `files`, adicione o arquivo `__name@dasherize__.service.ts`:
+     ```typescript
+     import { Injectable } from '@angular/core';
+     import { HttpClient } from '@angular/common/http';
+     import { Observable } from 'rxjs';
+
+     @Injectable({
+       providedIn: 'root',
+     })
+     export class __name@camelize__Service {
+       private path = '__path__';
+
+       constructor(private httpClient: HttpClient) {}
+
+       public get(): Observable<any> {
+         return this.httpClient.get<any>(\`\${this.path}\`);
+       }
+
+       public create(): Observable<never> {
+         return this.httpClient.post<never>(\`\${this.path}\`, {});
+       }
+
+       public update(): Observable<never> {
+         return this.httpClient.put<never>(\`\${this.path}\`, {});
+       }
+
+       public delete(): Observable<never> {
+         return this.httpClient.delete<never>(\`\${this.path}\`);
+       }
+     }
+     ```
+
+3. **Atualizar o `schema.json`:**
+   - No arquivo `schema.json`, defina as opções do usuário:
+     ```json
+     {
+       "$schema": "http://json-schema.org/schema",
+       "id": "serviceSchematic",
+       "title": "Service Schematic",
+       "type": "object",
+       "properties": {
+         "name": {
+           "type": "string",
+           "description": "The name of the service."
+         },
+         "path": {
+           "type": "string",
+           "description": "The API path for the service.",
+           "default": "api-path"
+         }
+       },
+       "required": ["name"]
+     }
+     ```
+
+4. **Criar o código do schematic:**
+   - No arquivo `index.ts`, use o `schematics` para gerar o serviço com base nos valores fornecidos:
+     ```typescript
+     import { Rule, SchematicContext, Tree, apply, mergeWith, template, url } from '@angular-devkit/schematics';
+     import { strings } from '@angular-devkit/core';
+     import { Schema } from './schema';
+
+     export function serviceSchematic(options: Schema): Rule {
+       return (tree: Tree, _context: SchematicContext) => {
+         const templateSource = apply(url('./files'), [
+           template({
+             ...options,
+             ...strings,
+           }),
+         ]);
+
+         return mergeWith(templateSource)(tree, _context);
+       };
+     }
+     ```
+
+5. **Testar o schematic:**
+   - Compilar o schematic:
+     ```bash
+     npm run build
+     ```
+   - Use o schematic no seu projeto Angular:
+     ```bash
+     ng generate my-schematic:service-schematic --name=campaign --path=campaigns
+     ```
+
+O código acima irá gerar um arquivo `campaign.service.ts` com a estrutura do serviço baseado nos parâmetros fornecidos (`name` e `path`).
