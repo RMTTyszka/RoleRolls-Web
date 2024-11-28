@@ -96,7 +96,7 @@ public class Equipment : Entity
         unequipActions[slot]();
     }
 
-    private ItemInstance? GetItem(EquipableSlot slot)
+    public ItemInstance? GetItem(EquipableSlot slot)
     {
         return ItemBySlot.GetValueOrDefault(slot);
     }

@@ -1,10 +1,12 @@
 ﻿using System.Data;
+using RoleRollsPocketEdition._Application.Attacks.Services;
 using RoleRollsPocketEdition._Application.Creatures;
 using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition._Domain.Itens;
+using RoleRollsPocketEdition._Domain.Itens.Templates;
 using RoleRollsPocketEdition._Domain.Rolls.Entities;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
@@ -47,6 +49,8 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         {
             Attribute? attribute;
             Skill? skill;
+            MinorSkill? minorSkill;
+            int rollBonus;
             switch (propertyType)
             {
                 case RollPropertyType.Attribute:
@@ -56,13 +60,32 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                     attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
                     return (attribute.Value, 0);
                 case RollPropertyType.MinorSkill:
-                    var minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
                     skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
                     attribute = Attributes.First(at => at.Id == skill.AttributeId);
-                    var rollBonus = minorSkill.Points;
+                    rollBonus = minorSkill.Points;
                     return (attribute.Value, rollBonus);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    attribute = Attributes.FirstOrDefault(at => at.Id == propertyId);
+                    if (attribute != null)
+                    {
+                        return (attribute.Value, 0);
+                    }         
+                    skill = Skills.FirstOrDefault(at => at.Id == propertyId);
+                    if (skill != null)
+                    {
+                        return (skill.Value, 0);
+                    }      
+                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    if (minorSkill != null)
+                    {
+                        skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
+                        attribute = Attributes.First(at => at.Id == skill.AttributeId);
+                        rollBonus = minorSkill.Points;
+                        return (attribute.Value, rollBonus);
+                    }
+
+                    return (0, 0);
             }
         }
         public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType creatureType) 
@@ -290,6 +313,15 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public void Unequip(EquipableSlot slot)
         { 
             Equipment.Unequip(slot);
+        }
+
+        public AttackResult Attack(Creature target, AttackCommand input)
+        {
+            var weapon = Equipment.GetItem(input.WeaponSlot);
+            var template = weapon.Template as WeaponTemplate;
+            var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(template.Category);
+            var damageProperty = input.ItemConfiguration.GetWeaponDamageProperty(template.Category);
+            var attackProperty = GetPropertyValue(RollPropertyType.MinorSkill, .)
         }
     }
    
