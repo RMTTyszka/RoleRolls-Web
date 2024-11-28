@@ -25,7 +25,7 @@ public class AttackService
         {
             ItemConfiguration = await _context.ItemConfigurations.FirstAsync(e => e.CampaignId == campaignId)
         };
-        var attackResult = attacker.Attack(target, input);
+        var attackResult = attacker.Attack(target, command);
     }
 }
 
@@ -36,12 +36,10 @@ public class AttackInput
 }
 public class AttackCommand
 {
-    public Guid DefenseId { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; }
 }
 public class AttackResult
 {
-    public Guid DefenseId { get; set; }
-    public EquipableSlot WeaponSlot { get; set; }
+    
 }

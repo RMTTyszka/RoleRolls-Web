@@ -7,13 +7,14 @@ public class ItemConfiguration : Entity
 {
     public Campaign Campaign { get; set; }
     public Guid CampaignId { get; set; }
-    public Guid? ArmorDefenseId { get; set; }
-    public Guid? LightWeaponHitPropertyId { get; set; }
-    public Guid? MediumWeaponHitPropertyId { get; set; }
-    public Guid? HeavyWeaponHitPropertyId { get; set; }   
-    public Guid? LightWeaponDamagePropertyId { get; set; }
-    public Guid? MediumWeaponDamagePropertyId { get; set; }
-    public Guid? HeavyWeaponDamagePropertyId { get; set; }
+    public Guid? ArmorDefenseId { get; private set; }
+    public Guid? BasicAttackTargetLifeId { get; private set; }
+    public Guid? LightWeaponHitPropertyId { get; private set; }
+    public Guid? MediumWeaponHitPropertyId { get; private set; }
+    public Guid? HeavyWeaponHitPropertyId { get; private set; }   
+    public Guid? LightWeaponDamagePropertyId { get; private set; }
+    public Guid? MediumWeaponDamagePropertyId { get; private set; }
+    public Guid? HeavyWeaponDamagePropertyId { get; private set; }
 
     public void Update(ItemConfigurationModel model)
     {
@@ -24,18 +25,33 @@ public class ItemConfiguration : Entity
         LightWeaponDamagePropertyId = model.LightWeaponDamagePropertyId;
         MediumWeaponDamagePropertyId = model.MediumWeaponDamagePropertyId;
         HeavyWeaponDamagePropertyId = model.HeavyWeaponDamagePropertyId;
+        BasicAttackTargetLifeId = model.BasicAttackTargetLifeId;
     }
 
-    public Guid? GetWeaponHitProperty(WeaponCategory weaponCategory)
+    public Guid GetWeaponHitProperty(WeaponCategory weaponCategory)
     {
         switch (weaponCategory)
         {
             case WeaponCategory.Light:
-                return LightWeaponHitPropertyId;
+                return LightWeaponHitPropertyId.Value;
             case WeaponCategory.Medium:
-                return MediumWeaponHitPropertyId;
+                return MediumWeaponHitPropertyId.Value;
             case WeaponCategory.Heavy:
-                return HeavyWeaponHitPropertyId;
+                return HeavyWeaponHitPropertyId.Value;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
+        }
+    }    
+    public Guid GetWeaponDamageProperty(WeaponCategory weaponCategory)
+    {
+        switch (weaponCategory)
+        {
+            case WeaponCategory.Light:
+                return LightWeaponDamagePropertyId.Value;
+            case WeaponCategory.Medium:
+                return MediumWeaponDamagePropertyId.Value;
+            case WeaponCategory.Heavy:
+                return HeavyWeaponDamagePropertyId.Value;
             default:
                 throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
         }

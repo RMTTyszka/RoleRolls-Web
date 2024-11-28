@@ -10,6 +10,8 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public int Value { get; set; }
         public Guid AttributeTemplateId { get; set; }
 
+        // TODO bonus
+        public int TotalValue => Value;
         public Attribute()
         {
         }

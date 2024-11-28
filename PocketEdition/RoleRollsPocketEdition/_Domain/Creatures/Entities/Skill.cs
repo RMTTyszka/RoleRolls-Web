@@ -14,7 +14,9 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public List<MinorSkill> MinorSkills { get; set; }
 
         public int PointsLimit => Math.Max(3 + MinorSkills.Count - 1, 0); 
-        public int UsedPoints => MinorSkills.Sum(minorSkill => minorSkill.Points); 
+        public int UsedPoints => MinorSkills.Sum(minorSkill => minorSkill.Points);
+        public int TotalValue => Value + PointsLimit;
+
         public Skill()
         {
         }

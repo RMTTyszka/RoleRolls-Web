@@ -9,12 +9,11 @@
         public int CriticalMisses { get; set; }
         public int? Dificulty { get; set; }
         public int? Complexity { get; set; }
-        public bool? Success { get; set; }
+        public bool Success { get; set; }
+        public int SuccessTimes { get; set; }
     }
     public class RollCheck 
     {
-        public Guid SkillId { get; set; }
-        public Guid AttributeId { get; set; }
         public int? Dificulty { get; set; }
         public int? Complexity { get; set; }
         public int Bonus { get; set; }

@@ -9,6 +9,7 @@ public class ItemConfigurationModel
     public Guid? LightWeaponDamagePropertyId { get; set; }
     public Guid? MediumWeaponDamagePropertyId { get; set; }
     public Guid? HeavyWeaponDamagePropertyId { get; set; }
+    public Guid? BasicAttackTargetLifeId { get; set; }
 
     public static ItemConfigurationModel FromConfiguration(ItemConfiguration? itemConfiguration)
     {
@@ -26,6 +27,7 @@ public class ItemConfigurationModel
             LightWeaponDamagePropertyId = itemConfiguration.LightWeaponDamagePropertyId,
             MediumWeaponDamagePropertyId = itemConfiguration.MediumWeaponDamagePropertyId,
             HeavyWeaponDamagePropertyId = itemConfiguration.HeavyWeaponDamagePropertyId,
+            BasicAttackTargetLifeId = itemConfiguration.BasicAttackTargetLifeId,
         };
     }
 }
