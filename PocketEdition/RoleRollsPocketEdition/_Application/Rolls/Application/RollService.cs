@@ -135,7 +135,7 @@ namespace RoleRollsPocketEdition._Application.Rolls.Application
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
-            var rollCommand = new RollDiceCommand(property.propertyValue, input.PropertyBonus, input.RollBonus + property.rollBonus, input.Difficulty, input.Complexity, input.Rolls);
+            var rollCommand = new RollDiceCommand(property.Value, input.PropertyBonus, input.RollBonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
             var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
