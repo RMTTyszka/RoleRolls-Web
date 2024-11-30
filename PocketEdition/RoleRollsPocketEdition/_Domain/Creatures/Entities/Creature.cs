@@ -351,6 +351,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             var weaponTemplate = weapon.Template as WeaponTemplate;
             var damageMaxValue = WeaponDefinition.DamageFlatBonus(weaponTemplate.Category);
             var damageValue = random.Next(0, 21);
+            return damageValue;
         }
     }
    

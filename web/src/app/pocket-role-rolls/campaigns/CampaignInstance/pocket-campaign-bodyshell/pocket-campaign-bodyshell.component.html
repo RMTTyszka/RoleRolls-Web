@@ -12,7 +12,7 @@
           </div>
         </p-fieldset>
         <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event.target)" #invitationButton></button>
-        <button *ngIf="!notInvited" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
+        <button *ngIf="!notInvited || isMaster" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
       </div>
     </ng-template>
   <div class="p-grid p-justify-between p-align-start">
