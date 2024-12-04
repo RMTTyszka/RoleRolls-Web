@@ -43,6 +43,20 @@ public static class WeaponDefinition
             default:
                 throw new ArgumentOutOfRangeException(nameof(category), category, null);
         }
+    }     
+    public static int MaxDamage(WeaponCategory category)
+    {
+        switch (category)
+        {
+            case WeaponCategory.Light:
+                return 4;
+            case WeaponCategory.Medium:
+                return 8;
+            case WeaponCategory.Heavy:
+                return 12;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(category), category, null);
+        }
     }   
     public static int DamageBonusModifier(WeaponCategory category)
     {

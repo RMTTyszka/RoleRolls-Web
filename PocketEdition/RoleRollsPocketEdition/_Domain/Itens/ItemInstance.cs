@@ -15,6 +15,7 @@ public class ItemInstance : Entity
     
     public Guid TemplateId { get; set; }
     public ItemTemplate Template { get; set; }
+    public ArmorTemplate? ArmorTemplate => Template as ArmorTemplate;
 
     public void Update(ItemInstanceUpdate input)
     {

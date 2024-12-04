@@ -222,6 +222,13 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 Id = Guid.NewGuid(),
                 ActorId = Id,
             };
+        }        
+        public SceneAction TakeBasicDamage(Guid lifeId, int value)
+        {
+            var x = Equipment.Chest;
+            var armorTemplate = x.ArmorTemplate;
+            
+            return TakeDamage(lifeId);
         }
 
         public SceneAction Heal(Guid lifeId, int value)
@@ -331,10 +338,12 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             }, hitProperty.Value);
             if (roll.Success)
             {
-                var totalDamage = 0;
+                var damages = new List<DamageRollResult>();
                 for (var i = 0; i < roll.SuccessTimes; i++)
                 {
                     var damage = RollDamage(weapon, damageProperty);
+                    damages.Add(damage);
+                    target.TakeDamage()
                 }
             }
 
@@ -345,13 +354,24 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 
         }
 
-        private int RollDamage(ItemInstance weapon, PropertyValue damageProperty)
+        private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty)
         {
+            var result = new DamageRollResult();
             var random = new Random();
             var weaponTemplate = weapon.Template as WeaponTemplate;
-            var damageMaxValue = WeaponDefinition.DamageFlatBonus(weaponTemplate.Category);
-            var damageValue = random.Next(0, 21);
-            return damageValue;
+            var maxValue = WeaponDefinition.MaxDamage(weaponTemplate.Category);
+            var flatBonus = WeaponDefinition.DamageFlatBonus(weaponTemplate.Category);
+            var bonusModifier = WeaponDefinition.DamageBonusModifier(weaponTemplate.Category);
+            var damage = random.Next(0, maxValue);
+            result.DiceValue = damage;
+            result.BonusModifier = bonusModifier;
+            result.FlatBonus = flatBonus;
+            damage += flatBonus;
+            damage += weapon.Level * bonusModifier;
+            damage += damageProperty.Bonus * bonusModifier;
+            result.TotalDamage = damage;
+            // TODO any extra damage * levelModifier;
+            return result;
         }
     }
    
