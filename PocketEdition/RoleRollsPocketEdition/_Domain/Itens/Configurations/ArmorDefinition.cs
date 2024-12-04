@@ -13,7 +13,7 @@ public static class ArmorDefinition
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
     }   
-    public static int BaseReduction(ArmorCategory armorCategory)
+    public static int BaseGuard(ArmorCategory armorCategory)
     {
         return armorCategory switch
         {

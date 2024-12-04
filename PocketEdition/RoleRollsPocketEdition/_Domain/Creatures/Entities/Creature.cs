@@ -225,8 +225,16 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         }        
         public SceneAction TakeBasicDamage(Guid lifeId, int value)
         {
-            var x = Equipment.Chest;
-            var armorTemplate = x.ArmorTemplate;
+            var armor = Equipment.Chest;
+            ArmorCategory? armorCategory = null;
+            if (armor is not null)
+            {
+                var armorTemplate = armor.ArmorTemplate;
+                armorCategory = armorTemplate.Category;
+            }
+            var guard = ArmorDefinition.BaseGuard().
+
+            ;
             
             return TakeDamage(lifeId);
         }
