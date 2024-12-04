@@ -206,37 +206,42 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             }
         }
 
-        public SceneAction TakeDamage(Guid lifeId, int value)
+        public CreatureTakeDamageResult TakeDamage(Guid lifeId, int value)
         {
             var life = Lifes.First(life => life.Id == lifeId);
             life.Value -= value;
-            return new SceneAction
+            return new CreatureTakeDamageResult
             {
-                Description = $"{Name} took {value} of {life.Name} damage",
-                ActorType = Type switch
-                {
-                    CreatureType.Hero => ActionActorType.Hero,
-                    CreatureType.Monster => ActionActorType.Monster,
-                    _ => throw new ArgumentOutOfRangeException()
-                },
-                Id = Guid.NewGuid(),
-                ActorId = Id,
+                Name = Name,
+                Value = value,
+                Life = life.Name,
+                ActorId = Id
             };
+
         }        
-        public SceneAction TakeBasicDamage(Guid lifeId, int value)
+        public CreatureTakeDamageResult TakeBasicDamage(Guid lifeId, int value)
+        {
+            var block = GetBasicBlock();
+            value -= block;
+            value = Math.Max(0, value);
+            return TakeDamage(lifeId, value);
+        }
+
+        public int GetBasicBlock()
         {
             var armor = Equipment.Chest;
-            ArmorCategory? armorCategory = null;
+            var armorCategory = ArmorCategory.None;
+            var armorLevelBonus = 0;
             if (armor is not null)
             {
                 var armorTemplate = armor.ArmorTemplate;
                 armorCategory = armorTemplate.Category;
+                armorLevelBonus = armor.GetBonus;
             }
-            var guard = ArmorDefinition.BaseGuard().
 
-            ;
-            
-            return TakeDamage(lifeId);
+            var blockLevelModifier = ArmorDefinition.BlockLevelModifier(armorCategory);
+            var baseBlock = ArmorDefinition.BaseBlock(armorCategory);
+            return blockLevelModifier * armorLevelBonus + baseBlock;
         }
 
         public SceneAction Heal(Guid lifeId, int value)
@@ -351,7 +356,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 {
                     var damage = RollDamage(weapon, damageProperty);
                     damages.Add(damage);
-                    target.TakeDamage()
+                    target.TakeDamage(input.ItemConfiguration.BasicAttackTargetLifeId.Value, damage.TotalDamage);
                 }
             }
 
@@ -368,7 +373,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             var random = new Random();
             var weaponTemplate = weapon.Template as WeaponTemplate;
             var maxValue = WeaponDefinition.MaxDamage(weaponTemplate.Category);
-            var flatBonus = WeaponDefinition.DamageFlatBonus(weaponTemplate.Category);
+            var flatBonus = WeaponDefinition.BaseDamageBonus(weaponTemplate.Category);
             var bonusModifier = WeaponDefinition.DamageBonusModifier(weaponTemplate.Category);
             var damage = random.Next(0, maxValue);
             result.DiceValue = damage;

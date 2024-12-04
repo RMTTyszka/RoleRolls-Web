@@ -4,72 +4,53 @@ public static class WeaponDefinition
 {
     public static int HitDifficulty(WeaponCategory category)
     {
-        switch (category)
+        return category switch
         {
-            case WeaponCategory.Light:
-                return 1;
-            case WeaponCategory.Medium:
-                return 2;
-            case WeaponCategory.Heavy:
-                return 3;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(category), category, null);
-        }
+            WeaponCategory.Light => 1,
+            WeaponCategory.Medium => 2,
+            WeaponCategory.Heavy => 3,
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
     }   
     public static int HitBonus(WeaponCategory category)
     {
-        switch (category)
+        return category switch
         {
-            case WeaponCategory.Light:
-                return 1;
-            case WeaponCategory.Medium:
-                return 2;
-            case WeaponCategory.Heavy:
-                return 3;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(category), category, null);
-        }
+            WeaponCategory.Light => 1,
+            WeaponCategory.Medium => 2,
+            WeaponCategory.Heavy => 2,
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
     }   
-    public static int DamageFlatBonus(WeaponCategory category)
-    {
-        switch (category)
-        {
-            case WeaponCategory.Light:
-                return 1;
-            case WeaponCategory.Medium:
-                return 2;
-            case WeaponCategory.Heavy:
-                return 3;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(category), category, null);
-        }
-    }     
+   
     public static int MaxDamage(WeaponCategory category)
     {
-        switch (category)
+        return category switch
         {
-            case WeaponCategory.Light:
-                return 4;
-            case WeaponCategory.Medium:
-                return 8;
-            case WeaponCategory.Heavy:
-                return 12;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(category), category, null);
-        }
+            WeaponCategory.Light => 6,
+            WeaponCategory.Medium => 10,
+            WeaponCategory.Heavy => 12,
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
     }   
+    public static int BaseDamageBonus(WeaponCategory category)
+    {
+        return category switch
+        {
+            WeaponCategory.Light => 2,
+            WeaponCategory.Medium => 0,
+            WeaponCategory.Heavy => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
+    }  
     public static int DamageBonusModifier(WeaponCategory category)
     {
-        switch (category)
+        return category switch
         {
-            case WeaponCategory.Light:
-                return 1;
-            case WeaponCategory.Medium:
-                return 2;
-            case WeaponCategory.Heavy:
-                return 3;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(category), category, null);
-        }
+            WeaponCategory.Light => 2,
+            WeaponCategory.Medium => 3,
+            WeaponCategory.Heavy => 4,
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
     }
 }

@@ -2,6 +2,7 @@ namespace RoleRollsPocketEdition._Domain.Itens.Configurations;
 
 public static class ArmorDefinition
 {
+    // AKA  evasion
     public static int DefenseBonus(ArmorCategory armorCategory)
     {
         return armorCategory switch
@@ -12,8 +13,9 @@ public static class ArmorDefinition
             ArmorCategory.Heavy => -3,
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
-    }   
-    public static int BaseGuard(ArmorCategory armorCategory)
+    }  
+    // AKA defense
+    public static int BlockLevelModifier(ArmorCategory armorCategory)
     {
         return armorCategory switch
         {
@@ -21,6 +23,18 @@ public static class ArmorDefinition
             ArmorCategory.Light => 1,
             ArmorCategory.Medium => 2,
             ArmorCategory.Heavy => 3,
+            _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
+        };
+    }    
+    // AKA defense
+    public static int BaseBlock(ArmorCategory armorCategory)
+    {
+        return armorCategory switch
+        {
+            ArmorCategory.None => 0,
+            ArmorCategory.Light => 2,
+            ArmorCategory.Medium => 3,
+            ArmorCategory.Heavy => 4,
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
     }
