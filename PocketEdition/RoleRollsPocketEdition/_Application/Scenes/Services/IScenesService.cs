@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition._Application.Creatures.Models;
+﻿using RoleRollsPocketEdition._Application.Attacks.Services;
+using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition._Domain.Scenes.Models;
 
@@ -15,5 +16,6 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
         Task Update(Guid campaignId, Guid sceneId, SceneModel sceneModel);
         Task DeleteAsync(Guid campaignId, Guid sceneId);
         Task RemoveCreature(Guid campaignId, Guid sceneId, Guid creatureId);
+        void ProcessAction(Guid sceneId, AttackResult attackResult);
     }
 }

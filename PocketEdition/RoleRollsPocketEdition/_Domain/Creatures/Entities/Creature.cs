@@ -219,13 +219,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             };
 
         }        
-        public CreatureTakeDamageResult TakeBasicDamage(Guid lifeId, int value)
-        {
-            var block = GetBasicBlock();
-            value -= block;
-            value = Math.Max(0, value);
-            return TakeDamage(lifeId, value);
-        }
+
 
         public int GetBasicBlock()
         {
@@ -355,15 +349,30 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 for (var i = 0; i < roll.SuccessTimes; i++)
                 {
                     var damage = RollDamage(weapon, damageProperty);
+                    var block = target.GetBasicBlock();
+                    damage.ReducedDamage -= block;
+                    damage.ReducedDamage = Math.Max(0, damage.ReducedDamage);
                     damages.Add(damage);
                     target.TakeDamage(input.ItemConfiguration.BasicAttackTargetLifeId.Value, damage.TotalDamage);
                 }
+                return new AttackResult
+                {
+                    Attacker = this,
+                    Target = target,
+                    TotalDamage = damages.Sum(d => d.ReducedDamage),
+                    Weapon = weapon,
+                    Success = true
+                };
             }
 
             return new AttackResult
             {
-
+                Attacker = this,
+                Target = target,
+                Weapon = weapon,
+                Success = false
             };
+
 
         }
 
@@ -383,6 +392,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             damage += weapon.Level * bonusModifier;
             damage += damageProperty.Bonus * bonusModifier;
             result.TotalDamage = damage;
+            result.ReducedDamage = damage;
             // TODO any extra damage * levelModifier;
             return result;
         }
