@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition._Application.Attacks.Services;
 using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
@@ -125,6 +126,17 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
             var sceneCreature = await _roleRollsDbContext.SceneCreatures.FirstAsync(creature => creature.CreatureId == creatureId);
             _roleRollsDbContext.SceneCreatures.Remove(sceneCreature);
             await _roleRollsDbContext.SaveChangesAsync();
+        }
+
+        public void ProcessAction(Guid sceneId, AttackResult attackResult)
+        {
+            var result = new SceneAction
+            {
+                Description = $"{attackResult.Attacker.Name} attacked {attackResult.Target.Name} with {attackResult.Weapon.Name} and caused {attackResult.TotalDamage} damage",
+                Id = Guid.NewGuid(),
+                ActorId = attackResult.Attacker.Id,
+                SceneId = sceneId
+            };
         }
     }
 }

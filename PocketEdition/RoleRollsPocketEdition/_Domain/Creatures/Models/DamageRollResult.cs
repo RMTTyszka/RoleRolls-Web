@@ -6,4 +6,5 @@ public class DamageRollResult
     public int FlatBonus { get; set; }
     public int BonusModifier { get; set; }
     public int TotalDamage { get; set; }
+    public int ReducedDamage { get; set; }
 }
