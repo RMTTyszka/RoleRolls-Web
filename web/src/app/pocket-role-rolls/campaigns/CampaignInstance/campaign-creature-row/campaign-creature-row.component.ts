@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { PocketCampaignDetailsService } from '../pocket-campaign-bodyshell/pocke
 import { RollOrigin } from '../campaign-heroes/RollOrigin';
 import {RollInput} from "../../models/RollInput";
 import {SimulateCdInput} from "../../models/SimulateCdInput";
-import {TakeDamageInput} from "../../models/TakeDamangeInput";
+import {AttackInput, TakeDamageInput} from '../../models/TakeDamangeInput';
 import {PocketCampaignsService} from "../../pocket-campaigns.service";
 import {PocketCreatureEditorComponent} from "../../../pocket-creature-editor/pocket-creature-editor.component";
 
@@ -36,8 +36,10 @@ export class CampaignCreatureRowComponent implements OnInit {
   public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
   public simulateCdInputEmitter = new Subject<SimulateCdInput>();
+  public attackInput = signal<AttackInput>(null);
   public rollResultEmitter = new Subject<boolean>();
   public simulateCdResultEmitter = new Subject<boolean>();
+  public displayAttackSidebar = signal<boolean>(false);
   public takeDamageInputEmitter = new Subject<TakeDamageInput>();
   public campaign: PocketCampaignModel = new PocketCampaignModel();
   private selectedCreatureForRoll: PocketCreature;
@@ -248,7 +250,7 @@ export class CampaignCreatureRowComponent implements OnInit {
   public takeDamage(creature: PocketCreature) {
     const input = {
       creature: creature
-    } as TakeDamageInput
+    } as TakeDamageInput;
     this.displayTakeDamageSidebar = true;
     this.takeDamageInputEmitter.next(input);
   }
@@ -256,5 +258,12 @@ export class CampaignCreatureRowComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.subscriptionManager.clear();
+  }
+
+  public attack(creature: PocketCreature) {
+    const input = {
+      creature: creature
+    } as AttackInput;
+    this.displayAttackSidebar.set(true);
   }
 }

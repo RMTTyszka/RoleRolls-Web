@@ -3,3 +3,6 @@ import { PocketCreature } from '../../../shared/models/pocket/creatures/pocket-c
 export class TakeDamageInput {
     public creature: PocketCreature;
 }
+export class AttackInput {
+    public creature: PocketCreature;
+}

@@ -12,6 +12,8 @@
  (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></button>
 <button *ngIf="isMaster || isOwner(creature)" pButton icon="fas fa-tint" class="p-inputgroup-addon" pTooltip="Damage/Heal"
  (click)="takeDamage(creature)"></button>
+  <button *ngIf="isMaster || isOwner(creature)" pButton icon="fas fa-user-slash" class="p-inputgroup-addon" pTooltip="Attack"
+ (click)="attack(creature)"></button>
   <button *ngIf="isMaster" pButton icon="fas fa-calculator" class="p-inputgroup-addon" pTooltip="Simulate CD"
  (click)="selectCreatureForSimulateCd(creature); simulateCdPanel.toggle($event)"></button>
 </div>
@@ -35,6 +37,9 @@
 
 <p-sidebar [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false" [style]="{width:'40em'}">
   <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
+</p-sidebar>
+<p-sidebar [(visible)]="displayAttackSidebar" position="right" [modal]="false" [style]="{width:'40em'}">
+  <rr-make-attack [attackInput]="attackInput" [showMe]="displayAttackSidebar" [campaign]="campaign" [scene]="scene"></rr-make-attack>
 </p-sidebar>
 
 <p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">

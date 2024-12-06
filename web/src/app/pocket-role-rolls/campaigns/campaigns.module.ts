@@ -50,6 +50,7 @@ import {CreatureInventoryComponent} from 'src/app/pocket-role-rolls/pocket-creat
 import {
     ItemConfigurationComponent
 } from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/item-configuration.component';
+import {MakeAttackComponent} from './CampaignInstance/creature-actions/make-attack/make-attack.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -100,7 +101,8 @@ const routes: Routes = [
         RadioButtonModule,
         CreatureEquipmentComponent,
         CreatureInventoryComponent,
-        ItemConfigurationComponent
+        ItemConfigurationComponent,
+        MakeAttackComponent
     ]
 })
 export class CampaignsModule { }
