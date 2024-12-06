@@ -36,7 +36,7 @@ export class CampaignCreatureRowComponent implements OnInit {
   public displayTakeDamageSidebar = false;
   public rollInputEmitter = new Subject<RollInput>();
   public simulateCdInputEmitter = new Subject<SimulateCdInput>();
-  public attackInput = signal<AttackInput>(null);
+  public attacker = signal<PocketCreature>(null);
   public rollResultEmitter = new Subject<boolean>();
   public simulateCdResultEmitter = new Subject<boolean>();
   public displayAttackSidebar = signal<boolean>(false);
@@ -261,9 +261,6 @@ export class CampaignCreatureRowComponent implements OnInit {
   }
 
   public attack(creature: PocketCreature) {
-    const input = {
-      creature: creature
-    } as AttackInput;
     this.displayAttackSidebar.set(true);
   }
 }
