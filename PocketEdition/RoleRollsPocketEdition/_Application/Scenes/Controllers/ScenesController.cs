@@ -47,29 +47,6 @@ namespace RoleRollsPocketEdition._Application.Scenes.Controllers
         {
             await _scenesService.DeleteAsync(campaignId, sceneId);
         }      
-        [HttpGet("{sceneId}/creatures")]
-
-        public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
-        {
-            return await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
-        }        
-        [HttpPost("{sceneId}/heroes")]
-
-        public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
-        {
-            await _scenesService.AddHero(campaignId, sceneId, creatureModels);
-        }       
-        [HttpPost("{sceneId}/monsters")]
-
-        public async Task AddMonster([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
-        {
-            await _scenesService.AddMonster(campaignId, sceneId, creatureModels);
-        }
-
-        [HttpDelete("{sceneId}/creatures/{creatureId}")]
-        public async Task RemoveCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId)
-        {
-            await _scenesService.RemoveCreature(campaignId, sceneId, creatureId);
-        }       
+           
     }
 }

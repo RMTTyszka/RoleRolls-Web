@@ -4,11 +4,17 @@ using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition._Domain.Itens.Configurations;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition._Application.Attacks.Services;
 
-public class AttackService
+public interface IAttackService
+{
+    Task Attack(Guid campaignId, Guid sceneId, Guid attackerId,  AttackInput input);
+}
+
+public class AttackService : IAttackService, ITransientDependency
 {
     private readonly RoleRollsDbContext _context;
     private readonly ICreatureRepository _creatureRepository;
@@ -36,7 +42,9 @@ public class AttackService
 
 public class AttackInput
 {
-    public Guid DefenseId { get; set; }
+    public Guid? DefenseId { get; set; }
+    public Guid TargetId { get; set; }
+    public Guid? LifeId { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
 }
 public class AttackCommand
