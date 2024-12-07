@@ -9,6 +9,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 public interface ICreatureRepository
 {
     Task<List<Creature>> GetFullCreatures(List<Guid> ids);
+    IQueryable<Creature> GetFullCreatureAsQueryable();
     Task<Creature> GetFullCreature(Guid id);
     void Update(Creature creature);
 }
@@ -69,7 +70,8 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
             .ToListAsync();
         return creatures;
     }
-    public async Task<Creature> GetFullCreature(Guid id)
+
+    public IQueryable<Creature> GetFullCreatureAsQueryable()
     {
         var query = _dbContext.Creatures
             .AsSplitQuery()
@@ -111,11 +113,16 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
             .ThenInclude(e => e.Template)
             .Include(creature => creature.Inventory)
             .ThenInclude(inventory => inventory.Items)
-            .ThenInclude(item => item.Template)        
+            .ThenInclude(item => item.Template)
             .Include(creature => creature.Skills)
-            .ThenInclude(skill => skill.MinorSkills)
-            .Where(creature => creature.Id == id);
-        var creature = await query.FirstAsync();
+            .ThenInclude(skill => skill.MinorSkills);
+        return query;
+    }
+
+    public async Task<Creature> GetFullCreature(Guid id)
+    {
+        var query = GetFullCreatureAsQueryable();
+        var creature = await query.FirstAsync(e => e.Id == id);
         creature.ProcessLifes();
         return creature;
     }

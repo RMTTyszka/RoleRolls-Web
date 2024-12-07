@@ -34,5 +34,14 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
         public ICollection<SkillTemplateModel> Skills { get; set; }
 
         public ICollection<LifeTemplateModel> Lifes { get; set; }
+
+        public static CreatureTemplateModel? FromTemplate(CreatureTemplate? campaignCreatureTemplate)
+        {
+            if (campaignCreatureTemplate == null)
+            {
+                return new CreatureTemplateModel();
+            }
+            return new CreatureTemplateModel(campaignCreatureTemplate);
+        }
     }
 }

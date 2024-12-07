@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition._Application.Attacks.Services;
 using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition._Domain.Scenes.Entities;
 using RoleRollsPocketEdition._Domain.Scenes.Models;
@@ -13,10 +14,12 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
     public class ScenesService : IScenesService
     {
         private readonly RoleRollsDbContext _roleRollsDbContext;
+        private readonly ICreatureRepository _creatureRepository;
 
-        public ScenesService(RoleRollsDbContext roleRollsDbContext)
+        public ScenesService(RoleRollsDbContext roleRollsDbContext, ICreatureRepository creatureRepository)
         {
             _roleRollsDbContext = roleRollsDbContext;
+            _creatureRepository = creatureRepository;
         }
 
         public async Task<List<SceneModel>> GetAllAsync(Guid campaignId)
@@ -66,13 +69,10 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
             await _roleRollsDbContext.SaveChangesAsync();
 
         }
-        public Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType) 
+        public Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType)
         {
-            var creatureQuery = _roleRollsDbContext.Creatures.AsNoTracking()
-                .Include(c => c.Attributes)
-                .Include(c => c.Lifes)
-                .Include(c => c.Skills)
-                .ThenInclude(s => s.MinorSkills);
+            var creatureQuery = _creatureRepository.GetFullCreatureAsQueryable()
+                .AsNoTracking();
 
             var creatures = from sceneCreature in _roleRollsDbContext.SceneCreatures.Where(scene => scene.SceneId == sceneId)
                             join creature in creatureQuery on sceneCreature.CreatureId equals creature.Id
@@ -137,6 +137,7 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
                 ActorId = attackResult.Attacker.Id,
                 SceneId = sceneId
             };
+            
         }
     }
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
 import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
 import { v4 as uuidv4 } from 'uuid';
+import {PocketCreature} from 'src/app/shared/models/pocket/creatures/pocket-creature';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class PocketCampaignDetailsService {
   public monsterRemovedToScene = new Subject<void>();
   public heroTookDamage = new Subject<void>();
   public campaign: PocketCampaignModel;
+  public heroes  = signal<PocketCreature[]>([]);
+  public monsters  = signal<PocketCreature[]>([]);
 
   public get currentScene(): CampaignScene {
     if (this.campaign) {

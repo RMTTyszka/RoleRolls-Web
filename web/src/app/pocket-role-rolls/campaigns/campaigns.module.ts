@@ -24,9 +24,6 @@ import {CampaignCreatorComponent} from "./CampaignEditor/campaign-creator/campai
 import {CampaignRollsComponent} from "./CampaignInstance/campaign-rolls/campaign-rolls.component";
 import {CampaignHeroesComponent} from "./CampaignInstance/campaign-heroes/campaign-heroes.component";
 import {CampaignMonstersComponent} from "./CampaignInstance/campaign-monsters/campaign-monsters.component";
-import {
-  PocketCreatureSelectComponent
-} from "./CampaignInstance/pocket-creature-select/pocket-creature-select.component";
 import {RollDiceComponent} from "./CampaignInstance/campaign-rolls/roll-dice/roll-dice.component";
 import {PocketTakeDamageComponent} from "./CampaignInstance/pocket-take-damage/pocket-take-damage.component";
 import {SimulateCdComponent} from "./CampaignInstance/campaign-rolls/simulate-cd/simulate-cd.component";
@@ -51,6 +48,9 @@ import {
     ItemConfigurationComponent
 } from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/item-configuration.component';
 import {MakeAttackComponent} from './CampaignInstance/creature-actions/make-attack/make-attack.component';
+import {
+  PocketCreatureSelectComponent
+} from 'src/app/pocket-role-rolls/campaigns/CampaignInstance/pocket-creature-select/pocket-creature-select.component';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -58,51 +58,53 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    PocketCampaignsComponent,
-    CampaignCreatorComponent,
-    PocketCampaignBodyshellComponent,
-    CampaignRollsComponent,
-    CampaignHeroesComponent,
-    CampaignMonstersComponent,
-    PocketCreatureEditorComponent,
-    PocketCreatureSelectComponent,
-    RollDiceComponent,
-    PocketTakeDamageComponent,
-    SimulateCdComponent,
-    CampaignCreatureRowComponent,
-    CampaignHistoryComponent,
-    HistoryDetailsComponent,
-    CampaignEditorBodyShellComponent,
-    CampaignItensTemplateComponent,
-    CampaignItemCreatorComponent,
-  ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
+    declarations: [
+        PocketCampaignsComponent,
+        CampaignCreatorComponent,
+        PocketCampaignBodyshellComponent,
+        CampaignRollsComponent,
+        CampaignHeroesComponent,
+        CampaignMonstersComponent,
+        PocketCreatureEditorComponent,
+        RollDiceComponent,
+        PocketTakeDamageComponent,
+        SimulateCdComponent,
+        CampaignCreatureRowComponent,
+        CampaignHistoryComponent,
+        HistoryDetailsComponent,
+        CampaignEditorBodyShellComponent,
+        CampaignItensTemplateComponent,
+        CampaignItemCreatorComponent,
+    ],
+    exports: [
+    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
 
-        SlideMenuModule,
+    SlideMenuModule,
 
-        SharedModule,
-        PanelModule,
-        DynamicDialogModule,
-        AutoCompleteModule,
-        TieredMenuModule,
-        SidebarModule,
-        MessagesModule,
-        ConfirmDialogModule,
-        DividerModule,
-        ProgressSpinnerModule,
-        TimelineModule,
-        CardModule,
-        TabViewModule,
-        InputTextModule,
-        TabMenuModule,
-        RadioButtonModule,
-        CreatureEquipmentComponent,
-        CreatureInventoryComponent,
-        ItemConfigurationComponent,
-        MakeAttackComponent
-    ]
+    SharedModule,
+    PanelModule,
+    DynamicDialogModule,
+    AutoCompleteModule,
+    TieredMenuModule,
+    SidebarModule,
+    MessagesModule,
+    ConfirmDialogModule,
+    DividerModule,
+    ProgressSpinnerModule,
+    TimelineModule,
+    CardModule,
+    TabViewModule,
+    InputTextModule,
+    TabMenuModule,
+    RadioButtonModule,
+    CreatureEquipmentComponent,
+    CreatureInventoryComponent,
+    ItemConfigurationComponent,
+    MakeAttackComponent,
+    PocketCreatureSelectComponent
+  ]
 })
 export class CampaignsModule { }

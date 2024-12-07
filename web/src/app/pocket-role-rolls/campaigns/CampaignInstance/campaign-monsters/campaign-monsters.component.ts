@@ -87,7 +87,6 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
   private subscribeToSceneChanges() {
     this.subscriptionManager.add('sceneChanged', this.detailsService.sceneChanged.subscribe((scene: CampaignScene) => {
         this.scene = scene;
-        this.scene = scene;
         if (this.scene) {
           this.refreshMonsteres();
         }
@@ -98,6 +97,7 @@ export class CampaignMonstersComponent implements OnInit, OnDestroy {
     this.campaignService.getSceneCreatures(this.scene.campaignId, this.scene.id, CreatureType.Monster)
     .subscribe((monsteres: PocketCreature[]) => {
       this.monsters = monsteres as PocketMonster[];
+      this.detailsService.monsters.set(monsteres);
     });
   }
 
