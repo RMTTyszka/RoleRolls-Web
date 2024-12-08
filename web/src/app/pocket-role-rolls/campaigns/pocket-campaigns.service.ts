@@ -21,6 +21,7 @@ import { RollInput } from './models/RollInput';
 import { TakeDamageApiInput } from 'src/app/pocket-role-rolls/campaigns/models/TakeDamageApiInput';
 import { SimulateCdInput } from './models/SimulateCdInput';
 import { SimulateCdResult } from './models/simulate-cd-result';
+import {AttackInput} from 'src/app/pocket-role-rolls/campaigns/models/TakeDamangeInput';
 
 @Injectable({
   providedIn: 'root'
@@ -195,6 +196,10 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   public getSceneRolls(campaignId: string, sceneId: string, skipCount: number, maxResultCount: number) {
     const params = new HttpParams().set('skipCount', skipCount).set('maxResultCount', maxResultCount);
     return this.http.get<PagedOutput<PocketRoll>>(`${this.completePath}/${campaignId}/scenes/${sceneId}/rolls`, {params});
+  }
+
+  public attack(campaignId: string, sceneId: string, creatureId: string, input: AttackInput) {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/attack`, input);
   }
 }
 

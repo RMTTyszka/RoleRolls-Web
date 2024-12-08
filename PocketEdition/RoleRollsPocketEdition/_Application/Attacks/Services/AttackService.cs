@@ -4,11 +4,17 @@ using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition._Domain.Itens;
 using RoleRollsPocketEdition._Domain.Itens.Configurations;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition._Application.Attacks.Services;
 
-public class AttackService
+public interface IAttackService
+{
+    Task Attack(Guid campaignId, Guid sceneId, Guid attackerId,  AttackInput input);
+}
+
+public class AttackService : IAttackService, ITransientDependency
 {
     private readonly RoleRollsDbContext _context;
     private readonly ICreatureRepository _creatureRepository;
@@ -23,7 +29,7 @@ public class AttackService
 
     public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input)
     {
-        var attacker = await _creatureRepository.GetFullCreature(attackerId);
+        var attacker = await _creatureRepository.GetFullCreature(attackerId);   
         var target = await _creatureRepository.GetFullCreature(input.TargetId);
         var command = new AttackCommand
         {

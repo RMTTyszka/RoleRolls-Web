@@ -46,10 +46,11 @@ export class CampaignHeroesComponent implements OnInit, OnDestroy {
         this.heroes.forEach(creature => {
           const updatedCreature = heroes.filter(h => h.id == creature.id)[0];
           if (updatedCreature) {
-            Object.assign(creature, updatedCreature)
+            Object.assign(creature, updatedCreature);
           }
         });
       }
+      this.detailsService.heroes.set(this.heroes);
     });
   }
   private subscribeToSceneChanges() {

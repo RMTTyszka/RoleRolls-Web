@@ -261,6 +261,7 @@ export class CampaignCreatureRowComponent implements OnInit {
   }
 
   public attack(creature: PocketCreature) {
+    this.attacker.set(creature);
     this.displayAttackSidebar.set(true);
   }
 }

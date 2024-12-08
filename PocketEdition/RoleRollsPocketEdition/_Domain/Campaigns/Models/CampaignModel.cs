@@ -1,6 +1,7 @@
 ﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition._Domain.Itens.Configurations;
 
 namespace RoleRollsPocketEdition._Domain.Campaigns.Models
 {
@@ -11,22 +12,21 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Models
         public Guid? CreatureTemplateId { get; set; }
 
         public CreatureTemplateModel? CreatureTemplate { get; set; }
+        public ItemConfigurationModel? ItemConfiguration { get; set; }
         public string Name { get; set; }
 
         public CampaignModel()
         {
                 
         }
-        public CampaignModel(Campaign campaign, CreatureTemplate creatureTemplate)
+        public CampaignModel(Campaign campaign)
         {
             Id = campaign.Id;
             MasterId = campaign.MasterId;
             Name = campaign.Name;
             CreatureTemplateId = campaign.CreatureTemplateId;
-            if (creatureTemplate is not null)
-            {
-                CreatureTemplate = new CreatureTemplateModel(creatureTemplate);
-            }
+            CreatureTemplate = CreatureTemplateModel.FromTemplate(campaign.CreatureTemplate);
+            ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.ItemConfiguration);
         }
 
     }

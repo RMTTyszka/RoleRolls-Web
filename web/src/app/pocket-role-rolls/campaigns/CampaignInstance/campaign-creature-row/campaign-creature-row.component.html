@@ -39,7 +39,11 @@
   <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
 </p-sidebar>
 <p-sidebar [(visible)]="displayAttackSidebar" position="right" [modal]="false" [style]="{width:'40em'}">
-  <rr-make-attack [attacker]="attacker" [showMe]="displayAttackSidebar" [campaign]="campaign" [scene]="scene"></rr-make-attack>
+  <rr-make-attack
+    [attacker]="attacker()"
+    [showMe]="displayAttackSidebar()"
+    [campaign]="campaign"
+    [scene]="scene"></rr-make-attack>
 </p-sidebar>
 
 <p-sidebar [(visible)]="displayTakeDamageSidebar" position="right" [modal]="false">

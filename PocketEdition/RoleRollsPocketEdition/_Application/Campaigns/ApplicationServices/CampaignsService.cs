@@ -67,9 +67,19 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         }       
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(id);
-            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
-            var output = new CampaignModel(campaign, creatureTemplate);
+            var campaign = await _dbContext.Campaigns
+                .Include(c => c.CreatureTemplate)
+                .ThenInclude(t => t.Attributes)            
+                .Include(c => c.CreatureTemplate)
+                .ThenInclude(t => t.Defenses)          
+                .Include(c => c.CreatureTemplate)
+                .ThenInclude(t => t.Lifes)      
+                .Include(c => c.CreatureTemplate)
+                .ThenInclude(t => t.Skills)                
+                .ThenInclude(c => c.MinorSkills)
+                .Include(c => c.ItemConfiguration)
+                .FirstAsync(e => e.Id == id);
+            var output = new CampaignModel(campaign);
             return output;
         }       
         public async Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input)
@@ -83,7 +93,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 select campaign)
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount)
-                .Select(campaign => new CampaignModel(campaign, null));
+                .Select(campaign => new CampaignModel(campaign));
             var campaigns = await query.ToListAsync();
             var totalCount = await query.CountAsync();
             var output = new PagedResult<CampaignModel>

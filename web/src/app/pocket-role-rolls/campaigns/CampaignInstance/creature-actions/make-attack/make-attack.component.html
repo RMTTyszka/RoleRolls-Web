@@ -1,1 +1,49 @@
-<p>make-attack works!</p>
+<div *ngIf="form()" class="p-grid">
+  <form  [formGroup]="form()">
+    <div class="p-field p-col-12">
+      <label for="slot-input">Slot</label>
+      <p-dropdown id="slot-input" formControlName="slot" [options]="slotOptions" optionLabel="label" optionValue="value" class="p-col-12">
+      </p-dropdown>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="target-input">Target</label>
+      <rr-pocket-creature-select id="target-input" [creaturesAvailable]="targets" (creatureSelected)="targetSelected($event)" class="p-col-12">
+      </rr-pocket-creature-select>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="hit-input">Hit Property</label>
+      <rr-property-selector id="hit-input" [campaign]="campaign()"
+                            [propertyType]="propertyType.All"
+                            formControlName="hitPropertyId"
+                            class="p-col-12">
+      </rr-property-selector>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="hit-input">Damage Property</label>
+      <rr-property-selector id="damage-input" [campaign]="campaign()"
+                            [propertyType]="propertyType.All"
+                            formControlName="damagePropertyId"
+                            class="p-col-12">
+      </rr-property-selector>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="defense-input">Defense</label>
+      <rr-property-selector id="defense-input" [campaign]="campaign()"
+                            [propertyType]="propertyType.Defense"
+                            formControlName="defenseId"
+                            class="p-col-12">
+      </rr-property-selector>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="life-input">Life</label>
+      <rr-property-selector id="life-input" [campaign]="campaign()"
+                            [propertyType]="propertyType.Life"
+                            formControlName="defenseId"
+                            class="p-col-12">
+      </rr-property-selector>
+    </div>
+  </form>
+  <div class="p-col-12">
+    <button pButton (click)=attack() label="Attack" class="p-col-12 danger-color" [disabled]="!form().valid"></button>
+  </div>
+</div>
