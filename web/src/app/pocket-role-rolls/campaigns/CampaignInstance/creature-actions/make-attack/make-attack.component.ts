@@ -27,6 +27,7 @@ import {ItemInstance} from 'src/app/shared/models/ItemInstance.model';
 import {
   ItemConfigurationModel
 } from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/models/item-configuration-model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'rr-make-attack',
@@ -99,40 +100,40 @@ export class MakeAttackComponent {
       : this.pocketCampaignDetailsService.heroes().concat(this.pocketCampaignDetailsService.monsters());
   }
 
-  attack() {
+  async attack() {
     const input = this.form().value as AttackInput;
-    this.campaignService.attack(this.campaign().id, this.scene().id, this.attacker().id, input);
+    await firstValueFrom(this.campaignService.attack(this.campaign().id, this.scene().id, this.attacker().id, input));
   }
 
   private resolveHitProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
-    if (!mainHand) {
+    if (mainHand) {
       const weaponTemplate = mainHand.template as WeaponTemplateModel;
       switch (weaponTemplate.category) {
         case WeaponCategory.Light:
-          return itemConfiguration.lightWeaponHitAttributeId;
+          return itemConfiguration.lightWeaponHitPropertyId;
         case WeaponCategory.Medium:
-          return itemConfiguration.mediumWeaponHitAttributeId;
+          return itemConfiguration.mediumWeaponHitPropertyId;
         case WeaponCategory.Heavy:
-          return itemConfiguration.heavyWeaponHitAttributeId;
+          return itemConfiguration.heavyWeaponHitPropertyId;
 
       }
     } else {
-      return itemConfiguration.lightWeaponHitAttributeId;
+      return itemConfiguration.lightWeaponHitPropertyId.toString();
     }
   }
   private resolveDamageProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
     if (mainHand) {
-      const weaponTemplate = mainHand.template as WeaponTemplateModel
+      const weaponTemplate = mainHand.template as WeaponTemplateModel;
       switch (weaponTemplate.category) {
         case WeaponCategory.Light:
-          return itemConfiguration.lightWeaponDamageAttributeId;
+          return itemConfiguration.lightWeaponDamagePropertyId;
         case WeaponCategory.Medium:
-          return itemConfiguration.mediumWeaponDamageAttributeId;
+          return itemConfiguration.mediumWeaponDamagePropertyId;
         case WeaponCategory.Heavy:
-          return itemConfiguration.heavyWeaponDamageAttributeId;
+          return itemConfiguration.heavyWeaponDamagePropertyId;
       }
     } else {
-      return itemConfiguration.lightWeaponDamageAttributeId;
+      return itemConfiguration.lightWeaponDamagePropertyId;
     }
   }
 }

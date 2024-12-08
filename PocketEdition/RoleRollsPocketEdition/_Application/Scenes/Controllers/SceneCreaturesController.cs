@@ -30,7 +30,15 @@ public class SceneCreaturesController : ControllerBase
 
     public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
     {
-        await _scenesService.AddHero(campaignId, sceneId, creatureModels);
+        if (creatureModels.Select(e => e.CreatureType).First() == CreatureType.Hero)
+        {
+            await _scenesService.AddHero(campaignId, sceneId, creatureModels);
+        }
+        else
+        {
+            await _scenesService.AddMonster(campaignId, sceneId, creatureModels);
+        }
+
     }       
 
     [HttpDelete("{creatureId}")]

@@ -1,26 +1,33 @@
-import { HttpParams, HttpResponse } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { LOH_API } from 'src/app/loh.api';
-import { BaseCrudService } from 'src/app/shared/base-service/base-crud-service';
-import { RRColumns } from 'src/app/shared/components/cm-grid/cm-grid.component';
-import { PagedOutput } from 'src/app/shared/dtos/PagedOutput';
-import { CreatureType } from 'src/app/shared/models/creatures/CreatureType';
-import { AcceptInvitationInput } from 'src/app/shared/models/pocket/campaigns/accept-invitation-input';
-import { CampaignScene } from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
-import { CampaignPlayer } from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
-import { PocketCampaignModel } from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import { SceneCreature } from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
-import { AttributeTemplateModel, CreatureTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
-import { PocketCreature } from 'src/app/shared/models/pocket/creatures/pocket-creature';
-import { v4 as uuidv4 } from 'uuid';
-import { PocketRoll } from './models/pocket-roll.model';
-import { RollInput } from './models/RollInput';
-import { TakeDamageApiInput } from 'src/app/pocket-role-rolls/campaigns/models/TakeDamageApiInput';
-import { SimulateCdInput } from './models/SimulateCdInput';
-import { SimulateCdResult } from './models/simulate-cd-result';
+import {HttpParams, HttpResponse} from '@angular/common/http';
+import {Injectable, Injector} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {AuthenticationService} from 'src/app/authentication/authentication.service';
+import {LOH_API} from 'src/app/loh.api';
+import {BaseCrudService} from 'src/app/shared/base-service/base-crud-service';
+import {RRColumns} from 'src/app/shared/components/cm-grid/cm-grid.component';
+import {PagedOutput} from 'src/app/shared/dtos/PagedOutput';
+import {CreatureType} from 'src/app/shared/models/creatures/CreatureType';
+import {AcceptInvitationInput} from 'src/app/shared/models/pocket/campaigns/accept-invitation-input';
+import {CampaignScene} from 'src/app/shared/models/pocket/campaigns/campaign-scene-model';
+import {CampaignPlayer} from 'src/app/shared/models/pocket/campaigns/CampaignPlayer.model';
+import {PocketCampaignModel} from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
+import {SceneCreature} from 'src/app/shared/models/pocket/campaigns/scene-creature.model';
+import {
+  AttributeTemplateModel,
+  CreatureTemplateModel,
+  DefenseTemplateModel,
+  LifeTemplateModel,
+  MinorSkillsTemplateModel,
+  SkillTemplateModel
+} from 'src/app/shared/models/pocket/creature-templates/creature-template.model';
+import {PocketCreature} from 'src/app/shared/models/pocket/creatures/pocket-creature';
+import {v4 as uuidv4} from 'uuid';
+import {PocketRoll} from './models/pocket-roll.model';
+import {RollInput} from './models/RollInput';
+import {TakeDamageApiInput} from 'src/app/pocket-role-rolls/campaigns/models/TakeDamageApiInput';
+import {SimulateCdInput} from './models/SimulateCdInput';
+import {SimulateCdResult} from './models/simulate-cd-result';
 import {AttackInput} from 'src/app/pocket-role-rolls/campaigns/models/TakeDamangeInput';
 
 @Injectable({
@@ -161,7 +168,8 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/heroes`, [input]);
   }
   public addMonsterToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/monsters`, [input]);
+    input.creatureType = CreatureType.Monster;
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public removeCreatureFromScene(campaignId: string, sceneId: string, creatureId: string) {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}`);
@@ -199,7 +207,7 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
   }
 
   public attack(campaignId: string, sceneId: string, creatureId: string, input: AttackInput) {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/attack`, input);
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/attacks`, input);
   }
 }
 

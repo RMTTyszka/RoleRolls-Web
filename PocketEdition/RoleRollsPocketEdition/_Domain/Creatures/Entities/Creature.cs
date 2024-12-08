@@ -47,7 +47,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 
         public int DefenseValue(Guid id)
         {
-            var defense = Defenses.Where(x => x.Id == id).FirstOrDefault();
+            var defense = Defenses.Where(x => x.Id == id || x.DefenseTemplateId == id).First();
             var value = ApplyFormula(defense.Formula);
             return value;
         }
@@ -64,7 +64,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             switch (propertyType)
             {
                 case RollPropertyType.Attribute:
-                    var value = Attributes.First(at => at.Id == propertyId).Value;
+                    var value = Attributes.First(at => at.Id == propertyId || at.AttributeTemplateId == propertyId).Value;
                     result.Value = value;
                     break;
                 case RollPropertyType.Skill:
@@ -82,7 +82,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                     result.Bonus = rollBonus;
                     break;
                 default:
-                    attribute = Attributes.FirstOrDefault(at => at.Id == propertyId);
+                    attribute = Attributes.FirstOrDefault(at => at.Id == propertyId || at.AttributeTemplateId == propertyId);
                     if (attribute != null)
                     {
                         result.Value = attribute.Value;
@@ -93,7 +93,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                         result.Value = attribute.Value;
                         result.Bonus = 0;
                     }      
-                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).FirstOrDefault(minorSkill => minorSkill.Id == propertyId);
                     if (minorSkill != null)
                     {
                         skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
