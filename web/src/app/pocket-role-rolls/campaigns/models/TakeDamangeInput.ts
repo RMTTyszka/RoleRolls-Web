@@ -7,6 +7,8 @@ export class TakeDamageInput {
 export class AttackInput {
     public slot: EquipableSlot;
     public defenseId: string;
+    public hitPropertyId: string;
+    public damagePropertyId: string;
     public lifeId: string;
     public targetId: string;
 }

@@ -34,7 +34,11 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public properties = computed<RROption<string>[]>(() => {
     switch (this.propertyType()) {
       case PropertyType.All:
-        return [];
+        return this.attributes()
+          .concat(this.skills()
+            .concat(this.minorSkills()
+              .concat(this.defenses()
+                .concat(this.lifes()))));
       case PropertyType.Attribute:
         return this.attributes();
       case PropertyType.Skill:

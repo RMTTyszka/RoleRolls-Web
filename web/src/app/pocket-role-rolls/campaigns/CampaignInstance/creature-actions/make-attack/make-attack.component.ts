@@ -21,6 +21,12 @@ import {
 import {PropertySelectorComponent} from 'src/app/pocket-role-rolls/components/property-selector/property-selector.component';
 import {ButtonDirective} from 'primeng/button';
 import {PocketCampaignsService} from 'src/app/pocket-role-rolls/campaigns/pocket-campaigns.service';
+import {WeaponCategory, WeaponTemplateModel} from 'src/app/shared/models/pocket/itens/ItemTemplateModel';
+import {ItemModel} from 'src/app/shared/models/pocket/creatures/item-model';
+import {ItemInstance} from 'src/app/shared/models/ItemInstance.model';
+import {
+  ItemConfigurationModel
+} from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/models/item-configuration-model';
 
 @Component({
   selector: 'rr-make-attack',
@@ -63,10 +69,15 @@ export class MakeAttackComponent {
       }
       this.resolveTargets();
       const itemConfiguration = this.campaign().itemConfiguration;
+      const mainHand = this.attacker().equipment.mainHand;
+      const hitProperty = this.resolveHitProperty(mainHand, itemConfiguration);
+      const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
       return getAsForm({
         slot: EquipableSlot.MainHand,
         lifeId: itemConfiguration.basicAttackTargetLifeId,
         defenseId: itemConfiguration.armorDefenseId,
+        hitPropertyId: hitProperty,
+        damagePropertyId: damageProperty,
         targetId: null,
       } as AttackInput);
     }
@@ -92,4 +103,37 @@ export class MakeAttackComponent {
     const input = this.form().value as AttackInput;
     this.campaignService.attack(this.campaign().id, this.scene().id, this.attacker().id, input);
   }
+
+  private resolveHitProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
+    if (!mainHand) {
+      const weaponTemplate = mainHand.template as WeaponTemplateModel;
+      switch (weaponTemplate.category) {
+        case WeaponCategory.Light:
+          return itemConfiguration.lightWeaponHitAttributeId;
+        case WeaponCategory.Medium:
+          return itemConfiguration.mediumWeaponHitAttributeId;
+        case WeaponCategory.Heavy:
+          return itemConfiguration.heavyWeaponHitAttributeId;
+
+      }
+    } else {
+      return itemConfiguration.lightWeaponHitAttributeId;
+    }
+  }
+  private resolveDamageProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
+    if (mainHand) {
+      const weaponTemplate = mainHand.template as WeaponTemplateModel
+      switch (weaponTemplate.category) {
+        case WeaponCategory.Light:
+          return itemConfiguration.lightWeaponDamageAttributeId;
+        case WeaponCategory.Medium:
+          return itemConfiguration.mediumWeaponDamageAttributeId;
+        case WeaponCategory.Heavy:
+          return itemConfiguration.heavyWeaponDamageAttributeId;
+      }
+    } else {
+      return itemConfiguration.lightWeaponDamageAttributeId;
+    }
+  }
 }
+

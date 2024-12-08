@@ -7,7 +7,7 @@ using RoleRollsPocketEdition._Domain.Scenes.Models;
 
 namespace RoleRollsPocketEdition._Application.Scenes.Controllers;
 
-[Route("campaigns/{campaignId}/scenes{sceneId}/creatures")]
+[Route("campaigns/{campaignId}/scenes/{sceneId}/creatures")]
 public class SceneCreaturesController : ControllerBase
 {
     private readonly ILogger<SceneCreaturesController> _logger;
@@ -20,13 +20,13 @@ public class SceneCreaturesController : ControllerBase
         _attackService = attackService;
         _scenesService = scenesService;
     }
-    [HttpGet("")]
+    [HttpGet()]
 
     public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
     {
         return await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
     }        
-    [HttpPost("")]
+    [HttpPost()]
 
     public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
     {
