@@ -21,13 +21,16 @@ public class AttackService
         _scenesService = scenesService;
     }
 
-    public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, Guid targetId, AttackInput input)
+    public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input)
     {
         var attacker = await _creatureRepository.GetFullCreature(attackerId);
-        var target = await _creatureRepository.GetFullCreature(targetId);
+        var target = await _creatureRepository.GetFullCreature(input.TargetId);
         var command = new AttackCommand
         {
-            ItemConfiguration = await _context.ItemConfigurations.FirstAsync(e => e.CampaignId == campaignId)
+            ItemConfiguration = await _context.ItemConfigurations.FirstAsync(e => e.CampaignId == campaignId),
+            WeaponSlot = input.WeaponSlot,
+            DefenseId = input.DefenseId,
+            LifeId = input.LifeId,
         };
         var attackResult = attacker.Attack(target, command);
         _scenesService.ProcessAction(sceneId, attackResult);
@@ -36,13 +39,19 @@ public class AttackService
 
 public class AttackInput
 {
-    public Guid DefenseId { get; set; }
+    public Guid TargetId { get; set; }
+    public Guid? DefenseId { get; set; }
+    public Guid? LifeId { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
 }
 public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; }
+    public Guid? DefenseId { get; set; }
+    public Guid? LifeId { get; set; }
+    public Guid GetDefenseId => DefenseId ?? ItemConfiguration.ArmorDefenseId.Value;
+    public Guid GetLifeId => LifeId ?? ItemConfiguration.BasicAttackTargetLifeId.Value;
 }
 public class AttackResult
 {

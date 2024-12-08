@@ -333,7 +333,8 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             var damagePropertyId = input.ItemConfiguration.GetWeaponDamageProperty(weaponTemplate.Category);
             var hitProperty = GetPropertyValue(null, hitPropertyId);
             var damageProperty = GetPropertyValue(null, damagePropertyId);
-            var defenseValue = target.DefenseValue(input.ItemConfiguration.ArmorDefenseId.Value);
+            var defenseId = input.GetDefenseId;
+            var defenseValue = target.DefenseValue(defenseId);
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             var totalHit = hitProperty.Bonus + WeaponDefinition.HitBonus(weaponTemplate.Category);
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
@@ -353,7 +354,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                     damage.ReducedDamage -= block;
                     damage.ReducedDamage = Math.Max(0, damage.ReducedDamage);
                     damages.Add(damage);
-                    target.TakeDamage(input.ItemConfiguration.BasicAttackTargetLifeId.Value, damage.TotalDamage);
+                    target.TakeDamage(input.GetLifeId, damage.TotalDamage);
                 }
                 return new AttackResult
                 {
