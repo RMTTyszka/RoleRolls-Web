@@ -27,10 +27,10 @@ public class AttackService : IAttackService, ITransientDependency
         _scenesService = scenesService;
     }
 
-    public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, Guid targetId, AttackInput input)
+    public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input)
     {
-        var attacker = await _creatureRepository.GetFullCreature(attackerId);
-        var target = await _creatureRepository.GetFullCreature(targetId);
+        var attacker = await _creatureRepository.GetFullCreature(attackerId);   
+        var target = await _creatureRepository.GetFullCreature(input.TargetId);
         var command = new AttackCommand
         {
             ItemConfiguration = await _context.ItemConfigurations.FirstAsync(e => e.CampaignId == campaignId)
