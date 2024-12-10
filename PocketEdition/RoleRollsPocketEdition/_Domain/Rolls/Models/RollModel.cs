@@ -5,7 +5,6 @@ namespace RoleRollsPocketEdition._Domain.Rolls.Models
     public class RollModel
     {
         public Guid Id { get; set; }
-        public Guid CampaignId { get; set; }
         public Guid? ActorId { get; set; }
         public string ActorName { get; set; }
 
@@ -30,7 +29,6 @@ namespace RoleRollsPocketEdition._Domain.Rolls.Models
         public RollModel(Roll roll)
         {
             Id = roll.Id;
-            CampaignId = roll.CampaignId;
             SceneId = roll.SceneId;
             ActorId = roll.ActorId;
             RolledDices = roll.RolledDices;

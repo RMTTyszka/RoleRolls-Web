@@ -7,8 +7,8 @@ namespace RoleRollsPocketEdition._Domain.Rolls.Entities
 {
     public class Roll : Entity
     {
-        public Guid CampaignId { get; set; }
         public Guid SceneId { get; set; }
+        public Scene Scene { get; set; }
         public Guid ActorId { get; set; }
         public ActionActorType ActorType { get; set; }
         public string RolledDices { get; set; }
@@ -34,7 +34,6 @@ namespace RoleRollsPocketEdition._Domain.Rolls.Entities
         public Roll(Guid campaignId, Guid sceneId, Guid actorId, Guid propertyId, RollPropertyType propertyType,
             bool hidden, string description)
         {
-            CampaignId = campaignId;
             ActorId = actorId;
             Hidden = hidden;
             SceneId = sceneId;

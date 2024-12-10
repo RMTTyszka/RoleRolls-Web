@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition.Core;
 
@@ -6,6 +7,7 @@ namespace RoleRollsPocketEdition._Domain.Itens.Configurations;
 public class ItemConfiguration : Entity
 {
     public Campaign Campaign { get; set; }
+    [ForeignKey(nameof(Campaign))]
     public Guid CampaignId { get; set; }
     public Guid? ArmorDefenseId { get; private set; }
     public Guid? BasicAttackTargetLifeId { get; private set; }

@@ -12,7 +12,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
         {
             Id = skill.Id;
             Name = skill.Name;
-            AttributeId = skill.AttributeId;
+            AttributeId = skill.AttributeTemplateId;
             PointsLimit = skill.PointsLimit;
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplateModel(minorSkill)).ToList();
         }

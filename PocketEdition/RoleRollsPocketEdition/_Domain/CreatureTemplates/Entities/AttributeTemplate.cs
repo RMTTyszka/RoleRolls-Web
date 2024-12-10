@@ -1,5 +1,6 @@
 ﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition.Core;
+using Attribute = RoleRollsPocketEdition._Domain.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
 {
@@ -17,6 +18,8 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         }
 
         public string Name { get; set; }
+        public ICollection<Attribute> Attributes { get; set; }
+        public ICollection<SkillTemplate> SkillTemplates { get; set; }
 
         public void Update(AttributeTemplateModel attributeModel)
         {

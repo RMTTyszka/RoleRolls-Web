@@ -10,7 +10,9 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public string Name { get; set; }
         public int Value { get; set; }
         public Guid AttributeId { get; set; }
+        public Attribute Attribute { get; set; }
         public Guid SkillTemplateId { get; set; }
+        public SkillTemplate SkillTemplate { get; set; }
         public List<MinorSkill> MinorSkills { get; set; }
 
         public int PointsLimit => Math.Max(3 + MinorSkills.Count - 1, 0); 
@@ -27,6 +29,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             Name = skill.Name;
             AttributeId = attribute.Id;
             SkillTemplateId = skill.Id;
+            SkillTemplate = skill;
             MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkill(minorSkill)).ToList();
         }
 

@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Core;
 
 namespace RoleRollsPocketEdition._Domain.Creatures.Entities
@@ -6,6 +7,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
     public class MinorSkill : Entity
     {
         public Guid MinorSkillTemplateId { get; set; }
+        public MinorSkillTemplate MinorSkillTemplate { get; set; }
         public Guid SkillId { get; set; }
         public string Name { get; set; }
         public int Points { get; set; }
@@ -17,8 +19,10 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         {
             Id = Guid.NewGuid();
             MinorSkillTemplateId = skill.Id;
+            MinorSkillTemplate = skill;
             Name = skill.Name;
         }
+
 
         public void Update(int points)
         {

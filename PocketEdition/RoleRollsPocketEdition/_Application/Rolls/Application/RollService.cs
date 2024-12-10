@@ -32,7 +32,7 @@ namespace RoleRollsPocketEdition._Application.Rolls.Application
         {
             var query = from roll in _roleRollsDbContext.Rolls
                 .AsNoTracking()
-                .Where(roll => roll.CampaignId == campaignId && roll.SceneId == sceneId)
+                .Where(roll => roll.SceneId == sceneId)
                         join creature in _roleRollsDbContext.Creatures on roll.ActorId equals creature.Id into joinedCreature
                         from creature in joinedCreature.DefaultIfEmpty()
                         join attribute in _roleRollsDbContext.Attributes on roll.PropertyId equals attribute.Id into joinedAttribute
@@ -53,7 +53,6 @@ namespace RoleRollsPocketEdition._Application.Rolls.Application
                         {
                             ActorName = (creature != null ? creature.Name : "MASTER"),
                             roll.ActorId,
-                            roll.CampaignId,
                             roll.SceneId,
                             roll.Complexity,
                             roll.Difficulty,
@@ -89,7 +88,6 @@ namespace RoleRollsPocketEdition._Application.Rolls.Application
             {
                 ActorName = roll.ActorName,
                 ActorId = roll.ActorId,
-                CampaignId = roll.CampaignId,
                 SceneId = roll.SceneId,
                 Complexity = roll.Complexity,
                 Difficulty = roll.Difficulty,

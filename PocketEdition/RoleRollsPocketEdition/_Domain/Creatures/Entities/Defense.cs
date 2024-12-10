@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public string Name { get; set; }
         public string Formula { get; set; }
         public Guid DefenseTemplateId { get; set; }
-       //  public DefenseTemplate DefenseTemplate { get; set; }
+        public DefenseTemplate DefenseTemplate { get; set; }
 
         public static Defense FromTemplate(IDefenseTemplate defenseTemplateModel)
         {

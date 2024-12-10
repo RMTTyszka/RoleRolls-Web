@@ -17,8 +17,11 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             LifeTemplateId = life.Id;
             // TODO formula
             Name = life.Name;
+            LifeTemplate = life;
             Formula = life.Formula;
         }
+
+        public LifeTemplate LifeTemplate { get; set; }
 
         public Life()
         {

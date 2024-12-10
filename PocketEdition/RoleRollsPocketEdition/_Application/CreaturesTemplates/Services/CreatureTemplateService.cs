@@ -137,7 +137,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
             foreach (var attribute in attributesToDelete)
             {
                 template.Attributes.Remove(attribute);
-                var skillsFromAttribute = template.Skills.Where(sk => sk.AttributeId == attribute.Id).ToList();
+                var skillsFromAttribute = template.Skills.Where(sk => sk.AttributeTemplateId == attribute.Id).ToList();
                 var minorSkills = skillsFromAttribute.SelectMany(sk => sk.MinorSkills).ToList();
                 foreach (var skill in skillsFromAttribute) 
                 {

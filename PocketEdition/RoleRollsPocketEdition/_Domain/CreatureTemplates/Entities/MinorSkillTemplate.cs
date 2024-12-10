@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -19,7 +20,9 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
 
         public string Name { get; set; }
         public Guid SkillTemplateId { get; set; }
+        public SkillTemplate SkillTemplate { get; set; }
 
+        public ICollection<MinorSkill> MinorSkills { get; set; }
         public void Update(MinorSkillTemplateModel minorSkillModel, RoleRollsDbContext dbContext)
         {
             Name = minorSkillModel.Name;

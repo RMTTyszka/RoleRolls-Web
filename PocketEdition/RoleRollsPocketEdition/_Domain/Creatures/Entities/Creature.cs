@@ -112,7 +112,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             var creature = new Creature
             {
                 Attributes = attributes,
-                Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeId))).ToList(),
+                Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeTemplateId))).ToList(),
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,

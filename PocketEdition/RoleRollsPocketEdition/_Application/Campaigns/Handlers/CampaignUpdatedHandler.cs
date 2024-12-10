@@ -113,7 +113,7 @@ IConsumer<MinorSkillAdded>,
         var skill = template.Skills.First(skill => skill.Id == context.Message.Skill.Id);
         foreach (var creature in creatures)
         {
-            var attribute = creature.Attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeId);
+            var attribute = creature.Attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeTemplateId);
             var newSkill = new Skill(skill, attribute);
             creature.Skills.Add(newSkill);
             await _dbContext.Skills.AddAsync(newSkill);

@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
 using RoleRollsPocketEdition.Core;
@@ -32,6 +33,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         // 4
         public int TotalSkillsPoints { get; set; }
         public virtual List<AttributeTemplate> Attributes { get; set; }
+        public virtual List<Campaign> Campaigns { get; set; }
 
         public Creature InstantiateCreature(string name, Guid campaignId, CreatureType type, Guid ownerId)
         {
@@ -58,7 +60,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         {
             var attribute = Attributes.First(attribute => attribute.Id == attributeId);
             Attributes.Remove(attribute);
-            var skills = Skills.Where(skill => skill.AttributeId == attributeId);
+            var skills = Skills.Where(skill => skill.AttributeTemplateId == attributeId);
             foreach (var skill in skills)
             {
                 Skills.Remove(skill);
