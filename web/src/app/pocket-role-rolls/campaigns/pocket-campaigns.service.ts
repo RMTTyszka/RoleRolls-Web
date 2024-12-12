@@ -165,7 +165,8 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
   public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/heroes`, [input]);
+    input.creatureType = CreatureType.Hero;
+    return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public addMonsterToScene(campaignId: string, sceneId: string, input: SceneCreature) {
     input.creatureType = CreatureType.Monster;

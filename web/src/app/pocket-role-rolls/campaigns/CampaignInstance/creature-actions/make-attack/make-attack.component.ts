@@ -118,7 +118,7 @@ export class MakeAttackComponent {
 
       }
     } else {
-      return itemConfiguration.lightWeaponHitPropertyId.toString();
+      return itemConfiguration.lightWeaponHitPropertyId?.toString();
     }
   }
   private resolveDamageProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
