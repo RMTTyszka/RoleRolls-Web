@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
         }
 
 
-        [HttpPost("lifes")]
+        [HttpPost("")]
         public async Task<IActionResult> AddLife([FromRoute] Guid campaignId, [FromBody] LifeTemplateModel life)
         {
             await _campaignsService.AddLife(campaignId, life);

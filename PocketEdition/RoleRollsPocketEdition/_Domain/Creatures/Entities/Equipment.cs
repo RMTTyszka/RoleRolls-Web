@@ -19,7 +19,18 @@ public class Equipment : Entity
     public ItemInstance? Waist { get; set; }
     public ItemInstance? Neck { get; set; }
     public ItemInstance? LeftRing { get; set; }
-    public ItemInstance? RightRing { get; set; }
+    public ItemInstance? RightRing { get; set; } 
+    public Guid? MainHandId { get; set; }
+    public Guid? OffHandId { get; set; }
+    public Guid? HeadId { get; set; }
+    public Guid? ChestId { get; set; }
+    public Guid? FeetId { get; set; }
+    public Guid? ArmsId { get; set; }
+    public Guid? HandsId { get; set; }
+    public Guid? WaistId { get; set; }
+    public Guid? NeckId { get; set; }
+    public Guid? LeftRingId { get; set; }
+    public Guid? RightRingId { get; set; }
     
 
 

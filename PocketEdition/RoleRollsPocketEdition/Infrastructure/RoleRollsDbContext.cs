@@ -76,6 +76,69 @@ namespace RoleRollsPocketEdition.Infrastructure
             modelBuilder.Entity<ItemInstance>()
                 .HasDiscriminator<string>("ItemType")
                 .HasValue<ItemInstance>("Item");
+
+            modelBuilder.Entity<Inventory>()
+                .HasMany<ItemInstance>(e => e.Items)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Head)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.HeadId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Neck)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.NeckId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Chest)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.ChestId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Arms)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.ArmsId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Hands)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.HandsId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.MainHand)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.MainHandId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.OffHand)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.OffHandId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Waist)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.WaistId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.Feet)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.FeetId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.RightRing)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.RightRingId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Equipment>()
+                .HasOne<ItemInstance>(e => e.LeftRing)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.LeftRingId)
+                .OnDelete(DeleteBehavior.Cascade);
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

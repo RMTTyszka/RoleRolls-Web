@@ -114,6 +114,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 Attributes = attributes,
                 Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeTemplateId))).ToList(),
                 Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
+                Defenses = template.Defenses.Select(Defense.FromTemplate).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,
                 Type = creatureType
@@ -328,15 +329,16 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
         public AttackResult Attack(Creature target, AttackCommand input)
         {
             var weapon = Equipment.GetItem(input.WeaponSlot);
-            var weaponTemplate = weapon.Template as WeaponTemplate;
-            var hitPropertyId = input.ItemConfiguration.GetWeaponHitProperty(weaponTemplate.Category);
-            var damagePropertyId = input.ItemConfiguration.GetWeaponDamageProperty(weaponTemplate.Category);
+            var weaponTemplate = weapon?.Template as WeaponTemplate;
+            var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
+            var hitPropertyId = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
+            var damagePropertyId = input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory);
             var hitProperty = GetPropertyValue(null, hitPropertyId);
             var damageProperty = GetPropertyValue(null, damagePropertyId);
             var defenseId = input.GetDefenseId;
             var defenseValue = target.DefenseValue(defenseId);
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
-            var totalHit = hitProperty.Bonus + WeaponDefinition.HitBonus(weaponTemplate.Category);
+            var totalHit = hitProperty.Bonus + WeaponDefinition.HitBonus(weaponCategory);
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
             var roll = Roll(new RollCheck
             {

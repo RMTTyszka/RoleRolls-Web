@@ -39,7 +39,7 @@ public class AttackService : IAttackService, ITransientDependency
             LifeId = input.LifeId,
         };
         var attackResult = attacker.Attack(target, command);
-        _scenesService.ProcessAction(sceneId, attackResult);
+        await _scenesService.ProcessAction(sceneId, attackResult);
     }
 }
 

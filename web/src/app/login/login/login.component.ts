@@ -78,7 +78,6 @@ export class LoginComponent implements OnInit {
             severity: 'success'});
         }
       }, error => {
-        debugger
       });
   }
 

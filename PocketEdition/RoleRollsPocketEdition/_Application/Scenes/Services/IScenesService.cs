@@ -16,6 +16,6 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
         Task Update(Guid campaignId, Guid sceneId, SceneModel sceneModel);
         Task DeleteAsync(Guid campaignId, Guid sceneId);
         Task RemoveCreature(Guid campaignId, Guid sceneId, Guid creatureId);
-        void ProcessAction(Guid sceneId, AttackResult attackResult);
+        Task ProcessAction(Guid sceneId, AttackResult attackResult);
     }
 }

@@ -11,6 +11,7 @@ using RoleRollsPocketEdition._Domain.Campaigns.Events.Skills;
 using RoleRollsPocketEdition._Domain.Campaigns.Models;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Authentication.Application.Services;
+using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -22,32 +23,28 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         private readonly ICampaignRepository _campaignRepository;
         private readonly IBus _bus;
         private readonly ICurrentUser _currentUser;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository, IBus bus, ICurrentUser currentUser)
+        public CampaignsService(RoleRollsDbContext dbContext, ICampaignRepository campaignRepository, IBus bus, ICurrentUser currentUser, IUnitOfWork unitOfWork)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignRepository;
             _bus = bus;
             _currentUser = currentUser;
+            _unitOfWork = unitOfWork;
         }
 
 
-        public async Task CreateAsync(CampaignModel campaignModel) 
+        public async Task CreateAsync(CampaignModel campaignModel)
         {
-            var campaign = new Campaign
-            {
-                Id = campaignModel.Id,
-                InvitationSecret = Guid.NewGuid(),
-                MasterId = campaignModel.MasterId,
-                Name = campaignModel.Name,
-            };
+            var campaign = Campaign.InstantiateNewCampaign(campaignModel);
 
             var creatureTemplate = new CreatureTemplate();
             if (!campaignModel.CreatureTemplateId.HasValue)
             {
                 creatureTemplate = new CreatureTemplate
                 {
-                    Id = Guid.NewGuid(),
+                    Id = campaign.Id
                 };
                 creatureTemplate.Name = campaign.Name;
                 campaign.CreatureTemplateId = creatureTemplate.Id;
@@ -58,12 +55,15 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 creatureTemplate = await _dbContext.CreatureTemplates.FindAsync(campaign.CreatureTemplateId);
             }
 
-            await _dbContext.Campaigns.AddAsync(campaign);
-            if (!campaignModel.CreatureTemplateId.HasValue) 
-            { 
-                await _dbContext.CreatureTemplates.AddAsync(creatureTemplate);
+            using (_unitOfWork.Begin())
+            {
+                if (!campaignModel.CreatureTemplateId.HasValue) 
+                { 
+                    await _dbContext.CreatureTemplates.AddAsync(creatureTemplate);
+                }
+                await _dbContext.Campaigns.AddAsync(campaign);
+                _unitOfWork.Commit();
             }
-            await _dbContext.SaveChangesAsync();
         }       
         public async Task<CampaignModel> GetAsync(Guid id) 
         {

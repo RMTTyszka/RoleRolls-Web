@@ -14,8 +14,8 @@ public class ItemInstance : Entity
     public PowerTemplate? Power { get; set; }
     public int Level { get; set; }
     public int GetBonus => Level / 2;
-    public Guid EquipmentId { get; set; }
-    public Equipment Equipment { get; set; }
+    /*public Guid? InventoryId { get; set; }
+    public Inventory? Inventory { get; set; }*/
     public Guid TemplateId { get; set; }
 
     public ItemTemplate Template { get; set; }

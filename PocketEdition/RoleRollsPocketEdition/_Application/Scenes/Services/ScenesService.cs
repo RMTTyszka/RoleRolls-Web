@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition._Application.Attacks.Services;
+using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition._Application.Creatures.Models;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Campaigns.Repositories;
@@ -15,11 +16,15 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
     {
         private readonly RoleRollsDbContext _roleRollsDbContext;
         private readonly ICreatureRepository _creatureRepository;
+        private readonly ISceneNotificationService _sceneNotificationService;
+        private readonly ICampaignSceneHistoryBuilderService _campaignSceneHistoryBuilderService;
 
-        public ScenesService(RoleRollsDbContext roleRollsDbContext, ICreatureRepository creatureRepository)
+        public ScenesService(RoleRollsDbContext roleRollsDbContext, ICreatureRepository creatureRepository, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService campaignSceneHistoryBuilderService)
         {
             _roleRollsDbContext = roleRollsDbContext;
             _creatureRepository = creatureRepository;
+            _sceneNotificationService = sceneNotificationService;
+            _campaignSceneHistoryBuilderService = campaignSceneHistoryBuilderService;
         }
 
         public async Task<List<SceneModel>> GetAllAsync(Guid campaignId)
@@ -128,7 +133,7 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
             await _roleRollsDbContext.SaveChangesAsync();
         }
 
-        public void ProcessAction(Guid sceneId, AttackResult attackResult)
+        public async Task ProcessAction(Guid sceneId, AttackResult attackResult)
         {
             var result = new SceneAction
             {
@@ -137,7 +142,11 @@ namespace RoleRollsPocketEdition._Application.Scenes.Services
                 ActorId = attackResult.Attacker.Id,
                 SceneId = sceneId
             };
-            
+            var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
+            _roleRollsDbContext.SceneActions.Add(result);
+            await _roleRollsDbContext.SaveChangesAsync();
+            await _sceneNotificationService.NotifyScene(sceneId, history);
+
         }
     }
 }
