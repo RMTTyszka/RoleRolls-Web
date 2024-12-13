@@ -168,7 +168,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
                 var value = random.Next(0, 21);
                 if (roll.Dificulty.HasValue) 
                 {
-                    var success = value + roll.Bonus > roll.Dificulty;
+                    var success = value + roll.Bonus > roll.Complexity;
                     if (success)
                     {
                         result.Successes += 1;
@@ -190,9 +190,9 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
 
                 return value;
             }).ToList();
-            if (roll.Complexity.HasValue)
+            if (roll.Dificulty.HasValue)
             {
-                result.Success = result.Successes > roll.Complexity;
+                result.Success = result.Successes > roll.Dificulty;
             }
             result.Rolls = rolls;
             result.SuccessTimes = result.Successes / roll.Complexity.GetValueOrDefault(1);
@@ -343,7 +343,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             var roll = Roll(new RollCheck
             {
                 Bonus = totalHit,
-                Complexity = defenseValue,
+                Complexity = WeaponDefinition.HitDifficulty(weaponCategory),
                 Dificulty = totalDefense
             }, hitProperty.Value);
             if (roll.Success)
