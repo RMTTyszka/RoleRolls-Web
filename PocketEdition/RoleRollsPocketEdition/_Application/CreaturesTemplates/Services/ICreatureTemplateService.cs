@@ -4,8 +4,8 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
 {
     public interface ICreatureTemplateService
     {
-        public Task<CreatureTemplateModel> Get(Guid id);
-        public Task Create(CreatureTemplateModel template);
-        public Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CreatureTemplateModel template);
+        public Task<CampaignTemplateModel> Get(Guid id);
+        public Task Create(CampaignTemplateModel template);
+        public Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CampaignTemplateModel template);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 {
-    public class CreatureTemplateModel
+    public class CampaignTemplateModel
     {
 
-        public CreatureTemplateModel()
+        public CampaignTemplateModel()
         {
 
         }
-        public CreatureTemplateModel(CampaignTemplate template)
+        public CampaignTemplateModel(CampaignTemplate template)
         {
             Id = template.Id;
             Name = template.Name;
@@ -35,13 +35,13 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 
         public ICollection<LifeTemplateModel> Lifes { get; set; }
 
-        public static CreatureTemplateModel? FromTemplate(CampaignTemplate? campaignCreatureTemplate)
+        public static CampaignTemplateModel? FromTemplate(CampaignTemplate? campaignCreatureTemplate)
         {
             if (campaignCreatureTemplate == null)
             {
-                return new CreatureTemplateModel();
+                return new CampaignTemplateModel();
             }
-            return new CreatureTemplateModel(campaignCreatureTemplate);
+            return new CampaignTemplateModel(campaignCreatureTemplate);
         }
     }
 }

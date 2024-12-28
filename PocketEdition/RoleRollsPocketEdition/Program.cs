@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RoleRollsPocketEdition._Application.Campaigns.Handlers;
+using RoleRollsPocketEdition._Domain.Global;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Configuration;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
@@ -70,6 +71,7 @@ builder.Services.AddMassTransit(configurador =>
     configurador.AddTransactionalEnlistmentBus();*/
 });
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<StartupTaskRunner>();
 
 var app = builder.Build();
 
@@ -77,6 +79,8 @@ using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
     dataContext.Database.Migrate();
+    var startupTasks = scope.ServiceProvider.GetService<StartupTaskRunner>();
+    await startupTasks.RunAsync();
 }
 
 app.UseHttpsRedirection();

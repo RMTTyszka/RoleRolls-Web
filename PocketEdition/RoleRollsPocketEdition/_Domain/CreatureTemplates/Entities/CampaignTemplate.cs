@@ -16,7 +16,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             Lifes = new List<LifeTemplate>();
             Defenses = new List<DefenseTemplate>();
         }
-        public CampaignTemplate(CreatureTemplateModel template) : base()
+        public CampaignTemplate(CampaignTemplateModel template) : base()
         {
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;

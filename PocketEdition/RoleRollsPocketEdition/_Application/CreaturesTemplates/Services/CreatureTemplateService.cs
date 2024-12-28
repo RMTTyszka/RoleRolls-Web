@@ -14,13 +14,13 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
             _dbContextl = dbContextl;
         }
 
-        public async Task Create(CreatureTemplateModel template)
+        public async Task Create(CampaignTemplateModel template)
         {
             var creatureTemplate = new CampaignTemplate(template);
             await _dbContextl.CreatureTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
         }      
-        public async Task<CreatureTemplateModel> Get(Guid id)
+        public async Task<CampaignTemplateModel> Get(Guid id)
         {
             var template = await _dbContextl.CreatureTemplates
                 .AsNoTracking()
@@ -29,11 +29,11 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
                 .ThenInclude(skill => skill.MinorSkills)
                 .Include(template => template.Lifes)
                 .FirstOrDefaultAsync(template => template.Id == id);
-            var output = new CreatureTemplateModel(template);
+            var output = new CampaignTemplateModel(template);
             return output;
         }
 
-        public async Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CreatureTemplateModel updatedTemplate)
+        public async Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CampaignTemplateModel updatedTemplate)
         {
 
             var validation = ValidateInput(updatedTemplate);
@@ -171,7 +171,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
             return CreatureTemplateValidationResult.Ok;
         }
 
-        private CreatureTemplateValidationResult ValidateInput(CreatureTemplateModel template)
+        private CreatureTemplateValidationResult ValidateInput(CampaignTemplateModel template)
         {
             var hasAttribute = template.Skills.All(skill => template.Attributes.Any(attribute => attribute.Id == skill.AttributeId));
 

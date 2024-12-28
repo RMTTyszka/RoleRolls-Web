@@ -17,17 +17,17 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<CreatureTemplateModel> GetAsync(Guid id) 
+        public async Task<CampaignTemplateModel> GetAsync(Guid id) 
         {
             return await _creatureTemplateService.Get(id);
         }
         [HttpPost("")]
-        public Task Create([FromBody] CreatureTemplateModel template) 
+        public Task Create([FromBody] CampaignTemplateModel template) 
         {
             return _creatureTemplateService.Create(template);
         }      
         [HttpPut("{id}")]
-        public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CreatureTemplateModel template) 
+        public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CampaignTemplateModel template) 
         {
             var result = await _creatureTemplateService.UpdateAsync(id, template);
             if (result != CreatureTemplateValidationResult.Ok)
