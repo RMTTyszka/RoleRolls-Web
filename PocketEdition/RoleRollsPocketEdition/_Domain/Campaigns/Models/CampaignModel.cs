@@ -25,7 +25,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Models
             MasterId = campaign.MasterId;
             Name = campaign.Name;
             CreatureTemplateId = campaign.CreatureTemplateId;
-            CreatureTemplate = CreatureTemplateModel.FromTemplate(campaign.CreatureTemplate);
+            CreatureTemplate = CreatureTemplateModel.FromTemplate(campaign.CampaignTemplate);
             ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.ItemConfiguration);
         }
 

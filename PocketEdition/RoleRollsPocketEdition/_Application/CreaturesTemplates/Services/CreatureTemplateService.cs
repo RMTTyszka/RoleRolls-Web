@@ -16,7 +16,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
 
         public async Task Create(CreatureTemplateModel template)
         {
-            var creatureTemplate = new CreatureTemplate(template);
+            var creatureTemplate = new CampaignTemplate(template);
             await _dbContextl.CreatureTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
         }      

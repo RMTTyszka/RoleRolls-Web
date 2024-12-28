@@ -12,7 +12,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
         public Guid MasterId { get; set; }
         public string Name { get; set; }
         public Guid CreatureTemplateId { get; set; }
-        public CreatureTemplate CreatureTemplate { get; set; }
+        public CampaignTemplate CampaignTemplate { get; set; }
         public Guid InvitationSecret { get; set; }
         public ICollection<PowerTemplate> PowerTemplates { get; set; } = new List<PowerTemplate>();
         public ICollection<CampaignPlayer> CampaignPlayers { get; set; } = new List<CampaignPlayer>();
@@ -27,7 +27,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
                 MasterId = campaignModel.MasterId,
                 Name = campaignModel.Name,
                 CreatureTemplateId = campaignModel.CreatureTemplateId ?? Guid.NewGuid(),
-                CreatureTemplate = null,
+                CampaignTemplate = null,
                 InvitationSecret = Guid.NewGuid(),
                 PowerTemplates = new List<PowerTemplate>(),
                 CampaignPlayers = new List<CampaignPlayer>(),

@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
         {
 
         }
-        public CreatureTemplateModel(CreatureTemplate template)
+        public CreatureTemplateModel(CampaignTemplate template)
         {
             Id = template.Id;
             Name = template.Name;
@@ -35,7 +35,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 
         public ICollection<LifeTemplateModel> Lifes { get; set; }
 
-        public static CreatureTemplateModel? FromTemplate(CreatureTemplate? campaignCreatureTemplate)
+        public static CreatureTemplateModel? FromTemplate(CampaignTemplate? campaignCreatureTemplate)
         {
             if (campaignCreatureTemplate == null)
             {

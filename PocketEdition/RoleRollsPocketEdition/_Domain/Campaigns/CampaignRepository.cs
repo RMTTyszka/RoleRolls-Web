@@ -13,7 +13,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns
             _dbContext = dbContext;
         }
 
-        public async Task<CreatureTemplate> GetCreatureTemplateAggregateAsync(Guid id)
+        public async Task<CampaignTemplate> GetCreatureTemplateAggregateAsync(Guid id)
         {
             var creatureTemplate = await _dbContext.CreatureTemplates
             .Include(template => template.Attributes)

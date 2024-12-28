@@ -38,9 +38,23 @@
     <Folder Include="_Application\Rolls\" />
     <Folder Include="_Application\Scenes\" />
     <Folder Include="_Domain\CreatureTemplates\" />
-    <Folder Include="_Domain\DefaultUniverses\LandOfHeroes\" />
     <Folder Include="_Domain\Rolls\" />
     <Folder Include="_Domain\Scenes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="_Domain\DefaultUniverses\LandOfHeroes\LandOfHeroes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="_Domain\DefaultUniverses\LandOfHeroes\LandOfHeroes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LandOfHeroes.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

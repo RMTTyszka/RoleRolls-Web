@@ -20,7 +20,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         public string Name { get; set; }
         public string Formula { get; set; }
         public Guid CreatureTemplateId { get; set; }
-        public CreatureTemplate CreatureTemplate { get; set; }
+        public CampaignTemplate CampaignTemplate { get; set; }
         public ICollection<Life> Lifes { get; set; }
 
         public void Update(LifeTemplateModel lifeModel)

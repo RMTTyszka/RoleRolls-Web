@@ -39,10 +39,10 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         {
             var campaign = Campaign.InstantiateNewCampaign(campaignModel);
 
-            var creatureTemplate = new CreatureTemplate();
+            var creatureTemplate = new CampaignTemplate();
             if (!campaignModel.CreatureTemplateId.HasValue)
             {
-                creatureTemplate = new CreatureTemplate
+                creatureTemplate = new CampaignTemplate
                 {
                     Id = campaign.Id
                 };
@@ -68,13 +68,13 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
             var campaign = await _dbContext.Campaigns
-                .Include(c => c.CreatureTemplate)
+                .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Attributes)            
-                .Include(c => c.CreatureTemplate)
+                .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Defenses)          
-                .Include(c => c.CreatureTemplate)
+                .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Lifes)      
-                .Include(c => c.CreatureTemplate)
+                .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Skills)                
                 .ThenInclude(c => c.MinorSkills)
                 .Include(c => c.ItemConfiguration)

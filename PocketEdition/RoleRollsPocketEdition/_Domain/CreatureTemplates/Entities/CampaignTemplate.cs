@@ -7,16 +7,16 @@ using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
 {
-    public class CreatureTemplate : Entity
+    public class CampaignTemplate : Entity
     {
-        public CreatureTemplate()
+        public CampaignTemplate()
         {
             Attributes = new List<AttributeTemplate>();
             Skills = new List<SkillTemplate>();
             Lifes = new List<LifeTemplate>();
             Defenses = new List<DefenseTemplate>();
         }
-        public CreatureTemplate(CreatureTemplateModel template) : base()
+        public CampaignTemplate(CreatureTemplateModel template) : base()
         {
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;

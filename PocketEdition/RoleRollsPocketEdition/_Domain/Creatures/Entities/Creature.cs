@@ -106,7 +106,7 @@ namespace RoleRollsPocketEdition._Domain.Creatures.Entities
             }
             return result;;
         }
-        public static Creature FromTemplate(CreatureTemplate template, Guid campaignId, CreatureType creatureType) 
+        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureType creatureType) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
