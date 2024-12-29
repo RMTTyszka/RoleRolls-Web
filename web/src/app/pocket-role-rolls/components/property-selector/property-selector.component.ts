@@ -27,31 +27,42 @@ import {ControlValueAccessor, FormGroupDirective, FormsModule, NG_VALUE_ACCESSOR
   ]
 })
 export class PropertySelectorComponent implements ControlValueAccessor {
-  public value = '';
+  public _value = '';
   public campaign = input.required<PocketCampaignModel>();
-  public propertyType = input.required<PropertyType>();
+  public propertyType = input.required<PropertyType[]>();
 
   public properties = computed<RROption<string>[]>(() => {
-    switch (this.propertyType()) {
-      case PropertyType.All:
-        return this.attributes()
-          .concat(this.skills()
-            .concat(this.minorSkills()
-              .concat(this.defenses()
-                .concat(this.lifes()))));
-      case PropertyType.Attribute:
-        return this.attributes();
-      case PropertyType.Skill:
-        return this.skills();
-      case PropertyType.MinorSkill:
-        return this.minorSkills();
-      case PropertyType.Defense:
-        return this.defenses();
-      case PropertyType.Life:
-        return this.lifes();
-      default:
-        return [];
-    }
+    const propertiesTypes = this.propertyType();
+    let options: RROption<string>[] = [];
+    propertiesTypes.forEach(p => {
+      switch (p) {
+        case PropertyType.All:
+          options = options.concat(this.attributes()
+            .concat(this.skills()
+              .concat(this.minorSkills()
+                .concat(this.defenses()
+                  .concat(this.lifes())))));
+          break;
+        case PropertyType.Attribute:
+          options = options.concat(this.attributes());
+          break;
+        case PropertyType.Skill:
+          options = options.concat(this.skills());
+          break;
+        case PropertyType.MinorSkill:
+          options = options.concat(this.minorSkills());
+          break;
+        case PropertyType.Defense:
+          options = options.concat(this.defenses());
+          break;
+        case PropertyType.Life:
+          options = options.concat(this.lifes());
+          break;
+        default:
+          break;
+      }
+    });
+    return options;
   });
 
   public attributes = computed<RROption<string>[]>(() => {
@@ -98,25 +109,38 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   constructor(public form: FormGroupDirective) {
 
   }
-  onChange = (value: string) => {};
-  onTouched = () => {};
-
-  // Função chamada quando o valor muda
-  onInput(value: string): void {
-    this.value = value;
-    this.onChange(value); // Notifica o Angular sobre a mudança de valor
+  get value(): string {
+    return this._value;
   }
 
-  // Métodos do ControlValueAccessor
+  set value(val: string) {
+    if (val !== this._value) {
+      this._value = val;
+      if (this.onChange) {
+        this.onChange(val); // Notifica o Angular sobre a mudança
+      }
+      this.onTouched(); // Marca o campo como tocado
+    }
+  }
+  onChange = (value: string) => {
+  }
+  onTouched = () => {};
+
+  onInput(value: string): void {
+    this.value = value;
+    this.onChange(value);
+    this.onTouched();
+  }
+
   writeValue(value: string): void {
-    this.value = value; // Atualiza o valor no componente
+    this.value = value;
   }
 
   registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn; // Registra a função para mudanças de valor
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouched = fn; // Registra a função para indicar que o componente foi tocado
+    this.onTouched = fn;
   }
 }

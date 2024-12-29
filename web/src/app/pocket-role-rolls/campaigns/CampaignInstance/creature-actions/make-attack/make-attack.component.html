@@ -13,7 +13,7 @@
     <div class="p-field p-col-12">
       <label for="hit-input">Hit Property</label>
       <rr-property-selector id="hit-input" [campaign]="campaign()"
-                            [propertyType]="propertyType.All"
+                            [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
                             formControlName="hitPropertyId"
                             class="p-col-12">
       </rr-property-selector>
@@ -21,7 +21,7 @@
     <div class="p-field p-col-12">
       <label for="hit-input">Damage Property</label>
       <rr-property-selector id="damage-input" [campaign]="campaign()"
-                            [propertyType]="propertyType.All"
+                            [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
                             formControlName="damagePropertyId"
                             class="p-col-12">
       </rr-property-selector>
@@ -29,7 +29,7 @@
     <div class="p-field p-col-12">
       <label for="defense-input">Defense</label>
       <rr-property-selector id="defense-input" [campaign]="campaign()"
-                            [propertyType]="propertyType.Defense"
+                            [propertyType]="[propertyType.Defense]"
                             formControlName="defenseId"
                             class="p-col-12">
       </rr-property-selector>
@@ -37,7 +37,7 @@
     <div class="p-field p-col-12">
       <label for="life-input">Life</label>
       <rr-property-selector id="life-input" [campaign]="campaign()"
-                            [propertyType]="propertyType.Life"
+                            [propertyType]="[propertyType.Life]"
                             formControlName="defenseId"
                             class="p-col-12">
       </rr-property-selector>

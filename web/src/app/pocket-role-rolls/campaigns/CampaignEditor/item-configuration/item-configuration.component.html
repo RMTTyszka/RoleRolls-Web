@@ -1,72 +1,102 @@
 <ng-container *ngIf="loaded">
   <form [formGroup]="form">
     <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="armorDefenseTitle" disabled>
+      <input type="text" pInputText class="field-title"  formControlName="armorDefenseTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="armorDefenseId"
-                [options]="defenses"
-                optionLabel="label"
-                optionValue="value"/>
+                              <rr-property-selector class=" field-value"
+                                                    formControlName="armorDefenseId"
+                                                    [campaign]="campaign"
+                                                    [propertyType]="[PropertyType.Defense]"
+                              >
+              </rr-property-selector>
       </span>
     </div>
     <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="lightWeaponHitAttributeTitle" disabled>
+      <input type="text" pInputText class="field-title"  formControlName="basicAttackTargetLifeTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="lightWeaponHitPropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
+                              <rr-property-selector class=" field-value"
+                                                    formControlName="basicAttackTargetLifeId"
+                                                    [campaign]="campaign"
+                                                    [propertyType]="[PropertyType.Life]"
+                              >
+              </rr-property-selector>
       </span>
     </div>
     <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="mediumWeaponHitAttributeTitle" disabled>
+      <input type="text" pInputText class="field-title"  formControlName="lightWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="mediumWeaponHitPropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
+                      <rr-property-selector class=" field-value"
+                                            formControlName="lightWeaponHitPropertyId"
+                                            [campaign]="campaign"
+                                            [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                      >
+              </rr-property-selector>
       </span>
     </div>
     <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="heavyWeaponHitAttributeTitle" disabled>
+      <input type="text" pInputText class="field-title"  formControlName="mediumWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="heavyWeaponHitPropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
+              <rr-property-selector class=" field-value"
+                                    formControlName="mediumWeaponHitPropertyId"
+                                    [campaign]="campaign"
+                                    [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+              >
+              </rr-property-selector>
+      </span>
+    </div>
+    <div class="p-inputgroup">
+      <input type="text" pInputText class="field-title"  formControlName="mediumWeaponHitPropertyTitle">
+      <span class="p-inputgroup-addon">
+                              <rr-property-selector class=" field-value"
+                                                    formControlName="mediumWeaponHitPropertyId"
+                                                    [campaign]="campaign"
+                                                    [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                              >
+              </rr-property-selector>
+      </span>
+    </div>
+    <div class="p-inputgroup">
+      <input type="text" pInputText class="field-title"  formControlName="heavyWeaponHitPropertyTitle">
+      <span class="p-inputgroup-addon">
+                                      <rr-property-selector class=" field-value"
+                                                            formControlName="heavyWeaponHitPropertyId"
+                                                            [campaign]="campaign"
+                                                            [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                                      >
+              </rr-property-selector>
       </span>
     </div><div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="lightWeaponDamageAttributeTitle" disabled>
+    <input type="text" pInputText class="field-title"  formControlName="lightWeaponDamagePropertyTitle">
+    <span class="p-inputgroup-addon">
+                                            <rr-property-selector class=" field-value"
+                                                                  formControlName="lightWeaponDamagePropertyId"
+                                                                  [campaign]="campaign"
+                                                                  [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                                            >
+              </rr-property-selector>
+      </span>
+  </div>
+    <div class="p-inputgroup">
+      <input type="text" pInputText class="field-title"  formControlName="mediumWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="lightWeaponDamagePropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
+                                                    <rr-property-selector class=" field-value"
+                                                                          formControlName="mediumWeaponDamagePropertyId"
+                                                                          [campaign]="campaign"
+                                                                          [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                                                    >
+              </rr-property-selector>
+
       </span>
     </div>
     <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="mediumWeaponDamageAttributeTitle" disabled>
+      <input type="text" pInputText class="field-title"  formControlName="heavyWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="mediumWeaponDamagePropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
-      </span>
-    </div>
-    <div class="p-inputgroup">
-      <input type="text" pInputText class="field-title"  formControlName="heavyWeaponDamageAttributeTitle" disabled>
-      <span class="p-inputgroup-addon">
-              <p-dropdown class=" field-value"
-                formControlName="heavyWeaponDamagePropertyId"
-                [options]="attributes"
-                optionLabel="label"
-                optionValue="value"/>
+                                                     <rr-property-selector class=" field-value"
+                                                                           formControlName="heavyWeaponDamagePropertyId"
+                                                                           [campaign]="campaign"
+                                                                           [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]"
+                                                     >
+              </rr-property-selector>
       </span>
     </div>
   </form>
