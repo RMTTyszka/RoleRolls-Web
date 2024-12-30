@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
 
         public async Task CreateAsync(Guid creatureTemplateId, DefenseTemplateModel model)
         {
-            var template = await _dbContext.CreatureTemplates
+            var template = await _dbContext.CampaignTemplates
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
 
@@ -30,7 +30,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
 
         public async Task UpdateAsync(Guid creatureTemplateId, DefenseTemplateModel model)
         {
-            var template = await _dbContext.CreatureTemplates
+            var template = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
@@ -44,7 +44,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
         }
         public async Task RemoveAsync(Guid creatureTemplateId, Guid defenseTemplateId)
         {
-            var template = await _dbContext.CreatureTemplates
+            var template = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)

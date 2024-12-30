@@ -24,7 +24,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<MinorSkill> MinorSkills { get; set; }
         public DbSet<Life> Lifes { get; set; }
         public DbSet<CreaturePower> CreaturePowers { get; set; }
-        public DbSet<CampaignTemplate> CreatureTemplates { get; set; }
+        public DbSet<CampaignTemplate> CampaignTemplates { get; set; }
         public DbSet<AttributeTemplate> AttributeTemplates { get; set; }
         public DbSet<SkillTemplate> SkillTemplates { get; set; }
         public DbSet<MinorSkillTemplate> MinorSkillTemplates { get; set; }

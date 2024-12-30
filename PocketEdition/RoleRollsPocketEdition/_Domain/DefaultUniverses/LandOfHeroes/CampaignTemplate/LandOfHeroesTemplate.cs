@@ -1,11 +1,54 @@
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+
 namespace RoleRollsPocketEdition._Domain.DefaultUniverses.LandOfHeroes.CreatureTemplate;
 
 public class LandOfHeroesTemplate
 {
-    public static Guid Id => Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632");
-    public static string Name => "Land Of Heroes";
+    public static CampaignTemplate Template => new CampaignTemplate
+    {
+        Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+        Name = "Land Of Heroes",
+        Attributes = BuildAttributes()
+    };
 
-public static Dictionary<LandOfHeroesAttribute, Guid> AttributeIds = new()
+    private static List<AttributeTemplate> BuildAttributes()
+    {
+        return AttributeIds.Select(attributeEntry => new AttributeTemplate
+        {
+            Name = attributeEntry.Key.ToString(),
+            Id = attributeEntry.Value,
+            SkillTemplates = GetSkills(attributeEntry.Key, attributeEntry.Value)
+        }).ToList();
+    }
+
+    private static ICollection<SkillTemplate> GetSkills(LandOfHeroesAttribute attribute, Guid attributeId)
+    {
+        var skills = AttributeSkills.ContainsKey(attribute) ? AttributeSkills[attribute] : new List<LandOfHeroesSkill>();
+
+        return skills.Select(skill => new SkillTemplate
+        {
+            Name = skill.ToString(),
+            Id = SkillIds[skill],
+            AttributeTemplateId = attributeId,
+            MinorSkills = GetMinorSkills(skill, SkillIds[skill])
+        }).ToList();
+    }
+
+    private static List<MinorSkillTemplate> GetMinorSkills(LandOfHeroesSkill skill, Guid skillId)
+    {
+        var minorSkills = SkillMinorSkills.ContainsKey(skill) ? SkillMinorSkills[skill] : new List<LandOfHeroesMinorSkill>();
+
+        return minorSkills.Select(minorSkill => new MinorSkillTemplate
+        {
+            Name = minorSkill.ToString(),
+            Id = MinorSkillIds[minorSkill],
+            SkillTemplateId = skillId,
+            SkillTemplate = null
+        }).ToList();
+    }
+
+
+    public static Dictionary<LandOfHeroesAttribute, Guid> AttributeIds = new()
     {
         { LandOfHeroesAttribute.Agility, Guid.Parse("A94BA9AE-D800-4445-A996-19E6281FC0DD") },
         { LandOfHeroesAttribute.Charisma, Guid.Parse("0E2F1A7A-B39D-4C19-91CE-623A4E75D681") },

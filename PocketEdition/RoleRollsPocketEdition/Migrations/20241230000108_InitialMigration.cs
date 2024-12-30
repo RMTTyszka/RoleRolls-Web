@@ -13,6 +13,20 @@ namespace RoleRollsPocketEdition.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CampaignTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    TotalAttributePoints = table.Column<int>(type: "integer", nullable: false),
+                    TotalSkillsPoints = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CampaignTemplates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Creatures",
                 columns: table => new
                 {
@@ -27,20 +41,6 @@ namespace RoleRollsPocketEdition.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Creatures", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CreatureTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    TotalAttributePoints = table.Column<int>(type: "integer", nullable: false),
-                    TotalSkillsPoints = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CreatureTemplates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,6 +127,88 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AttributeTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttributeTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AttributeTemplates_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Campaigns",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MasterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationSecret = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Campaigns", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Campaigns_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DefenseTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Formula = table.Column<string>(type: "text", nullable: false),
+                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DefenseTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DefenseTemplates_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LifeTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Formula = table.Column<string>(type: "text", nullable: false),
+                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LifeTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LifeTemplates_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inventory",
                 columns: table => new
                 {
@@ -140,85 +222,6 @@ namespace RoleRollsPocketEdition.Migrations
                         name: "FK_Inventory_Creatures_CreatureId",
                         column: x => x.CreatureId,
                         principalTable: "Creatures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AttributeTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AttributeTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AttributeTemplates_CreatureTemplates_CreatureTemplateId",
-                        column: x => x.CreatureTemplateId,
-                        principalTable: "CreatureTemplates",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Campaigns",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    MasterId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InvitationSecret = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Campaigns", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Campaigns_CreatureTemplates_CreatureTemplateId",
-                        column: x => x.CreatureTemplateId,
-                        principalTable: "CreatureTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DefenseTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Formula = table.Column<string>(type: "text", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DefenseTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DefenseTemplates_CreatureTemplates_CreatureTemplateId",
-                        column: x => x.CreatureTemplateId,
-                        principalTable: "CreatureTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LifeTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Formula = table.Column<string>(type: "text", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LifeTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LifeTemplates_CreatureTemplates_CreatureTemplateId",
-                        column: x => x.CreatureTemplateId,
-                        principalTable: "CreatureTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -257,7 +260,7 @@ namespace RoleRollsPocketEdition.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -269,9 +272,9 @@ namespace RoleRollsPocketEdition.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SkillTemplates_CreatureTemplates_CreatureTemplateId",
-                        column: x => x.CreatureTemplateId,
-                        principalTable: "CreatureTemplates",
+                        name: "FK_SkillTemplates_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
                         principalColumn: "Id");
                 });
 
@@ -609,6 +612,27 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PowerInstance",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    UsedCharges = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PowerInstance", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PowerInstance_PowerTemplates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "PowerTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MinorSkills",
                 columns: table => new
                 {
@@ -781,9 +805,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "CreatureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttributeTemplates_CreatureTemplateId",
+                name: "IX_AttributeTemplates_CampaignTemplateId",
                 table: "AttributeTemplates",
-                column: "CreatureTemplateId");
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CampaignPlayers_CampaignId",
@@ -791,9 +815,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "CampaignId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Campaigns_CreatureTemplateId",
+                name: "IX_Campaigns_CampaignTemplateId",
                 table: "Campaigns",
-                column: "CreatureTemplateId");
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CampaignScenes_CampaignId",
@@ -821,9 +845,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "DefenseTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DefenseTemplates_CreatureTemplateId",
+                name: "IX_DefenseTemplates_CampaignTemplateId",
                 table: "DefenseTemplates",
-                column: "CreatureTemplateId");
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Equipment_ArmsId",
@@ -950,9 +974,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "LifeTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LifeTemplates_CreatureTemplateId",
+                name: "IX_LifeTemplates_CampaignTemplateId",
                 table: "LifeTemplates",
-                column: "CreatureTemplateId");
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MinorSkills_CreatureId",
@@ -1002,6 +1026,11 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "Created");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PowerInstance_TemplateId",
+                table: "PowerInstance",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PowerTemplates_CampaignId",
                 table: "PowerTemplates",
                 column: "CampaignId");
@@ -1042,9 +1071,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "AttributeTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkillTemplates_CreatureTemplateId",
+                name: "IX_SkillTemplates_CampaignTemplateId",
                 table: "SkillTemplates",
-                column: "CreatureTemplateId");
+                column: "CampaignTemplateId");
         }
 
         /// <inheritdoc />
@@ -1079,6 +1108,9 @@ namespace RoleRollsPocketEdition.Migrations
 
             migrationBuilder.DropTable(
                 name: "OutboxState");
+
+            migrationBuilder.DropTable(
+                name: "PowerInstance");
 
             migrationBuilder.DropTable(
                 name: "Rolls");
@@ -1135,7 +1167,7 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "Campaigns");
 
             migrationBuilder.DropTable(
-                name: "CreatureTemplates");
+                name: "CampaignTemplates");
         }
     }
 }

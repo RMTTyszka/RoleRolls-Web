@@ -49,6 +49,7 @@ builder.Services.AddEntityFrameworkNpgsql()
 builder.Services.AddServices();
 builder.Services.AddTransientServices(typeof(Program).Assembly);
 builder.Services.AddScopedServices(typeof(Program).Assembly);
+builder.Services.AddStartupTasks(typeof(Program).Assembly);
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddMassTransit(configurador =>
@@ -71,7 +72,6 @@ builder.Services.AddMassTransit(configurador =>
     configurador.AddTransactionalEnlistmentBus();*/
 });
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<StartupTaskRunner>();
 
 var app = builder.Build();
 
@@ -79,8 +79,11 @@ using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
     dataContext.Database.Migrate();
-    var startupTasks = scope.ServiceProvider.GetService<StartupTaskRunner>();
-    await startupTasks.RunAsync();
+    var startupTasks = scope.ServiceProvider.GetServices<IStartupTask>();
+    foreach (var task in startupTasks)
+    {
+        await task.ExecuteAsync();
+    }
 }
 
 app.UseHttpsRedirection();

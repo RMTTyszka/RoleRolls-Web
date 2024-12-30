@@ -52,14 +52,14 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             else 
             {
                 campaign.CreatureTemplateId = campaignModel.CreatureTemplateId.Value;
-                creatureTemplate = await _dbContext.CreatureTemplates.FindAsync(campaign.CreatureTemplateId);
+                creatureTemplate = await _dbContext.CampaignTemplates.FindAsync(campaign.CreatureTemplateId);
             }
 
             using (_unitOfWork.Begin())
             {
                 if (!campaignModel.CreatureTemplateId.HasValue) 
                 { 
-                    await _dbContext.CreatureTemplates.AddAsync(creatureTemplate);
+                    await _dbContext.CampaignTemplates.AddAsync(creatureTemplate);
                 }
                 await _dbContext.Campaigns.AddAsync(campaign);
                 _unitOfWork.Commit();
@@ -124,11 +124,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute) 
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             await creatureTemplate.AddAttributeAsync(attribute, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new AttributeAdded
             {
@@ -140,11 +140,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task RemoveAttribute(Guid campaignId, Guid attributeId) 
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             creatureTemplate.RemoveAttribute(attributeId, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new AttributeRemoved
             {
@@ -159,7 +159,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(id);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateAttribute(attributeId, attribute, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new AttributeUpdated
             {
@@ -174,7 +174,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             await creatureTemplate.AddSkill(attributeId, skill, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new SkillAdded()
             {
@@ -189,7 +189,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.RemoveSkill(skillId, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new SkillRemoved()
             {
@@ -204,7 +204,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateSkill(skillId, skill, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new SkillUpdated()
             {
@@ -219,7 +219,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             await creatureTemplate.AddMinorSkillAsync(skillId, minorSkill, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new MinorSkillAdded
             {
@@ -234,7 +234,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.RemoveMinorSkill(skillId, minorSkillId, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
 
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new MinorSkillRemoved
@@ -250,7 +250,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateMinorSkill(skillId, minorSkillId, minorSkill, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
 
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new MinorSkillUpdated
@@ -264,11 +264,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task AddLife(Guid campaignId, LifeTemplateModel life)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             await creatureTemplate.AddLifeAsync(life, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new LifeAdded
             {
@@ -281,11 +281,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task RemoveLife(Guid campaignId, Guid lifeId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             creatureTemplate.RemoveLife(lifeId, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new LifeRemoved
             {
@@ -300,7 +300,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             creatureTemplate.UpdateLife(lifeId, life, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(new LifeUpdated
             {
@@ -330,11 +330,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task AddDefense(Guid campaignId, DefenseTemplateModel defense)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Lifes)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             var defenseAdded = await creatureTemplate.AddDefenseAsync(defense, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(defenseAdded);
         }
@@ -342,11 +342,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         public async Task RemoveDefense(Guid campaignId, Guid defenseId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _dbContext.CreatureTemplates
+            var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == campaign.CreatureTemplateId);
             var defenseRemoved = creatureTemplate.RemoveDefense(defenseId, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(defenseRemoved);
         }
@@ -356,7 +356,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
             var defenseUpdate = creatureTemplate.UpdateDefense(defense, _dbContext);
-            _dbContext.CreatureTemplates.Update(creatureTemplate);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
             await _bus.Publish(defenseUpdate);
         }

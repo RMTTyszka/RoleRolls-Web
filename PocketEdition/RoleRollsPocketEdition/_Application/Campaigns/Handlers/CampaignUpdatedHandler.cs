@@ -34,7 +34,7 @@ IConsumer<MinorSkillAdded>,
     public async Task Consume(ConsumeContext<AttributeAdded> context)
     {
         var template = await
-            _dbContext.CreatureTemplates
+            _dbContext.CampaignTemplates
                 .Include(template => template.Attributes).FirstAsync(template => template.Id == context.Message.CreatureTemplateId);
         var creatures = await _dbContext.Creatures.Where(creature => creature.CampaignId == context.Message.CampaignId)
             .ToListAsync();
@@ -101,7 +101,7 @@ IConsumer<MinorSkillAdded>,
     public async Task Consume(ConsumeContext<SkillAdded> context)
     {
         var template = await
-            _dbContext.CreatureTemplates
+            _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .FirstAsync(template => template.Id == context.Message.CreatureTemplateId);
@@ -166,7 +166,7 @@ IConsumer<MinorSkillAdded>,
     public async Task Consume(ConsumeContext<MinorSkillAdded> context)
     {
         var template = await
-            _dbContext.CreatureTemplates
+            _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
@@ -226,7 +226,7 @@ IConsumer<MinorSkillAdded>,
     public async Task Consume(ConsumeContext<LifeAdded> context)
     {
         var template = await
-            _dbContext.CreatureTemplates
+            _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Lifes)
                 .Include(template => template.Skills)

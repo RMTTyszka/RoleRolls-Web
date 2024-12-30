@@ -1,4 +1,5 @@
 using System.Reflection;
+using RoleRollsPocketEdition._Domain.Global;
 
 namespace RoleRollsPocketEdition.Core;
 
@@ -44,6 +45,19 @@ public static class ServiceCollectionExtensions
             {
                 services.Add(new ServiceDescriptor(otherInterface, implementation, ServiceLifetime.Scoped));
             }
+        }
+    } 
+    public static void AddStartupTasks(this IServiceCollection services, Assembly assembly)
+    {
+        var interfaceBType = typeof(IStartupTask);
+
+        // Encontra todas as classes que implementam InterfaceB
+        var implementations = assembly.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract && interfaceBType.IsAssignableFrom(t));
+
+        foreach (var implementation in implementations)
+        {
+            services.Add(new ServiceDescriptor(interfaceBType, implementation, ServiceLifetime.Scoped));
         }
     }
 }

@@ -17,12 +17,12 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
         public async Task Create(CampaignTemplateModel template)
         {
             var creatureTemplate = new CampaignTemplate(template);
-            await _dbContextl.CreatureTemplates.AddAsync(creatureTemplate);
+            await _dbContextl.CampaignTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
         }      
         public async Task<CampaignTemplateModel> Get(Guid id)
         {
-            var template = await _dbContextl.CreatureTemplates
+            var template = await _dbContextl.CampaignTemplates
                 .AsNoTracking()
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
@@ -42,7 +42,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
                 return validation;
             }
 
-            var template = await _dbContextl.CreatureTemplates
+            var template = await _dbContextl.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
@@ -164,7 +164,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
             _dbContextl.LifeTemplates.UpdateRange(lifesToUpdate);
             _dbContextl.LifeTemplates.RemoveRange(lifesToDelete);
 
-            _dbContextl.CreatureTemplates.Update(template);
+            _dbContextl.CampaignTemplates.Update(template);
 
             await _dbContextl.SaveChangesAsync();
 
