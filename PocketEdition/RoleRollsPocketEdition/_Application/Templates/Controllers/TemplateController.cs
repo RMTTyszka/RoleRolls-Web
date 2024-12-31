@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Services;
+using RoleRollsPocketEdition.Core.Dtos;
 
 namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Controllers
 {
     [ApiController]
     [Route("creature-templates")]
-    public class CreatureTemplateController : ControllerBase
+    public class TemplateController : ControllerBase
     {
 
         private readonly ICreatureTemplateService _creatureTemplateService;
 
-        public CreatureTemplateController(ICreatureTemplateService creatureTemplateService)
+        public TemplateController(ICreatureTemplateService creatureTemplateService)
         {
             _creatureTemplateService = creatureTemplateService;
         }
@@ -20,6 +21,11 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Controllers
         public async Task<CampaignTemplateModel> GetAsync(Guid id) 
         {
             return await _creatureTemplateService.Get(id);
+        }      
+        [HttpGet("defaults")]
+        public async Task<List<CampaignTemplateModel>> GetDefault(PagedRequestInput input) 
+        {
+            return await _creatureTemplateService.GetDefaults(input);
         }
         [HttpPost("")]
         public Task Create([FromBody] CampaignTemplateModel template) 

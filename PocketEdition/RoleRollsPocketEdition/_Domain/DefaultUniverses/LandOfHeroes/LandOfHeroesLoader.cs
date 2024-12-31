@@ -31,9 +31,10 @@ public class LandOfHeroesLoader : IStartupTask
         }
         else
         {
+            templateFromDb.Name = templateFromCode.Name;
+            templateFromDb.Default = templateFromCode.Default;
             SynchronizeAttributes(templateFromCode.Attributes, templateFromDb.Attributes);
         }
-
         await _context.SaveChangesAsync();
     }
 

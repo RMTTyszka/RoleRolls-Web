@@ -11,6 +11,7 @@ import {ChangeDetection} from "@angular/cli/lib/config/workspace-schema";
 })
 export class CampaignEditorBodyShellComponent implements OnInit {
   public action = EditorAction.create;
+  public actionEnum = EditorAction;
   public entityId: string;
   public campaign: PocketCampaignModel;
   constructor(

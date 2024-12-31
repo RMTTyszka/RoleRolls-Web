@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
@@ -31,6 +32,17 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Services
                 .FirstOrDefaultAsync(template => template.Id == id);
             var output = new CampaignTemplateModel(template);
             return output;
+        }    
+        public async Task<List<CampaignTemplateModel>> GetDefaults(PagedRequestInput input)
+        {
+            var templates = await _dbContextl.CampaignTemplates
+                .AsNoTracking()
+                .Where(template => template.Default)
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount)
+                .Select(e => new CampaignTemplateModel(e))
+                .ToListAsync();
+            return templates;
         }
 
         public async Task<CreatureTemplateValidationResult> UpdateAsync(Guid id, CampaignTemplateModel updatedTemplate)

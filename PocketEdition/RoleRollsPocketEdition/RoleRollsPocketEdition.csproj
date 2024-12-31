@@ -37,7 +37,7 @@
   <ItemGroup>
     <Folder Include="_Application\Rolls\" />
     <Folder Include="_Application\Scenes\" />
-    <Folder Include="_Domain\CreatureTemplates\" />
+    <Folder Include="_Domain\Templates\" />
     <Folder Include="_Domain\Rolls\" />
     <Folder Include="_Domain\Scenes\" />
   </ItemGroup>

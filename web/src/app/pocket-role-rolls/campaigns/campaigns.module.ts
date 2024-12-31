@@ -41,7 +41,6 @@ import {
 } from "src/app/pocket-role-rolls/campaigns/CampaignEditor/campaign-itens/campaign-item-creator/campaign-item-creator.component";
 import {InputTextModule} from "primeng/inputtext";
 import {TabMenuModule} from "primeng/tabmenu";
-import {RadioButtonModule} from "primeng/radiobutton";
 import {CreatureEquipmentComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-equipment/creature-equipment.component';
 import {CreatureInventoryComponent} from 'src/app/pocket-role-rolls/pocket-creature-editor/creature-inventory/creature-inventory.component';
 import {
@@ -51,6 +50,9 @@ import {MakeAttackComponent} from './CampaignInstance/creature-actions/make-atta
 import {
   PocketCreatureSelectComponent
 } from 'src/app/pocket-role-rolls/campaigns/CampaignInstance/pocket-creature-select/pocket-creature-select.component';
+import { TemplateSelectorComponent } from './CampaignEditor/template-selector/template-selector.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -75,6 +77,7 @@ const routes: Routes = [
         CampaignEditorBodyShellComponent,
         CampaignItensTemplateComponent,
         CampaignItemCreatorComponent,
+        TemplateSelectorComponent,
     ],
     exports: [
     ],
@@ -104,7 +107,8 @@ const routes: Routes = [
     CreatureInventoryComponent,
     ItemConfigurationComponent,
     MakeAttackComponent,
-    PocketCreatureSelectComponent
+    PocketCreatureSelectComponent,
+    CheckboxModule,
   ]
 })
 export class CampaignsModule { }

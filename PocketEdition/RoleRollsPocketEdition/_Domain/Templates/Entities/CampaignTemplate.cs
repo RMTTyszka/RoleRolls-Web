@@ -27,6 +27,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         }
 
         public string Name { get; set; }
+        public bool Default { get; set; }
         public int MaxAttributePoints => 5;
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
         public int TotalAttributePoints { get; set; }

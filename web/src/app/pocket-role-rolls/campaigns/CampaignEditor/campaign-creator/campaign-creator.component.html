@@ -4,6 +4,14 @@
                   <p-fieldset legend="Campaign">
                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
                   </p-fieldset>
+                  <p-checkbox formControlName="copy" inputId="copy">
+                  </p-checkbox>
+                  <label for="copy" class="ml-2">Copy</label>
+                  <div *ngFor="let template of defaultTemplates" class="field-checkbox">
+                    <p-radiobutton  [inputId]="template.value" [value]="template.value" formControlName="campaignTemplateId">
+                    </p-radiobutton>
+                    <label [for]="template.value" class="ml-2">{{ template.label }}</label>
+                  </div>
                   <ng-container *ngIf="isUpdate">
 
                   <p-panel [toggleable]="true">

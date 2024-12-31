@@ -29,6 +29,7 @@ import {TakeDamageApiInput} from 'src/app/pocket-role-rolls/campaigns/models/Tak
 import {SimulateCdInput} from './models/SimulateCdInput';
 import {SimulateCdResult} from './models/simulate-cd-result';
 import {AttackInput} from 'src/app/pocket-role-rolls/campaigns/models/TakeDamangeInput';
+import {TemplateImportInput} from './models/TemplateImportInput';
 
 @Injectable({
   providedIn: 'root'
@@ -48,12 +49,14 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
     super(injector);
    }
 
-   override getNew() :Observable<PocketCampaignModel> {
+   override getNew(): Observable<PocketCampaignModel> {
     const campaignModel = {
       id: uuidv4(),
       name: 'New Campaign',
       creatureTemplate: new CreatureTemplateModel(),
-      masterId: this.authenticationService.userId
+      masterId: this.authenticationService.userId,
+      copy: false,
+      campaignTemplateId: null,
     } as PocketCampaignModel;
       return of<PocketCampaignModel>(campaignModel);
    }
@@ -209,6 +212,10 @@ export class PocketCampaignsService extends BaseCrudService<PocketCampaignModel,
 
   public attack(campaignId: string, sceneId: string, creatureId: string, input: AttackInput) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures/${creatureId}/attacks`, input);
+  }
+
+  importTemplate(template: TemplateImportInput) {
+    return this.http.post<never>(`${this.completePath}/campaigns/import`, template);
   }
 }
 

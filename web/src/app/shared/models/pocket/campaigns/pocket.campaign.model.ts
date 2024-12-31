@@ -6,7 +6,8 @@ import {
 
 export class PocketCampaignModel extends Entity {
   public masterId: string;
-  public creatureTemplateId: string;
+  public campaignTemplateId: string;
+  public copy: boolean;
   public creatureTemplate: CreatureTemplateModel;
   public itemConfiguration: ItemConfigurationModel;
   constructor() {
