@@ -40,7 +40,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             var campaign = Campaign.InstantiateNewCampaign(campaignModel);
 
             var creatureTemplate = new CampaignTemplate();
-            if (!campaignModel.CreatureTemplateId.HasValue)
+            if (!campaignModel.CampaignTemplateId.HasValue)
             {
                 creatureTemplate = new CampaignTemplate
                 {
@@ -49,15 +49,10 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 creatureTemplate.Name = campaign.Name;
                 campaign.CreatureTemplateId = creatureTemplate.Id;
             }
-            else 
-            {
-                campaign.CreatureTemplateId = campaignModel.CreatureTemplateId.Value;
-                creatureTemplate = await _dbContext.CampaignTemplates.FindAsync(campaign.CreatureTemplateId);
-            }
 
             using (_unitOfWork.Begin())
             {
-                if (!campaignModel.CreatureTemplateId.HasValue) 
+                if (!campaignModel.CampaignTemplateId.HasValue) 
                 { 
                     await _dbContext.CampaignTemplates.AddAsync(creatureTemplate);
                 }

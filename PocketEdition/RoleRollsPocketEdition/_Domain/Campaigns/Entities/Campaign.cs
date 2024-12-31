@@ -26,7 +26,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
                 Id = campaignModel.Id,
                 MasterId = campaignModel.MasterId,
                 Name = campaignModel.Name,
-                CreatureTemplateId = campaignModel.CreatureTemplateId ?? Guid.NewGuid(),
+                CreatureTemplateId = campaignModel.CampaignTemplateId ?? Guid.NewGuid(),
                 CampaignTemplate = null,
                 InvitationSecret = Guid.NewGuid(),
                 PowerTemplates = new List<PowerTemplate>(),
