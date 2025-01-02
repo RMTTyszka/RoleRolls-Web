@@ -10,17 +10,17 @@
     <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
   </ng-template>
   <form [formGroup]="form">
-    <div class="flex flex-column gap-2">
+    <div class="flex flex-col gap-2">
       <label for="itemTemplateName">Item Name</label>
       <input id="itemTemplateName" [required]="true" pInputText formControlName="name" type="text">
     </div>
-    <div *ngIf="itemType() === itemTypeEnum.Weapon" class="flex flex-column gap-2">
+    <div *ngIf="itemType() === itemTypeEnum.Weapon" class="flex flex-col gap-2">
       <label for="weaponCategory">Category</label>
-      <p-dropdown id="weaponCategory"  formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
+      <p-select id="weaponCategory"  formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
     </div>
-    <div *ngIf="itemType() === itemTypeEnum.Armor" class="flex flex-column gap-2">
+    <div *ngIf="itemType() === itemTypeEnum.Armor" class="flex flex-col gap-2">
       <label for="armorCategory">Category</label>
-      <p-dropdown id="armorCategory"  formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
+      <p-select id="armorCategory"  formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
     </div>
   </form>
 </p-panel>

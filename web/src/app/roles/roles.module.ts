@@ -4,7 +4,6 @@ import {RolesListComponent} from './roles-list/roles-list.component';
 import {RolesEditorComponent} from './roles-editor/roles-editor.component';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {
   MatCard,
   MatCardActions,
@@ -12,8 +11,8 @@ import {
   MatCardHeader,
   MatCardSubtitle,
   MatCardTitle
-} from "@angular/material/card";
-import {MatFormField} from "@angular/material/form-field";
+} from '@angular/material/card';
+import {MatFormField} from '@angular/material/form-field';
 
 export const routes: Routes = [
   {path: '', component: RolesListComponent},
@@ -26,7 +25,6 @@ export const routes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    DynamicDialogModule,
     MatCardActions,
     MatFormField,
     MatCardContent,

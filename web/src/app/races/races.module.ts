@@ -10,7 +10,6 @@ import {RaceEditorComponent} from './race-editor/race-editor.component';
 import {SharedModule} from '../shared/shared.module';
 
 import {PowersSharedModule} from '../powers/powers-shared/powers-shared.module';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {MatTableModule} from "@angular/material/table";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
@@ -33,7 +32,6 @@ export const routes: Routes = [
         FormsModule,
         SharedModule,
         PowersSharedModule,
-        DynamicDialogModule
     ],
     declarations: [RacesComponent, RaceEditorComponent],
     providers: [

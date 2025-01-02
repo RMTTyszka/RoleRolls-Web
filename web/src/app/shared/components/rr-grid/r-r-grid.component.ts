@@ -60,6 +60,7 @@ public actionsWidth() {
       this.create = () => {
         this.dialogService.open(this.config.creator, {
           height: this.config.creatorOptions ? this.config.creatorOptions.height : '80%',
+          width: this.config.creatorOptions ? this.config.creatorOptions.height : '60%',
           data: {
             action: EditorAction.create
           }

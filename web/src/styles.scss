@@ -1,12 +1,12 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import 'app/theming/colors';
 @import 'app/theming/primen-ng/theme';
-@import '../node_modules/primeflex/primeflex.css';
-// @import 'app/theming/prime-ng-theming';
-
 @import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
-
+@import '../node_modules/primeflex/primeflex.css';
+/*@import 'tailwindcss/base';*/
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 .font-base {
   font-family: 'IM Fell English SC';

@@ -32,7 +32,6 @@ import {InputTextModule} from 'primeng/inputtext';
         OverlayPanelModule,
         MenuModule,
         TieredMenuModule,
-        ChipsModule,
         InputSwitchModule,
 
         DropdownModule,

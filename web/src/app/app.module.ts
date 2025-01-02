@@ -16,7 +16,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {UniverseInterceptor} from './interceptors/universe.interceptor';
 import {AppColorService} from './app-color.service';
 import {MatTabLink, MatTabNav, MatTabNavPanel} from "@angular/material/tabs";
-
+import { providePrimeNG } from 'primeng/config';
 
 @NgModule({
   declarations: [
@@ -36,14 +36,15 @@ import {MatTabLink, MatTabNav, MatTabNavPanel} from "@angular/material/tabs";
     ConfirmDialogModule,
     MatTabNav,
     MatTabLink,
-    MatTabNavPanel
-
+    MatTabNavPanel,
   ],
   providers: [
     MessageService,
     ConfirmationService,
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: UniverseInterceptor, multi: true },
+    provideAnimationsAsync(),
+    providePrimeNG({}),
     ],
   bootstrap: [AppComponent]
 })
@@ -54,3 +55,7 @@ export class AppModule {
     }, 0);
   }
 }
+function provideAnimationsAsync(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
+    throw new Error('Function not implemented.');
+}
+

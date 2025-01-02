@@ -4,7 +4,7 @@
   <div fxLayout="column">
     <span fxLayout="row" fxLayoutAlign="space-between center">
       <label>Property: </label>
-      <p-dropdown formControlName="property" [options]="properties"></p-dropdown>
+      <p-select formControlName="property" [options]="properties"></p-select>
     </span>    <span fxLayout="row" fxLayoutAlign="space-between center">
       <label>Level Bonus: </label>
       <input pInputText formControlName="level">
@@ -15,11 +15,11 @@
     </span>
     <span fxLayout="row" fxLayoutAlign="space-between center">
       <label>Bonus Type: </label>
-    <p-dropdown formControlName="bonusType" [options]="bonusTypes"></p-dropdown>
+    <p-select formControlName="bonusType" [options]="bonusTypes"></p-select>
     </span>
     <span fxLayout="row" fxLayoutAlign="space-between center">
       <label>Bonus Duration: </label>
-     <p-dropdown formControlName="bonusDuration" [options]="bonusDurations"></p-dropdown>
+     <p-select formControlName="bonusDuration" [options]="bonusDurations"></p-select>
     </span>
     <span fxLayout="row" fxLayoutAlign="space-between center" *ngIf="hasRemainingTurns">
       <label>Remaining Turns: </label>

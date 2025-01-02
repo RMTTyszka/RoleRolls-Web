@@ -18,7 +18,7 @@ import { PocketCreature, PocketSkillProficience } from 'src/app/shared/models/po
 import { PocketCampaignsService } from '../campaigns/pocket-campaigns.service';
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
 import {HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
-import {Message, MessageService} from 'primeng/api';
+import {MessageService, ToastMessageOptions} from 'primeng/api';
 import {CreatureDetailsService} from './creature-details.service';
 import {firstValueFrom} from 'rxjs';
 import {Entity} from '../../shared/models/Entity.model';
@@ -140,7 +140,7 @@ export class PocketCreatureEditorComponent implements OnInit, OnDestroy {
           severity: 'error',
           summary: `The ${error.error.invalidProperty} has invalid points`,
           detail: 'Allocated points greater than available points.'
-        } as Message);
+        } as ToastMessageOptions);
       }
     });
   }

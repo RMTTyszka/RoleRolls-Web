@@ -1,17 +1,29 @@
 <rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
                (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields" [hasDelete]="false" [hasSave]="action === actionEnum.create">
                 <form form [formGroup]="form" *ngIf="!isLoading">
-                  <p-fieldset legend="Campaign">
-                    <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                  </p-fieldset>
-                  <p-checkbox formControlName="copy" inputId="copy">
-                  </p-checkbox>
-                  <label for="copy" class="ml-2">Copy</label>
-                  <div *ngFor="let template of defaultTemplates" class="field-checkbox">
-                    <p-radiobutton  [inputId]="template.value" [value]="template.value" formControlName="campaignTemplateId">
-                    </p-radiobutton>
-                    <label [for]="template.value" class="ml-2">{{ template.label }}</label>
+                  <div class="grid grid-cols-6 gap-4">
+                    <!-- Campo de texto que ocupa a linha inteira -->
+                    <p-fieldset class="col-span-6" legend="Campaign">
+                      <input class="w-full" type="text" pInputText placeholder="Name" formControlName="name" required>
+                    </p-fieldset>
+
+                    <!-- Dropdown ocupando a maior parte da segunda linha -->
+                    <p-select class="col-span-5 w-full"
+                                formControlName="campaignTemplateId"
+                                [options]="defaultTemplates"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Universe">
+                    </p-select>
+
+                    <!-- Checkbox + Label ocupando a parte restante -->
+                    <div class="col-span-1 flex items-center">
+                      <p-checkbox formControlName="copy" inputId="copy" [binary]="true"></p-checkbox>
+                      <label for="copy" class="ml-2">Copy</label>
+                    </div>
                   </div>
+
+
                   <ng-container *ngIf="isUpdate">
 
                   <p-panel [toggleable]="true">
