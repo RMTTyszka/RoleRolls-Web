@@ -48,6 +48,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 };
                 creatureTemplate.Name = campaign.Name;
                 campaign.CreatureTemplateId = creatureTemplate.Id;
+                campaign.CampaignTemplate = creatureTemplate;
             }
 
             using (_unitOfWork.Begin())
