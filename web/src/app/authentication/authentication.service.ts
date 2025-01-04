@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {LohAuthLoggedOnApp, LohAuthTokenName, LohAuthUserId, LohAuthUserName} from './AuthTokens';
 import {pipe, Subject} from 'rxjs';
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
-import {Message, MessageService} from 'primeng/api';
+import {ToastMessageOptions, MessageService} from 'primeng/api';
 import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 import { LoggedApp } from '../shared/models/login/LoggedApp';
 
@@ -72,7 +72,7 @@ export class AuthenticationService {
     if (userId) {
       this.userId = userId;
     }
-    const loggedOn = localStorage.getItem(LohAuthLoggedOnApp)
+    const loggedOn = localStorage.getItem(LohAuthLoggedOnApp);
     if (loggedOn) {
       this.loggedOn = loggedOn as unknown as LoggedApp;
     }
@@ -90,7 +90,7 @@ export class AuthenticationService {
 
 
   private  notifyUserAboutUnauthorizedAccess(message: string) {
-    this.messageService.add(<Message>{
+    this.messageService.add(<ToastMessageOptions>{
       severity: 'error',
       summary: 'Non Authorized',
       details: message

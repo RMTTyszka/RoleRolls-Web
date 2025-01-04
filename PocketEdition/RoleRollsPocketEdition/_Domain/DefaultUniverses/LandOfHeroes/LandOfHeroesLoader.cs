@@ -33,13 +33,12 @@ public class LandOfHeroesLoader : IStartupTask
         {
             templateFromDb.Name = templateFromCode.Name;
             templateFromDb.Default = templateFromCode.Default;
-            SynchronizeAttributes(templateFromCode.Attributes, templateFromDb.Attributes);
+            SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes);
         }
         await _context.SaveChangesAsync();
     }
 
-    private void SynchronizeAttributes(
-        List<AttributeTemplate> fromCode,
+    private void SynchronizeAttributes(CampaignTemplate templateFromDb, List<AttributeTemplate> fromCode,
         ICollection<AttributeTemplate> fromDb)
     {
         var dbAttributes = fromDb.ToDictionary(a => a.Id);
@@ -50,6 +49,7 @@ public class LandOfHeroesLoader : IStartupTask
             if (!dbAttributes.TryGetValue(codeAttr.Id, out var dbAttr))
             {
                 fromDb.Add(codeAttr);
+                templateFromDb.Attributes.Add(codeAttr);
             }
             else
             {

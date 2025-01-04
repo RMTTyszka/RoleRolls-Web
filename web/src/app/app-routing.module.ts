@@ -8,8 +8,8 @@ import {ItemsColorConfig} from './items/items-color-config';
 const routes: Routes = [
   {path: 'pocket', loadChildren: () => import('./pocket-role-rolls/pocket-role-rolls.module').then(m => m.PocketRoleRollsModule)},
   {path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule)},
-  {path: 'rolls', loadChildren: () => import('./rolls/rolls.module').then(m => m.RollsModule)},
   {path: 'home', component: HomeComponent},
+ /* {path: 'rolls', loadChildren: () => import('./rolls/rolls.module').then(m => m.RollsModule)},
   {path: 'items', loadChildren: () => import('./items/items.module').then(m => m.ItemsModule), data: { colors: new ItemsColorConfig()}},
   {path: 'races', loadChildren: () => import('./races/races.module').then(m => m.RacesModule)},
   {path: 'roles', loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)},
@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'tests', loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule)},
   {path: 'combat', loadChildren: () => import('./combat/combat.module').then(m => m.CombatModule)},
   {path: 'campaigns', loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule)},
-  {path: 'campaign-session', loadChildren: () => import('./campaign-session/campaign-session.module').then(m => m.CampaignSessionModule)},
+  {path: 'campaign-session', loadChildren: () => import('./campaign-session/campaign-session.module').then(m => m.CampaignSessionModule)},*/
   {path: '**', redirectTo: 'pocket'}
 ];
 

@@ -50,6 +50,11 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 campaign.CreatureTemplateId = creatureTemplate.Id;
                 campaign.CampaignTemplate = creatureTemplate;
             }
+            else
+            {
+                var template = await _dbContext.CampaignTemplates.FirstAsync(x => x.Id == campaignModel.CampaignTemplateId);
+                campaign.CampaignTemplate = template;
+            }
 
             using (_unitOfWork.Begin())
             {
@@ -65,14 +70,14 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         {
             var campaign = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Attributes)            
+                .ThenInclude(t => t.Attributes)
+                .ThenInclude(a => a.SkillTemplates)
+                .ThenInclude(s => s.MinorSkills)
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Defenses)          
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Lifes)      
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Skills)                
-                .ThenInclude(c => c.MinorSkills)
                 .Include(c => c.ItemConfiguration)
                 .FirstAsync(e => e.Id == id);
             var output = new CampaignModel(campaign);

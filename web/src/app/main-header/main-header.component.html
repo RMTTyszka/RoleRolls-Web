@@ -1,13 +1,13 @@
-<div class="p-grid p-justify-between main-color-5 main-header-text">
-  <div class="p-grid p-align-center p-nogutter">
-    <h1 routerLink='home' class="font-base">
+<div class="flex flex-row justify-between main-color-5 main-header-text">
+  <div class="flex items-center">
+    <h1 routerLink='home' class="text-3xl ml-2 font-base">
       {{title | titlecase}}       <i class="fas fa-dice-d20"></i>
     </h1>
     <h3 routerLink='pocket/campaign'>Pocket Edition</h3>
   </div>
   <div  class="p-grid p-nogutter p-align-end p-justify-end" style="padding-right: 8px">
     <ng-container *ngIf="hasUser">
-      <label class="main-header-text p-col-12" style="text-align: end">{{userName}}</label>
+      <label class="main-header-text text-xl p-col-12" style="text-align: end">{{userName}}</label>
       <p-select class="-col-12" placeholder="Universe" [options]="universeOptions" [(ngModel)]="selectedUniverse" (onChange)="universeSelected($event.value)"></p-select>
       <label class="p-col-12" style="text-align: end; cursor: pointer;"  (click)="logout()">logout</label>
 

@@ -1002,7 +1002,7 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   border-color: #a80000;
 }
 
-.p-inputtext {
+/*.p-inputtext {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 1rem;
   color: #333333;
@@ -1012,7 +1012,7 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   appearance: none;
   border-radius: 3px;
-}
+}*/
 .p-inputtext:enabled:hover {
   border-color: #212121;
 }

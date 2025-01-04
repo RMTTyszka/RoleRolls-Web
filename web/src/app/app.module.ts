@@ -15,9 +15,10 @@ import {ShopModule} from './shop/shop.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {UniverseInterceptor} from './interceptors/universe.interceptor';
 import {AppColorService} from './app-color.service';
-import {MatTabLink, MatTabNav, MatTabNavPanel} from "@angular/material/tabs";
+import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import { providePrimeNG } from 'primeng/config';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import Nora from '@primeng/themes/nora';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,17 @@ import { providePrimeNG } from 'primeng/config';
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: UniverseInterceptor, multi: true },
     provideAnimationsAsync(),
-    providePrimeNG({}),
+    providePrimeNG({
+      theme: {
+        preset: Nora,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base,primeng,tailwind-utilities'
+          }
+        }
+      }
+    }),
     ],
   bootstrap: [AppComponent]
 })
@@ -54,8 +65,5 @@ export class AppModule {
       appColorService.init();
     }, 0);
   }
-}
-function provideAnimationsAsync(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
-    throw new Error('Function not implemented.');
 }
 

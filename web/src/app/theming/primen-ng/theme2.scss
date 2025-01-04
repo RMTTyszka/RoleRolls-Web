@@ -1,0 +1,46 @@
+@charset "UTF-8";
+@import '../colors.scss';
+
+
+html {
+  font-size: 12px;
+}
+:root {
+  --color-1: #{$mainColor1};
+  --color-2: #{$mainColor2};
+  --color-3: #{$mainColor3};
+  --color-4: #{$mainColor4};
+  --color-5: #{$mainColor5};
+  --success-color: #{$successColor};
+  --success-hover-color: #{$successColorHover};
+  --info-color: #{$infoColor};
+  --warning-color: #{$warningColor};
+  --danger-color: #{$dangerColor};
+
+  --surface-a: #ffffff;
+  --surface-b: #f4f4f4;
+  --surface-c: #eaeaea;
+  --surface-d: #c8c8c8;
+  --surface-e: #ffffff;
+  --surface-f: #ffffff;
+  --text-color: #333333;
+  --text-color-secondary: #848484;
+  --secondarycolor: #{$secondaryColor};
+  --primary-color: #{$primaryColor};
+  --primary-color-text: #ffffff;
+  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --surface-0: #ffffff;
+  --surface-50: #eef1f2;
+  --surface-100: #dde2e4;
+  --surface-200: #bbc5ca;
+  --surface-300: #98a8af;
+  --surface-400: #768b95;
+  --surface-500: #546e7a;
+  --surface-600: #435862;
+  --surface-700: #324249;
+  --surface-800: #222c31;
+  --surface-900: #222c31;
+  --surface-950: #111618;
+  --content-padding:0.571rem 1rem;
+  --inline-spacing:0.5rem;
+}
