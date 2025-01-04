@@ -19,6 +19,7 @@ import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import Nora from '@primeng/themes/nora';
+import Aura from '@primeng/themes/aura';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,7 @@ import Nora from '@primeng/themes/nora';
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Nora,
+        preset: Aura,
         options: {
           cssLayer: {
             name: 'primeng',

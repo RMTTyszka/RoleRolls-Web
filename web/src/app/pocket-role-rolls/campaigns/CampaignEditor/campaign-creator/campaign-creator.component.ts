@@ -35,7 +35,9 @@ export class CampaignCreatorComponent implements OnInit {
   public disabled: boolean;
   @Output() campaignLoaded = new EventEmitter<PocketCampaignModel>();
   public defaultTemplates: RROption<string>[] = [];
-
+  public get default() {
+    return this.entity.creatureTemplate.default;
+  }
   public get attributes(): FormArray {
     return this.form?.get('creatureTemplate.attributes') as FormArray;
   }
@@ -250,7 +252,7 @@ export class CampaignCreatorComponent implements OnInit {
     this.defenseForm.get('id').setValue(uuidv4() as never);
 
     this.buildSkills();
-    this.disabled = !this.authService.isMaster(this.entity.masterId);
+    this.disabled = !this.authService.isMaster(this.entity.masterId) || this.default;
     if (this.disabled) {
       this.form.disable();
       this.attributeForm.disable();
