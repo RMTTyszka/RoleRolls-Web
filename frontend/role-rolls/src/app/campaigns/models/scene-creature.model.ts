@@ -1,8 +1,7 @@
-import {CreatureType} from '../../creatures/CreatureType';
+import { CreatureType } from './CreatureType';
 
 export class SceneCreature {
-  public creatureId: string;
-  public creatureType: CreatureType;
-  public hidden: boolean;
-  public crea: boolean;
+  public creatureId!: string;
+  public creatureType!: CreatureType;
+  public hidden!: boolean;
 }

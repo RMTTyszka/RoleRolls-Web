@@ -1,0 +1,176 @@
+<rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
+              (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields" [hasDelete]="false" [hasSave]="action === actionEnum.create">
+  <form form [formGroup]="form" *ngIf="!isLoading">
+    <div *ngIf="action === actionEnum.create" class="grid grid-cols-6 gap-4">
+      <!-- Campo de texto que ocupa a linha inteira -->
+      <p-fieldset class="col-span-6" legend="Campaign">
+        <input class="w-full" type="text" pInputText placeholder="Name" formControlName="name" required>
+      </p-fieldset>
+
+      <!-- Dropdown ocupando a maior parte da segunda linha -->
+      <p-select class="col-span-5 w-full"
+                formControlName="campaignTemplateId"
+                [options]="defaultTemplates"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Universe">
+      </p-select>
+
+      <!-- Checkbox + Label ocupando a parte restante -->
+      <div class="col-span-1 flex items-center">
+        <p-checkbox formControlName="copy" inputId="copy" [binary]="true"></p-checkbox>
+        <label for="copy" class="ml-2">Copy</label>
+      </div>
+    </div>
+
+
+    <ng-container *ngIf="isUpdate">
+
+      <p-panel [toggleable]="true">
+        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <span class="p-panel-title col-6">Attributes</span>
+          <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="attributeForm" *ngIf="!isLoading">
+            <ng-container *ngIf=!disabled >
+              <p-fieldset class="col-6">
+                <input type="text" pInputText placeholder="Attribute Name" formControlName="name" required (keydown.enter)="addAttribute()">
+              </p-fieldset>
+              <button pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addAttribute()" [disabled]=disabled></button>
+            </ng-container>
+          </div>
+        </p-header>
+        <div formGroupName="creatureTemplate">
+          <div formArrayName="attributes">
+            <div *ngFor="let attribute of attributes.controls; let i=index">
+              <div [formGroup]="attribute">
+                <div class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateAttribute(attribute)">
+                  <button  *ngIf=!disabled class="p-inputgroup-addon" (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel [toggleable]="true">
+        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <span class="p-panel-title col">Skills</span>
+        </p-header>
+        <div formGroupName="creatureTemplate">
+          <div formArrayName="attributes">
+            <div *ngFor="let attribute of attributes.controls; let i=index">
+              <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                  <span class="p-panel-title col-6">{{attribute.get('name').value}}</span>
+                  <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
+                    <p-fieldset class="col-6">
+                      <div *ngIf=!disabled class="p-inputgroup">
+                        <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkill(attribute)">
+                        <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
+                      </div>
+                    </p-fieldset>
+                  </div>
+                </p-header>
+                <div class="p-grid p-justify-between p-align-start p-nogutter">
+                  <div class="col-6">
+                    <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
+                      <div form [formGroup]="skill">
+                        <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                          <ng-template pTemplate="header">
+                            <div class="p-inputgroup">
+                              <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
+                              <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                            </div>
+                            <div form class="col-6" [formGroup]="minorSkillForm">
+                              <div *ngIf=!disabled class="p-inputgroup">
+                                <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addMinorSkill(skill)">
+                                <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                              </div>
+                            </div>
+                          </ng-template>
+                          <div class="p-grid p-justify-between p-align-start p-nogutter">
+                            <div class="col-6" form [formGroup]="skill">
+                              <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
+                                <div [formGroup]="minorSkill">
+                                  <div class="p-inputgroup">
+                                    <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
+                                    <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </p-panel>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-panel>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel [toggleable]="true">
+        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <span class="p-panel-title col-6">Lifes</span>
+          <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="lifeForm" *ngIf="!isLoading">
+            <ng-container *ngIf=!disabled >
+              <p-fieldset class="col-6">
+                <input type="text" pInputText placeholder="Add Life" formControlName="name" required (keydown.enter)="addLife()">
+              </p-fieldset>
+              <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addLife()"></button>
+            </ng-container>
+          </div>
+        </p-header>
+        <div formGroupName="creatureTemplate">
+          <div formArrayName="lifes">
+            <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
+              <div [formGroup]="life">
+                <div  class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateLife(life)">
+                  <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeLife(life, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                </div>
+                <div class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateLife(life)">
+                  <button [disabled]=true class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="5 + 4 * level + (level + 2) * Vitality" fitContent="true"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </p-panel>
+      <p-panel [toggleable]="true">
+        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <span class="p-panel-title col-6">Defenses</span>
+          <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
+            <ng-container *ngIf=!disabled >
+              <p-fieldset class="col-6">
+                <input type="text" pInputText placeholder="Add Defense" formControlName="name" required (keydown.enter)="addDefense()">
+              </p-fieldset>
+              <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addDefense()"></button>
+            </ng-container>
+          </div>
+        </p-header>
+        <div formGroupName="creatureTemplate">
+          <div formArrayName="defenses">
+            <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
+              <div [formGroup]="defense">
+                <div class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
+                  <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                </div>
+                <div class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateDefense(defense)">
+                  <button [disabled]=true class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" class="p-button-secondary" pTooltip="10 + level + Agility" fitContent="true"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+
+    </ng-container>
+  </form>
+</rr-cm-editor>

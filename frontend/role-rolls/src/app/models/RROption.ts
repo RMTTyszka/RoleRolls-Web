@@ -5,3 +5,9 @@ export interface RRAction<T> {
   callBack: (rowData: T, target: any) => void;
   condition: (rowData: T) => boolean;
 }
+
+export class RROption<T> {
+  public label!: string;
+  public value!: T;
+}
+

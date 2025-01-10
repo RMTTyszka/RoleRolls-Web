@@ -1,5 +1,5 @@
 export class SimulateCdResult {
-  public complexity: number;
-  public difficulty: number;
-  public chance: number;
+  public complexity!: number;
+  public difficulty!: number;
+  public chance!: number;
 }

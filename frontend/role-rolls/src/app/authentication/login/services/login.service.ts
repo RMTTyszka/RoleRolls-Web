@@ -30,11 +30,11 @@ export class LoginService {
         })
       } );
   }
-  addUser(input: CreateUserInput): Observable<CreateUserOutput> {
-    return this.httpClient.post<CreateUserOutput>(this.serverUrl + 'users/create', input);
+  addUser(input: CreateUserInput): Observable<never> {
+    return this.httpClient.post<never>(this.serverUrl + 'users', input);
   }
   updateUser(username: string, password: string, email: string) {
-    return this.httpClient.post(this.serverUrl + 'users/update', {
+    return this.httpClient.put(this.serverUrl + 'users', {
       username: username,
       password: password,
       email: email

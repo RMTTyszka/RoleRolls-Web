@@ -1,17 +1,17 @@
-import {RollOrigin} from "../CampaignInstance/campaign-heroes/RollOrigin";
+import { RollOrigin } from '../../models/RollOrigin';
 
-export class RollInput {
-  public propertyName: string;
-  public propertyValue: number;
-  public propertyId: string;
-  public propertyType: RollOrigin;
-  public complexity: number;
-  public difficulty: number;
-  public propertyBonus: number;
-  public rollBonus: number;
-  public hidden: boolean;
-  public creatureId: string;
-  public rollsAsString = '';
-  public rolls: number[];
-  public description: string;
+export interface RollInput {
+  propertyName: string;
+  propertyValue: number;
+  propertyId: string;
+  propertyType: RollOrigin;
+  complexity: number;
+  difficulty: number;
+  propertyBonus: number;
+  rollBonus: number;
+  hidden: boolean;
+  creatureId: string;
+  rollsAsString: string;
+  rolls: number[];
+  description: string;
 }

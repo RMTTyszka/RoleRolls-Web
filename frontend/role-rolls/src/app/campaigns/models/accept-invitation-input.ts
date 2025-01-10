@@ -1,3 +1,3 @@
-export class AcceptInvitationInput {
-  public invitationCode: string;
+export interface AcceptInvitationInput {
+  invitationCode: string;
 }

@@ -12,7 +12,8 @@ export class CreatureTemplateModel extends Entity {
 }
 
 
-export class AttributeTemplateModel extends Entity {
+export interface AttributeTemplateModel extends Entity {
+  name: string
 }
 
 export interface SkillTemplateModel extends Entity {
@@ -27,6 +28,7 @@ export class MinorSkillsTemplateModel extends Entity {
 export class LifeTemplateModel extends Entity {
   public formula!: string;
 }
-export class DefenseTemplateModel extends Entity {
-  public formula!: string;
+export interface DefenseTemplateModel extends Entity {
+  formula: string;
+  name: string;
 }

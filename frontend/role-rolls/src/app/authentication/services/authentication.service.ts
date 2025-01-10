@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {pipe, Subject} from 'rxjs';
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
-import {ToastMessageOptions, MessageService} from 'primeng/api';
 import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 import { AuthTokenName, AuthUserId, AuthUserName } from '../tokens/AuthTokens';
 import { StorageService } from '../../services/storage.service';
@@ -22,7 +21,7 @@ export class AuthenticationService {
   }
   constructor(
     private router: Router,
-    private messageService: MessageService,
+/*    private messageService: MessageService,*/
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -84,10 +83,10 @@ export class AuthenticationService {
 
 
   private  notifyUserAboutUnauthorizedAccess(message: string) {
-    this.messageService.add(<ToastMessageOptions>{
+/*    this.messageService.add(<ToastMessageOptions>{
       severity: 'error',
       summary: 'Non Authorized',
       details: message
-    });
+    });*/
   }
 }

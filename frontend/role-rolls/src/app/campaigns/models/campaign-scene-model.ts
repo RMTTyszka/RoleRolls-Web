@@ -1,5 +1,5 @@
-export class CampaignScene {
-  public id: string;
-  public name: string;
-  public campaignId: string;
+export interface CampaignScene {
+  id: string;
+  name: string;
+  campaignId: string;
 }

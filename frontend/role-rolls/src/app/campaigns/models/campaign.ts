@@ -4,7 +4,7 @@ import { ItemConfigurationModel } from './item-configuration-model';
 
 export interface Campaign extends Entity {
   masterId: string;
-  campaignTemplateId: string;
+  campaignTemplateId: string | null;
   copy: boolean;
   creatureTemplate: CreatureTemplateModel;
   itemConfiguration: ItemConfigurationModel;

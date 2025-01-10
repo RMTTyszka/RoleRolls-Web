@@ -1,0 +1,11 @@
+<p-tabView>
+  <p-tabPanel header="Creature Template">
+    <rr-campaign-template [action]="action" [entityId]="entityId" (campaignLoaded)="campaignLoaded($event)"></rr-campaign-template>
+  </p-tabPanel>
+  <p-tabPanel *ngIf="action === actionEnum.update" header="Itens">
+    <rr-campaign-itens  [campaign]="campaign"></rr-campaign-itens>
+  </p-tabPanel>
+  <p-tabPanel *ngIf="action === actionEnum.update" header="Item Configuration">
+    <rr-campaign-item-configuration  [campaign]="campaign"></rr-campaign-item-configuration>
+  </p-tabPanel>
+</p-tabView>

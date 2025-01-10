@@ -1,38 +1,48 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TableModule } from 'primeng/table';
-import { DialogService } from 'primeng/dynamicdialog';
+import { Component, createComponent, EventEmitter, input, Input, Output, Type } from '@angular/core';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng/api';
 import { Entity } from '../../models/Entity.model';
-import EventEmitter from 'node:events';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PagedOutput } from '../../models/PagedOutput';
+import { safeCast } from '../../tokens/utils.funcs';
+import { Tooltip } from 'primeng/tooltip';
+import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { Button, ButtonDirective, ButtonIcon } from 'primeng/button';
+import { BaseCrudService } from '../../services/base-service/base-crud-service';
+import { GetListInput } from '../../tokens/get-list-input';
+import { firstValueFrom } from 'rxjs';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-grid',
   imports: [
-    TableModule
+    TableModule,
+    Tooltip,
+    ButtonDirective,
+    NgStyle,
+    NgForOf,
+    NgIf,
+    InputText,
+    ButtonIcon,
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss'
 })
 export class GridComponent<T extends Entity> {
   data: T[] = [];
-  @Input('columns') _columns: RRColumns[];
-  @Input() create: Function;
-  @Input() getList: Function;
-  @Input() select: Function;
-  @Input() isSelect: boolean;
-  @Input() refresh: EventEmitter<void>;
-  @Input() headerActions: RRAction<void>[] = [];
-  @Input() actions: RRAction<void>[] = [];
-  totalCount: number;
+  public columns = input<RRColumns[]>();
+  @Input() service!: BaseCrudService<T>;
+  @Input() select!: Function;
+  @Input() isSelect!: boolean;
+  @Input() refresh!: EventEmitter<void>;
+  @Input() headerActions: RRHeaderAction[] = [];
+  @Input() actions: RRTableAction<T>[] = [];
+  public editorComponent = input<Type<any>>();
+  public editorRoute = input<string>();
+  totalCount: number = 0;
   loading = true;
   first = 0;
-  get columns() {
-    return this._columns;
-  }
-  get actions() {
-    return this.actions;
-  }
   public actionsWidth() {
     return {width: `${this.actions.length * 3}%`}
   }
@@ -46,7 +56,7 @@ export class GridComponent<T extends Entity> {
   ngOnInit() {
     if (this.refresh) {
       this.refresh.subscribe(() => {
-        this.get();
+        this.getList();
       })
     }
 /*    this.service.entityUpdated.subscribe(entity => this.updateData(entity));
@@ -63,7 +73,22 @@ export class GridComponent<T extends Entity> {
         });
       };
     }*/
-    this.get();
+    this.getList();
+  }
+  public async create() {
+    console.log('coco')
+    const editor = this.editorComponent();
+    if (!editor) {
+      const route = this.editorRoute();
+      if (route) {
+        this.router.navigate([route]);
+      }
+      return;
+    }
+    await firstValueFrom(this.dialogService.open(editor, {
+      data: null,
+      focusOnShow: false
+    } as DynamicDialogConfig).onClose)
   }
   private updateData(entity: T) {
     const index = this.data.findIndex(e => e.id === entity.id);
@@ -76,26 +101,30 @@ export class GridComponent<T extends Entity> {
     const index = this.data.findIndex(e => e.id === entity.id);
     this.data = this.data.filter(e => e.id !== entity.id);
   }
-  get(filter?: string, skipCount?: number, maxResultCount?: number) {
-    this.getList(filter, skipCount, maxResultCount).subscribe(response => {
-      this.data = response.content;
-      this.totalCount = response.totalElements;
+  getList(filter?: string, skipCount?: number, maxResultCount?: number) {
+    this.service.getList({
+      filter,
+      skipCount,
+      maxResultCount
+    } as GetListInput).subscribe((response: PagedOutput<T>) => {
+      this.data = response.itens;
+      this.totalCount = safeCast<number>(response.totalCount);
       this.loading = false;
-    }, error => {
+    }, (error: HttpErrorResponse) => {
       this.data = [];
       this.totalCount = 0;
       this.loading = false;
     });
   }
-  resolve(path, obj) {
+  resolve(path: string, obj: any) {
     return path.split('.').reduce(function(prev, curr) {
       return prev ? prev[curr] : null;
     }, obj || self);
   }
 
-  onLazyLoadEvent(event: LazyLoadEvent) {
+  onLazyLoadEvent(event: TableLazyLoadEvent) {
     this.loading = true;
-    this.get('', event.first / event.rows, event.rows);
+    this.getList('', (event.first ?? 0) / (event.rows ?? 0), event.rows ?? 0);
   }
 
   rowSelected(event: {data: T}) {
@@ -109,10 +138,17 @@ export interface RRColumns {
   property: string;
   format?: (obj: any, value: any) => any;
 }
-export interface RRAction<T> {
+export interface RRTableAction<T> {
   icon: string;
   csClass: string | null | undefined;
-  tooltip: string | null | undefined;
+  tooltip: string;
   callBack: (rowData: T, target: any) => void;
   condition: (rowData: T) => boolean;
+}
+export interface RRHeaderAction {
+  icon: string;
+  csClass: string | null | undefined;
+  tooltip: string;
+  callBack: (target: any) => void;
+  condition: () => boolean;
 }

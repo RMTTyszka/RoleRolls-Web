@@ -22,17 +22,20 @@ import { AcceptInvitationInput } from '../models/accept-invitation-input';
 import { PagedOutput } from '../../models/PagedOutput';
 import { AttackInput } from '../models/TakeDamangeInput';
 import { TemplateImportInput } from '../models/TemplateImportInput';
+import { safeCast } from '../../tokens/utils.funcs';
+import { ItemConfigurationModel } from '../models/item-configuration-model';
+import { BaseCrudService } from '../../services/base-service/base-crud-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PocketCampaignsService {
+export class PocketCampaignsService extends BaseCrudService<Campaign>{
   public path = 'campaigns';
-  public serverUrl = RR_API.backendUrl;
   constructor(
-    private http: HttpClient,
+    http: HttpClient,
     private authenticationService: AuthenticationService,
   ) {
+    super(http)
    }
 
    public getNew(): Observable<Campaign> {
@@ -40,14 +43,12 @@ export class PocketCampaignsService {
       id: uuidv4(),
       name: 'New Campaign',
       creatureTemplate: new CreatureTemplateModel(),
-      masterId: this.authenticationService.userId,
+      masterId: safeCast<string>(this.authenticationService.userId),
       copy: false,
       campaignTemplateId: null,
+      itemConfiguration: new ItemConfigurationModel()
     } as Campaign;
       return of<Campaign>(campaignModel);
-   }
-   public get(id: string): Observable<Campaign> {
-     return this.http.get<Campaign>(this.serverUrl + this.path + `/${id}`);
    }
 
    public addAttribute(campaignId: string, attribute: AttributeTemplateModel): Observable<never> {
@@ -169,7 +170,7 @@ export class PocketCampaignsService {
     .pipe(
       switchMap((response: HttpResponse<never>) => {
         const location = response.headers.get('Location')
-        return this.http.get<PocketRoll>(location)
+        return this.http.get<PocketRoll>(safeCast<string>(location))
       }))
   }
 
@@ -198,9 +199,6 @@ export class PocketCampaignsService {
 
   importTemplate(template: TemplateImportInput) {
     return this.http.post<never>(`${this.completePath}/campaigns/import`, template);
-  }
-  protected get completePath(): string {
-    return this.serverUrl + this.path;
   }
 }
 

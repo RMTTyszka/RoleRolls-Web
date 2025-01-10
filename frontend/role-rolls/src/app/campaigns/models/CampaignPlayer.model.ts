@@ -1,4 +1,4 @@
-export class CampaignPlayer {
-  public campaignId: string;
-  public playerId: string;
+export interface CampaignPlayer {
+  campaignId: string;
+  playerId: string;
 }

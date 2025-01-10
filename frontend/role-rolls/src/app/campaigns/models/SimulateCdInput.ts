@@ -1,8 +1,8 @@
-import {RollOrigin} from "../CampaignInstance/campaign-heroes/RollOrigin";
+import { RollOrigin } from '../../models/RollOrigin';
 
-export class SimulateCdInput {
-  public propertyId: string;
-  public propertyType: RollOrigin;
-  public expectedChance: number;
-  public creatureId: string;
+export interface SimulateCdInput {
+  propertyId: string;
+  propertyType: RollOrigin;
+  expectedChance: number;
+  creatureId: string;
 }

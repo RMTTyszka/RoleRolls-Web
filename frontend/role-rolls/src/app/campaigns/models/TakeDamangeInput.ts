@@ -1,14 +1,14 @@
-import { PocketCreature } from '../../../shared/models/pocket/creatures/pocket-creature';
-import {EquipableSlot} from '../../../shared/models/pocket/itens/equipable-slot';
+import { PocketCreature } from './pocket-creature';
+import { EquipableSlot } from '../../models/equipable-slot';
 
-export class TakeDamageInput {
-    public creature: PocketCreature;
+export interface TakeDamageInput {
+    creature: PocketCreature;
 }
-export class AttackInput {
-    public slot: EquipableSlot;
-    public defenseId: string;
-    public hitPropertyId: string;
-    public damagePropertyId: string;
-    public lifeId: string;
-    public targetId: string;
+export interface AttackInput {
+    slot: EquipableSlot;
+    defenseId: string;
+    hitPropertyId: string;
+    damagePropertyId: string;
+    lifeId: string;
+    targetId: string;
 }

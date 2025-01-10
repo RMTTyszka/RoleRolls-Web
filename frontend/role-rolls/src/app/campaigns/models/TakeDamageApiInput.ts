@@ -1,5 +1,5 @@
 
-export class TakeDamageApiInput {
-    public lifeId: string;
-    public value: number;
+export interface TakeDamageApiInput {
+    lifeId: string;
+    value: number;
 }

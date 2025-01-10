@@ -1,8 +1,8 @@
-import {PocketEntity} from 'src/app/shared/models/pocket/pocket-entity';
-import {ItemTemplateModel} from '../itens/ItemTemplateModel';
+import { ItemTemplateModel } from '../../models/ItemTemplateModel';
+import { Entity } from '../../models/Entity.model';
 
-export class ItemModel extends PocketEntity {
-  public name: string;
-  public level: number;
-  public template: ItemTemplateModel;
+export interface ItemModel extends Entity {
+  name: string;
+  level: number;
+  template: ItemTemplateModel;
 }

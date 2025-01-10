@@ -34,7 +34,6 @@
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",
-              "node_modules/@primeng/themes/aura/theme.css",
               "src/styles.scss"
             ],
             "scripts": [],

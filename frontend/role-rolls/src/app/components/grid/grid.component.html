@@ -1,18 +1,18 @@
 <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
-         (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
+         (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event.data)" [totalRecords]="totalCount" [loading]="loading"
 >
-  <ng-template pTemplate="caption" >
-    <div class="p-grid p-nogutter p-justify-between">
-      <div class="p-col-6">
+  <ng-template #caption>
+    <div class="grid nogutter justify-between">
+      <div class="col-6">
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
-          <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+          <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
         </div>
       </div>
-      <div class="p-grid p-justify-end p-align-center p-nogutter">
-        <div class="p-col">
-          <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack()"></button>
-          <button *ngIf="create" pButton type="button" icon="pi pi-plus" class="p-button-secondary" (click)="create()"></button>
+      <div class="grid justify-end align-center nogutter">
+        <div class="col">
+          <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
+          <button pButton pButtonIcon="pi pi-plus" class="p-button-secondary" (click)="create()"></button>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
           </th>-->
     <tr>
       <th *ngIf="actions.length > 0" [ngStyle]="actionsWidth()"></th>
-      <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
+      <th *ngFor="let column of columns()" [pSortableColumn]="column.property">{{column.header}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
@@ -34,7 +34,7 @@
           <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity, $event.target)" style="margin-right: 4px;"></button>
         </ng-container>
       </td>
-      <td *ngFor="let column of columns">{{resolve(column.property, entity)}}</td>
+      <td *ngFor="let column of columns()">{{resolve(column.property, entity)}}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="paginatorleft" let-state>

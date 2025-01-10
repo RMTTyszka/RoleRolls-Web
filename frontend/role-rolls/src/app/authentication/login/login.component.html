@@ -1,1 +1,30 @@
-<p>login works!</p>
+
+
+<p-panel header="Login">
+  <div class="grid">
+    <form [formGroup]="form">
+      <div class="grid gap-x-4" *ngIf="!isLogged" >
+        <label class="col-2 "> Email:</label>
+        <input class="col-4 offset-1" type="text" formControlName="email"/>
+        <div class="col-5">
+        </div>
+        <label class="col-2 "> Password:</label><input class="col-4 offset-1" type="password" formControlName="password"/><div class="col-5"></div>
+        <div><button (click)="login()">Sign in</button></div>
+      </div>
+    </form>
+    <h4 class="col-12">Doesn't have an account? Create one and become a hero!! (or a Master   ;)   )</h4>
+    <form [formGroup]="formCreated" class="col-12">
+      <div class="grid">
+        <label class="col-2 "> First Name:</label><input class="col-4 offset-1" type="text" formControlName="firstName"/><div class="col-5"></div>
+        <label class="col-2"> Last Name:</label><input class="col-4 offset-1" type="text" formControlName="lastName"/><div class="col-5"></div>
+        <label class="col-2"> User Name:</label><input class="col-4 offset-1" type="text" formControlName="userName"/><div class="col-5"></div>
+        <label class="col-2"> Email:</label><input class="col-4 offset-1" type="text" formControlName="email"/><div class="col-5"></div>
+        <label class="col-2"> Password:</label><input class="col-4 offset-1" type="password" formControlName="password"/><div class="col-5"></div>
+        <div><button (click)="add()">Create</button></div>
+      </div>
+    </form>
+  </div>
+</p-panel>
+
+
+

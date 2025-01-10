@@ -1,4 +1,4 @@
-export class PagedOutput<T> {
-  content: T[];
-  totalElements: number;
+export interface PagedOutput<T> {
+  itens: T[];
+  totalCount: number | null;
 }
