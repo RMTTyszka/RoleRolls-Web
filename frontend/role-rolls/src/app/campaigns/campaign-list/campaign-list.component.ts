@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Campaign } from '../models/campaign';
 import { RRAction } from '../../models/RROption';
-import { PocketCampaignsService } from '../services/pocket-campaigns.service';
+import { CampaignsService } from '../services/campaigns.service';
 import { FormsModule } from '@angular/forms';
 import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
 import { GridComponent, RRColumns, RRHeaderAction } from '../../components/grid/grid.component';
@@ -37,11 +37,17 @@ export class CampaignListComponent {
   public rowSelected = (campaign: Campaign) => this.toCampaignDetails(campaign);
   public columns: RRColumns[] = [];
   constructor(
-    public service: PocketCampaignsService,
+    public service: CampaignsService,
     private readonly authenticationService: AuthenticationService,
     private readonly confirmationService: ConfirmationService,
     public router: Router,
   ) {
+    this.columns = [
+      {
+        header: 'Name',
+        property: 'name'
+      } as RRColumns
+    ];
     this.rowActions.push(
       {
         icon: 'pi pi-arrow-circle-right',

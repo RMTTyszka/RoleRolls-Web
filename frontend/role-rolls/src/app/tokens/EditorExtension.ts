@@ -15,7 +15,7 @@ export function getInput<T>(form: FormGroup, input: T): T {
 }
 
 
-export function createForm(form: FormGroup, entity: Entity, requiredFields: string[] = [], disabledFields: string[] = []) {
+export function createForm(form: FormGroup, entity: Entity, empty: boolean = false, requiredFields: string[] = [], disabledFields: string[] = []) {
   Object.entries(entity).forEach((entry) => {
     // console.log(entry);
     if (entry[1] instanceof Array) {
@@ -23,7 +23,7 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
       entry[1].forEach(property => {
         if (property instanceof Object) {
           const newGroup: FormGroup = new FormGroup({});
-          createForm(newGroup, property);
+          createForm(newGroup, property, empty);
           array.push(newGroup);
         } else {
           array.push(new FormControl(property, []));
@@ -32,10 +32,10 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
       form.addControl(entry[0], array);
     } else if (entry[1] instanceof Object) {
       const newGroup: FormGroup = new FormGroup({});
-      createForm(newGroup, entry[1]);
+      createForm(newGroup, entry[1], empty);
       form.addControl(entry[0], newGroup);
     } else {
-      form.addControl(entry[0], new FormControl(entry[1], []));
+      form.addControl(entry[0], new FormControl(empty ? null : entry[1], []));
     }
   });
   requiredFields.forEach(field => {
@@ -51,19 +51,19 @@ export function createForm(form: FormGroup, entity: Entity, requiredFields: stri
     }
   });
 }
-export function getAsForm(entity: any, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
+export function getAsForm(entity: any, empty: boolean = false, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
   const form = new FormGroup({});
-  createForm(form, entity, requiredFields, disabledFields);
+  createForm(form, entity, empty, requiredFields, disabledFields);
   return form;
 }
-export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityName: string) {
+export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityName: string = '') {
   Object.entries(entity).forEach((entry) => {
     if (entry[1] instanceof Array) {
       const array = form.get(entry[0]) as UntypedFormArray;
       array.clear({emitEvent: false});
       entry[1].forEach((property, index) => {
         if (property instanceof Object) {
-          array.push(getAsForm(property));
+          array.push(getAsForm(property, false));
         } else {
           array.push(property);
         }
@@ -71,7 +71,7 @@ export function ultraPatchValue(form: UntypedFormGroup, entity: Entity, entityNa
     } else if (entry[1] instanceof Object) {
       let newGroup = form.get(entry[0]) as UntypedFormGroup;
       if (newGroup instanceof FormControl) {
-        newGroup = getAsForm(entry[1]);
+        newGroup = getAsForm(entry[1], false);
         form.removeControl(entry[0]);
         form.addControl(entry[0] , newGroup);
         ultraPatchValue(newGroup, entry[1], entry[0]);

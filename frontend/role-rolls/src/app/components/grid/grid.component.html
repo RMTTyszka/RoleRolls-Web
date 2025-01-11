@@ -16,7 +16,7 @@
       </div>
     </div>
   </ng-template>
-  <ng-template pTemplate="header">
+  <ng-template #header>
     <!--      <th *ngFor="let column of columns">
             <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
           </th>-->
@@ -25,8 +25,7 @@
       <th *ngFor="let column of columns()" [pSortableColumn]="column.property">{{column.header}}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-entity>
-
+  <ng-template #body let-entity>
     <tr [pSelectableRow]="entity">
       <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()">
         <ng-container *ngFor="let action of actions">

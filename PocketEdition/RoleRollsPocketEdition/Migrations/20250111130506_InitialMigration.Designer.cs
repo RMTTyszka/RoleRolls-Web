@@ -12,7 +12,7 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    [Migration("20241230000108_InitialMigration")]
+    [Migration("20250111130506_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -219,9 +219,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatureTemplateId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("InvitationSecret")
                         .HasColumnType("uuid");
 
@@ -333,6 +330,9 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Default")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -431,9 +431,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid>("AttributeTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CampaignTemplateId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -441,8 +438,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttributeTemplateId");
-
-                    b.HasIndex("CampaignTemplateId");
 
                     b.ToTable("SkillTemplates");
                 });
@@ -1182,10 +1177,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RoleRollsPocketEdition._Domain.CreatureTemplates.Entities.CampaignTemplate", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("CampaignTemplateId");
-
                     b.Navigation("AttributeTemplate");
                 });
 
@@ -1529,8 +1520,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Defenses");
 
                     b.Navigation("Lifes");
-
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition._Domain.CreatureTemplates.Entities.DefenseTemplate", b =>

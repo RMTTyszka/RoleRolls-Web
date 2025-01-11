@@ -10,8 +10,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Models
         public Guid Id { get; set; }
         public Guid MasterId { get; set; }
         public Guid? CampaignTemplateId { get; set; }
-
-        public CampaignTemplateModel? CreatureTemplate { get; set; }
+        public CampaignTemplateModel? CampaignTemplate { get; set; }
         public ItemConfigurationModel? ItemConfiguration { get; set; }
         public string Name { get; set; }
 
@@ -24,8 +23,8 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Models
             Id = campaign.Id;
             MasterId = campaign.MasterId;
             Name = campaign.Name;
-            CampaignTemplateId = campaign.CreatureTemplateId;
-            CreatureTemplate = CampaignTemplateModel.FromTemplate(campaign.CampaignTemplate);
+            CampaignTemplateId = campaign.CampaignTemplateId;
+            CampaignTemplate = CampaignTemplateModel.FromTemplate(campaign.CampaignTemplate);
             ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.ItemConfiguration);
         }
 

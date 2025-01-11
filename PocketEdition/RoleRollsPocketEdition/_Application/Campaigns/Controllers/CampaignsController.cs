@@ -39,7 +39,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
             return await _campaignsService.GetListAsync(input);
         }
         [HttpPost("")]
-        public Task Create([FromBody] CampaignModel template)
+        public Task Create([FromBody] CampaignCreateInput template)
         {
             return _campaignsService.CreateAsync(template);
         }
@@ -51,7 +51,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
                 return new BadRequestObjectResult("Missing creatureTemplateId");
             }
             await _campaignsService.UpdateAsync(campaignModel);
-            await _creatureTemplateService.UpdateAsync(campaignModel.CampaignTemplateId.Value, campaignModel.CreatureTemplate);
+            await _creatureTemplateService.UpdateAsync(campaignModel.CampaignTemplateId.Value, campaignModel.CampaignTemplate);
             return Ok();
         }
         [HttpDelete("{campaignId}")]

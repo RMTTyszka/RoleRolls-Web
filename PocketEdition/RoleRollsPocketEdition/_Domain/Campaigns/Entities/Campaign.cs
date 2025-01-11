@@ -9,9 +9,31 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
 {
     public class Campaign : Entity
     {
+        public Campaign()
+        {
+            
+        }
+        public Campaign(CampaignCreateInput campaignModel)
+        {
+            Id = campaignModel.Id;
+            MasterId = campaignModel.MasterId.GetValueOrDefault();
+            Name = campaignModel.Name;
+            CampaignTemplateId = campaignModel.CampaignTemplateId ?? Guid.NewGuid();
+            CampaignTemplate = null;
+            InvitationSecret = Guid.NewGuid();
+            PowerTemplates = new List<PowerTemplate>();
+            CampaignPlayers = new List<CampaignPlayer>();
+            Scenes = new List<Scene>();
+            ItemConfiguration = new ItemConfiguration
+            {
+                CampaignId = campaignModel.Id,
+                Id = Guid.NewGuid(),
+            };
+        }
+
         public Guid MasterId { get; set; }
         public string Name { get; set; }
-        public Guid CreatureTemplateId { get; set; }
+        public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
         public Guid InvitationSecret { get; set; }
         public ICollection<PowerTemplate> PowerTemplates { get; set; } = new List<PowerTemplate>();
@@ -26,7 +48,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Entities
                 Id = campaignModel.Id,
                 MasterId = campaignModel.MasterId,
                 Name = campaignModel.Name,
-                CreatureTemplateId = campaignModel.CampaignTemplateId ?? Guid.NewGuid(),
+                CampaignTemplateId = campaignModel.CampaignTemplateId ?? Guid.NewGuid(),
                 CampaignTemplate = null,
                 InvitationSecret = Guid.NewGuid(),
                 PowerTemplates = new List<PowerTemplate>(),

@@ -9,7 +9,7 @@
       <label class="main-header-text text-xl col-12" style="text-align: end">{{userName}}</label>
       <label class="col-12" style="text-align: end; cursor: pointer;"  (click)="logout()">logout</label>
     </ng-container>
-    <button pButton pButtonIcon="pi pi-pallet" severity="info" (click)="toggleDarkMode()"></button>
+    <button *ngIf="false" pButton pButtonIcon="pi pi-sun" severity="info" (click)="toggleDarkMode()"></button>
     <ng-container *ngIf="!hasUser">
       <label routerLink='login' style="cursor: pointer">login</label>
     </ng-container>

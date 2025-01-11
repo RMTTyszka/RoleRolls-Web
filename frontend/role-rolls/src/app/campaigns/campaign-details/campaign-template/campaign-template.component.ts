@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditorAction } from '../../../models/ModalEntityData';
 import { RROption } from '../../../models/RROption';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
-import { PocketCampaignsService } from '../../services/pocket-campaigns.service';
+import { CampaignsService } from '../../services/campaigns.service';
 import { Entity } from '../../../models/Entity.model';
 import { Fieldset } from 'primeng/fieldset';
 import { Select } from 'primeng/select';
@@ -81,7 +81,7 @@ export class CampaignTemplateComponent {
   }
 
   constructor(
-    public service: PocketCampaignsService,
+    public service: CampaignsService,
     public formBuilder: FormBuilder,
     public authService: AuthenticationService,
   ) {

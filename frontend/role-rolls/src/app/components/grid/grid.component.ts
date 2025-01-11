@@ -68,7 +68,6 @@ export class GridComponent<T extends Entity> {
         });
       };
     }*/
-    this.getList();
   }
   private updateData(entity: T) {
     const index = this.data.findIndex(e => e.id === entity.id);
@@ -87,7 +86,7 @@ export class GridComponent<T extends Entity> {
       skipCount,
       maxResultCount
     } as GetListInput).subscribe((response: PagedOutput<T>) => {
-      this.data = response.itens;
+      this.data = response.items;
       this.totalCount = safeCast<number>(response.totalCount);
       this.loading = false;
     }, (error: HttpErrorResponse) => {

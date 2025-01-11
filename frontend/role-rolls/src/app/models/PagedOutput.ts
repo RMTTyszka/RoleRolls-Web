@@ -1,4 +1,4 @@
 export interface PagedOutput<T> {
-  itens: T[];
+  items: T[];
   totalCount: number | null;
 }

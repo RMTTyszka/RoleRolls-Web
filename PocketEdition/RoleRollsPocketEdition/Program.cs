@@ -13,6 +13,7 @@ using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Configuration;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.MIddlewares;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 var assembly = typeof(RoleRollsDbContext).Assembly;
@@ -88,6 +89,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<SerilogBadRequestLoggingMiddleware>();
 app.UseCors(RoleRollsPolicyOrigins);
 app.MapHub<SceneHub>("/sceneHub")
     .RequireCors(RoleRollsPolicyOrigins)

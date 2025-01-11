@@ -29,7 +29,7 @@ import { BaseCrudService } from '../../services/base-service/base-crud-service';
 @Injectable({
   providedIn: 'root'
 })
-export class PocketCampaignsService extends BaseCrudService<Campaign>{
+export class CampaignsService extends BaseCrudService<Campaign>{
   public path = 'campaigns';
   constructor(
     http: HttpClient,

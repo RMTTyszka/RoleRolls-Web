@@ -36,7 +36,7 @@ public class DefenseTemplateUpdatedHandler :
     {
         var creaturesQuery = from campaign in _dbContext.Campaigns
             join creature in _dbContext.Creatures.Include(c => c.Defenses) on campaign.Id equals creature.CampaignId
-            join creatureTemplate in _dbContext.CampaignTemplates on campaign.CreatureTemplateId equals creatureTemplate.Id
+            join creatureTemplate in _dbContext.CampaignTemplates on campaign.CampaignTemplateId equals creatureTemplate.Id
             where creature.Defenses.Select(e => e.DefenseTemplateId).Contains(context.Message.DefenseTemplateModel.Id) 
             select creature;
         var creatures = await creaturesQuery.ToListAsync();

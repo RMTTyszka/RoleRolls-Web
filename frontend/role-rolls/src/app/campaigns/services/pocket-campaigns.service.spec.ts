@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PocketCampaignsService } from './pocket-campaigns.service';
+import { CampaignsService } from './campaigns.service';
 
 describe('PocketCampaignsService', () => {
-  let service: PocketCampaignsService;
+  let service: CampaignsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PocketCampaignsService);
+    service = TestBed.inject(CampaignsService);
   });
 
   it('should be created', () => {

@@ -18,6 +18,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Default = table.Column<bool>(type: "boolean", nullable: false),
                     TotalAttributePoints = table.Column<int>(type: "integer", nullable: false),
                     TotalSkillsPoints = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -151,7 +152,6 @@ namespace RoleRollsPocketEdition.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MasterId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
                     InvitationSecret = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -259,8 +259,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                    AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,11 +270,6 @@ namespace RoleRollsPocketEdition.Migrations
                         principalTable: "AttributeTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SkillTemplates_CampaignTemplates_CampaignTemplateId",
-                        column: x => x.CampaignTemplateId,
-                        principalTable: "CampaignTemplates",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1069,11 +1063,6 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "IX_SkillTemplates_AttributeTemplateId",
                 table: "SkillTemplates",
                 column: "AttributeTemplateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SkillTemplates_CampaignTemplateId",
-                table: "SkillTemplates",
-                column: "CampaignTemplateId");
         }
 
         /// <inheritdoc />

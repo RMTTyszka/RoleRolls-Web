@@ -142,7 +142,7 @@ export class CampaignItensComponent {
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
     this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
-      this.data = response.itens;
+      this.data = response.items;
       this.totalCount = response.totalCount;
       this.loading = false;
     }, error => {

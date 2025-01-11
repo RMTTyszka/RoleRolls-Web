@@ -4,6 +4,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {debounceTime, tap, throttleTime} from 'rxjs/operators';
 import { AuthTokenName, AuthUserId, AuthUserName } from '../tokens/AuthTokens';
 import { StorageService } from '../../services/storage.service';
+import { MessageService, ToastMessageOptions } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthenticationService {
   }
   constructor(
     private router: Router,
-/*    private messageService: MessageService,*/
+    private messageService: MessageService,
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -30,7 +31,7 @@ export class AuthenticationService {
         if ( this.router.routerState.snapshot.url !== '/home') {
           this.lastRoute = this.router.routerState.snapshot.url;
           this.cleanTokenAndUserName();
-          this.router.navigateByUrl(`/home`);
+          this.router.navigateByUrl(`/login`);
         }
         }),
         throttleTime(10000))
@@ -83,10 +84,10 @@ export class AuthenticationService {
 
 
   private  notifyUserAboutUnauthorizedAccess(message: string) {
-/*    this.messageService.add(<ToastMessageOptions>{
+    this.messageService.add(<ToastMessageOptions>{
       severity: 'error',
-      summary: 'Non Authorized',
+      summary: 'Please, log in to continue playing',
       details: message
-    });*/
+    });
   }
 }
