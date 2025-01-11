@@ -1,0 +1,51 @@
+<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
+         (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event.data)" [totalRecords]="totalCount" [loading]="loading"
+>
+  <ng-template #caption>
+    <div class="grid nogutter justify-between">
+      <div class="col-6">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
+          <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
+        </div>
+      </div>
+      <div class="grid justify-end align-center nogutter">
+        <div class="col">
+          <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <!--      <th *ngFor="let column of columns">
+            <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
+          </th>-->
+    <tr>
+      <th *ngIf="actions.length > 0" [ngStyle]="actionsWidth()"></th>
+      <th *ngFor="let column of columns()" [pSortableColumn]="column.property">{{column.header}}</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-entity>
+    <tr [pSelectableRow]="entity">
+      <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()">
+        <ng-container *ngFor="let action of actions">
+          <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity, $event.target)" style="margin-right: 4px;"></button>
+        </ng-container>
+      </td>
+      <td *ngFor="let column of columns()">{{resolve(column.property, entity)}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft" let-state>
+    {{state.first}}
+  </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <span>Records: {{totalCount}}</span>
+  </ng-template>
+  <!--  <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length">
+          No records found
+        </td>
+      </tr>
+    </ng-template>-->
+</p-table>

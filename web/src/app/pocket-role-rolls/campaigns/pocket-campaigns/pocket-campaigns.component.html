@@ -1,6 +1,6 @@
 <rr-rr-grid [service]="service" [config]="config" [headerActions]="actions" [refresh]="refreshGrid"></rr-rr-grid>
 
-<p-overlayPanel #invitationCodeOverlay>
+<p-popover #invitationCodeOverlay>
   <ng-template pTemplate>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon"> Invitation Code</span>
@@ -8,7 +8,7 @@
       <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode"></button>
     </div>
   </ng-template>
-</p-overlayPanel>
+</p-popover>
 
 
 <p-dialog header="Insert Invitation Code" [(visible)]="displayInsertInvitationCode">

@@ -1,7 +1,7 @@
-import {Message, MessageService} from 'primeng/api';
+import {MessageService, ToastMessageOptions} from 'primeng/api';
 
 export function handleValidation(area: ErrorArea, error: string, messageService: MessageService) {
-    messageService.add({severity: 'error', summary: ErrorMessages.message(area, error), key: 'mainToast'} as Message);
+    messageService.add({severity: 'error', summary: ErrorMessages.message(area, error), key: 'mainToast'} as ToastMessageOptions);
 }
 
 

@@ -7,7 +7,6 @@ import {EffectsSharedModule} from '../../effects/effects-shared/effects-shared.m
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MenuModule} from 'primeng/menu';
 import {TieredMenuModule} from 'primeng/tieredmenu';
-import {ChipsModule} from 'primeng/chips';
 import {InputSwitchModule} from 'primeng/inputswitch';
 
 import { BonusToolComponent } from './bonus-tool/bonus-tool.component';
@@ -32,7 +31,6 @@ import {InputTextModule} from 'primeng/inputtext';
         OverlayPanelModule,
         MenuModule,
         TieredMenuModule,
-        ChipsModule,
         InputSwitchModule,
 
         DropdownModule,

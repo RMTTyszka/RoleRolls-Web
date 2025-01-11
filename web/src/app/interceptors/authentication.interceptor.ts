@@ -6,11 +6,8 @@ import {
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import {LohAuthTokenName} from '../authentication/AuthTokens';
 import {AuthenticationService} from '../authentication/authentication.service';
-import {Router} from '@angular/router';
 import {catchError} from 'rxjs/operators';
-import {Message, MessageService} from 'primeng/api';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {

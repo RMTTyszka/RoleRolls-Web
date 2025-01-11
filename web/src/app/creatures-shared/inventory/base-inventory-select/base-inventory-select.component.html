@@ -1,5 +1,5 @@
 <form [formGroup]="itemForm">
-  <p-dropdown  [options]="options" [placeholder]="placeholder"  (onChange)="selected($event.value)" optionLabel="id" formControlName="id" optionValue="id">
+  <p-select  [options]="options" [placeholder]="placeholder"  (onChange)="selected($event.value)" optionLabel="id" formControlName="id" optionValue="id">
     <ng-template let-country pTemplate="selectedItem">
       <div class="country-item">
       <div>{{country.name}}</div>
@@ -10,5 +10,5 @@
       <div>{{country.name + ' lv: ' + country.level}}</div>
     </div>
     </ng-template>
-  </p-dropdown>
+  </p-select>
 </form>

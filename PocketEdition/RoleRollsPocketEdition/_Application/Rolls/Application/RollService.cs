@@ -108,8 +108,8 @@ namespace RoleRollsPocketEdition._Application.Rolls.Application
 
             return new PagedResult<RollModel>
             {
-                Content = output,
-                TotalElements = totalCount
+                Items = output,
+                TotalCount = totalCount
             };
 
         }

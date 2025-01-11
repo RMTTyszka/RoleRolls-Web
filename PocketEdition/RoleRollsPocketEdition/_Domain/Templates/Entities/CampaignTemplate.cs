@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
@@ -12,7 +13,6 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         public CampaignTemplate()
         {
             Attributes = new List<AttributeTemplate>();
-            Skills = new List<SkillTemplate>();
             Lifes = new List<LifeTemplate>();
             Defenses = new List<DefenseTemplate>();
         }
@@ -22,7 +22,6 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             TotalAttributePoints = template.TotalAttributePoints;
             TotalSkillsPoints = template.TotalSkillsPoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
-            Skills = template.Skills.Select(skill => new SkillTemplate(skill.AttributeId, skill)).ToList();
             Lifes = template.Lifes.Select(life => new LifeTemplate(life)).ToList();
         }
 
@@ -45,7 +44,8 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             return creature;
         }
 
-        public ICollection<SkillTemplate> Skills { get; set; }
+        [NotMapped]
+        public ICollection<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
         public ICollection<LifeTemplate> Lifes { get; set; }
         public ICollection<DefenseTemplate> Defenses { get; set; }
@@ -96,11 +96,11 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             dbContext.SkillTemplates.Remove(skill);
         }
 
-        public async Task AddSkill(Guid attributeId, SkillTemplateModel skill, RoleRollsDbContext dbContext)
-        {
-            var newSkill = new SkillTemplate(attributeId, skill);
-            Skills.Add(newSkill);
-            await dbContext.SkillTemplates.AddAsync(newSkill);
+        public async Task AddSkill(Guid attributeId, SkillTemplateModel skillModel, RoleRollsDbContext dbContext)
+        {         
+            var attribute  = Attributes.First(attribute => attribute.Id == attributeId);
+            var skill = attribute.AddSkill(skillModel);
+            await dbContext.SkillTemplates.AddAsync(skill);
         }
 
         public async Task AddMinorSkillAsync(Guid skillId, MinorSkillTemplateModel minorSkill, RoleRollsDbContext dbContext)

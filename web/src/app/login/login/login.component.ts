@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {LoginService} from '../login.service';
-import {Message, MessageService} from 'primeng/api';
+import {MessageService, ToastMessageOptions} from 'primeng/api';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {Router} from '@angular/router';
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'rr-login',
@@ -13,7 +13,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup
+  form: FormGroup;
   formCreated: FormGroup;
   get isLogged() {
     return this.authService.isLogged;
@@ -51,13 +51,13 @@ export class LoginComponent implements OnInit {
       .subscribe(output => {
         this.authService.setToken(output.token);
         this.authService.publishNewUserName(output.userName, output.userId);
-        this.messageService.add(<Message>{
+        this.messageService.add(<ToastMessageOptions>{
           summary: 'Logged in',
           severity: 'success'});
         this.router.navigateByUrl(this.authService.lastRoute);
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.messageService.add(<Message>{
+          this.messageService.add(<ToastMessageOptions>{
             summary: 'Error on user creation',
             detail: 'Invalid Email or Password',
             severity: 'error'});
@@ -68,12 +68,12 @@ export class LoginComponent implements OnInit {
     this.service.addUser(this.formCreated.getRawValue())
       .subscribe(output => {
         if (output && !output.success) {
-          this.messageService.add(<Message>{
+          this.messageService.add(<ToastMessageOptions>{
             summary: 'Error on user creation',
             detail: output.invalidPassword ? 'Invalid Password' : 'Username or Email alredy registered by another user',
             severity: 'error'});
         } else {
-          this.messageService.add(<Message>{
+          this.messageService.add(<ToastMessageOptions>{
             summary: 'User successfully created',
             severity: 'success'});
         }

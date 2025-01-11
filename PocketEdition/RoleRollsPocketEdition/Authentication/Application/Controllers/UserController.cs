@@ -6,7 +6,7 @@ using RoleRollsPocketEdition.Authentication.Users;
 namespace RoleRollsPocketEdition.Authentication.Application.Controllers
 {
     [ApiController]
-    [Route("Users")]
+    [Route("users")]
     public class UserController : ControllerBase
     {
 

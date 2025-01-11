@@ -13,7 +13,6 @@ import {MonstersSharedModule} from './monsters-shared/monsters-shared.module';
 import {ToolbarModule} from 'primeng/toolbar';
 import {CreaturesSharedModule} from '../creatures-shared/creatures-shared.module';
 import { MonsterCreateComponent } from './monster-create/monster-create.component';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {MonsterTemplateProviderModule} from './monsters-bases/monster-template-provider/monster-template-provider.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -37,7 +36,6 @@ const routes: Routes = [
     MonstersSharedModule,
     ToolbarModule,
     CreaturesSharedModule,
-    DynamicDialogModule,
     InputTextModule,
     MatTab,
     MatTabGroup,

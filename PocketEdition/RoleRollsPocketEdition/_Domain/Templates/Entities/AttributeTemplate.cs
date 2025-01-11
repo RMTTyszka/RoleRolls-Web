@@ -25,5 +25,12 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         {
             Name = attributeModel.Name;
         }
+
+        public SkillTemplate AddSkill(SkillTemplateModel skillModel)
+        {
+            var skill = new SkillTemplate(Id, skillModel);
+            SkillTemplates.Add(skill);
+            return skill;
+        }
     }
 }

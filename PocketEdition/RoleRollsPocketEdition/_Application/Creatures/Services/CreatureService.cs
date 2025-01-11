@@ -61,7 +61,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Services
         {
             var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
             var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Type, ownerId);
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
@@ -90,7 +90,7 @@ namespace RoleRollsPocketEdition._Application.Creatures.Services
         public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureType creatureType)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CreatureTemplateId);
+            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
             var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureType);
             var output = new CreatureModel(creature);
             return output;

@@ -2,18 +2,18 @@
 {
     public class PagedResult<T>
     {
-        public List<T> Content { get; set; } = new List<T>();
-        public int TotalElements { get; set; }
+        public List<T> Items { get; set; } = new List<T>();
+        public int TotalCount { get; set; }
 
         public PagedResult()
         {
             
         }
 
-        public PagedResult(int totalElements, List<T> content)
+        public PagedResult(int totalCount, List<T> items)
         {
-            TotalElements = totalElements;
-            Content = content;
+            TotalCount = totalCount;
+            Items = items;
         }
     }
 }

@@ -5,7 +5,6 @@ import {BaseArmorEditorComponent} from './base-armor-editor/base-armor-editor.co
 import {SharedModule} from '../../../../shared/shared.module';
 import {ToolbarModule} from 'primeng/toolbar';
 import {EquipmentSharedModule} from '../shared/equipment-shared.module';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 
 @NgModule({
@@ -15,7 +14,6 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
         SharedModule,
         ToolbarModule,
         EquipmentSharedModule,
-        DynamicDialogModule
     ], exports: [
         BaseArmorListComponent, BaseArmorEditorComponent,
     ]

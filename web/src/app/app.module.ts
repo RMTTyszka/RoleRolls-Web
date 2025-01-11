@@ -15,9 +15,11 @@ import {ShopModule} from './shop/shop.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {UniverseInterceptor} from './interceptors/universe.interceptor';
 import {AppColorService} from './app-color.service';
-import {MatTabLink, MatTabNav, MatTabNavPanel} from "@angular/material/tabs";
-
-
+import {MatTabLink, MatTabNav, MatTabNavPanel} from '@angular/material/tabs';
+import { providePrimeNG } from 'primeng/config';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import Nora from '@primeng/themes/nora';
+import Aura from '@primeng/themes/aura';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,14 +38,25 @@ import {MatTabLink, MatTabNav, MatTabNavPanel} from "@angular/material/tabs";
     ConfirmDialogModule,
     MatTabNav,
     MatTabLink,
-    MatTabNavPanel
-
+    MatTabNavPanel,
   ],
   providers: [
     MessageService,
     ConfirmationService,
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: UniverseInterceptor, multi: true },
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base,primeng,tailwind-utilities'
+          }
+        }
+      }
+    }),
     ],
   bootstrap: [AppComponent]
 })
@@ -54,3 +67,4 @@ export class AppModule {
     }, 0);
   }
 }
+

@@ -1,7 +1,7 @@
 <p-panel>
     <ng-template pTemplate="header">
       <div class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-        <p-dropdown *ngIf="loadMe" class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-dropdown>
+        <p-select *ngIf="loadMe" class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-select>
         <p-fieldset class="align-right p-col-6">
           <div class="p-inputgroup" *ngIf="isMaster">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">

@@ -13,6 +13,7 @@ using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Configuration;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.MIddlewares;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 var assembly = typeof(RoleRollsDbContext).Assembly;
@@ -25,7 +26,7 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy
-                              .WithOrigins("http://localhost:4200")
+                              .WithOrigins("http://localhost:4200", "http://localhost:4201")
                               .AllowAnyHeader()
                               .AllowAnyMethod()
                               .AllowCredentials();
@@ -88,6 +89,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<SerilogBadRequestLoggingMiddleware>();
 app.UseCors(RoleRollsPolicyOrigins);
 app.MapHub<SceneHub>("/sceneHub")
     .RequireCors(RoleRollsPolicyOrigins)

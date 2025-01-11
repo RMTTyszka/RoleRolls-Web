@@ -8,12 +8,13 @@ import {
 import {RROption} from 'src/app/pocket-role-rolls/global/models/RROption';
 import {DropdownModule} from 'primeng/dropdown';
 import {ControlValueAccessor, FormGroupDirective, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'rr-property-selector',
   standalone: true,
   imports: [
-    DropdownModule,
+    SelectModule,
     FormsModule
   ],
   templateUrl: './property-selector.component.html',
