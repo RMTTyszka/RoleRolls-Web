@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
 {
     public interface ICampaignsService
     {
-        Task CreateAsync(CampaignModel campaignModel);
+        Task CreateAsync(CampaignCreateInput campaignModel);
         Task<CampaignModel> GetAsync(Guid id);
         Task DeleteAsync(Guid id);
         Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input);
