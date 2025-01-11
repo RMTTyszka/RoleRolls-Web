@@ -1,0 +1,33 @@
+<p-toolbar>
+  <ng-template #start>
+    <button pButton severity="primary">Save</button>
+  </ng-template>
+</p-toolbar>
+<div class="card flex sm:justify-center">
+  <form form [formGroup]="form">
+    <div class="flex flex-col gap-6 w-full sm:w-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+        <div class="flex-auto">
+          <label for="Name" class="block font-semibold mb-2">Name</label>
+          <input type="text" pInputText id="name" placeholder="Name" formControlName="name" required>
+        </div>
+        <div class="flex-auto">
+          <label for="campaignTemplateId" class="block font-semibold mb-2">Template</label>
+          <p-select class="w-full"
+                    formControlName="campaignTemplateId"
+                    [options]="defaultTemplates"
+                    optionLabel="label"
+                    optionValue="value"
+                    id="campaignTemplateId"
+                    placeholder="Universe">
+          </p-select>
+        </div>
+        <div class="flex-auto">
+          <p-checkbox formControlName="copy" inputId="copy" [binary]="true"></p-checkbox>
+          <label for="copy" class="ml-2">Copy</label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

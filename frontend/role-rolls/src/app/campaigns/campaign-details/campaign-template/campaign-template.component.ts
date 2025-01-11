@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { createForm, getAsForm } from '../../../tokens/EditorExtension';
-import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Campaign } from '../../models/campaign';
 import {
   AttributeTemplateModel,
@@ -13,12 +13,29 @@ import { RROption } from '../../../models/RROption';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
 import { PocketCampaignsService } from '../../services/pocket-campaigns.service';
 import { Entity } from '../../../models/Entity.model';
+import { Fieldset } from 'primeng/fieldset';
+import { Select } from 'primeng/select';
+import { Checkbox } from 'primeng/checkbox';
+import { Panel } from 'primeng/panel';
+import { NgForOf, NgIf } from '@angular/common';
+import { ButtonDirective } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-campaign-template',
-  standalone: false,
-
+  standalone: true,
   templateUrl: './campaign-template.component.html',
+  imports: [
+    ReactiveFormsModule,
+    Fieldset,
+    Select,
+    Checkbox,
+    Panel,
+    NgIf,
+    ButtonDirective,
+    InputText,
+    NgForOf
+  ],
   styleUrl: './campaign-template.component.scss'
 })
 export class CampaignTemplateComponent {
@@ -35,7 +52,7 @@ export class CampaignTemplateComponent {
   @Input() public entityId!: string;
   public requiredFields = ['name'];
   public skillsMapping = new Map<string, FormArray>();
-  public minorsSkillBySkill = new Map<string, FormArray>();
+  public minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
   public selectedSkillMinorSkills: FormGroup[] = [];
   public disabled: boolean = false;
   @Output() campaignLoaded = new EventEmitter<Campaign>();
@@ -43,20 +60,20 @@ export class CampaignTemplateComponent {
   public get default() {
     return this.entity.creatureTemplate.default;
   }
-  public get attributes(): FormArray {
-    return this.form?.get('creatureTemplate.attributes') as FormArray;
+  public get attributes(): FormArray<FormGroup> {
+    return this.form?.get('creatureTemplate.attributes') as FormArray<FormGroup>;
   }
 
-  public get lifes(): FormArray {
-    return this.form?.get('creatureTemplate.lifes') as FormArray;
+  public get lifes(): FormArray<FormGroup> {
+    return this.form?.get('creatureTemplate.lifes') as FormArray<FormGroup>;
   }
-  public get skills(): FormArray {
-    return this.form?.get('creatureTemplate.skills') as FormArray;
+  public get skills(): FormArray<FormGroup> {
+    return this.form?.get('creatureTemplate.skills') as FormArray<FormGroup>;
   }
-  public get defenses(): FormArray {
-    return this.form?.get('creatureTemplate.defenses') as FormArray;
+  public get defenses(): FormArray<FormGroup> {
+    return this.form?.get('creatureTemplate.defenses') as FormArray<FormGroup>;
   }
-  public attributeSkills(attributeId: string): FormArray {
+  public attributeSkills(attributeId: string): FormArray<FormGroup> {
     return this.skillsMapping.get(attributeId);
   }
   public get isUpdate() {
@@ -105,7 +122,7 @@ export class CampaignTemplateComponent {
   }
 
 
-  public removeAttribute(attributeControl: FormControl, index: number) {
+  public removeAttribute(attributeControl: FormGroup, index: number) {
     const attribute = attributeControl.value as AttributeTemplateModel;
     this.service.removeAttribute(this.entity.id, attribute.id)
       .subscribe(() => {
@@ -139,7 +156,7 @@ export class CampaignTemplateComponent {
     this.service.updateSkill(this.entity.id, attribute.id, skill.id, skill)
       .subscribe();
   }
-  public removeSkill(attributeControl: FormGroup, skillControl: FormControl, index: number) {
+  public removeSkill(attributeControl: FormGroup, skillControl: FormGroup, index: number) {
     const skill = skillControl.value as SkillTemplateModel;
     const attribute = attributeControl.value as AttributeTemplateModel;
     this.service.removeSkill(this.entity.id, attribute.id, skill.id)
@@ -163,14 +180,14 @@ export class CampaignTemplateComponent {
         this.minorsSkillBySkill.get(minorSkill.skillTemplateId).controls.push(newFormGroup);
       });
   }
-  public updateMinorSkill(skillControl: FormControl, minorSkillControl: FormControl) {
+  public updateMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup) {
     const skill = skillControl.value as SkillTemplateModel;
     const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
     this.service.updateMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill.id, minorSkill)
       .subscribe(() => {
       });
   }
-  public removeMinorSkill(skillControl: FormControl, minorSkillControl: FormControl, index: number) {
+  public removeMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup, index: number) {
     const skill = skillControl.value as SkillTemplateModel;
     const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
     this.service.removeMinorSkill(this.entity.id, skill.attributeId, skill.id, minorSkill.id)
@@ -200,7 +217,7 @@ export class CampaignTemplateComponent {
   }
 
 
-  public removeLife(lifeControl: FormControl, index: number) {
+  public removeLife(lifeControl: FormGroup, index: number) {
     const life = lifeControl.value as LifeTemplateModel;
     this.service.removeLife(this.entity.id, life.id)
       .subscribe(() => {
@@ -230,8 +247,8 @@ export class CampaignTemplateComponent {
   }
 
 
-  public removeDefense(defenseControl: FormControl, index: number) {
-    const defense = defenseControl.value as LifeTemplateModel;
+  public removeDefense(defenseControl: FormGroup, index: number) {
+    const defense = defenseControl.value as DefenseTemplateModel;
     this.service.removeDefense(this.entity.id, defense.id)
       .subscribe(() => {
         const formArray = this.defenses;
@@ -243,11 +260,29 @@ export class CampaignTemplateComponent {
     this.isLoading = false;
     this.entity = entity;
     this.campaignLoaded.next(this.entity);
-    createForm(this.attributeForm, new AttributeTemplateModel());
-    createForm(this.skillForm, new SkillTemplateModel());
-    createForm(this.minorSkillForm, new MinorSkillsTemplateModel());
-    createForm(this.lifeForm, new LifeTemplateModel());
-    createForm(this.defenseForm, new DefenseTemplateModel());
+    createForm(this.attributeForm, {
+      id: null,
+      name: null,
+    } as AttributeTemplateModel);
+    createForm(this.skillForm, {
+      id: null,
+      name: null,
+      minorSkills: []
+    } as SkillTemplateModel);
+    createForm(this.minorSkillForm, {
+      name: null,
+      skillTemplateId: null
+    } as  MinorSkillsTemplateModel);
+    createForm(this.lifeForm, {
+      id: null,
+      name: null,
+      formula: null
+    } as LifeTemplateModel);
+    createForm(this.defenseForm, {
+      id: null,
+      name: null,
+      formula: null
+    } as DefenseTemplateModel);
 
     this.attributeForm.get('id').setValue(uuidv4() as never);
     this.skillForm.get('id').setValue(uuidv4() as never);

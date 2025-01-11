@@ -4,8 +4,8 @@
       [name]="itemTypeOption.name"
       [value]="itemTypeOption.value"
       [ngModel]="itemType()"
-      (ngModelChange)="itemType.set($event)"
-      [label]="itemTypeOption.name"/>
+      (ngModelChange)="itemType.set($event)"/>
+    <label [for]="itemTypeOption.value" class="ml-2">{{ itemTypeOption.name }}</label>
   </div>
 </div>
 <div class="p-grid">
@@ -18,7 +18,7 @@
           <div class="col-6">
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
-              <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
             </div>
           </div>
           <div class="p-grid p-justify-end p-align-center p-nogutter">

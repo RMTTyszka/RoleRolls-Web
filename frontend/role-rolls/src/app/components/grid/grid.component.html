@@ -12,7 +12,6 @@
       <div class="grid justify-end align-center nogutter">
         <div class="col">
           <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
-          <button pButton pButtonIcon="pi pi-plus" class="p-button-secondary" (click)="create()"></button>
         </div>
       </div>
     </div>

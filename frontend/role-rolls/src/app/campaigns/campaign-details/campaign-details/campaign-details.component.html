@@ -1,11 +1,18 @@
-<p-tabView>
-  <p-tabPanel header="Creature Template">
-    <rr-campaign-template [action]="action" [entityId]="entityId" (campaignLoaded)="campaignLoaded($event)"></rr-campaign-template>
-  </p-tabPanel>
-  <p-tabPanel *ngIf="action === actionEnum.update" header="Itens">
-    <rr-campaign-itens  [campaign]="campaign"></rr-campaign-itens>
-  </p-tabPanel>
-  <p-tabPanel *ngIf="action === actionEnum.update" header="Item Configuration">
-    <rr-campaign-item-configuration  [campaign]="campaign"></rr-campaign-item-configuration>
-  </p-tabPanel>
-</p-tabView>
+<p-tabs>
+  <p-tablist>
+    <p-tab value="0">Creature Template</p-tab>
+    <p-tab value="1">Itens</p-tab>
+    <p-tab value="2">Item Configuration</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel header="Creature Template">
+      <rr-campaign-template [action]="action" [entityId]="entityId" (campaignLoaded)="campaignLoaded($event)"></rr-campaign-template>
+    </p-tabpanel>
+    <p-tabpanel *ngIf="action === actionEnum.update" header="Itens">
+      <rr-campaign-itens  [campaign]="campaign"></rr-campaign-itens>
+    </p-tabpanel>
+    <p-tabpanel *ngIf="action === actionEnum.update" header="Item Configuration">
+      <rr-campaign-item-configuration  [campaign]="campaign"></rr-campaign-item-configuration>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

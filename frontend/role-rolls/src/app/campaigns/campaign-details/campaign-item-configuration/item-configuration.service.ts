@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Campaign} from 'src/app/shared/models/pocket/campaigns/pocket.campaign.model';
-import {
-  ItemConfigurationModel
-} from 'src/app/pocket-role-rolls/campaigns/CampaignEditor/item-configuration/models/item-configuration-model';
-import {RR_API} from 'src/app/loh.api';
+import { RR_API } from '../../../tokens/loh.api';
+import { ItemConfigurationModel } from '../../models/item-configuration-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemConfigurationService {
   private path = 'campaigns';
-  private serverUrl = RR_API.myPocketBackUrl;
+  private serverUrl = RR_API.backendUrl;
   constructor(
     private httpClient: HttpClient
   ) { }

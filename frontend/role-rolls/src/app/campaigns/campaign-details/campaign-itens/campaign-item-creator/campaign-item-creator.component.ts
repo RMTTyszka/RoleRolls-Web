@@ -7,18 +7,29 @@ import {
   WeaponTemplateModel
 } from '../../../../models/ItemTemplateModel';
 import { EditorAction } from '../../../../models/ModalEntityData';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../../../tokens/subscription-manager';
 import { CampaignItemTemplatesService } from '../services/campaign-item-templates.service';
 import { CampaignEditorDetailsServiceService } from '../../services/campaign-editor-details-service.service';
 import { Campaign } from '../../../models/campaign';
+import { Panel } from 'primeng/panel';
+import { ButtonDirective } from 'primeng/button';
+import { Select } from 'primeng/select';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'rr-campaign-item-creator',
-  standalone: false,
+  standalone: true,
 
   templateUrl: './campaign-item-creator.component.html',
+  imports: [
+    Panel,
+    ButtonDirective,
+    ReactiveFormsModule,
+    Select,
+    NgIf
+  ],
   styleUrl: './campaign-item-creator.component.scss'
 })
 export class CampaignItemCreatorComponent {
@@ -41,7 +52,7 @@ export class CampaignItemCreatorComponent {
   public get canSave(): boolean {
     return this.form.valid;
   }
-  @Input() private campaign: Campaign;
+  @Input() public campaign: Campaign;
   private subscription: SubscriptionManager = new SubscriptionManager();
 
 

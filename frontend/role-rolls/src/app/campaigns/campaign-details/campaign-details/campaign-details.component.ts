@@ -1,13 +1,32 @@
 import { Component } from '@angular/core';
 import { EditorAction } from '../../../models/ModalEntityData';
-import { Campaign } from '../../models/pocket.campaign.model';
 import { Campaign } from '../../models/campaign';
+import {
+  CampaignItemConfigurationComponent
+} from '../campaign-item-configuration/campaign-item-configuration.component';
+import { CampaignItensComponent } from '../campaign-itens/campaign-itens.component';
+import { CampaignTemplateComponent } from '../campaign-template/campaign-template.component';
+import { NgIf } from '@angular/common';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
   selector: 'rr-campaign-details',
-  standalone: false,
+  standalone: true,
 
   templateUrl: './campaign-details.component.html',
+  imports: [
+    TabPanel,
+    CampaignItemConfigurationComponent,
+    CampaignItensComponent,
+    CampaignTemplateComponent,
+    NgIf,
+    Tabs,
+    TabPanels,
+    TabList,
+    Tab,
+    TabPanel,
+    TabPanel
+  ],
   styleUrl: './campaign-details.component.scss'
 })
 export class CampaignDetailsComponent {

@@ -1,5 +1,21 @@
-@tailwind base;
+/*@tailwind base;*/
 @tailwind components;
 @tailwind utilities;
 
 @import "primeicons/primeicons.css";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+:root {
+  background: #f3e8ee;
+}

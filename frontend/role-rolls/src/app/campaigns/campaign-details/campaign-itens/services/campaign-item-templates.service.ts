@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {RRColumns} from '../../shared/components/cm-grid/cm-grid.component';
-import {LOH_API} from '../../loh.api';
-import {AuthenticationService} from '../../authentication/authentication.service';
 import {Observable, of} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {PagedOutput} from '../../shared/dtos/PagedOutput';
 import { v4 as uuidv4 } from 'uuid';
+import { RRColumns } from '../../../../components/grid/grid.component';
+import { RR_API } from '../../../../tokens/loh.api';
 import {
-    ArmorTemplateModel,
-    ItemTemplateModel, ItemType,
-    WeaponTemplateModel
-} from '../../shared/models/pocket/itens/ItemTemplateModel';
+  ArmorTemplateModel,
+  ItemTemplateModel,
+  ItemType,
+  WeaponTemplateModel
+} from '../../../../models/ItemTemplateModel';
+import { PagedOutput } from '../../../../models/PagedOutput';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,12 @@ export class CampaignItemTemplatesService {
   public selectModalTitle: string;
   public selectModalColumns: RRColumns[];
   public entityListColumns: RRColumns[];
-  public serverUrl = LOH_API.myPocketBackUrl;
+  public serverUrl = RR_API.backendUrl;
   private completePath(path: string): string {
     return this.serverUrl + path;
   }
   constructor(
     private httpClient: HttpClient,
-    private authenticationService: AuthenticationService,
   ) {
   }
 

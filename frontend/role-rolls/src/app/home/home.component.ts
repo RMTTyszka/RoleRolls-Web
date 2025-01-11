@@ -11,7 +11,6 @@ import { CampaignListComponent } from '../campaigns/campaign-list/campaign-list.
     TabPanel,
     TabPanels,
     Tabs,
-    MainHeaderComponent,
     CampaignListComponent
   ],
   templateUrl: './home.component.html',

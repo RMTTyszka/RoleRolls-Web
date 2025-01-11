@@ -4,23 +4,25 @@ import Aura from '@primeng/themes/aura';
 import Nora from '@primeng/themes/nora';
 import Material from '@primeng/themes/material';
 import { routes } from './app.routes';
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
+import RrPrimengPreset from './theming/rr-primeng-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch()
+      ,withInterceptorsFromDi()),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Nora,
+        preset: RrPrimengPreset,
         options: {
-          darkMode: false,
+          darkModeSelector: '.my-app-dark',
           cssLayer: {
             name: 'primeng',
             order: 'tailwind-base,primeng,tailwind-utilities'

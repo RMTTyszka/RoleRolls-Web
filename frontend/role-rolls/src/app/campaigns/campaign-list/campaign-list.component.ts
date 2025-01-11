@@ -34,7 +34,7 @@ export class CampaignListComponent {
   public headerActions: RRHeaderAction[] = [];
   public rowActions: RRAction<Campaign>[] = [];
   public refreshGrid = new EventEmitter<void>();
-  public editorRoute = '';
+  public rowSelected = (campaign: Campaign) => this.toCampaignDetails(campaign);
   public columns: RRColumns[] = [];
   constructor(
     public service: PocketCampaignsService,
@@ -85,13 +85,13 @@ export class CampaignListComponent {
         tooltip: 'Accept Invitation',
         csClass: null,
       } as RRHeaderAction,
-      /*        {
-                callBack: () => this.importTemplate(),
-                icon: 'pi pi-download',
-                condition: () => true,
-                tooltip: 'Import Default Universe',
-                csClass: null
-              } as RRAction<void>,*/
+      {
+        callBack: () => this.toCampaignDetails({} as Campaign),
+        icon: 'pi pi-plus',
+        condition: () => true,
+        tooltip: 'Create',
+        csClass: null,
+      } as RRHeaderAction,
     ];
     this.rowActions.push(
       {
@@ -161,5 +161,10 @@ export class CampaignListComponent {
       accept: () => this.service.delete(entity.id).subscribe(() => {}),
       header: 'Confirm delete?'
     });
+  }
+
+  private toCampaignDetails(campaign: Campaign) {
+    const id = campaign.id ?? 'new';
+    this.router.navigate([`campaigns/${id}`]);
   }
 }

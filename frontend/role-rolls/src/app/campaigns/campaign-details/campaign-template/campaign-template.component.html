@@ -1,5 +1,3 @@
-<rr-cm-editor [service]="service" [action]="action" [form]="form" [entityId]="entityId" (deleted)=deleted() [v2]=true
-              (loaded)="loaded($event)" (saved)="saved()" [requiredFields]="requiredFields" [hasDelete]="false" [hasSave]="action === actionEnum.create">
   <form form [formGroup]="form" *ngIf="!isLoading">
     <div *ngIf="action === actionEnum.create" class="grid grid-cols-6 gap-4">
       <!-- Campo de texto que ocupa a linha inteira -->
@@ -27,7 +25,7 @@
     <ng-container *ngIf="isUpdate">
 
       <p-panel [toggleable]="true">
-        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
           <span class="p-panel-title col-6">Attributes</span>
           <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="attributeForm" *ngIf="!isLoading">
             <ng-container *ngIf=!disabled >
@@ -37,7 +35,7 @@
               <button pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addAttribute()" [disabled]=disabled></button>
             </ng-container>
           </div>
-        </p-header>
+        </ng-template>
         <div formGroupName="creatureTemplate">
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
@@ -52,14 +50,14 @@
         </div>
       </p-panel>
       <p-panel [toggleable]="true">
-        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
           <span class="p-panel-title col">Skills</span>
-        </p-header>
+        </ng-template>
         <div formGroupName="creatureTemplate">
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
               <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                   <span class="p-panel-title col-6">{{attribute.get('name').value}}</span>
                   <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
                     <p-fieldset class="col-6">
@@ -69,7 +67,7 @@
                       </div>
                     </p-fieldset>
                   </div>
-                </p-header>
+                </ng-template>
                 <div class="p-grid p-justify-between p-align-start p-nogutter">
                   <div class="col-6">
                     <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
@@ -112,7 +110,7 @@
         </div>
       </p-panel>
       <p-panel [toggleable]="true">
-        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
           <span class="p-panel-title col-6">Lifes</span>
           <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="lifeForm" *ngIf="!isLoading">
             <ng-container *ngIf=!disabled >
@@ -122,7 +120,7 @@
               <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addLife()"></button>
             </ng-container>
           </div>
-        </p-header>
+        </ng-template>
         <div formGroupName="creatureTemplate">
           <div formArrayName="lifes">
             <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
@@ -142,7 +140,7 @@
 
       </p-panel>
       <p-panel [toggleable]="true">
-        <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+        <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
           <span class="p-panel-title col-6">Defenses</span>
           <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
             <ng-container *ngIf=!disabled >
@@ -152,7 +150,7 @@
               <button [disabled]=disabled pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addDefense()"></button>
             </ng-container>
           </div>
-        </p-header>
+        </ng-template>
         <div formGroupName="creatureTemplate">
           <div formArrayName="defenses">
             <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
@@ -173,4 +171,3 @@
 
     </ng-container>
   </form>
-</rr-cm-editor>

@@ -18,15 +18,18 @@ export interface AttributeTemplateModel extends Entity {
 
 export interface SkillTemplateModel extends Entity {
   attributeId: string;
+  name: string
   minorSkills: MinorSkillsTemplateModel[];
 }
 
-export class MinorSkillsTemplateModel extends Entity {
-  public skillTemplateId!: string;
+export interface MinorSkillsTemplateModel extends Entity {
+  name: string
+  skillTemplateId: string;
 }
 
-export class LifeTemplateModel extends Entity {
-  public formula!: string;
+export interface LifeTemplateModel extends Entity {
+  name: string
+  formula: string;
 }
 export interface DefenseTemplateModel extends Entity {
   formula: string;

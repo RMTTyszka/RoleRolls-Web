@@ -3,13 +3,16 @@ import { AuthenticationService } from '../../authentication/services/authenticat
 import { SelectItem } from 'primeng/api';
 import { NgIf, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ButtonDirective, ButtonIcon } from 'primeng/button';
 
 @Component({
   selector: 'rr-main-header',
   imports: [
     TitleCasePipe,
     NgIf,
-    RouterLink
+    RouterLink,
+    ButtonDirective,
+    ButtonIcon
   ],
   templateUrl: './main-header.component.html',
   styleUrl: './main-header.component.scss'
@@ -35,6 +38,11 @@ export class MainHeaderComponent {
 
   logout() {
     this.authService.cleanTokenAndUserName();
+  }
+
+  public toggleDarkMode() {
+    const element = document.querySelector('html');
+    element.classList.toggle('my-app-dark');
   }
 }
 

@@ -1,5 +1,5 @@
 import { Component, effect, Input, signal } from '@angular/core';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RRColumns } from '../../../components/grid/grid.component';
 import { EditorAction } from '../../../models/ModalEntityData';
 import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '../../../models/ItemTemplateModel';
@@ -8,12 +8,31 @@ import { AuthenticationService } from '../../../authentication/services/authenti
 import { CampaignItemTemplatesService } from './services/campaign-item-templates.service';
 import { CampaignEditorDetailsServiceService } from '../services/campaign-editor-details-service.service';
 import { Campaign } from '../../models/campaign';
+import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { Tooltip } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
+import { RadioButton } from 'primeng/radiobutton';
+import { FormsModule } from '@angular/forms';
+import { InputText } from 'primeng/inputtext';
+import { CampaignItemCreatorComponent } from './campaign-item-creator/campaign-item-creator.component';
 
 @Component({
   selector: 'rr-campaign-itens',
-  standalone: false,
+  standalone: true,
 
   templateUrl: './campaign-itens.component.html',
+  imports: [
+    TableModule,
+    NgStyle,
+    Tooltip,
+    ButtonDirective,
+    RadioButton,
+    FormsModule,
+    InputText,
+    CampaignItemCreatorComponent,
+    NgForOf,
+    NgIf
+  ],
   styleUrl: './campaign-itens.component.scss'
 })
 export class CampaignItensComponent {
@@ -105,7 +124,7 @@ export class CampaignItensComponent {
       } as RRAction<ItemTemplateModel>
     ];
   }
-  public rowSelected(event: {data: ItemTemplateModel}) {
+  public rowSelected(event: TableRowSelectEvent) {
     this.detailsServiceService.itemTemplate.next(event.data);
     this.detailsServiceService.itemTemplateEditorAction.next(EditorAction.update);
   }
@@ -123,8 +142,8 @@ export class CampaignItensComponent {
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
     this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
-      this.data = response.content;
-      this.totalCount = response.totalElements;
+      this.data = response.itens;
+      this.totalCount = response.totalCount;
       this.loading = false;
     }, error => {
       this.data = [];

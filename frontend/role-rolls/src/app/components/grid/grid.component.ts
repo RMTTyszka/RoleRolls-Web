@@ -11,7 +11,6 @@ import { NgForOf, NgIf, NgStyle } from '@angular/common';
 import { Button, ButtonDirective, ButtonIcon } from 'primeng/button';
 import { BaseCrudService } from '../../services/base-service/base-crud-service';
 import { GetListInput } from '../../tokens/get-list-input';
-import { firstValueFrom } from 'rxjs';
 import { InputText } from 'primeng/inputtext';
 
 @Component({
@@ -24,7 +23,6 @@ import { InputText } from 'primeng/inputtext';
     NgForOf,
     NgIf,
     InputText,
-    ButtonIcon,
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss'
@@ -33,13 +31,10 @@ export class GridComponent<T extends Entity> {
   data: T[] = [];
   public columns = input<RRColumns[]>();
   @Input() service!: BaseCrudService<T>;
-  @Input() select!: Function;
-  @Input() isSelect!: boolean;
   @Input() refresh!: EventEmitter<void>;
   @Input() headerActions: RRHeaderAction[] = [];
   @Input() actions: RRTableAction<T>[] = [];
   public editorComponent = input<Type<any>>();
-  public editorRoute = input<string>();
   totalCount: number = 0;
   loading = true;
   first = 0;
@@ -74,21 +69,6 @@ export class GridComponent<T extends Entity> {
       };
     }*/
     this.getList();
-  }
-  public async create() {
-    console.log('coco')
-    const editor = this.editorComponent();
-    if (!editor) {
-      const route = this.editorRoute();
-      if (route) {
-        this.router.navigate([route]);
-      }
-      return;
-    }
-    await firstValueFrom(this.dialogService.open(editor, {
-      data: null,
-      focusOnShow: false
-    } as DynamicDialogConfig).onClose)
   }
   private updateData(entity: T) {
     const index = this.data.findIndex(e => e.id === entity.id);
@@ -129,7 +109,6 @@ export class GridComponent<T extends Entity> {
 
   rowSelected(event: {data: T}) {
     this.rowSelectedEvent.emit(event.data);
-    this.select(event.data);
   }
 }
 

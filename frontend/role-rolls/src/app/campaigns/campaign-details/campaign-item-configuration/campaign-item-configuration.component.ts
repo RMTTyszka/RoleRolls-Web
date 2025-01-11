@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ItemConfigurationService } from './item-configuration.service';
 import { firstValueFrom } from 'rxjs';
 import { ItemConfigurationModel } from '../../models/item-configuration-model';
@@ -8,12 +8,20 @@ import { RR_API } from '../../../tokens/loh.api';
 import { getAsForm } from '../../../tokens/EditorExtension';
 import { Campaign } from '../../models/campaign';
 import { PropertyType } from '../../models/propertyType';
+import { PropertySelectorComponent } from '../../../components/property-selector/property-selector.component';
+import { NgIf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
-  standalone: false,
-
+  standalone: true,
   templateUrl: './campaign-item-configuration.component.html',
+  imports: [
+    ReactiveFormsModule,
+    PropertySelectorComponent,
+    NgIf,
+    InputText
+  ],
   styleUrl: './campaign-item-configuration.component.scss'
 })
 export class CampaignItemConfigurationComponent {
