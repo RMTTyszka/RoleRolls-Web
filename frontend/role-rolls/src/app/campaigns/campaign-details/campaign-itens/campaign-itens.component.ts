@@ -15,6 +15,7 @@ import { RadioButton } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { CampaignItemCreatorComponent } from './campaign-item-creator/campaign-item-creator.component';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'rr-campaign-itens',
@@ -41,7 +42,7 @@ export class CampaignItensComponent {
   public loading: boolean = true;
   public columns: RRColumns[] = [];
   public actions: RRAction<ItemTemplateModel>[] = [];
-  @Input() public campaign!: Campaign;
+  public campaign!: Campaign;
   public itemType = signal(ItemType.Consumable);
   public itemTypeEnum = ItemType;
   public itemTypesOptions = [
@@ -58,11 +59,56 @@ export class CampaignItensComponent {
     private service: CampaignItemTemplatesService,
     private authenticationService: AuthenticationService,
     private detailsServiceService: CampaignEditorDetailsServiceService,
+    private route: ActivatedRoute,
   ) {
-    this.listenToItemTypeChanges();
+    this.listenToItemTypeChanges()
+    this.initGrid();
   }
 
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.campaign = data['campaign'];
+    });
+
+  }
+  public rowSelected(event: TableRowSelectEvent) {
+    this.detailsServiceService.itemTemplate.next(event.data);
+    this.detailsServiceService.itemTemplateEditorAction.next(EditorAction.update);
+  }
+  public actionsWidth() {
+    return {width: `${this.actions.length * 3}%`};
+  }
+  public resolve(column: RRColumns, obj: any) {
+    const value = column.property.split('.').reduce(function(prev, curr) {
+      return prev ? prev[curr] : null;
+    }, obj || self);
+    if (column.format) {
+      return column.format(obj, value);
+    }
+    return value;
+  }
+  public get(filter?: string, skipCount?: number, maxResultCount?: number) {
+    this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
+      this.data = response.items;
+      this.totalCount = response.totalCount;
+      this.loading = false;
+    }, error => {
+      this.data = [];
+      this.totalCount = 0;
+      this.loading = false;
+    });
+  }
+  onLazyLoadEvent(event: TableLazyLoadEvent) {
+    this.loading = true;
+    this.get('', event?.first / event?.rows, event?.rows);
+  }
+  private listenToItemTypeChanges() {
+    effect(() => {
+      this.get('', 0, 25);
+    });
+  }
+
+  private initGrid() {
     this.columns = [
       {
         header: 'Name',
@@ -123,41 +169,5 @@ export class CampaignItensComponent {
         tooltip: 'Remove'
       } as RRAction<ItemTemplateModel>
     ];
-  }
-  public rowSelected(event: TableRowSelectEvent) {
-    this.detailsServiceService.itemTemplate.next(event.data);
-    this.detailsServiceService.itemTemplateEditorAction.next(EditorAction.update);
-  }
-  public actionsWidth() {
-    return {width: `${this.actions.length * 3}%`};
-  }
-  public resolve(column: RRColumns, obj: any) {
-    const value = column.property.split('.').reduce(function(prev, curr) {
-      return prev ? prev[curr] : null;
-    }, obj || self);
-    if (column.format) {
-      return column.format(obj, value);
-    }
-    return value;
-  }
-  public get(filter?: string, skipCount?: number, maxResultCount?: number) {
-    this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
-      this.data = response.items;
-      this.totalCount = response.totalCount;
-      this.loading = false;
-    }, error => {
-      this.data = [];
-      this.totalCount = 0;
-      this.loading = false;
-    });
-  }
-  onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.loading = true;
-    this.get('', event?.first / event?.rows, event?.rows);
-  }
-  private listenToItemTypeChanges() {
-    effect(() => {
-      this.get('', 0, 25);
-    });
   }
 }

@@ -34,7 +34,6 @@ export class GridComponent<T extends Entity> {
   @Input() refresh!: EventEmitter<void>;
   @Input() headerActions: RRHeaderAction[] = [];
   @Input() actions: RRTableAction<T>[] = [];
-  public editorComponent = input<Type<any>>();
   totalCount: number = 0;
   loading = true;
   first = 0;
@@ -106,8 +105,8 @@ export class GridComponent<T extends Entity> {
     this.getList('', (event.first ?? 0) / (event.rows ?? 0), event.rows ?? 0);
   }
 
-  rowSelected(event: {data: T}) {
-    this.rowSelectedEvent.emit(event.data);
+  rowSelected(event: T) {
+    this.rowSelectedEvent.emit(event);
   }
 }
 

@@ -32,12 +32,11 @@ export abstract class BaseCrudService<T extends Entity> {
     return this.http.get<T>(this.serverUrl + this.path + `/${id}`);
   }
 
-
   create(entity: T): Observable<T> {
     const preparedEntity = this.beforeCreate(entity);
-    return this.http.post<T>(`${this.serverUrl}${this.path}`, preparedEntity).pipe(
-      switchMap((createdEntity: T) =>
-        this.get(createdEntity.id).pipe(
+    return this.http.post<never>(`${this.serverUrl}${this.path}`, preparedEntity).pipe(
+      switchMap(() =>
+        this.get(preparedEntity.id).pipe(
           tap((retrievedEntity) => {
             this.entityCreated.next(retrievedEntity);
           })

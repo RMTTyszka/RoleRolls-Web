@@ -19,7 +19,6 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     CampaignItemConfigurationComponent,
     CampaignItensComponent,
     CampaignTemplateComponent,
-    NgIf,
     Tabs,
     TabPanels,
     TabList,

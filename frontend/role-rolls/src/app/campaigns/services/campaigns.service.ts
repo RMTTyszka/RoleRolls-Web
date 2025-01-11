@@ -3,9 +3,6 @@ import {Injectable, Injector} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
-import { RR_API } from '../../tokens/loh.api';
-import { AttributeTemplateModel, CreatureTemplateModel,
-  DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel } from '../models/creature-template.model';
 import { Campaign } from '../models/campaign';
 import {v4 as uuidv4} from 'uuid';
 import { CreatureType } from '../models/CreatureType';
@@ -25,6 +22,14 @@ import { TemplateImportInput } from '../models/TemplateImportInput';
 import { safeCast } from '../../tokens/utils.funcs';
 import { ItemConfigurationModel } from '../models/item-configuration-model';
 import { BaseCrudService } from '../../services/base-service/base-crud-service';
+import {
+  AttributeTemplateModel,
+  CampaignTemplateModel,
+  DefenseTemplateModel,
+  LifeTemplateModel,
+  MinorSkillsTemplateModel,
+  SkillTemplateModel
+} from '../models/campaign-template.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +47,7 @@ export class CampaignsService extends BaseCrudService<Campaign>{
     const campaignModel = {
       id: uuidv4(),
       name: 'New Campaign',
-      creatureTemplate: new CreatureTemplateModel(),
+      campaignTemplate: new CampaignTemplateModel(),
       masterId: safeCast<string>(this.authenticationService.userId),
       copy: false,
       campaignTemplateId: null,
@@ -105,8 +110,8 @@ export class CampaignsService extends BaseCrudService<Campaign>{
 
 
 
-   public getCreatureTemplate(id: string): Observable<CreatureTemplateModel> {
-    return this.http.get<CreatureTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
+   public getCreatureTemplate(id: string): Observable<CampaignTemplateModel> {
+    return this.http.get<CampaignTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
   }
   public getCreatures(campaignId: string, creatureType: CreatureType): Observable<PocketCreature[]> {
     const params = new HttpParams().set('creatureType', creatureType)

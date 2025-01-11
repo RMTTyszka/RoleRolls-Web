@@ -4,13 +4,14 @@ import { ItemConfigurationService } from './item-configuration.service';
 import { firstValueFrom } from 'rxjs';
 import { ItemConfigurationModel } from '../../models/item-configuration-model';
 import { SubscriptionManager } from '../../../tokens/subscription-manager';
-import { RR_API } from '../../../tokens/loh.api';
 import { getAsForm } from '../../../tokens/EditorExtension';
 import { Campaign } from '../../models/campaign';
 import { PropertyType } from '../../models/propertyType';
 import { PropertySelectorComponent } from '../../../components/property-selector/property-selector.component';
 import { NgIf } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
+import {ActivatedRoute} from '@angular/router';
+import {AttributeTemplateModel, DefenseTemplateModel} from '@app/campaigns/models/campaign-template.model';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
@@ -26,39 +27,41 @@ import { InputText } from 'primeng/inputtext';
 })
 export class CampaignItemConfigurationComponent {
 
-  @Input() public campaign: Campaign;
+  public campaign: Campaign;
   public form: FormGroup;
-  public serverUrl = RR_API.backendUrl;
   public loaded: boolean = false;
   public armorDefense = 'Armor Defense';
   public defenses: any[] = [];
   public attributes: any[] = [];
   public subcriptionManager = new SubscriptionManager();
-  constructor(private itemConfigurationService: ItemConfigurationService) {
+  constructor(private itemConfigurationService: ItemConfigurationService,
+              private route: ActivatedRoute,
+              ) {
   }
 
-
-
   async ngOnInit(): Promise<void> {
-    const configuration = await firstValueFrom(this.itemConfigurationService.get(this.campaign.id));
-    this.form = getAsForm(configuration);
-    this.populateOptions();
-    this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(() => {
-      this.save();
-    }));
-    this.loaded = true;
+    this.route.data.subscribe(data => {
+      this.campaign = data['campaign'];
+      this.form = getAsForm(this.campaign.itemConfiguration);
+      this.populateOptions();
+      this.loaded = true;
+      this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(() => {
+        this.save();
+      }));
+    });
+
   }
   ngOnDestroy(): void {
     this.subcriptionManager.clear();
   }
 
   populateOptions() {
-    this.defenses = this.campaign.creatureTemplate.defenses.map(d => {
+    this.defenses = this.campaign.campaignTemplate.defenses.map((d: DefenseTemplateModel) => {
       return {
         label: d.name, value: d.id,
       };
     });
-    this.attributes = this.campaign.creatureTemplate.attributes.map(d => {
+    this.attributes = this.campaign.campaignTemplate.attributes.map((d: AttributeTemplateModel) => {
       return {
         label: d.name, value: d.id,
       };

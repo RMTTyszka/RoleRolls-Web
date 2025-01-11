@@ -1,6 +1,6 @@
 import { Entity } from '../../models/Entity.model';
 
-export class CreatureTemplateModel extends Entity {
+export class CampaignTemplateModel extends Entity {
   public maxAttributePoints: number = 0;
   public totalAttributePoints: number = 0;
   public totalSkillsPoints: number = 0;
