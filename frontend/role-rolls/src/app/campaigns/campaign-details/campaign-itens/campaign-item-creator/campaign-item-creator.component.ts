@@ -17,6 +17,7 @@ import { Panel } from 'primeng/panel';
 import { ButtonDirective } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { NgIf } from '@angular/common';
+import {LoggerService} from '@services/logger/logger.service';
 
 @Component({
   selector: 'rr-campaign-item-creator',
@@ -60,12 +61,12 @@ export class CampaignItemCreatorComponent {
     private formBuilder: FormBuilder,
     private service: CampaignItemTemplatesService,
     private detailsServiceService: CampaignEditorDetailsServiceService,
+    private loggerService: LoggerService,
   ) {
     this.listenToItemTypeChanges();
   }
 
   ngOnInit(): void {
-
     this.createForm();
     this.subscription.add('itemTemplate', this.detailsServiceService.itemTemplate.subscribe((item: ItemTemplateModel) => {
       this.item = item;
@@ -124,9 +125,12 @@ export class CampaignItemCreatorComponent {
       powerId: [null, Validators.nullValidator],
       category: [null, Validators.nullValidator],
     });
-    this.form.statusChanges.subscribe(() => {
-      this.logInvalidFields();
-    });
+
+    if (this.loggerService.logLevel === "debug") {
+      this.form.statusChanges.subscribe(() => {
+        this.logInvalidFields();
+      });
+    }
   }
 
   refreshForm() {

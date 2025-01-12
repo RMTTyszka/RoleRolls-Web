@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import Aura from '@primeng/themes/aura';
 import Nora from '@primeng/themes/nora';
@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import RrPrimengPreset from './theming/rr-primeng-preset';
+import {asyncConfigInitializer} from '@services/configuration/app-configuration.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()
       ,withInterceptorsFromDi()),
     provideAnimationsAsync(),
+    provideAppInitializer(asyncConfigInitializer),
     providePrimeNG({
       theme: {
         preset: RrPrimengPreset,

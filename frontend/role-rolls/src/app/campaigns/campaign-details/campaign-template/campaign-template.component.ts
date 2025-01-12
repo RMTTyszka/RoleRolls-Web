@@ -14,6 +14,7 @@ import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel} from '../../models/campaign-template.model';
+import {LoggerService} from '@services/logger/logger.service';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -49,17 +50,17 @@ export class CampaignTemplateComponent {
     return this.campaign.campaignTemplate.default;
   }
   public get attributes(): FormArray<FormGroup> {
-    return this.form?.get('creatureTemplate.attributes') as FormArray<FormGroup>;
+    return this.form?.get('campaignTemplate.attributes') as FormArray<FormGroup>;
   }
 
   public get lifes(): FormArray<FormGroup> {
-    return this.form?.get('creatureTemplate.lifes') as FormArray<FormGroup>;
+    return this.form?.get('campaignTemplate.lifes') as FormArray<FormGroup>;
   }
   public get skills(): FormArray<FormGroup> {
-    return this.form?.get('creatureTemplate.skills') as FormArray<FormGroup>;
+    return this.form?.get('campaignTemplate.skills') as FormArray<FormGroup>;
   }
   public get defenses(): FormArray<FormGroup> {
-    return this.form?.get('creatureTemplate.defenses') as FormArray<FormGroup>;
+    return this.form?.get('campaignTemplate.defenses') as FormArray<FormGroup>;
   }
   public attributeSkills(attributeId: string): FormArray<FormGroup> {
     return this.skillsMapping.get(attributeId);
@@ -69,6 +70,7 @@ export class CampaignTemplateComponent {
     public service: CampaignsService,
     private route: ActivatedRoute,
     public authService: AuthenticationService,
+    public loggerService: LoggerService,
   ) {
     this.defaultTemplates = [
       {
@@ -91,6 +93,7 @@ export class CampaignTemplateComponent {
 
 
   public addAttribute() {
+    if (this.disabled) return;
     const attribute = this.attributeForm.value as AttributeTemplateModel;
     this.service.addAttribute(this.campaign.id, attribute)
       .subscribe(() => {
@@ -106,6 +109,7 @@ export class CampaignTemplateComponent {
 
 
   public updateAttribute(attributeControl: FormGroup) {
+    if (this.disabled) return;
     const attribute = attributeControl.value as AttributeTemplateModel;
     this.service.updateAttribute(this.campaign.id, attribute.id, attribute)
       .subscribe();
@@ -113,6 +117,7 @@ export class CampaignTemplateComponent {
 
 
   public removeAttribute(attributeControl: FormGroup, index: number) {
+    if (this.disabled) return;
     const attribute = attributeControl.value as AttributeTemplateModel;
     this.service.removeAttribute(this.campaign.id, attribute.id)
       .subscribe(() => {
@@ -122,6 +127,7 @@ export class CampaignTemplateComponent {
       });
   }
   public addSkill(attributeForm: FormGroup) {
+    if (this.disabled) return;
     const attribute = attributeForm.value as AttributeTemplateModel;
     const skill = this.skillForm.value as SkillTemplateModel;
     skill.attributeId = attribute.id;
@@ -140,6 +146,7 @@ export class CampaignTemplateComponent {
       });
   }
   public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) {
+    if (this.disabled) return;
     const attribute = attributeControl.value as AttributeTemplateModel;
     const skill = skillControl.value as SkillTemplateModel;
     // skill.attributeId = attribute.id;
@@ -171,6 +178,7 @@ export class CampaignTemplateComponent {
       });
   }
   public updateMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup) {
+    if (this.disabled) return;
     const skill = skillControl.value as SkillTemplateModel;
     const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
     this.service.updateMinorSkill(this.campaign.id, skill.attributeId, skill.id, minorSkill.id, minorSkill)
@@ -178,6 +186,7 @@ export class CampaignTemplateComponent {
       });
   }
   public removeMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup, index: number) {
+    if (this.disabled) return;
     const skill = skillControl.value as SkillTemplateModel;
     const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
     this.service.removeMinorSkill(this.campaign.id, skill.attributeId, skill.id, minorSkill.id)
@@ -187,6 +196,7 @@ export class CampaignTemplateComponent {
   }
 
   public addLife() {
+    if (this.disabled) return;
     const life = this.lifeForm.value as LifeTemplateModel;
     life.formula = '';
     this.service.addLife(this.campaign.id, life)
@@ -201,6 +211,7 @@ export class CampaignTemplateComponent {
   }
 
   public updateLife(lifeControl: FormGroup) {
+    if (this.disabled) return;
     const life = lifeControl.value as LifeTemplateModel;
     this.service.updateLife(this.campaign.id, life.id, life)
       .subscribe();
@@ -208,6 +219,7 @@ export class CampaignTemplateComponent {
 
 
   public removeLife(lifeControl: FormGroup, index: number) {
+    if (this.disabled) return;
     const life = lifeControl.value as LifeTemplateModel;
     this.service.removeLife(this.campaign.id, life.id)
       .subscribe(() => {
@@ -217,6 +229,7 @@ export class CampaignTemplateComponent {
   }
 
   public addDefense() {
+    if (this.disabled) return;
     const defense = this.defenseForm.value as DefenseTemplateModel;
     defense.formula = '';
     this.service.addDefense(this.campaign.id, defense)
@@ -231,6 +244,7 @@ export class CampaignTemplateComponent {
   }
 
   public updateDefense(defenseControl: FormGroup) {
+    if (this.disabled) return;
     const defense = defenseControl.value as DefenseTemplateModel;
     this.service.updateDefense(this.campaign.id, defense.id, defense)
       .subscribe();
@@ -238,6 +252,7 @@ export class CampaignTemplateComponent {
 
 
   public removeDefense(defenseControl: FormGroup, index: number) {
+    if (this.disabled) return;
     const defense = defenseControl.value as DefenseTemplateModel;
     this.service.removeDefense(this.campaign.id, defense.id)
       .subscribe(() => {
@@ -287,6 +302,7 @@ export class CampaignTemplateComponent {
       this.skillForm.disable();
       this.minorSkillForm.disable();
       this.lifeForm.disable();
+      this.form.get('name').enable();
     }
   }
   private buildSkills() {
