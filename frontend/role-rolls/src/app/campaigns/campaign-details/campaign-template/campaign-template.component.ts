@@ -15,6 +15,7 @@ import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel} from '../../models/campaign-template.model';
 import {LoggerService} from '@services/logger/logger.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -319,5 +320,8 @@ export class CampaignTemplateComponent {
     });
   }
 
+  async save() {
+    await firstValueFrom(this.service.update(this.form.getRawValue()));
+  }
 }
 

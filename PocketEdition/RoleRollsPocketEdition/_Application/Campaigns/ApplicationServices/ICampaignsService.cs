@@ -11,7 +11,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
         Task<CampaignModel> GetAsync(Guid id);
         Task DeleteAsync(Guid id);
         Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input);
-        Task UpdateAsync(CampaignModel campaignModel);
+        Task UpdateAsync(Guid id, CampaignUpdateInput campaignModel);
         Task AddAttribute(Guid campaignId, AttributeTemplateModel attribute);
         Task<List<CampaignPlayerModel>> GetPlayersAsync(Guid campaignId);
         Task RemoveAttribute(Guid campaignId, Guid attributeId);

@@ -14,7 +14,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
             Name = skill.Name;
             AttributeId = skill.AttributeTemplateId;
             PointsLimit = skill.PointsLimit;
-            MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplateModel(minorSkill)).ToList();
+            MinorSkills = skill.MinorSkills.OrderBy(e => e.Name).Select(minorSkill => new MinorSkillTemplateModel(minorSkill)).ToList();
         }
 
         public string Name { get; set; }

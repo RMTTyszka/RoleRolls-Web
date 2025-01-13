@@ -188,6 +188,32 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemConfigurations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ArmorDefenseId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BasicAttackTargetLifeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LightWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MediumWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    HeavyWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LightWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MediumWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    HeavyWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemConfigurations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemConfigurations_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LifeTemplates",
                 columns: table => new
                 {
@@ -305,32 +331,6 @@ namespace RoleRollsPocketEdition.Migrations
                     table.PrimaryKey("PK_CampaignScenes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CampaignScenes_Campaigns_CampaignId",
-                        column: x => x.CampaignId,
-                        principalTable: "Campaigns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ItemConfigurations",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ArmorDefenseId = table.Column<Guid>(type: "uuid", nullable: true),
-                    BasicAttackTargetLifeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LightWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    MediumWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    HeavyWeaponHitPropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LightWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    MediumWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    HeavyWeaponDamagePropertyId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemConfigurations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemConfigurations_Campaigns_CampaignId",
                         column: x => x.CampaignId,
                         principalTable: "Campaigns",
                         principalColumn: "Id",
@@ -927,9 +927,9 @@ namespace RoleRollsPocketEdition.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemConfigurations_CampaignId",
+                name: "IX_ItemConfigurations_CampaignTemplateId",
                 table: "ItemConfigurations",
-                column: "CampaignId",
+                column: "CampaignTemplateId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

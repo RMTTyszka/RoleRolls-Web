@@ -763,7 +763,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("BasicAttackTargetLifeId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CampaignId")
+                    b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("HeavyWeaponDamagePropertyId")
@@ -786,7 +786,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CampaignId")
+                    b.HasIndex("CampaignTemplateId")
                         .IsUnique();
 
                     b.ToTable("ItemConfigurations");
@@ -1390,13 +1390,13 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition._Domain.Itens.Configurations.ItemConfiguration", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition._Domain.Campaigns.Entities.Campaign", "Campaign")
+                    b.HasOne("RoleRollsPocketEdition._Domain.CreatureTemplates.Entities.CampaignTemplate", "CampaignTemplate")
                         .WithOne("ItemConfiguration")
-                        .HasForeignKey("RoleRollsPocketEdition._Domain.Itens.Configurations.ItemConfiguration", "CampaignId")
+                        .HasForeignKey("RoleRollsPocketEdition._Domain.Itens.Configurations.ItemConfiguration", "CampaignTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Campaign");
+                    b.Navigation("CampaignTemplate");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition._Domain.Itens.ItemInstance", b =>
@@ -1484,9 +1484,6 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.Navigation("CampaignPlayers");
 
-                    b.Navigation("ItemConfiguration")
-                        .IsRequired();
-
                     b.Navigation("PowerTemplates");
 
                     b.Navigation("Scenes");
@@ -1515,6 +1512,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Campaigns");
 
                     b.Navigation("Defenses");
+
+                    b.Navigation("ItemConfiguration")
+                        .IsRequired();
 
                     b.Navigation("Lifes");
                 });

@@ -7,3 +7,7 @@ public class CampaignCreateInput
     public Guid? MasterId { get; set; }
     public Guid? CampaignTemplateId { get; set; }
 }
+public class CampaignUpdateInput
+{
+    public string Name { get; set; }
+}

@@ -1,14 +1,40 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
+using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
 using RoleRollsPocketEdition.Core;
 
 namespace RoleRollsPocketEdition._Domain.Itens.Configurations;
 
 public class ItemConfiguration : Entity
 {
-    public Campaign Campaign { get; set; }
-    [ForeignKey(nameof(Campaign))]
-    public Guid CampaignId { get; set; }
+    public ItemConfiguration()
+    {
+        
+    }
+    public ItemConfiguration(CampaignTemplate campaignTemplate, ItemConfigurationModel? templateItemConfiguration)
+    {
+        if (templateItemConfiguration is not null)
+        {
+            ArmorDefenseId = templateItemConfiguration.ArmorDefenseId;
+            BasicAttackTargetLifeId = templateItemConfiguration.BasicAttackTargetLifeId;
+            LightWeaponHitPropertyId = templateItemConfiguration.LightWeaponHitPropertyId;
+            MediumWeaponHitPropertyId = templateItemConfiguration.MediumWeaponHitPropertyId;
+            HeavyWeaponHitPropertyId = templateItemConfiguration.HeavyWeaponHitPropertyId;
+            LightWeaponDamagePropertyId = templateItemConfiguration.LightWeaponDamagePropertyId;
+            MediumWeaponDamagePropertyId = templateItemConfiguration.MediumWeaponDamagePropertyId;
+            HeavyWeaponDamagePropertyId = templateItemConfiguration.HeavyWeaponDamagePropertyId;
+        }
+        CampaignTemplate = campaignTemplate;
+    }
+
+    public ItemConfiguration(CampaignTemplate campaignTemplate)
+    {
+        CampaignTemplate = campaignTemplate;
+        CampaignTemplateId = campaignTemplate.Id;
+    }
+
+    public CampaignTemplate CampaignTemplate { get; set; }
+    public Guid CampaignTemplateId { get; set; }
     public Guid? ArmorDefenseId { get; private set; }
     public Guid? BasicAttackTargetLifeId { get; private set; }
     public Guid? LightWeaponHitPropertyId { get; private set; }

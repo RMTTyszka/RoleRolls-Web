@@ -33,7 +33,11 @@ public class AttackService : IAttackService, ITransientDependency
         var target = await _creatureRepository.GetFullCreature(input.TargetId);
         var command = new AttackCommand
         {
-            ItemConfiguration = await _context.ItemConfigurations.FirstAsync(e => e.CampaignId == campaignId),
+            ItemConfiguration = await _context.Campaigns
+                .Include(e => e.CampaignTemplate)
+                .ThenInclude(e => e.ItemConfiguration).Where(e => e.Id == campaignId)
+                .Select(e => e.CampaignTemplate.ItemConfiguration)
+                .FirstAsync(),
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.DefenseId,
             LifeId = input.LifeId,

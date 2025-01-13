@@ -2,7 +2,9 @@
 using RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos;
 using RoleRollsPocketEdition._Domain.Campaigns.Entities;
 using RoleRollsPocketEdition._Domain.Campaigns.Events.Defenses;
+using RoleRollsPocketEdition._Domain.Campaigns.Models;
 using RoleRollsPocketEdition._Domain.Creatures.Entities;
+using RoleRollsPocketEdition._Domain.Itens.Configurations;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Infrastructure;
 
@@ -15,6 +17,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             Attributes = new List<AttributeTemplate>();
             Lifes = new List<LifeTemplate>();
             Defenses = new List<DefenseTemplate>();
+            ItemConfiguration = new ItemConfiguration();
         }
         public CampaignTemplate(CampaignTemplateModel template) : base()
         {
@@ -23,6 +26,14 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
             TotalSkillsPoints = template.TotalSkillsPoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
             Lifes = template.Lifes.Select(life => new LifeTemplate(life)).ToList();
+            ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);
+        }
+
+        public CampaignTemplate(CampaignCreateInput campaignModel)
+        {
+            Name = campaignModel.Name;
+            Id = campaignModel.CampaignTemplateId ?? campaignModel.Id;
+            ItemConfiguration = new ItemConfiguration(this);
         }
 
         public string Name { get; set; }
@@ -32,6 +43,7 @@ namespace RoleRollsPocketEdition._Domain.CreatureTemplates.Entities
         public int TotalAttributePoints { get; set; }
         // 4
         public int TotalSkillsPoints { get; set; }
+        public ItemConfiguration ItemConfiguration { get; set; }
         public virtual List<AttributeTemplate> Attributes { get; set; }
         public virtual List<Campaign> Campaigns { get; set; }
 

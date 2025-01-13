@@ -1,4 +1,5 @@
 using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition._Domain.Itens.Configurations;
 
 namespace RoleRollsPocketEdition._Domain.DefaultUniverses.LandOfHeroes.CreatureTemplate;
 
@@ -104,8 +105,7 @@ public class LandOfHeroesTemplate
     { LandOfHeroesMinorSkill.Disease, Guid.Parse("8D7E6F50-1423-2109-8765-43FEDCBA2109") }
 };
 
-
-    public static Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>> AttributeSkills =>
+public static Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>> AttributeSkills =>
         new Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>>
         {
             { LandOfHeroesAttribute.Agility, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Nimbleness } },

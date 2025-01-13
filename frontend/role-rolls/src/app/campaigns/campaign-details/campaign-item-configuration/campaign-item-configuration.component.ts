@@ -45,8 +45,8 @@ export class CampaignItemConfigurationComponent {
       this.form = getAsForm(this.campaign.itemConfiguration);
       this.populateOptions();
       this.loaded = true;
-      this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(() => {
-        this.save();
+      this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
+        await this.save();
       }));
     });
 

@@ -25,7 +25,7 @@ namespace RoleRollsPocketEdition._Domain.Campaigns.Models
             Name = campaign.Name;
             CampaignTemplateId = campaign.CampaignTemplateId;
             CampaignTemplate = CampaignTemplateModel.FromTemplate(campaign.CampaignTemplate);
-            ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.ItemConfiguration);
+            ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.CampaignTemplate.ItemConfiguration);
         }
 
     }

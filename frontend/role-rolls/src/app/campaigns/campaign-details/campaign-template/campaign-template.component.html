@@ -1,6 +1,6 @@
 <form form [formGroup]="form" *ngIf="!isLoading">
   <p-fieldset class="col-span-6" legend="Campaign">
-    <input class="w-full" type="text" pInputText placeholder="Name" formControlName="name" required>
+    <input class="w-full" type="text" pInputText placeholder="Name" formControlName="name" (blur)="save()" required>
   </p-fieldset>
   <p-panel [toggleable]="true">
     <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
@@ -38,8 +38,8 @@
             <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
               <span class="p-panel-title col-6">{{attribute.get('name').value}}</span>
               <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
-                <p-fieldset class="col-6">
-                  <div *ngIf=!disabled class="p-inputgroup">
+                <p-fieldset *ngIf=!disabled class="col-6">
+                  <div  class="p-inputgroup">
                     <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkill(attribute)">
                     <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
                   </div>
@@ -51,7 +51,7 @@
                 <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
                   <div form [formGroup]="skill">
                     <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                      <ng-template pTemplate="header">
+                      <ng-template  #header>
                         <div class="p-inputgroup">
                           <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
                           <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
@@ -69,7 +69,7 @@
                             <div [formGroup]="minorSkill">
                               <div class="p-inputgroup">
                                 <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
-                                <button [disabled]=disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                               </div>
                             </div>
                           </div>

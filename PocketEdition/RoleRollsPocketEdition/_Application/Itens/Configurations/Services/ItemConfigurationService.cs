@@ -16,26 +16,21 @@ public class ItemConfigurationService : IItemConfigurationService, ITransientDep
 
     public async Task<ItemConfigurationModel> GetItemConfiguration(Guid campaignId)
     {
-        var itemConfiguration = await _dbContext.ItemConfigurations
-            .AsNoTracking()
-            .SingleOrDefaultAsync(c => c.CampaignId == campaignId);
+        var itemConfiguration = await _dbContext.Campaigns
+            .Include(e => e.CampaignTemplate)
+            .ThenInclude(e => e.ItemConfiguration).Where(e => e.Id == campaignId)
+            .Select(e => e.CampaignTemplate.ItemConfiguration)
+            .FirstAsync();
         var output = ItemConfigurationModel.FromConfiguration(itemConfiguration);
         return output;
     }   
     public async Task Update(Guid campaignId, ItemConfigurationModel model)
     {
-        var itemConfiguration = await _dbContext.ItemConfigurations
-            .AsNoTracking()
-            .SingleOrDefaultAsync(c => c.CampaignId == campaignId);
-        if (itemConfiguration == null)
-        {
-            itemConfiguration = new ItemConfiguration
-            {
-                CampaignId = campaignId,
-            };
-            await _dbContext.ItemConfigurations.AddAsync(itemConfiguration);
-            await _dbContext.SaveChangesAsync();
-        }
+        var itemConfiguration = await _dbContext.Campaigns
+            .Include(e => e.CampaignTemplate)
+            .ThenInclude(e => e.ItemConfiguration).Where(e => e.Id == campaignId)
+            .Select(e => e.CampaignTemplate.ItemConfiguration)
+            .FirstAsync();
         itemConfiguration.Update(model);
         _dbContext.ItemConfigurations.Update(itemConfiguration);
         await _dbContext.SaveChangesAsync();

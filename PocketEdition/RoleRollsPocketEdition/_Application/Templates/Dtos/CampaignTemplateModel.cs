@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
+using RoleRollsPocketEdition._Domain.Itens.Configurations;
 
 namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
 {
@@ -17,10 +18,10 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
             MaxAttributePoints = template.MaxAttributePoints;
             TotalSkillsPoints = template.TotalSkillsPoints;
             Default = template.Default;
-            Attributes = template.Attributes.Select(attribute => new AttributeTemplateModel(attribute)).ToList();
-            Skills = template.Skills.Select(skill => new SkillTemplateModel(skill)).ToList();
-            Lifes = template.Lifes.Select(life => new LifeTemplateModel(life)).ToList();
-            Defenses = template.Defenses.Select(defense => new DefenseTemplateModel(defense)).ToList();
+            Attributes = template.Attributes.OrderBy(e => e.Name).Select(attribute => new AttributeTemplateModel(attribute)).ToList();
+            Skills = template.Skills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
+            Lifes = template.Lifes.OrderBy(e => e.Name).Select(life => new LifeTemplateModel(life)).ToList();
+            Defenses = template.Defenses.OrderBy(e => e.Name).Select(defense => new DefenseTemplateModel(defense)).ToList();
         }
 
         public bool Default { get; set; }
@@ -37,6 +38,7 @@ namespace RoleRollsPocketEdition._Application.CreaturesTemplates.Dtos
         public ICollection<SkillTemplateModel> Skills { get; set; }
 
         public ICollection<LifeTemplateModel> Lifes { get; set; }
+        public ItemConfigurationModel ItemConfiguration { get; set; }
 
         public static CampaignTemplateModel? FromTemplate(CampaignTemplate? campaignCreatureTemplate)
         {

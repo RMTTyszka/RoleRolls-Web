@@ -40,18 +40,8 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
             campaignModel.MasterId ??= _currentUser.User.Id;
             var campaign = new Campaign(campaignModel);
 
-            var creatureTemplate = new CampaignTemplate();
-            if (!campaignModel.CampaignTemplateId.HasValue)
-            {
-                creatureTemplate = new CampaignTemplate
-                {
-                    Id = campaign.Id
-                };
-                creatureTemplate.Name = campaign.Name;
-                campaign.CampaignTemplateId = creatureTemplate.Id;
-                campaign.CampaignTemplate = creatureTemplate;
-            }
-            else
+            var creatureTemplate = new CampaignTemplate(campaignModel);
+            if (campaignModel.CampaignTemplateId.HasValue)
             {
                 var template = await _dbContext.CampaignTemplates.FirstAsync(x => x.Id == campaignModel.CampaignTemplateId);
                 campaign.CampaignTemplate = template;
@@ -79,7 +69,7 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Lifes)      
                 .Include(c => c.CampaignTemplate)
-                .Include(c => c.ItemConfiguration)
+                .ThenInclude(c => c.ItemConfiguration)
                 .FirstAsync(e => e.Id == id);
             var output = new CampaignModel(campaign);
             return output;
@@ -115,11 +105,10 @@ namespace RoleRollsPocketEdition._Application.Campaigns.ApplicationServices
                  await _dbContext.SaveChangesAsync();
             }
         }                  
-        public async Task UpdateAsync(CampaignModel campaignModel) 
+        public async Task UpdateAsync(Guid id, CampaignUpdateInput campaignModel) 
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(campaignModel.Id);
+            var campaign = await _dbContext.Campaigns.FindAsync(id);
             campaign.Name = campaignModel.Name;
-
             _dbContext.Campaigns.Update(campaign);
             await _dbContext.SaveChangesAsync();
         }      

@@ -44,14 +44,10 @@ namespace RoleRollsPocketEdition._Application.Campaigns.Controllers
             return _campaignsService.CreateAsync(template);
         }
         [HttpPut("{campaignId}")]
-        public async Task<IActionResult> Update([FromRoute] Guid campaignId, [FromBody] CampaignModel campaignModel)
+        public async Task<IActionResult> Update([FromRoute] Guid campaignId, [FromBody] CampaignUpdateInput campaignModel)
         {
-            if (!campaignModel.CampaignTemplateId.HasValue)
-            {
-                return new BadRequestObjectResult("Missing creatureTemplateId");
-            }
-            await _campaignsService.UpdateAsync(campaignModel);
-            await _creatureTemplateService.UpdateAsync(campaignModel.CampaignTemplateId.Value, campaignModel.CampaignTemplate);
+
+            await _campaignsService.UpdateAsync(campaignId, campaignModel);
             return Ok();
         }
         [HttpDelete("{campaignId}")]
