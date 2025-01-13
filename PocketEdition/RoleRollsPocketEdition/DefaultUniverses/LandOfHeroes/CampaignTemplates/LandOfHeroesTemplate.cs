@@ -1,16 +1,29 @@
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
+using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
 
-namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
+namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 
 public class LandOfHeroesTemplate
 {
-    public static Templates.Entities.CampaignTemplate Template => new Templates.Entities.CampaignTemplate
+    public static Templates.Entities.CampaignTemplate Template => new()
     {
         Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
         Name = "Land Of Heroes",
         Default = true,
-        Attributes = BuildAttributes()
+        Attributes = BuildAttributes(),
+        ItemConfiguration = BuildItemConfiguration()
     };
+
+    private static ItemConfiguration BuildItemConfiguration()
+    {
+        return new ItemConfiguration
+        {
+            Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+            CampaignTemplate = null,
+            CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632")
+        };
+    }
 
     private static List<AttributeTemplate> BuildAttributes()
     {

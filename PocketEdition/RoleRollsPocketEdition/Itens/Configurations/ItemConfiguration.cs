@@ -33,7 +33,7 @@ public class ItemConfiguration : Entity
 
     public CampaignTemplate CampaignTemplate { get; set; }
     public Guid CampaignTemplateId { get; set; }
-    public Guid? ArmorDefenseId { get; private set; }
+    public Guid? ArmorDefenseId { get; set; }
     public Guid? BasicAttackTargetLifeId { get; private set; }
     public Guid? LightWeaponHitPropertyId { get; private set; }
     public Guid? MediumWeaponHitPropertyId { get; private set; }

@@ -76,6 +76,16 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         public async Task<PagedResult<CampaignModel>> GetListAsync(PagedRequestInput input)
         {
             var query = (from campaign in _dbContext.Campaigns
+                        .Include(c => c.CampaignTemplate)
+                        .ThenInclude(t => t.Attributes)
+                        .ThenInclude(a => a.SkillTemplates)
+                        .ThenInclude(s => s.MinorSkills)
+                        .Include(c => c.CampaignTemplate)
+                        .ThenInclude(t => t.Defenses)          
+                        .Include(c => c.CampaignTemplate)
+                        .ThenInclude(t => t.Lifes)      
+                        .Include(c => c.CampaignTemplate)
+                        .ThenInclude(c => c.ItemConfiguration)
                         .AsNoTracking()
                 join invited in _dbContext.CampaignPlayers
                         .Where(player => player.PlayerId == _currentUser.User.Id)
