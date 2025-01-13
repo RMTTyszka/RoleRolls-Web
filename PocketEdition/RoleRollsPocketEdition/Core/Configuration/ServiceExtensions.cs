@@ -1,11 +1,11 @@
-﻿using RoleRollsPocketEdition._Application.Campaigns.ApplicationServices;
-using RoleRollsPocketEdition._Application.Creatures.Services;
-using RoleRollsPocketEdition._Application.CreaturesTemplates.Services;
-using RoleRollsPocketEdition._Application.Rolls.Application;
-using RoleRollsPocketEdition._Application.Scenes.Services;
-using RoleRollsPocketEdition._Domain.Campaigns;
-using RoleRollsPocketEdition._Domain.Rolls.Services;
-using RoleRollsPocketEdition.Authentication.Application.Services;
+﻿using RoleRollsPocketEdition.Campaigns;
+using RoleRollsPocketEdition.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Core.Authentication.Application.Services;
+using RoleRollsPocketEdition.Creatures.Services;
+using RoleRollsPocketEdition.Rolls;
+using RoleRollsPocketEdition.Rolls.Services;
+using RoleRollsPocketEdition.Scenes.Services;
+using RoleRollsPocketEdition.Templates.Services;
 
 namespace RoleRollsPocketEdition.Core.Configuration
 {

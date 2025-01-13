@@ -1,17 +1,18 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition._Domain.Campaigns.Entities;
-using RoleRollsPocketEdition._Domain.Creatures.Entities;
-using RoleRollsPocketEdition._Domain.CreatureTemplates.Entities;
-using RoleRollsPocketEdition._Domain.Itens;
-using RoleRollsPocketEdition._Domain.Itens.Configurations;
-using RoleRollsPocketEdition._Domain.Itens.Templates;
-using RoleRollsPocketEdition._Domain.Powers.Entities;
-using RoleRollsPocketEdition._Domain.Rolls.Entities;
-using RoleRollsPocketEdition._Domain.Scenes.Entities;
-using RoleRollsPocketEdition.Authentication.Users;
+using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core;
-using Attribute = RoleRollsPocketEdition._Domain.Creatures.Entities.Attribute;
+using RoleRollsPocketEdition.Core.Authentication.Users;
+using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Itens;
+using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Itens.Templates;
+using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Scenes.Entities;
+using RoleRollsPocketEdition.Templates.Entities;
+using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
 {

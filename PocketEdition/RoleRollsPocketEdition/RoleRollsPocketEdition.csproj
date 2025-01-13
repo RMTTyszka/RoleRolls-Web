@@ -38,15 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="_Application\Rolls\" />
-    <Folder Include="_Application\Scenes\" />
-    <Folder Include="_Domain\Templates\" />
-    <Folder Include="_Domain\Rolls\" />
-    <Folder Include="_Domain\Scenes\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="_Domain\DefaultUniverses\LandOfHeroes\LandOfHeroes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DefaultUniverses\LandOfHeroes\LandOfHeroes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
     </EmbeddedResource>

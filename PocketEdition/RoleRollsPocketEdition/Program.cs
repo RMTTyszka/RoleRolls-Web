@@ -1,19 +1,19 @@
 using System.Configuration;
 using System.Net;
-using RoleRollsPocketEdition.Authentication.Application.Services;
-using RoleRollsPocketEdition.Authentication.Dtos;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RoleRollsPocketEdition._Application.Campaigns.Handlers;
-using RoleRollsPocketEdition._Domain.Global;
+using RoleRollsPocketEdition.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
+using RoleRollsPocketEdition.Core.Abstractions;
+using RoleRollsPocketEdition.Core.Authentication.Application.Services;
+using RoleRollsPocketEdition.Core.Authentication.Dtos;
 using RoleRollsPocketEdition.Core.Configuration;
+using RoleRollsPocketEdition.Core.MIddlewares;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;
-using RoleRollsPocketEdition.MIddlewares;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 var assembly = typeof(RoleRollsDbContext).Assembly;
