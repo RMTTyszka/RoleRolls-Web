@@ -53,11 +53,24 @@ builder.Services.AddScopedServices(typeof(Program).Assembly);
 builder.Services.AddStartupTasks(typeof(Program).Assembly);
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
+{
+    options.Host = "localhost";
+    options.Database = "RoleRolls";
+    options.Schema = "transport";
+    options.Role = "postgres";
+    options.Username = "postgres";
+    options.Password = "123qwe";
+                  
+    // credentials to run migrations
+    options.AdminUsername = "postgres";
+    options.AdminPassword = "123qwe";
+});
 builder.Services.AddMassTransit(configurador =>
 {
     configurador.AddConsumer<CampaignUpdatedHandler>();
     configurador.AddConsumer<DefenseTemplateUpdatedHandler>();
-    configurador.UsingInMemory((context, cfg) =>
+    configurador.UsingPostgres((context, cfg) =>
     {
         cfg.ConfigureEndpoints(context);
         cfg.UseMessageRetry(r =>
@@ -72,6 +85,9 @@ builder.Services.AddMassTransit(configurador =>
     });
     configurador.AddTransactionalEnlistmentBus();*/
 });
+builder.Services.AddPostgresMigrationHostedService();
+/*builder.Services.AddHostedService<Worker>();*/
+
 builder.Services.AddSignalR();
 
 var app = builder.Build();

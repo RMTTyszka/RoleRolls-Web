@@ -157,6 +157,7 @@ namespace RoleRollsPocketEdition.Infrastructure
             modelBuilder.AddInboxStateEntity();
             modelBuilder.AddOutboxMessageEntity();
             modelBuilder.AddOutboxStateEntity();
+            modelBuilder.AddTransactionalOutboxEntities();
         }
     }
 }
