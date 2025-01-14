@@ -13,11 +13,12 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Id = minorSkill.Id;
             Name = minorSkill.Name;
             SkillTemplateId = minorSkill.SkillTemplateId;
+            AttributeId = minorSkill.AttributeId;
         }
 
         public string Name { get; set; }
         public Guid Id { get; set; }
         public Guid SkillTemplateId { get; set; }
-
+        public Guid? AttributeId { get; set; }
     }
 }
