@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
         public string Name { get; set; }
         public Guid Id { get; set; }
-        public Guid AttributeId { get; set; }
+        public Guid? AttributeId { get; set; }
 
         public List<MinorSkillTemplateModel> MinorSkills { get; set; }
         public int PointsLimit { get; init; }

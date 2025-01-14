@@ -31,6 +31,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public _value = '';
   public campaign = input.required<Campaign>();
   public propertyType = input.required<PropertyType[]>();
+  public placeholder = input<string>();
 
   public properties = computed<RROption<string>[]>(() => {
     const propertiesTypes = this.propertyType();

@@ -11,7 +11,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             MinorSkills = new List<MinorSkillTemplate>();
         }
-        public SkillTemplate(Guid attributeTemplateId, SkillTemplateModel skill)
+        public SkillTemplate(Guid? attributeTemplateId, SkillTemplateModel skill)
         {
             Id = skill.Id;
             Name = skill.Name;
@@ -20,8 +20,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
         }
 
         public string Name { get; set; }
-        public Guid AttributeTemplateId { get; set; }
-        public AttributeTemplate AttributeTemplate { get; set; }
+        public Guid? AttributeTemplateId { get; set; }
+        public AttributeTemplate? AttributeTemplate { get; set; }
 
         public ICollection<Skill> Skills { get; set; }
         public List<MinorSkillTemplate> MinorSkills { get; set; }

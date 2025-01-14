@@ -66,15 +66,22 @@ export class CampaignItemConfigurationComponent {
         label: d.name, value: d.id,
       };
     });
-    this.form.addControl('armorDefenseTitle', new FormControl('Armor Defense'));
-    this.form.addControl('lightWeaponHitPropertyTitle', new FormControl('Light Weapon Hit Property'));
-    this.form.addControl('mediumWeaponHitPropertyTitle', new FormControl('Medium Weapon Hit Property'));
-    this.form.addControl('heavyWeaponHitPropertyTitle', new FormControl('Heavy Weapon Hit Property'));
-    this.form.addControl('lightWeaponDamagePropertyTitle', new FormControl('Light Weapon Damage Property'));
-    this.form.addControl('mediumWeaponDamagePropertyTitle', new FormControl('Medium Weapon Damage Property'));
-    this.form.addControl('heavyWeaponDamagePropertyTitle', new FormControl('Heavy Weapon Damage Property'));
-    this.form.addControl('heavyWeaponDamagePropertyTitle', new FormControl('Heavy Weapon Damage Property'));
-    this.form.addControl('basicAttackTargetLifeTitle', new FormControl('Basic Attack Life'));
+    this.form.addControl('armorPropertyTitle', new FormControl('Armor Property'));
+    this.form.addControl('basicAttackTargetFirstLifeTitle', new FormControl('Basic Attack First Life'));
+    this.form.addControl('meleeLightWeaponHitPropertyTitle', new FormControl('Melee Light Weapon Hit Property'));
+    this.form.addControl('meleeMediumWeaponHitPropertyTitle', new FormControl('Melee Medium Weapon Hit Property'));
+    this.form.addControl('meleeHeavyWeaponHitPropertyTitle', new FormControl('Melee Heavy Weapon Hit Property'));
+    this.form.addControl('meleeLightWeaponDamagePropertyTitle', new FormControl('Melee Light Weapon Damage Property'));
+    this.form.addControl('meleeMediumWeaponDamagePropertyTitle', new FormControl('Melee Medium Weapon Damage Property'));
+    this.form.addControl('meleeHeavyWeaponDamagePropertyTitle', new FormControl('Melee Heavy Weapon Damage Property'));
+    this.form.addControl('rangedLightWeaponHitPropertyTitle', new FormControl('Ranged Light Weapon Hit Property'));
+    this.form.addControl('rangedMediumWeaponHitPropertyTitle', new FormControl('Ranged Medium Weapon Hit Property'));
+    this.form.addControl('rangedHeavyWeaponHitPropertyTitle', new FormControl('Ranged Heavy Weapon Hit Property'));
+    this.form.addControl('rangedLightWeaponDamagePropertyTitle', new FormControl('Ranged Light Weapon Damage Property'));
+    this.form.addControl('rangedMediumWeaponDamagePropertyTitle', new FormControl('Ranged Medium Weapon Damage Property'));
+    this.form.addControl('rangedHeavyWeaponDamagePropertyTitle', new FormControl('Ranged Heavy Weapon Damage Property'));
+    this.form.addControl('basicAttackTargetSecondLifeTitle', new FormControl('Basic Attack Second Life'));
+
   }
   public async save(): Promise<void> {
     const configuration = this.form.value as ItemConfigurationModel;

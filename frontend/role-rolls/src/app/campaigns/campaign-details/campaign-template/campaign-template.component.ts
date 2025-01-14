@@ -16,6 +16,8 @@ import {ActivatedRoute} from '@angular/router';
 import {AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel} from '../../models/campaign-template.model';
 import {LoggerService} from '@services/logger/logger.service';
 import {firstValueFrom} from 'rxjs';
+import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
+import { PropertyType } from '@app/campaigns/models/propertyType';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -28,7 +30,8 @@ import {firstValueFrom} from 'rxjs';
     NgIf,
     ButtonDirective,
     InputText,
-    NgForOf
+    NgForOf,
+    PropertySelectorComponent
   ],
   styleUrl: './campaign-template.component.scss'
 })
@@ -146,6 +149,23 @@ export class CampaignTemplateComponent {
         this.minorsSkillBySkill.set(skill.id, new FormArray([]));
       });
   }
+  public addAttributelessSkill() {
+    if (this.disabled) return;
+    const skill = this.skillForm.value as SkillTemplateModel;
+    this.service.addAttributelessSkill(this.campaign.id, skill)
+      .subscribe(() => {
+        const formArray = this.skills;
+        const newFormGroup = new FormGroup({});
+        createForm(newFormGroup, this.skillForm.value as Entity);
+        formArray.controls.push(newFormGroup);
+        this.skillForm.reset();
+        this.skillForm.get('id').setValue(uuidv4() as never);
+        const newSkillForm = new FormGroup({});
+        createForm(newSkillForm, skill);
+        this.skillsMapping.get('attributeless').push(newSkillForm);
+        this.minorsSkillBySkill.set(skill.id, new FormArray([]));
+      });
+  }
   public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) {
     if (this.disabled) return;
     const attribute = attributeControl.value as AttributeTemplateModel;
@@ -154,10 +174,25 @@ export class CampaignTemplateComponent {
     this.service.updateSkill(this.campaign.id, attribute.id, skill.id, skill)
       .subscribe();
   }
+  public updateAttributelessSkill(skillControl: FormGroup) {
+    if (this.disabled) return;
+    const skill = skillControl.value as SkillTemplateModel;
+    this.service.updateAttributelessSkill(this.campaign.id, skill)
+      .subscribe();
+  }
   public removeSkill(attributeControl: FormGroup, skillControl: FormGroup, index: number) {
     const skill = skillControl.value as SkillTemplateModel;
     const attribute = attributeControl.value as AttributeTemplateModel;
     this.service.removeSkill(this.campaign.id, attribute.id, skill.id)
+      .subscribe(() => {
+        const formArray = this.skills;
+        formArray.removeAt(index);
+        this.skillsMapping.get(skill.attributeId).removeAt(index);
+      });
+  }
+  public removeAttributelessSkill(skillControl: FormGroup, index: number) {
+    const skill = skillControl.value as SkillTemplateModel;
+    this.service.removeAttributelessSkill(this.campaign.id, skill)
       .subscribe(() => {
         const formArray = this.skills;
         formArray.removeAt(index);
@@ -302,6 +337,9 @@ export class CampaignTemplateComponent {
       this.attributeForm.disable();
       this.skillForm.disable();
       this.minorSkillForm.disable();
+      this.skillForm.valueChanges.subscribe(() => {
+        console.log(this.skillForm.disabled)
+      })
       this.lifeForm.disable();
       this.form.get('name').enable();
     }
@@ -310,8 +348,17 @@ export class CampaignTemplateComponent {
     this.campaign.campaignTemplate.attributes.forEach((attribute: AttributeTemplateModel) => {
       this.skillsMapping.set(attribute.id, new FormArray<any>([]));
     });
+    this.skillsMapping.set('attributeless', new FormArray<any>([]));
     this.campaign.campaignTemplate.skills.forEach((skill: SkillTemplateModel) => {
       this.skillsMapping.get(skill.attributeId).push(getAsForm(skill));
+      this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
+      const minorSkills = this.minorsSkillBySkill.get(skill.id);
+      skill.minorSkills.forEach((minorSkill: MinorSkillsTemplateModel) => {
+        minorSkills.push(getAsForm(minorSkill));
+      });
+    });
+    this.campaign.campaignTemplate.attributelessSkills.forEach((skill: SkillTemplateModel) => {
+      this.skillsMapping.get('attributeless').push(getAsForm(skill));
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const minorSkills = this.minorsSkillBySkill.get(skill.id);
       skill.minorSkills.forEach((minorSkill: MinorSkillsTemplateModel) => {
@@ -323,5 +370,7 @@ export class CampaignTemplateComponent {
   async save() {
     await firstValueFrom(this.service.update(this.form.getRawValue()));
   }
+
+  protected readonly PropertyType = PropertyType;
 }
 

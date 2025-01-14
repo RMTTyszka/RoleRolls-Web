@@ -6,6 +6,7 @@ export class CampaignTemplateModel extends Entity {
   public totalSkillsPoints: number = 0;
   public attributes: AttributeTemplateModel[] = [];
   public skills: SkillTemplateModel[] = [];
+  public attributelessSkills: SkillTemplateModel[] = [];
   public lifes: LifeTemplateModel[] = [];
   public defenses: DefenseTemplateModel[] = [];
   public default: boolean = false;
@@ -17,13 +18,14 @@ export interface AttributeTemplateModel extends Entity {
 }
 
 export interface SkillTemplateModel extends Entity {
-  attributeId: string;
+  attributeId: string | null;
   name: string
   minorSkills: MinorSkillsTemplateModel[];
 }
 
 export interface MinorSkillsTemplateModel extends Entity {
   name: string
+  attributeId: string | null;
   skillTemplateId: string;
 }
 

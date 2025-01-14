@@ -62,6 +62,9 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Attributes)
                 .ThenInclude(a => a.SkillTemplates)
+                .ThenInclude(s => s.MinorSkills)       
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(a => a.AttributelessSkills)
                 .ThenInclude(s => s.MinorSkills)
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Defenses)          
@@ -169,7 +172,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });
         }
 
-        public async Task AddSkill(Guid campaignId, Guid attributeId, SkillTemplateModel skill)
+        public async Task AddSkill(Guid campaignId, Guid? attributeId, SkillTemplateModel skill)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -184,7 +187,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });
         }
 
-        public async Task RemoveSkill(Guid campaignId, Guid attributeId, Guid skillId)
+        public async Task RemoveSkill(Guid campaignId, Guid? attributeId, Guid skillId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -199,7 +202,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });  
         }
 
-        public async Task UpdateSkill(Guid campaignId, Guid attributeId, Guid skillId, SkillTemplateModel skill)
+        public async Task UpdateSkill(Guid campaignId, Guid? attributeId, Guid skillId, SkillTemplateModel skill)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -214,7 +217,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });
         }
 
-        public async Task AddMinorSkillAsync(Guid campaignId, Guid attributeId, Guid skillId, MinorSkillTemplateModel minorSkill)
+        public async Task AddMinorSkillAsync(Guid campaignId, Guid? attributeId, Guid skillId, MinorSkillTemplateModel minorSkill)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -229,7 +232,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });
         }
 
-        public async Task RemoveMinorSkillAsync(Guid campaignId, Guid attributeId, Guid skillId, Guid minorSkillId)
+        public async Task RemoveMinorSkillAsync(Guid campaignId, Guid? attributeId, Guid skillId, Guid minorSkillId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -245,7 +248,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             });
         }
 
-        public async Task UpdateMinorSkillAsync(Guid campaignId, Guid attributeId, Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkill)
+        public async Task UpdateMinorSkillAsync(Guid campaignId, Guid? attributeId, Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkill)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);

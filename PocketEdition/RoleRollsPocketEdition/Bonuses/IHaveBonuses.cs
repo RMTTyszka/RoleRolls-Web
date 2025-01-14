@@ -2,7 +2,7 @@ using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Races;
+using RoleRollsPocketEdition.Roles;
 
 namespace RoleRollsPocketEdition.Bonuses;
 
@@ -19,7 +19,7 @@ public static class BonusExtensions
         var bonusType = entity.GetType() switch
         {
             var t when t == typeof(ItemInstance) => EntityType.Item,
-            var t when t == typeof(Race) => EntityType.Race,
+            var t when t == typeof(Role) => EntityType.Race,
             var t when t == typeof(Archetype) => EntityType.Archetype,
             _ => throw new InvalidOperationException("Unknown entity type")
         };

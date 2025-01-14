@@ -19,6 +19,7 @@ public enum LandOfHeroesSkill
     Treatment = 5,
     Athletics = 6,
     Combat = 7,
+    Defense = 9
 }
 
 public enum LandOfHeroesMinorSkill
@@ -48,9 +49,17 @@ public enum LandOfHeroesMinorSkill
     RangedLightWeapon = 23,
     RangedMediumWeapon = 24,
     RangedHeavyWeapon = 25,
-    Injury = 26,
-    Poison = 27,
-    Curse = 28,
-    Disease = 29
+    ResitInjury = 26,
+    ResistPoison = 27,
+    ResistCurse = 28,
+    ResistDisease = 29,
+    Evasion = 30,
+    Hunger = 31,
+    ColdWeather = 32,
+    WarmWeather = 33,
+    Injury = 34,
+    Poison = 35,
+    Curse = 36,
+    Disease = 37,
 }
 

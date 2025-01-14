@@ -69,6 +69,15 @@ export class CampaignsService extends BaseCrudService<Campaign>{
    public addSkill(campaignId: string, attributeId: string, skill: SkillTemplateModel): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills`, skill);
    }
+   public addAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/attributeless-skills`, skill);
+   }
+   public updateAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skill.id}`, skill);
+   }
+   public removeAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skill.id}`);
+   }
    public updateSkill(campaignId: string, attributeId: string, skillId: string, skill: SkillTemplateModel): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`, skill);
    }

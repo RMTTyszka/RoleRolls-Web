@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Core.Abstractions;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -23,6 +21,8 @@ public class LandOfHeroesLoader : IStartupTask
     var templateFromDb = await _context.CampaignTemplates
         .Include(t => t.Attributes)
         .ThenInclude(a => a.SkillTemplates)
+        .ThenInclude(s => s.MinorSkills)     
+        .Include(a => a.AttributelessSkills)
         .ThenInclude(s => s.MinorSkills)
         .Include(t => t.ItemConfiguration)
         .FirstOrDefaultAsync(t => t.Id == templateFromCode.Id, cancellationToken: cancellationToken);
@@ -36,12 +36,38 @@ public class LandOfHeroesLoader : IStartupTask
         templateFromDb.Name = templateFromCode.Name;
         templateFromDb.Default = templateFromCode.Default;
         SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes);
+        SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills);
         SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration);
     }
     await _context.SaveChangesAsync();
 }
 
-private void SynchronizeAttributes(Templates.Entities.CampaignTemplate templateFromDb, List<AttributeTemplate> fromCode,
+    private void SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb, List<SkillTemplate> fromCode, List<SkillTemplate> fromDb)
+    {
+        var dbSkills = fromDb.ToDictionary(s => s.Id);
+        var codeSkills = fromCode.ToDictionary(s => s.Id);
+
+        foreach (var codeSkill in fromCode)
+        {
+            if (!dbSkills.TryGetValue(codeSkill.Id, out var dbSkill))
+            {
+                templateFromDb.AttributelessSkills.Add(codeSkill);
+                fromDb.Add(codeSkill);
+            }
+            else
+            {
+                SynchronizeMinorSkills(codeSkill.MinorSkills, dbSkill.MinorSkills);
+                dbSkill.Name = codeSkill.Name;
+            }
+        }
+
+        foreach (var dbSkill in fromDb.Where(s => !codeSkills.ContainsKey(s.Id)).ToList())
+        {
+            fromDb.Remove(dbSkill);
+        }
+    }
+
+    private void SynchronizeAttributes(Templates.Entities.CampaignTemplate templateFromDb, List<AttributeTemplate> fromCode,
     ICollection<AttributeTemplate> fromDb)
 {
     var dbAttributes = fromDb.ToDictionary(a => a.Id);
@@ -111,6 +137,7 @@ private void SynchronizeMinorSkills(
         {
             dbMinorSkill.Name = codeMinorSkill.Name;
             dbMinorSkill.SkillTemplateId = codeMinorSkill.SkillTemplateId;
+            dbMinorSkill.AttributeId = codeMinorSkill.AttributeId;
         }
     }
 

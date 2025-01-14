@@ -27,6 +27,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .AsNoTracking()
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
+                .ThenInclude(skill => skill.MinorSkills)        
+                .Include(template => template.AttributelessSkills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .Include(template => template.Lifes)
                 .FirstOrDefaultAsync(template => template.Id == id);

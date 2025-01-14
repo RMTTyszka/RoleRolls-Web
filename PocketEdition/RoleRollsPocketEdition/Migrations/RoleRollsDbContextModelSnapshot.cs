@@ -190,6 +190,63 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("OutboxState");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Archetype", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Archetypes");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Bonuses.Bonus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ArchetypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("EntityType")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ValueType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArchetypeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Bonus");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>
                 {
                     b.Property<Guid>("Id")
@@ -207,7 +264,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -246,11 +304,13 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -271,7 +331,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer");
@@ -302,7 +363,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
@@ -353,11 +415,13 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Formula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -479,7 +543,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Formula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("LifeTemplateId")
                         .HasColumnType("uuid");
@@ -489,7 +554,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer");
@@ -517,7 +583,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("Points")
                         .HasColumnType("integer");
@@ -550,7 +617,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("SkillTemplateId")
                         .HasColumnType("uuid");
@@ -575,31 +643,52 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ArmorDefenseId")
+                    b.Property<Guid?>("ArmorPropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BasicAttackTargetLifeId")
+                    b.Property<Guid?>("BasicAttackTargetFirstLifeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BasicAttackTargetSecondLifeId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("HeavyWeaponDamagePropertyId")
+                    b.Property<Guid?>("MeleeHeavyWeaponDamagePropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("HeavyWeaponHitPropertyId")
+                    b.Property<Guid?>("MeleeHeavyWeaponHitPropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("LightWeaponDamagePropertyId")
+                    b.Property<Guid?>("MeleeLightWeaponDamagePropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("LightWeaponHitPropertyId")
+                    b.Property<Guid?>("MeleeLightWeaponHitPropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("MediumWeaponDamagePropertyId")
+                    b.Property<Guid?>("MeleeMediumWeaponDamagePropertyId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("MediumWeaponHitPropertyId")
+                    b.Property<Guid?>("MeleeMediumWeaponHitPropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedHeavyWeaponDamagePropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedHeavyWeaponHitPropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedLightWeaponDamagePropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedLightWeaponHitPropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedMediumWeaponDamagePropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RangedMediumWeaponHitPropertyId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -629,7 +718,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid?>("PowerId")
                         .HasColumnType("uuid");
@@ -666,7 +756,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid?>("PowerId")
                         .HasColumnType("uuid");
@@ -695,11 +786,13 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("TemplateId")
                         .HasColumnType("uuid");
@@ -728,22 +821,26 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("CastDescription")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("CastFormula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int?>("Duration")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("PowerDurationType")
                         .HasColumnType("integer");
@@ -759,7 +856,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("UsagesFormula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid?>("UseAttributeId")
                         .HasColumnType("uuid");
@@ -769,6 +867,27 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasIndex("CampaignId");
 
                     b.ToTable("PowerTemplates");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Roles.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Rolls.Entities.Roll", b =>
@@ -791,7 +910,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("Difficulty")
                         .HasColumnType("integer");
@@ -822,7 +942,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("RolledDices")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("SceneId")
                         .HasColumnType("uuid");
@@ -848,7 +969,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -871,7 +993,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("SceneId")
                         .HasColumnType("uuid");
@@ -919,7 +1042,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -934,12 +1058,23 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ArchetypeTitle")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
                     b.Property<bool>("Default")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<string>("RoleTitle")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<int>("TotalAttributePoints")
                         .HasColumnType("integer");
@@ -966,11 +1101,13 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Formula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -993,11 +1130,13 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("Formula")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -1012,14 +1151,20 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("AttributeId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("SkillTemplateId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AttributeId");
 
                     b.HasIndex("SkillTemplateId");
 
@@ -1032,16 +1177,22 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AttributeTemplateId")
+                    b.Property<Guid?>("AttributeTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AttributeTemplateId");
+
+                    b.HasIndex("CampaignTemplateId");
 
                     b.ToTable("SkillTemplates");
                 });
@@ -1100,6 +1251,39 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("InboxMessageId", "InboxConsumerId")
                         .HasPrincipalKey("MessageId", "ConsumerId");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Bonuses.Bonus", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", null)
+                        .WithMany("Bonuses")
+                        .HasForeignKey("ArchetypeId");
+
+                    b.HasOne("RoleRollsPocketEdition.Roles.Role", null)
+                        .WithMany("Bonuses")
+                        .HasForeignKey("RoleId");
+
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "Property", b1 =>
+                        {
+                            b1.Property<Guid>("BonusId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("IdProperty")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Type")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("BonusId");
+
+                            b1.ToTable("Bonus");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BonusId");
+                        });
+
+                    b.Navigation("Property")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>
@@ -1476,11 +1660,17 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.MinorSkillTemplate", b =>
                 {
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "Attribute")
+                        .WithMany()
+                        .HasForeignKey("AttributeId");
+
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
                         .WithMany("MinorSkills")
                         .HasForeignKey("SkillTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Attribute");
 
                     b.Navigation("SkillTemplate");
                 });
@@ -1489,11 +1679,18 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "AttributeTemplate")
                         .WithMany("SkillTemplates")
-                        .HasForeignKey("AttributeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttributeTemplateId");
+
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
+                        .WithMany("AttributelessSkills")
+                        .HasForeignKey("CampaignTemplateId");
 
                     b.Navigation("AttributeTemplate");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Archetype", b =>
+                {
+                    b.Navigation("Bonuses");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>
@@ -1546,6 +1743,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Instances");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Roles.Role", b =>
+                {
+                    b.Navigation("Bonuses");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.Scene", b =>
                 {
                     b.Navigation("Actions");
@@ -1564,6 +1766,8 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", b =>
                 {
+                    b.Navigation("AttributelessSkills");
+
                     b.Navigation("Attributes");
 
                     b.Navigation("Campaigns");

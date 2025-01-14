@@ -1,10 +1,17 @@
 export class ItemConfigurationModel {
-  public basicAttackTargetLifeId?: string | null;
-  public armorDefenseId?: string | null;
-  public lightWeaponHitPropertyId?: string | null;
-  public mediumWeaponHitPropertyId?: string | null;
-  public heavyWeaponHitPropertyId?: string | null;
-  public lightWeaponDamagePropertyId?: string | null;
-  public mediumWeaponDamagePropertyId?: string | null;
-  public heavyWeaponDamagePropertyId?: string | null;
+  public armorPropertyId?: string | null;
+  public basicAttackTargetFirstLifeId?: string | null;
+  public meleeLightWeaponHitPropertyId?: string | null;
+  public meleeMediumWeaponHitPropertyId?: string | null;
+  public meleeHeavyWeaponHitPropertyId?: string | null;
+  public meleeLightWeaponDamagePropertyId?: string | null;
+  public meleeMediumWeaponDamagePropertyId?: string | null;
+  public meleeHeavyWeaponDamagePropertyId?: string | null;
+  public rangedLightWeaponHitPropertyId?: string | null;
+  public rangedMediumWeaponHitPropertyId?: string | null;
+  public rangedHeavyWeaponHitPropertyId?: string | null;
+  public rangedLightWeaponDamagePropertyId?: string | null;
+  public rangedMediumWeaponDamagePropertyId?: string | null;
+  public rangedHeavyWeaponDamagePropertyId?: string | null;
+  public basicAttackTargetSecondLifeId?: string | null;
 }

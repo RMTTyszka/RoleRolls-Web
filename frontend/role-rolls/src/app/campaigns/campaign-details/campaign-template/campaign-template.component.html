@@ -31,60 +31,111 @@
     <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
       <span class="p-panel-title col">Skills</span>
     </ng-template>
-    <div formGroupName="campaignTemplate">
-      <div formArrayName="attributes">
-        <div *ngFor="let attribute of attributes.controls; let i=index">
-          <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-            <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-              <span class="p-panel-title col-6">{{attribute.get('name').value}}</span>
-              <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
-                <p-fieldset *ngIf=!disabled class="col-6">
-                  <div  class="p-inputgroup">
-                    <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkill(attribute)">
-                    <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
-                  </div>
-                </p-fieldset>
-              </div>
-            </ng-template>
-            <div class="p-grid p-justify-between p-align-start p-nogutter">
-              <div class="col-6">
-                <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
-                  <div form [formGroup]="skill">
-                    <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                      <ng-template  #header>
-                        <div class="p-inputgroup">
-                          <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
-                          <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
-                        </div>
-                        <div form class="col-6" [formGroup]="minorSkillForm">
-                          <div *ngIf=!disabled class="p-inputgroup">
-                            <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addMinorSkill(skill)">
-                            <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+        <div formArrayName="attributes">
+          <div *ngFor="let attribute of attributes.controls; let i=index">
+            <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+              <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                <span class="p-panel-title col-6">{{attribute.get('name').value}}</span>
+                <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
+                  <p-fieldset *ngIf=!disabled class="col-6">
+                    <div  class="p-inputgroup">
+                      <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkill(attribute)">
+                      <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6 p-inputgroup-addon" (click)="addSkill(attribute)"></button>
+                    </div>
+                  </p-fieldset>
+                </div>
+              </ng-template>
+              <div class="p-grid p-justify-between p-align-start p-nogutter">
+                <div class="col-6">
+                  <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
+                    <div form [formGroup]="skill">
+                      <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                        <ng-template  #header>
+                          <div class="p-inputgroup">
+                            <input type="text" pInputText (blur)="updateSkill(attribute, skill)" placeholder="Name" formControlName="name" required>
+                            <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSkill(attribute, skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                           </div>
-                        </div>
-                      </ng-template>
-                      <div class="p-grid p-justify-between p-align-start p-nogutter">
-                        <div class="col-6" form [formGroup]="skill">
-                          <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
-                            <div [formGroup]="minorSkill">
-                              <div class="p-inputgroup">
-                                <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
-                                <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                          <div form class="col-6" [formGroup]="minorSkillForm">
+                            <div *ngIf=!disabled class="p-inputgroup">
+                              <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addMinorSkill(skill)">
+                              <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <div class="p-grid p-justify-between p-align-start p-nogutter">
+                          <div class="col-6" form [formGroup]="skill">
+                            <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
+                              <div [formGroup]="minorSkill">
+                                <div class="p-inputgroup">
+                                  <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
+                                  <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                                </div>
                               </div>
                             </div>
                           </div>
+
                         </div>
+                      </p-panel>
 
-                      </div>
-                    </p-panel>
-
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </p-panel>
+
+            </p-panel>
+          </div>
         </div>
-      </div>
+    <div formArrayName="attributelessSkills">
+      <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+        <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <span class="p-panel-title col-6">Other Skills</span>
+          <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
+            <p-fieldset *ngIf=!disabled class="col-6">
+              <div  class="p-inputgroup">
+                <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addAttributelessSkill()">
+                <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6 p-inputgroup-addon" (click)="addAttributelessSkill()"></button>
+              </div>
+            </p-fieldset>
+          </div>
+        </ng-template>
+        <div class="p-grid p-justify-between p-align-start p-nogutter">
+          <div class="col-6">
+            <div *ngFor="let skill of attributeSkills('attributeless')?.controls; let skillIndex=index">
+              <div form [formGroup]="skill">
+                <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                  <ng-template  #header>
+                    <div class="p-inputgroup">
+                      <input type="text" pInputText (blur)="updateAttributelessSkill(skill)" placeholder="Name" formControlName="name" required>
+                      <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeAttributelessSkill(skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                    </div>
+                    <div form class="col-6" [formGroup]="minorSkillForm">
+                      <div *ngIf=!disabled class="p-inputgroup">
+                        <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addMinorSkill(skill)">
+                        <button class="p-inputgroup-addon" (click)="addMinorSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <div class="p-grid p-justify-between p-align-start p-nogutter">
+                    <div class="col-6" form [formGroup]="skill">
+                      <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
+                        <div [formGroup]="minorSkill" class="grid grid-cols-2 gap-4 justify-start">
+                          <rr-property-selector class="flex-auto" placeholder="Attribute" formControlName="attributeId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-selector>
+                          <div class="p-inputgroup">
+                            <input type="text" pInputText (blur)="updateMinorSkill(skill, minorSkill)" placeholder="Name" formControlName="name" required>
+                            <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeMinorSkill(skill, minorSkill, minorSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </p-panel>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
     </div>
   </p-panel>
   <p-panel [toggleable]="true">
@@ -117,7 +168,7 @@
     </div>
 
   </p-panel>
-  <p-panel [toggleable]="true">
+  <!--<p-panel [toggleable]="true">
     <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
       <span class="p-panel-title col-6">Defenses</span>
       <div class="col-6 p-grid p-justify-end  p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
@@ -145,5 +196,5 @@
         </div>
       </div>
     </div>
-  </p-panel>
+  </p-panel>-->
 </form>

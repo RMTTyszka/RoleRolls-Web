@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Authentication.Users;
@@ -9,6 +10,7 @@ using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Roles;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -47,6 +49,8 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<ItemConfiguration> ItemConfigurations { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Archetype> Archetypes { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -55,17 +59,17 @@ namespace RoleRollsPocketEdition.Infrastructure
             _configuration = configuration;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options) 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
-            options.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
 
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Owned<Property>();
             modelBuilder.Entity<ItemTemplate>()
                 .HasDiscriminator<string>("ItemType")
                 .HasValue<ArmorTemplate>("Armor")
@@ -149,6 +153,15 @@ namespace RoleRollsPocketEdition.Infrastructure
                 else
                 {
                     Console.WriteLine($"Entity type {entityType.ClrType} is not supported");
+                }
+                var stringProperties = entityType.ClrType.GetProperties()
+                    .Where(p => p.PropertyType == typeof(string));
+
+                foreach (var property in stringProperties)
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property(property.Name)
+                        .HasMaxLength(450);
                 }
             }
 
