@@ -39,21 +39,25 @@ public class LandOfHeroesTemplate
     {
         return new ItemConfiguration(template, new ItemConfigurationModel
         {
-            ArmorPropertyId = null,
-            MeleeLightWeaponHitPropertyId = null,
-            MeleeMediumWeaponHitPropertyId = null,
-            MeleeHeavyWeaponHitPropertyId = null,
-            MeleeLightWeaponDamagePropertyId = null,
-            MeleeMediumWeaponDamagePropertyId = null,
-            MeleeHeavyWeaponDamagePropertyId = null,
-            RangedLightWeaponHitPropertyId = null,
-            RangedMediumWeaponHitPropertyId = null,
-            RangedHeavyWeaponHitPropertyId = null,
-            RangedLightWeaponDamagePropertyId = null,
-            RangedMediumWeaponDamagePropertyId = null,
-            RangedHeavyWeaponDamagePropertyId = null,
-            BasicAttackTargetFirstLifeId = null,
-            BasicAttackTargetSecondLifeId = null,
+            ArmorPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.Evasion],
+            MeleeLightWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            MeleeMediumWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon],
+            MeleeHeavyWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeHeavyWeapon],
+            
+            MeleeLightWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            MeleeMediumWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            MeleeHeavyWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            
+            RangedLightWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            RangedMediumWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            RangedHeavyWeaponHitPropertyId = MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
+            
+            RangedLightWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.RangedLightWeapon],
+            RangedMediumWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.RangedMediumWeapon],
+            RangedHeavyWeaponDamagePropertyId = MinorSkillIds[LandOfHeroesMinorSkill.RangedHeavyWeapon],
+            
+            BasicAttackTargetFirstLifeId = LifeIds[LandOfHeroesLife.Moral],
+            BasicAttackTargetSecondLifeId = LifeIds[LandOfHeroesLife.Life],
         })
         {
             Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
@@ -107,6 +111,11 @@ public class LandOfHeroesTemplate
         { LandOfHeroesAttribute.Perception, Guid.Parse("D8C6D5C2-6D13-4E92-9C8F-31A7C74EAF52") },
         { LandOfHeroesAttribute.Strength, Guid.Parse("80D7685B-6E9A-44C2-AC99-BA3173B2C41E") },
         { LandOfHeroesAttribute.Vitality, Guid.Parse("1F5B3E5E-C5B8-44A3-A9B3-8B1A3F7444AB") },
+    };
+    public static Dictionary<LandOfHeroesLife, Guid> LifeIds = new()
+    {
+        { LandOfHeroesLife.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
+        { LandOfHeroesLife.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
     };
 
     public static Dictionary<LandOfHeroesSkill, Guid> SkillIds = new()

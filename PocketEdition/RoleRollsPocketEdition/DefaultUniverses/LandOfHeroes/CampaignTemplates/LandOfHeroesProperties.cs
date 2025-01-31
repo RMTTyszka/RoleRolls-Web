@@ -63,3 +63,9 @@ public enum LandOfHeroesMinorSkill
     Disease = 37,
 }
 
+public enum LandOfHeroesLife
+{
+    Life = 0,
+    Moral = 1
+}
+
