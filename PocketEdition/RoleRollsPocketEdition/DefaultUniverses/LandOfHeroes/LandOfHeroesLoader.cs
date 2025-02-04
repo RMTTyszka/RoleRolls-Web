@@ -167,9 +167,8 @@ public class LandOfHeroesLoader : IStartupTask
     }
     private void SynchronizeLives(
         Templates.Entities.CampaignTemplate creatureFromDb,
-        List<Life> fromCode,
-        List<Life> fromDb,
-        Dictionary<LandOfHeroesLife, Guid> lifeIds)
+        ICollection<LifeTemplate> fromCode,
+        ICollection<LifeTemplate> fromDb)
     {
         var dbLives = fromDb.ToDictionary(l => l.Id);
         var codeLives = fromCode.ToDictionary(l => l.Id);
@@ -178,14 +177,13 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbLives.TryGetValue(codeLife.Id, out var dbLife))
             {
-                creatureFromDb.Lives.Add(codeLife);
+                creatureFromDb.Lifes.Add(codeLife);
                 fromDb.Add(codeLife);
             }
             else
             {
-                dbLife.Value = codeLife.Value;
-                dbLife.MaxValue = codeLife.MaxValue;
-                dbLife.LifeType = codeLife.LifeType;
+                dbLife.Name = codeLife.Name;
+                dbLife.Formula = codeLife.Formula;
             }
         }
 
