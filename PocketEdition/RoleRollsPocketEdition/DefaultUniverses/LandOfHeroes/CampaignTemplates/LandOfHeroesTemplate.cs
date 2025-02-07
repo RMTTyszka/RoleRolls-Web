@@ -25,7 +25,7 @@ public class LandOfHeroesTemplate
         }
     }
 
-    private static ICollection<LifeTemplate> BuildLifes()
+    private static List<LifeTemplate> BuildLifes()
     {
         return new List<LifeTemplate>
         {

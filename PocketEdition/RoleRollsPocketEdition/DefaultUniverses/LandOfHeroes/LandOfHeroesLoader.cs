@@ -44,9 +44,24 @@ public class LandOfHeroesLoader : IStartupTask
             SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills);
             SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration);
             SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes);
-            SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes);
+      //      SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes);
         }
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            // Exibe a versão mais recente para o usuário
+            foreach (var entry in ex.Entries)
+            {
+                if (entry.State == EntityState.Modified)
+                {
+                    var databaseValues = entry.GetDatabaseValues();
+                    // Mostrar as diferenças para o usuário ou resolver como for necessário
+                }
+            }
+        }
     }
 
     private void SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb, List<SkillTemplate> fromCode, List<SkillTemplate> fromDb)

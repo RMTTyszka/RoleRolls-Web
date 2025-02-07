@@ -77,6 +77,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                 template.Navigation(c => c.ItemConfiguration).AutoInclude();
                 template.Navigation(c => c.Defenses).AutoInclude();
                 template.Navigation(c => c.DamageTypes).AutoInclude();
+                template.Navigation(c => c.AttributelessSkills).AutoInclude();
             });
             modelBuilder.Entity<AttributeTemplate>(attribute =>
             {

@@ -15,8 +15,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public CampaignTemplate()
         {
-            Attributes = new List<AttributeTemplate>();
-            Lifes = new List<LifeTemplate>();
+            Attributes = [];
+            Lifes = [];
             Defenses = new List<DefenseTemplate>();
             ItemConfiguration = new ItemConfiguration();
             AttributelessSkills = new List<SkillTemplate>();
@@ -64,10 +64,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
         }
 
         [NotMapped]
-        public ICollection<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
+        public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        public ICollection<LifeTemplate> Lifes { get; set; }
-        public ICollection<DefenseTemplate> Defenses { get; set; }
+        public List<LifeTemplate> Lifes { get; set; }
+        public List<DefenseTemplate> Defenses { get; set; }
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {
