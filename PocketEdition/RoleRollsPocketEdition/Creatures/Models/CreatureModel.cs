@@ -24,7 +24,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
                 .OrderBy(a => a.Name).ToList();
             Name = creature.Name;
             Level = creature.Level;
-            Type = creature.Type;
+            Category = creature.Category;
             Inventory = InventoryModel.FromCreature(creature);
             Equipment = EquipmentModel.FromCreature(creature);
         }
@@ -40,7 +40,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public string Name { get; set; }
         public int Level { get; set; }
 
-        public CreatureType Type { get; set; }
+        public CreatureCategory Category { get; set; }
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
         public InventoryModel Inventory { get; set; }

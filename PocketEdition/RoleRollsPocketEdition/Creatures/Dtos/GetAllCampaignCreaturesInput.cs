@@ -4,7 +4,7 @@ namespace RoleRollsPocketEdition.Creatures.Dtos
 {
     public class GetAllCampaignCreaturesInput
     {
-        public CreatureType? CreatureType { get; set; }
+        public CreatureCategory? CreatureType { get; set; }
         public List<Guid> CreatureIds { get; set; }
         public Guid? OwnerId { get; set; }
 

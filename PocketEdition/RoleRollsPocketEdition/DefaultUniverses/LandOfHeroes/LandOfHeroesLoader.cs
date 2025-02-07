@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -22,6 +23,7 @@ public class LandOfHeroesLoader : IStartupTask
     {
         var templateFromCode = LandOfHeroesTemplate.Template;
         var templateFromDb = await _context.CampaignTemplates
+            .Include(t => t.Lifes)
             .Include(t => t.Attributes)
             .ThenInclude(a => a.SkillTemplates)
             .ThenInclude(s => s.MinorSkills)     
@@ -42,6 +44,7 @@ public class LandOfHeroesLoader : IStartupTask
             SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills);
             SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration);
             SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes);
+            SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes);
         }
         await _context.SaveChangesAsync();
     }
@@ -81,7 +84,6 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbAttributes.TryGetValue(codeAttr.Id, out var dbAttr))
             {
-                fromDb.Add(codeAttr);
                 templateFromDb.Attributes.Add(codeAttr);
             }
             else
@@ -177,8 +179,8 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbLives.TryGetValue(codeLife.Id, out var dbLife))
             {
+                codeLife.CampaignTemplate = creatureFromDb;
                 creatureFromDb.Lifes.Add(codeLife);
-                fromDb.Add(codeLife);
             }
             else
             {
@@ -189,7 +191,32 @@ public class LandOfHeroesLoader : IStartupTask
 
         foreach (var dbLife in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
         {
-            fromDb.Remove(dbLife);
+            creatureFromDb.Lifes.Remove(dbLife);
+        }
+    }
+    private void SynchronizeDamageTypes(
+        Templates.Entities.CampaignTemplate creatureFromDb,
+        ICollection<DamageType> fromCode,
+        ICollection<DamageType> fromDb)
+    {
+        var dbLives = fromDb.ToDictionary(l => l.Id);
+        var codeLives = fromCode.ToDictionary(l => l.Id);
+
+        foreach (var codeLife in fromCode)
+        {
+            if (!dbLives.TryGetValue(codeLife.Id, out var dbLife))
+            {
+                creatureFromDb.DamageTypes.Add(codeLife);
+            }
+            else
+            {
+                dbLife.Name = codeLife.Name;
+            }
+        }
+
+        foreach (var dbLife in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
+        {
+            creatureFromDb.DamageTypes.Remove(dbLife);
         }
     }
 

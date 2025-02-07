@@ -1,6 +1,6 @@
 ﻿namespace RoleRollsPocketEdition.Creatures.Entities
 {
-    public enum CreatureType
+    public enum CreatureCategory
     {
         Hero = 0,
         Monster = 1

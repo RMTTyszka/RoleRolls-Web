@@ -4,6 +4,7 @@ using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Dtos;
@@ -19,6 +20,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Defenses = new List<DefenseTemplate>();
             ItemConfiguration = new ItemConfiguration();
             AttributelessSkills = new List<SkillTemplate>();
+            DamageTypes = new List<DamageType>();
         }
         public CampaignTemplate(CampaignTemplateModel template) : base()
         {
@@ -39,7 +41,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public string Name { get; set; }
         public bool Default { get; set; }
-        public string RoleTitle { get; set; }
+        public string CreatureTypeTitle { get; set; }
         public string ArchetypeTitle { get; set; }
         public int MaxAttributePoints => 5;
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
@@ -47,15 +49,16 @@ namespace RoleRollsPocketEdition.Templates.Entities
         // 4
         public int TotalSkillsPoints { get; set; }
         public ItemConfiguration ItemConfiguration { get; set; }
-        public virtual List<AttributeTemplate> Attributes { get; set; }
-        public virtual List<SkillTemplate> AttributelessSkills { get; set; }
-        public virtual List<Campaign> Campaigns { get; set; }
+        public List<AttributeTemplate> Attributes { get; set; }
+        public List<DamageType> DamageTypes { get; set; }
+        public List<SkillTemplate> AttributelessSkills { get; set; }
+        public List<Campaign> Campaigns { get; set; }
 
-        public Creature InstantiateCreature(string name, Guid campaignId, CreatureType type, Guid ownerId)
+        public Creature InstantiateCreature(string name, Guid campaignId, CreatureCategory category, Guid ownerId)
         {
-            var creature = Creature.FromTemplate(this, campaignId, type);
+            var creature = Creature.FromTemplate(this, campaignId, category);
             creature.OwnerId = ownerId;
-            creature.Type = type;
+            creature.Category = category;
             creature.Name = name;
             return creature;
         }

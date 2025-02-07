@@ -68,4 +68,15 @@ public enum LandOfHeroesLife
     Life = 0,
     Moral = 1
 }
+public enum DamageTypeEnum
+{
+    Martial,
+    Arcane,
+    Fire,
+    Ice,
+    Lightning,
+    Acid,
+    Necrotic,
+    Radiant
+}
 

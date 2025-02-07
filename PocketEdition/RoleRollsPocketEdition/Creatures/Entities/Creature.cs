@@ -30,7 +30,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public string Name { get; set; }
         public int Level { get; set; }
 
-        public CreatureType Type { get; set; }
+        public CreatureCategory Category { get; set; }
         public Equipment Equipment { get; set; }
         public Inventory Inventory { get; set; }
         public Creature()
@@ -105,7 +105,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
             return result;;
         }
-        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureType creatureType) 
+        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
@@ -116,7 +116,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 Defenses = template.Defenses.Select(Defense.FromTemplate).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,
-                Type = creatureType
+                Category = creatureCategory
             };
             foreach (var life in creature.Lifes)
             {
@@ -246,10 +246,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return new SceneAction
             {
                 Description = $"{Name} healed {value} of {life.Name}",
-                ActorType = Type switch
+                ActorType = Category switch
                 {
-                    CreatureType.Hero => ActionActorType.Hero,
-                    CreatureType.Monster => ActionActorType.Monster,
+                    CreatureCategory.Hero => ActionActorType.Hero,
+                    CreatureCategory.Monster => ActionActorType.Monster,
                     _ => throw new ArgumentOutOfRangeException()
                 },
                 Id = Guid.NewGuid(),

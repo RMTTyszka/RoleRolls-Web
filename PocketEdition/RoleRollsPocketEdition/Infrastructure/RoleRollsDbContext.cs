@@ -69,6 +69,24 @@ namespace RoleRollsPocketEdition.Infrastructure
         {
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CampaignTemplate>(template =>
+            {
+                template.Navigation(c => c.Lifes).AutoInclude();
+                template.Navigation(c => c.Attributes).AutoInclude();
+                template.Navigation(c => c.ItemConfiguration).AutoInclude();
+                template.Navigation(c => c.Defenses).AutoInclude();
+                template.Navigation(c => c.DamageTypes).AutoInclude();
+            });
+            modelBuilder.Entity<AttributeTemplate>(attribute =>
+            {
+                attribute.Navigation(c => c.SkillTemplates).AutoInclude();
+            });        
+            modelBuilder.Entity<SkillTemplate>(skill =>
+            {
+                skill.Navigation(c => c.MinorSkills).AutoInclude();
+            });
+            
             modelBuilder.Owned<Property>();
             modelBuilder.Entity<ItemTemplate>()
                 .HasDiscriminator<string>("ItemType")

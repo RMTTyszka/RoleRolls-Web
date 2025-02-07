@@ -22,15 +22,15 @@ public class SceneCreaturesController : ControllerBase
     }
     [HttpGet()]
 
-    public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureType creatureType)
+    public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureCategory creatureCategory)
     {
-        return await _scenesService.GetCreatures(campaignId, sceneId, creatureType);
+        return await _scenesService.GetCreatures(campaignId, sceneId, creatureCategory);
     }        
     [HttpPost()]
 
     public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
     {
-        if (creatureModels.Select(e => e.CreatureType).First() == CreatureType.Hero)
+        if (creatureModels.Select(e => e.CreatureCategory).First() == CreatureCategory.Hero)
         {
             await _scenesService.AddHero(campaignId, sceneId, creatureModels);
         }

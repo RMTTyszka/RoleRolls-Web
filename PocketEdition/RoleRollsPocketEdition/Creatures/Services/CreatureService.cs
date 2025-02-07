@@ -32,7 +32,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
         public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
         {
             var query = _creatureRepository.GetFullCreatureAsQueryable()
-                .WhereIf(input.CreatureType.HasValue, creature => creature.Type == input.CreatureType)
+                .WhereIf(input.CreatureType.HasValue, creature => creature.Category == input.CreatureType)
                 .Where(creature => campaignId == creature.CampaignId);
 
             if (input.CreatureIds.Any()) 
@@ -62,7 +62,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
             var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Type, ownerId);
+            var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Category, ownerId);
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
@@ -87,11 +87,11 @@ namespace RoleRollsPocketEdition.Creatures.Services
             return result;
         }
 
-        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureType creatureType)
+        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureCategory creatureCategory)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureType);
+            var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureCategory);
             var output = new CreatureModel(creature);
             return output;
         }

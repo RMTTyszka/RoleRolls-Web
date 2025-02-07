@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition.Scenes.Services
 {
     public interface IScenesService
     {
-        Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType);
+        Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureCategory creatureCategory);
         Task AddHero(Guid campaignId, Guid sceneId, List<SceneCreatureModel> creatures);
         Task AddMonster(Guid campaignId, Guid sceneId, List<SceneCreatureModel> creatures);
         Task Create(Guid campaignId, SceneModel sceneModel);

@@ -1,3 +1,4 @@
+using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -12,14 +13,39 @@ public class LandOfHeroesTemplate
                 Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 Name = "Land Of Heroes",
                 ArchetypeTitle = "Archetype",
-                RoleTitle = "Races",
+                CreatureTypeTitle = "Races",
                 Default = true,
                 Attributes = BuildAttributes(),
-                AttributelessSkills = BuildAttributelessSkills()
+                AttributelessSkills = BuildAttributelessSkills(),
+                Lifes = BuildLifes(),
+                DamageTypes = BuildDamageTypes(),
             };
             template.ItemConfiguration = BuildItemConfiguration(template);
             return template;
         }
+    }
+
+    private static ICollection<LifeTemplate> BuildLifes()
+    {
+        return new List<LifeTemplate>
+        {
+            new()
+            {
+                Id = LifeIds[LandOfHeroesLife.Life],
+                Name = "Life",
+                Formula = "10 + 4 * Vitality",
+                CreatureTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+                CampaignTemplate = null,
+            },   
+            new()
+            {
+                Id = LifeIds[LandOfHeroesLife.Moral],
+                Name = "Moral",
+                Formula = "15 + 2 * Intuition",
+                CreatureTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+                CampaignTemplate = null,
+            },
+        };
     }
 
     private static List<SkillTemplate> BuildAttributelessSkills()
@@ -62,6 +88,29 @@ public class LandOfHeroesTemplate
         {
             Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
         };
+    }
+
+    private static readonly Dictionary<DamageTypeEnum, Guid> DamageTypeIds = new()
+    {
+        { DamageTypeEnum.Martial, new Guid("c7ddf02b-262f-4099-8f3c-3826677a3237") },
+        { DamageTypeEnum.Arcane, new Guid("3789e696-7b1e-4242-9462-f00c13079e6b") },
+        { DamageTypeEnum.Fire, new Guid("751ac265-e302-422f-9c96-a66938b2cba5") },
+        { DamageTypeEnum.Ice, new Guid("21977699-500e-4a63-9873-0db508c96a40") },
+        { DamageTypeEnum.Lightning, new Guid("855c6281-36ca-4b19-93ca-5f1d63093d70") },
+        { DamageTypeEnum.Acid, new Guid("42255ef3-c4c1-4b36-9298-d3d16a5f6568") },
+        { DamageTypeEnum.Necrotic, new Guid("c1d25d0e-634c-4e5e-b367-6647dc79675e") },
+        { DamageTypeEnum.Radiant, new Guid("9dd8562c-83c6-4b1f-8c54-78b64a85951a") }
+    };
+
+    public static List<DamageType> BuildDamageTypes()
+    {
+        return Enum.GetValues<DamageTypeEnum>()
+            .Select(dt => new DamageType
+            {
+                Id = DamageTypeIds[dt],
+                Name = dt.ToString()
+            })
+            .ToList();
     }
 
     private static List<AttributeTemplate> BuildAttributes()
@@ -188,7 +237,7 @@ public class LandOfHeroesTemplate
         { LandOfHeroesMinorSkill.WarmWeather, Guid.Parse("D08DF7D0-F477-4472-884D-F10B09806FF7") },
     };
     public static Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>> AttributeSkills =>
-        new Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>>
+        new()
         {
             { LandOfHeroesAttribute.Agility, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Nimbleness } },
             { LandOfHeroesAttribute.Charisma, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Empathy } },
@@ -198,7 +247,7 @@ public class LandOfHeroesTemplate
             { LandOfHeroesAttribute.Vitality, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Survival } }
         };
     public static Dictionary<LandOfHeroesSkill, List<LandOfHeroesMinorSkill>> SkillMinorSkills =>
-        new Dictionary<LandOfHeroesSkill, List<LandOfHeroesMinorSkill>>
+        new()
         {
             { LandOfHeroesSkill.Awareness, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Observe, LandOfHeroesMinorSkill.Listen, LandOfHeroesMinorSkill.Search, LandOfHeroesMinorSkill.Feeling } },
             { LandOfHeroesSkill.Empathy, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Diplomacy, LandOfHeroesMinorSkill.Bluff } },

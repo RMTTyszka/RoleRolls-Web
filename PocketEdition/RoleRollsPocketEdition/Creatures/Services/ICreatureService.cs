@@ -11,7 +11,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
         Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input);
         Task<CreatureModel> GetAsync(Guid id);
         Task<CreatureUpdateValidationResult> UpdateAsync(Guid creatureId, CreatureModel creatureModel);
-        Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureType creatureType);
+        Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureCategory creatureCategory);
 
         Task<List<CdSimulationResult>> SimulateCd(Guid campaignId, Guid sceneId, Guid creatureId,
             SimulateCdInput input);

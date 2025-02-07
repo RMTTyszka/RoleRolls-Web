@@ -36,9 +36,9 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
             return creatures;
         }     
         [HttpGet("new")]
-        public async Task<ActionResult<CreatureModel>> NewAsync([FromRoute] Guid campaignId, [FromQuery] CreatureType creatureType)
+        public async Task<ActionResult<CreatureModel>> NewAsync([FromRoute] Guid campaignId, [FromQuery] CreatureCategory creatureCategory)
         {
-            var creature = await _creatureService.InstantiateFromTemplate(campaignId, creatureType);
+            var creature = await _creatureService.InstantiateFromTemplate(campaignId, creatureCategory);
             return Ok(creature);
         }  
         [HttpPost("")]

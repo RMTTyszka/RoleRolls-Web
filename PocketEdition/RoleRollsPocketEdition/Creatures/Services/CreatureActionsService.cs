@@ -40,10 +40,10 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         var result = new SceneAction
         {
             Description = $"{takeDamageResult.Name} took {takeDamageResult.Value} of {takeDamageResult.Life} damage",
-            ActorType = creature.Type switch
+            ActorType = creature.Category switch
             {
-                CreatureType.Hero => ActionActorType.Hero,
-                CreatureType.Monster => ActionActorType.Monster,
+                CreatureCategory.Hero => ActionActorType.Hero,
+                CreatureCategory.Monster => ActionActorType.Monster,
                 _ => throw new ArgumentOutOfRangeException()
             },
             Id = Guid.NewGuid(),

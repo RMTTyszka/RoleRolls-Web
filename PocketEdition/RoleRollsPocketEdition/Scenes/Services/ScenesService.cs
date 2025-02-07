@@ -73,14 +73,14 @@ namespace RoleRollsPocketEdition.Scenes.Services
             await _roleRollsDbContext.SaveChangesAsync();
 
         }
-        public Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureType creatureType)
+        public Task<List<CreatureModel>> GetCreatures(Guid campaignId, Guid sceneId, CreatureCategory creatureCategory)
         {
             var creatureQuery = _creatureRepository.GetFullCreatureAsQueryable()
                 .AsNoTracking();
 
             var creatures = from sceneCreature in _roleRollsDbContext.SceneCreatures.Where(scene => scene.SceneId == sceneId)
                             join creature in creatureQuery on sceneCreature.CreatureId equals creature.Id
-                            where creature.Type == creatureType
+                            where creature.Category == creatureCategory
                             select new CreatureModel(creature);
             return creatures.ToListAsync();
         }
@@ -99,7 +99,7 @@ namespace RoleRollsPocketEdition.Scenes.Services
                 CreatureId = creature.CreatureId,
                 SceneId = sceneId,
                 Hidden = creature.Hidden,
-                CreatureType = CreatureType.Hero
+                CreatureCategory = CreatureCategory.Hero
 
             }).ToList(); ;
             await _roleRollsDbContext.SceneCreatures.AddRangeAsync(sceneCreatures);
@@ -112,7 +112,7 @@ namespace RoleRollsPocketEdition.Scenes.Services
                 CreatureId = creature.CreatureId,
                 SceneId = sceneId,
                 Hidden = creature.Hidden,
-                CreatureType = CreatureType.Monster
+                CreatureCategory = CreatureCategory.Monster
             }).ToList(); ;
             var monsterIds = creatures.Select(c => c.CreatureId).ToList();
             var monsters = await _roleRollsDbContext.Creatures.Where(e => monsterIds.Contains(e.Id))
