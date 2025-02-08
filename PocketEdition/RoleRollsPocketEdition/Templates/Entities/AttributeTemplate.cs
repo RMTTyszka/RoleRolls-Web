@@ -1,4 +1,5 @@
 ﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Dtos;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
@@ -26,10 +27,11 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Name = attributeModel.Name;
         }
 
-        public SkillTemplate AddSkill(SkillTemplateModel skillModel)
+        public async Task<SkillTemplate> AddSkill(SkillTemplateModel skillModel, RoleRollsDbContext context)
         {
             var skill = new SkillTemplate(Id, skillModel);
             SkillTemplates.Add(skill);
+            await context.SkillTemplates.AddAsync(skill);
             return skill;
         }
     }

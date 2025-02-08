@@ -37,7 +37,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="_Domain\DefaultUniverses\LandOfHeroes\LandOfHeroes.resx">
       <Generator>ResXFileCodeGenerator</Generator>

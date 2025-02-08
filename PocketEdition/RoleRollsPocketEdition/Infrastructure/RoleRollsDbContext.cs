@@ -6,6 +6,7 @@ using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Authentication.Users;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -50,6 +51,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<ItemConfiguration> ItemConfigurations { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<DamageType> DamageTypes { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
 
         private readonly IConfiguration _configuration;

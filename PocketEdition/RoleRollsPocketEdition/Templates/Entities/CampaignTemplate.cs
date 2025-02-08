@@ -120,20 +120,20 @@ namespace RoleRollsPocketEdition.Templates.Entities
             if (attributeId.HasValue)
             {
                 var attribute  = Attributes.First(attribute => attribute.Id == attributeId);
-                var skill = attribute.AddSkill(skillModel);
-                await dbContext.SkillTemplates.AddAsync(skill);
+                var skill = await attribute.AddSkill(skillModel, dbContext);
             }
             else
             {
-                AddAttributelessSkill(skillModel);
+                await AddAttributelessSkill(skillModel, dbContext);
             }
 
         }
 
-        private SkillTemplate AddAttributelessSkill(SkillTemplateModel skillModel)
+        private async Task<SkillTemplate> AddAttributelessSkill(SkillTemplateModel skillModel, RoleRollsDbContext dbContext)
         {
             var skill = new SkillTemplate(Id, skillModel);
             AttributelessSkills.Add(skill);
+            await dbContext.SkillTemplates.AddAsync(skill);
             return skill;
         }
 
@@ -205,6 +205,12 @@ namespace RoleRollsPocketEdition.Templates.Entities
             defense.Update(defenseModel);
             dbContext.DefenseTemplates.Update(defense);
             return DefenseTemplateUpdated.FromDefenseTemplate(defenseModel);
+        }
+
+        public async Task AddDamageTypeAsync(DamageType codeLife, RoleRollsDbContext context)
+        {
+            DamageTypes.Add(codeLife);
+            await context.DamageTypes.AddAsync(codeLife);
         }
     }
 }
