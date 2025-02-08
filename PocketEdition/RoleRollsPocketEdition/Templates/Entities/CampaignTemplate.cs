@@ -17,10 +17,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             Attributes = [];
             Lifes = [];
-            Defenses = new List<DefenseTemplate>();
+            Defenses = [];
             ItemConfiguration = new ItemConfiguration();
-            AttributelessSkills = new List<SkillTemplate>();
-            DamageTypes = new List<DamageType>();
+            AttributelessSkills = [];
+            DamageTypes = [];
         }
         public CampaignTemplate(CampaignTemplateModel template) : base()
         {
@@ -41,8 +41,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public string Name { get; set; }
         public bool Default { get; set; }
-        public string CreatureTypeTitle { get; set; }
-        public string ArchetypeTitle { get; set; }
+        public string? CreatureTypeTitle { get; set; }
+        public string? ArchetypeTitle { get; set; }
         public int MaxAttributePoints => 5;
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
         public int TotalAttributePoints { get; set; }
@@ -66,8 +66,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
         [NotMapped]
         public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        public List<LifeTemplate> Lifes { get; set; }
-        public List<DefenseTemplate> Defenses { get; set; }
+        public ICollection<LifeTemplate> Lifes { get; set; }
+        public ICollection<DefenseTemplate> Defenses { get; set; }
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {

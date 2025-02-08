@@ -90,17 +90,7 @@ public class LandOfHeroesTemplate
         };
     }
 
-    private static readonly Dictionary<DamageTypeEnum, Guid> DamageTypeIds = new()
-    {
-        { DamageTypeEnum.Martial, new Guid("c7ddf02b-262f-4099-8f3c-3826677a3237") },
-        { DamageTypeEnum.Arcane, new Guid("3789e696-7b1e-4242-9462-f00c13079e6b") },
-        { DamageTypeEnum.Fire, new Guid("751ac265-e302-422f-9c96-a66938b2cba5") },
-        { DamageTypeEnum.Ice, new Guid("21977699-500e-4a63-9873-0db508c96a40") },
-        { DamageTypeEnum.Lightning, new Guid("855c6281-36ca-4b19-93ca-5f1d63093d70") },
-        { DamageTypeEnum.Acid, new Guid("42255ef3-c4c1-4b36-9298-d3d16a5f6568") },
-        { DamageTypeEnum.Necrotic, new Guid("c1d25d0e-634c-4e5e-b367-6647dc79675e") },
-        { DamageTypeEnum.Radiant, new Guid("9dd8562c-83c6-4b1f-8c54-78b64a85951a") }
-    };
+   
 
     public static List<DamageType> BuildDamageTypes()
     {
@@ -150,7 +140,17 @@ public class LandOfHeroesTemplate
         }).ToList();
     }
 
-
+    private static readonly Dictionary<DamageTypeEnum, Guid> DamageTypeIds = new()
+    {
+        { DamageTypeEnum.Martial, new Guid("c7ddf02b-262f-4099-8f3c-3826677a3237") },
+        { DamageTypeEnum.Arcane, new Guid("3789e696-7b1e-4242-9462-f00c13079e6b") },
+        { DamageTypeEnum.Fire, new Guid("751ac265-e302-422f-9c96-a66938b2cba5") },
+        { DamageTypeEnum.Ice, new Guid("21977699-500e-4a63-9873-0db508c96a40") },
+        { DamageTypeEnum.Lightning, new Guid("855c6281-36ca-4b19-93ca-5f1d63093d70") },
+        { DamageTypeEnum.Acid, new Guid("42255ef3-c4c1-4b36-9298-d3d16a5f6568") },
+        { DamageTypeEnum.Necrotic, new Guid("c1d25d0e-634c-4e5e-b367-6647dc79675e") },
+        { DamageTypeEnum.Radiant, new Guid("9dd8562c-83c6-4b1f-8c54-78b64a85951a") }
+    };
     public static Dictionary<LandOfHeroesAttribute, Guid> AttributeIds = new()
     {
         { LandOfHeroesAttribute.Agility, Guid.Parse("A94BA9AE-D800-4445-A996-19E6281FC0DD") },

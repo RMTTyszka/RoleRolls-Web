@@ -39,22 +39,19 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             campaignModel.MasterId ??= _currentUser.User.Id;
             var campaign = new Campaign(campaignModel);
 
-            var creatureTemplate = new CampaignTemplate(campaignModel);
             if (campaignModel.CampaignTemplateId.HasValue)
             {
                 var template = await _dbContext.CampaignTemplates.FirstAsync(x => x.Id == campaignModel.CampaignTemplateId);
                 campaign.CampaignTemplate = template;
             }
-
-            using (_unitOfWork.Begin())
+            else
             {
-                if (!campaignModel.CampaignTemplateId.HasValue) 
-                { 
-                    await _dbContext.CampaignTemplates.AddAsync(creatureTemplate);
-                }
-                await _dbContext.Campaigns.AddAsync(campaign);
-                _unitOfWork.Commit();
+                var template = new CampaignTemplate(campaignModel);
+                campaign.CampaignTemplate = template;
             }
+
+                await _dbContext.Campaigns.AddAsync(campaign);
+                await _dbContext.SaveChangesAsync();
         }       
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
