@@ -6,6 +6,7 @@ using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes;
@@ -43,25 +44,11 @@ public class LandOfHeroesLoader : IStartupTask
             SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes);
             SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills);
             SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration);
-            SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes);
-      //      SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes);
+            await SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes, _context);
+            SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes);
+           // _context.CampaignTemplates.Update(templateFromDb);
         }
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            // Exibe a versão mais recente para o usuário
-            foreach (var entry in ex.Entries)
-            {
-                if (entry.State == EntityState.Modified)
-                {
-                    var databaseValues = entry.GetDatabaseValues();
-                    // Mostrar as diferenças para o usuário ou resolver como for necessário
-                }
-            }
-        }
+        await _context.SaveChangesAsync();
     }
 
     private void SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb, List<SkillTemplate> fromCode, List<SkillTemplate> fromDb)
@@ -182,10 +169,10 @@ public class LandOfHeroesLoader : IStartupTask
             fromDb.CampaignTemplateId = fromCode.CampaignTemplateId;
         }
     }
-    private void SynchronizeLives(
+    private async Task SynchronizeLives(
         Templates.Entities.CampaignTemplate creatureFromDb,
         ICollection<LifeTemplate> fromCode,
-        ICollection<LifeTemplate> fromDb)
+        ICollection<LifeTemplate> fromDb, RoleRollsDbContext dbContext)
     {
         var dbLives = fromDb.ToDictionary(l => l.Id);
         var codeLives = fromCode.ToDictionary(l => l.Id);
@@ -194,13 +181,13 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbLives.TryGetValue(codeLife.Id, out var dbLife))
             {
-                codeLife.CampaignTemplate = creatureFromDb;
-                creatureFromDb.Lifes.Add(codeLife);
+                await creatureFromDb.AddLifeAsync(new LifeTemplateModel(codeLife), dbContext);
             }
             else
             {
                 dbLife.Name = codeLife.Name;
                 dbLife.Formula = codeLife.Formula;
+                creatureFromDb.UpdateLife(codeLife.Id, new LifeTemplateModel(codeLife), dbContext);
             }
         }
 

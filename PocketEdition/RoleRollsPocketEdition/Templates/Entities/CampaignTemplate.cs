@@ -161,6 +161,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public async Task AddLifeAsync(LifeTemplateModel life, RoleRollsDbContext dbContext)
         {
             var newLife = new LifeTemplate(life);
+            newLife.CampaignTemplate = this;
+            newLife.CreatureTemplateId = Id;
             Lifes.Add(newLife);
             await dbContext.LifeTemplates.AddAsync(newLife);
         }
