@@ -42,22 +42,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="DefaultUniverses\LandOfHeroes\LandOfHeroes.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="_Domain\DefaultUniverses\LandOfHeroes\LandOfHeroes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LandOfHeroes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

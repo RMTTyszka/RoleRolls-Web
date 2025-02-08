@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250208181828_fdfdfd")]
+    partial class fdfdfd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,8 +220,17 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ArchetypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatureTypeId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("EntityType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid?>("RoleId")
                         .HasColumnType("uuid");
@@ -234,7 +246,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntityId");
+                    b.HasIndex("ArchetypeId");
+
+                    b.HasIndex("CreatureTypeId");
 
                     b.HasIndex("RoleId");
 
@@ -1294,13 +1308,13 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Bonuses.Bonus", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", "Archetype")
+                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", null)
                         .WithMany("Bonuses")
-                        .HasForeignKey("EntityId");
+                        .HasForeignKey("ArchetypeId");
 
-                    b.HasOne("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", "CreatureType")
+                    b.HasOne("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", null)
                         .WithMany("Bonuses")
-                        .HasForeignKey("EntityId");
+                        .HasForeignKey("CreatureTypeId");
 
                     b.HasOne("RoleRollsPocketEdition.Roles.Role", null)
                         .WithMany("Bonuses")
@@ -1324,10 +1338,6 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("BonusId");
                         });
-
-                    b.Navigation("Archetype");
-
-                    b.Navigation("CreatureType");
 
                     b.Navigation("Property")
                         .IsRequired();

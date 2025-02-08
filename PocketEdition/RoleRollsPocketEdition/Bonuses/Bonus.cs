@@ -1,4 +1,6 @@
+using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Entities;
 
 namespace RoleRollsPocketEdition.Bonuses;
 
@@ -8,9 +10,9 @@ public class Bonus : Entity
     public Property Property { get; set; }
     public Guid EntityId { get; set; }
     public BonusValueType ValueType { get; set; }
-    public EntityType EntityType { get; set; }
     public BonusType Type { get; set; }
-
+    public CreatureType? CreatureType { get; set; }
+    public Archetype? Archetype { get; set; }
 }
 
 public enum BonusType

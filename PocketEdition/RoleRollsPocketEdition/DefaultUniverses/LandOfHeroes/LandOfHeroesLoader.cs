@@ -48,46 +48,7 @@ public class LandOfHeroesLoader : IStartupTask
             await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes, _context);
             _context.CampaignTemplates.Update(templateFromDb);
         }
-        try
-        {
-            // Attempt to save changes to the database
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            // Log the exception message
-            Console.WriteLine($"Concurrency exception occurred: {ex.Message}");
-
-            // Iterate over the entries that caused the conflict
-            foreach (var entry in ex.Entries)
-            {
-                // Log the entity type and its state
-                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
-
-                // If the entity is in the Modified state, log its original and current values
-                if (entry.State == EntityState.Modified)
-                {
-                    var originalValues = entry.OriginalValues;
-                    var currentValues = entry.CurrentValues;
-
-                    Console.WriteLine("Original Values:");
-                    foreach (var property in originalValues.Properties)
-                    {
-                        Console.WriteLine($"{property.Name}: {originalValues[property]}");
-                    }
-
-                    Console.WriteLine("Current Values:");
-                    foreach (var property in currentValues.Properties)
-                    {
-                        Console.WriteLine($"{property.Name}: {currentValues[property]}");
-                    }
-                }
-            }
-
-            // Handle the exception (e.g., retry logic, notify the user, etc.)
-            throw; // Re-throw the exception if you can't resolve it
-        }
-       // await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     private async Task SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb,
@@ -245,12 +206,12 @@ public class LandOfHeroesLoader : IStartupTask
         ICollection<DamageType> fromCode,
         ICollection<DamageType> fromDb, RoleRollsDbContext context)
     {
-        var dbLives = fromDb.ToDictionary(l => l.Id);
-        var codeLives = fromCode.ToDictionary(l => l.Id);
+        var dbDamageTypes = fromDb.ToDictionary(l => l.Id);
+        var codeDamageTypes = fromCode.ToDictionary(l => l.Id);
 
         foreach (var codeDamageType in fromCode)
         {
-            if (!dbLives.TryGetValue(codeDamageType.Id, out var dbDamageType))
+            if (!dbDamageTypes.TryGetValue(codeDamageType.Id, out var dbDamageType))
             {
                 await creatureFromDb.AddDamageTypeAsync(codeDamageType, context);
             }
@@ -261,9 +222,10 @@ public class LandOfHeroesLoader : IStartupTask
             }
         }
 
-        foreach (var dbLife in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
+        foreach (var damageType in fromDb.Where(l => !codeDamageTypes.ContainsKey(l.Id)).ToList())
         {
-            creatureFromDb.DamageTypes.Remove(dbLife);
+            creatureFromDb.DamageTypes.Remove(damageType);
+            context.DamageTypes.Remove(damageType);
         }
     }
 

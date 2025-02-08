@@ -4,6 +4,7 @@ using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -68,6 +69,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public ICollection<LifeTemplate> Lifes { get; set; }
         public ICollection<DefenseTemplate> Defenses { get; set; }
+        public ICollection<CreatureType> CreatureTypes { get; set; }
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {

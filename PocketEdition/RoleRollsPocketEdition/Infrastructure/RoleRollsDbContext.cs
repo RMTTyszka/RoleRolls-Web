@@ -1,11 +1,13 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Authentication.Users;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -53,6 +55,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Role> Roles { get; set; }
         public DbSet<DamageType> DamageTypes { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
+        public DbSet<CreatureType> CreatureTypes { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -88,6 +91,20 @@ namespace RoleRollsPocketEdition.Infrastructure
             modelBuilder.Entity<SkillTemplate>(skill =>
             {
                 skill.Navigation(c => c.MinorSkills).AutoInclude();
+            });      
+            modelBuilder.Entity<CreatureType>(creatureType =>
+            {
+                creatureType.HasMany<Bonus>(e => e.Bonuses)
+                    .WithOne(b => b.CreatureType)
+                    .HasForeignKey(b => b.EntityId)
+                    .IsRequired(false);
+            });         
+            modelBuilder.Entity<Archetype>(creatureType =>
+            {
+                creatureType.HasMany<Bonus>(e => e.Bonuses)
+                    .WithOne(b => b.Archetype)
+                    .HasForeignKey(b => b.EntityId)
+                    .IsRequired(false);
             });
             
             modelBuilder.Owned<Property>();

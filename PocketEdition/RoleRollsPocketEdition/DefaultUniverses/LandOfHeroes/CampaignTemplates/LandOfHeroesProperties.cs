@@ -6,7 +6,7 @@ public enum LandOfHeroesAttribute
     Intelligence = 2,
     Perception = 3,
     Strength = 4,
-    Vitality = 5,
+    Vigor = 5,
 }
 
 public enum LandOfHeroesSkill
