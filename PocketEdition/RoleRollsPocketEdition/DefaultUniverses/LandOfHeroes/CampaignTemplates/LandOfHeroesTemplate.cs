@@ -14,7 +14,7 @@ public class LandOfHeroesTemplate
             var template = new CampaignTemplate
             {
                 Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
-                Name = "Land Of Heroes",
+                Name = "Land Of Heroes22",
                 ArchetypeTitle = "Archetype",
                 CreatureTypeTitle = "Races",
                 Default = true,
@@ -95,7 +95,7 @@ public class LandOfHeroesTemplate
     }
 
     private static List<CreatureType> Races =>
-   [
+[
     new()
     {
         Id = Guid.Parse("7DA646BA-637E-4CFF-99BC-5C3A934A1A63"),
@@ -197,16 +197,17 @@ public class LandOfHeroesTemplate
                 ValueType = BonusValueType.Roll,
             }
         ]
-    },new()
+    },
+    new()
     {
-        Id = Guid.Parse("7DA646BA-637E-4CFF-99BC-5C3A934A1A63"),
+        Id = Guid.NewGuid(),
         Name = "Elf",
         Description = "",
         Bonuses =
         [
-            new Bonus
+           new Bonus
             {
-                Id = Guid.Parse("F9C10D96-CD38-4176-B770-7618E18AD0E3"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 2,
@@ -216,14 +217,14 @@ public class LandOfHeroesTemplate
     },
     new()
     {
-        Id = Guid.Parse("D8E510F0-D49F-4623-95C6-FCF2CA8C24E2"),
+        Id = Guid.NewGuid(),
         Name = "Human",
         Description = "",
         Bonuses =
         [
             new Bonus
             {
-                Id = Guid.Parse("108C8338-9168-428F-9C2F-DBAB52A846AC"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Intelligence], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 1,
@@ -233,14 +234,14 @@ public class LandOfHeroesTemplate
     },
     new()
     {
-        Id = Guid.Parse("E9F2C583-167E-423D-97B8-6C0C3F92EEFF"),
+        Id = Guid.NewGuid(),
         Name = "Dwarf",
         Description = "",
         Bonuses =
         [
             new Bonus
             {
-                Id = Guid.Parse("D613B3CB-3C19-44E9-B3CA-3EE41FB3816D"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 2,
@@ -250,14 +251,14 @@ public class LandOfHeroesTemplate
     },
     new()
     {
-        Id = Guid.Parse("D84B7197-A3EC-46C8-9B59-7E066D8FF8EF"),
+        Id = Guid.NewGuid(),
         Name = "Halfling",
         Description = "",
         Bonuses =
         [
             new Bonus
             {
-                Id = Guid.Parse("3B5A9542-AAE1-4CAF-9FFD-7F7E963F6814"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 2,
@@ -267,14 +268,14 @@ public class LandOfHeroesTemplate
     },
     new()
     {
-        Id = Guid.Parse("6E4E0713-CBD4-442E-9569-CF5073D80764"),
+        Id = Guid.NewGuid(),
         Name = "Orc",
         Description = "",
         Bonuses =
         [
             new Bonus
             {
-                Id = Guid.Parse("6DF7D32C-E690-40C0-8EC4-D6BA087FDE89"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 3,
@@ -284,14 +285,14 @@ public class LandOfHeroesTemplate
     },
     new()
     {
-        Id = Guid.Parse("4E1D1FDC-9193-4FF2-B76F-8790B830798A"),
+        Id = Guid.NewGuid(),
         Name = "Goblin",
         Description = "",
         Bonuses =
         [
-            new Bonus
+           new Bonus
             {
-                Id = Guid.Parse("DA8B2C93-7F01-4BFB-809A-22B99B49EB9A"),
+                Id = Guid.NewGuid(),
                 Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                 Type = BonusType.Innate,
                 Value = 1,
@@ -300,6 +301,7 @@ public class LandOfHeroesTemplate
         ]
     }
 ];
+
 
     public static List<DamageType> BuildDamageTypes()
     {

@@ -12,8 +12,8 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    [Migration("20250208150322_fdfd")]
-    partial class fdfd
+    [Migration("20250209205146_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,14 +220,8 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ArchetypeId")
+                    b.Property<Guid?>("EntityId")
                         .HasColumnType("uuid");
-
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("EntityType")
-                        .HasColumnType("integer");
 
                     b.Property<Guid?>("RoleId")
                         .HasColumnType("uuid");
@@ -243,7 +237,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArchetypeId");
+                    b.HasIndex("EntityId");
 
                     b.HasIndex("RoleId");
 
@@ -318,6 +312,32 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CampaignTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignTemplateId");
+
+                    b.ToTable("CreatureTypes");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
@@ -658,7 +678,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasIndex("CampaignTemplateId");
 
-                    b.ToTable("DamageType");
+                    b.ToTable("DamageTypes");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Itens.Configurations.ItemConfiguration", b =>
@@ -1277,9 +1297,13 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Bonuses.Bonus", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", null)
+                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", "Archetype")
                         .WithMany("Bonuses")
-                        .HasForeignKey("ArchetypeId");
+                        .HasForeignKey("EntityId");
+
+                    b.HasOne("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", "CreatureType")
+                        .WithMany("Bonuses")
+                        .HasForeignKey("EntityId");
 
                     b.HasOne("RoleRollsPocketEdition.Roles.Role", null)
                         .WithMany("Bonuses")
@@ -1304,6 +1328,10 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("BonusId");
                         });
 
+                    b.Navigation("Archetype");
+
+                    b.Navigation("CreatureType");
+
                     b.Navigation("Property")
                         .IsRequired();
                 });
@@ -1326,6 +1354,13 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasForeignKey("CampaignId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
+                        .WithMany("CreatureTypes")
+                        .HasForeignKey("CampaignTemplateId");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
@@ -1731,6 +1766,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Scenes");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", b =>
+                {
+                    b.Navigation("Bonuses");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
                 {
                     b.Navigation("Skills");
@@ -1800,6 +1840,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Attributes");
 
                     b.Navigation("Campaigns");
+
+                    b.Navigation("CreatureTypes");
 
                     b.Navigation("DamageTypes");
 

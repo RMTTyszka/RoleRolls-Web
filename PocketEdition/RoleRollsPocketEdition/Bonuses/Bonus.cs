@@ -1,4 +1,5 @@
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 
@@ -6,13 +7,39 @@ namespace RoleRollsPocketEdition.Bonuses;
 
 public class Bonus : Entity
 {
+    public Bonus()
+    {
+        
+    }
+    public Bonus(BonusModel bonusModel)
+    {
+        Id = bonusModel.Id;
+        Value = bonusModel.Value;
+        Property = bonusModel.Property;
+        ValueType = bonusModel.ValueType;
+        Type = bonusModel.Type;
+    }    
+    public Bonus(BonusModel bonusModel, CreatureType creatureType) : this(bonusModel)
+    {
+        CreatureType = creatureType;
+        EntityId = creatureType.Id;
+    }
+
     public int Value { get; set; }
     public Property Property { get; set; }
-    public Guid EntityId { get; set; }
+    public Guid? EntityId { get; set; }
     public BonusValueType ValueType { get; set; }
     public BonusType Type { get; set; }
     public CreatureType? CreatureType { get; set; }
     public Archetype? Archetype { get; set; }
+
+    public void Update(BonusModel bonusModel)
+    {
+        Value = bonusModel.Value;
+        Property = bonusModel.Property;
+        ValueType = bonusModel.ValueType;
+        Type = bonusModel.Type;
+    }
 }
 
 public enum BonusType

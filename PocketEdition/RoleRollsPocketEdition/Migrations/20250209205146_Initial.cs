@@ -32,8 +32,8 @@ namespace RoleRollsPocketEdition.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
                     Default = table.Column<bool>(type: "boolean", nullable: false),
-                    RoleTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    ArchetypeTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    CreatureTypeTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    ArchetypeTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     TotalAttributePoints = table.Column<int>(type: "integer", nullable: false),
                     TotalSkillsPoints = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -52,7 +52,7 @@ namespace RoleRollsPocketEdition.Migrations
                     OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
                     Level = table.Column<int>(type: "integer", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false)
+                    Category = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,6 +161,43 @@ namespace RoleRollsPocketEdition.Migrations
                         principalTable: "CampaignTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CreatureTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreatureTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CreatureTypes_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DamageTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DamageTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DamageTypes_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -299,36 +336,6 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bonus",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
-                    Property_IdProperty = table.Column<Guid>(type: "uuid", nullable: false),
-                    Property_Type = table.Column<int>(type: "integer", nullable: false),
-                    EntityId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ValueType = table.Column<int>(type: "integer", nullable: false),
-                    EntityType = table.Column<int>(type: "integer", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    ArchetypeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bonus", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bonus_Archetypes_ArchetypeId",
-                        column: x => x.ArchetypeId,
-                        principalTable: "Archetypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Bonus_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Attributes",
                 columns: table => new
                 {
@@ -446,6 +453,39 @@ namespace RoleRollsPocketEdition.Migrations
                         principalTable: "Campaigns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bonus",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    Property_IdProperty = table.Column<Guid>(type: "uuid", nullable: false),
+                    Property_Type = table.Column<int>(type: "integer", nullable: false),
+                    EntityId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ValueType = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bonus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bonus_Archetypes_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Archetypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bonus_CreatureTypes_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "CreatureTypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bonus_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -623,7 +663,7 @@ namespace RoleRollsPocketEdition.Migrations
                     SceneId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatureId = table.Column<Guid>(type: "uuid", nullable: false),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatureType = table.Column<int>(type: "integer", nullable: false)
+                    CreatureCategory = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -891,9 +931,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bonus_ArchetypeId",
+                name: "IX_Bonus_EntityId",
                 table: "Bonus",
-                column: "ArchetypeId");
+                column: "EntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_RoleId",
@@ -924,6 +964,16 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "IX_CreaturePowers_PowerTemplateId",
                 table: "CreaturePowers",
                 column: "PowerTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CreatureTypes_CampaignTemplateId",
+                table: "CreatureTypes",
+                column: "CampaignTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DamageTypes_CampaignTemplateId",
+                table: "DamageTypes",
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Defenses_CreatureId",
@@ -1185,6 +1235,9 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "CreaturePowers");
 
             migrationBuilder.DropTable(
+                name: "DamageTypes");
+
+            migrationBuilder.DropTable(
                 name: "Defenses");
 
             migrationBuilder.DropTable(
@@ -1219,6 +1272,9 @@ namespace RoleRollsPocketEdition.Migrations
 
             migrationBuilder.DropTable(
                 name: "Archetypes");
+
+            migrationBuilder.DropTable(
+                name: "CreatureTypes");
 
             migrationBuilder.DropTable(
                 name: "Roles");

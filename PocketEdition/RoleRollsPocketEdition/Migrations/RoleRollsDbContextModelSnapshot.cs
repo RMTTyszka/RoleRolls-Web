@@ -217,7 +217,7 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid?>("EntityId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("RoleId")

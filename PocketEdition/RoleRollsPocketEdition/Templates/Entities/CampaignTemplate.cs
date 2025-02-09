@@ -5,6 +5,7 @@ using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -213,6 +214,20 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             DamageTypes.Add(codeLife);
             await context.DamageTypes.AddAsync(codeLife);
+        }
+
+        public async Task AddCreatureTypeAsync(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)
+        {
+            var creatureType = new CreatureType(creatureTypeModel);
+            CreatureTypes.Add(creatureType);
+            await dbContext.CreatureTypes.AddAsync(creatureType);
+            await dbContext.Bonus.AddRangeAsync(creatureType.Bonuses);
+        }
+
+        public async Task UpdateCreatureType(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)
+        {
+            var creatureType = CreatureTypes.First(creatureType => creatureType.Id == creatureTypeModel.Id);
+            await creatureType.Update(creatureTypeModel, dbContext);
         }
     }
 }

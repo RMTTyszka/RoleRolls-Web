@@ -56,6 +56,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<DamageType> DamageTypes { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
         public DbSet<CreatureType> CreatureTypes { get; set; }
+        public DbSet<Bonus> Bonus { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -83,10 +84,15 @@ namespace RoleRollsPocketEdition.Infrastructure
                 template.Navigation(c => c.Defenses).AutoInclude();
                 template.Navigation(c => c.DamageTypes).AutoInclude();
                 template.Navigation(c => c.AttributelessSkills).AutoInclude();
+                template.Navigation(c => c.CreatureTypes).AutoInclude();
             });
             modelBuilder.Entity<AttributeTemplate>(attribute =>
             {
                 attribute.Navigation(c => c.SkillTemplates).AutoInclude();
+            });      
+            modelBuilder.Entity<CreatureType>(attribute =>
+            {
+                attribute.Navigation(c => c.Bonuses).AutoInclude();
             });        
             modelBuilder.Entity<SkillTemplate>(skill =>
             {
