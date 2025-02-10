@@ -1,3 +1,4 @@
+using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
@@ -22,7 +23,8 @@ public class LandOfHeroesTemplate
                 AttributelessSkills = BuildAttributelessSkills(),
                 Lifes = BuildLifes(),
                 DamageTypes = BuildDamageTypes(),
-                CreatureTypes = Races
+                CreatureTypes = Races,
+                Archetypes = Roles,
             };
             template.ItemConfiguration = BuildItemConfiguration(template);
             return template;
@@ -93,6 +95,27 @@ public class LandOfHeroesTemplate
             Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
         };
     }
+
+    private static List<Archetype> Roles =>
+    [
+        new Archetype
+        {
+            Name = "Warrior",
+            Description = "",
+            Id = Guid.Parse("39CF06D2-B26C-48F6-9548-8BFA58347758"),
+            Bonuses = new List<Bonus>
+            {
+                new Bonus
+                {
+                    Id = Guid.Parse("DF2EE7E5-AA93-41FC-8DBB-FFED2FDA35C2"),
+                    Value = 1,
+                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
+                    ValueType = BonusValueType.Roll,
+                    Type = BonusType.Innate,
+                }
+            }
+        }
+    ];
 
     private static List<CreatureType> Races =>
 [

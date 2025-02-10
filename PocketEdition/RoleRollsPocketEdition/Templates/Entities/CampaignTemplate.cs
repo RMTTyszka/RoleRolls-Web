@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
@@ -72,7 +73,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
         [NotMapped]
         public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        
+        public List<Archetype> Archetypes { get; set; }
+
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {
