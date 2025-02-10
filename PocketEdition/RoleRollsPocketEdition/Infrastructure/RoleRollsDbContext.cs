@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
-using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Authentication.Users;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
@@ -13,7 +12,6 @@ using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Powers.Entities;
-using RoleRollsPocketEdition.Roles;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -52,7 +50,6 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<ItemConfiguration> ItemConfigurations { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<DamageType> DamageTypes { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
         public DbSet<CreatureType> CreatureTypes { get; set; }
@@ -98,20 +95,6 @@ namespace RoleRollsPocketEdition.Infrastructure
             {
                 skill.Navigation(c => c.MinorSkills).AutoInclude();
             });      
-            modelBuilder.Entity<CreatureType>(creatureType =>
-            {
-                creatureType.HasMany<Bonus>(e => e.Bonuses)
-                    .WithOne(b => b.CreatureType)
-                    .HasForeignKey(b => b.EntityId)
-                    .IsRequired(false);
-            });         
-            modelBuilder.Entity<Archetype>(creatureType =>
-            {
-                creatureType.HasMany<Bonus>(e => e.Bonuses)
-                    .WithOne(b => b.Archetype)
-                    .HasForeignKey(b => b.EntityId)
-                    .IsRequired(false);
-            });
             
             modelBuilder.Owned<Property>();
             modelBuilder.Entity<ItemTemplate>()
@@ -186,6 +169,16 @@ namespace RoleRollsPocketEdition.Infrastructure
                 .HasOne<ItemInstance>(e => e.LeftRing)
                 .WithOne()
                 .HasForeignKey<Equipment>(e => e.LeftRingId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Archetype>()
+                .HasMany(a => a.Bonuses)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CreatureType>()
+                .HasMany(ct => ct.Bonuses)
+                .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())

@@ -9,17 +9,7 @@ namespace RoleRollsPocketEdition.CreatureTypes.Entities;
 
 public class CreatureType : Entity
 {
-    public CreatureType()
-    {
-        
-    }
-    public CreatureType(CreatureTypeModel creatureTypeModel)
-    {
-        Id = creatureTypeModel.Id;
-        Name = creatureTypeModel.Name;
-        Description = creatureTypeModel.Description;
-        Bonuses = creatureTypeModel.Bonuses.ConvertAll(e => new Bonus(e, this));
-    }
+   
 
     public string Name { get; set; }
     public string Description { get; set; }
@@ -29,7 +19,6 @@ public class CreatureType : Entity
     {
         Name = creatureTypeModel.Name;
         Description = creatureTypeModel.Description;
-        dbContext.CreatureTypes.Update(this);
         var syncedBonuses = Bonuses.Synchronize(creatureTypeModel.Bonuses);
         foreach (var bonusModel in syncedBonuses.ToAdd)       
         {
@@ -39,7 +28,6 @@ public class CreatureType : Entity
         {
             var bonus = Bonuses.First(e => e.Id == bonusModel.Id);
             bonus.Update(bonusModel);
-            dbContext.Bonus.Update(bonus);
         }      
         foreach (var bonusModel in syncedBonuses.ToRemove)       
         {
@@ -47,11 +35,23 @@ public class CreatureType : Entity
             Bonuses.Remove(bonus);
             dbContext.Bonus.Remove(bonus);
         }
+        dbContext.CreatureTypes.Update(this);
+    }
+    public CreatureType()
+    {
+        
+    }
+    public CreatureType(CreatureTypeModel creatureTypeModel)
+    {
+        Id = creatureTypeModel.Id;
+        Name = creatureTypeModel.Name;
+        Description = creatureTypeModel.Description;
+        Bonuses = creatureTypeModel.Bonuses.ConvertAll(e => new Bonus(e));
     }
 
     public async Task AddBonus(BonusModel bonusModel, RoleRollsDbContext dbContext)
     {
-        var bonus = new Bonus(bonusModel, this);
+        var bonus = new Bonus(bonusModel);
         Bonuses.Add(bonus);
         await dbContext.Bonus.AddAsync(bonus);
     }

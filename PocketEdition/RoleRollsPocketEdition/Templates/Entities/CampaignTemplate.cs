@@ -15,6 +15,26 @@ namespace RoleRollsPocketEdition.Templates.Entities
 {
     public class CampaignTemplate : Entity
     {
+    
+
+        public string Name { get; set; }
+        public bool Default { get; set; }
+        public string? CreatureTypeTitle { get; set; }
+        public string? ArchetypeTitle { get; set; }
+        public int MaxAttributePoints => 5;
+        // 5 + 4 + 3 + 2 + 2 + 1 = 17
+        public int TotalAttributePoints { get; set; }
+        // 4
+        public int TotalSkillsPoints { get; set; }
+        public ItemConfiguration ItemConfiguration { get; set; }
+        public List<AttributeTemplate> Attributes { get; set; }
+        public List<DamageType> DamageTypes { get; set; }
+        public List<SkillTemplate> AttributelessSkills { get; set; }
+        public List<Campaign> Campaigns { get; set; }
+        public ICollection<LifeTemplate> Lifes { get; set; }
+        public ICollection<DefenseTemplate> Defenses { get; set; }
+        public ICollection<CreatureType> CreatureTypes { get; set; }
+
         public CampaignTemplate()
         {
             Attributes = [];
@@ -40,22 +60,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Id = campaignModel.CampaignTemplateId ?? campaignModel.Id;
             ItemConfiguration = new ItemConfiguration(this);
         }
-
-        public string Name { get; set; }
-        public bool Default { get; set; }
-        public string? CreatureTypeTitle { get; set; }
-        public string? ArchetypeTitle { get; set; }
-        public int MaxAttributePoints => 5;
-        // 5 + 4 + 3 + 2 + 2 + 1 = 17
-        public int TotalAttributePoints { get; set; }
-        // 4
-        public int TotalSkillsPoints { get; set; }
-        public ItemConfiguration ItemConfiguration { get; set; }
-        public List<AttributeTemplate> Attributes { get; set; }
-        public List<DamageType> DamageTypes { get; set; }
-        public List<SkillTemplate> AttributelessSkills { get; set; }
-        public List<Campaign> Campaigns { get; set; }
-
         public Creature InstantiateCreature(string name, Guid campaignId, CreatureCategory category, Guid ownerId)
         {
             var creature = Creature.FromTemplate(this, campaignId, category);
@@ -68,9 +72,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         [NotMapped]
         public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        public ICollection<LifeTemplate> Lifes { get; set; }
-        public ICollection<DefenseTemplate> Defenses { get; set; }
-        public ICollection<CreatureType> CreatureTypes { get; set; }
+        
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {
@@ -221,7 +223,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
             var creatureType = new CreatureType(creatureTypeModel);
             CreatureTypes.Add(creatureType);
             await dbContext.CreatureTypes.AddAsync(creatureType);
-            await dbContext.Bonus.AddRangeAsync(creatureType.Bonuses);
         }
 
         public async Task UpdateCreatureType(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)

@@ -9,6 +9,15 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
 {
     public class Campaign : Entity
     {
+        public Guid MasterId { get; set; }
+        public string Name { get; set; }
+        public Guid CampaignTemplateId { get; set; }
+        public CampaignTemplate CampaignTemplate { get; set; }
+        public Guid InvitationSecret { get; set; }
+        public ICollection<PowerTemplate> PowerTemplates { get; set; } = new List<PowerTemplate>();
+        public ICollection<CampaignPlayer> CampaignPlayers { get; set; } = new List<CampaignPlayer>();
+        public ICollection<Scene> Scenes { get; set; } = new List<Scene>();
+        
         public Campaign()
         {
             
@@ -26,15 +35,6 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
             Scenes = new List<Scene>();
             CampaignTemplate = new CampaignTemplate(campaignModel);
         }
-
-        public Guid MasterId { get; set; }
-        public string Name { get; set; }
-        public Guid CampaignTemplateId { get; set; }
-        public CampaignTemplate CampaignTemplate { get; set; }
-        public Guid InvitationSecret { get; set; }
-        public ICollection<PowerTemplate> PowerTemplates { get; set; } = new List<PowerTemplate>();
-        public ICollection<CampaignPlayer> CampaignPlayers { get; set; } = new List<CampaignPlayer>();
-        public ICollection<Scene> Scenes { get; set; } = new List<Scene>();
         
     }
 }

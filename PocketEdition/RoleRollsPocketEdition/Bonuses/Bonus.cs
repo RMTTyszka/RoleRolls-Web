@@ -19,19 +19,10 @@ public class Bonus : Entity
         ValueType = bonusModel.ValueType;
         Type = bonusModel.Type;
     }    
-    public Bonus(BonusModel bonusModel, CreatureType creatureType) : this(bonusModel)
-    {
-        CreatureType = creatureType;
-        EntityId = creatureType.Id;
-    }
-
     public int Value { get; set; }
     public Property Property { get; set; }
-    public Guid? EntityId { get; set; }
     public BonusValueType ValueType { get; set; }
     public BonusType Type { get; set; }
-    public CreatureType? CreatureType { get; set; }
-    public Archetype? Archetype { get; set; }
 
     public void Update(BonusModel bonusModel)
     {

@@ -1,8 +1,4 @@
-using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Bonuses.Models;
-using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Roles;
 
 namespace RoleRollsPocketEdition.Bonuses;
 
@@ -18,7 +14,6 @@ public static class BonusExtensions
     {
         var bonus = new Bonus
         {
-            EntityId = entity.Id,
             Property = bonusModel.Property,
             Value = bonusModel.Value,
             ValueType = bonusModel.ValueType,
