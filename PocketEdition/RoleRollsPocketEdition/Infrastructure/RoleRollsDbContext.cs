@@ -75,14 +75,6 @@ namespace RoleRollsPocketEdition.Infrastructure
 
             modelBuilder.Entity<CampaignTemplate>(template =>
             {
-                template.Navigation(c => c.Lifes).AutoInclude();
-                template.Navigation(c => c.Attributes).AutoInclude();
-                template.Navigation(c => c.ItemConfiguration).AutoInclude();
-                template.Navigation(c => c.Defenses).AutoInclude();
-                template.Navigation(c => c.DamageTypes).AutoInclude();
-                template.Navigation(c => c.AttributelessSkills).AutoInclude();
-                template.Navigation(c => c.CreatureTypes).AutoInclude();
-                template.Navigation(c => c.Archetypes).AutoInclude();
             });
             modelBuilder.Entity<AttributeTemplate>(attribute =>
             {

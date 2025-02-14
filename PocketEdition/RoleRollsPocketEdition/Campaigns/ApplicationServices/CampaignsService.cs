@@ -56,20 +56,86 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         public async Task<CampaignModel> GetAsync(Guid id) 
         {
             var campaign = await _dbContext.Campaigns
+                .FirstAsync(e => e.Id == id);
+
+            var template = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Attributes)
-                .ThenInclude(a => a.SkillTemplates)
-                .ThenInclude(s => s.MinorSkills)       
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate)
+                .FirstAsync();
+            campaign.CampaignTemplate = template;
+            var attributes = await _dbContext.Campaigns
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(a => a.Attributes)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.Attributes)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.Attributes = attributes;
+
+            var attributelessSkills = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(a => a.AttributelessSkills)
-                .ThenInclude(s => s.MinorSkills)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.AttributelessSkills)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.AttributelessSkills = attributelessSkills;
+
+            var defenses = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Defenses)          
+                .ThenInclude(t => t.Defenses)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.Defenses)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.Defenses = defenses;
+
+            var lifes = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Lifes)      
+                .ThenInclude(t => t.Lifes)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.Lifes)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.Lifes = lifes;
+            
+            var creatureTypes = await _dbContext.Campaigns
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(t => t.CreatureTypes)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.CreatureTypes)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.CreatureTypes = creatureTypes;            
+            
+            var damageTypes = await _dbContext.Campaigns
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(t => t.DamageTypes)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.DamageTypes)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.DamageTypes = damageTypes;           
+            
+            var archetypes = await _dbContext.Campaigns
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(t => t.Archetypes)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.Archetypes)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.Archetypes = archetypes;
+
+            var itemConfiguration = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(c => c.ItemConfiguration)
-                .FirstAsync(e => e.Id == id);
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.ItemConfiguration)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.ItemConfiguration = itemConfiguration;
+
             var output = new CampaignModel(campaign);
             return output;
         }       
