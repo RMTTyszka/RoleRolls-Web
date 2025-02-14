@@ -102,12 +102,12 @@ public class LandOfHeroesTemplate
         {
             Name = "Fighter",
             Description = "",
-            Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
+            Id = Guid.Parse("A1B2C3D4-E5F6-47A8-90B1-223344556677"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
+                    Id = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
@@ -119,12 +119,12 @@ public class LandOfHeroesTemplate
         {
             Name = "Savage",
             Description = "",
-            Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
+            Id = Guid.Parse("B2C3D4E5-F6A7-48B9-80C1-334455667788"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
+                    Id = Guid.Parse("22334455-6677-8899-AABB-CCDDEEFF0011"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
@@ -136,12 +136,12 @@ public class LandOfHeroesTemplate
         {
             Name = "Bard",
             Description = "",
-            Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
+            Id = Guid.Parse("C3D4E5F6-A7B8-49C1-90D2-445566778899"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
+                    Id = Guid.Parse("33445566-7788-99AA-BBCC-DDEEFF002233"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
@@ -153,116 +153,14 @@ public class LandOfHeroesTemplate
         {
             Name = "Hunter",
             Description = "",
-            Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
+            Id = Guid.Parse("D5E6F7A8-B9C0-41D2-82E3-667788990011"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("655394b6-e1bf-4175-90e8-cdb95da1613c"),
+                    Id = Guid.Parse("55667788-9900-AABB-CCDD-EEFF11223344"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Spiritualist",
-            Description = "",
-            Id = Guid.Parse("7fb26adb-21e7-405e-a1a7-06d5eeb01da3"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("85de058e-64fe-4f7f-b49d-df5cfbb84d19"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Druid",
-            Description = "",
-            Id = Guid.Parse("3f15b9de-0bd5-43ce-b2af-4aad91b5b9a4"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("fd3b88be-b55d-4c0b-8010-9c1b56eef367"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Rogue",
-            Description = "",
-            Id = Guid.Parse("f44b25b9-2e87-495e-83eb-de9b8802df1f"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("dcd0ab9d-0e95-448b-ba42-8aead55b6c62"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Warlock",
-            Description = "",
-            Id = Guid.Parse("0e20b28f-8b53-446e-a0e1-cd0b546e1e39"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("4e150329-37b6-4263-9dc9-caa0d4723388"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Martialist",
-            Description = "",
-            Id = Guid.Parse("8036e058-bc2c-4c77-a2ae-aa20d27dfe3a"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("913ffad2-33d3-4ef7-9621-effbfcecf82f"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Spellcaster",
-            Description = "",
-            Id = Guid.Parse("8b156640-9b67-43e7-bdfe-b1f3529a30d5"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -272,12 +170,12 @@ public class LandOfHeroesTemplate
         {
             Name = "Crusader",
             Description = "",
-            Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
+            Id = Guid.Parse("E6F7A8B9-C0D1-42E3-93F4-778899001122"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
+                    Id = Guid.Parse("66778899-0011-AABB-CCDD-EEFF22334455"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
@@ -289,12 +187,12 @@ public class LandOfHeroesTemplate
         {
             Name = "Commander",
             Description = "",
-            Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
+            Id = Guid.Parse("D4E5F6A7-B8C9-40D1-81E2-556677889900"),
             Bonuses = new List<Bonus>
             {
                 new Bonus
                 {
-                    Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
+                    Id = Guid.Parse("44556677-8899-AABB-CCDD-EEFF00223344"),
                     Value = 1,
                     Property = new Property(SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
@@ -303,6 +201,7 @@ public class LandOfHeroesTemplate
             }
         },
     ];
+
 
 
     private static List<CreatureType> Races =>

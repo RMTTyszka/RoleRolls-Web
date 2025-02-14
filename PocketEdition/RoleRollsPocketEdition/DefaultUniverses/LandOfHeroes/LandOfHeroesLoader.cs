@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Abstractions;
@@ -43,10 +45,37 @@ public class LandOfHeroesLoader : IStartupTask
             await SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes, _context);
             await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes, _context);
             await SynchronizeCreatureTypes(templateFromDb, templateFromCode.CreatureTypes, templateFromDb.CreatureTypes, _context);
+            await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes, _context);
         }
 
         var bonus = _context.ChangeTracker.Entries().Select(e => e.Entity).OfType<Bonus>().ToList();
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task SynchronizeArchetypes(Templates.Entities.CampaignTemplate templateFromDb, List<Archetype> fromCode, List<Archetype> fromDb, RoleRollsDbContext dbContext)
+    {
+        var dbCreatureTypes = fromDb.ToDictionary(c => c.Id);
+        var codeCreatureTypes = fromCode.ToDictionary(c => c.Id);
+
+        foreach (var codeCreature in fromCode)
+        {
+            if (!dbCreatureTypes.TryGetValue(codeCreature.Id, out var dbCreature))
+            {
+                await templateFromDb.AddArchetypeAsync(new ArchetypeModel(codeCreature), dbContext);
+            }
+            else
+            {
+                dbCreature.Name = codeCreature.Name;
+                dbCreature.Description = codeCreature.Description;
+                await templateFromDb.UpdateArchetypeAsync(new ArchetypeModel(codeCreature), dbContext);
+            }
+        }
+
+        foreach (var dbCreature in fromDb.Where(c => !codeCreatureTypes.ContainsKey(c.Id)).ToList())
+        {
+            templateFromDb.Archetypes.Remove(dbCreature);
+            dbContext.Archetypes.Remove(dbCreature);
+        }
     }
 
     private async Task SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb,

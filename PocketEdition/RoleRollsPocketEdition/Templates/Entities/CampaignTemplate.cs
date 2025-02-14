@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
@@ -44,6 +45,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             ItemConfiguration = new ItemConfiguration();
             AttributelessSkills = [];
             DamageTypes = [];
+            Archetypes = [];
         }
         public CampaignTemplate(CampaignTemplateModel template) : base()
         {
@@ -231,6 +233,19 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             var creatureType = CreatureTypes.First(creatureType => creatureType.Id == creatureTypeModel.Id);
             await creatureType.Update(creatureTypeModel, dbContext);
+        }
+
+        public async Task AddArchetypeAsync(ArchetypeModel archetypeModel, RoleRollsDbContext dbContext)
+        {
+            var archetype = new Archetype(archetypeModel);
+            Archetypes.Add(archetype);
+            await dbContext.Archetypes.AddAsync(archetype);
+        }
+
+        public async Task UpdateArchetypeAsync(ArchetypeModel archetypeModel, RoleRollsDbContext dbContext)
+        {
+            var archetype = Archetypes.First(e => e.Id == archetypeModel.Id);
+            await archetype.Update(archetypeModel, dbContext);
         }
     }
 }

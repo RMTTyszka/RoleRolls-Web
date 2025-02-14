@@ -196,6 +196,9 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("CampaignTemplateId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(450)
@@ -207,6 +210,8 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignTemplateId");
 
                     b.ToTable("Archetypes");
                 });
@@ -1271,6 +1276,13 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasPrincipalKey("MessageId", "ConsumerId");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Archetype", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
+                        .WithMany("Archetypes")
+                        .HasForeignKey("CampaignTemplateId");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Bonuses.Bonus", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", null)
@@ -1800,6 +1812,8 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", b =>
                 {
+                    b.Navigation("Archetypes");
+
                     b.Navigation("AttributelessSkills");
 
                     b.Navigation("Attributes");
