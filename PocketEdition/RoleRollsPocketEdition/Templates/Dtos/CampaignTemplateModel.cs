@@ -1,4 +1,6 @@
-﻿using RoleRollsPocketEdition.Itens.Configurations;
+﻿using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Models;
+using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Templates.Dtos
@@ -23,6 +25,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             AttributelessSkills = template.AttributelessSkills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
             Lifes = template.Lifes.OrderBy(e => e.Name).Select(life => new LifeTemplateModel(life)).ToList();
             Defenses = template.Defenses.OrderBy(e => e.Name).Select(defense => new DefenseTemplateModel(defense)).ToList();
+            Archetypes = template.Archetypes.OrderBy(e => e.Name).Select(defense => new ArchetypeModel(defense)).ToList();
         }
 
         public List<SkillTemplateModel> AttributelessSkills { get; set; }
@@ -30,6 +33,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public bool Default { get; set; }
 
         public List<DefenseTemplateModel> Defenses { get; set; } = new();
+        public List<ArchetypeModel> Archetypes { get; set; } = new();
 
         public Guid Id { get; set; }
         public string Name { get; set; }
