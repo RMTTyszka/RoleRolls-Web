@@ -82,6 +82,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                 template.Navigation(c => c.DamageTypes).AutoInclude();
                 template.Navigation(c => c.AttributelessSkills).AutoInclude();
                 template.Navigation(c => c.CreatureTypes).AutoInclude();
+                template.Navigation(c => c.Archetypes).AutoInclude();
             });
             modelBuilder.Entity<AttributeTemplate>(attribute =>
             {
@@ -94,6 +95,10 @@ namespace RoleRollsPocketEdition.Infrastructure
             modelBuilder.Entity<SkillTemplate>(skill =>
             {
                 skill.Navigation(c => c.MinorSkills).AutoInclude();
+            });      
+            modelBuilder.Entity<Archetype>(skill =>
+            {
+                skill.Navigation(c => c.Bonuses).AutoInclude();
             });      
             
             modelBuilder.Owned<Property>();

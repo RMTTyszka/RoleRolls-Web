@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Net;
 using MassTransit;
+using MassTransit.SqlTransport;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,6 +66,7 @@ builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
     // credentials to run migrations
     options.AdminUsername = "postgres";
     options.AdminPassword = "123qwe";
+    
 });
 builder.Services.AddMassTransit(configurador =>
 {
@@ -94,6 +96,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var migrator = scope.ServiceProvider.GetRequiredService<ISqlTransportDatabaseMigrator>();
+    await migrator.CreateSchemaIfNotExist(new SqlTransportOptions
+    {
+        Host = "localhost",
+        Database = "RoleRolls",
+        Schema = "transport",
+        Role = "postgres",
+        Username = "postgres",
+        Password = "123qwe",
+        AdminUsername = "postgres",
+        AdminPassword = "123qwe",
+    }); 
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
     dataContext.Database.Migrate();
     var startupTasks = scope.ServiceProvider.GetServices<IStartupTask>();
