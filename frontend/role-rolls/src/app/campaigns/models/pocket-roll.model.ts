@@ -1,7 +1,8 @@
 import { Entity } from '../../models/Entity.model';
 import { RollOrigin } from '../../models/RollOrigin';
 
-export class PocketRoll extends Entity{
+export class Roll implements Entity{
+  public id: string;
   public campaignId!: string;
   public actorId!: string;
   public actorName!: string;

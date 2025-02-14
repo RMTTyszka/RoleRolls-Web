@@ -13,7 +13,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
-import {AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel, MinorSkillsTemplateModel, SkillTemplateModel} from '../../models/campaign-template.model';
+import {AttributeTemplate, DefenseTemplate, LifeTemplate, MinorSkillsTemplate, SkillTemplate} from 'app/campaigns/models/campaign.template';
 import {LoggerService} from '@services/logger/logger.service';
 import {firstValueFrom} from 'rxjs';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
@@ -98,7 +98,7 @@ export class CampaignTemplateComponent {
 
   public addAttribute() {
     if (this.disabled) return;
-    const attribute = this.attributeForm.value as AttributeTemplateModel;
+    const attribute = this.attributeForm.value as AttributeTemplate;
     this.service.addAttribute(this.campaign.id, attribute)
       .subscribe(() => {
         const formArray = this.attributes;
@@ -114,7 +114,7 @@ export class CampaignTemplateComponent {
 
   public updateAttribute(attributeControl: FormGroup) {
     if (this.disabled) return;
-    const attribute = attributeControl.value as AttributeTemplateModel;
+    const attribute = attributeControl.value as AttributeTemplate;
     this.service.updateAttribute(this.campaign.id, attribute.id, attribute)
       .subscribe();
   }
@@ -122,7 +122,7 @@ export class CampaignTemplateComponent {
 
   public removeAttribute(attributeControl: FormGroup, index: number) {
     if (this.disabled) return;
-    const attribute = attributeControl.value as AttributeTemplateModel;
+    const attribute = attributeControl.value as AttributeTemplate;
     this.service.removeAttribute(this.campaign.id, attribute.id)
       .subscribe(() => {
         const formArray = this.attributes;
@@ -132,8 +132,8 @@ export class CampaignTemplateComponent {
   }
   public addSkill(attributeForm: FormGroup) {
     if (this.disabled) return;
-    const attribute = attributeForm.value as AttributeTemplateModel;
-    const skill = this.skillForm.value as SkillTemplateModel;
+    const attribute = attributeForm.value as AttributeTemplate;
+    const skill = this.skillForm.value as SkillTemplate;
     skill.attributeId = attribute.id;
     this.service.addSkill(this.campaign.id, attribute.id, skill)
       .subscribe(() => {
@@ -151,7 +151,7 @@ export class CampaignTemplateComponent {
   }
   public addAttributelessSkill() {
     if (this.disabled) return;
-    const skill = this.skillForm.value as SkillTemplateModel;
+    const skill = this.skillForm.value as SkillTemplate;
     this.service.addAttributelessSkill(this.campaign.id, skill)
       .subscribe(() => {
         const formArray = this.skills;
@@ -168,21 +168,21 @@ export class CampaignTemplateComponent {
   }
   public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) {
     if (this.disabled) return;
-    const attribute = attributeControl.value as AttributeTemplateModel;
-    const skill = skillControl.value as SkillTemplateModel;
+    const attribute = attributeControl.value as AttributeTemplate;
+    const skill = skillControl.value as SkillTemplate;
     // skill.attributeId = attribute.id;
     this.service.updateSkill(this.campaign.id, attribute.id, skill.id, skill)
       .subscribe();
   }
   public updateAttributelessSkill(skillControl: FormGroup) {
     if (this.disabled) return;
-    const skill = skillControl.value as SkillTemplateModel;
+    const skill = skillControl.value as SkillTemplate;
     this.service.updateAttributelessSkill(this.campaign.id, skill)
       .subscribe();
   }
   public removeSkill(attributeControl: FormGroup, skillControl: FormGroup, index: number) {
-    const skill = skillControl.value as SkillTemplateModel;
-    const attribute = attributeControl.value as AttributeTemplateModel;
+    const skill = skillControl.value as SkillTemplate;
+    const attribute = attributeControl.value as AttributeTemplate;
     this.service.removeSkill(this.campaign.id, attribute.id, skill.id)
       .subscribe(() => {
         const formArray = this.skills;
@@ -191,7 +191,7 @@ export class CampaignTemplateComponent {
       });
   }
   public removeAttributelessSkill(skillControl: FormGroup, index: number) {
-    const skill = skillControl.value as SkillTemplateModel;
+    const skill = skillControl.value as SkillTemplate;
     this.service.removeAttributelessSkill(this.campaign.id, skill)
       .subscribe(() => {
         const formArray = this.skills;
@@ -201,8 +201,8 @@ export class CampaignTemplateComponent {
   }
 
   public addMinorSkill(skillForm: FormGroup) {
-    const minorSkill = this.minorSkillForm.value as MinorSkillsTemplateModel;
-    const skill = skillForm.value as SkillTemplateModel;
+    const minorSkill = this.minorSkillForm.value as MinorSkillsTemplate;
+    const skill = skillForm.value as SkillTemplate;
     minorSkill.skillTemplateId = skill.id;
     this.service.addMinorSkill(this.campaign.id, skill.attributeId, skill.id, minorSkill)
       .subscribe(() => {
@@ -215,16 +215,16 @@ export class CampaignTemplateComponent {
   }
   public updateMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup) {
     if (this.disabled) return;
-    const skill = skillControl.value as SkillTemplateModel;
-    const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
+    const skill = skillControl.value as SkillTemplate;
+    const minorSkill = minorSkillControl.value as MinorSkillsTemplate;
     this.service.updateMinorSkill(this.campaign.id, skill.attributeId, skill.id, minorSkill.id, minorSkill)
       .subscribe(() => {
       });
   }
   public removeMinorSkill(skillControl: FormGroup, minorSkillControl: FormGroup, index: number) {
     if (this.disabled) return;
-    const skill = skillControl.value as SkillTemplateModel;
-    const minorSkill = minorSkillControl.value as MinorSkillsTemplateModel;
+    const skill = skillControl.value as SkillTemplate;
+    const minorSkill = minorSkillControl.value as MinorSkillsTemplate;
     this.service.removeMinorSkill(this.campaign.id, skill.attributeId, skill.id, minorSkill.id)
       .subscribe(() => {
         this.minorsSkillBySkill.get(skill.id).removeAt(index);
@@ -233,7 +233,7 @@ export class CampaignTemplateComponent {
 
   public addLife() {
     if (this.disabled) return;
-    const life = this.lifeForm.value as LifeTemplateModel;
+    const life = this.lifeForm.value as LifeTemplate;
     life.formula = '';
     this.service.addLife(this.campaign.id, life)
       .subscribe(() => {
@@ -248,7 +248,7 @@ export class CampaignTemplateComponent {
 
   public updateLife(lifeControl: FormGroup) {
     if (this.disabled) return;
-    const life = lifeControl.value as LifeTemplateModel;
+    const life = lifeControl.value as LifeTemplate;
     this.service.updateLife(this.campaign.id, life.id, life)
       .subscribe();
   }
@@ -256,7 +256,7 @@ export class CampaignTemplateComponent {
 
   public removeLife(lifeControl: FormGroup, index: number) {
     if (this.disabled) return;
-    const life = lifeControl.value as LifeTemplateModel;
+    const life = lifeControl.value as LifeTemplate;
     this.service.removeLife(this.campaign.id, life.id)
       .subscribe(() => {
         const formArray = this.lifes;
@@ -266,7 +266,7 @@ export class CampaignTemplateComponent {
 
   public addDefense() {
     if (this.disabled) return;
-    const defense = this.defenseForm.value as DefenseTemplateModel;
+    const defense = this.defenseForm.value as DefenseTemplate;
     defense.formula = '';
     this.service.addDefense(this.campaign.id, defense)
       .subscribe(() => {
@@ -281,7 +281,7 @@ export class CampaignTemplateComponent {
 
   public updateDefense(defenseControl: FormGroup) {
     if (this.disabled) return;
-    const defense = defenseControl.value as DefenseTemplateModel;
+    const defense = defenseControl.value as DefenseTemplate;
     this.service.updateDefense(this.campaign.id, defense.id, defense)
       .subscribe();
   }
@@ -289,7 +289,7 @@ export class CampaignTemplateComponent {
 
   public removeDefense(defenseControl: FormGroup, index: number) {
     if (this.disabled) return;
-    const defense = defenseControl.value as DefenseTemplateModel;
+    const defense = defenseControl.value as DefenseTemplate;
     this.service.removeDefense(this.campaign.id, defense.id)
       .subscribe(() => {
         const formArray = this.defenses;
@@ -302,27 +302,27 @@ export class CampaignTemplateComponent {
     createForm(this.attributeForm, {
       id: null,
       name: null,
-    } as AttributeTemplateModel);
+    } as AttributeTemplate);
     createForm(this.skillForm, {
       id: null,
       name: null,
       minorSkills: []
-    } as SkillTemplateModel);
+    } as SkillTemplate);
     createForm(this.minorSkillForm, {
       id: null,
       name: null,
       skillTemplateId: null
-    } as  MinorSkillsTemplateModel);
+    } as  MinorSkillsTemplate);
     createForm(this.lifeForm, {
       id: null,
       name: null,
       formula: null
-    } as LifeTemplateModel);
+    } as LifeTemplate);
     createForm(this.defenseForm, {
       id: null,
       name: null,
       formula: null
-    } as DefenseTemplateModel);
+    } as DefenseTemplate);
 
     this.attributeForm.get('id').setValue(uuidv4() as never);
     this.skillForm.get('id').setValue(uuidv4() as never);
@@ -345,23 +345,23 @@ export class CampaignTemplateComponent {
     }
   }
   private buildSkills() {
-    this.campaign.campaignTemplate.attributes.forEach((attribute: AttributeTemplateModel) => {
+    this.campaign.campaignTemplate.attributes.forEach((attribute: AttributeTemplate) => {
       this.skillsMapping.set(attribute.id, new FormArray<any>([]));
     });
     this.skillsMapping.set('attributeless', new FormArray<any>([]));
-    this.campaign.campaignTemplate.skills.forEach((skill: SkillTemplateModel) => {
+    this.campaign.campaignTemplate.skills.forEach((skill: SkillTemplate) => {
       this.skillsMapping.get(skill.attributeId).push(getAsForm(skill));
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const minorSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.minorSkills.forEach((minorSkill: MinorSkillsTemplateModel) => {
+      skill.minorSkills.forEach((minorSkill: MinorSkillsTemplate) => {
         minorSkills.push(getAsForm(minorSkill));
       });
     });
-    this.campaign.campaignTemplate.attributelessSkills.forEach((skill: SkillTemplateModel) => {
+    this.campaign.campaignTemplate.attributelessSkills.forEach((skill: SkillTemplate) => {
       this.skillsMapping.get('attributeless').push(getAsForm(skill));
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const minorSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.minorSkills.forEach((minorSkill: MinorSkillsTemplateModel) => {
+      skill.minorSkills.forEach((minorSkill: MinorSkillsTemplate) => {
         minorSkills.push(getAsForm(minorSkill));
       });
     });

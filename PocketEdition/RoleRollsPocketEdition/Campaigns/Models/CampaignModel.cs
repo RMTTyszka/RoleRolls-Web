@@ -10,7 +10,6 @@ namespace RoleRollsPocketEdition.Campaigns.Models
         public Guid MasterId { get; set; }
         public Guid? CampaignTemplateId { get; set; }
         public CampaignTemplateModel? CampaignTemplate { get; set; }
-        public ItemConfigurationModel? ItemConfiguration { get; set; }
         public string Name { get; set; }
 
         public CampaignModel()
@@ -24,7 +23,6 @@ namespace RoleRollsPocketEdition.Campaigns.Models
             Name = campaign.Name;
             CampaignTemplateId = campaign.CampaignTemplateId;
             CampaignTemplate = CampaignTemplateModel.FromTemplate(campaign.CampaignTemplate);
-            ItemConfiguration = ItemConfigurationModel.FromConfiguration(campaign.CampaignTemplate.ItemConfiguration);
         }
 
     }

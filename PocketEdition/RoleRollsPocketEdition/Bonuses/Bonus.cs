@@ -18,9 +18,15 @@ public class Bonus : Entity
         Property = bonusModel.Property;
         ValueType = bonusModel.ValueType;
         Type = bonusModel.Type;
-    }    
+        Name = bonusModel.Name;
+        Description = bonusModel.Description;
+    }
+
+    public string Description { get; set; } = "";
+
     public int Value { get; set; }
     public Property Property { get; set; }
+    public string Name { get; set; } = "";
     public BonusValueType ValueType { get; set; }
     public BonusType Type { get; set; }
 
@@ -33,7 +39,7 @@ public class Bonus : Entity
     }
 }
 
-public enum BonusType
+public enum BonusType   
 {
     Innate = 0
 }

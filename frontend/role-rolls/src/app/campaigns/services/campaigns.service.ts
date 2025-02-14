@@ -6,14 +6,14 @@ import { AuthenticationService } from '../../authentication/services/authenticat
 import { Campaign } from '../models/campaign';
 import {v4 as uuidv4} from 'uuid';
 import { CreatureType } from '../models/CreatureType';
-import { PocketCreature } from '../models/pocket-creature';
+import { Creature } from 'app/campaigns/models/creature';
 import { TakeDamageApiInput } from '../models/TakeDamageApiInput';
 import { CampaignScene } from '../models/campaign-scene-model';
 import { SceneCreature } from '../models/scene-creature.model';
 import { SimulateCdInput } from '../models/SimulateCdInput';
 import { SimulateCdResult } from '../models/simulate-cd-result';
 import { RollInput } from '../models/RollInput';
-import { PocketRoll } from '../models/pocket-roll.model';
+import { Roll } from '../models/pocket-roll.model';
 import { CampaignPlayer } from '../models/CampaignPlayer.model';
 import { AcceptInvitationInput } from '../models/accept-invitation-input';
 import { PagedOutput } from '../../models/PagedOutput';
@@ -23,13 +23,13 @@ import { safeCast } from '../../tokens/utils.funcs';
 import { ItemConfigurationModel } from '../models/item-configuration-model';
 import { BaseCrudService } from '../../services/base-service/base-crud-service';
 import {
-  AttributeTemplateModel,
-  CampaignTemplateModel,
-  DefenseTemplateModel,
-  LifeTemplateModel,
-  MinorSkillsTemplateModel,
-  SkillTemplateModel
-} from '../models/campaign-template.model';
+  AttributeTemplate,
+  CampaignTemplate,
+  DefenseTemplate,
+  LifeTemplate,
+  MinorSkillsTemplate,
+  SkillTemplate
+} from 'app/campaigns/models/campaign.template';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class CampaignsService extends BaseCrudService<Campaign>{
     const campaignModel = {
       id: uuidv4(),
       name: 'New Campaign',
-      campaignTemplate: new CampaignTemplateModel(),
+      campaignTemplate: new CampaignTemplate(),
       masterId: safeCast<string>(this.authenticationService.userId),
       copy: false,
       campaignTemplateId: null,
@@ -56,29 +56,29 @@ export class CampaignsService extends BaseCrudService<Campaign>{
       return of<Campaign>(campaignModel);
    }
 
-   public addAttribute(campaignId: string, attribute: AttributeTemplateModel): Observable<never> {
+   public addAttribute(campaignId: string, attribute: AttributeTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes`, attribute);
    }
-   public updateAttribute(campaignId: string, attributeId: string, attribute: AttributeTemplateModel): Observable<never> {
+   public updateAttribute(campaignId: string, attributeId: string, attribute: AttributeTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}`, attribute);
    }
    public removeAttribute(campaignId: string, attributeId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}`);
    }
 
-   public addSkill(campaignId: string, attributeId: string, skill: SkillTemplateModel): Observable<never> {
+   public addSkill(campaignId: string, attributeId: string, skill: SkillTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills`, skill);
    }
-   public addAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+   public addAttributelessSkill(campaignId: string, skill: SkillTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributeless-skills`, skill);
    }
-   public updateAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+   public updateAttributelessSkill(campaignId: string, skill: SkillTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skill.id}`, skill);
    }
-   public removeAttributelessSkill(campaignId: string, skill: SkillTemplateModel): Observable<never> {
+   public removeAttributelessSkill(campaignId: string, skill: SkillTemplate): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skill.id}`);
    }
-   public updateSkill(campaignId: string, attributeId: string, skillId: string, skill: SkillTemplateModel): Observable<never> {
+   public updateSkill(campaignId: string, attributeId: string, skillId: string, skill: SkillTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`, skill);
    }
    public removeSkill(campaignId: string, attributeId: string, skillId: string): Observable<never> {
@@ -86,31 +86,31 @@ export class CampaignsService extends BaseCrudService<Campaign>{
    }
 
 
-   public addMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkill: MinorSkillsTemplateModel): Observable<never> {
+   public addMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkill: MinorSkillsTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills`, minorSkill);
   }
 
-   public updateMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string, minorSkill: MinorSkillsTemplateModel): Observable<never> {
+   public updateMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string, minorSkill: MinorSkillsTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`, minorSkill);
   }
    public removeMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`);
   }
 
-  public addLife(campaignId: string, life: LifeTemplateModel): Observable<never> {
+  public addLife(campaignId: string, life: LifeTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/lifes`, life);
    }
-   public updateLife(campaignId: string, lifeId: string, life: LifeTemplateModel): Observable<never> {
+   public updateLife(campaignId: string, lifeId: string, life: LifeTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`, life);
    }
    public removeLife(campaignId: string, lifeId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
    }
 
-   public addDefense(campaignId: string, defense: DefenseTemplateModel) {
+   public addDefense(campaignId: string, defense: DefenseTemplate) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/defenses`, defense);
   }
-  public updateDefense(campaignId: string, defenseId: string, defense: DefenseTemplateModel): Observable<never> {
+  public updateDefense(campaignId: string, defenseId: string, defense: DefenseTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/defenses/${defenseId}`, defense);
    }
    public removeDefense(campaignId: string, defenseId: string): Observable<never> {
@@ -119,28 +119,28 @@ export class CampaignsService extends BaseCrudService<Campaign>{
 
 
 
-   public getCreatureTemplate(id: string): Observable<CampaignTemplateModel> {
-    return this.http.get<CampaignTemplateModel>(`${this.serverUrl}creature-templates/${id}`);
+   public getCreatureTemplate(id: string): Observable<CampaignTemplate> {
+    return this.http.get<CampaignTemplate>(`${this.serverUrl}creature-templates/${id}`);
   }
-  public getCreatures(campaignId: string, creatureType: CreatureType): Observable<PocketCreature[]> {
+  public getCreatures(campaignId: string, creatureType: CreatureType): Observable<Creature[]> {
     const params = new HttpParams().set('creatureType', creatureType)
-    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/creatures`, {
+    return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/creatures`, {
       params
     });
   }
-  public getCreature(campaignId: string, creatureId: string): Observable<PocketCreature> {
-    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/${creatureId}`);
+  public getCreature(campaignId: string, creatureId: string): Observable<Creature> {
+    return this.http.get<Creature>(`${this.completePath}/${campaignId}/creatures/${creatureId}`);
   }
-  public instantiateNewCreature(campaignId: string, creatureType: CreatureType):  Observable<PocketCreature> {
+  public instantiateNewCreature(campaignId: string, creatureType: CreatureType):  Observable<Creature> {
     const params = new HttpParams().set('creatureType', creatureType)
-    return this.http.get<PocketCreature>(`${this.completePath}/${campaignId}/creatures/new`, {
+    return this.http.get<Creature>(`${this.completePath}/${campaignId}/creatures/new`, {
       params
     }, );
   }
-  public createCreature(campaignId: string, creature: PocketCreature) {
+  public createCreature(campaignId: string, creature: Creature) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/creatures`, creature);
   }
-  public updateCreature(campaignId: string, creature: PocketCreature) {
+  public updateCreature(campaignId: string, creature: Creature) {
     return this.http.put<never>(`${this.completePath}/${campaignId}/creatures/${creature.id}`, creature);
   }
   public takeDamage(campaignId: string, sceneId: string, creatureId: string, input: TakeDamageApiInput) {
@@ -160,9 +160,9 @@ export class CampaignsService extends BaseCrudService<Campaign>{
   public removeScene(campaignId: string, sceneId: string): Observable<CampaignScene> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}`);
   }
-  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<PocketCreature[]> {
+  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<Creature[]> {
     const params = new HttpParams().set('creatureType', creatureType);
-    return this.http.get<PocketCreature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
+    return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
   public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {
     input.creatureType = CreatureType.Hero;
@@ -184,7 +184,7 @@ export class CampaignsService extends BaseCrudService<Campaign>{
     .pipe(
       switchMap((response: HttpResponse<never>) => {
         const location = response.headers.get('Location')
-        return this.http.get<PocketRoll>(safeCast<string>(location))
+        return this.http.get<Roll>(safeCast<string>(location))
       }))
   }
 
@@ -204,7 +204,7 @@ export class CampaignsService extends BaseCrudService<Campaign>{
 
   public getSceneRolls(campaignId: string, sceneId: string, skipCount: number, maxResultCount: number) {
     const params = new HttpParams().set('skipCount', skipCount).set('maxResultCount', maxResultCount);
-    return this.http.get<PagedOutput<PocketRoll>>(`${this.completePath}/${campaignId}/scenes/${sceneId}/rolls`, {params});
+    return this.http.get<PagedOutput<Roll>>(`${this.completePath}/${campaignId}/scenes/${sceneId}/rolls`, {params});
   }
 
   public attack(campaignId: string, sceneId: string, creatureId: string, input: AttackInput) {

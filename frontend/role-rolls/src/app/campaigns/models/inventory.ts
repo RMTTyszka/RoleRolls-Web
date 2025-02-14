@@ -1,5 +1,5 @@
 import { ItemModel } from './item-model';
 
-export class PocketInventory {
+export class Inventory {
   public items: ItemModel[] = [];
 }

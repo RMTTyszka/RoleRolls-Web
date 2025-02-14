@@ -1,4 +1,4 @@
-import { EquipableSlot } from './equipable-slot';
+import { EquipableSlot } from 'app/models/itens/equipable-slot';
 
 export interface ItemTemplateModel{
   id: string;

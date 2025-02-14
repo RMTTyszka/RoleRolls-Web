@@ -1,8 +1,8 @@
-import { PocketCreature } from './pocket-creature';
-import { EquipableSlot } from '../../models/equipable-slot';
+import { Creature } from 'app/campaigns/models/creature';
+import { EquipableSlot } from 'app/models/itens/equipable-slot';
 
 export interface TakeDamageInput {
-    creature: PocketCreature;
+    creature: Creature;
 }
 export interface AttackInput {
     slot: EquipableSlot;

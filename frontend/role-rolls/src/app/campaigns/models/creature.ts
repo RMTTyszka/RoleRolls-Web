@@ -1,51 +1,57 @@
-import {PocketEquipment} from './pocket-equipment';
+import {Equipment} from 'app/campaigns/models/equipment';
 import { Entity } from '../../models/Entity.model';
-import { PocketInventory } from './pocket-inventory';
+import { Inventory } from 'app/campaigns/models/inventory';
 import { CreatureType } from './CreatureType';
 
 
 
-export class PocketCreature extends Entity {
+export class Creature implements Entity {
+  public id: string;
   public name!: string;
-  public attributes: PocketAttribute[] = [];
-  public skills: PocketSkill[] = [];
-  public lifes: PocketLife[] = [];
-  public defenses: PocketDefense[] = [];
+  public attributes: Attribute[] = [];
+  public skills: Skill[] = [];
+  public lifes: Life[] = [];
+  public defenses: Defense[] = [];
   public creatureType!: CreatureType;
-  public inventory: PocketInventory = new PocketInventory();
-  public equipment: PocketEquipment = new PocketEquipment();
+  public inventory: Inventory = new Inventory();
+  public equipment: Equipment = new Equipment();
   public ownerId!: string;
   public level!: number;
 }
 
-export class PocketAttribute extends Entity {
+export class Attribute implements Entity {
+  public id: string;
   public name!: string;
   public value!: number;
   public attributeTemplateId!: string;
 }
 
-export class PocketSkill extends Entity {
+export class Skill implements Entity {
+  public id: string;
   public name!: string;
   public attributeId!: string;
   public skillTemplateId!: string;
   public value!: number;
-  public minorSkills: PocketMinorSkill[] = [];
+  public minorSkills: MinorSkill[] = [];
   public pointsLimit!: number;
   public usedPoints!: number;
 
 }
-export class PocketMinorSkill extends Entity {
+export class MinorSkill implements Entity {
+  public id: string;
   public name!: string;
   public skillId!: string;
   public minorSkillTemplateId!: string;
   public points!: number;
 }
-export class PocketLife extends Entity {
+export class Life implements Entity {
+  public id: string;
   public name!: string;
   public value!: number;
   public maxValue!: number;
 }
-export class PocketDefense extends Entity {
+export class Defense implements Entity {
+  public id: string;
   public name!: string;
   public value!: number;
 }
@@ -55,11 +61,4 @@ export enum PocketSkillProficience {
   Normal = 3, // 0
   Bad = 4, // + -1
   Crap = 5 // -3
-}
-
-
-export class PocketHero extends PocketCreature {
-}
-
-export class PocketMonster extends PocketCreature {
 }

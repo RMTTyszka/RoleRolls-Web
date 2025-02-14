@@ -11,7 +11,7 @@ import { PropertySelectorComponent } from '../../../components/property-selector
 import { NgIf } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
-import {AttributeTemplateModel, DefenseTemplateModel} from '@app/campaigns/models/campaign-template.model';
+import {AttributeTemplate, DefenseTemplate} from '@app/campaigns/models/campaign.template';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
@@ -42,7 +42,7 @@ export class CampaignItemConfigurationComponent {
   async ngOnInit(): Promise<void> {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.form = getAsForm(this.campaign.itemConfiguration);
+      this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration);
       this.populateOptions();
       this.loaded = true;
       this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
@@ -56,12 +56,12 @@ export class CampaignItemConfigurationComponent {
   }
 
   populateOptions() {
-    this.defenses = this.campaign.campaignTemplate.defenses.map((d: DefenseTemplateModel) => {
+    this.defenses = this.campaign.campaignTemplate.defenses.map((d: DefenseTemplate) => {
       return {
         label: d.name, value: d.id,
       };
     });
-    this.attributes = this.campaign.campaignTemplate.attributes.map((d: AttributeTemplateModel) => {
+    this.attributes = this.campaign.campaignTemplate.attributes.map((d: AttributeTemplate) => {
       return {
         label: d.name, value: d.id,
       };

@@ -1,6 +1,6 @@
 import {ItemModel} from './item-model';
 
-export class PocketEquipment {
+export class Equipment {
   public mainHand!: ItemModel;
   public offHand!: ItemModel;
   public chest!: ItemModel;

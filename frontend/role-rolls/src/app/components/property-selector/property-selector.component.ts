@@ -5,10 +5,10 @@ import { RROption } from '@app/models/RROption';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 import { Campaign } from '@app/campaigns/models/campaign';
 import {
-  AttributeTemplateModel, DefenseTemplateModel, LifeTemplateModel,
-  MinorSkillsTemplateModel,
-  SkillTemplateModel
-} from '@app/campaigns/models/campaign-template.model';
+  AttributeTemplate, DefenseTemplate, LifeTemplate,
+  MinorSkillsTemplate,
+  SkillTemplate
+} from '@app/campaigns/models/campaign.template';
 
 @Component({
   selector: 'rr-property-selector',
@@ -68,7 +68,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   });
 
   public attributes = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.attributes.map((a: AttributeTemplateModel) => {
+    return this.campaign().campaignTemplate.attributes.map((a: AttributeTemplate) => {
       return {
         label: a.name,
         value: a.id
@@ -77,7 +77,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   });
 
   public skills = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.skills.map((a: SkillTemplateModel) => {
+    return this.campaign().campaignTemplate.skills.map((a: SkillTemplate) => {
       return {
         label: a.name,
         value: a.id
@@ -85,7 +85,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     });
   });
   public minorSkills = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplateModel) => [...s.minorSkills.map((a: MinorSkillsTemplateModel) => {
+    return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) => [...s.minorSkills.map((a: MinorSkillsTemplate) => {
       return {
         label: a.name,
         value: a.id
@@ -93,7 +93,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     })]);
   });
   public defenses = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.defenses.map((a: DefenseTemplateModel) => {
+    return this.campaign().campaignTemplate.defenses.map((a: DefenseTemplate) => {
       return {
         label: a.name,
         value: a.id
@@ -101,7 +101,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     });
   });
   public lifes = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.lifes.map((a: LifeTemplateModel) => {
+    return this.campaign().campaignTemplate.lifes.map((a: LifeTemplate) => {
       return {
         label: a.name,
         value: a.id
