@@ -94,7 +94,58 @@ export class CampaignTemplateComponent {
       this.isLoading = false;
     });
   }
+  init() {
+    this.form = getAsForm(this.campaign)
+    createForm(this.attributeForm, {
+      id: null,
+      name: null,
+    } as AttributeTemplate);
+    createForm(this.skillForm, {
+      id: null,
+      name: null,
+      minorSkills: []
+    } as SkillTemplate);
+    createForm(this.minorSkillForm, {
+      id: null,
+      name: null,
+      skillTemplateId: null
+    } as  MinorSkillsTemplate);
+    createForm(this.lifeForm, {
+      id: null,
+      name: null,
+      formula: null
+    } as LifeTemplate);
+    createForm(this.defenseForm, {
+      id: null,
+      name: null,
+      formula: null
+    } as DefenseTemplate);
 
+    this.attributeForm.get('id').setValue(uuidv4() as never);
+    this.skillForm.get('id').setValue(uuidv4() as never);
+    this.minorSkillForm.get('id').setValue(uuidv4() as never);
+    this.lifeForm.get('id').setValue(uuidv4() as never);
+    this.defenseForm.get('id').setValue(uuidv4() as never);
+
+    this.buildSkills();
+    this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
+    if (this.disabled) {
+      this.form.disable();
+      this.attributeForm.disable();
+      this.skillForm.disable();
+      this.minorSkillForm.disable();
+      this.skillForm.valueChanges.subscribe(() => {
+        console.log(this.skillForm.disabled)
+      })
+      this.lifeForm.disable();
+      this.skillsMapping.forEach(skill => {
+        skill.controls.forEach((control) => {
+          control.disable();
+        })
+      })
+      this.form.get('name').enable();
+    }
+  }
 
   public addAttribute() {
     if (this.disabled) return;
@@ -297,53 +348,6 @@ export class CampaignTemplateComponent {
       });
   }
 
-  init() {
-    this.form = getAsForm(this.campaign)
-    createForm(this.attributeForm, {
-      id: null,
-      name: null,
-    } as AttributeTemplate);
-    createForm(this.skillForm, {
-      id: null,
-      name: null,
-      minorSkills: []
-    } as SkillTemplate);
-    createForm(this.minorSkillForm, {
-      id: null,
-      name: null,
-      skillTemplateId: null
-    } as  MinorSkillsTemplate);
-    createForm(this.lifeForm, {
-      id: null,
-      name: null,
-      formula: null
-    } as LifeTemplate);
-    createForm(this.defenseForm, {
-      id: null,
-      name: null,
-      formula: null
-    } as DefenseTemplate);
-
-    this.attributeForm.get('id').setValue(uuidv4() as never);
-    this.skillForm.get('id').setValue(uuidv4() as never);
-    this.minorSkillForm.get('id').setValue(uuidv4() as never);
-    this.lifeForm.get('id').setValue(uuidv4() as never);
-    this.defenseForm.get('id').setValue(uuidv4() as never);
-
-    this.buildSkills();
-    this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
-    if (this.disabled) {
-      this.form.disable();
-      this.attributeForm.disable();
-      this.skillForm.disable();
-      this.minorSkillForm.disable();
-      this.skillForm.valueChanges.subscribe(() => {
-        console.log(this.skillForm.disabled)
-      })
-      this.lifeForm.disable();
-      this.form.get('name').enable();
-    }
-  }
   private buildSkills() {
     this.campaign.campaignTemplate.attributes.forEach((attribute: AttributeTemplate) => {
       this.skillsMapping.set(attribute.id, new FormArray<any>([]));

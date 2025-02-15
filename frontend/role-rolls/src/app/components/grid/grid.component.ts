@@ -27,13 +27,13 @@ import { InputText } from 'primeng/inputtext';
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss'
 })
-export class GridComponent<T extends Entity> {
-  data: T[] = [];
+export class GridComponent<T extends Entity, TView extends Entity> {
+  data: TView[] = [];
   public columns = input<RRColumns[]>();
-  @Input() service!: BaseCrudService<T>;
+  @Input() service!: BaseCrudService<T, TView>;
   @Input() refresh!: EventEmitter<void>;
   @Input() headerActions: RRHeaderAction[] = [];
-  @Input() actions: RRTableAction<T>[] = [];
+  @Input() actions: RRTableAction<TView>[] = [];
   totalCount: number = 0;
   loading = true;
   first = 0;
@@ -41,7 +41,7 @@ export class GridComponent<T extends Entity> {
     return {width: `${this.actions.length * 3}%`}
   }
 
-  @Output() rowSelectedEvent = new EventEmitter<T>();
+  @Output() rowSelectedEvent = new EventEmitter<TView>();
   constructor(
     private dialogService: DialogService,
     private router: Router,
@@ -68,14 +68,14 @@ export class GridComponent<T extends Entity> {
       };
     }*/
   }
-  private updateData(entity: T) {
+  private updateData(entity: TView) {
     const index = this.data.findIndex(e => e.id === entity.id);
     this.data[index] = entity;
   }
-  private addData(entity: T) {
+  private addData(entity: TView) {
     this.data.push(entity);
   }
-  private deleteData(entity: T) {
+  private deleteData(entity: TView) {
     const index = this.data.findIndex(e => e.id === entity.id);
     this.data = this.data.filter(e => e.id !== entity.id);
   }
@@ -84,7 +84,7 @@ export class GridComponent<T extends Entity> {
       filter,
       skipCount,
       maxResultCount
-    } as GetListInput).subscribe((response: PagedOutput<T>) => {
+    } as GetListInput).subscribe((response: PagedOutput<TView>) => {
       this.data = response.items;
       this.totalCount = safeCast<number>(response.totalCount);
       this.loading = false;
@@ -105,7 +105,7 @@ export class GridComponent<T extends Entity> {
     this.getList('', (event.first ?? 0) / (event.rows ?? 0), event.rows ?? 0);
   }
 
-  rowSelected(event: T) {
+  rowSelected(event: TView) {
     this.rowSelectedEvent.emit(event);
   }
 }

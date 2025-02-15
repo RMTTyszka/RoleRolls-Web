@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
 import { GridComponent, RRColumns, RRHeaderAction } from '../../components/grid/grid.component';
 import { safeCast } from '../../tokens/utils.funcs';
+import { CampaignView } from '@app/models/campaigns/campaign-view';
 
 @Component({
   selector: 'rr-campaign-list',
@@ -32,9 +33,9 @@ export class CampaignListComponent {
   public displayInsertInvitationCode: boolean = false;
   public invitationCode: string = '';
   public headerActions: RRHeaderAction[] = [];
-  public rowActions: RRAction<Campaign>[] = [];
+  public rowActions: RRAction<CampaignView>[] = [];
   public refreshGrid = new EventEmitter<void>();
-  public rowSelected = (campaign: Campaign) => this.toCampaignDetails(campaign);
+  public rowSelected = (campaign: CampaignView) => this.toCampaignDetails(campaign);
   public columns: RRColumns[] = [];
   constructor(
     public service: CampaignsService,
@@ -46,15 +47,19 @@ export class CampaignListComponent {
       {
         header: 'Name',
         property: 'name'
-      } as RRColumns
+      } as RRColumns,
+      {
+        header: 'Template',
+        property: 'templateName'
+      } as RRColumns,
     ];
     this.rowActions.push(
       {
         icon: 'pi pi-arrow-circle-right',
-        callBack: ((entity: Campaign) => {
+        callBack: ((entity: CampaignView) => {
           this.router.navigate([`pocket/campaigns/${entity.id}`]);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return true;
         }),
         csClass: null,
@@ -62,10 +67,10 @@ export class CampaignListComponent {
       },
       {
         icon: 'pi pi-times-circle',
-        callBack: ((entity: Campaign) => {
+        callBack: ((entity: CampaignView) => {
           this.delete(entity);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return this.isMaster(entity.masterId);
         }),
         csClass: 'p-button-danger',
@@ -73,10 +78,10 @@ export class CampaignListComponent {
       },
       {
         icon: 'pi pi-plus',
-        callBack: ((entity: Campaign, target: any) => {
+        callBack: ((entity: CampaignView, target: any) => {
           this.invitePlayer(entity, target);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return this.isMaster(entity.masterId);
         }),
         csClass: null,
@@ -92,7 +97,7 @@ export class CampaignListComponent {
         csClass: null,
       } as RRHeaderAction,
       {
-        callBack: () => this.toCampaignDetails({} as Campaign),
+        callBack: () => this.toCampaignDetails({} as CampaignView),
         icon: 'pi pi-plus',
         condition: () => true,
         tooltip: 'Create',
@@ -102,10 +107,10 @@ export class CampaignListComponent {
     this.rowActions.push(
       {
         icon: 'pi pi-arrow-circle-right',
-        callBack: ((entity: Campaign) => {
+        callBack: ((entity: CampaignView) => {
           this.router.navigate([`pocket/campaigns/${entity.id}`]);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return true;
         }),
         csClass: null,
@@ -113,10 +118,10 @@ export class CampaignListComponent {
       },
       {
         icon: 'pi pi-times-circle',
-        callBack: ((entity: Campaign) => {
+        callBack: ((entity: CampaignView) => {
           this.delete(entity);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return this.isMaster(entity.masterId);
         }),
         csClass: 'p-button-danger',
@@ -124,10 +129,10 @@ export class CampaignListComponent {
       },
       {
         icon: 'pi pi-plus',
-        callBack: ((entity: Campaign, target: any) => {
+        callBack: ((entity: CampaignView, target: any) => {
           this.invitePlayer(entity, target);
         }),
-        condition: ((entity: Campaign) => {
+        condition: ((entity: CampaignView) => {
           return this.isMaster(entity.masterId);
         }),
         csClass: null,
@@ -153,7 +158,7 @@ export class CampaignListComponent {
       this.refreshGrid.next();
     });
   }
-  private invitePlayer(entity: Campaign, target: any) {
+  private invitePlayer(entity: CampaignView, target: any) {
     this.service.invitePlayer(entity.id).subscribe((code: string) => {
       this.invitationCode = code;
       this.invitationCodeOverlay.toggle(event, target);
@@ -162,14 +167,14 @@ export class CampaignListComponent {
   private isMaster(userId: string): boolean {
     return this.authenticationService.userId === userId;
   }
-  private delete(entity: Campaign): void {
+  private delete(entity: CampaignView): void {
     this.confirmationService.confirm({
       accept: () => this.service.delete(entity.id).subscribe(() => {}),
       header: 'Confirm delete?'
     });
   }
 
-  private toCampaignDetails(campaign: Campaign) {
+  private toCampaignDetails(campaign: CampaignView) {
     const id = campaign.id ?? 'new';
     this.router.navigate([`campaigns/${id}`]);
   }

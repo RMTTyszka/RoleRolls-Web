@@ -5,7 +5,7 @@ import {map, tap, switchMap} from 'rxjs/operators';
 import { Entity } from '../../models/Entity.model';
 import { RR_API } from '../../tokens/loh.api';
 import { PagedOutput } from '../../models/PagedOutput';
-export abstract class BaseCrudService<T extends Entity> {
+export abstract class BaseCrudService<T extends Entity, TView extends Entity> {
   constructor(
     protected http: HttpClient,
   ) {
@@ -18,14 +18,14 @@ export abstract class BaseCrudService<T extends Entity> {
   entityDeleted = new Subject<string>();
   entityCreated = new Subject<T>();
 
-  getList(query: { [key: string]: any }): Observable<PagedOutput<T>> {
+  getList(query: { [key: string]: any }): Observable<PagedOutput<TView>> {
     const params = Object.entries(query).reduce((httpParams, [key, value]) => {
       if (value !== undefined && value !== null) {
         return httpParams.set(key, value.toString());
       }
       return httpParams;
     }, new HttpParams());
-    return this.http.get<PagedOutput<T>>(`${this.serverUrl}${this.path}`, { params });
+    return this.http.get<PagedOutput<TView>>(`${this.serverUrl}${this.path}`, { params });
   }
 
   get(id: string): Observable<T> {

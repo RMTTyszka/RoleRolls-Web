@@ -30,11 +30,12 @@ import {
   MinorSkillsTemplate,
   SkillTemplate
 } from 'app/campaigns/models/campaign.template';
+import { CampaignView } from '@app/models/campaigns/campaign-view';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampaignsService extends BaseCrudService<Campaign>{
+export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
   public path = 'campaigns';
   constructor(
     http: HttpClient,

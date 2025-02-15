@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Campaigns.Dtos;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Authentication;
 using RoleRollsPocketEdition.Core.Dtos;
@@ -34,7 +35,7 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
             return await _campaignsService.GetAsync(campaignId);
         }    
         [HttpGet()]
-        public async Task<PagedResult<CampaignModel>> GetListAsync([FromQuery] PagedRequestInput input)
+        public async Task<PagedResult<CampainView>> GetListAsync([FromQuery] PagedRequestInput input)
         {
             return await _campaignsService.GetListAsync(input);
         }
