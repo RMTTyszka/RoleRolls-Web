@@ -32,6 +32,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public campaign = input.required<Campaign>();
   public propertyType = input.required<PropertyType[]>();
   public placeholder = input<string>();
+  public disabled: boolean;
 
   public properties = computed<RROption<string>[]>(() => {
     const propertiesTypes = this.propertyType();
@@ -85,12 +86,19 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     });
   });
   public minorSkills = computed<RROption<string>[]>(() => {
-    return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) => [...s.minorSkills.map((a: MinorSkillsTemplate) => {
-      return {
+    return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) =>
+      s.minorSkills.map((a: MinorSkillsTemplate) => ({
         label: a.name,
         value: a.id
-      } as RROption<string>;
-    })]);
+      } as RROption<string>))
+    ).concat(
+      this.campaign().campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
+        s.minorSkills.map((a: MinorSkillsTemplate) => ({
+          label: a.name,
+          value: a.id
+        } as RROption<string>))
+      )
+    );
   });
   public defenses = computed<RROption<string>[]>(() => {
     return this.campaign().campaignTemplate.defenses.map((a: DefenseTemplate) => {
@@ -119,9 +127,9 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     if (val !== this._value) {
       this._value = val;
       if (this.onChange) {
-        this.onChange(val); // Notifica o Angular sobre a mudança
+        this.onChange(val);
       }
-      this.onTouched(); // Marca o campo como tocado
+      this.onTouched();
     }
   }
   onChange = (value: string) => {
@@ -145,4 +153,8 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
 }

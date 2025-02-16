@@ -12,6 +12,7 @@ import { NgIf } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {AttributeTemplate, DefenseTemplate} from '@app/campaigns/models/campaign.template';
+import { AuthenticationService } from '@app/authentication/services/authentication.service';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
@@ -34,8 +35,13 @@ export class CampaignItemConfigurationComponent {
   public defenses: any[] = [];
   public attributes: any[] = [];
   public subcriptionManager = new SubscriptionManager();
+  private disabled: boolean;
+  public get default() {
+    return this.campaign.campaignTemplate.default;
+  }
   constructor(private itemConfigurationService: ItemConfigurationService,
               private route: ActivatedRoute,
+              public authService: AuthenticationService,
               ) {
   }
 
@@ -44,10 +50,16 @@ export class CampaignItemConfigurationComponent {
       this.campaign = data['campaign'];
       this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration);
       this.populateOptions();
+      this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
       this.loaded = true;
-      this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
-        await this.save();
-      }));
+      if (!this.disabled) {
+        this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
+          await this.save();
+        }));
+      } else {
+        this.form.disable();
+      }
+
     });
 
   }

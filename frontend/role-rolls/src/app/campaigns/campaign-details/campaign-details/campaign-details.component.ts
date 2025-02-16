@@ -24,11 +24,13 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     TabList,
     Tab,
     TabPanel,
-    TabPanel
+    TabPanel,
+    NgIf
   ],
   styleUrl: './campaign-details.component.scss'
 })
 export class CampaignDetailsComponent {
+  activeTab = '0';
   public action = EditorAction.create;
   public actionEnum = EditorAction;
   public entityId!: string;
