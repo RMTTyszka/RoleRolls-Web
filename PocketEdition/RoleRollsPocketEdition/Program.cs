@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using RoleRollsPocketEdition.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Abstractions;
@@ -37,7 +38,11 @@ builder.Services.AddControllers(op =>
     {
         op.SuppressAsyncSuffixInActionNames = false;
     })
-    .AddNewtonsoftJson();
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+        options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache(op =>
 {

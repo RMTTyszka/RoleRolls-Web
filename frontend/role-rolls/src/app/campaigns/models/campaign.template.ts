@@ -17,6 +17,8 @@ export class CampaignTemplate implements Entity {
   public creatureTypes: CreatureType[] = [];
   public default: boolean = false;
   itemConfiguration: ItemConfigurationModel;
+  creatureTypeTitle: string;
+  archetypeTitle: string;
 }
 
 

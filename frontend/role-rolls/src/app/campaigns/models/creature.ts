@@ -1,7 +1,7 @@
 import {Equipment} from 'app/campaigns/models/equipment';
 import { Entity } from '../../models/Entity.model';
 import { Inventory } from 'app/campaigns/models/inventory';
-import { CreatureType } from './CreatureType';
+import { CreatureCategory } from 'app/campaigns/models/CreatureCategory';
 
 
 
@@ -12,7 +12,7 @@ export class Creature implements Entity {
   public skills: Skill[] = [];
   public lifes: Life[] = [];
   public defenses: Defense[] = [];
-  public creatureType!: CreatureType;
+  public creatureType!: CreatureCategory;
   public inventory: Inventory = new Inventory();
   public equipment: Equipment = new Equipment();
   public ownerId!: string;

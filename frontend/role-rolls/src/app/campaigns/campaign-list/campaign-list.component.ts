@@ -4,7 +4,7 @@ import { Popover } from 'primeng/popover';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs';
+import {finalize, Observable} from 'rxjs';
 import { Campaign } from '../models/campaign';
 import { RRAction } from '../../models/RROption';
 import { CampaignsService } from '../services/campaigns.service';
@@ -13,6 +13,8 @@ import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
 import { GridComponent, RRColumns, RRHeaderAction } from '../../components/grid/grid.component';
 import { safeCast } from '../../tokens/utils.funcs';
 import { CampaignView } from '@app/models/campaigns/campaign-view';
+import {GetListInput} from '@app/tokens/get-list-input';
+import {PagedOutput} from '@app/models/PagedOutput';
 
 @Component({
   selector: 'rr-campaign-list',
@@ -142,6 +144,9 @@ export class CampaignListComponent {
   }
 
   ngOnInit(): void {
+  }
+  getList = (input: GetListInput) => {
+    return this.service.getList(input);
   }
   public toggleAcceptInvitation() {
     this.displayInsertInvitationCode = true;

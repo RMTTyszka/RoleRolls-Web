@@ -229,9 +229,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
             await dbContext.CreatureTypes.AddAsync(creatureType);
         }
 
-        public async Task UpdateCreatureType(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)
+        public async Task UpdateCreatureType(Guid creatureTypeId, CreatureTypeModel creatureTypeModel,
+            RoleRollsDbContext dbContext)
         {
-            var creatureType = CreatureTypes.First(creatureType => creatureType.Id == creatureTypeModel.Id);
+            var creatureType = CreatureTypes.First(creatureType => creatureType.Id == creatureTypeId);
             await creatureType.Update(creatureTypeModel, dbContext);
         }
 
@@ -246,6 +247,13 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             var archetype = Archetypes.First(e => e.Id == archetypeModel.Id);
             await archetype.Update(archetypeModel, dbContext);
+        }
+
+        public void RemoveCreatureType(Guid creatureTypeId, RoleRollsDbContext dbContext)
+        {
+            var defense = CreatureTypes.First(defense => defense.Id == creatureTypeId);
+            CreatureTypes.Remove(defense);
+            dbContext.CreatureTypes.Remove(defense);
         }
     }
 }

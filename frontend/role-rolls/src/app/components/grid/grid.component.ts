@@ -1,4 +1,4 @@
-import { Component, createComponent, EventEmitter, input, Input, Output, Type } from '@angular/core';
+import {Component, createComponent, effect, EventEmitter, input, Input, Output, Type} from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { Button, ButtonDirective, ButtonIcon } from 'primeng/button';
 import { BaseCrudService } from '../../services/base-service/base-crud-service';
 import { GetListInput } from '../../tokens/get-list-input';
 import { InputText } from 'primeng/inputtext';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'rr-grid',
@@ -30,8 +31,9 @@ import { InputText } from 'primeng/inputtext';
 export class GridComponent<T extends Entity, TView extends Entity> {
   data: TView[] = [];
   public columns = input<RRColumns[]>();
-  @Input() service!: BaseCrudService<T, TView>;
+  @Input() getListCallback!: (input: GetListInput) => Observable<PagedOutput<TView>>;
   @Input() refresh!: EventEmitter<void>;
+  public refreshList = input<boolean>();
   @Input() headerActions: RRHeaderAction[] = [];
   @Input() actions: RRTableAction<TView>[] = [];
   totalCount: number = 0;
@@ -45,7 +47,13 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   constructor(
     private dialogService: DialogService,
     private router: Router,
-  ) { }
+  ) {
+    effect(() => {
+      if (this.refreshList()) {
+        this.getList();
+      }
+    });
+  }
 
   ngOnInit() {
     if (this.refresh) {
@@ -80,7 +88,7 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     this.data = this.data.filter(e => e.id !== entity.id);
   }
   getList(filter?: string, skipCount?: number, maxResultCount?: number) {
-    this.service.getList({
+    this.getListCallback({
       filter,
       skipCount,
       maxResultCount
@@ -124,7 +132,7 @@ export interface RRTableAction<T> {
 }
 export interface RRHeaderAction {
   icon: string;
-  csClass: string | null | undefined;
+  csClass?: string | null | undefined;
   tooltip: string;
   callBack: (target: any) => void;
   condition: () => boolean;

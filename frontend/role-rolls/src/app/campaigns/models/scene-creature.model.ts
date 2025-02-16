@@ -1,7 +1,7 @@
-import { CreatureType } from './CreatureType';
+import { CreatureCategory } from 'app/campaigns/models/CreatureCategory';
 
 export class SceneCreature {
   public creatureId!: string;
-  public creatureType!: CreatureType;
+  public creatureType!: CreatureCategory;
   public hidden!: boolean;
 }

@@ -17,6 +17,8 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         {
             Id = template.Id;
             Name = template.Name;
+            CreatureTypeTitle = template.CreatureTypeTitle;
+            ArchetypeTitle = template.ArchetypeTitle;
             TotalAttributePoints = template.TotalAttributePoints;
             MaxAttributePoints = template.MaxAttributePoints;
             TotalSkillsPoints = template.TotalSkillsPoints;
@@ -32,6 +34,10 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
 
         }
+
+        public string? ArchetypeTitle { get; set; }
+
+        public string? CreatureTypeTitle { get; set; }
 
         public List<CreatureTypeModel> CreatureTypes { get; set; } = [];
 

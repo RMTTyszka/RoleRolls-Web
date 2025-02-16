@@ -8,6 +8,7 @@ import { CampaignItensComponent } from '../campaign-itens/campaign-itens.compone
 import { CampaignTemplateComponent } from '../campaign-template/campaign-template.component';
 import { NgIf } from '@angular/common';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import {CreatureTypesComponent} from '@app/campaigns/campaign-details/creature-types/creature-types.component';
 
 @Component({
   selector: 'rr-campaign-details',
@@ -25,7 +26,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     Tab,
     TabPanel,
     TabPanel,
-    NgIf
+    NgIf,
+    CreatureTypesComponent
   ],
   styleUrl: './campaign-details.component.scss'
 })

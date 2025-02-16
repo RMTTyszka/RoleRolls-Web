@@ -6,7 +6,7 @@ using RoleRollsPocketEdition.Templates.Services;
 namespace RoleRollsPocketEdition.Templates.Controllers
 {
     [ApiController]
-    [Route("creature-templates")]
+    [Route("campaign-templates")]
     public class TemplateController : ControllerBase
     {
 

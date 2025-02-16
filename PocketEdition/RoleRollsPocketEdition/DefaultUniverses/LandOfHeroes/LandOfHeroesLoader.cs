@@ -313,7 +313,7 @@ public class LandOfHeroesLoader : IStartupTask
             {
                 dbCreature.Name = codeCreature.Name;
                 dbCreature.Description = codeCreature.Description;
-                await campaignFromDb.UpdateCreatureType(new CreatureTypeModel(codeCreature), dbContext);
+                await campaignFromDb.UpdateCreatureType(codeCreature.Id, new CreatureTypeModel(codeCreature), dbContext);
             }
         }
 

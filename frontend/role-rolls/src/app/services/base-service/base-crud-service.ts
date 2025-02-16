@@ -10,7 +10,7 @@ export abstract class BaseCrudService<T extends Entity, TView extends Entity> {
     protected http: HttpClient,
   ) {
   }
-  public abstract path: string;
+  public abstract path(): string;
   onSaveAction = new EventEmitter<boolean>();
   onEntityChange = new Subject<T>();
   serverUrl = RR_API.backendUrl;
@@ -25,16 +25,16 @@ export abstract class BaseCrudService<T extends Entity, TView extends Entity> {
       }
       return httpParams;
     }, new HttpParams());
-    return this.http.get<PagedOutput<TView>>(`${this.serverUrl}${this.path}`, { params });
+    return this.http.get<PagedOutput<TView>>(`${this.serverUrl}${this.path()}`, { params });
   }
 
   get(id: string): Observable<T> {
-    return this.http.get<T>(this.serverUrl + this.path + `/${id}`);
+    return this.http.get<T>(this.serverUrl + this.path() + `/${id}`);
   }
 
   create(entity: T): Observable<T> {
     const preparedEntity = this.beforeCreate(entity);
-    return this.http.post<never>(`${this.serverUrl}${this.path}`, preparedEntity).pipe(
+    return this.http.post<never>(`${this.serverUrl}${this.path()}`, preparedEntity).pipe(
       switchMap(() =>
         this.get(preparedEntity.id).pipe(
           tap((retrievedEntity) => {
@@ -48,19 +48,19 @@ export abstract class BaseCrudService<T extends Entity, TView extends Entity> {
     return entity;
   }
   update(entity: T): Observable<never> {
-    return this.http.put<never>( this.serverUrl + this.path + `/${entity.id}`, entity).pipe(
+    return this.http.put<never>( this.serverUrl + this.path() + `/${entity.id}`, entity).pipe(
       tap(() => {
           this.entityUpdated.next(entity);
       }));
   }
   delete(id: string): Observable<never> {
-    return this.http.delete<never>(this.serverUrl + this.path + `/${id}`).pipe(
+    return this.http.delete<never>(this.serverUrl + this.path() + `/${id}`).pipe(
       tap(() => {
           this.entityDeleted.next(id)
       })
     );
   }
   protected get completePath(): string {
-    return this.serverUrl + this.path;
+    return this.serverUrl + this.path();
   }
 }

@@ -1,11 +1,11 @@
 import {HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
 import { Campaign } from '../models/campaign';
 import {v4 as uuidv4} from 'uuid';
-import { CreatureType } from '../models/CreatureType';
+import { CreatureCategory } from 'app/campaigns/models/CreatureCategory';
 import { Creature } from 'app/campaigns/models/creature';
 import { TakeDamageApiInput } from '../models/TakeDamageApiInput';
 import { CampaignScene } from '../models/campaign-scene-model';
@@ -31,17 +31,22 @@ import {
   SkillTemplate
 } from 'app/campaigns/models/campaign.template';
 import { CampaignView } from '@app/models/campaigns/campaign-view';
+import {RR_API} from '@app/tokens/loh.api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
-  public path = 'campaigns';
+export class CampaignsService {
+  public path() {
+  return 'campaigns'
+};
+  protected get completePath(): string {
+    return RR_API.backendUrl + this.path();
+  }
   constructor(
-    http: HttpClient,
+    private http: HttpClient,
     private authenticationService: AuthenticationService,
   ) {
-    super(http)
    }
 
    public getNew(): Observable<Campaign> {
@@ -56,6 +61,32 @@ export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
     } as Campaign;
       return of<Campaign>(campaignModel);
    }
+
+  getList(query: { [key: string]: any }): Observable<PagedOutput<CampaignView>> {
+    const params = Object.entries(query).reduce((httpParams, [key, value]) => {
+      if (value !== undefined && value !== null) {
+        return httpParams.set(key, value.toString());
+      }
+      return httpParams;
+    }, new HttpParams());
+    return this.http.get<PagedOutput<CampaignView>>(`${RR_API.backendUrl}${this.path()}`, { params });
+  }
+  get(id: string): Observable<Campaign> {
+    return this.http.get<Campaign>(RR_API.backendUrl + this.path() + `/${id}`);
+  }
+  create(entity: Campaign): Observable<Campaign> {
+    return this.http.post<never>(`${RR_API.backendUrl}${this.path()}`, entity).pipe(
+      switchMap(() =>
+        this.get(entity.id)
+      )
+    );
+  }
+  update(entity: Campaign): Observable<never> {
+    return this.http.put<never>( RR_API.backendUrl + this.path() + `/${entity.id}`, entity);
+  }
+  delete(id: string): Observable<never> {
+    return this.http.delete<never>(RR_API.backendUrl + this.path() + `/${id}`);
+  }
 
    public addAttribute(campaignId: string, attribute: AttributeTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributes`, attribute);
@@ -118,12 +149,10 @@ export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
     return this.http.delete<never>(`${this.completePath}/${campaignId}/defenses/${defenseId}`);
    }
 
-
-
    public getCreatureTemplate(id: string): Observable<CampaignTemplate> {
-    return this.http.get<CampaignTemplate>(`${this.serverUrl}creature-templates/${id}`);
+    return this.http.get<CampaignTemplate>(`${RR_API.backendUrl}creature-templates/${id}`);
   }
-  public getCreatures(campaignId: string, creatureType: CreatureType): Observable<Creature[]> {
+  public getCreatures(campaignId: string, creatureType: CreatureCategory): Observable<Creature[]> {
     const params = new HttpParams().set('creatureType', creatureType)
     return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/creatures`, {
       params
@@ -132,7 +161,7 @@ export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
   public getCreature(campaignId: string, creatureId: string): Observable<Creature> {
     return this.http.get<Creature>(`${this.completePath}/${campaignId}/creatures/${creatureId}`);
   }
-  public instantiateNewCreature(campaignId: string, creatureType: CreatureType):  Observable<Creature> {
+  public instantiateNewCreature(campaignId: string, creatureType: CreatureCategory):  Observable<Creature> {
     const params = new HttpParams().set('creatureType', creatureType)
     return this.http.get<Creature>(`${this.completePath}/${campaignId}/creatures/new`, {
       params
@@ -161,16 +190,16 @@ export class CampaignsService extends BaseCrudService<Campaign, CampaignView>{
   public removeScene(campaignId: string, sceneId: string): Observable<CampaignScene> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}`);
   }
-  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureType): Observable<Creature[]> {
+  public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureCategory): Observable<Creature[]> {
     const params = new HttpParams().set('creatureType', creatureType);
     return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
   public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    input.creatureType = CreatureType.Hero;
+    input.creatureType = CreatureCategory.Hero;
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public addMonsterToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    input.creatureType = CreatureType.Monster;
+    input.creatureType = CreatureCategory.Monster;
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public removeCreatureFromScene(campaignId: string, sceneId: string, creatureId: string) {
