@@ -42,7 +42,12 @@ builder.Services.AddControllers(op =>
     {
         options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
-    });
+    })
+    .AddMvcOptions(options =>
+    {
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+            _ => "The field is required.");
+    });;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache(op =>
 {

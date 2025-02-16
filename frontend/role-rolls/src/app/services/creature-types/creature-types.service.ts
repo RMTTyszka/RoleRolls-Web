@@ -11,7 +11,7 @@ import {RR_API} from '@app/tokens/loh.api';
 })
 export class CreatureTypesService {
   public path(templateId: string): string {
-    return `  campaign-templates/${templateId}/creature-types`;
+    return `campaign-templates/${templateId}/creature-types`;
   };
 
   constructor(

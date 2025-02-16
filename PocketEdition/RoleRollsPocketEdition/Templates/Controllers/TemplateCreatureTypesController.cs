@@ -9,7 +9,7 @@ using RoleRollsPocketEdition.Templates.Services;
 namespace RoleRollsPocketEdition.Templates.Controllers
 {
     [ApiController]
-    [Route("creature-templates/{templateId:guid}/creature-types")]
+    [Route("campaign-templates/{templateId:guid}/creature-types")]
     public class TemplateCreatureTypesController : ControllerBase
     {
 

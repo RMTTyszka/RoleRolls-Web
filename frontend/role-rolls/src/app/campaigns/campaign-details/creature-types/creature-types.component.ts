@@ -36,6 +36,7 @@ export class CreatureTypesComponent {
               private dialogService: DialogService,
               public creatureTypeService: CreatureTypesService) {
     this.headerActions = this.buildHeaderActions();
+    this.columns = this.buildColumns();
   }
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -63,5 +64,12 @@ export class CreatureTypesComponent {
         } as DynamicDialogConfig),
       } as RRHeaderAction
     ];
+  }
+
+  private buildColumns() {
+    return [{
+      header: 'Name',
+      property: 'name'
+    } as RRColumns];
   }
 }
