@@ -44,11 +44,22 @@ export class CreatureTypesComponent {
       this.isMaster = this.authenticationService.isMaster(this.campaign.masterId)
     });
   }
-  rowSelected($event: CreatureType) {
-
+  rowSelected(creatureType: CreatureType) {
+    this.openCreatureTypeDialog(creatureType);
   }
   getList = (input: GetListInput) => {
     return this.creatureTypeService.getList(this.campaign.campaignTemplate.id, input);
+  }
+  private openCreatureTypeDialog(creatureType: CreatureType): void {
+    this.dialogService.open(CreatureTypeEditorComponent, {
+      data: {
+        campaign: this.campaign,
+        creatureType: creatureType
+      },
+      position: 'right',
+      height: '100%',
+      width: '40vw',
+    } as DynamicDialogConfig)
   }
   private buildHeaderActions() {
     return [
@@ -56,12 +67,7 @@ export class CreatureTypesComponent {
         icon: 'pi pi-plus',
         condition: () => this.isMaster,
         tooltip: 'New',
-        callBack: () => this.dialogService.open(CreatureTypeEditorComponent, {
-          data: this.campaign,
-          position: 'right',
-          height: '100%',
-          width: '40vw'
-        } as DynamicDialogConfig),
+        callBack: () => this.openCreatureTypeDialog(null),
       } as RRHeaderAction
     ];
   }

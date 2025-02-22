@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" *ngIf="loaded">
   <p-fieldset [legend]="creatureTypeTitle">
     <div class="grid grid-cols-1 gap-4">
       <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>

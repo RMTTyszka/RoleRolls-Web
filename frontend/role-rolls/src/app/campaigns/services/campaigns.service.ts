@@ -57,7 +57,8 @@ export class CampaignsService {
       masterId: safeCast<string>(this.authenticationService.userId),
       copy: false,
       campaignTemplateId: null,
-      itemConfiguration: new ItemConfigurationModel()
+      itemConfiguration: new ItemConfigurationModel(),
+      isMaster: true
     } as Campaign;
       return of<Campaign>(campaignModel);
    }

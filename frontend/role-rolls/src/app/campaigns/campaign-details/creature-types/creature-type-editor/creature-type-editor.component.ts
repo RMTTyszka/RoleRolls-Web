@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -9,6 +9,8 @@ import {v4 as uuid} from 'uuid';
 import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
+import {NgIf} from '@angular/common';
+import {canEdit} from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-creature-type-editor',
@@ -16,39 +18,39 @@ import {Textarea} from 'primeng/textarea';
     ReactiveFormsModule,
     Fieldset,
     InputText,
-    Textarea
+    Textarea,
+    NgIf
   ],
   templateUrl: './creature-type-editor.component.html',
   styleUrl: './creature-type-editor.component.scss'
 })
 export class CreatureTypeEditorComponent {
-  form: FormGroup;
+  public loaded = false;
+  public form: FormGroup;
   public get creatureTypeTitle() {
-    return this.campaign.campaignTemplate.creatureTypeTitle
+    return this.campaign.campaignTemplate.creatureTypeTitle;
   }
   private campaign: Campaign;
-  private creatureType: CreatureType;
+  public creatureType: CreatureType;
   private action: EditorAction = EditorAction.create;
-
-
-  constructor(
-    private fb: FormBuilder,
-    private dialogConfig: DynamicDialogConfig,
-
-  ) {
-    this.campaign = dialogConfig.data as Campaign;
-    this.creatureType = dialogConfig.inputValues as CreatureType;
+  constructor(private dialogConfig: DynamicDialogConfig) {
+    this.campaign = dialogConfig.data.campaign as Campaign;
+    this.creatureType = dialogConfig.data.creatureType as CreatureType;
     if (this.creatureType) {
-      this.action = EditorAction.update
+      this.action = EditorAction.update;
     } else {
-      this.action = EditorAction.create
+      this.action = EditorAction.create;
       this.creatureType = {
         id: uuid(),
         name: '',
         bonuses: [],
-        description: ''
-      } as CreatureType
-      this.form = getAsForm(this.creatureType)
+        description: '',
+      };
     }
+    this.form = getAsForm(this.creatureType);
+    if (!canEdit(this.campaign)) {
+      this.form.disable();
+    }
+    this.loaded = true;
   }
 }
