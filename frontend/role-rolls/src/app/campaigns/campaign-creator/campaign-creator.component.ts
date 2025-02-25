@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { EditorAction } from "../../models/ModalEntityData";
+import { EditorAction } from "../../models/EntityActionData";
 import { Checkbox } from "primeng/checkbox";
 import { Fieldset } from "primeng/fieldset";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";

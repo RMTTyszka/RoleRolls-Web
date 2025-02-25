@@ -59,6 +59,7 @@ export class CreatureTypesComponent {
       position: 'right',
       height: '100%',
       width: '40vw',
+      focusOnShow: false,
     } as DynamicDialogConfig)
   }
   private buildHeaderActions() {

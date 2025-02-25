@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import { ItemTemplateModel } from '../../../models/ItemTemplateModel';
-import { EditorAction } from '../../../models/ModalEntityData';
+import { EditorAction } from '../../../models/EntityActionData';
 import { Campaign } from '../../models/campaign';
 
 @Injectable({

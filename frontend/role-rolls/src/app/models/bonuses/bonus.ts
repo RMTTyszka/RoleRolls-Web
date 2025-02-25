@@ -8,7 +8,7 @@ export interface Bonus {
   description: string;
 }
 
-enum BonusValueType {
+export enum BonusValueType {
   Dices = 0,
   Roll = 1
 }
@@ -16,6 +16,6 @@ enum BonusValueType {
 export interface Property {
 }
 
-enum BonusType {
+export enum BonusType {
   Innate = 0
 }

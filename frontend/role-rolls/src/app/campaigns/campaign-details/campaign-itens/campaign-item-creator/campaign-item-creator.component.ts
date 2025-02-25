@@ -6,7 +6,7 @@ import {
   WeaponCategory,
   WeaponTemplateModel
 } from '../../../../models/ItemTemplateModel';
-import { EditorAction } from '../../../../models/ModalEntityData';
+import { EditorAction } from '../../../../models/EntityActionData';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionManager } from '../../../../tokens/subscription-manager';

@@ -88,6 +88,9 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     this.data = this.data.filter(e => e.id !== entity.id);
   }
   getList(filter?: string, skipCount?: number, maxResultCount?: number) {
+    console.log(      filter,
+      skipCount,
+      maxResultCount)
     this.getListCallback({
       filter,
       skipCount,
@@ -109,6 +112,10 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
+    // TODO remove this on the future, its seems to be a primeng bug
+    if (!event || Object.keys(event).length === 0) {
+      return;
+    }
     this.loading = true;
     this.getList('', (event.first ?? 0) / (event.rows ?? 0), event.rows ?? 0);
   }

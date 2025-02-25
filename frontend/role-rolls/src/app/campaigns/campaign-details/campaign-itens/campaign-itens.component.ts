@@ -1,7 +1,7 @@
 import { Component, effect, Input, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RRColumns } from '../../../components/grid/grid.component';
-import { EditorAction } from '../../../models/ModalEntityData';
+import { EditorAction } from '../../../models/EntityActionData';
 import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '../../../models/ItemTemplateModel';
 import { RRAction } from '../../../models/RROption';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';

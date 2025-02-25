@@ -1,9 +1,9 @@
-import {Component, input} from '@angular/core';
+import { Component, computed, input, signal, WritableSignal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
 import {CreatureType} from '@app/models/creatureTypes/creature-type';
-import {EditorAction} from '@app/models/ModalEntityData';
+import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
 import {createForm, getAsForm} from '@app/tokens/EditorExtension';
 import {v4 as uuid} from 'uuid';
 import {Fieldset} from 'primeng/fieldset';
@@ -11,6 +11,10 @@ import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {NgIf} from '@angular/common';
 import {canEdit} from '@app/tokens/utils.funcs';
+import { BonusesComponent } from '@app/bonuses/bonuses/bonuses.component';
+import { CreatureTypesService } from '@services/creature-types/creature-types.service';
+import { Bonus } from '@app/models/bonuses/bonus';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'rr-creature-type-editor',
@@ -19,38 +23,62 @@ import {canEdit} from '@app/tokens/utils.funcs';
     Fieldset,
     InputText,
     Textarea,
-    NgIf
+    NgIf,
+    BonusesComponent
   ],
   templateUrl: './creature-type-editor.component.html',
   styleUrl: './creature-type-editor.component.scss'
 })
 export class CreatureTypeEditorComponent {
-  public loaded = false;
+  public loaded = signal(false);
   public form: FormGroup;
-  public get creatureTypeTitle() {
+  public campaign: Campaign;
+  public creatureType: WritableSignal<CreatureType>;
+  public bonuses = computed(() => this.creatureType().bonuses);
+  private action: EditorAction = EditorAction.create;
+
+  public get creatureTypeTitle(): string {
     return this.campaign.campaignTemplate.creatureTypeTitle;
   }
-  private campaign: Campaign;
-  public creatureType: CreatureType;
-  private action: EditorAction = EditorAction.create;
-  constructor(private dialogConfig: DynamicDialogConfig) {
+
+  constructor(private dialogConfig: DynamicDialogConfig,
+              private service: CreatureTypesService) {
     this.campaign = dialogConfig.data.campaign as Campaign;
-    this.creatureType = dialogConfig.data.creatureType as CreatureType;
-    if (this.creatureType) {
+    const creature = dialogConfig.data.creatureType as CreatureType;
+
+    if (creature) {
       this.action = EditorAction.update;
     } else {
       this.action = EditorAction.create;
-      this.creatureType = {
-        id: uuid(),
-        name: '',
-        bonuses: [],
-        description: '',
-      };
     }
-    this.form = getAsForm(this.creatureType);
+
+    this.creatureType = signal(creature ?? {
+      id: uuid(),
+      name: '',
+      bonuses: [],
+      description: '',
+    });
+
+    this.form = getAsForm(this.creatureType());
     if (!canEdit(this.campaign)) {
       this.form.disable();
     }
-    this.loaded = true;
+    this.loaded.set(true);
+  }
+
+  async onBonusUpdated(action: EntityActionData<Bonus>) {
+    switch (action.action) {
+      case EditorAction.create:
+        await firstValueFrom(this.service.addBonus(this.campaign.campaignTemplate.id, this.creatureType().id, action.entity));
+        break;
+      case EditorAction.delete:
+        await firstValueFrom(this.service.removeBonus(this.campaign.campaignTemplate.id, this.creatureType().id, action.entity.id));
+        break;
+      case EditorAction.update:
+        await firstValueFrom(this.service.updateBonus(this.campaign.campaignTemplate.id, this.creatureType().id, action.entity));
+        break;
+    }
+    this.creatureType.set(await firstValueFrom(this.service.getById(this.campaign.campaignTemplate.id, this.creatureType().id)));
   }
 }
+

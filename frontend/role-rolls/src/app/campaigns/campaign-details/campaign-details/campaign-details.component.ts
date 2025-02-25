@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EditorAction } from '../../../models/ModalEntityData';
+import { EditorAction } from '../../../models/EntityActionData';
 import { Campaign } from '../../models/campaign';
 import {
   CampaignItemConfigurationComponent
