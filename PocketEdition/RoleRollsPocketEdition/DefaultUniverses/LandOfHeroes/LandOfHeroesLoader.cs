@@ -113,7 +113,6 @@ public class LandOfHeroesLoader : IStartupTask
             await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes, _dbContext);
         }
 
-        var bonus = _dbContext.ChangeTracker.Entries().Select(e => e.Entity).OfType<Bonus>().ToList();
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 

@@ -311,6 +311,7 @@ const RrPrimengPreset = definePreset(Aura, {
         primary: {
           color: '#30596c',
           0: '{primary.color}',
+          50: '{surface.0}',
           100: '{primary.color}',
           200: '#30596c',
           300: '#30596c',

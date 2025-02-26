@@ -30,27 +30,13 @@ export class BonusesComponent {
   @Output() bonusUpdated = new EventEmitter<EntityActionData<Bonus>>();
   public bonuses = input<Bonus[]>();
   public bonusesSignal: WritableSignal<Bonus[]> = signal(this.bonuses() || []);
-  editedRows = new Set<string>(); // Armazena os IDs dos bônus editados
-
-
-
+  clonedBonuss: { [s: string]: Bonus } = {};
   constructor() {
     effect(() => {
       this.bonusesSignal.set(this.bonuses() || []);
     });
   }
-  onEditInit(bonus: Bonus) {
-    this.editedRows.add(bonus.id);
-  }
 
-  onEditSave(bonus: Bonus) {
-    this.editedRows.delete(bonus.id);
-    this.saveBonus(bonus);
-  }
-
-  onEditCancel(bonus: Bonus) {
-    this.editedRows.delete(bonus.id);
-  }
   public valueTypes = [
     { label: 'Dices', value: BonusValueType.Dices },
     { label: 'Roll', value: BonusValueType.Roll }
@@ -95,7 +81,19 @@ export class BonusesComponent {
 
     this.addBonus(newBonus);
   }
+  onRowEditInit(bonus: Bonus) {
+    this.clonedBonuss[bonus.id as string] = { ...bonus };
+  }
 
+  onRowEditSave(bonus: Bonus) {
+      delete this.clonedBonuss[bonus.id as string];
+      this.saveBonus(bonus);
+  }
+
+  onRowEditCancel(bonus: Bonus, index: number) {
+    this.bonusesSignal()[index] = this.clonedBonuss[bonus.id as string];
+    delete this.clonedBonuss[bonus.id as string];
+  }
   public deleteBonus(bonus: Bonus) {
     this.bonusesSignal.update((bonuses: Bonus[]) => bonuses.filter(b => b.id !== bonus.id));
     this.bonusUpdated.emit({

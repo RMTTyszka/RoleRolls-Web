@@ -88,9 +88,6 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     this.data = this.data.filter(e => e.id !== entity.id);
   }
   getList(filter?: string, skipCount?: number, maxResultCount?: number) {
-    console.log(      filter,
-      skipCount,
-      maxResultCount)
     this.getListCallback({
       filter,
       skipCount,

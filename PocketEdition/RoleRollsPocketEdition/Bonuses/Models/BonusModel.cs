@@ -23,5 +23,6 @@ public class BonusModel : IEntityDto
         Property = bonus.Property;
         Type = bonus.Type;
         Name = bonus.Name;
+        Description = bonus.Description;
     }
 }

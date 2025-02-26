@@ -4,6 +4,20 @@
   flex-grow: 1;
   min-height: 0;
 }
+:host ::ng-deep .bonuses-table .p-datatable-tbody > tr > td {
+  padding: 4px !important;
+}
+
+.p-datatable-thead > tr,
+.p-datatable-tbody > tr {
+  display: flex;
+}
+
+.p-datatable-thead > tr > th,
+.p-datatable-tbody > tr > td {
+  flex-grow: 1;
+}
+
 .table-container {
   display: flex;
   flex-direction: column;

@@ -54,5 +54,15 @@ public class CreatureType : Entity
         var bonus = new Bonus(bonusModel);
         Bonuses.Add(bonus);
         await dbContext.Bonus.AddAsync(bonus);
+    }    
+    public void UpdateBonus(BonusModel bonusModel)
+    {
+        var bonus = Bonuses.First(e => e.Id == bonusModel.Id);
+        bonus.Update(bonusModel);
+    }
+
+    public void RemoveBonuus(Guid bonusId)
+    {
+        Bonuses.RemoveAll(b => b.Id == bonusId);
     }
 }

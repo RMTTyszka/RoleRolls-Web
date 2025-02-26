@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Npgsql;
 using RoleRollsPocketEdition.Campaigns.Handlers;
 using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Abstractions;
@@ -16,12 +17,18 @@ using RoleRollsPocketEdition.Core.Configuration;
 using RoleRollsPocketEdition.Core.MIddlewares;
 using RoleRollsPocketEdition.Core.NotificationUpdate;
 using RoleRollsPocketEdition.Infrastructure;
+using Serilog;
 
 var RoleRollsPolicyOrigins = "rolerolls";
 var assembly = typeof(RoleRollsDbContext).Assembly;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: RoleRollsPolicyOrigins,
@@ -34,6 +41,7 @@ builder.Services.AddCors(options =>
                               .AllowCredentials();
                       });
 });
+
 builder.Services.AddControllers(op =>
     {
         op.SuppressAsyncSuffixInActionNames = false;
@@ -47,24 +55,27 @@ builder.Services.AddControllers(op =>
     {
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
             _ => "The field is required.");
-    });;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache(op =>
 {
     op.SizeLimit = null;
 });
+
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<RoleRollsDbContext>(options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("RoleRolls"), x => x.MigrationsAssembly(typeof(RoleRollsDbContext).Assembly.ToString()));
     });
+
 builder.Services.AddServices();
 builder.Services.AddTransientServices(typeof(Program).Assembly);
 builder.Services.AddScopedServices(typeof(Program).Assembly);
 builder.Services.AddStartupTasks(typeof(Program).Assembly);
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
+/*builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
 {
     options.Host = "localhost";
     options.Database = "RoleRolls";
@@ -72,13 +83,11 @@ builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
     options.Role = "postgres";
     options.Username = "postgres";
     options.Password = "123qwe";
-                  
-    // credentials to run migrations
     options.AdminUsername = "postgres";
     options.AdminPassword = "123qwe";
-    
-});
-builder.Services.AddMassTransit(configurador =>
+});*/
+
+/*builder.Services.AddMassTransit(configurador =>
 {
     configurador.AddConsumer<CampaignUpdatedHandler>();
     configurador.AddConsumer<DefenseTemplateUpdatedHandler>();
@@ -90,23 +99,16 @@ builder.Services.AddMassTransit(configurador =>
             r.Interval(5, TimeSpan.FromSeconds(5));
         });
     });
-    /*configurador.AddEntityFrameworkOutbox<RoleRollsDbContext>(o =>
-    {
-        o.UsePostgres();
-        o.UseBusOutbox();
-    });
-    configurador.AddTransactionalEnlistmentBus();*/
 });
-builder.Services.AddPostgresMigrationHostedService();
-/*builder.Services.AddHostedService<Worker>();*/
 
+builder.Services.AddPostgresMigrationHostedService();*/
 builder.Services.AddSignalR();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var migrator = scope.ServiceProvider.GetRequiredService<ISqlTransportDatabaseMigrator>();
+    /*var migrator = scope.ServiceProvider.GetRequiredService<ISqlTransportDatabaseMigrator>();
     await migrator.CreateSchemaIfNotExist(new SqlTransportOptions
     {
         Host = "localhost",
@@ -117,9 +119,11 @@ using (var scope = app.Services.CreateScope())
         Password = "123qwe",
         AdminUsername = "postgres",
         AdminPassword = "123qwe",
-    }); 
+    });*/
+
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
     dataContext.Database.Migrate();
+
     var startupTasks = scope.ServiceProvider.GetServices<IStartupTask>();
     foreach (var task in startupTasks)
     {

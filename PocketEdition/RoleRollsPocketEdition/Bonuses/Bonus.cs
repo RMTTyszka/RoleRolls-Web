@@ -36,6 +36,8 @@ public class Bonus : Entity
         Property = bonusModel.Property;
         ValueType = bonusModel.ValueType;
         Type = bonusModel.Type;
+        Description = bonusModel.Description;
+        Name = bonusModel.Name;
     }
 }
 

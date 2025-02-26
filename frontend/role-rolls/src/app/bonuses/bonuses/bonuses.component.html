@@ -7,62 +7,61 @@
   </div>
 </p-toolbar>
 <div class="table-container">
-<p-table #dt [value]="bonusesSignal()" editableTable dataKey="id" editMode="row" (onEditInit)="onEditInit($event.data)" (onEditCancel)="onEditCancel($event.data)">
-  <ng-template pTemplate="header">
+<p-table class="bonuses-table" #dt [value]="bonusesSignal()" dataKey="id" editMode="row">
+  <ng-template #header>
     <tr>
-      <th pEditableColumn>Name</th>
-      <th pEditableColumn>Description</th>
-      <th pEditableColumn>Value</th>
-      <th pEditableColumn>Value Type</th>
-      <th pEditableColumn>Type</th>
-      <th>Actions</th>
+      <th class="flex-[40]">Name</th>
+      <th class="flex-[40]">Description</th>
+      <th class="flex-[5]">Value</th>
+      <th class="flex-[5]">Value Type</th>
+      <th class="flex-[10]">Type</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-bonus let-editing="editing">
-    <tr>
-      <td pEditableColumn>
+  <ng-template #body let-bonus let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="bonus">
+      <td>
         <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input pInputText [(ngModel)]="bonus.name" />
+          <ng-template #input>
+            <input pInputText [(ngModel)]="bonus.name" class="w-full truncate"/>
           </ng-template>
-          <ng-template pTemplate="output">{{ bonus.name }}</ng-template>
+          <ng-template #output>{{ bonus.name }}</ng-template>
         </p-cellEditor>
       </td>
-      <td pEditableColumn>
+      <td>
         <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input pInputText [(ngModel)]="bonus.description" />
+          <ng-template #input>
+            <input pInputText [(ngModel)]="bonus.description" class="w-full truncate"/>
           </ng-template>
-          <ng-template pTemplate="output">{{ bonus.description }}</ng-template>
+          <ng-template #output>{{ bonus.description }}</ng-template>
         </p-cellEditor>
       </td>
-      <td pEditableColumn>
+      <td>
         <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input type="number" pInputText [(ngModel)]="bonus.value" />
+          <ng-template #input>
+            <input type="number" pInputText [(ngModel)]="bonus.value" class="w-full truncate"/>
           </ng-template>
-          <ng-template pTemplate="output">{{ bonus.value }}</ng-template>
+          <ng-template #output>{{ bonus.value }}</ng-template>
         </p-cellEditor>
       </td>
-      <td pEditableColumn>
+      <td>
         <p-cellEditor>
-          <ng-template pTemplate="input">
-            <p-dropdown [options]="valueTypes" [(ngModel)]="bonus.valueType"></p-dropdown>
+          <ng-template #input>
+            <p-dropdown [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-dropdown>
           </ng-template>
-          <ng-template pTemplate="output">{{ valueTypeLabel(bonus.valueType) }}</ng-template>
+          <ng-template #output>{{ valueTypeLabel(bonus.valueType) }}</ng-template>
         </p-cellEditor>
       </td>
-      <td pEditableColumn>
+      <td>
         <p-cellEditor>
-          <ng-template pTemplate="input">
-            <p-dropdown [options]="bonusTypes" [(ngModel)]="bonus.type"></p-dropdown>
+          <ng-template #input>
+            <p-dropdown [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-dropdown>
           </ng-template>
-          <ng-template pTemplate="output">{{ bonusTypeLabel(bonus.type) }}</ng-template>
+          <ng-template #output>{{ bonusTypeLabel(bonus.type) }}</ng-template>
         </p-cellEditor>
       </td>
       <td>
       <td>
-     <!-- <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2">
         <button
           *ngIf="!editing"
           pButton
@@ -94,14 +93,12 @@
           type="button"
           pCancelEditableRow
           icon="pi pi-times"
-          (click)="onRowEditCancel(bonus)"
+          (click)="onRowEditCancel(bonus, ri)"
           text
           rounded
           severity="secondary"
         ></button>
-      </div>-->
-      <button *ngIf="editedRows.has(bonus.id) || editing" pButton icon="pi pi-save" (click)="onEditSave(bonus)"></button>
-        <button pButton icon="pi pi-times" aria-label="Delete" (click)="deleteBonus(bonus)"></button>
+      </div>
       </td>
     </tr>
   </ng-template>

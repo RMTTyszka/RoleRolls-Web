@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CreatureTypesService} from '@services/creature-types/creature-types.service';
 import {Campaign} from '@app/campaigns/models/campaign';
 import {AuthenticationService} from '@app/authentication/services/authentication.service';
-import {DialogService, DynamicDialogConfig} from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import {
   CreatureTypeEditorComponent
 } from '@app/campaigns/campaign-details/creature-types/creature-type-editor/creature-type-editor.component';
@@ -28,6 +28,7 @@ export class CreatureTypesComponent {
   refreshGrid = signal<boolean>(true);
   private campaign: Campaign;
   isMaster: boolean;
+  private dialogRef: DynamicDialogRef<CreatureTypeEditorComponent>;
 
 
   constructor(private router: Router,
@@ -44,14 +45,19 @@ export class CreatureTypesComponent {
       this.isMaster = this.authenticationService.isMaster(this.campaign.masterId)
     });
   }
-  rowSelected(creatureType: CreatureType) {
-    this.openCreatureTypeDialog(creatureType);
-  }
   getList = (input: GetListInput) => {
     return this.creatureTypeService.getList(this.campaign.campaignTemplate.id, input);
   }
+  rowSelected(creatureType: CreatureType) {
+    this.openCreatureTypeDialog(creatureType);
+  }
+
   private openCreatureTypeDialog(creatureType: CreatureType): void {
-    this.dialogService.open(CreatureTypeEditorComponent, {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+
+    this.dialogRef = this.dialogService.open(CreatureTypeEditorComponent, {
       data: {
         campaign: this.campaign,
         creatureType: creatureType
@@ -60,7 +66,16 @@ export class CreatureTypesComponent {
       height: '100%',
       width: '40vw',
       focusOnShow: false,
-    } as DynamicDialogConfig)
+      closable: true,
+      closeOnEscape: true,
+      closeOnClickOutside: false,
+      transitionOptions: 'none',
+      duplicate: true,
+    } as DynamicDialogConfig);
+
+    this.dialogRef.onClose.subscribe(() => {
+      this.dialogRef = null;
+    });
   }
   private buildHeaderActions() {
     return [

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.CreatureTypes.Models;
@@ -14,6 +15,12 @@ public interface ICreatureTypeService
     Task<CreatureTypeValidationResult> CreateAsync(Guid campaignTemplateId, CreatureTypeModel model);
     Task<CreatureTypeValidationResult> UpdateAsync(Guid templateId, Guid creatureTypeId, CreatureTypeModel model);
     Task<CreatureTypeValidationResult> RemoveAsync(Guid campaignTemplateId, Guid creatureTypeId);
+
+    public Task<CreatureTypeValidationResult> AddBonus(Guid templateId, Guid creatureTypeId, BonusModel bonus);
+
+    public Task<CreatureTypeValidationResult> UpdateBonus(Guid templateId, Guid creatureTypeId, BonusModel bonus);
+
+    public Task<CreatureTypeValidationResult> RemoveBonus(Guid templateId, Guid creatureTypeId, Guid bonusId);
 }
 
 public class CreatureTypeService : ICreatureTypeService, ITransientDependency
@@ -90,6 +97,36 @@ public class CreatureTypeService : ICreatureTypeService, ITransientDependency
             .FirstAsync(template => template.Id == campaignTemplateId);
         template.RemoveCreatureType(creatureTypeId, _dbContext);
         _dbContext.CampaignTemplates.Update(template);
+        await _dbContext.SaveChangesAsync();
+        return CreatureTypeValidationResult.Ok;
+    }
+    public async Task<CreatureTypeValidationResult> AddBonus(Guid templateId, Guid creatureTypeId, BonusModel bonus)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.CreatureTypes)
+            .FirstAsync(template => template.Id == templateId);
+        var creatureType = template.CreatureTypes.First(t => t.Id == creatureTypeId);
+        await creatureType.AddBonus(bonus, _dbContext);
+        await _dbContext.SaveChangesAsync();
+        return CreatureTypeValidationResult.Ok;
+    }   
+    public async Task<CreatureTypeValidationResult> UpdateBonus(Guid templateId, Guid creatureTypeId, BonusModel bonus)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.CreatureTypes)
+            .FirstAsync(template => template.Id == templateId);
+        var creatureType = template.CreatureTypes.First(t => t.Id == creatureTypeId);
+        creatureType.UpdateBonus(bonus);
+        await _dbContext.SaveChangesAsync();
+        return CreatureTypeValidationResult.Ok;
+    }    
+    public async Task<CreatureTypeValidationResult> RemoveBonus(Guid templateId, Guid creatureTypeId, Guid bonusId)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.CreatureTypes)
+            .FirstAsync(template => template.Id == templateId);
+        var creatureType = template.CreatureTypes.First(t => t.Id == creatureTypeId);
+        creatureType.RemoveBonuus(bonusId);
         await _dbContext.SaveChangesAsync();
         return CreatureTypeValidationResult.Ok;
     }
