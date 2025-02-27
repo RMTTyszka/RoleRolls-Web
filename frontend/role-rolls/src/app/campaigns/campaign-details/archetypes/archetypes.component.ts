@@ -1,38 +1,38 @@
 import {Component, signal} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from "@app/components/grid/grid.component";
-import {CreatureType} from '@app/models/creatureTypes/creature-type';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CreatureTypesService} from '@services/creature-types/creature-types.service';
 import {Campaign} from '@app/campaigns/models/campaign';
 import {AuthenticationService} from '@app/authentication/services/authentication.service';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import {
-  CreatureTypeEditorComponent
-} from '@app/campaigns/campaign-details/creature-types/creature-type-editor/creature-type-editor.component';
 import {GetListInput} from '@app/tokens/get-list-input';
+import {
+  ArchetypeEditorComponent
+} from '@app/campaigns/campaign-details/archetypes/archetype-editor/archetype-editor.component';
+import { ArchetypesService } from '@services/archetypes/archetypes.service';
+import { Archetype } from '@app/models/archetypes/archetype';
 
 @Component({
-  selector: 'rr-creature-types',
+  selector: 'rr-archetypes',
     imports: [
         GridComponent
     ],
-  templateUrl: './creature-types.component.html',
-  styleUrl: './creature-types.component.scss'
+  templateUrl: './archetypes.component.html',
+  styleUrl: './archetypes.component.scss'
 })
-export class CreatureTypesComponent {
+export class ArchetypesComponent {
   headerActions: RRHeaderAction[] = [];
   columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(true);
+  refreshGrid = signal<boolean>(false);
   private campaign: Campaign;
   isMaster: boolean;
-  private dialogRef: DynamicDialogRef<CreatureTypeEditorComponent>;
+  private dialogRef: DynamicDialogRef<ArchetypeEditorComponent>;
 
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService,
               private dialogService: DialogService,
-              public creatureTypeService: CreatureTypesService) {
+              public archetypeService: ArchetypesService) {
     this.headerActions = this.buildHeaderActions();
     this.columns = this.buildColumns();
   }
@@ -43,21 +43,21 @@ export class CreatureTypesComponent {
     });
   }
   getList = (input: GetListInput) => {
-    return this.creatureTypeService.getList(this.campaign.campaignTemplate.id, input);
+    return this.archetypeService.getList(this.campaign.campaignTemplate.id, input);
   }
-  rowSelected(creatureType: CreatureType) {
-    this.openCreatureTypeDialog(creatureType);
+  rowSelected(archetype: Archetype) {
+    this.openArchetypeDialog(archetype);
   }
 
-  private openCreatureTypeDialog(creatureType: CreatureType): void {
+  private openArchetypeDialog(archetype: Archetype): void {
     if (this.dialogRef) {
       this.dialogRef.close();
     }
 
-    this.dialogRef = this.dialogService.open(CreatureTypeEditorComponent, {
+    this.dialogRef = this.dialogService.open(ArchetypeEditorComponent, {
       data: {
         campaign: this.campaign,
-        creatureType: creatureType
+        archetype: archetype
       },
       position: 'right',
       height: '100%',
@@ -79,7 +79,7 @@ export class CreatureTypesComponent {
         icon: 'pi pi-plus',
         condition: () => this.isMaster,
         tooltip: 'New',
-        callBack: () => this.openCreatureTypeDialog(null),
+        callBack: () => this.openArchetypeDialog(null),
       } as RRHeaderAction
     ];
   }

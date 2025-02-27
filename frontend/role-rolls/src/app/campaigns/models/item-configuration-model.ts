@@ -1,17 +1,19 @@
+import { Property } from '@app/models/bonuses/bonus';
+
 export class ItemConfigurationModel {
-  public armorPropertyId?: string | null;
-  public basicAttackTargetFirstLifeId?: string | null;
-  public meleeLightWeaponHitPropertyId?: string | null;
-  public meleeMediumWeaponHitPropertyId?: string | null;
-  public meleeHeavyWeaponHitPropertyId?: string | null;
-  public meleeLightWeaponDamagePropertyId?: string | null;
-  public meleeMediumWeaponDamagePropertyId?: string | null;
-  public meleeHeavyWeaponDamagePropertyId?: string | null;
-  public rangedLightWeaponHitPropertyId?: string | null;
-  public rangedMediumWeaponHitPropertyId?: string | null;
-  public rangedHeavyWeaponHitPropertyId?: string | null;
-  public rangedLightWeaponDamagePropertyId?: string | null;
-  public rangedMediumWeaponDamagePropertyId?: string | null;
-  public rangedHeavyWeaponDamagePropertyId?: string | null;
-  public basicAttackTargetSecondLifeId?: string | null;
+  public armorProperty?: Property | null;
+  public basicAttackTargetFirstLife?: Property | null;
+  public meleeLightWeaponHitProperty?: Property | null;
+  public meleeMediumWeaponHitProperty?: Property | null;
+  public meleeHeavyWeaponHitProperty?: Property | null;
+  public meleeLightWeaponDamageProperty?: Property | null;
+  public meleeMediumWeaponDamageProperty?: Property | null;
+  public meleeHeavyWeaponDamageProperty?: Property | null;
+  public rangedLightWeaponHitProperty?: Property | null;
+  public rangedMediumWeaponHitProperty?: Property | null;
+  public rangedHeavyWeaponHitProperty?: Property | null;
+  public rangedLightWeaponDamageProperty?: Property | null;
+  public rangedMediumWeaponDamageProperty?: Property | null;
+  public rangedHeavyWeaponDamageProperty?: Property | null;
+  public basicAttackTargetSecondLife?: Property | null;
 }

@@ -17,17 +17,12 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
     {
 
         private readonly ICampaignsService _campaignsService;
-        private readonly ICreatureTemplateService _creatureTemplateService;
-        private readonly ICreatureService _creatureService;
-        private readonly IRollService _rollService;
 
-        public CampaignsController(ICampaignsService campaignsService, ICreatureTemplateService creatureTemplateService, IRollService rollService, ICreatureService creatureService)
+        public CampaignsController(ICampaignsService campaignsService)
         {
             _campaignsService = campaignsService;
-            _creatureTemplateService = creatureTemplateService;
-            _rollService = rollService;
-            _creatureService = creatureService;
         }
+
 
         [HttpGet("{campaignId}")]
         public async Task<CampaignModel> GetAsync(Guid campaignId)

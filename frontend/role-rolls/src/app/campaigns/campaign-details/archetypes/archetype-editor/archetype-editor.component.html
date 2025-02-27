@@ -1,11 +1,12 @@
+
 <form [formGroup]="form" *ngIf="loaded()">
-  <p-fieldset legend="Creature Type" class="flex flex-col h-full">
+  <p-fieldset legend="Creature Type">
     <div class="grid grid-cols-1 gap-4">
       <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
       <textarea class="col" cols="10" pTextarea placeholder="Description" formControlName="description" required>
-      </textarea>
+    </textarea>
     </div>
-    <rr-bonuses class="flex-1" [bonuses]="bonuses()" [campaign]="campaign"
+    <rr-bonuses [bonuses]="bonuses()" [campaign]="campaign"
                 (bonusUpdated)="onBonusUpdated($event)"></rr-bonuses>
   </p-fieldset>
 </form>

@@ -4,7 +4,7 @@
       <input type="text" pInputText class="field-title" formControlName="armorPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="armorPropertyId"
+                              formControlName="armorProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.All]">
         </rr-property-selector>
@@ -14,7 +14,7 @@
       <input type="text" pInputText class="field-title" formControlName="basicAttackTargetFirstLifeTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="basicAttackTargetFirstLifeId"
+                              formControlName="basicAttackTargetFirstLife"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Life]">
         </rr-property-selector>
@@ -24,7 +24,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeLightWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeLightWeaponHitPropertyId"
+                              formControlName="meleeLightWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -34,7 +34,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeMediumWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeMediumWeaponHitPropertyId"
+                              formControlName="meleeMediumWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -44,7 +44,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeHeavyWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeHeavyWeaponHitPropertyId"
+                              formControlName="meleeHeavyWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -54,7 +54,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeLightWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeLightWeaponDamagePropertyId"
+                              formControlName="meleeLightWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -64,7 +64,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeMediumWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeMediumWeaponDamagePropertyId"
+                              formControlName="meleeMediumWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -74,7 +74,7 @@
       <input type="text" pInputText class="field-title" formControlName="meleeHeavyWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="meleeHeavyWeaponDamagePropertyId"
+                              formControlName="meleeHeavyWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -84,7 +84,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedLightWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedLightWeaponHitPropertyId"
+                              formControlName="rangedLightWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -94,7 +94,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedMediumWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedMediumWeaponHitPropertyId"
+                              formControlName="rangedMediumWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -104,7 +104,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedHeavyWeaponHitPropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedHeavyWeaponHitPropertyId"
+                              formControlName="rangedHeavyWeaponHitProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -114,7 +114,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedLightWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedLightWeaponDamagePropertyId"
+                              formControlName="rangedLightWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -124,7 +124,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedMediumWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedMediumWeaponDamagePropertyId"
+                              formControlName="rangedMediumWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -134,7 +134,7 @@
       <input type="text" pInputText class="field-title" formControlName="rangedHeavyWeaponDamagePropertyTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="rangedHeavyWeaponDamagePropertyId"
+                              formControlName="rangedHeavyWeaponDamageProperty"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.MinorSkill]">
         </rr-property-selector>
@@ -144,7 +144,7 @@
       <input type="text" pInputText class="field-title" formControlName="basicAttackTargetSecondLifeTitle">
       <span class="p-inputgroup-addon">
         <rr-property-selector class="field-value"
-                              formControlName="basicAttackTargetSecondLifeId"
+                              formControlName="basicAttackTargetSecondLife"
                               [campaign]="campaign"
                               [propertyType]="[PropertyType.Life]">
         </rr-property-selector>

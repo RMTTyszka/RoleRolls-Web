@@ -1,0 +1,33 @@
+/* Garante que o host ocupe toda a altura disponível */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Garante que o formulário ocupe toda a altura disponível */
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Garante que o p-fieldset ocupe todo o espaço restante */
+p-fieldset {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+::ng-deep p-fieldset > fieldset {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
+/* Garante que o rr-bonuses ocupe todo o espaço restante */
+rr-bonuses {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

@@ -51,6 +51,7 @@ export class CampaignItemConfigurationComponent {
       this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration);
       this.populateOptions();
       this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
+      this.disabled = false;
       this.loaded = true;
       if (!this.disabled) {
         this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {

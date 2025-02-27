@@ -262,6 +262,7 @@ public class LandOfHeroesLoader : IStartupTask
         else
         {
             fromDb.CampaignTemplateId = fromCode.CampaignTemplateId;
+            fromDb.Update(ItemConfigurationModel.FromConfiguration(fromCode));
             context.ItemConfigurations.Update(fromDb);
         }
     }

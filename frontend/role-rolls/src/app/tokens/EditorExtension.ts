@@ -9,41 +9,53 @@ import {
   Validators
 } from '@angular/forms';
 import { Entity } from '../models/Entity.model';
+import { Property } from '@app/models/bonuses/bonus';
 
 export function getInput<T>(form: FormGroup, input: T): T {
   return {} as T;
 }
-
+function isProperty(obj: any): obj is Property {
+  return obj && typeof obj === 'object' && 'propertyId' in obj && 'type' in obj;
+}
 
 export function createForm(form: FormGroup, entity: Entity, empty: boolean = false, requiredFields: string[] = [], disabledFields: string[] = []) {
-  Object.entries(entity).forEach((entry) => {
-    // console.log(entry);
-    if (entry[1] instanceof Array) {
+  Object.entries(entity).forEach(([key, value]) => {
+    if (value instanceof Array) {
       const array = new FormArray<any>([]);
-      entry[1].forEach(property => {
+      value.forEach(property => {
         if (property instanceof Object) {
-          const newGroup: FormGroup = new FormGroup({});
-          createForm(newGroup, property, empty);
-          array.push(newGroup);
+          if (isProperty(property)) {
+            array.push(new FormControl(property, []));
+          } else {
+            const newGroup: FormGroup = new FormGroup({});
+            createForm(newGroup, property, empty);
+            array.push(newGroup);
+          }
         } else {
           array.push(new FormControl(property, []));
         }
       });
-      form.addControl(entry[0], array);
-    } else if (entry[1] instanceof Object) {
-      const newGroup: FormGroup = new FormGroup({});
-      createForm(newGroup, entry[1], empty);
-      form.addControl(entry[0], newGroup);
+      form.addControl(key, array);
+    } else if (value instanceof Object) {
+      if (isProperty(value)) {
+        form.addControl(key, new FormControl(value, []));
+      } else {
+        const newGroup: FormGroup = new FormGroup({});
+        createForm(newGroup, value, empty);
+        form.addControl(key, newGroup);
+      }
     } else {
-      form.addControl(entry[0], new FormControl(empty ? null : entry[1], []));
+      form.addControl(key, new FormControl(empty ? null : value, []));
     }
   });
+
   requiredFields.forEach(field => {
     const control = form.get(field);
     if (control) {
       control.setValidators(Validators.required);
     }
   });
+
   disabledFields.forEach(field => {
     const control = form.get(field);
     if (control) {
@@ -51,6 +63,7 @@ export function createForm(form: FormGroup, entity: Entity, empty: boolean = fal
     }
   });
 }
+
 export function getAsForm(entity: any, empty: boolean = false, requiredFields: string[] = [], disabledFields: string[] = []): FormGroup {
   const form = new FormGroup({});
   createForm(form, entity, empty, requiredFields, disabledFields);

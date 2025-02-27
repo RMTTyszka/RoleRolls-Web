@@ -1,106 +1,123 @@
-<p-toolbar class="mb-3">
-  <div class="p-toolbar-group-left">
-    <h3 class="text-lg font-semibold m-0">Bonus</h3>
+<div class="dialog-container">
+  <p-toolbar class="mb-3">
+    <div class="p-toolbar-group-left">
+      <h3 class="text-lg font-semibold m-0">Bonus</h3>
+    </div>
+    <div class="p-toolbar-group-right">
+      <button pButton label="Add Bonus" icon="pi pi-plus" (click)="addEmptyBonus()"></button>
+    </div>
+  </p-toolbar>
+  <div class="table-container">
+    <p-table class="bonuses-table" #dt [value]="bonusesSignal()" dataKey="id" editMode="row">
+      <ng-template #header>
+        <tr>
+          <th class="flex-[40]">Name</th>
+          <th class="flex-[40]">Description</th>
+          <th class="flex-[5]">Value</th>
+          <th class="flex-[10]">Property</th>
+          <th class="flex-[5]">Value Type</th>
+          <th class="flex-[10]">Type</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-bonus let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="bonus">
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <input pInputText [(ngModel)]="bonus.name" class="w-full truncate"/>
+              </ng-template>
+              <ng-template #output>{{ bonus.name }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <input pInputText [(ngModel)]="bonus.description" class="w-full truncate"/>
+              </ng-template>
+              <ng-template #output>{{ bonus.description }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <input type="number" pInputText [(ngModel)]="bonus.value" class="w-full truncate"/>
+              </ng-template>
+              <ng-template #output>{{ bonus.value }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <rr-property-selector
+                  [campaign]="campaign()"
+                  [propertyType]="[PropertyType.All]"
+                  [(ngModel)]="bonus.property"
+                  class="w-full truncate">
+                </rr-property-selector>
+              </ng-template>
+              <ng-template #output>
+                {{ getPropertyLabel(bonus.property) }} <!-- Exibe o label do Property -->
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <p-dropdown [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-dropdown>
+              </ng-template>
+              <ng-template #output>{{ valueTypeLabel(bonus.valueType) }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template #input>
+                <p-dropdown [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-dropdown>
+              </ng-template>
+              <ng-template #output>{{ bonusTypeLabel(bonus.type) }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <div class="flex items-center justify-center gap-2">
+              <button
+                *ngIf="!editing"
+                pButton
+                pRipple
+                type="button"
+                pInitEditableRow
+                icon="pi pi-pencil"
+                (click)="onRowEditInit(bonus)"
+                text
+                rounded
+                severity="secondary"
+              ></button>
+              <button
+                *ngIf="editing"
+                pButton
+                pRipple
+                type="button"
+                pSaveEditableRow
+                icon="pi pi-check"
+                (click)="onRowEditSave(bonus)"
+                text
+                rounded
+                severity="secondary"
+              ></button>
+              <button
+                *ngIf="editing"
+                pButton
+                pRipple
+                type="button"
+                pCancelEditableRow
+                icon="pi pi-times"
+                (click)="onRowEditCancel(bonus, ri)"
+                text
+                rounded
+                severity="secondary"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-  <div class="p-toolbar-group-right">
-    <button pButton label="Add Bonus" icon="pi pi-plus" (click)="addEmptyBonus()"></button>
-  </div>
-</p-toolbar>
-<div class="table-container">
-<p-table class="bonuses-table" #dt [value]="bonusesSignal()" dataKey="id" editMode="row">
-  <ng-template #header>
-    <tr>
-      <th class="flex-[40]">Name</th>
-      <th class="flex-[40]">Description</th>
-      <th class="flex-[5]">Value</th>
-      <th class="flex-[5]">Value Type</th>
-      <th class="flex-[10]">Type</th>
-    </tr>
-  </ng-template>
-  <ng-template #body let-bonus let-editing="editing" let-ri="rowIndex">
-    <tr [pEditableRow]="bonus">
-      <td>
-        <p-cellEditor>
-          <ng-template #input>
-            <input pInputText [(ngModel)]="bonus.name" class="w-full truncate"/>
-          </ng-template>
-          <ng-template #output>{{ bonus.name }}</ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-        <p-cellEditor>
-          <ng-template #input>
-            <input pInputText [(ngModel)]="bonus.description" class="w-full truncate"/>
-          </ng-template>
-          <ng-template #output>{{ bonus.description }}</ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-        <p-cellEditor>
-          <ng-template #input>
-            <input type="number" pInputText [(ngModel)]="bonus.value" class="w-full truncate"/>
-          </ng-template>
-          <ng-template #output>{{ bonus.value }}</ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-        <p-cellEditor>
-          <ng-template #input>
-            <p-dropdown [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-dropdown>
-          </ng-template>
-          <ng-template #output>{{ valueTypeLabel(bonus.valueType) }}</ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-        <p-cellEditor>
-          <ng-template #input>
-            <p-dropdown [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-dropdown>
-          </ng-template>
-          <ng-template #output>{{ bonusTypeLabel(bonus.type) }}</ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-      <td>
-      <div class="flex items-center justify-center gap-2">
-        <button
-          *ngIf="!editing"
-          pButton
-          pRipple
-          type="button"
-          pInitEditableRow
-          icon="pi pi-pencil"
-          (click)="onRowEditInit(bonus)"
-          text
-          rounded
-          severity="secondary"
-        ></button>
-        <button
-          *ngIf="editing"
-          pButton
-          pRipple
-          type="button"
-          pSaveEditableRow
-          icon="pi pi-check"
-          (click)="onRowEditSave(bonus)"
-          text
-          rounded
-          severity="secondary"
-        ></button>
-        <button
-          *ngIf="editing"
-          pButton
-          pRipple
-          type="button"
-          pCancelEditableRow
-          icon="pi pi-times"
-          (click)="onRowEditCancel(bonus, ri)"
-          text
-          rounded
-          severity="secondary"
-        ></button>
-      </div>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
 </div>

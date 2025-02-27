@@ -50,7 +50,7 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   ) {
     effect(() => {
       if (this.refreshList()) {
-        this.getList();
+        this.getList('', 0, 15 );
       }
     });
   }

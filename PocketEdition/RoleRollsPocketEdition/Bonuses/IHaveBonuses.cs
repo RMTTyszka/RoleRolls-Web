@@ -1,4 +1,5 @@
 using RoleRollsPocketEdition.Bonuses.Models;
+using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Bonuses;
 
@@ -10,20 +11,20 @@ public interface IHaveBonuses
 
 public static class BonusExtensions
 {
-    public static void AddBonus<T>(this T entity, BonusModel bonusModel) where T : IHaveBonuses
+    public static async Task AddBonus(this IHaveBonuses iHaveBonuses, BonusModel bonusModel, RoleRollsDbContext dbContext)
     {
-        var bonus = new Bonus
-        {
-            Property = bonusModel.Property,
-            Value = bonusModel.Value,
-            ValueType = bonusModel.ValueType,
-            Type = bonusModel.Type,
-        };
+        var bonus = new Bonus(bonusModel);
+        iHaveBonuses.Bonuses.Add(bonus);
+        await dbContext.Bonus.AddAsync(bonus);
+    }    
+    public static void UpdateBonus(this IHaveBonuses iHaveBonuses, BonusModel bonusModel)
+    {
+        var bonus = iHaveBonuses.Bonuses.First(e => e.Id == bonusModel.Id);
+        bonus.Update(bonusModel);
+    }
 
-        entity.Bonuses.Add(bonus);
-    }   
-    public static void RemoveBonus<T>(this T entity, Guid id) where T : IHaveBonuses
+    public static void RemoveBonus(this IHaveBonuses iHaveBonuses, Guid bonusId)
     {
-        entity.Bonuses.RemoveAll(e => e.Id == id);
+        iHaveBonuses.Bonuses.RemoveAll(b => b.Id == bonusId);
     }
 }

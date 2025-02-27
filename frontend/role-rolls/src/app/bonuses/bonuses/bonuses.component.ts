@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, input, Output, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, input, Output, signal, WritableSignal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Bonus, BonusType, BonusValueType, Property } from '@app/models/bonuses/bonus';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,11 @@ import { ButtonDirective } from 'primeng/button';
 import { Toolbar } from 'primeng/toolbar';
 import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
 import { NgIf } from '@angular/common';
+import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
+import { Campaign } from '@app/campaigns/models/campaign';
+import { PropertyType } from '@app/campaigns/models/propertyType';
+import { AttributeTemplate, MinorSkillsTemplate, SkillTemplate } from '@app/campaigns/models/campaign.template';
+import { RROption } from '@app/models/RROption';
 
 @Component({
   selector: 'rr-bonuses',
@@ -18,7 +23,8 @@ import { NgIf } from '@angular/common';
     InputText,
     ButtonDirective,
     Toolbar,
-    NgIf
+    NgIf,
+    PropertySelectorComponent
   ],
   templateUrl: './bonuses.component.html',
   styleUrl: './bonuses.component.scss',
@@ -29,7 +35,41 @@ import { NgIf } from '@angular/common';
 export class BonusesComponent {
   @Output() bonusUpdated = new EventEmitter<EntityActionData<Bonus>>();
   public bonuses = input<Bonus[]>();
+  public campaign = input<Campaign>();
   public bonusesSignal: WritableSignal<Bonus[]> = signal(this.bonuses() || []);
+  public properties = computed<RROption<any>[]>(() => {
+    const campaign = this.campaign();
+
+    // Mapeia os atributos
+    const attributes = campaign.campaignTemplate.attributes.map((a: AttributeTemplate) => ({
+      value: a.id,
+      label: a.name
+    } as RROption<any>));
+
+    // Mapeia as habilidades
+    const skills = campaign.campaignTemplate.skills.map((s: SkillTemplate) => ({
+      value: s.id,
+      label: s.name
+    } as RROption<any>));
+
+    // Mapeia as habilidades menores
+    const minorSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
+      s.minorSkills.map((ms: MinorSkillsTemplate) => ({
+          value: ms.id,
+          label: ms.name
+        } as RROption<any>)));
+
+
+    // Mapeia as habilidades menores
+    const attributelessSkills = campaign.campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
+      s.minorSkills.map((ms: MinorSkillsTemplate) => ({
+        value: ms.id,
+        label: ms.name
+      } as RROption<any>)));
+
+    // Combina todos os arrays
+    return [...attributes, ...skills, ...minorSkills, ...attributelessSkills];
+  });
   clonedBonuss: { [s: string]: Bonus } = {};
   constructor() {
     effect(() => {
@@ -105,4 +145,12 @@ export class BonusesComponent {
   public addBonus(newBonus: Bonus) {
     this.bonusesSignal.update((bonuses: Bonus[]) => [...bonuses, newBonus]);
   }
+  getPropertyLabel(property: Property | null): string {
+    if (!property) return ''; // Retorna uma string vazia se o property for nulo
+
+    const foundProperty = this.properties().find(opt => opt.value === property.propertyId);
+    return foundProperty ? foundProperty.label : '';
+  }
+
+  protected readonly PropertyType = PropertyType;
 }

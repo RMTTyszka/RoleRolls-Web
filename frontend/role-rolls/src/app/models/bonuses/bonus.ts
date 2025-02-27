@@ -1,3 +1,5 @@
+import { PropertyType } from '@app/campaigns/models/propertyType';
+
 export interface Bonus {
   id: string;
   value: number;
@@ -14,6 +16,8 @@ export enum BonusValueType {
 }
 
 export interface Property {
+  propertyId: string;
+  type: PropertyType;
 }
 
 export enum BonusType {

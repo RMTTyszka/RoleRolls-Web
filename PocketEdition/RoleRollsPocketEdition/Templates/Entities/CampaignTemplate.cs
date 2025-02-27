@@ -249,6 +249,12 @@ namespace RoleRollsPocketEdition.Templates.Entities
             await archetype.Update(archetypeModel, dbContext);
         }
 
+        public void RemoveArchetype(Guid archetypeId, RoleRollsDbContext dbContext)
+        {
+            var entity = Archetypes.First(defense => defense.Id == archetypeId);
+            Archetypes.Remove(entity);
+            dbContext.Archetypes.Remove(entity);
+        }
         public void RemoveCreatureType(Guid creatureTypeId, RoleRollsDbContext dbContext)
         {
             var defense = CreatureTypes.First(defense => defense.Id == creatureTypeId);

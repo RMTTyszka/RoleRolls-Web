@@ -7,7 +7,7 @@ using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Archetypes;
 
-public class Archetype : Entity
+public class Archetype : Entity, IHaveBonuses
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -32,7 +32,7 @@ public class Archetype : Entity
         var syncedBonuses = Bonuses.Synchronize(archetypeModel.Bonuses);
         foreach (var bonusModel in syncedBonuses.ToAdd)       
         {
-            await AddBonus(bonusModel, dbContext);
+            await this.AddBonus(bonusModel, dbContext);
         }     
         foreach (var bonusModel in syncedBonuses.ToUpdate)       
         {
@@ -46,11 +46,5 @@ public class Archetype : Entity
             dbContext.Bonus.Remove(bonus);
         }
         dbContext.Archetypes.Update(this);
-    }
-    public async Task AddBonus(BonusModel bonusModel, RoleRollsDbContext dbContext)
-    {
-        var bonus = new Bonus(bonusModel);
-        Bonuses.Add(bonus);
-        await dbContext.Bonus.AddAsync(bonus);
     }
 }

@@ -126,7 +126,7 @@ public class CreatureTypeService : ICreatureTypeService, ITransientDependency
             .Include(template => template.CreatureTypes)
             .FirstAsync(template => template.Id == templateId);
         var creatureType = template.CreatureTypes.First(t => t.Id == creatureTypeId);
-        creatureType.RemoveBonuus(bonusId);
+        creatureType.RemoveBonus(bonusId);
         await _dbContext.SaveChangesAsync();
         return CreatureTypeValidationResult.Ok;
     }

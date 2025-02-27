@@ -2,8 +2,9 @@
   <p-tablist>
     <p-tab value="0">Creature Template</p-tab>
     <p-tab value="1">Creature Types</p-tab>
-    <p-tab value="2">Itens</p-tab>
-    <p-tab value="3">Item Configuration</p-tab>
+    <p-tab value="2">Archetypes</p-tab>
+    <p-tab value="3">Itens</p-tab>
+    <p-tab value="4">Item Configuration</p-tab>
   </p-tablist>
 
   <p-tabpanels>
@@ -19,11 +20,16 @@
     </p-tabpanel>
     <p-tabpanel value="2">
       <ng-container *ngIf="activeTab === '2'">
-        <rr-campaign-itens></rr-campaign-itens>
+        <rr-archetypes></rr-archetypes>
       </ng-container>
     </p-tabpanel>
     <p-tabpanel value="3">
       <ng-container *ngIf="activeTab === '3'">
+        <rr-campaign-itens></rr-campaign-itens>
+      </ng-container>
+    </p-tabpanel>
+    <p-tabpanel value="4">
+      <ng-container *ngIf="activeTab === '4'">
         <rr-campaign-item-configuration></rr-campaign-item-configuration>
       </ng-container>
     </p-tabpanel>

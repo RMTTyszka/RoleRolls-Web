@@ -61,7 +61,7 @@ public class CreatureType : Entity
         bonus.Update(bonusModel);
     }
 
-    public void RemoveBonuus(Guid bonusId)
+    public void RemoveBonus(Guid bonusId)
     {
         Bonuses.RemoveAll(b => b.Id == bonusId);
     }
