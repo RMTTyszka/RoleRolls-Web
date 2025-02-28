@@ -4,8 +4,6 @@ using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.CreatureTypes.Services;
 using RoleRollsPocketEdition.CreatureTypes.Validations;
-using RoleRollsPocketEdition.Templates.Dtos;
-using RoleRollsPocketEdition.Templates.Services;
 
 namespace RoleRollsPocketEdition.Templates.Controllers
 {

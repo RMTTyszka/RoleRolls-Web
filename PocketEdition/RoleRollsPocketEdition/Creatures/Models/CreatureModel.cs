@@ -1,4 +1,6 @@
-﻿using RoleRollsPocketEdition.Creatures.Entities;
+﻿using RoleRollsPocketEdition.Archetypes.Models;
+using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Models;
 
 namespace RoleRollsPocketEdition.Creatures.Models
 {
@@ -44,5 +46,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
         public InventoryModel Inventory { get; set; }
+        public ArchetypeModel? Archetype { get; set; }
+        public CreatureTypeModel? CreatureType { get; set; }
     }
 }

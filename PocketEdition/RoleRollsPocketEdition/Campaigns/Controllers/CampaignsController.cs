@@ -4,9 +4,6 @@ using RoleRollsPocketEdition.Campaigns.Dtos;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Authentication;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Creatures.Services;
-using RoleRollsPocketEdition.Rolls;
-using RoleRollsPocketEdition.Templates.Services;
 
 namespace RoleRollsPocketEdition.Campaigns.Controllers
 {

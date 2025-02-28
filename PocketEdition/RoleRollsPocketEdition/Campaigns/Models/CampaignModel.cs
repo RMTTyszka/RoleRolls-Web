@@ -1,5 +1,4 @@
 ﻿using RoleRollsPocketEdition.Campaigns.Entities;
-using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Models

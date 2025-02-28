@@ -1,4 +1,4 @@
-import { Component, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, signal, TemplateRef, ViewChild } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { Popover } from 'primeng/popover';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
@@ -34,148 +34,118 @@ export class CampaignListComponent {
 
   public displayInsertInvitationCode: boolean = false;
   public invitationCode: string = '';
-  public headerActions: RRHeaderAction[] = [];
-  public rowActions: RRAction<CampaignView>[] = [];
+
+  public columns = signal<RRColumns[]>([
+    {
+      header: 'Name',
+      property: 'name',
+    } as RRColumns,
+    {
+      header: 'Template',
+      property: 'templateName',
+    } as RRColumns,
+  ]);
+
+  public rowActions = signal<RRAction<CampaignView>[]>([
+    {
+      icon: 'pi pi-arrow-circle-right',
+      callBack: (entity: CampaignView) => {
+        this.router.navigate([`campaigns/${entity.id}/session`]);
+      },
+      condition: (entity: CampaignView) => true,
+      csClass: null,
+      tooltip: 'Start Session',
+    },
+    {
+      icon: 'pi pi-times-circle',
+      callBack: (entity: CampaignView) => {
+        this.delete(entity);
+      },
+      condition: (entity: CampaignView) => this.isMaster(entity.masterId),
+      csClass: 'p-button-danger',
+      tooltip: 'Remove',
+    },
+    {
+      icon: 'pi pi-plus',
+      callBack: (entity: CampaignView, target: any) => {
+        this.invitePlayer(entity, target);
+      },
+      condition: (entity: CampaignView) => this.isMaster(entity.masterId),
+      csClass: null,
+      tooltip: 'Invite',
+    },
+  ]);
+
+  public headerActions = signal<RRHeaderAction[]>([
+    {
+      callBack: () => this.toggleAcceptInvitation(),
+      icon: 'pi pi-thumbs-up',
+      condition: () => true,
+      tooltip: 'Accept Invitation',
+      csClass: null,
+    } as RRHeaderAction,
+    {
+      callBack: () => this.toCampaignDetails({} as CampaignView),
+      icon: 'pi pi-plus',
+      condition: () => true,
+      tooltip: 'Create',
+      csClass: null,
+    } as RRHeaderAction,
+  ]);
+
   public refreshGrid = new EventEmitter<void>();
   public rowSelected = (campaign: CampaignView) => this.toCampaignDetails(campaign);
-  public columns: RRColumns[] = [];
+
   constructor(
     public service: CampaignsService,
     private readonly authenticationService: AuthenticationService,
     private readonly confirmationService: ConfirmationService,
     public router: Router,
-  ) {
-    this.columns = [
-      {
-        header: 'Name',
-        property: 'name'
-      } as RRColumns,
-      {
-        header: 'Template',
-        property: 'templateName'
-      } as RRColumns,
-    ];
-    this.rowActions.push(
-      {
-        icon: 'pi pi-arrow-circle-right',
-        callBack: ((entity: CampaignView) => {
-          this.router.navigate([`pocket/campaigns/${entity.id}`]);
-        }),
-        condition: ((entity: CampaignView) => {
-          return true;
-        }),
-        csClass: null,
-        tooltip: 'Start Session'
-      },
-      {
-        icon: 'pi pi-times-circle',
-        callBack: ((entity: CampaignView) => {
-          this.delete(entity);
-        }),
-        condition: ((entity: CampaignView) => {
-          return this.isMaster(entity.masterId);
-        }),
-        csClass: 'p-button-danger',
-        tooltip: 'Remove'
-      },
-      {
-        icon: 'pi pi-plus',
-        callBack: ((entity: CampaignView, target: any) => {
-          this.invitePlayer(entity, target);
-        }),
-        condition: ((entity: CampaignView) => {
-          return this.isMaster(entity.masterId);
-        }),
-        csClass: null,
-        tooltip: 'Invite'
-      },
-    );
-    this.headerActions = [
-      {
-        callBack: () => this.toggleAcceptInvitation(),
-        icon: 'pi pi-thumbs-up',
-        condition: () => true,
-        tooltip: 'Accept Invitation',
-        csClass: null,
-      } as RRHeaderAction,
-      {
-        callBack: () => this.toCampaignDetails({} as CampaignView),
-        icon: 'pi pi-plus',
-        condition: () => true,
-        tooltip: 'Create',
-        csClass: null,
-      } as RRHeaderAction,
-    ];
-    this.rowActions.push(
-      {
-        icon: 'pi pi-arrow-circle-right',
-        callBack: ((entity: CampaignView) => {
-          this.router.navigate([`pocket/campaigns/${entity.id}`]);
-        }),
-        condition: ((entity: CampaignView) => {
-          return true;
-        }),
-        csClass: null,
-        tooltip: 'Start Session'
-      },
-      {
-        icon: 'pi pi-times-circle',
-        callBack: ((entity: CampaignView) => {
-          this.delete(entity);
-        }),
-        condition: ((entity: CampaignView) => {
-          return this.isMaster(entity.masterId);
-        }),
-        csClass: 'p-button-danger',
-        tooltip: 'Remove'
-      },
-      {
-        icon: 'pi pi-plus',
-        callBack: ((entity: CampaignView, target: any) => {
-          this.invitePlayer(entity, target);
-        }),
-        condition: ((entity: CampaignView) => {
-          return this.isMaster(entity.masterId);
-        }),
-        csClass: null,
-        tooltip: 'Invite'
-      },
-    );
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
+
   getList = (input: GetListInput) => {
     return this.service.getList(input);
-  }
+  };
+
   public toggleAcceptInvitation() {
     this.displayInsertInvitationCode = true;
   }
+
   public openAcceptInvitation() {
     this.displayInsertInvitationCode = true;
   }
+
   public acceptInvitation() {
-    this.service.acceptInvitation(safeCast<string>(this.invitationCode))
-      .pipe(finalize(() => {
-        this.displayInsertInvitationCode = false;
-        this.invitationCode = '';
-      })).subscribe(() => {
-      this.refreshGrid.next();
-    });
+    this.service
+      .acceptInvitation(safeCast<string>(this.invitationCode))
+      .pipe(
+        finalize(() => {
+          this.displayInsertInvitationCode = false;
+          this.invitationCode = '';
+        }),
+      )
+      .subscribe(() => {
+        this.refreshGrid.next();
+      });
   }
+
   private invitePlayer(entity: CampaignView, target: any) {
     this.service.invitePlayer(entity.id).subscribe((code: string) => {
       this.invitationCode = code;
       this.invitationCodeOverlay.toggle(event, target);
     });
   }
+
   private isMaster(userId: string): boolean {
     return this.authenticationService.userId === userId;
   }
+
   private delete(entity: CampaignView): void {
     this.confirmationService.confirm({
       accept: () => this.service.delete(entity.id).subscribe(() => {}),
-      header: 'Confirm delete?'
+      header: 'Confirm delete?',
     });
   }
 

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;

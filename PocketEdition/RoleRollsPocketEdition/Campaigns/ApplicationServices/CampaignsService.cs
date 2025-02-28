@@ -1,11 +1,6 @@
-﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.Dtos;
 using RoleRollsPocketEdition.Campaigns.Entities;
-using RoleRollsPocketEdition.Campaigns.Events.Attributes;
-using RoleRollsPocketEdition.Campaigns.Events.Lifes;
-using RoleRollsPocketEdition.Campaigns.Events.MinorSkills;
-using RoleRollsPocketEdition.Campaigns.Events.Skills;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;

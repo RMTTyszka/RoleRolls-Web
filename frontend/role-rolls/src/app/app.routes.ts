@@ -22,6 +22,13 @@ export const routes: Routes = [
     }
   } as Route,
   {
+    path: 'campaigns/:campaignId/session',
+    loadComponent: () => import('./campaign-session/campaign-session.component').then((m) => m.CampaignSessionComponent),
+    resolve: {
+      campaign: campaignResolver
+    }
+  } as Route,
+  {
     path: 'newCampaign',
     loadComponent: () => CampaignCreatorComponent
   } as Route,

@@ -1,5 +1,4 @@
-﻿using RoleRollsPocketEdition.Core;
-using RoleRollsPocketEdition.Core.Entities;
+﻿using RoleRollsPocketEdition.Core.Entities;
 
 namespace RoleRollsPocketEdition.Campaigns.Entities
 {

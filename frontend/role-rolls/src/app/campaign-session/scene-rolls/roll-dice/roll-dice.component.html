@@ -1,0 +1,46 @@
+<div *ngIf="form">
+  <form form [formGroup]="form">
+    <input pInputText formControlName="propertyName" style="width: 100%;">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Difficulty
+      </span>
+      <p-inputNumber placeholder formControlName='difficulty'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Complexity
+      </span>
+      <p-inputNumber placeholder formControlName='complexity'></p-inputNumber>
+    </div>
+
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Property Bonus
+      </span>
+      <p-inputNumber placeholder formControlName='propertyBonus'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Dice Bonus
+      </span>
+      <p-inputNumber placeholder formControlName='rollBonus'></p-inputNumber>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder" pTooltip="type your rolls separated by ','">
+        Rolls
+      </span>
+      <input pInputText formControlName="rollsAsString" style="width: 100%;">
+      <button pButton class="p-inputgroup-addon p-button-secondary" type="button" icon="fas fa-times-circle" (click)="cleanRolls()">
+      </button>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon placeholder">
+        Description
+      </span>
+      <input pInputText placeholder formControlName='description' style="width: 100%;">
+    </div>
+
+  </form>
+  <button pButton label="Roll" (click)="roll()"></button>
+</div>

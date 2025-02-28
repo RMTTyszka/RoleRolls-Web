@@ -1,5 +1,4 @@
-﻿using RoleRollsPocketEdition.Archetypes;
-using RoleRollsPocketEdition.Archetypes.Models;
+﻿using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;

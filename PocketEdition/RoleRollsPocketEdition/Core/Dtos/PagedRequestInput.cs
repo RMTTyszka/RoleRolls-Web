@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RoleRollsPocketEdition.Core.Dtos
+﻿namespace RoleRollsPocketEdition.Core.Dtos
 {
     public class PagedRequestInput
     {

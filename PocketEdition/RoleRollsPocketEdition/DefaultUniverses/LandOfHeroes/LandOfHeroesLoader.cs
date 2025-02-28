@@ -1,15 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Models;
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
-using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Abstractions;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplate;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Dtos;

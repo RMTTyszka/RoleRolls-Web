@@ -1,9 +1,10 @@
 ﻿using System.Data;
+using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
-using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -33,6 +34,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public CreatureCategory Category { get; set; }
         public Equipment Equipment { get; set; }
         public Inventory Inventory { get; set; }
+        public CreatureType? CreatureType { get; set; }
+        public Archetype? Archetype { get; set; }
         public Creature()
         {
             Attributes = new List<Attribute>();
@@ -148,6 +151,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
                     return result;
                 }
+                
                 return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);
             }
             return new CreatureUpdateValidationResult(CreatureUpdateValidation.InvalidModel, null);
@@ -155,6 +159,13 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         private bool Valid(CreatureModel creatureModel)
         {
+            var hasDifferentArchetype = Archetype is not null && creatureModel.Archetype is not null && Archetype.Id != creatureModel.Archetype.Id;
+            var hasDifferentCreatureType = CreatureType is not null && creatureModel.CreatureType is not null && CreatureType.Id != creatureModel.CreatureType.Id;
+
+            if (hasDifferentArchetype || hasDifferentCreatureType)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -255,19 +266,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 Id = Guid.NewGuid(),
                 ActorId = Id
             };
-        }
-
-        public async Task AddDefenseAsync(Defense defense, RoleRollsDbContext dbContext)
-        {
-           Defenses.Add(defense);
-           await dbContext.AddAsync(defense);
-        }
-
-        public async Task UpdateDefense(DefenseTemplateModel defenseTemplateModel, RoleRollsDbContext dbContext)
-        {
-            var defense = Defenses.First(defense => defense.DefenseTemplateId == defenseTemplateModel.Id);
-            defense.Update(defenseTemplateModel);
-            dbContext.Update(defense);
         }
 
         public void FullRestore()

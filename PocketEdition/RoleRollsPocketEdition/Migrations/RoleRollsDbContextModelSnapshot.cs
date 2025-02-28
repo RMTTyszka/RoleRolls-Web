@@ -387,6 +387,9 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ArchetypeId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("CampaignId")
                         .HasColumnType("uuid");
 
@@ -394,6 +397,9 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("CreatureTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatureTypeId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Level")
@@ -408,6 +414,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArchetypeId");
+
+                    b.HasIndex("CreatureTypeId");
 
                     b.ToTable("Creatures");
                 });
@@ -1327,6 +1337,21 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("AttributeTemplate");
 
                     b.Navigation("Creature");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Archetypes.Archetype", "Archetype")
+                        .WithMany()
+                        .HasForeignKey("ArchetypeId");
+
+                    b.HasOne("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", "CreatureType")
+                        .WithMany()
+                        .HasForeignKey("CreatureTypeId");
+
+                    b.Navigation("Archetype");
+
+                    b.Navigation("CreatureType");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.CreaturePower", b =>

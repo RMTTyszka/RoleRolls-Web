@@ -1,6 +1,4 @@
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Bonuses.Models;
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
 
 namespace RoleRollsPocketEdition.Archetypes.Models;

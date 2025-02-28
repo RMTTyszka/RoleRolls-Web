@@ -1,5 +1,4 @@
 ﻿using RoleRollsPocketEdition.Campaigns.Models;
-using RoleRollsPocketEdition.Core;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;

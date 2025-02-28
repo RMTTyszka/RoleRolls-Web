@@ -1,0 +1,36 @@
+<p-panel>
+  <ng-template pTemplate="header">
+    <div class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+      <p-select *ngIf="loadMe" class="p-col-6" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-select>
+      <p-fieldset class="align-right p-col-6">
+        <div class="p-inputgroup" *ngIf="isMaster">
+          <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">
+          <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
+        </div>
+        <div class="p-inputgroup" *ngIf="isMaster && selectedScene">
+          <rr-creature-select placeholder="Add Hero" [campaign]="campaign" [creatureType]="creatureTypeEnum.Hero" (creatureSelected)="addHero($event)"></rr-creature-select>
+        </div>
+      </p-fieldset>
+      <button *ngIf="isMaster" pButton label="invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event.target)" #invitationButton></button>
+      <button *ngIf="!notInvited || isMaster" pButton label="create hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
+    </div>
+  </ng-template>
+  <div class="p-grid p-justify-between p-align-start">
+    <rr-scene-creatures class="p-col-6"></rr-scene-creatures>
+    <rr-scene-creatures class="p-col-6"></rr-scene-creatures>
+    <span class="p-col-6"></span>
+    <rr-scene-log class="p-col-6"></rr-scene-log>
+  </div>
+</p-panel>
+
+<p-popover #invitationCodeOverlay>
+  <ng-template pTemplate>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon"> Invitation Code</span>
+      <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
+      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode" (click)="invitationCodeOverlay.toggle(false)"></button>
+    </div>
+  </ng-template>
+</p-popover>
+
+

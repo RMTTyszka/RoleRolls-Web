@@ -1,4 +1,3 @@
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.CreatureTypes.Entities;

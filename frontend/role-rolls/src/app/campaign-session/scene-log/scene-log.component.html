@@ -1,0 +1,7 @@
+
+<div *ngFor="let history of histories" style="padding-bottom: 8px;">
+  <span>{{history.asOfDate | date: 'yyyy-MM-dd HH:mm'}}</span> -  <span>{{history.actor}}</span>
+  <p-card>
+    <rr-log-details [history]="history"></rr-log-details>
+  </p-card>
+</div>

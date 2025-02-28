@@ -1,6 +1,4 @@
-﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Campaigns.Events.Defenses;
+﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Dtos;
 

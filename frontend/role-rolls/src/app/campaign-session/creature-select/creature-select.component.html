@@ -1,0 +1,9 @@
+<p-autoComplete
+  (completeMethod)="search($event.query)"
+  [placeholder]="placeholder"
+  [dropdown]="true"
+  (onSelect)="selected($event.value)"
+  optionLabel="name"
+  optionValue="id"
+  [suggestions]="result"></p-autoComplete>
+

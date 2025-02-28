@@ -1,4 +1,7 @@
-<rr-grid [headerActions]="headerActions" [columns]="columns" [refresh]="refreshGrid" (rowSelectedEvent)="rowSelected($event)" [getListCallback]="getList"></rr-grid>
+<rr-grid [headerActions]="headerActions()" [columns]="columns()"
+         [actions]="rowActions()"
+         [refresh]="refreshGrid" (rowSelectedEvent)="rowSelected($event)"
+         [getListCallback]="getList"></rr-grid>
 
 <p-popover #invitationCodeOverlay>
   <ng-template pTemplate>

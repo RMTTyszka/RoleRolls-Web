@@ -1,0 +1,13 @@
+<div [ngSwitch]="history.type">
+  <div *ngSwitchCase="historyTypeEnum.Roll">
+    <span [ngClass]="rollHistory.success ? 'roll-success' : 'roll-failure'">Roll check for </span>
+    <span class="roll-property">{{rollHistory.property}} </span><span>Dices: {{rollHistory.rolls}} </span>
+    <span *ngIf="rollHistory.bonus"> + {{rollHistory.bonus}}</span>
+    <span> against DC {{rollHistory.difficulty}}/{{rollHistory.complexity}} - </span>
+    <span *ngIf="rollHistory.success" class="roll-success">SUCCESS</span>
+    <span *ngIf="!rollHistory.success" class="roll-failure">FAILURE</span>
+  </div>
+  <div *ngSwitchCase="historyTypeEnum.Action">
+    <span>{{actionHistory.description}}</span>
+  </div>
+</div>
