@@ -30,7 +30,7 @@ export class CreatureSelectComponent {
   ngOnInit(): void {
   }
 
-  search() {
+  search( ) {
     if (this.creaturesAvailable && this.creaturesAvailable.length > 0) {
       this.result = [...this.creaturesAvailable];
       return;

@@ -18,7 +18,7 @@ import { CampaignSessionService } from '@app/campaign-session/campaign-session.s
 import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { ButtonDirective } from 'primeng/button';
-import { NgIf } from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import { Popover } from 'primeng/popover';
 import { TieredMenu } from 'primeng/tieredmenu';
 import { Tooltip } from 'primeng/tooltip';
@@ -43,7 +43,8 @@ import {
     RollDiceComponent,
     SimulateCdComponent,
     AttackComponent,
-    VitalityManagerComponent
+    VitalityManagerComponent,
+    NgForOf
   ],
   templateUrl: './scene-creature-row.component.html',
   styleUrl: './scene-creature-row.component.scss'

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Card } from 'primeng/card';
 import { LogDetailsComponent } from '@app/campaign-session/scene-log/log-details/log-details.component';
-import { DatePipe } from '@angular/common';
+import {DatePipe, NgForOf} from '@angular/common';
 import { HistoryDto } from '@app/campaigns/models/history-dto';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
@@ -15,7 +15,8 @@ import { CampaignSceneLogService } from '@services/scene-logs/campaign-scene-log
   imports: [
     Card,
     LogDetailsComponent,
-    DatePipe
+    DatePipe,
+    NgForOf
   ],
   templateUrl: './scene-log.component.html',
   styleUrl: './scene-log.component.scss'

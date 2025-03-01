@@ -9,12 +9,14 @@ import { CampaignsService } from '@app/campaigns/services/campaigns.service';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { Panel } from 'primeng/panel';
 import { SceneCreatureRowComponent } from '@app/campaign-session/scene-creature-row/scene-creature-row.component';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'rr-scene-creatures',
   imports: [
     Panel,
-    SceneCreatureRowComponent
+    SceneCreatureRowComponent,
+    NgForOf
   ],
   templateUrl: './scene-creatures.component.html',
   styleUrl: './scene-creatures.component.scss'

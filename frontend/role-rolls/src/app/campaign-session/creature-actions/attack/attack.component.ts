@@ -15,6 +15,7 @@ import { AttackInput } from '@app/campaigns/models/TakeDamangeInput';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { firstValueFrom } from 'rxjs';
 import { WeaponCategory } from '@app/models/ItemTemplateModel';
+import {WeaponTemplate} from '@app/models/itens/ItemTemplateModel';
 
 @Component({
   selector: 'rr-attack',
