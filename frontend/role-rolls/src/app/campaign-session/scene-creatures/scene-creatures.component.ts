@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
@@ -23,6 +23,7 @@ import {NgForOf} from '@angular/common';
 })
 export class SceneCreaturesComponent {
 
+  public creatureCategory = input<CreatureCategory>();
   public scene: CampaignScene;
   public heroes: Creature[] = [];
   private subscriptionManager = new SubscriptionManager();

@@ -1,0 +1,10 @@
+<div *ngIf="slot" class="p-inputgroup">
+  <input class="slot" type="text" pInputText  [ngModel]="slot" [disabled]="true">
+  <span class="p-inputgroup-addon item">
+    <input  pInputText ="value" [ngModel]="item.name" [disabled]="true">
+  </span>
+  <span class="p-inputgroup-addon">
+    <button *ngIf="!item.name" [ngStyle]="{opacity: 0}"  pButton icon="pi pi-times" class="p-button-danger" disabled></button>
+    <button *ngIf="item.name"  pButton icon="pi pi-times" class="p-button-danger" pTooltip="Unequip" (click)="unequip(item)"></button>
+  </span>
+</div>

@@ -25,6 +25,10 @@ import { SceneCreaturesComponent } from '@app/campaign-session/scene-creatures/s
 import { SceneLogComponent } from '@app/campaign-session/scene-log/scene-log.component';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import {switchMap} from 'rxjs/operators';
+import {ButtonDirective} from 'primeng/button';
+import {InputText} from 'primeng/inputtext';
+import {Toolbar} from 'primeng/toolbar';
 
 @Component({
   selector: 'rr-campaign-session',
@@ -38,7 +42,10 @@ import { NgIf } from '@angular/common';
     SceneCreaturesComponent,
     SceneLogComponent,
     FormsModule,
-    NgIf
+    NgIf,
+    ButtonDirective,
+    InputText,
+    Toolbar
   ],
   templateUrl: './campaign-session.component.html',
   styleUrl: './campaign-session.component.scss'
@@ -46,7 +53,9 @@ import { NgIf } from '@angular/common';
 export class CampaignSessionComponent {
   @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
   public invitationCode: string;
-  public campaignId: string;
+  public get campaignId() {
+    return this.campaign.id;
+  }
   public loadMe = false;
   public campaign: Campaign;
   public campaignPlayers: CampaignPlayer[] = [];
@@ -66,41 +75,44 @@ export class CampaignSessionComponent {
     private readonly authenticationService: AuthenticationService,
     private readonly dialogService: DialogService,
   ) {
-    this.campaignId = this.route.snapshot.params['id'];
-    forkJoin({
-      campaign: this.campaignService.get(this.campaignId),
-      scenes: this.campaignService.getScenes(this.campaignId),
-      players: this.campaignService.getPlayers(this.campaignId)
-    })
-      .subscribe((result) => {
-        this.campaign = result.campaign;
+  }
+
+  ngOnInit(): void {
+    this.route.data.pipe(
+      switchMap(data => {
+        this.campaign = data['campaign'];
         this.detailsService.campaignLoaded.next(this.campaign);
-        this.scenes = result.scenes;
-        this.campaignPlayers = result.players;
-        if (this.scenes.length > 0) {
-          const currentScene = this.detailsService.currentScene;
-          if (currentScene) {
-            const currentSceneIndex = this.scenes.findIndex(s => s.id == currentScene.id);
-            this.selectScene(this.scenes[currentSceneIndex]);
-          } else {
-            this.selectScene(this.scenes[0]);
-          }
-        }
         this.isMaster = this.authenticationService.userId === this.campaign.masterId;
-        this.notInvited = !this.campaignPlayers.some(c => c.playerId === this.authenticationService.userId);
-      });
+        return forkJoin({
+          scenes: this.campaignService.getScenes(this.campaignId),
+          players: this.campaignService.getPlayers(this.campaignId)
+        });
+      })
+    ).subscribe(result => {
+      this.scenes = result.scenes;
+      this.campaignPlayers = result.players;
+      this.notInvited = !this.campaignPlayers.some(c => c.playerId === this.authenticationService.userId);
+
+      if (this.scenes.length > 0) {
+        const currentScene = this.detailsService.currentScene;
+        const selectedScene = currentScene ?
+          this.scenes.find(s => s.id === currentScene.id) || this.scenes[0] :
+          this.scenes[0];
+        this.selectScene(selectedScene);
+      }
+    });
+
     this.menuItens = [
       {
         icon: 'fist-raised'
       } as MenuItem,
     ];
+
     setTimeout(() => {
       this.loadMe = true;
-    }, 500)
+    }, 500);
   }
 
-  ngOnInit(): void {
-  }
   public newScene() {
     const newScene = {
       id: crypto.randomUUID(),

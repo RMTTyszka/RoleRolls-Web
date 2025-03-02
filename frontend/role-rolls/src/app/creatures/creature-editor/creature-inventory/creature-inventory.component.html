@@ -1,0 +1,37 @@
+<p-panel>
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col-6">Equipment</span>
+  </p-header>
+  <rr-creature-equipment [form]="form"></rr-creature-equipment>
+</p-panel>
+<p-panel>
+  <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+    <span class="p-panel-title p-col-6">Items</span>
+  </p-header>
+  <ng-template pTemplate="icons">
+    <button class="p-panel-header-icon" (click)="instanteItem()">
+      <span class="pi pi-plus"></span>
+    </button>
+  </ng-template>
+  <p-table [value]="itens" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 8rem;">
+        <th>Name</th>
+        <th>Level</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-index>
+      <tr>
+        <td style="width: 5px;">
+          <button pButton type="button" pTooltip="Remove" icon="pi pi-times" [class]="'p-button-danger'" (click)="remove(item, index)" style="margin-right: 4px;"></button>
+          <button *ngIf="item.template.type !== itemType.Consumable" pButton type="button" pTooltip="Equip" icon="fas fa-tshirt" [class]="'p-button-primary'" (click)="equip(item, index)" style="margin-right: 4px;"></button>
+        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.level }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+
