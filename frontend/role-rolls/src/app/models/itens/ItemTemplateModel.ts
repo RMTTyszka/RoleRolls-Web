@@ -1,21 +1,21 @@
-import {EquipableSlot} from '@app/models/itens/equipable-slot';
+import { EquipableSlot } from 'app/models/itens/equipable-slot';
 
-export class ItemTemplate{
-  public id: string;
-  public campaignId: string;
-  public powerId: string;
-  public name: string;
-  public type: ItemType;
+export interface ItemTemplateModel{
+  id: string;
+  campaignId: string;
+  powerId: string;
+  name: string;
+  type: ItemType;
 }
-export class EquipableTemplate extends ItemTemplate {
-  public slot: EquipableSlot;
+export interface EquipableTemplateModel extends ItemTemplateModel {
+  slot: EquipableSlot;
 }
-export class WeaponTemplate extends EquipableTemplate{
-  public category: WeaponCategory;
+export interface WeaponTemplateModel extends EquipableTemplateModel{
+  category: WeaponCategory;
 }
 
-export class ArmorTemplate extends EquipableTemplate{
-  public category: ArmorCategory;
+export interface ArmorTemplateModel extends EquipableTemplateModel{
+  category: ArmorCategory;
 }
 export enum ItemType {
   Consumable = 0,

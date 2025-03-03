@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { ItemModel } from '@app/campaigns/models/item-model';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import {CampaignSessionService} from '@app/campaign-session/campaign-session.service';
@@ -7,10 +7,22 @@ import {CreatureDetailsService} from '@app/creatures/creature-details.service';
 import { ItemInstanceService } from '@app/services/itens/instances/item-instance.service';
 import {EquipableSlot} from '@app/models/itens/equipable-slot';
 import {debounceTime} from 'rxjs/operators';
+import { NgIf, NgStyle } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
+import { ButtonDirective } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
+import _ from 'lodash';
 
 @Component({
   selector: 'rr-creature-equipment-slot',
-  imports: [],
+  imports: [
+    NgIf,
+    InputText,
+    FormsModule,
+    NgStyle,
+    ButtonDirective,
+    Tooltip
+  ],
   templateUrl: './creature-equipment-slot.component.html',
   styleUrl: './creature-equipment-slot.component.scss'
 })
@@ -40,7 +52,7 @@ export class CreatureEquipmentSlotComponent {
   }
 
   public getItems() {
-    this.item = this.creatureForm.get('equipment.' + _.camelCase(this.slot)).value ?? new ItemModel();
+    this.item = this.creatureForm.get('equipment.' + _.camelCase(this.slot)).value ?? {} as ItemModel;
   }
   public subribeToValueChanges() {
     this.subscriptionManager.add('itensArray', this.creatureForm.get('equipment').valueChanges
@@ -51,7 +63,7 @@ export class CreatureEquipmentSlotComponent {
   }
 
   unequip(item: ItemModel) {
-    this.itemInstanceService.unequip(this.campaignDetailsService.campaign.id, this.creatureId, EquipableSlot[this.slot])
+    this.itemInstanceService.unequip(this.campaignDetailsService.campaign.id, this.creatureId,  EquipableSlot[this.slot as keyof typeof EquipableSlot])
       .subscribe(() => {
         this.creatureDetailsService.refreshCreature.next(this.creatureId);
       });

@@ -9,9 +9,9 @@
     <p-tabView>
       <p-tabPanel header="General">
         <p-panel [toggleable]="true" [collapsed]=false>
-          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
             <span class="p-panel-title p-col-6">Attributes</span>
-          </p-header>
+          </ng-template>
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
               <div [formGroup]="attribute">
@@ -27,21 +27,21 @@
           </div>
         </p-panel>
         <p-panel [toggleable]="true">
-          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
             <span class="p-panel-title p-col">Skills</span>
-          </p-header>
+          </ng-template>
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
               <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" [collapsed]=true toggler="header">
-                <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+                <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
                   <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
-                </p-header>
+                </ng-template>
                 <div class="p-grid p-justify-between p-align-start p-nogutter">
                   <div class="p-col-6">
                     <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
                       <div form [formGroup]="skill">
                         <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                          <ng-template pTemplate="header">
+                          <ng-template #header>
                             <div class="p-grid p-justify-between p-align-center p-nogutter">
 
                               <div class="p-inputgroup p-col-4">
@@ -77,9 +77,11 @@
           </div>
         </p-panel>
         <p-panel [toggleable]="true">
-          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-            <span class="p-panel-title p-col-6">Lifes</span>
-          </p-header>
+          <ng-template #header>
+            <div class="flex justify-between items-center w-full">
+              <span class="text-lg font-semibold">Lifes</span>
+            </div>
+          </ng-template>
           <div formArrayName="lifes">
             <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
               <div [formGroup]="life">
@@ -99,9 +101,9 @@
           </div>
         </p-panel>
         <p-panel [toggleable]="true">
-          <p-header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
             <span class="p-panel-title p-col-6">Defenses</span>
-          </p-header>
+          </ng-template>
           <div formArrayName="defenses">
             <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
               <div [formGroup]="defense">

@@ -35,10 +35,6 @@ import {Toolbar} from 'primeng/toolbar';
   imports: [
     Panel,
     Select,
-    Fieldset,
-    Popover,
-    CdkCopyToClipboard,
-    CreatureSelectComponent,
     SceneCreaturesComponent,
     SceneLogComponent,
     FormsModule,

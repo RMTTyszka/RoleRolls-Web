@@ -14,8 +14,7 @@ import { getAsForm } from '@app/tokens/EditorExtension';
 import { AttackInput } from '@app/campaigns/models/TakeDamangeInput';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { firstValueFrom } from 'rxjs';
-import { WeaponCategory } from '@app/models/ItemTemplateModel';
-import {WeaponTemplate} from '@app/models/itens/ItemTemplateModel';
+import { WeaponCategory, WeaponTemplateModel } from '@app/models/itens/ItemTemplateModel';
 
 @Component({
   selector: 'rr-attack',
@@ -86,7 +85,7 @@ export class AttackComponent {
 
   private resolveHitProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
     if (mainHand) {
-      const weaponTemplate = mainHand.template as WeaponTemplate;
+      const weaponTemplate = mainHand.template as WeaponTemplateModel;
       switch (weaponTemplate.category) {
         case WeaponCategory.Light:
           return itemConfiguration.meleeLightWeaponHitProperty;
@@ -103,7 +102,7 @@ export class AttackComponent {
   }
   private resolveDamageProperty(mainHand: ItemModel, itemConfiguration: ItemConfigurationModel) {
     if (mainHand) {
-      const weaponTemplate = mainHand.template as WeaponTemplate;
+      const weaponTemplate = mainHand.template as WeaponTemplateModel;
       switch (weaponTemplate.category) {
         case WeaponCategory.Light:
           return itemConfiguration.meleeLightWeaponDamageProperty;

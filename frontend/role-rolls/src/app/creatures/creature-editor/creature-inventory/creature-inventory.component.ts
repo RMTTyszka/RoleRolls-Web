@@ -1,15 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EquipInput } from '@app/models/creatures/equip-input';
 import { firstValueFrom } from 'rxjs';
 import {EquipableSlot} from '@app/models/itens/equipable-slot';
 import {ItemModel} from '@app/models/itens/instances/item-model';
 import { ItemType } from '@app/models/itens/ItemTemplateModel';
 import { createForm } from '@app/tokens/EditorExtension';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { ItemInstantiatorComponent } from '@app/itens/item-instantiator/item-instantiator.component';
+import { debounceTime } from 'rxjs/operators';
+import { CreatureDetailsService } from '@app/creatures/creature-details.service';
+import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ItemInstanceService } from '@services/itens/instances/item-instance.service';
+import { ConfirmationService } from 'primeng/api';
+import { Creature } from '@app/campaigns/models/creature';
+import { SubscriptionManager } from '@app/tokens/subscription-manager';
+import { Panel } from 'primeng/panel';
+import {
+  CreatureEquipmentComponent
+} from '@app/creatures/creature-editor/creature-equipment/creature-equipment.component';
+import { TableModule } from 'primeng/table';
+import { ButtonDirective } from 'primeng/button';
+import { NgIf } from '@angular/common';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'rr-creature-inventory',
-  imports: [],
+  imports: [
+    Panel,
+    CreatureEquipmentComponent,
+    TableModule,
+    ButtonDirective,
+    NgIf,
+    Tooltip
+  ],
   templateUrl: './creature-inventory.component.html',
   styleUrl: './creature-inventory.component.scss'
 })
@@ -19,7 +43,7 @@ export class CreatureInventoryComponent {
   public itens: ItemModel[] = [];
   public itemType = ItemType;
   public subscriptionManager = new SubscriptionManager();
-  @Input() public creature: PocketCreature;
+  @Input() public creature: Creature;
   public get itensArray() {
     return this.form?.get('inventory.items') as UntypedFormArray;
   }
@@ -27,7 +51,7 @@ export class CreatureInventoryComponent {
     private itemInstanceService: ItemInstanceService,
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
-    private campaignDetailsService: PocketCampaignDetailsService,
+    private campaignDetailsService: CampaignSessionService,
     private creatureDetailsService: CreatureDetailsService,
   ) {
   }

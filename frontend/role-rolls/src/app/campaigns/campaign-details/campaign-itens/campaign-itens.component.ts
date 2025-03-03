@@ -1,10 +1,9 @@
 import { Component, effect, Input, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
-import { RRColumns } from '../../../components/grid/grid.component';
-import { EditorAction } from '../../../models/EntityActionData';
-import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '../../../models/ItemTemplateModel';
-import { RRAction } from '../../../models/RROption';
-import { AuthenticationService } from '../../../authentication/services/authentication.service';
+import { RRColumns } from '@app/components/grid/grid.component';
+import { EditorAction } from '@app/models/EntityActionData';
+import { RRAction } from '@app/models/RROption';
+import { AuthenticationService } from '@app/authentication/services/authentication.service';
 import { CampaignItemTemplatesService } from './services/campaign-item-templates.service';
 import { CampaignEditorDetailsServiceService } from '../services/campaign-editor-details-service.service';
 import { Campaign } from '../../models/campaign';
@@ -16,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { CampaignItemCreatorComponent } from './campaign-item-creator/campaign-item-creator.component';
 import {ActivatedRoute} from '@angular/router';
+import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app/models/itens/ItemTemplateModel';
 
 @Component({
   selector: 'rr-campaign-itens',

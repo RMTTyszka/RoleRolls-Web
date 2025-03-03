@@ -28,6 +28,7 @@ import {InputNumber} from 'primeng/inputnumber';
 import {
   CreatureInventoryComponent
 } from '@app/creatures/creature-editor/creature-inventory/creature-inventory.component';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-creature-editor',
@@ -39,7 +40,8 @@ import {
     Panel,
     NgForOf,
     InputNumber,
-    CreatureInventoryComponent
+    CreatureInventoryComponent,
+    InputText
   ],
   templateUrl: './creature-editor.component.html',
   styleUrl: './creature-editor.component.scss'
@@ -172,13 +174,13 @@ export class CreatureEditorComponent {
       this.skillsMapping.set(attribute.id, new FormArray([]));
     });
     this.creature.skills.forEach(skill => {
-      const skillForm = (this.form.get('skills') as FormArray).controls
+      const skillForm = (this.form.get('skills') as FormArray<FormGroup>).controls
         .filter(control => control.get('skillTemplateId').value === skill.skillTemplateId)[0];
       this.skillsMapping.get(skill.attributeId).push(skillForm);
       this.minorsSkillBySkill.set(skill.id, new FormArray([]));
       const minorSkills = this.minorsSkillBySkill.get(skill.id);
       skill.minorSkills.forEach(minorSkill => {
-        const minorSkillForm = (skillForm.get('minorSkills') as FormArray).controls
+        const minorSkillForm = (skillForm.get('minorSkills') as FormArray<FormGroup>).controls
           .filter(control => control.get('minorSkillTemplateId').value == minorSkill.minorSkillTemplateId)[0];
         minorSkills.push(minorSkillForm);
       });

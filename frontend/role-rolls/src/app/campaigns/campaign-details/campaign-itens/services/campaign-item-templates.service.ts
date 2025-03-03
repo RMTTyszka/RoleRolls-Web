@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { v4 as uuidv4 } from 'uuid';
-import { RRColumns } from '../../../../components/grid/grid.component';
-import { RR_API } from '../../../../tokens/loh.api';
+import { RRColumns } from '@app/components/grid/grid.component';
+import { RR_API } from '@app/tokens/loh.api';
+import { PagedOutput } from '@app/models/PagedOutput';
 import {
   ArmorTemplateModel,
   ItemTemplateModel,
   ItemType,
   WeaponTemplateModel
-} from '../../../../models/ItemTemplateModel';
-import { PagedOutput } from '../../../../models/PagedOutput';
+} from '@app/models/itens/ItemTemplateModel';
 
 @Injectable({
   providedIn: 'root'

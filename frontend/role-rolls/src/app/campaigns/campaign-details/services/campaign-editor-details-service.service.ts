@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import { ItemTemplateModel } from '../../../models/ItemTemplateModel';
-import { EditorAction } from '../../../models/EntityActionData';
+import { EditorAction } from '@app/models/EntityActionData';
 import { Campaign } from '../../models/campaign';
+import { ItemTemplateModel } from '@app/models/itens/ItemTemplateModel';
 
 @Injectable({
   providedIn: 'root'

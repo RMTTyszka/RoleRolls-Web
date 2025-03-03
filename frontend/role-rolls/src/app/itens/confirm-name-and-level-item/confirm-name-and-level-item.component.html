@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      Name
+    </span>
+    <input pInputText formControlName="name">
+    <span class="p-inputgroup-addon">
+      Level
+    </span>
+    <input pInputNumber formControlName="level">
+  </div>
+</form>
+<div class="flex flex-wrap gap-4 p-mt-2">
+  <button pButton label="Add" (click)="add()"></button>
+  <button pButton label="Cancel" (click)="cancel()"></button>
+</div>
+

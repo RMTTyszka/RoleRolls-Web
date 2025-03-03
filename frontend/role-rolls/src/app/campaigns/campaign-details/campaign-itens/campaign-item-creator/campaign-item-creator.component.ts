@@ -1,15 +1,9 @@
 import { Component, effect, EventEmitter, Input, Output, Signal } from '@angular/core';
-import {
-  ArmorCategory, ArmorTemplateModel,
-  ItemTemplateModel,
-  ItemType,
-  WeaponCategory,
-  WeaponTemplateModel
-} from '../../../../models/ItemTemplateModel';
-import { EditorAction } from '../../../../models/EntityActionData';
+
+import { EditorAction } from '@app/models/EntityActionData';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
-import { SubscriptionManager } from '../../../../tokens/subscription-manager';
+import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { CampaignItemTemplatesService } from '../services/campaign-item-templates.service';
 import { CampaignEditorDetailsServiceService } from '../../services/campaign-editor-details-service.service';
 import { Campaign } from '../../../models/campaign';
@@ -18,6 +12,13 @@ import { ButtonDirective } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { NgIf } from '@angular/common';
 import {LoggerService} from '@services/logger/logger.service';
+import {
+  ArmorCategory, ArmorTemplateModel,
+  ItemTemplateModel,
+  ItemType,
+  WeaponCategory,
+  WeaponTemplateModel
+} from '@app/models/itens/ItemTemplateModel';
 
 @Component({
   selector: 'rr-campaign-item-creator',

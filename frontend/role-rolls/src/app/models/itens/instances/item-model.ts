@@ -1,5 +1,5 @@
-import {ItemTemplateModel} from '@app/models/ItemTemplateModel';
 import {Entity} from '@app/models/Entity.model';
+import { ItemTemplateModel } from '@app/models/itens/ItemTemplateModel';
 
 export interface ItemModel extends Entity {
   name: string;
