@@ -86,4 +86,6 @@ export class SceneCreaturesComponent {
       this.refreshCreaturees(true);
     }));
   }
+
+  protected readonly CreatureCategory = CreatureCategory;
 }

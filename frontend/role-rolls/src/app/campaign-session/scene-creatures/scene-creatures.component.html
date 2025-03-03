@@ -1,4 +1,4 @@
-<p-panel header="Heroes">
+<p-panel [header]="creatureCategory() === CreatureCategory.Hero ? 'Heroes' : 'Monsters'">
   <div *ngFor="let hero of heroes">
     <rr-scene-creature-row [creature]="hero"></rr-scene-creature-row>
   </div>

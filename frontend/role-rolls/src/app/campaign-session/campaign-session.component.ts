@@ -17,10 +17,6 @@ import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature
 import { Creature } from '@app/campaigns/models/creature';
 import { Panel } from 'primeng/panel';
 import { Select } from 'primeng/select';
-import { Fieldset } from 'primeng/fieldset';
-import { Popover } from 'primeng/popover';
-import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
-import { CreatureSelectComponent } from '@app/campaign-session/creature-select/creature-select.component';
 import { SceneCreaturesComponent } from '@app/campaign-session/scene-creatures/scene-creatures.component';
 import { SceneLogComponent } from '@app/campaign-session/scene-log/scene-log.component';
 import { FormsModule } from '@angular/forms';
@@ -141,8 +137,9 @@ export class CampaignSessionComponent {
       data: {
         campaign: this.campaign,
         action: EditorAction.create,
-        creatureType: CreatureCategory.Hero
+        creatureType: CreatureCategory.Hero,
       },
+      focusOnShow: false
     });
   }
   public addHero(hero: Creature){

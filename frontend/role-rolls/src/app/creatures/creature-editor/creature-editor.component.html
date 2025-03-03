@@ -1,67 +1,65 @@
 <div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
     <div class="p-inputgroup">
-    <span class="p-inputgroup-addon">
-      Name
-    </span>
+      <span class="p-inputgroup-addon">
+        Name
+      </span>
       <input pInputText formControlName="name">
     </div>
     <p-tabView>
       <p-tabPanel header="General">
         <p-panel [toggleable]="true" [collapsed]=false>
-          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-            <span class="p-panel-title p-col-6">Attributes</span>
+          <ng-template #header class="flex justify-between items-center w-full">
+            <span class="text-lg font-semibold">Attributes</span>
           </ng-template>
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
               <div [formGroup]="attribute">
                 <div class="p-inputgroup">
-                  <input type="text" pInputText  formControlName="name" >
+                  <input type="text" pInputText formControlName="name">
                   <span class="p-inputgroup-addon">
-                    <p-inputNumber formControlName="value" ></p-inputNumber>
+                    <p-inputNumber formControlName="value"></p-inputNumber>
                   </span>
                 </div>
-
               </div>
             </div>
           </div>
         </p-panel>
         <p-panel [toggleable]="true">
-          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-            <span class="p-panel-title p-col">Skills</span>
+          <ng-template #header class="flex justify-between items-center w-full">
+            <span class="text-lg font-semibold">Skills</span>
           </ng-template>
           <div formArrayName="attributes">
             <div *ngFor="let attribute of attributes.controls; let i=index">
               <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" [collapsed]=true toggler="header">
-                <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-                  <span class="p-panel-title p-col-6">{{attribute.get('name').value}}</span>
+                <ng-template #header class="flex justify-between items-center w-full">
+                  <span class="font-semibold">{{attribute.get('name').value}}</span>
                 </ng-template>
-                <div class="p-grid p-justify-between p-align-start p-nogutter">
-                  <div class="p-col-6">
+                <div class="flex justify-between gap-2">
+                  <div class="flex-1">
                     <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
                       <div form [formGroup]="skill">
                         <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
                           <ng-template #header>
-                            <div class="p-grid p-justify-between p-align-center p-nogutter">
-
-                              <div class="p-inputgroup p-col-4">
-                                <input type="text" pInputText  placeholder="Name" formControlName="name" required>
+                            <div class="flex justify-between items-center w-full">
+                              <div class="flex gap-2 w-1/3">
+                                <input type="text" pInputText placeholder="Name" formControlName="name" required>
                               </div>
-                              <div class="p-inputgroup p-col-4 p-grid">
+                              <div class="flex items-center gap-2 w-1/3">
                                 <span>Remaining Points </span>
-                                <input type="text"pInputText formControlName="remainingPoints"required class="point-block">
+                                <input type="text" pInputText formControlName="remainingPoints" required>
                               </div>
                             </div>
                           </ng-template>
-                          <div class="p-grid p-justify-between p-align-start p-nogutter">
-                            <div class="p-col-6" form [formGroup]="skill">
+                          <div class="flex justify-between gap-2">
+                            <div class="flex-1" form [formGroup]="skill">
                               <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
                                 <div form [formGroup]="minorSkill">
                                   <div class="p-inputgroup">
                                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                                    <span class="p-inputgroup-addon point-block">
-                                <input class="point-block" formControlName="points" type="number" pInputText placeholder="Value" (blur)="print()">
-                              </span>
+                                    <span class="p-inputgroup-addon">
+                                      <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()">
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -83,29 +81,27 @@
             </div>
           </ng-template>
           <div formArrayName="lifes">
-            <div *ngFor="let life of lifes.controls; let i=index" style="padding-bottom: 8px;">
+            <div *ngFor="let life of lifes.controls; let i=index" class="pb-2">
               <div [formGroup]="life">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <div class="p-inputgroup-addon p-input-filled life-value" >
+                  <div class="p-inputgroup-addon p-input-filled life-value">
                     <input type="text" pInputText placeholder="Value" formControlName="value">
                   </div>
                   <div class="p-inputgroup-addon life-max-value" pTooltip="Max Value">
                     <input type="text" pInputText placeholder="Max" formControlName="maxValue">
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
         </p-panel>
         <p-panel [toggleable]="true">
-          <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
-            <span class="p-panel-title p-col-6">Defenses</span>
+          <ng-template #header class="flex justify-between items-center w-full">
+            <span class="text-lg font-semibold">Defenses</span>
           </ng-template>
           <div formArrayName="defenses">
-            <div *ngFor="let defense of defenses.controls; let i=index" style="padding-bottom: 8px;">
+            <div *ngFor="let defense of defenses.controls; let i=index" class="pb-2">
               <div [formGroup]="defense">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
@@ -113,7 +109,6 @@
                     <input type="text" pInputText placeholder="Value" formControlName="value">
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -122,10 +117,8 @@
       <p-tabPanel header="Inventory">
         <rr-creature-inventory [form]="form" [creature]="creature"></rr-creature-inventory>
       </p-tabPanel>
-
     </p-tabView>
-
   </form>
-  <button style="display: flex; flex: initial" pButton label="Save" (click)=save() [disabled]=!canSave()></button>
+  <button class="p-button p-component" style="display: flex; flex: initial" (click)="save()" [disabled]="!canSave()">Save</button>
 </div>
 <p-message></p-message>

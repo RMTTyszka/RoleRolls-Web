@@ -3,10 +3,10 @@
     <p-toolbar class="w-full">
       <div class="flex w-full justify-between items-center">
         <div class="flex w-3/5 space-x-4">
-          <p-select *ngIf="loadMe" class="flex-1" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-select>
+          <p-select class="flex-1" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-select>
           <div class="p-inputgroup w-auto" *ngIf="isMaster">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName" class="border rounded px-2 py-1 flex-1">
-            <button pButton type="button" icon="pi pi-plus" class="p-button-primary"></button>
+            <button pButton type="button" icon="pi pi-plus" class="p-button-primary" (click)="newScene()"></button>
           </div>
         </div>
         <div class="flex space-x-2">

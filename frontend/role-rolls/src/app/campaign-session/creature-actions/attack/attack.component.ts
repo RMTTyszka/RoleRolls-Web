@@ -73,7 +73,7 @@ export class AttackComponent {
 
   private resolveTargets() {
     this.targets =
-      this.attacker().creatureType === CreatureCategory.Hero ?
+      this.attacker().category === CreatureCategory.Hero ?
         this.pocketCampaignDetailsService.monsters().concat(this.pocketCampaignDetailsService.heroes())
         : this.pocketCampaignDetailsService.heroes().concat(this.pocketCampaignDetailsService.monsters());
   }

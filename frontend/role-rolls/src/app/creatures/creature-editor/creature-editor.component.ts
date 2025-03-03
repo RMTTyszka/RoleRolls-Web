@@ -23,12 +23,14 @@ import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Message} from 'primeng/message';
 import {TabPanel, TabView} from 'primeng/tabview';
 import {Panel} from 'primeng/panel';
-import {NgForOf} from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {InputNumber} from 'primeng/inputnumber';
 import {
   CreatureInventoryComponent
 } from '@app/creatures/creature-editor/creature-inventory/creature-inventory.component';
 import { InputText } from 'primeng/inputtext';
+import { Tooltip } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
 
 @Component({
   selector: 'rr-creature-editor',
@@ -41,7 +43,9 @@ import { InputText } from 'primeng/inputtext';
     NgForOf,
     InputNumber,
     CreatureInventoryComponent,
-    InputText
+    InputText,
+    Tooltip,
+    NgIf
   ],
   templateUrl: './creature-editor.component.html',
   styleUrl: './creature-editor.component.scss'
@@ -145,7 +149,7 @@ export class CreatureEditorComponent {
 
   public save() {
     const creature = this.form.getRawValue() as Creature;
-    creature.creatureType = CreatureCategory.Hero;
+    creature.category = CreatureCategory.Hero;
     const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature)
       : this.campaignService.updateCreature(this.campaign.id, creature);
     saveAction.subscribe(() => {

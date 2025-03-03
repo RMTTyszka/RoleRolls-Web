@@ -12,7 +12,7 @@ export class Creature implements Entity {
   public skills: Skill[] = [];
   public lifes: Life[] = [];
   public defenses: Defense[] = [];
-  public creatureType!: CreatureCategory;
+  public category!: CreatureCategory;
   public inventory: Inventory = new Inventory();
   public equipment: Equipment = new Equipment();
   public ownerId!: string;
