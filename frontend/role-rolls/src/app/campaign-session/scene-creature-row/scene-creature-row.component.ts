@@ -4,7 +4,7 @@ import { MenuItem, PrimeTemplate } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditorAction } from '@app/models/EntityActionData';
 import { RollOrigin } from '@app/models/RollOrigin';
 import { RollInput } from '@app/campaigns/models/RollInput';
@@ -17,34 +17,35 @@ import { CampaignTemplate, SkillTemplate } from '@app/campaigns/models/campaign.
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonDirective, ButtonModule } from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
-import { Popover } from 'primeng/popover';
-import { TieredMenu } from 'primeng/tieredmenu';
-import { Tooltip } from 'primeng/tooltip';
-import { Sidebar } from 'primeng/sidebar';
+import { Popover, PopoverModule } from 'primeng/popover';
+import { TieredMenu, TieredMenuModule } from 'primeng/tieredmenu';
+import { Tooltip, TooltipModule } from 'primeng/tooltip';
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
 import { RollDiceComponent } from '@app/campaign-session/scene-rolls/roll-dice/roll-dice.component';
 import { SimulateCdComponent } from '@app/campaign-session/scene-rolls/simulate-cd/simulate-cd.component';
 import { AttackComponent } from '@app/campaign-session/creature-actions/attack/attack.component';
 import {
   VitalityManagerComponent
 } from '@app/campaign-session/creature-actions/vitality-manager/vitality-manager.component';
+import { Drawer, DrawerModule } from 'primeng/drawer';
 
 @Component({
   selector: 'rr-scene-creature-row',
   imports: [
     ButtonDirective,
     NgIf,
-    Popover,
+    PopoverModule,
     TieredMenu,
-    PrimeTemplate,
     Tooltip,
-    Sidebar,
     RollDiceComponent,
     SimulateCdComponent,
     AttackComponent,
     VitalityManagerComponent,
-    NgForOf
+    NgForOf,
+    SidebarModule,
+    DrawerModule,
   ],
   templateUrl: './scene-creature-row.component.html',
   styleUrl: './scene-creature-row.component.scss'

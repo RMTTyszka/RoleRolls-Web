@@ -192,7 +192,7 @@ export class CampaignsService {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}`);
   }
   public getSceneCreatures(campaignId: string, sceneId: string, creatureType: CreatureCategory): Observable<Creature[]> {
-    const params = new HttpParams().set('creatureType', creatureType);
+    const params = new HttpParams().set('creatureCategory', creatureType);
     return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
   public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {

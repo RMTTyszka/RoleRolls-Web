@@ -1,4 +1,26 @@
-<p-panel [header]="creatureCategory() === CreatureCategory.Hero ? 'Heroes' : 'Monsters'">
+<p-panel>
+  <ng-template #header>
+    <div class="flex justify-between items-center w-full">
+    <span>
+      {{ creatureCategory() === CreatureCategory.Hero ? 'Heroes' : 'Monsters' }}
+    </span>
+      <div class="flex gap-2">
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Hero && isMaster"
+                            placeholder="Add Hero"
+                            [campaign]="campaign()"
+                            [creatureType]="CreatureCategory.Hero"
+                            (creatureSelected)="addCreature($event)">
+        </rr-creature-select>
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Monster && isMaster"
+                            placeholder="Add Monster"
+                            [campaign]="campaign()"
+                            [creatureType]="CreatureCategory.Monster"
+                            (creatureSelected)="addCreature($event)">
+        </rr-creature-select>
+      </div>
+    </div>
+  </ng-template>
+
   <div *ngFor="let hero of heroes">
     <rr-scene-creature-row [creature]="hero"></rr-scene-creature-row>
   </div>

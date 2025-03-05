@@ -10,6 +10,7 @@ import { ProgressSpinner } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { ButtonDirective } from 'primeng/button';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'rr-simulate-cd',
@@ -17,7 +18,8 @@ import { ButtonDirective } from 'primeng/button';
     ProgressSpinner,
     TableModule,
     FormsModule,
-    ButtonDirective
+    ButtonDirective,
+    NgIf
   ],
   templateUrl: './simulate-cd.component.html',
   styleUrl: './simulate-cd.component.scss'

@@ -142,14 +142,4 @@ export class CampaignSessionComponent {
       focusOnShow: false
     });
   }
-  public addHero(hero: Creature){
-    const input = {
-      creatureId: hero.id,
-      hidden: false
-    } as SceneCreature;
-    this.campaignService.addHeroToScene(this.campaignId, this.selectedScene.id, input)
-      .subscribe(() => {
-        this.detailsService.heroAddedToScene.next();
-      });
-  }
 }

@@ -8,10 +8,19 @@ import {TakeDamageInput} from '@app/campaigns/models/TakeDamangeInput';
 import {SubscriptionManager} from '@app/tokens/subscription-manager';
 import {CampaignsService} from '@app/campaigns/services/campaigns.service';
 import {TakeDamageApiInput} from '@app/campaign-session/creature-actions/models/TakeDamageApiInput';
+import { FormsModule } from '@angular/forms';
+import { NgForOf } from '@angular/common';
+import { ButtonDirective } from 'primeng/button';
+import { Divider } from 'primeng/divider';
 
 @Component({
   selector: 'rr-vitality-manager',
-  imports: [],
+  imports: [
+    FormsModule,
+    NgForOf,
+    ButtonDirective,
+    Divider
+  ],
   templateUrl: './vitality-manager.component.html',
   styleUrl: './vitality-manager.component.scss'
 })

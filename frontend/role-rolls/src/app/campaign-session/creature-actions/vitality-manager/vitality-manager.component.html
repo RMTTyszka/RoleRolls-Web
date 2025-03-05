@@ -1,1 +1,26 @@
-<p>vitality-manager works!</p>
+<div class="p-grid">
+  <div class="p-field p-col-12">
+    <label for="damage-input">Damage</label>
+    <input id="damage-input" pInput type="number" [(ngModel)]="damageInput.value" class="p-col-12">
+  </div>
+  <div class="p-col-12">
+    <div class="p-grid" *ngFor="let life of lifes; let i = index;">
+      <button pButton (click)=takeDamage(life) [label]="life.name" class="p-col-12 danger-color" [disabled]="damageInput.value < 1"></button>
+      <span class="p-col-12">Result: {{resultFromDamage(life)}}</span>
+    </div>
+  </div>
+</div>
+<p-divider></p-divider>
+
+<div class="p-grid">
+  <div class="p-field p-col-12">
+    <label for="heal-input">Heal</label>
+    <input id="heal-input" pInput type="number" [(ngModel)]="healInput.value" class="p-col-12">
+  </div>
+  <div class="p-col-12">
+    <div class="p-grid" *ngFor="let life of lifes; let i = index;">
+      <button pButton (click)=heal(life) [label]="life.name" class="p-col-12 success-color" [disabled]="healInput.value < 1"></button>
+      <span class="p-col-12">Result: {{resultFromHeal(life)}}</span>
+    </div>
+  </div>
+</div>

@@ -1,15 +1,18 @@
 /*@tailwind base;*/
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Fondamento|IM+Fell+English+SC|Maitree');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 @import "primeicons/primeicons.css";
-
+.font-base {
+  font-family: 'IM Fell English SC';
+}
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
 app-root {
   display: block;
   height: 100%;
