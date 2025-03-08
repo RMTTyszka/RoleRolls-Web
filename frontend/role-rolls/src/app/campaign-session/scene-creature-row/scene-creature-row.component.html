@@ -30,14 +30,14 @@
     <p-tieredMenu [model]="simluateCdOptions"></p-tieredMenu>
   </ng-template>
 </p-popover>
-
+<!--
 <p-sidebar [(visible)]="displayRollSidebar" position="right" [modal]="false" appendTo="body">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-sidebar>
 
 <p-sidebar [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false"  [style]="{width:'40em'}">
   <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
-</p-sidebar>
+</p-sidebar>-->
 <p-drawer [dismissible]="false"  [(visible)]="displayAttackSidebar" position="right" [modal]="false"
 >
   <rr-attack
