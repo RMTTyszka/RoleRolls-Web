@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(asyncConfigInitializer),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: RrPrimengPreset,
         options: {
           darkModeSelector: '.my-app-dark',
           cssLayer: {
