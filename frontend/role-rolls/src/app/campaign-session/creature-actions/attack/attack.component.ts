@@ -9,16 +9,32 @@ import { Campaign } from '@app/campaigns/models/campaign';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { RROption } from '@app/models/RROption';
 import { PropertyType } from '@app/campaigns/models/propertyType';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { getAsForm } from '@app/tokens/EditorExtension';
 import { AttackInput } from '@app/campaigns/models/TakeDamangeInput';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { firstValueFrom } from 'rxjs';
 import { WeaponCategory, WeaponTemplateModel } from '@app/models/itens/ItemTemplateModel';
+import { NgIf } from '@angular/common';
+import { Select } from 'primeng/select';
+import { CreatureSelectComponent } from '@app/campaign-session/creature-select/creature-select.component';
+import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
+import { ButtonDirective } from 'primeng/button';
+import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
+import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
 
 @Component({
   selector: 'rr-attack',
-  imports: [],
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    Select,
+    CreatureSelectComponent,
+    PropertySelectorComponent,
+    ButtonDirective,
+    FormFieldWrapperComponent,
+    FieldTitleDirective
+  ],
   templateUrl: './attack.component.html',
   styleUrl: './attack.component.scss'
 })

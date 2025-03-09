@@ -1,1 +1,57 @@
-<p>attack works!</p>
+<div *ngIf="form()" class="p-4 w-full">
+  <form [formGroup]="form()" class="w-full">
+    <rr-form-field-wrapper>
+      <!-- Campo Slot -->
+      <ng-template fieldTitle="Slot">
+        <p-select id="slot-input" formControlName="slot" [options]="slotOptions" optionLabel="label" optionValue="value" class="w-full">
+        </p-select>
+      </ng-template>
+
+      <!-- Campo Target -->
+      <ng-template fieldTitle="Target">
+        <rr-creature-select id="target-input" [creaturesAvailable]="targets" (creatureSelected)="targetSelected($event)" class="w-full">
+        </rr-creature-select>
+      </ng-template>
+
+      <!-- Campo Hit Property -->
+      <ng-template fieldTitle="Hit Property">
+        <rr-property-selector id="hit-input" [campaign]="campaign()"
+                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
+                              formControlName="hitPropertyId"
+                              class="w-full">
+        </rr-property-selector>
+      </ng-template>
+
+      <!-- Campo Damage Property -->
+      <ng-template fieldTitle="Damage Property">
+        <rr-property-selector id="damage-input" [campaign]="campaign()"
+                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
+                              formControlName="damagePropertyId"
+                              class="w-full">
+        </rr-property-selector>
+      </ng-template>
+
+      <!-- Campo Defense -->
+      <ng-template fieldTitle="Defense">
+        <rr-property-selector id="defense-input" [campaign]="campaign()"
+                              [propertyType]="[propertyType.Defense]"
+                              formControlName="defenseId"
+                              class="w-full">
+        </rr-property-selector>
+      </ng-template>
+
+      <!-- Campo Life -->
+      <ng-template fieldTitle="Life">
+        <rr-property-selector id="life-input" [campaign]="campaign()"
+                              [propertyType]="[propertyType.Life]"
+                              formControlName="lifeId"
+                              class="w-full">
+        </rr-property-selector>
+      </ng-template>
+    </rr-form-field-wrapper>
+  </form>
+
+  <div class="mt-6 w-full">
+    <button pButton (click)="attack()" label="Attack" class="w-full bg-red-500 text-white p-2 rounded disabled:opacity-50" [disabled]="!form().valid"></button>
+  </div>
+</div>
