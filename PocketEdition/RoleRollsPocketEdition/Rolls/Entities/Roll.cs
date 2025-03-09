@@ -35,6 +35,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         public Roll(Guid campaignId, Guid sceneId, Guid actorId, Guid propertyId, RollPropertyType propertyType,
             bool hidden, string description)
         {
+            Id = Guid.NewGuid();
             ActorId = actorId;
             Hidden = hidden;
             SceneId = sceneId;
