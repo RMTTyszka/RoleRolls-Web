@@ -19,17 +19,8 @@
 </div>
 
 
-<p-popover #rollPanel>
-  <ng-template pTemplate>
-    <p-tieredMenu [model]="rollOptions" [popup]="true" ></p-tieredMenu>
-  </ng-template>
-</p-popover>
-
-<p-popover #simulateCdPanel>
-  <ng-template pTemplate>
-    <p-tieredMenu [model]="simluateCdOptions"></p-tieredMenu>
-  </ng-template>
-</p-popover>
+    <p-tieredMenu #rollPanel [model]="rollOptions" [popup]="true" ></p-tieredMenu>
+<p-tieredMenu #simulateCdPanel [model]="simluateCdOptions" [popup]="true"></p-tieredMenu>
 <p-drawer [(visible)]="displayRollSidebar" position="right" [modal]="false" appendTo="body">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-drawer>

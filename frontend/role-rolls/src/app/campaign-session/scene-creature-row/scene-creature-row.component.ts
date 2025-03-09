@@ -101,7 +101,8 @@ export class SceneCreatureRowComponent {
           campaign: this.campaign,
           action: EditorAction.update,
           creatureId: creature.id
-        }
+        },
+        closable: true,
       });
     }
 
