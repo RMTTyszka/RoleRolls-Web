@@ -1,9 +1,12 @@
 <p-autoComplete
+  class="flex flex-1"
   (completeMethod)="search()"
   [placeholder]="placeholder"
   [dropdown]="true"
   (onSelect)="selected($event.value)"
   optionLabel="name"
   optionValue="id"
-  [suggestions]="result"></p-autoComplete>
+  [suggestions]="result"
+
+></p-autoComplete>
 

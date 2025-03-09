@@ -13,7 +13,10 @@ import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
     AutoComplete
   ],
   templateUrl: './creature-select.component.html',
-  styleUrl: './creature-select.component.scss'
+  styleUrl: './creature-select.component.scss',
+  host: {
+    class: 'flex',
+  }
 })
 export class CreatureSelectComponent {
   @Input() campaign: Campaign;

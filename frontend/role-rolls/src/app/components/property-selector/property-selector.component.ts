@@ -33,7 +33,10 @@ import { Property } from '@app/models/bonuses/bonus';
       useExisting: forwardRef(() => PropertySelectorComponent),
       multi: true
     }
-  ]
+  ],
+  host: {
+    class: 'flex'
+  }
 })
 export class PropertySelectorComponent implements ControlValueAccessor {
   public _value: Property | null = null;
