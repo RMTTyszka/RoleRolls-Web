@@ -8,9 +8,13 @@ import { Campaign } from '@app/campaigns/models/campaign';
 import { SimulateCdResult } from '@app/campaigns/models/simulate-cd-result';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonDirective } from 'primeng/button';
 import { NgIf } from '@angular/common';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
+import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
+import { Select } from 'primeng/select';
 
 @Component({
   selector: 'rr-simulate-cd',
@@ -19,7 +23,12 @@ import { NgIf } from '@angular/common';
     TableModule,
     FormsModule,
     ButtonDirective,
-    NgIf
+    NgIf,
+    InputNumberModule,
+    FormFieldWrapperComponent,
+    FieldTitleDirective,
+    ReactiveFormsModule,
+
   ],
   templateUrl: './simulate-cd.component.html',
   styleUrl: './simulate-cd.component.scss'

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { Divider } from 'primeng/divider';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'rr-vitality-manager',
@@ -19,7 +20,8 @@ import { Divider } from 'primeng/divider';
     FormsModule,
     NgForOf,
     ButtonDirective,
-    Divider
+    Divider,
+    InputNumberModule
   ],
   templateUrl: './vitality-manager.component.html',
   styleUrl: './vitality-manager.component.scss'
@@ -31,6 +33,10 @@ export class VitalityManagerComponent {
   @Input() public scene: CampaignScene;
   public creature: Creature;
   public damageInput: TakeDamageApiInput = new TakeDamageApiInput();
+  public damageValue = 0;
+  public damageVitalityId = '';
+  public healVitalityId = '';
+  public healValue = 0;
   public healInput: TakeDamageApiInput = new TakeDamageApiInput();
   private subscriptionManager = new SubscriptionManager();
 
@@ -58,6 +64,7 @@ export class VitalityManagerComponent {
 
   public takeDamage(life: Life) {
     this.damageInput.lifeId = life.id;
+    this.damageInput.value = this.damageValue;
     this.campaignService.takeDamage(this.campaign.id, this.scene.id, this.creature.id, this.damageInput)
       .subscribe(() => {
         this.damageInput.value = 0;
@@ -68,6 +75,7 @@ export class VitalityManagerComponent {
 
   public heal(life: Life) {
     this.healInput.lifeId = life.id;
+    this.healInput.value = this.healValue;
     this.campaignService.heal(this.campaign.id, this.scene.id, this.creature.id, this.healInput)
       .subscribe(() => {
         this.healInput.value = 0;

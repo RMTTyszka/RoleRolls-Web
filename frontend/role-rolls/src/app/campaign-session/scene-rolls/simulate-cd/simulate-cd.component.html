@@ -1,13 +1,17 @@
-<div class="p-grid p-jc-between">
-  <div class="p-inputgroup p-col-10">
-    <input pInput placeholder="Desirable Chance" [(ngModel)]="expectedChance" [disabled]="calculating"/>
-    <span class="p-inputgroup-addon">%</span>
-    <button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-inputgroup-addon p-button-secondary" [disabled]="calculating"></button>
-  </div>
-  <p-progressSpinner class="p-col-2" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>
+<div class="flex justify-between gap-4">
+  <rr-form-field-wrapper class="w-5/6">
+    <!-- Campo Slot -->
+    <ng-template class="p-inputgroup" fieldTitle="Desirable Chance">
+        <p-inputnumber id="input" [(ngModel)]="expectedChance" [disabled]="calculating" class=""></p-inputnumber>
+        <button  pButton type="button" [disabled]="true" class="p-inputgroup-addon">%</button>
+        <button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-inputgroup-addon p-button-secondary" [disabled]="calculating"></button>
+    </ng-template>
+  </rr-form-field-wrapper>
+  <p-progressSpinner class="w-1/6" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>
 </div>
 
-<p-table [value]="chances" responsiveLayout="scroll">
+
+<p-table [value]="chances" responsiveLayout="scroll" class="mt-4">
   <ng-template pTemplate="header">
     <tr>
       <th>Complexity</th>
@@ -17,9 +21,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-chance>
     <tr>
-      <td>{{chance.complexity}}</td>
-      <td>{{chance.difficulty}}</td>
-      <td>{{chance.chance }} %</td>
+      <td>{{ chance.complexity }}</td>
+      <td>{{ chance.difficulty }}</td>
+      <td>{{ chance.chance }} %</td>
     </tr>
   </ng-template>
 </p-table>

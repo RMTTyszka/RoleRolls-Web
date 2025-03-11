@@ -272,14 +272,14 @@ export class SceneCreatureRowComponent {
       const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
       input.propertyId = minorSkills.id;
     }
-    this.displaySimulateCdSidebar = true;
+    this.displaySimulateCdSidebar = !this.displaySimulateCdSidebar;
     this.simulateCdInputEmitter.next(input);
   }
   public takeDamage(creature: Creature) {
     const input = {
       creature: creature
     } as TakeDamageInput;
-    this.displayTakeDamageSidebar = true;
+    this.displayTakeDamageSidebar = !this.displayTakeDamageSidebar;
     this.takeDamageInputEmitter.next(input);
   }
   ngOnInit(): void {
@@ -290,6 +290,6 @@ export class SceneCreatureRowComponent {
 
   public attack(creature: Creature) {
     this.attacker.set(creature);
-    this.displayAttackSidebar.set(true);
+    this.displayAttackSidebar.set(!this.displayAttackSidebar());
   }
 }
