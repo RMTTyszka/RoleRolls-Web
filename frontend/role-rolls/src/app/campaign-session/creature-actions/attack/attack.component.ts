@@ -68,7 +68,7 @@ export class AttackComponent {
       const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
       return getAsForm({
         slot: EquipableSlot.MainHand,
-        lifeId: itemConfiguration.basicAttackTargetFirstLife,
+        vitalityId: itemConfiguration.basicAttackTargetFirstVitality,
         defenseId: itemConfiguration.armorProperty,
         hitPropertyId: hitProperty,
         damagePropertyId: damageProperty,
@@ -89,7 +89,7 @@ export class AttackComponent {
 
   private resolveTargets() {
     this.targets =
-      this.attacker().category === CreatureCategory.Hero ?
+      this.attacker().category === CreatureCategory.Ally ?
         this.pocketCampaignDetailsService.monsters().concat(this.pocketCampaignDetailsService.heroes())
         : this.pocketCampaignDetailsService.heroes().concat(this.pocketCampaignDetailsService.monsters());
   }

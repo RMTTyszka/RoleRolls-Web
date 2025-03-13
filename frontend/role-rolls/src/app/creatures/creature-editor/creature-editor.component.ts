@@ -60,8 +60,8 @@ export class CreatureEditorComponent {
     return this.form.get('skills') as FormArray<FormGroup>;
   }
 
-  public get lifes(): FormArray<FormGroup> {
-    return this.form.get('lifes') as FormArray<FormGroup>;
+  public get vitalities(): FormArray<FormGroup> {
+    return this.form.get('vitalities') as FormArray<FormGroup>;
   }
 
   public get defenses(): FormArray<FormGroup> {
@@ -78,7 +78,7 @@ export class CreatureEditorComponent {
   ) {
     this.campaign = config.data.campaign;
     this.editorAction = config.data.action;
-    this.creatureType = config.data.creatureType;
+    this.creatureCategory = config.data.creatureCategory;
     if (this.editorAction === EditorAction.update) {
       this.creatureId = config.data.creatureId;
     }
@@ -93,7 +93,7 @@ export class CreatureEditorComponent {
   public skillsMapping = new Map<string, FormArray<FormGroup>>();
   public minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
   public creatureId: string;
-  public creatureType: CreatureCategory;
+  public creatureCategory: CreatureCategory;
 
   private subscriptionManager = new SubscriptionManager();
 
@@ -107,7 +107,7 @@ export class CreatureEditorComponent {
 
   async ngOnInit(): Promise<void> {
     if (this.editorAction === EditorAction.create) {
-      this.creature = await this.campaignService.instantiateNewCreature(this.campaign.id, this.creatureType).toPromise();
+      this.creature = await this.campaignService.instantiateNewCreature(this.campaign.id, this.creatureCategory).toPromise();
     } else {
       this.creature = await this.campaignService.getCreature(this.campaign.id, this.creatureId).toPromise();
     }
@@ -133,7 +133,7 @@ export class CreatureEditorComponent {
       });
     });
     this.buildSkills();
-    (this.form.get('lifes') as FormArray).disable();
+    (this.form.get('vitalities') as FormArray).disable();
     (this.form.get('defenses') as FormArray).disable();
     this.subscribeToRefreshCreature();
     this.loaded = true;
@@ -149,7 +149,7 @@ export class CreatureEditorComponent {
 
   public save() {
     const creature = this.form.getRawValue() as Creature;
-    creature.category = CreatureCategory.Hero;
+    creature.category = CreatureCategory.Ally;
     const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature)
       : this.campaignService.updateCreature(this.campaign.id, creature);
     saveAction.subscribe(() => {

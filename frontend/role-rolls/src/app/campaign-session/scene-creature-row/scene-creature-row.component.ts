@@ -109,7 +109,7 @@ export class SceneCreatureRowComponent {
   }
   public removeCreature(creature: Creature) {
     this.campaignService.removeCreatureFromScene(this.campaign.id, this.scene.id, creature.id).subscribe(() => {
-      if (creature.category === CreatureCategory.Hero) {
+      if (creature.category === CreatureCategory.Ally) {
         this.detailsService.heroRemovedToScene.next();
       } else {
         this.detailsService.monsterRemovedToScene.next();

@@ -26,7 +26,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
     {
         var creatures = await _dbContext.Creatures
             .Include(creature => creature.Attributes)
-            .Include(creature => creature.Lifes)
+            .Include(creature => creature.Vitalities)
             .Include(creature => creature.Defenses)
             .Include(c => c.Equipment)
             .ThenInclude(e => e.MainHand)
@@ -75,7 +75,8 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
         var query = _dbContext.Creatures
             .AsSplitQuery()
             .Include(creature => creature.Attributes)
-            .Include(creature => creature.Lifes)
+            .Include(creature => creature.Vitalities)
+            .ThenInclude(v => v.VitalityTemplate)
             .Include(creature => creature.Defenses)
             .Include(c => c.Equipment)
             .ThenInclude(e => e.MainHand)
@@ -122,7 +123,6 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
     {
         var query = GetFullCreatureAsQueryable();
         var creature = await query.FirstAsync(e => e.Id == id);
-        creature.ProcessLifes();
         return creature;
     }
 

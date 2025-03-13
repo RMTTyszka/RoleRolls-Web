@@ -9,5 +9,5 @@ public enum PropertyType
     Skill = 2,
     MinorSkill = 3,
     Defense = 4,
-    Life = 5,
+    Vitality = 5,
 }

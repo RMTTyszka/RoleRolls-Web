@@ -33,19 +33,20 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public List<DamageType> DamageTypes { get; set; }
         public List<SkillTemplate> AttributelessSkills { get; set; }
         public List<Campaign> Campaigns { get; set; }
-        public ICollection<LifeTemplate> Lifes { get; set; }
+        public ICollection<VitalityTemplate> Vitalities { get; set; }
         public ICollection<DefenseTemplate> Defenses { get; set; }
         public ICollection<CreatureType> CreatureTypes { get; set; }
 
         public CampaignTemplate()
         {
             Attributes = [];
-            Lifes = [];
+            Vitalities = [];
             Defenses = [];
             ItemConfiguration = new ItemConfiguration();
             AttributelessSkills = [];
             DamageTypes = [];
             Archetypes = [];
+            CreatureTypes = [];
         }
         public CampaignTemplate(CampaignTemplateModel template) : base()
         {
@@ -53,7 +54,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             TotalAttributePoints = template.TotalAttributePoints;
             TotalSkillsPoints = template.TotalSkillsPoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
-            Lifes = template.Lifes.Select(life => new LifeTemplate(life)).ToList();
+            Vitalities = template.Vitalities.Select(vitality => new VitalityTemplate(vitality)).ToList();
             ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);
         }
 
@@ -63,9 +64,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Id = campaignModel.CampaignTemplateId ?? campaignModel.Id;
             ItemConfiguration = new ItemConfiguration(this);
         }
-        public Creature InstantiateCreature(string name, Guid campaignId, CreatureCategory category, Guid ownerId)
+        public Creature InstantiateCreature(string name, Guid campaignId, CreatureCategory category, Guid ownerId,
+            bool isTemplate)
         {
-            var creature = Creature.FromTemplate(this, campaignId, category);
+            var creature = Creature.FromTemplate(this, campaignId, category, isTemplate);
             creature.OwnerId = ownerId;
             creature.Category = category;
             creature.Name = name;
@@ -167,27 +169,27 @@ namespace RoleRollsPocketEdition.Templates.Entities
             dbContext.MinorSkillTemplates.Remove(minorSkill);
         }
 
-        public async Task AddLifeAsync(LifeTemplateModel life, RoleRollsDbContext dbContext)
+        public async Task AddVitalityAsync(VitalityTemplateModel vitality, RoleRollsDbContext dbContext)
         {
-            var newLife = new LifeTemplate(life);
-            newLife.CampaignTemplate = this;
-            newLife.CreatureTemplateId = Id;
-            Lifes.Add(newLife);
-            await dbContext.LifeTemplates.AddAsync(newLife);
+            var newVitality = new VitalityTemplate(vitality);
+            newVitality.CampaignTemplate = this;
+            newVitality.CreatureTemplateId = Id;
+            Vitalities.Add(newVitality);
+            await dbContext.VitalityTemplates.AddAsync(newVitality);
         }
 
-        public void RemoveLife(Guid lifeId, RoleRollsDbContext dbContext)
+        public void RemoveVitality(Guid vitalityId, RoleRollsDbContext dbContext)
         {
-            var life = Lifes.First(life => life.Id == lifeId);
-            Lifes.Remove(life);
-            dbContext.LifeTemplates.Remove(life);
+            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            Vitalities.Remove(vitality);
+            dbContext.VitalityTemplates.Remove(vitality);
         }
 
-        public void UpdateLife(Guid lifeId, LifeTemplateModel lifeModel, RoleRollsDbContext dbContext)
+        public void UpdateVitality(Guid vitalityId, VitalityTemplateModel vitalityModel, RoleRollsDbContext dbContext)
         {
-            var life = Lifes.First(life => life.Id == lifeId);
-            life.Update(lifeModel);
-            dbContext.LifeTemplates.Update(life);
+            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            vitality.Update(vitalityModel);
+            dbContext.VitalityTemplates.Update(vitality);
         }
         public async Task<DefenseTemplateAdded> AddDefenseAsync(DefenseTemplateModel defense, RoleRollsDbContext dbContext)
         {
@@ -216,10 +218,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
             return DefenseTemplateUpdated.FromDefenseTemplate(defenseModel);
         }
 
-        public async Task AddDamageTypeAsync(DamageType codeLife, RoleRollsDbContext context)
+        public async Task AddDamageTypeAsync(DamageType codeVitality, RoleRollsDbContext context)
         {
-            DamageTypes.Add(codeLife);
-            await context.DamageTypes.AddAsync(codeLife);
+            DamageTypes.Add(codeVitality);
+            await context.DamageTypes.AddAsync(codeVitality);
         }
 
         public async Task AddCreatureTypeAsync(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)

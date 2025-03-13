@@ -10,13 +10,14 @@ export class Creature implements Entity {
   public name!: string;
   public attributes: Attribute[] = [];
   public skills: Skill[] = [];
-  public lifes: Life[] = [];
+  public vitalities: Vitality[] = [];
   public defenses: Defense[] = [];
   public category!: CreatureCategory;
   public inventory: Inventory = new Inventory();
   public equipment: Equipment = new Equipment();
   public ownerId!: string;
   public level!: number;
+  public isTemplate!: boolean;
 }
 
 export class Attribute implements Entity {
@@ -44,7 +45,7 @@ export class MinorSkill implements Entity {
   public minorSkillTemplateId!: string;
   public points!: number;
 }
-export class Life implements Entity {
+export class Vitality implements Entity {
   public id: string;
   public name!: string;
   public value!: number;

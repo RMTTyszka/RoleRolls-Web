@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {CampaignSessionService} from '@app/campaign-session/campaign-session.service';
 import {Campaign} from '@app/campaigns/models/campaign';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
-import {Creature, Life} from '@app/campaigns/models/creature';
+import {Creature, Vitality} from '@app/campaigns/models/creature';
 import { Subject } from 'rxjs';
 import {TakeDamageInput} from '@app/campaigns/models/TakeDamangeInput';
 import {SubscriptionManager} from '@app/tokens/subscription-manager';
@@ -40,8 +40,8 @@ export class VitalityManagerComponent {
   public healInput: TakeDamageApiInput = new TakeDamageApiInput();
   private subscriptionManager = new SubscriptionManager();
 
-  public get lifes(): Life[] {
-    return this.creature?.lifes;
+  public get vitalities(): Vitality[] {
+    return this.creature?.vitalities;
   }
 
   constructor(
@@ -62,33 +62,33 @@ export class VitalityManagerComponent {
     this.subscriptionManager.clear();
   }
 
-  public takeDamage(life: Life) {
-    this.damageInput.lifeId = life.id;
+  public takeDamage(vitality: Vitality) {
+    this.damageInput.vitalityId = vitality.id;
     this.damageInput.value = this.damageValue;
     this.campaignService.takeDamage(this.campaign.id, this.scene.id, this.creature.id, this.damageInput)
       .subscribe(() => {
         this.damageInput.value = 0;
-        this.damageInput.lifeId = null;
+        this.damageInput.vitalityId = null;
         this.detailsService.heroTookDamage.next();
       })
   }
 
-  public heal(life: Life) {
-    this.healInput.lifeId = life.id;
+  public heal(vitality: Vitality) {
+    this.healInput.vitalityId = vitality.id;
     this.healInput.value = this.healValue;
     this.campaignService.heal(this.campaign.id, this.scene.id, this.creature.id, this.healInput)
       .subscribe(() => {
         this.healInput.value = 0;
-        this.healInput.lifeId = null;
+        this.healInput.vitalityId = null;
         this.detailsService.heroTookDamage.next();
       })
   }
 
-  public resultFromDamage(life: Life) {
-    return Math.min(...[life.maxValue, life.value - this.damageInput.value])
+  public resultFromDamage(vitality: Vitality) {
+    return Math.min(...[vitality.maxValue, vitality.value - this.damageInput.value])
   }
 
-  public resultFromHeal(life: Life) {
-    return Math.min(...[life.maxValue, life.value + this.healInput.value])
+  public resultFromHeal(vitality: Vitality) {
+    return Math.min(...[vitality.maxValue, vitality.value + this.healInput.value])
   }
 }

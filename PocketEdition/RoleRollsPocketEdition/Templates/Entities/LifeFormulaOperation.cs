@@ -2,9 +2,9 @@
 
 namespace RoleRollsPocketEdition.Templates.Entities
 {
-    public class LifeFormulaOperation : Entity
+    public class VitalityFormulaOperation : Entity
     {
-        public Guid LifeTemplateId { get; set; }
+        public Guid VitalityTemplateId { get; set; }
         public Guid AttributeId { get; set; }
         public string Operator { get; set; }
     }

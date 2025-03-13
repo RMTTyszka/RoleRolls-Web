@@ -9,6 +9,6 @@ export class AttackInput {
     public defenseId: string;
     public hitPropertyId: string;
     public damagePropertyId: string;
-    public lifeId: string;
+    public vitalityId: string;
     public targetId: string;
 }

@@ -11,7 +11,7 @@ import { RROption } from '@app/models/RROption';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 import { Campaign } from '@app/campaigns/models/campaign';
 import {
-  AttributeTemplate, DefenseTemplate, LifeTemplate,
+  AttributeTemplate, DefenseTemplate, VitalityTemplate,
   MinorSkillsTemplate,
   SkillTemplate
 } from '@app/campaigns/models/campaign.template';
@@ -56,7 +56,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
               .concat(this.skills())
               .concat(this.minorSkills())
               .concat(this.defenses())
-              .concat(this.lifes())
+              .concat(this.vitalities())
           );
           break;
         case PropertyType.Attribute:
@@ -71,8 +71,8 @@ export class PropertySelectorComponent implements ControlValueAccessor {
         case PropertyType.Defense:
           options = options.concat(this.defenses());
           break;
-        case PropertyType.Life:
-          options = options.concat(this.lifes());
+        case PropertyType.Vitality:
+          options = options.concat(this.vitalities());
           break;
       }
     });
@@ -116,10 +116,10 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     }));
   });
 
-  public lifes = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.lifes.map((a: LifeTemplate) => ({
+  public vitalities = computed<RROption<Property>[]>(() => {
+    return this.campaign().campaignTemplate.vitalities.map((a: VitalityTemplate) => ({
       label: a.name,
-      value: { propertyId: a.id, type: PropertyType.Life }
+      value: { propertyId: a.id, type: PropertyType.Vitality }
     }));
   });
 

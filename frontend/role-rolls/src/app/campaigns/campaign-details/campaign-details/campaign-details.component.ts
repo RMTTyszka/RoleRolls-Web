@@ -10,6 +10,10 @@ import { NgIf } from '@angular/common';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import {CreatureTypesComponent} from '@app/campaigns/campaign-details/creature-types/creature-types.component';
 import { ArchetypesComponent } from '@app/campaigns/campaign-details/archetypes/archetypes.component';
+import {
+  CampaignCreaturesComponent
+} from '@app/campaigns/campaign-details/campaign-creatures/campaign-creatures.component';
+import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 
 @Component({
   selector: 'rr-campaign-details',
@@ -29,7 +33,8 @@ import { ArchetypesComponent } from '@app/campaigns/campaign-details/archetypes/
     TabPanel,
     NgIf,
     CreatureTypesComponent,
-    ArchetypesComponent
+    ArchetypesComponent,
+    CampaignCreaturesComponent
   ],
   styleUrl: './campaign-details.component.scss'
 })
@@ -54,5 +59,7 @@ export class CampaignDetailsComponent {
   campaignLoaded($event: Campaign) {
     this.campaign = $event;
   }
+
+  protected readonly CreatureCategory = CreatureCategory;
 }
 

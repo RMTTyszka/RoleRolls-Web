@@ -1,10 +1,10 @@
 ﻿using RoleRollsPocketEdition.Templates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
+namespace RoleRollsPocketEdition.Campaigns.Events.Vitalities;
 
-public class LifeAdded
+public class VitalityAdded
 {
     public Guid CampaignId { get; set; }
     public Guid CreatureTemplateId { get; set; }
-    public LifeTemplateModel Life { get; set; }
+    public VitalityTemplateModel Vitality { get; set; }
 }

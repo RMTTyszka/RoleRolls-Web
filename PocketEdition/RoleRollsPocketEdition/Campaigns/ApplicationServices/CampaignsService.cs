@@ -84,14 +84,14 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
 
             campaign.CampaignTemplate.Defenses = defenses;
 
-            var lifes = await _dbContext.Campaigns
+            var vitalities = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(t => t.Lifes)
+                .ThenInclude(t => t.Vitalities)
                 .Where(e => e.Id == id)
-                .Select(e => e.CampaignTemplate.Lifes)
+                .Select(e => e.CampaignTemplate.Vitalities)
                 .FirstAsync();
 
-            campaign.CampaignTemplate.Lifes = lifes;
+            campaign.CampaignTemplate.Vitalities = vitalities;
             
             var creatureTypes = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
@@ -265,35 +265,35 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
 
         }
 
-        public async Task AddLife(Guid campaignId, LifeTemplateModel life)
+        public async Task AddVitality(Guid campaignId, VitalityTemplateModel vitality)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CampaignTemplates
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .FirstAsync(template => template.Id == campaign.CampaignTemplateId);
-            await creatureTemplate.AddLifeAsync(life, _dbContext);
+            await creatureTemplate.AddVitalityAsync(vitality, _dbContext);
             _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
 
         }
 
-        public async Task RemoveLife(Guid campaignId, Guid lifeId)
+        public async Task RemoveVitality(Guid campaignId, Guid vitalityId)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CampaignTemplates
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .FirstAsync(template => template.Id == campaign.CampaignTemplateId);
-            creatureTemplate.RemoveLife(lifeId, _dbContext);
+            creatureTemplate.RemoveVitality(vitalityId, _dbContext);
             _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
 
         }
 
-        public async Task UpdateLife(Guid campaignId, Guid lifeId, LifeTemplateModel life)
+        public async Task UpdateVitality(Guid campaignId, Guid vitalityId, VitalityTemplateModel vitality)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            creatureTemplate.UpdateLife(lifeId, life, _dbContext);
+            creatureTemplate.UpdateVitality(vitalityId, vitality, _dbContext);
             _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
 
@@ -320,7 +320,7 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _dbContext.CampaignTemplates
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .FirstAsync(template => template.Id == campaign.CampaignTemplateId);
             var defenseAdded = await creatureTemplate.AddDefenseAsync(defense, _dbContext);
             _dbContext.CampaignTemplates.Update(creatureTemplate);

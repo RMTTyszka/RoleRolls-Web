@@ -72,13 +72,13 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
             return Ok(result);
         }       
         [HttpPost("{sceneId}/creatures/{creatureId}/damage")]
-        public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
+        public async Task<IActionResult> TakeDamage([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateVitalityInput input)
         {
             await _creatureActionsService.TakeDamage(campaignId, sceneId, creatureId, input);
             return Ok();
         }      
         [HttpPost("{sceneId}/creatures/{creatureId}/heal")]
-        public async Task<IActionResult> Heal([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateLifeInput input)
+        public async Task<IActionResult> Heal([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] UpdateVitalityInput input)
         {
             await _creatureActionsService.Heal(campaignId, sceneId, creatureId, input);
             return Ok();

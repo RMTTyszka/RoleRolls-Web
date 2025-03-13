@@ -26,7 +26,7 @@ import {
   AttributeTemplate,
   CampaignTemplate,
   DefenseTemplate,
-  LifeTemplate,
+  VitalityTemplate,
   MinorSkillsTemplate,
   SkillTemplate
 } from 'app/campaigns/models/campaign.template';
@@ -130,14 +130,14 @@ export class CampaignsService {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`);
   }
 
-  public addLife(campaignId: string, life: LifeTemplate): Observable<never> {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/lifes`, life);
+  public addVitality(campaignId: string, vitality: VitalityTemplate): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/vitalities`, vitality);
    }
-   public updateLife(campaignId: string, lifeId: string, life: LifeTemplate): Observable<never> {
-    return this.http.put<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`, life);
+   public updateVitality(campaignId: string, vitalityId: string, vitality: VitalityTemplate): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/vitalities/${vitalityId}`, vitality);
    }
-   public removeLife(campaignId: string, lifeId: string): Observable<never> {
-    return this.http.delete<never>(`${this.completePath}/${campaignId}/lifes/${lifeId}`);
+   public removeVitality(campaignId: string, vitalityId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/vitalities/${vitalityId}`);
    }
 
    public addDefense(campaignId: string, defense: DefenseTemplate) {
@@ -153,9 +153,10 @@ export class CampaignsService {
    public getCreatureTemplate(id: string): Observable<CampaignTemplate> {
     return this.http.get<CampaignTemplate>(`${RR_API.backendUrl}creature-templates/${id}`);
   }
-  public getCreatures(campaignId: string, creatureType: CreatureCategory): Observable<Creature[]> {
-    const params = new HttpParams().set('creatureType', creatureType)
-    return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/creatures`, {
+  public getCreatures(campaignId: string, creatureCategory: CreatureCategory): Observable<PagedOutput<Creature>> {
+    const params = new HttpParams().set('creatureCategory', creatureCategory)
+      .set('maxResultCount', 999);
+    return this.http.get<PagedOutput<Creature>>(`${this.completePath}/${campaignId}/creatures`, {
       params
     });
   }
@@ -196,11 +197,11 @@ export class CampaignsService {
     return this.http.get<Creature[]>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, { params});
   }
   public addHeroToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    input.creatureType = CreatureCategory.Hero;
+    input.creatureType = CreatureCategory.Ally;
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public addMonsterToScene(campaignId: string, sceneId: string, input: SceneCreature) {
-    input.creatureType = CreatureCategory.Monster;
+    input.creatureType = CreatureCategory.Enemy;
     return this.http.post<never>(`${this.completePath}/${campaignId}/scenes/${sceneId}/creatures`, [input]);
   }
   public removeCreatureFromScene(campaignId: string, sceneId: string, creatureId: string) {

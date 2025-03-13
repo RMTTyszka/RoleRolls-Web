@@ -29,7 +29,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
             
@@ -42,7 +42,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
             template.RemoveDefense(defenseTemplateId, _dbContext);

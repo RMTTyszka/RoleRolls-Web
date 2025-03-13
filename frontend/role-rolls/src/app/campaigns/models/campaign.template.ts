@@ -11,7 +11,7 @@ export class CampaignTemplate implements Entity {
   public attributes: AttributeTemplate[] = [];
   public skills: SkillTemplate[] = [];
   public attributelessSkills: SkillTemplate[] = [];
-  public lifes: LifeTemplate[] = [];
+  public vitalities: VitalityTemplate[] = [];
   public defenses: DefenseTemplate[] = [];
   public archetypes: Archetype[] = [];
   public creatureTypes: CreatureType[] = [];
@@ -38,7 +38,7 @@ export interface MinorSkillsTemplate extends Entity {
   skillTemplateId: string;
 }
 
-export interface LifeTemplate extends Entity {
+export interface VitalityTemplate extends Entity {
   name: string
   formula: string;
 }

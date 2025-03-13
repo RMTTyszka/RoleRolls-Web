@@ -4,29 +4,29 @@ using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Templates.Entities
 {
-    public class LifeTemplate : Entity
+    public class VitalityTemplate : Entity
     {
-        public LifeTemplate()
+        public VitalityTemplate()
         {
 
         }
-        public LifeTemplate(LifeTemplateModel life)
+        public VitalityTemplate(VitalityTemplateModel vitality)
         {
-            Id = life.Id;
-            Name = life.Name;
-            Formula = life.Formula;
+            Id = vitality.Id;
+            Name = vitality.Name;
+            Formula = vitality.Formula;
         }
 
         public string Name { get; set; }
         public string Formula { get; set; }
         public Guid CreatureTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
-        public ICollection<Life> Lifes { get; set; }
+        public ICollection<Vitality> Vitalities { get; set; }
 
-        public void Update(LifeTemplateModel lifeModel)
+        public void Update(VitalityTemplateModel vitalityModel)
         {
-            Name = lifeModel.Name;
-            Formula = lifeModel.Formula;
+            Name = vitalityModel.Name;
+            Formula = vitalityModel.Formula;
         }
     }
 }

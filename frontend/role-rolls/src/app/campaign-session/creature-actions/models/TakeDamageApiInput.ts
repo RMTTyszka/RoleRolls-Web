@@ -1,5 +1,5 @@
 
 export class TakeDamageApiInput {
-    public lifeId: string;
+    public vitalityId: string;
     public value: number;
 }

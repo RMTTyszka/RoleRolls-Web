@@ -2,7 +2,7 @@ import { Property } from '@app/models/bonuses/bonus';
 
 export class ItemConfigurationModel {
   public armorProperty?: Property | null;
-  public basicAttackTargetFirstLife?: Property | null;
+  public basicAttackTargetFirstVitality?: Property | null;
   public meleeLightWeaponHitProperty?: Property | null;
   public meleeMediumWeaponHitProperty?: Property | null;
   public meleeHeavyWeaponHitProperty?: Property | null;
@@ -15,5 +15,5 @@ export class ItemConfigurationModel {
   public rangedLightWeaponDamageProperty?: Property | null;
   public rangedMediumWeaponDamageProperty?: Property | null;
   public rangedHeavyWeaponDamageProperty?: Property | null;
-  public basicAttackTargetSecondLife?: Property | null;
+  public basicAttackTargetSecondVitality?: Property | null;
 }

@@ -23,9 +23,9 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         Task AddMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, MinorSkillTemplateModel minorSkill);
         Task RemoveMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, Guid minorSkillId);
         Task UpdateMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkill);
-        Task AddLife(Guid id, LifeTemplateModel life);
-        Task RemoveLife(Guid id, Guid lifeId);
-        Task UpdateLife(Guid id, Guid lifeId, LifeTemplateModel life);
+        Task AddVitality(Guid id, VitalityTemplateModel vitality);
+        Task RemoveVitality(Guid id, Guid vitalityId);
+        Task UpdateVitality(Guid id, Guid vitalityId, VitalityTemplateModel vitality);
 
         Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode);
         Task<Guid> Invite(Guid campaignId);

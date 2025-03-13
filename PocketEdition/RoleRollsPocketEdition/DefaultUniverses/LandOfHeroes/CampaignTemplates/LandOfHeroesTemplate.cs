@@ -21,7 +21,7 @@ public class LandOfHeroesTemplate
                 Default = true,
                 Attributes = BuildAttributes(),
                 AttributelessSkills = BuildAttributelessSkills(),
-                Lifes = BuildLifes(),
+                Vitalities = BuildVitalities(),
                 DamageTypes = BuildDamageTypes(),
                 CreatureTypes = Races,
                 Archetypes = Roles,
@@ -31,21 +31,21 @@ public class LandOfHeroesTemplate
         }
     }
 
-    private static List<LifeTemplate> BuildLifes()
+    private static List<VitalityTemplate> BuildVitalities()
     {
-        return new List<LifeTemplate>
+        return new List<VitalityTemplate>
         {
             new()
             {
-                Id = LifeIds[LandOfHeroesLife.Life],
+                Id = VitalityIds[LandOfHeroesVitality.Life],
                 Name = "Life",
-                Formula = "10 + 4 * Vitality",
+                Formula = "10 + 4 * Vigor",
                 CreatureTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
             },   
             new()
             {
-                Id = LifeIds[LandOfHeroesLife.Moral],
+                Id = VitalityIds[LandOfHeroesVitality.Moral],
                 Name = "Moral",
                 Formula = "15 + 2 * Intuition",
                 CreatureTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
@@ -89,8 +89,8 @@ public class LandOfHeroesTemplate
             RangedMediumWeaponDamageProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.RangedMediumWeapon], PropertyType.MinorSkill),
             RangedHeavyWeaponDamageProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.RangedHeavyWeapon], PropertyType.MinorSkill),
     
-            BasicAttackTargetFirstLife = new Property(LifeIds[LandOfHeroesLife.Moral], PropertyType.Life),
-            BasicAttackTargetSecondLife = new Property(LifeIds[LandOfHeroesLife.Life], PropertyType.Life)
+            BasicAttackTargetFirstVitality = new Property(VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
+            BasicAttackTargetSecondVitality = new Property(VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality)
         })
         {
             Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
@@ -314,6 +314,7 @@ public class LandOfHeroesTemplate
         Id = Guid.Parse("7DA646BA-637E-4CFF-99BC-5C3A934A1A63"),
         Name = "Elf",
         Description = "",
+        CanBeAlly = true,
         Bonuses =
         [
             new Bonus
@@ -331,6 +332,7 @@ public class LandOfHeroesTemplate
         Id = Guid.Parse("D8E510F0-D49F-4623-95C6-FCF2CA8C24E2"),
         Name = "Human",
         Description = "",
+        CanBeAlly = true,
         Bonuses =
         [
             new Bonus
@@ -348,6 +350,7 @@ public class LandOfHeroesTemplate
         Id = Guid.Parse("E9F2C583-167E-423D-97B8-6C0C3F92EEFF"),
         Name = "Dwarf",
         Description = "",
+        CanBeAlly = true,
         Bonuses =
         [
             new Bonus
@@ -364,6 +367,7 @@ public class LandOfHeroesTemplate
     {
         Id = Guid.Parse("D84B7197-A3EC-46C8-9B59-7E066D8FF8EF"),
         Name = "Halfling",
+        CanBeAlly = true,
         Description = "",
         Bonuses =
         [
@@ -381,6 +385,7 @@ public class LandOfHeroesTemplate
     {
         Id = Guid.Parse("6E4E0713-CBD4-442E-9569-CF5073D80764"),
         Name = "Orc",
+        CanBeAlly = true,
         Description = "",
         Bonuses =
         [
@@ -398,6 +403,7 @@ public class LandOfHeroesTemplate
     {
         Id = Guid.Parse("4E1D1FDC-9193-4FF2-B76F-8790B830798A"),
         Name = "Goblin",
+        CanBeAlly = true,
         Description = "",
         Bonuses =
         [
@@ -478,14 +484,14 @@ public class LandOfHeroesTemplate
         { LandOfHeroesAttribute.Agility, Guid.Parse("A94BA9AE-D800-4445-A996-19E6281FC0DD") },
         { LandOfHeroesAttribute.Charisma, Guid.Parse("0E2F1A7A-B39D-4C19-91CE-623A4E75D681") },
         { LandOfHeroesAttribute.Intelligence, Guid.Parse("F6E11C7E-C4F6-414E-8E92-B8C2C06A4F93") },
-        { LandOfHeroesAttribute.Perception, Guid.Parse("D8C6D5C2-6D13-4E92-9C8F-31A7C74EAF52") },
+        { LandOfHeroesAttribute.Intuition, Guid.Parse("D8C6D5C2-6D13-4E92-9C8F-31A7C74EAF52") },
         { LandOfHeroesAttribute.Strength, Guid.Parse("80D7685B-6E9A-44C2-AC99-BA3173B2C41E") },
         { LandOfHeroesAttribute.Vigor, Guid.Parse("1F5B3E5E-C5B8-44A3-A9B3-8B1A3F7444AB") },
     };
-    public static Dictionary<LandOfHeroesLife, Guid> LifeIds = new()
+    public static Dictionary<LandOfHeroesVitality, Guid> VitalityIds = new()
     {
-        { LandOfHeroesLife.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
-        { LandOfHeroesLife.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
+        { LandOfHeroesVitality.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
+        { LandOfHeroesVitality.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
     };
 
     public static Dictionary<LandOfHeroesSkill, Guid> SkillIds = new()
@@ -564,7 +570,7 @@ public class LandOfHeroesTemplate
             { LandOfHeroesAttribute.Agility, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Nimbleness } },
             { LandOfHeroesAttribute.Charisma, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Empathy } },
             { LandOfHeroesAttribute.Intelligence, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Knowledge, LandOfHeroesSkill.Treatment } },
-            { LandOfHeroesAttribute.Perception, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Awareness } },
+            { LandOfHeroesAttribute.Intuition, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Awareness } },
             { LandOfHeroesAttribute.Strength, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Athletics } },
             { LandOfHeroesAttribute.Vigor, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Survival } }
         };

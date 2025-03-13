@@ -4,7 +4,7 @@ public enum LandOfHeroesAttribute
     Agility = 0,
     Charisma = 1,
     Intelligence = 2,
-    Perception = 3,
+    Intuition = 3,
     Strength = 4,
     Vigor = 5,
 }
@@ -63,7 +63,7 @@ public enum LandOfHeroesMinorSkill
     Disease = 37,
 }
 
-public enum LandOfHeroesLife
+public enum LandOfHeroesVitality
 {
     Life = 0,
     Moral = 1

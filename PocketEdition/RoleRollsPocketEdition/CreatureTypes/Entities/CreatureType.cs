@@ -13,12 +13,16 @@ public class CreatureType : Entity
 
     public string Name { get; set; }
     public string Description { get; set; }
+    public bool CanBeAlly { get; set; }
+    public bool CanBeEnemy { get; set; }
     public List<Bonus> Bonuses { get; set; }
 
     public async Task Update(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)
     {
         Name = creatureTypeModel.Name;
         Description = creatureTypeModel.Description;
+        CanBeAlly = creatureTypeModel.CanBeAlly;
+        CanBeEnemy = creatureTypeModel.CanBeEnemy;
         var syncedBonuses = Bonuses.Synchronize(creatureTypeModel.Bonuses);
         foreach (var bonusModel in syncedBonuses.ToAdd)       
         {

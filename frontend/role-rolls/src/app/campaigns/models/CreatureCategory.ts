@@ -1,4 +1,4 @@
 export enum CreatureCategory {
-  Hero = 0,
-  Monster = 1
+  Ally = 0,
+  Enemy = 1
 }

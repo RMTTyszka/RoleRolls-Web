@@ -12,8 +12,8 @@ namespace RoleRollsPocketEdition.Creatures.Services;
 
 public interface ICreatureActionsService
 {
-    Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
-    Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input);
+    Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateVitalityInput input);
+    Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateVitalityInput input);
 }
 
 public class CreatureActionsService : ICreatureActionsService, ITransientDependency
@@ -33,13 +33,13 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         _notificationService = notificationService;
     }
 
-    public async Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input)
+    public async Task TakeDamage(Guid campaignId, Guid sceneId, Guid creatureId, UpdateVitalityInput input)
     {
         var creature = await _creatureRepository.GetFullCreature(creatureId);
-        var takeDamageResult = creature.TakeDamage(input.LifeId, input.Value);
+        var takeDamageResult = creature.TakeDamage(input.VitalityId, input.Value);
         var result = new SceneAction
         {
-            Description = $"{takeDamageResult.Name} took {takeDamageResult.Value} of {takeDamageResult.Life} damage",
+            Description = $"{takeDamageResult.Name} took {takeDamageResult.Value} of {takeDamageResult.Vitality} damage",
             ActorType = creature.Category switch
             {
                 CreatureCategory.Hero => ActionActorType.Hero,
@@ -60,10 +60,10 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         await _notificationService.NotifyScene(sceneId, history);
 
     }      
-    public async Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateLifeInput input)
+    public async Task Heal(Guid campaignId, Guid sceneId, Guid creatureId, UpdateVitalityInput input)
     {
         var creature = await _creatureRepository.GetFullCreature(creatureId);
-        var result = creature.Heal(input.LifeId, input.Value);
+        var result = creature.Heal(input.VitalityId, input.Value);
         result.SceneId = sceneId;
         var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
         using (_unitOfWork.Begin())

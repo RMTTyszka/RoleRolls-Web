@@ -6,6 +6,7 @@ public class CampaignCreateInput
     public string Name { get; set; }
     public Guid? MasterId { get; set; }
     public Guid? CampaignTemplateId { get; set; }
+    public bool IsTemplate { get; set; }
 }
 public class CampaignUpdateInput
 {

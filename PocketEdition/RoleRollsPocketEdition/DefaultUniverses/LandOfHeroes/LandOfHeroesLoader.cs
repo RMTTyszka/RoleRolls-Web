@@ -29,81 +29,77 @@ public class LandOfHeroesLoader : IStartupTask
         var templateFromCode = LandOfHeroesTemplate.Template;
         var templateFromDb = await _dbContext.CampaignTemplates
             .FirstOrDefaultAsync(t => t.Id == templateFromCode.Id, cancellationToken: cancellationToken);
-        var attributes = await _dbContext.CampaignTemplates
-            .Include(a => a.Attributes)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.Attributes)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.Attributes = attributes;
-
-        var attributelessSkills = await _dbContext.CampaignTemplates
-            .Include(a => a.AttributelessSkills)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.AttributelessSkills)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.AttributelessSkills = attributelessSkills;
-
-        var defenses = await _dbContext.CampaignTemplates
-            .Include(t => t.Defenses)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.Defenses)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.Defenses = defenses;
-
-        var lifes = await _dbContext.CampaignTemplates
-            .Include(t => t.Lifes)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.Lifes)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.Lifes = lifes;
         
-        var archetypes = await _dbContext.CampaignTemplates
-            .Include(t => t.Archetypes)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.Archetypes)
-            .FirstAsync(cancellationToken: cancellationToken);
 
-        templateFromDb.Archetypes = archetypes;        
-       
-        var creatureTypes = await _dbContext.CampaignTemplates
-            .Include(t => t.CreatureTypes)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.CreatureTypes)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.CreatureTypes = creatureTypes;  
-        
-        var damageTypes = await _dbContext.CampaignTemplates
-            .Include(t => t.DamageTypes)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.DamageTypes)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.DamageTypes = damageTypes;
-
-        var itemConfiguration = await _dbContext.CampaignTemplates
-            .Include(c => c.ItemConfiguration)
-            .Where(e => e.Id == templateFromCode.Id)
-            .Select(e => e.ItemConfiguration)
-            .FirstAsync(cancellationToken: cancellationToken);
-
-        templateFromDb.ItemConfiguration = itemConfiguration;
         if (templateFromDb == null)
         {
             _dbContext.CampaignTemplates.Add(templateFromCode);
         }
         else
         {
+            var attributes = await _dbContext.CampaignTemplates
+                .Include(a => a.Attributes)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.Attributes)
+                .FirstAsync(cancellationToken);
+
+            var attributelessSkills = await _dbContext.CampaignTemplates
+                .Include(a => a.AttributelessSkills)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.AttributelessSkills)
+                .FirstAsync(cancellationToken);
+
+            var defenses = await _dbContext.CampaignTemplates
+                .Include(t => t.Defenses)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.Defenses)
+                .FirstAsync(cancellationToken);
+
+            var vitalities = await _dbContext.CampaignTemplates
+                .Include(t => t.Vitalities)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.Vitalities)
+                .FirstAsync(cancellationToken);
+
+
+            var archetypes = await _dbContext.CampaignTemplates
+                .Include(t => t.Archetypes)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.Archetypes)
+                .FirstAsync(cancellationToken);
+
+            var creatureTypes = await _dbContext.CampaignTemplates
+                .Include(t => t.CreatureTypes)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.CreatureTypes)
+                .FirstAsync(cancellationToken);
+
+            var damageTypes = await _dbContext.CampaignTemplates
+                .Include(t => t.DamageTypes)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.DamageTypes)
+                .FirstAsync(cancellationToken);
+
+            var itemConfiguration = await _dbContext.CampaignTemplates
+                .Include(c => c.ItemConfiguration)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.ItemConfiguration)
+                .FirstAsync(cancellationToken);
+        
             templateFromDb.Name = templateFromCode.Name;
             templateFromDb.Default = templateFromCode.Default;
+            templateFromDb.ItemConfiguration = itemConfiguration;
+            templateFromDb.DamageTypes = damageTypes;
+            templateFromDb.CreatureTypes = creatureTypes;
+            templateFromDb.Archetypes = archetypes;
+            templateFromDb.Attributes = attributes;
+            templateFromDb.AttributelessSkills = attributelessSkills;
+            templateFromDb.Defenses = defenses;
+            templateFromDb.Vitalities = vitalities;
             await SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes, _dbContext);
             await SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills, _dbContext);
             await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration, _dbContext);
-            await SynchronizeLives(templateFromDb, templateFromCode.Lifes, templateFromDb.Lifes, _dbContext);
+            await SynchronizeLives(templateFromDb, templateFromCode.Vitalities, templateFromDb.Vitalities, _dbContext);
             await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes, _dbContext);
             await SynchronizeCreatureTypes(templateFromDb, templateFromCode.CreatureTypes, templateFromDb.CreatureTypes, _dbContext);
             await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes, _dbContext);
@@ -180,6 +176,7 @@ public class LandOfHeroesLoader : IStartupTask
             }
             else
             {
+                dbAttr.Update(new AttributeTemplateModel(codeAttr));
                 await SynchronizeSkills(codeAttr, codeAttr.SkillTemplates.ToList(), dbAttr.SkillTemplates.ToList(), context);
                 dbAttr.Name = codeAttr.Name;
                 context.AttributeTemplates.Update(dbAttr);
@@ -264,30 +261,28 @@ public class LandOfHeroesLoader : IStartupTask
     }
     private async Task SynchronizeLives(
         Templates.Entities.CampaignTemplate creatureFromDb,
-        ICollection<LifeTemplate> fromCode,
-        ICollection<LifeTemplate> fromDb, RoleRollsDbContext dbContext)
+        ICollection<VitalityTemplate> fromCode,
+        ICollection<VitalityTemplate> fromDb, RoleRollsDbContext dbContext)
     {
         var dbLives = fromDb.ToDictionary(l => l.Id);
         var codeLives = fromCode.ToDictionary(l => l.Id);
 
-        foreach (var codeLife in fromCode)
+        foreach (var codeVitality in fromCode)
         {
-            if (!dbLives.TryGetValue(codeLife.Id, out var dbLife))
+            if (!dbLives.TryGetValue(codeVitality.Id, out var dbVitality))
             {
-                await creatureFromDb.AddLifeAsync(new LifeTemplateModel(codeLife), dbContext);
+                await creatureFromDb.AddVitalityAsync(new VitalityTemplateModel(codeVitality), dbContext);
             }
             else
             {
-                dbLife.Name = codeLife.Name;
-                dbLife.Formula = codeLife.Formula;
-                creatureFromDb.UpdateLife(codeLife.Id, new LifeTemplateModel(codeLife), dbContext);
-                dbContext.LifeTemplates.Update(dbLife);
+                creatureFromDb.UpdateVitality(codeVitality.Id, new VitalityTemplateModel(codeVitality), dbContext);
+                dbContext.VitalityTemplates.Update(dbVitality);
             }
         }
 
-        foreach (var dbLife in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
+        foreach (var dbVitality in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
         {
-            creatureFromDb.Lifes.Remove(dbLife);
+            creatureFromDb.Vitalities.Remove(dbVitality);
         }
     }
     private async Task SynchronizeCreatureTypes(

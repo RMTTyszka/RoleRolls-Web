@@ -20,7 +20,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public ICollection<Attribute> Attributes { get; set; }
         public ICollection<Skill> Skills { get; set; }
 
-        public ICollection<Life> Lifes { get; set; }
+        public ICollection<Vitality> Vitalities { get; set; }
         public ICollection<Defense> Defenses { get; set; }
         public ICollection<CreaturePower> Powers { get; set; }
 
@@ -30,6 +30,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public string Name { get; set; }
         public int Level { get; set; }
+        public bool IsTemplate { get; set; }
 
         public CreatureCategory Category { get; set; }
         public Equipment Equipment { get; set; }
@@ -40,7 +41,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             Attributes = new List<Attribute>();
             Skills = new List<Skill>();
-            Lifes = new List<Life>();
+            Vitalities = new List<Vitality>();
             Defenses = new List<Defense>();
             Equipment = new Equipment();
             Inventory = new Inventory();
@@ -108,23 +109,24 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
             return result;;
         }
-        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory) 
+        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var creature = new Creature
             {
                 Attributes = attributes,
                 Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeTemplateId))).ToList(),
-                Lifes = template.Lifes.Select(life => new Life(life)).ToList(),
+                Vitalities = template.Vitalities.Select(vitality => new Vitality(vitality)).ToList(),
                 Defenses = template.Defenses.Select(Defense.FromTemplate).ToList(),
                 CampaignId = campaignId,
                 CreatureTemplateId = template.Id,
-                Category = creatureCategory
+                Category = creatureCategory,
+                IsTemplate = isTemplate,
             };
-            foreach (var life in creature.Lifes)
+            foreach (var vitality in creature.Vitalities)
             {
-                life.CalculateMaxValue(creature);
-                life.Value = life.MaxValue;
+                vitality.CalculateMaxValue(creature);
+                vitality.Value = vitality.MaxValue;
             }
 
             return creature;
@@ -209,23 +211,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return result;
         }
 
-        public void ProcessLifes()
+        public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
-            foreach (var life in Lifes)
-            {
-                life.CalculateMaxValue(this);
-            }
-        }
-
-        public CreatureTakeDamageResult TakeDamage(Guid lifeId, int value)
-        {
-            var life = Lifes.First(life => life.Id == lifeId);
-            life.Value -= value;
+            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            vitality.Value -= value;
             return new CreatureTakeDamageResult
             {
                 Name = Name,
                 Value = value,
-                Life = life.Name,
+                Vitality = vitality.Name,
                 ActorId = Id
             };
 
@@ -249,14 +243,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return blockLevelModifier * armorLevelBonus + baseBlock;
         }
 
-        public SceneAction Heal(Guid lifeId, int value)
+        public SceneAction Heal(Guid vitalityId, int value)
         {
-            var life = Lifes.First(life => life.Id == lifeId);
-            life.Value += value;
-            life.Value = Math.Min(life.Value, life.MaxValue);
+            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            vitality.Value += value;
+            vitality.Value = Math.Min(vitality.Value, vitality.MaxValue);
             return new SceneAction
             {
-                Description = $"{Name} healed {value} of {life.Name}",
+                Description = $"{Name} healed {value} of {vitality.Name}",
                 ActorType = Category switch
                 {
                     CreatureCategory.Hero => ActionActorType.Hero,
@@ -270,10 +264,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public void FullRestore()
         {
-            ProcessLifes();
-            foreach (var life in Lifes)
+            foreach (var vitality in Vitalities)
             {
-                life.Value = life.MaxValue;
+                vitality.Value = vitality.MaxValue;
             }
         }
 
@@ -353,7 +346,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     damage.ReducedDamage -= block;
                     damage.ReducedDamage = Math.Max(0, damage.ReducedDamage);
                     damages.Add(damage);
-                    target.TakeDamage(input.GetLifeId, damage.TotalDamage);
+                    target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
                 }
                 return new AttackResult
                 {

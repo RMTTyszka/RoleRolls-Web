@@ -14,7 +14,7 @@ public class ItemConfiguration : Entity
         if (templateItemConfiguration is not null)
         {
             ArmorProperty = templateItemConfiguration.ArmorProperty;
-            BasicAttackTargetFirstLife = templateItemConfiguration.BasicAttackTargetFirstLife;
+            BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality;
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty;
             MeleeMediumWeaponHitProperty = templateItemConfiguration.MeleeMediumWeaponHitProperty;
             MeleeHeavyWeaponHitProperty = templateItemConfiguration.MeleeHeavyWeaponHitProperty;
@@ -39,7 +39,7 @@ public class ItemConfiguration : Entity
     public CampaignTemplate CampaignTemplate { get; set; }
     public Guid CampaignTemplateId { get; set; }
     public Property? ArmorProperty { get; set; }
-    public Property? BasicAttackTargetFirstLife {get; private set; }
+    public Property? BasicAttackTargetFirstVitality {get; private set; }
     public Property? MeleeLightWeaponHitProperty { get; set; }
     public Property? MeleeMediumWeaponHitProperty { get; set; }
     public Property? MeleeHeavyWeaponHitProperty { get; set; }   
@@ -52,7 +52,7 @@ public class ItemConfiguration : Entity
     public Property? RangedLightWeaponDamageProperty { get; set; }
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
-    public Property? BasicAttackTargetSecondLife { get; set; }
+    public Property? BasicAttackTargetSecondVitality { get; set; }
 
     public void Update(ItemConfigurationModel model)
     {
@@ -69,7 +69,7 @@ public class ItemConfiguration : Entity
         RangedLightWeaponDamageProperty = model.RangedLightWeaponDamageProperty;
         RangedMediumWeaponDamageProperty = model.RangedMediumWeaponDamageProperty;
         RangedHeavyWeaponDamageProperty = model.RangedHeavyWeaponDamageProperty;
-        BasicAttackTargetFirstLife = model.BasicAttackTargetFirstLife;
+        BasicAttackTargetFirstVitality = model.BasicAttackTargetFirstVitality;
     }
 
     public Guid GetWeaponHitProperty(WeaponCategory weaponCategory)

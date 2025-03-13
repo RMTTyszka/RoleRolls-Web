@@ -1,16 +1,14 @@
-﻿using RoleRollsPocketEdition.Creatures.Entities;
+﻿using RoleRollsPocketEdition.Core.Dtos;
+using RoleRollsPocketEdition.Creatures.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Dtos
 {
-    public class GetAllCampaignCreaturesInput
+    public class GetAllCampaignCreaturesInput : PagedRequestInput
     {
-        public CreatureCategory? CreatureType { get; set; }
-        public List<Guid> CreatureIds { get; set; }
-        public Guid? OwnerId { get; set; }
+        public CreatureCategory? CreatureCategory { get; set; }
 
         public GetAllCampaignCreaturesInput()
         {
-            CreatureIds = new List<Guid>();
         }
     }
 }

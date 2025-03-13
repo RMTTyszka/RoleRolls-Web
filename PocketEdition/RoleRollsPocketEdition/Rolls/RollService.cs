@@ -128,7 +128,7 @@ namespace RoleRollsPocketEdition.Rolls
         {
             var creature = await _roleRollsDbContext.Creatures
                 .Include(creature => creature.Attributes)
-                .Include(creature => creature.Lifes)
+                .Include(creature => creature.Vitalities)
                 .Include(creature => creature.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
                 .FirstAsync(creature => creature.Id == creatureId);

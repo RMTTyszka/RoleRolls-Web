@@ -2,17 +2,17 @@
 
 namespace RoleRollsPocketEdition.Templates.Dtos
 {
-    public class LifeTemplateModel
+    public class VitalityTemplateModel
     {
-        public LifeTemplateModel()
+        public VitalityTemplateModel()
         {
 
         }
-        public LifeTemplateModel(LifeTemplate life)
+        public VitalityTemplateModel(VitalityTemplate vitality)
         {
-            Id = life.Id;
-            Name = life.Name;
-            Formula = life.Formula;
+            Id = vitality.Id;
+            Name = vitality.Name;
+            Formula = vitality.Formula;
         }
 
         public Guid Id { get; set; }

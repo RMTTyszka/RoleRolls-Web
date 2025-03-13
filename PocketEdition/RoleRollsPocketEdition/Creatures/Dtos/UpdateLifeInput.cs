@@ -1,15 +1,15 @@
 ﻿namespace RoleRollsPocketEdition.Creatures.Dtos;
 
-public class UpdateLifeInput
+public class UpdateVitalityInput
 {
-    public Guid LifeId { get; set; }
+    public Guid VitalityId { get; set; }
     public int Value { get; set; }
     // TODO damage type
     // TODO description
 }
 
-public class LifeDamageInput
+public class VitalityDamageInput
 {
-    public Guid LifeId { get; set; }
+    public Guid VitalityId { get; set; }
     public int Damage { get; set; }
 }

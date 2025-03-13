@@ -7,34 +7,34 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
 {
         [Authorize]
     [ApiController]
-    [Route("campaigns/{campaignId}/lifes")]
-    public class CampaignLifesController : ControllerBase
+    [Route("campaigns/{campaignId}/vitalities")]
+    public class CampaignVitalitiesController : ControllerBase
     {
 
         private readonly ICampaignsService _campaignsService;
 
-        public CampaignLifesController(ICampaignsService campaignsService)
+        public CampaignVitalitiesController(ICampaignsService campaignsService)
         {
             _campaignsService = campaignsService;
         }
 
 
         [HttpPost("")]
-        public async Task<IActionResult> AddLife([FromRoute] Guid campaignId, [FromBody] LifeTemplateModel life)
+        public async Task<IActionResult> AddVitality([FromRoute] Guid campaignId, [FromBody] VitalityTemplateModel vitality)
         {
-            await _campaignsService.AddLife(campaignId, life);
+            await _campaignsService.AddVitality(campaignId, vitality);
             return Ok();
         }
-        [HttpDelete("{lifeId}")]
-        public async Task<IActionResult> RemoveLife([FromRoute] Guid campaignId, [FromRoute] Guid lifeId)
+        [HttpDelete("{vitalityId}")]
+        public async Task<IActionResult> RemoveVitality([FromRoute] Guid campaignId, [FromRoute] Guid vitalityId)
         {
-            await _campaignsService.RemoveLife(campaignId, lifeId);
+            await _campaignsService.RemoveVitality(campaignId, vitalityId);
             return Ok();
         }
-        [HttpPut("{lifeId}")]
-        public async Task<IActionResult> UpdateLife([FromRoute] Guid campaignId, [FromRoute] Guid lifeId, [FromBody] LifeTemplateModel life)
+        [HttpPut("{vitalityId}")]
+        public async Task<IActionResult> UpdateVitality([FromRoute] Guid campaignId, [FromRoute] Guid vitalityId, [FromBody] VitalityTemplateModel vitality)
         {
-            await _campaignsService.UpdateLife(campaignId, lifeId, life);
+            await _campaignsService.UpdateVitality(campaignId, vitalityId, vitality);
             return Ok();
         }
 

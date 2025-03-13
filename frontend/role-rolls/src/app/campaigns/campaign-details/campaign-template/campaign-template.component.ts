@@ -13,7 +13,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
-import {AttributeTemplate, DefenseTemplate, LifeTemplate, MinorSkillsTemplate, SkillTemplate} from 'app/campaigns/models/campaign.template';
+import {AttributeTemplate, DefenseTemplate, VitalityTemplate, MinorSkillsTemplate, SkillTemplate} from 'app/campaigns/models/campaign.template';
 import {LoggerService} from '@services/logger/logger.service';
 import {firstValueFrom} from 'rxjs';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
@@ -41,7 +41,7 @@ export class CampaignTemplateComponent {
   public skillForm = new FormGroup({});
   public minorSkillForm = new FormGroup({});
   public defenseForm = new FormGroup({});
-  public lifeForm = new FormGroup({});
+  public vitalityForm = new FormGroup({});
   public isLoading = true;
   public campaign!: Campaign;
   public requiredFields = ['name'];
@@ -57,8 +57,8 @@ export class CampaignTemplateComponent {
     return this.form?.get('campaignTemplate.attributes') as FormArray<FormGroup>;
   }
 
-  public get lifes(): FormArray<FormGroup> {
-    return this.form?.get('campaignTemplate.lifes') as FormArray<FormGroup>;
+  public get vitalities(): FormArray<FormGroup> {
+    return this.form?.get('campaignTemplate.vitalities') as FormArray<FormGroup>;
   }
   public get skills(): FormArray<FormGroup> {
     return this.form?.get('campaignTemplate.skills') as FormArray<FormGroup>;
@@ -110,11 +110,11 @@ export class CampaignTemplateComponent {
       name: null,
       skillTemplateId: null
     } as  MinorSkillsTemplate);
-    createForm(this.lifeForm, {
+    createForm(this.vitalityForm, {
       id: null,
       name: null,
       formula: null
-    } as LifeTemplate);
+    } as VitalityTemplate);
     createForm(this.defenseForm, {
       id: null,
       name: null,
@@ -124,7 +124,7 @@ export class CampaignTemplateComponent {
     this.attributeForm.get('id').setValue(uuidv4() as never);
     this.skillForm.get('id').setValue(uuidv4() as never);
     this.minorSkillForm.get('id').setValue(uuidv4() as never);
-    this.lifeForm.get('id').setValue(uuidv4() as never);
+    this.vitalityForm.get('id').setValue(uuidv4() as never);
     this.defenseForm.get('id').setValue(uuidv4() as never);
 
     this.buildSkills();
@@ -137,7 +137,7 @@ export class CampaignTemplateComponent {
       this.skillForm.valueChanges.subscribe(() => {
         console.log(this.skillForm.disabled)
       })
-      this.lifeForm.disable();
+      this.vitalityForm.disable();
       this.skillsMapping.forEach(skill => {
         skill.controls.forEach((control) => {
           control.disable();
@@ -282,35 +282,35 @@ export class CampaignTemplateComponent {
       });
   }
 
-  public addLife() {
+  public addVitality() {
     if (this.disabled) return;
-    const life = this.lifeForm.value as LifeTemplate;
-    life.formula = '';
-    this.service.addLife(this.campaign.id, life)
+    const vitality = this.vitalityForm.value as VitalityTemplate;
+    vitality.formula = '';
+    this.service.addVitality(this.campaign.id, vitality)
       .subscribe(() => {
-        const formArray = this.lifes;
+        const formArray = this.vitalities;
         const newFormGroup = new FormGroup({});
-        createForm(newFormGroup, this.lifeForm.value as Entity);
+        createForm(newFormGroup, this.vitalityForm.value as Entity);
         formArray.controls.push(newFormGroup);
-        this.lifeForm.reset();
-        this.lifeForm.get('id').setValue(uuidv4() as never);
+        this.vitalityForm.reset();
+        this.vitalityForm.get('id').setValue(uuidv4() as never);
       });
   }
 
-  public updateLife(lifeControl: FormGroup) {
+  public updateVitality(vitalityControl: FormGroup) {
     if (this.disabled) return;
-    const life = lifeControl.value as LifeTemplate;
-    this.service.updateLife(this.campaign.id, life.id, life)
+    const vitality = vitalityControl.value as VitalityTemplate;
+    this.service.updateVitality(this.campaign.id, vitality.id, vitality)
       .subscribe();
   }
 
 
-  public removeLife(lifeControl: FormGroup, index: number) {
+  public removeVitality(vitalityControl: FormGroup, index: number) {
     if (this.disabled) return;
-    const life = lifeControl.value as LifeTemplate;
-    this.service.removeLife(this.campaign.id, life.id)
+    const vitality = vitalityControl.value as VitalityTemplate;
+    this.service.removeVitality(this.campaign.id, vitality.id)
       .subscribe(() => {
-        const formArray = this.lifes;
+        const formArray = this.vitalities;
         formArray.removeAt(index);
       });
   }

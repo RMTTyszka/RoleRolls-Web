@@ -3,9 +3,9 @@
   <button pButton class="p-inputgroup-addon p-button-secondary" (click)='editCreature(creature)'>
     {{creature.name}}
   </button>
-  <ng-container *ngFor="let life of creature.lifes">
+  <ng-container *ngFor="let vitality of creature.vitalities">
     <span *ngIf="isMaster || isOwner(creature) || true" class="p-inputgroup-addon">
-      {{life.name}} | {{life.value}}
+      {{vitality.name}} | {{vitality.value}}
   </span>
   </ng-container>
   <button *ngIf="isMaster || isOwner(creature)" pButton icon="fas fa-dice-d20" class="p-inputgroup-addon" pTooltip="Roll dice"

@@ -1,5 +1,5 @@
 
 export interface TakeDamageApiInput {
-    lifeId: string;
+    vitalityId: string;
     value: number;
 }

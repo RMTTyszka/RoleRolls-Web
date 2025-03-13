@@ -30,7 +30,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .ThenInclude(skill => skill.MinorSkills)        
                 .Include(template => template.AttributelessSkills)
                 .ThenInclude(skill => skill.MinorSkills)
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
             var output = new CampaignTemplateModel(template);
             return output;
@@ -60,7 +60,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.MinorSkills)
-                .Include(template => template.Lifes)
+                .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
 
             template.Name = updatedTemplate.Name;
@@ -123,25 +123,25 @@ namespace RoleRollsPocketEdition.Templates.Services
                 minorSkillsToDelete.AddRange(skill.MinorSkills);
             }
 
-            var lifesToCreate = updatedTemplate.Lifes
-                .Where(life => !template.Lifes.Select(l => l.Id).Contains(life.Id))
-                .Select(life => new LifeTemplate(life))
+            var vitalitiesToCreate = updatedTemplate.Vitalities
+                .Where(vitality => !template.Vitalities.Select(l => l.Id).Contains(vitality.Id))
+                .Select(vitality => new VitalityTemplate(vitality))
                 .ToList();
-            var lifesToUpdate= template.Lifes.Where(life => updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
-            var lifesToDelete= template.Lifes.Where(life => !updatedTemplate.Lifes.Select(l => l.Id).Contains(life.Id)).ToList();
+            var vitalitiesToUpdate= template.Vitalities.Where(vitality => updatedTemplate.Vitalities.Select(l => l.Id).Contains(vitality.Id)).ToList();
+            var vitalitiesToDelete= template.Vitalities.Where(vitality => !updatedTemplate.Vitalities.Select(l => l.Id).Contains(vitality.Id)).ToList();
 
-            foreach (var lifes in lifesToUpdate)
+            foreach (var vitalities in vitalitiesToUpdate)
             {
-                var updatedLife= updatedTemplate.Lifes.First(lf => lf.Id == lifes.Id);
-                lifes.Name = updatedLife.Name;
+                var updatedVitality= updatedTemplate.Vitalities.First(lf => lf.Id == vitalities.Id);
+                vitalities.Name = updatedVitality.Name;
             }
-            foreach (var life in lifesToCreate)
+            foreach (var vitality in vitalitiesToCreate)
             {
-                template.Lifes.Add(life);
+                template.Vitalities.Add(vitality);
             }
-            foreach (var life in lifesToDelete)
+            foreach (var vitality in vitalitiesToDelete)
             {
-                template.Lifes.Remove(life);
+                template.Vitalities.Remove(vitality);
             }
 
             foreach (var attribute in attributesToCreate)
@@ -174,9 +174,9 @@ namespace RoleRollsPocketEdition.Templates.Services
             _dbContextl.SkillTemplates.UpdateRange(skillsToUpdate);
             _dbContextl.SkillTemplates.RemoveRange(skillsToDelete);
 
-            await _dbContextl.LifeTemplates.AddRangeAsync(lifesToCreate);
-            _dbContextl.LifeTemplates.UpdateRange(lifesToUpdate);
-            _dbContextl.LifeTemplates.RemoveRange(lifesToDelete);
+            await _dbContextl.VitalityTemplates.AddRangeAsync(vitalitiesToCreate);
+            _dbContextl.VitalityTemplates.UpdateRange(vitalitiesToUpdate);
+            _dbContextl.VitalityTemplates.RemoveRange(vitalitiesToDelete);
 
             _dbContextl.CampaignTemplates.Update(template);
 

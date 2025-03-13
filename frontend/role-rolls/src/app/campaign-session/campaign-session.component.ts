@@ -137,7 +137,7 @@ export class CampaignSessionComponent {
       data: {
         campaign: this.campaign,
         action: EditorAction.create,
-        creatureType: CreatureCategory.Hero,
+        creatureType: CreatureCategory.Ally,
       },
       focusOnShow: false
     });

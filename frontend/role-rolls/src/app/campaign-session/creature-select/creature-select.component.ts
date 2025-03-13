@@ -39,8 +39,8 @@ export class CreatureSelectComponent {
       return;
     }
     this.campaignsService.getCreatures(this.campaign.id, this.creatureType).pipe(
-      tap(resp => this.creatures = resp),
-    ).subscribe(response => this.result = response);
+      tap(resp => this.creatures = resp.items),
+    ).subscribe(response => this.result = response.items);
   }
   selected(selectedCreature: Creature) {
     this.creatureSelected.emit(selectedCreature);

@@ -25,13 +25,11 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Attributes = template.Attributes.OrderBy(e => e.Name).Select(attribute => new AttributeTemplateModel(attribute)).ToList();
             Skills = template.Skills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
             AttributelessSkills = template.AttributelessSkills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
-            Lifes = template.Lifes.OrderBy(e => e.Name).Select(life => new LifeTemplateModel(life)).ToList();
+            Vitalities = template.Vitalities.OrderBy(e => e.Name).Select(vitality => new VitalityTemplateModel(vitality)).ToList();
             Defenses = template.Defenses.OrderBy(e => e.Name).Select(defense => new DefenseTemplateModel(defense)).ToList();
             CreatureTypes = template.CreatureTypes.OrderBy(e => e.Name).Select(defense => new CreatureTypeModel(defense)).ToList();
             Archetypes = template.Archetypes.OrderBy(e => e.Name).Select(defense => new ArchetypeModel(defense)).ToList();
             ItemConfiguration = ItemConfigurationModel.FromConfiguration(template.ItemConfiguration);
-
-
         }
 
         public string? ArchetypeTitle { get; set; }
@@ -56,7 +54,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public virtual ICollection<AttributeTemplateModel> Attributes { get; set; }
         public ICollection<SkillTemplateModel> Skills { get; set; }
 
-        public ICollection<LifeTemplateModel> Lifes { get; set; }
+        public ICollection<VitalityTemplateModel> Vitalities { get; set; }
         public ItemConfigurationModel ItemConfiguration { get; set; }
 
         public static CampaignTemplateModel? FromTemplate(CampaignTemplate? campaignCreatureTemplate)

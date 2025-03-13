@@ -77,18 +77,18 @@
         <p-panel [toggleable]="true">
           <ng-template #header>
             <div class="flex justify-between items-center w-full">
-              <span class="text-lg font-semibold">Lifes</span>
+              <span class="text-lg font-semibold">Vitalities</span>
             </div>
           </ng-template>
-          <div formArrayName="lifes">
-            <div *ngFor="let life of lifes.controls; let i=index" class="pb-2">
-              <div [formGroup]="life">
+          <div formArrayName="vitalities">
+            <div *ngFor="let vitality of vitalities.controls; let i=index" class="pb-2">
+              <div [formGroup]="vitality">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <div class="p-inputgroup-addon p-input-filled life-value">
+                  <div class="p-inputgroup-addon p-input-filled vitality-value">
                     <input type="text" pInputText placeholder="Value" formControlName="value">
                   </div>
-                  <div class="p-inputgroup-addon life-max-value" pTooltip="Max Value">
+                  <div class="p-inputgroup-addon vitality-max-value" pTooltip="Max Value">
                     <input type="text" pInputText placeholder="Max" formControlName="maxValue">
                   </div>
                 </div>

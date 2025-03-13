@@ -2,19 +2,19 @@
   <ng-template #header>
     <div class="flex justify-between items-center w-full">
     <span>
-      {{ creatureCategory() === CreatureCategory.Hero ? 'Heroes' : 'Monsters' }}
+      {{ creatureCategory() === CreatureCategory.Ally ? 'Heroes' : 'Monsters' }}
     </span>
       <div class="flex gap-2">
-        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Hero && isMaster"
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Ally && isMaster"
                             placeholder="Add Hero"
                             [campaign]="campaign()"
-                            [creatureType]="CreatureCategory.Hero"
+                            [creatureType]="CreatureCategory.Ally"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
-        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Monster && isMaster"
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster"
                             placeholder="Add Monster"
                             [campaign]="campaign()"
-                            [creatureType]="CreatureCategory.Monster"
+                            [creatureType]="CreatureCategory.Enemy"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
       </div>

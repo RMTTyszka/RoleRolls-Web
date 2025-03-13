@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.Campaigns;
 using RoleRollsPocketEdition.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
+using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Creatures.Dtos;
 using RoleRollsPocketEdition.Creatures.Entities;
@@ -29,27 +30,24 @@ namespace RoleRollsPocketEdition.Creatures.Services
             _creatureRepository = creatureRepository;
         }
 
-        public async Task<List<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
+        public async Task<PagedResult<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
         {
+            var masterId = await _dbContext.Campaigns.Where(e => e.Id == campaignId)
+                .Select(e => e.MasterId)
+                .FirstAsync();
+            var userId = _currentUser.User.Id;
+            var isMaster = masterId == userId;
             var query = _creatureRepository.GetFullCreatureAsQueryable()
-                .WhereIf(input.CreatureType.HasValue, creature => creature.Category == input.CreatureType)
+                .WhereIf(input.CreatureCategory.HasValue, creature => creature.Category == input.CreatureCategory)
+                .WhereIf(!isMaster, creature => creature.OwnerId == userId)
                 .Where(creature => campaignId == creature.CampaignId);
-
-            if (input.CreatureIds.Any()) 
-            {
-                query = query.Where(creature => input.CreatureIds.Contains(creature.Id));
-            }
-
-            if (input.OwnerId.HasValue) 
-            {
-                query = query.Where(creature => input.OwnerId == creature.OwnerId);
-            }
-                
             var creatures = await query
+                .PageBy(input)
                 .ToListAsync();
-            var output = creatures.Select(creature => new CreatureModel(creature))
+            var count = await query.CountAsync();
+            var itens = creatures.Select(creature => new CreatureModel(creature))
                 .ToList();
-            return output;
+            return new PagedResult<CreatureModel>(count, itens);
         }
         public async Task<CreatureModel> GetAsync(Guid id)
         {
@@ -62,7 +60,8 @@ namespace RoleRollsPocketEdition.Creatures.Services
             var ownerId = _currentUser.User.Id;
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Category, ownerId);
+            var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Category,
+                ownerId, creatureModel.IsTemplate);
             var result = creature.Update(creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
@@ -87,11 +86,12 @@ namespace RoleRollsPocketEdition.Creatures.Services
             return result;
         }
 
-        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureCategory creatureCategory)
+        public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureCategory creatureCategory,
+            bool isTemplate)
         {
             var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
             var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureCategory);
+            var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureCategory, isTemplate);
             var output = new CreatureModel(creature);
             return output;
         }

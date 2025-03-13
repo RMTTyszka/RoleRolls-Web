@@ -10,6 +10,6 @@ export interface AttackInput {
     defenseId: Property;
     hitPropertyId: Property;
     damagePropertyId: Property;
-    lifeId: Property;
+    vitalityId: Property;
     targetId: string;
 }

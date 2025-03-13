@@ -335,6 +335,12 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("CanBeAlly")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanBeEnemy")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(450)
@@ -401,6 +407,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<Guid?>("CreatureTypeId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Level")
                         .HasColumnType("integer");
@@ -577,43 +586,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("Inventory");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Life", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatureId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Formula")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.Property<Guid>("LifeTemplateId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("MaxValue")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatureId");
-
-                    b.HasIndex("LifeTemplateId");
-
-                    b.ToTable("Lifes");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.MinorSkill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -680,6 +652,35 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasIndex("SkillTemplateId");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Vitality", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VitalityTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatureId");
+
+                    b.HasIndex("VitalityTemplateId");
+
+                    b.ToTable("Vitalities");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Damages.Entities.DamageType", b =>
@@ -1114,35 +1115,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("DefenseTemplates");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.LifeTemplate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CampaignTemplateId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CreatureTemplateId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Formula")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CampaignTemplateId");
-
-                    b.ToTable("LifeTemplates");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.MinorSkillTemplate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1193,6 +1165,35 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasIndex("CampaignTemplateId");
 
                     b.ToTable("SkillTemplates");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.VitalityTemplate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CampaignTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatureTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Formula")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignTemplateId");
+
+                    b.ToTable("VitalityTemplates");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Itens.Templates.ArmorTemplate", b =>
@@ -1487,21 +1488,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Creature");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Life", b =>
-                {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
-                        .WithMany("Lifes")
-                        .HasForeignKey("CreatureId");
-
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.LifeTemplate", "LifeTemplate")
-                        .WithMany("Lifes")
-                        .HasForeignKey("LifeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LifeTemplate");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.MinorSkill", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
@@ -1546,6 +1532,25 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("SkillTemplate");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Vitality", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", "Creature")
+                        .WithMany("Vitalities")
+                        .HasForeignKey("CreatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.VitalityTemplate", "VitalityTemplate")
+                        .WithMany("Vitalities")
+                        .HasForeignKey("VitalityTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creature");
+
+                    b.Navigation("VitalityTemplate");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Damages.Entities.DamageType", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
@@ -1580,7 +1585,7 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("ItemConfigurationId");
                         });
 
-                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetFirstLife", b1 =>
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetFirstVitality", b1 =>
                         {
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
@@ -1599,7 +1604,7 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("ItemConfigurationId");
                         });
 
-                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetSecondLife", b1 =>
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetSecondVitality", b1 =>
                         {
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
@@ -1848,9 +1853,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Navigation("ArmorProperty");
 
-                    b.Navigation("BasicAttackTargetFirstLife");
+                    b.Navigation("BasicAttackTargetFirstVitality");
 
-                    b.Navigation("BasicAttackTargetSecondLife");
+                    b.Navigation("BasicAttackTargetSecondVitality");
 
                     b.Navigation("CampaignTemplate");
 
@@ -1998,17 +2003,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("CampaignTemplate");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.LifeTemplate", b =>
-                {
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
-                        .WithMany("Lifes")
-                        .HasForeignKey("CampaignTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CampaignTemplate");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.MinorSkillTemplate", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "Attribute")
@@ -2037,6 +2031,17 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasForeignKey("CampaignTemplateId");
 
                     b.Navigation("AttributeTemplate");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.VitalityTemplate", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
+                        .WithMany("Vitalities")
+                        .HasForeignKey("CampaignTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CampaignTemplate");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Archetype", b =>
@@ -2075,13 +2080,13 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Inventory")
                         .IsRequired();
 
-                    b.Navigation("Lifes");
-
                     b.Navigation("MinorSkills");
 
                     b.Navigation("Powers");
 
                     b.Navigation("Skills");
+
+                    b.Navigation("Vitalities");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Inventory", b =>
@@ -2134,17 +2139,12 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("ItemConfiguration")
                         .IsRequired();
 
-                    b.Navigation("Lifes");
+                    b.Navigation("Vitalities");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.DefenseTemplate", b =>
                 {
                     b.Navigation("Defenses");
-                });
-
-            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.LifeTemplate", b =>
-                {
-                    b.Navigation("Lifes");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.MinorSkillTemplate", b =>
@@ -2157,6 +2157,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("MinorSkills");
 
                     b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.VitalityTemplate", b =>
+                {
+                    b.Navigation("Vitalities");
                 });
 #pragma warning restore 612, 618
         }

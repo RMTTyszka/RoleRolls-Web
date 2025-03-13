@@ -109,7 +109,7 @@ export class SceneCreaturesComponent {
       creatureId: creature.id,
       hidden: false
     } as SceneCreature;
-    if (creature.category === CreatureCategory.Hero) {
+    if (creature.category === CreatureCategory.Ally) {
       this.campaignService.addHeroToScene(this.scene.campaignId, this.scene.id, input)
         .subscribe(() => {
           this.detailsService.heroAddedToScene.next();

@@ -80,7 +80,7 @@ export class CampaignItemConfigurationComponent {
       };
     });
     this.form.addControl('armorPropertyTitle', new FormControl('Armor Property'));
-    this.form.addControl('basicAttackTargetFirstLifeTitle', new FormControl('Basic Attack First Life'));
+    this.form.addControl('basicAttackTargetFirstVitalityTitle', new FormControl('Basic Attack First Vitality'));
     this.form.addControl('meleeLightWeaponHitPropertyTitle', new FormControl('Melee Light Weapon Hit Property'));
     this.form.addControl('meleeMediumWeaponHitPropertyTitle', new FormControl('Melee Medium Weapon Hit Property'));
     this.form.addControl('meleeHeavyWeaponHitPropertyTitle', new FormControl('Melee Heavy Weapon Hit Property'));
@@ -93,7 +93,7 @@ export class CampaignItemConfigurationComponent {
     this.form.addControl('rangedLightWeaponDamagePropertyTitle', new FormControl('Ranged Light Weapon Damage Property'));
     this.form.addControl('rangedMediumWeaponDamagePropertyTitle', new FormControl('Ranged Medium Weapon Damage Property'));
     this.form.addControl('rangedHeavyWeaponDamagePropertyTitle', new FormControl('Ranged Heavy Weapon Damage Property'));
-    this.form.addControl('basicAttackTargetSecondLifeTitle', new FormControl('Basic Attack Second Life'));
+    this.form.addControl('basicAttackTargetSecondVitalityTitle', new FormControl('Basic Attack Second Vitality'));
 
   }
   public async save(): Promise<void> {

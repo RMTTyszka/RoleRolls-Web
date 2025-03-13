@@ -4,9 +4,9 @@
     <p-inputnumber id="damage-input" [(ngModel)]="damageValue" class="w-full"/>
   </div>
   <div class="w-full">
-    <div class="grid grid-cols-1 gap-2" *ngFor="let life of lifes; let i = index;">
-      <button pButton (click)=takeDamage(life) [label]="life.name" class="w-full danger-color" [disabled]="damageValue < 1"></button>
-      <span class="w-full">Result: {{resultFromDamage(life)}}</span>
+    <div class="grid grid-cols-1 gap-2" *ngFor="let vitality of vitalities; let i = index;">
+      <button pButton (click)=takeDamage(vitality) [label]="vitality.name" class="w-full danger-color" [disabled]="damageValue < 1"></button>
+      <span class="w-full">Result: {{resultFromDamage(vitality)}}</span>
     </div>
   </div>
 </div>
@@ -18,9 +18,9 @@
     <p-inputnumber id="heal-input" [(ngModel)]="healValue" class="w-full"/>
   </div>
   <div class="w-full">
-    <div class="grid grid-cols-1 gap-2" *ngFor="let life of lifes; let i = index;">
-      <button pButton (click)=heal(life) [label]="life.name" class="w-full success-color" [disabled]="healValue < 1"></button>
-      <span class="w-full">Result: {{resultFromHeal(life)}}</span>
+    <div class="grid grid-cols-1 gap-2" *ngFor="let vitality of vitalities; let i = index;">
+      <button pButton (click)=heal(vitality) [label]="vitality.name" class="w-full success-color" [disabled]="healValue < 1"></button>
+      <span class="w-full">Result: {{resultFromHeal(vitality)}}</span>
     </div>
   </div>
 </div>

@@ -1,10 +1,12 @@
 <p-tabs [(value)]="activeTab">
   <p-tablist>
     <p-tab value="0">Creature Template</p-tab>
-    <p-tab value="1">Creature Types</p-tab>
-    <p-tab value="2">Archetypes</p-tab>
-    <p-tab value="3">Itens</p-tab>
-    <p-tab value="4">Item Configuration</p-tab>
+    <p-tab value="1">Allies</p-tab>
+    <p-tab value="2">Creature Types</p-tab>
+    <p-tab value="3">Archetypes</p-tab>
+    <p-tab value="4">Enemies</p-tab>
+    <p-tab value="5">Itens</p-tab>
+    <p-tab value="6">Item Configuration</p-tab>
   </p-tablist>
 
   <p-tabpanels>
@@ -15,21 +17,31 @@
     </p-tabpanel>
     <p-tabpanel value="1">
       <ng-container *ngIf="activeTab === '1'">
-        <rr-creature-types></rr-creature-types>
+        <rr-campaign-creatures [creatureCategory]="CreatureCategory.Ally"></rr-campaign-creatures>
       </ng-container>
     </p-tabpanel>
     <p-tabpanel value="2">
       <ng-container *ngIf="activeTab === '2'">
-        <rr-archetypes></rr-archetypes>
+        <rr-creature-types></rr-creature-types>
       </ng-container>
     </p-tabpanel>
     <p-tabpanel value="3">
       <ng-container *ngIf="activeTab === '3'">
-        <rr-campaign-itens></rr-campaign-itens>
+        <rr-archetypes></rr-archetypes>
       </ng-container>
     </p-tabpanel>
     <p-tabpanel value="4">
       <ng-container *ngIf="activeTab === '4'">
+        <rr-campaign-creatures [creatureCategory]="CreatureCategory.Enemy"></rr-campaign-creatures>
+      </ng-container>
+    </p-tabpanel>
+    <p-tabpanel value="5">
+      <ng-container *ngIf="activeTab === '5'">
+        <rr-campaign-itens></rr-campaign-itens>
+      </ng-container>
+    </p-tabpanel>
+    <p-tabpanel value="6">
+      <ng-container *ngIf="activeTab === '6'">
         <rr-campaign-item-configuration></rr-campaign-item-configuration>
       </ng-container>
     </p-tabpanel>

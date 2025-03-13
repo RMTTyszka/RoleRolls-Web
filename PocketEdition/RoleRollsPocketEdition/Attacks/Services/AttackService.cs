@@ -40,7 +40,7 @@ public class AttackService : IAttackService, ITransientDependency
                 .FirstAsync(),
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.DefenseId,
-            LifeId = input.LifeId,
+            VitalityId = input.VitalityId,
         };
         var attackResult = attacker.Attack(target, command);
         await _scenesService.ProcessAction(sceneId, attackResult);
@@ -51,7 +51,7 @@ public class AttackInput
 {
     public Guid TargetId { get; set; }
     public Guid? DefenseId { get; set; }
-    public Guid? LifeId { get; set; }
+    public Guid? VitalityId { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
 }
 public class AttackCommand
@@ -59,9 +59,9 @@ public class AttackCommand
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; }
     public Guid? DefenseId { get; set; }
-    public Guid? LifeId { get; set; }
+    public Guid? VitalityId { get; set; }
     public Guid GetDefenseId => DefenseId ?? ItemConfiguration.ArmorProperty.PropertyId;
-    public Guid GetLifeId => LifeId ?? ItemConfiguration.BasicAttackTargetFirstLife.PropertyId;
+    public Guid GetVitalityId => VitalityId ?? ItemConfiguration.BasicAttackTargetFirstVitality.PropertyId;
 }
 public class AttackResult
 {
