@@ -77,8 +77,11 @@ export class CampaignCreaturesComponent {
       duplicate: true,
     } as DynamicDialogConfig);
 
-    this.dialogRef.onClose.subscribe(() => {
+    this.dialogRef.onClose.subscribe((refresh: boolean) => {
       this.dialogRef = null;
+      if (refresh) {
+        this.refreshGrid.set(true);
+      }
     });
   }
   private buildHeaderActions() {

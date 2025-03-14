@@ -1,36 +1,36 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import {Campaign} from '@app/campaigns/models/campaign';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Campaign } from '@app/campaigns/models/campaign';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { EditorAction } from '@app/models/EntityActionData';
 import {
   AbstractControl,
   FormArray,
   FormControl,
-  FormGroup, ReactiveFormsModule,
-  UntypedFormArray,
-  UntypedFormGroup, ValidationErrors,
+  FormGroup,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+  ValidationErrors,
   ValidatorFn
 } from '@angular/forms';
 import { Creature } from '@app/campaigns/models/creature';
-import {SubscriptionManager} from '@app/tokens/subscription-manager';
+import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { getAsForm, ultraPatchValue } from '@app/tokens/EditorExtension';
-import {HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
-import {MessageService, ToastMessageOptions} from 'primeng/api';
-import {firstValueFrom} from 'rxjs';
-import {CampaignsService} from '@app/campaigns/services/campaigns.service';
-import {CreatureDetailsService} from '@app/creatures/creature-details.service';
-import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {Message} from 'primeng/message';
-import {TabPanel, TabView} from 'primeng/tabview';
-import {Panel} from 'primeng/panel';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { MessageService, ToastMessageOptions } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
+import { CampaignsService } from '@app/campaigns/services/campaigns.service';
+import { CreatureDetailsService } from '@app/creatures/creature-details.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Message } from 'primeng/message';
+import { TabPanel, TabView } from 'primeng/tabview';
+import { Panel } from 'primeng/panel';
 import { NgForOf, NgIf } from '@angular/common';
-import {InputNumber} from 'primeng/inputnumber';
+import { InputNumber } from 'primeng/inputnumber';
 import {
   CreatureInventoryComponent
 } from '@app/creatures/creature-editor/creature-inventory/creature-inventory.component';
 import { InputText } from 'primeng/inputtext';
 import { Tooltip } from 'primeng/tooltip';
-import { ButtonDirective } from 'primeng/button';
 
 @Component({
   selector: 'rr-creature-editor',
@@ -149,11 +149,14 @@ export class CreatureEditorComponent {
 
   public save() {
     const creature = this.form.getRawValue() as Creature;
-    creature.category = CreatureCategory.Ally;
+    creature.category = this.creatureCategory;
+    if (this.creatureCategory === CreatureCategory.Enemy) {
+      creature.isTemplate = true;
+    }
     const saveAction = this.editorAction === EditorAction.create ? this.campaignService.createCreature(this.campaign.id, creature)
       : this.campaignService.updateCreature(this.campaign.id, creature);
     saveAction.subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     }, (error: HttpErrorResponse) => {
       if (error.status === HttpStatusCode.UnprocessableEntity) {
         this.messageService.add({
