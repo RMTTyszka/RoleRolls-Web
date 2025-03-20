@@ -20,14 +20,16 @@ namespace RoleRollsPocketEdition.Creatures.Services
         private readonly ICurrentUser _currentUser;
         private readonly IRollSimulationService _simulationService;
         private readonly ICreatureRepository _creatureRepository;
+        private readonly ICreatureBuilderService _creatureBuilderService;
 
-        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, IRollSimulationService simulationService, ICreatureRepository creatureRepository)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, IRollSimulationService simulationService, ICreatureRepository creatureRepository, ICreatureBuilderService creatureBuilderService)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignsService;
             _currentUser = currentUser;
             _simulationService = simulationService;
             _creatureRepository = creatureRepository;
+            _creatureBuilderService = creatureBuilderService;
         }
 
         public async Task<PagedResult<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
@@ -57,18 +59,11 @@ namespace RoleRollsPocketEdition.Creatures.Services
         }
         public async Task<CreatureUpdateValidationResult> CreateAsync(Guid campaignId, CreatureModel creatureModel)
         {
-            var ownerId = _currentUser.User.Id;
-            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-            var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Category,
-                ownerId, creatureModel.IsTemplate);
-            var result = creature.Update(creatureModel);
+            var result = await _creatureBuilderService.BuildCreature(campaignId, creatureModel);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
-                creature.FullRestore();
-                await _dbContext.Creatures.AddAsync(creature);
+                await _dbContext.Creatures.AddAsync(result.Creature);
                 await _dbContext.SaveChangesAsync();
-                result.Creature = new CreatureModel(creature);
                 return result;
             }
             return result;

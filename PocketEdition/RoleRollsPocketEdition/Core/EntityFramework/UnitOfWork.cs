@@ -7,8 +7,8 @@ namespace RoleRollsPocketEdition.Core.EntityFramework;
 public interface IUnitOfWork : IDisposable
 {
     IUnitOfWork Begin();
-    void Commit();
-    void Rollback();
+    Task Commit();
+    Task Rollback();
 }
 
 public class UnitOfWork : IUnitOfWork, IScopedDepedency
@@ -29,26 +29,26 @@ public class UnitOfWork : IUnitOfWork, IScopedDepedency
         return this;
     }
 
-    public void Commit()
+    public async Task Commit()
     {
         try
         {
-            _context.SaveChanges();
-            _transaction?.Commit();
+            await _context.SaveChangesAsync();
+            await _transaction?.CommitAsync()!;
             _transactionCompleted = true;
         }
         catch
         {
-            _transaction?.Rollback();
+            await _transaction?.RollbackAsync()!;
             throw;
         }
     }
 
-    public void Rollback()
+    public async Task Rollback()
     {
         if (!_transactionCompleted)
         {
-            _transaction?.Rollback();
+            await _transaction?.RollbackAsync()!;
             _transactionCompleted = true;
         }
     }

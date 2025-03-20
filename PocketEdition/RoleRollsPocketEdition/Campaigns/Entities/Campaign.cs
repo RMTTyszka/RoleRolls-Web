@@ -1,6 +1,8 @@
 ﻿using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Encounters;
+using RoleRollsPocketEdition.Encounters.Entities;
+using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -36,6 +38,11 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
             Scenes = new List<Scene>();
             CampaignTemplate = new CampaignTemplate(campaignModel);
         }
-        
+
+        public async Task AddEncounter(Enconter newEncounter, RoleRollsDbContext context)
+        {
+            Enconters.Add(newEncounter);
+            await context.Encounters.AddAsync(newEncounter);
+        }
     }
 }

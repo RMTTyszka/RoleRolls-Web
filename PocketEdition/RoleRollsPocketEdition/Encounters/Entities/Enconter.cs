@@ -1,15 +1,25 @@
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Encounters.Models;
 
-namespace RoleRollsPocketEdition.Encounters;
+namespace RoleRollsPocketEdition.Encounters.Entities;
 
 public class Enconter : Entity
 {
+    public Enconter()
+    {
+        
+    }
+    public Enconter(EnconterModel encounter)
+    {
+        Name = encounter.Name;
+        Id = encounter.Id;
+    }
+
     public string Name { get; set; }
     public Campaign Campaign { get; set; }
     public ICollection<Creature> Creatures { get; set; } = new List<Creature>();
-    // Method to add a creature to the collection
     public void AddCreature(Creature creature)
     {
         if (creature == null)
@@ -18,7 +28,6 @@ public class Enconter : Entity
         Creatures.Add(creature);
     }
 
-    // Method to remove a creature from the collection
     public bool RemoveCreature(Creature creature)
     {
         if (creature == null)
@@ -27,8 +36,7 @@ public class Enconter : Entity
         return Creatures.Remove(creature);
     }
 
-    // Alternative method to remove a creature by ID if Creature inherits from Entity with an ID
-    public bool RemoveCreatureById(int creatureId)
+    public bool RemoveCreatureById(Guid creatureId)
     {
         var creature = Creatures.FirstOrDefault(c => c.Id == creatureId);
         if (creature != null)
@@ -36,5 +44,10 @@ public class Enconter : Entity
             return Creatures.Remove(creature);
         }
         return false;
+    }
+
+    public void Update(EnconterModel encounterModel)
+    {
+        Name = encounterModel.Name;
     }
 }

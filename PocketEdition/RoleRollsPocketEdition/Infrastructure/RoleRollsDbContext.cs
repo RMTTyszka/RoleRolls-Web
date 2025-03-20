@@ -8,6 +8,7 @@ using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
+using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -54,6 +55,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Archetype> Archetypes { get; set; }
         public DbSet<CreatureType> CreatureTypes { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
+        public DbSet<Enconter> Encounters { get; set; }
 
         private readonly IConfiguration _configuration;
 
