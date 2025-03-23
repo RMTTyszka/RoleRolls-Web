@@ -55,7 +55,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Archetype> Archetypes { get; set; }
         public DbSet<CreatureType> CreatureTypes { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
-        public DbSet<Enconter> Encounters { get; set; }
+        public DbSet<Encounter> Encounters { get; set; }
 
         private readonly IConfiguration _configuration;
 

@@ -9,11 +9,23 @@ using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Creatures.Services;
 using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Encounters.Models;
+using RoleRollsPocketEdition.Encounters.Validations;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Encounters.Services;
 
-public class EncounterService
+public interface IEncounterService
+{
+    Task<EnconterModel?> GetAsync(Guid campaignId, Guid id);
+    Task<IEnumerable<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input);
+    Task CreateAsync(Guid campaignId, EnconterModel encounter);
+    Task UpdateAsync(Guid campaignId, EnconterModel encounterModel);
+    Task<EncounterValidationResult> DeleteAsync(Guid id);
+    Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel);
+    Task<EncounterValidationResult> RemoveCreatureAsync(Guid encounterId, Guid creatureId, bool delete);
+}
+
+public class EncounterService : IEncounterService, ITransientDependency
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly RoleRollsDbContext _context;
@@ -31,8 +43,8 @@ public class EncounterService
     {
         var entity = await _context.Campaigns
             .AsNoTracking()
-            .Include(e => e.Enconters).Where(e => e.Id == campaignId)
-            .Select(c => c.Enconters.First(e => e.Id == id))
+            .Include(e => e.Encounters).Where(e => e.Id == campaignId)
+            .Select(c => c.Encounters.First(e => e.Id == id))
             .FirstOrDefaultAsync();
         return entity == null ? null : new EnconterModel(entity);
     }
@@ -43,8 +55,8 @@ public class EncounterService
             .AsNoTracking()
             .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
             .Where(e => e.Id == campaignId)
-            .Include(e => e.Enconters)
-            .SelectMany(c => c.Enconters)
+            .Include(e => e.Encounters)
+            .SelectMany(c => c.Encounters)
             .PageBy(input)
             .Select(e => new EnconterModel(e))
             .ToListAsync();
@@ -55,7 +67,7 @@ public class EncounterService
     {
         var campaign = await _context.Campaigns
             .FirstAsync(e => e.Id == campaignId);
-        var newEncounter = new Enconter(encounter);
+        var newEncounter = new Encounter(encounter);
 
         using (_unitOfWork.Begin())
         {
@@ -67,9 +79,9 @@ public class EncounterService
     public async Task UpdateAsync(Guid campaignId, EnconterModel encounterModel)
     {
         var campaign = await _context.Campaigns
-            .Include(c => c.Enconters)
+            .Include(c => c.Encounters)
             .FirstAsync(e => e.Id == campaignId);
-        var encounter = campaign.Enconters.First(e => e.Id == encounterModel.Id);
+        var encounter = campaign.Encounters.First(e => e.Id == encounterModel.Id);
         encounter.Update(encounterModel);
 
         using (_unitOfWork.Begin())
@@ -79,55 +91,48 @@ public class EncounterService
         }
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<EncounterValidationResult> DeleteAsync(Guid id)
     {
         var encounter = await _context.Encounters.FindAsync(id);
         if (encounter == null)
-            return false;
+            return EncounterValidationResult.NotFound();
+
         _context.Encounters.Remove(encounter);
-        return true;
+        await _context.SaveChangesAsync();
+        return EncounterValidationResult.Ok();
+
     }
 
-    public async Task<bool> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel)
+    public async Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel)
     {
         var encounter = await _context.Encounters.FindAsync(encounterId);
         if (encounter == null)
-            return false;
+            return EncounterValidationResult.NotFound();
         var result = await _creatureBuilderService.BuildCreature(campaignId, creatureModel);
 
         await _context.Creatures.AddAsync(result.Creature);
         encounter.AddCreature(result.Creature);
-        return true;
+        return EncounterValidationResult.Ok();
     }
 
-    public async Task<bool> RemoveCreatureAsync(Guid encounterId, Creature creature)
+    public async Task<EncounterValidationResult> RemoveCreatureAsync(Guid encounterId, Guid creatureId, bool delete)
     {
-        if (creature == null)
-            throw new ArgumentNullException(nameof(creature), "Creature cannot be null");
 
-        var encounter = await _encounterRepository.GetByIdAsync(encounterId);
+        var creature = await _context.Creatures.FindAsync(creatureId);
+
+        var encounter = await _context.Encounters.FindAsync(encounterId);
         if (encounter == null)
-            return false;
+            return EncounterValidationResult.NotFound();
 
-        var result = encounter.RemoveCreature(creature);
-        if (result)
+        encounter.RemoveCreature(creature);
+        using (_unitOfWork.Begin())
         {
-            await _encounterRepository.UpdateAsync(encounter);
+            if (delete == true)
+            {
+                _context.Creatures.Remove(creature);
+            }
+            await _unitOfWork.Commit();
         }
-        return result;
-    }
-
-    public async Task<bool> RemoveCreatureByIdAsync(Guid encounterId, Guid creatureId)
-    {
-        var encounter = await _encounterRepository.GetByIdAsync(encounterId);
-        if (encounter == null)
-            return false;
-
-        var result = encounter.RemoveCreatureById(creatureId);
-        if (result)
-        {
-            await _encounterRepository.UpdateAsync(encounter);
-        }
-        return result;
+        return EncounterValidationResult.Ok();
     }
 }

@@ -15,7 +15,7 @@ public class EnconterModel : IEntityDto
         
     }
 
-    public EnconterModel(Enconter encounter)
+    public EnconterModel(Encounter encounter)
     {
         Name = encounter.Name;
         Id = encounter.Id;

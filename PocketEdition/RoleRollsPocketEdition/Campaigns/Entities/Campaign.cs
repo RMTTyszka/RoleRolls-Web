@@ -18,7 +18,7 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
         public Guid InvitationSecret { get; set; }
         public ICollection<PowerTemplate> PowerTemplates { get; set; } = new List<PowerTemplate>();
         public ICollection<CampaignPlayer> CampaignPlayers { get; set; } = new List<CampaignPlayer>();
-        public ICollection<Enconter> Enconters { get; set; } = new List<Enconter>();
+        public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public ICollection<Scene> Scenes { get; set; } = new List<Scene>();
         
         public Campaign()
@@ -39,9 +39,9 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
             CampaignTemplate = new CampaignTemplate(campaignModel);
         }
 
-        public async Task AddEncounter(Enconter newEncounter, RoleRollsDbContext context)
+        public async Task AddEncounter(Encounter newEncounter, RoleRollsDbContext context)
         {
-            Enconters.Add(newEncounter);
+            Encounters.Add(newEncounter);
             await context.Encounters.AddAsync(newEncounter);
         }
     }

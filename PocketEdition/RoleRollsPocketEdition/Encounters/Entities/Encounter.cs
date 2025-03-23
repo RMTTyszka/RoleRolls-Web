@@ -5,13 +5,13 @@ using RoleRollsPocketEdition.Encounters.Models;
 
 namespace RoleRollsPocketEdition.Encounters.Entities;
 
-public class Enconter : Entity
+public class Encounter : Entity
 {
-    public Enconter()
+    public Encounter()
     {
         
     }
-    public Enconter(EnconterModel encounter)
+    public Encounter(EnconterModel encounter)
     {
         Name = encounter.Name;
         Id = encounter.Id;
@@ -28,22 +28,9 @@ public class Enconter : Entity
         Creatures.Add(creature);
     }
 
-    public bool RemoveCreature(Creature creature)
+    public void RemoveCreature(Creature creature)
     {
-        if (creature == null)
-            throw new ArgumentNullException(nameof(creature), "Creature cannot be null");
-            
-        return Creatures.Remove(creature);
-    }
-
-    public bool RemoveCreatureById(Guid creatureId)
-    {
-        var creature = Creatures.FirstOrDefault(c => c.Id == creatureId);
-        if (creature != null)
-        {
-            return Creatures.Remove(creature);
-        }
-        return false;
+        Creatures.Remove(creature);
     }
 
     public void Update(EnconterModel encounterModel)
