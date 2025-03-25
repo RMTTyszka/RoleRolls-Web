@@ -41,6 +41,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
             var isMaster = masterId == userId;
             var query = _creatureRepository.GetFullCreatureAsQueryable()
                 .WhereIf(input.CreatureCategory.HasValue, creature => creature.Category == input.CreatureCategory)
+                .WhereIf(input.OnlyTemplates.HasValue, creature => creature.IsTemplate == input.OnlyTemplates)
                 .WhereIf(!isMaster, creature => creature.OwnerId == userId)
                 .Where(creature => campaignId == creature.CampaignId);
             var creatures = await query

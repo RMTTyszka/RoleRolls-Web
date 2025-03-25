@@ -42,6 +42,16 @@ export class EncountersService {
     }
     return this.http.get<PagedOutput<Encounter>>(`${RR_API.backendUrl}${this.path(campaignId)}`, {params});
   }
+  public getAllCreatures(campaignId: string, encounterId: string, input: GetListInput): Observable<PagedOutput<Encounter>> {
+    let params = new HttpParams()
+      .set('skipCount', input.skipCount.toString())
+      .set('maxResultCount', input.maxResultCount.toString());
+
+    if (input.filter) {
+      params = params.set('filter', input.filter);
+    }
+    return this.http.get<PagedOutput<Encounter>>(`${RR_API.backendUrl}${this.path(campaignId)}/${encounterId}/creatures{`, {params});
+  }
   public create(campaignId: string, encounter: Encounter): Observable<Encounter> {
     return this.http.post<Encounter>(`${RR_API.backendUrl}${this.path(campaignId)}`, encounter);
   }

@@ -5,8 +5,9 @@
     <p-tab value="2">Creature Types</p-tab>
     <p-tab value="3">Archetypes</p-tab>
     <p-tab value="4">Enemies</p-tab>
-    <p-tab value="5">Itens</p-tab>
-    <p-tab value="6">Item Configuration</p-tab>
+    <p-tab value="5">Encounters</p-tab>
+    <p-tab value="6">Itens</p-tab>
+    <p-tab value="7">Item Configuration</p-tab>
   </p-tablist>
 
   <p-tabpanels>
@@ -37,11 +38,16 @@
     </p-tabpanel>
     <p-tabpanel value="5">
       <ng-container *ngIf="activeTab === '5'">
-        <rr-campaign-itens></rr-campaign-itens>
+        <rr-encounters></rr-encounters>
       </ng-container>
     </p-tabpanel>
     <p-tabpanel value="6">
       <ng-container *ngIf="activeTab === '6'">
+        <rr-campaign-itens></rr-campaign-itens>
+      </ng-container>
+    </p-tabpanel>
+    <p-tabpanel value="7">
+      <ng-container *ngIf="activeTab === '7'">
         <rr-campaign-item-configuration></rr-campaign-item-configuration>
       </ng-container>
     </p-tabpanel>

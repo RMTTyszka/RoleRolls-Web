@@ -1,1 +1,12 @@
-<p>encounter-editor works!</p>
+
+<form [formGroup]="form" *ngIf="loaded()">
+  <p-fieldset legend="Creature Type">
+    <div class="grid grid-cols-1 gap-4">
+      <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
+    </div>
+  </p-fieldset>
+  <rr-grid [headerActions]="headerActions" [columns]="columns"
+           [refreshList]="refreshGrid()"
+           [getListCallback]="getList"></rr-grid>
+
+</form>

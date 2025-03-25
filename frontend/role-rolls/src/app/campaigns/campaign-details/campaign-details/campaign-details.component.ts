@@ -14,6 +14,7 @@ import {
   CampaignCreaturesComponent
 } from '@app/campaigns/campaign-details/campaign-creatures/campaign-creatures.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
+import { EncountersComponent } from '@app/encounters/components/encounters/encounters.component';
 
 @Component({
   selector: 'rr-campaign-details',
@@ -34,7 +35,8 @@ import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
     NgIf,
     CreatureTypesComponent,
     ArchetypesComponent,
-    CampaignCreaturesComponent
+    CampaignCreaturesComponent,
+    EncountersComponent
   ],
   styleUrl: './campaign-details.component.scss'
 })

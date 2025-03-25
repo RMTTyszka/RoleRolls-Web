@@ -21,6 +21,7 @@ public interface IEncounterService
     Task CreateAsync(Guid campaignId, EnconterModel encounter);
     Task UpdateAsync(Guid campaignId, EnconterModel encounterModel);
     Task<EncounterValidationResult> DeleteAsync(Guid id);
+    Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input);
     Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel);
     Task<EncounterValidationResult> RemoveCreatureAsync(Guid encounterId, Guid creatureId, bool delete);
 }
@@ -102,7 +103,19 @@ public class EncounterService : IEncounterService, ITransientDependency
         return EncounterValidationResult.Ok();
 
     }
-
+    public async Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
+    {
+        var output = await _context.Encounters
+            .AsNoTracking()
+            .Include(e => e.Creatures)
+            .SelectMany(e => e.Creatures)
+            .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
+            .Where(e => e.CampaignId == campaignId)
+            .PageBy(input)
+            .Select(e => new CreatureModel(e))
+            .ToListAsync();
+        return output;
+    }
     public async Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel)
     {
         var encounter = await _context.Encounters.FindAsync(encounterId);

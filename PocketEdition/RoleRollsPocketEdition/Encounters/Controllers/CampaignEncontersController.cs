@@ -62,6 +62,12 @@ public class EncounterController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("{encounterId}/creatures")]
+    Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
+    {
+        return _encounterService.GetAllCreaturesAsync(campaignId, encounterId, input);
+    }
+
     [HttpPost("{encounterId}/creatures")]
     public async Task<IActionResult> AddCreature(Guid campaignId, Guid encounterId, [FromBody] CreatureModel creature)
     {

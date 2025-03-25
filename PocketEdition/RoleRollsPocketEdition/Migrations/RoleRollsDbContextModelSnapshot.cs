@@ -408,7 +408,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("CreatureTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("EnconterId")
+                    b.Property<Guid?>("EncounterId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsTemplate")
@@ -431,7 +431,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasIndex("CreatureTypeId");
 
-                    b.HasIndex("EnconterId");
+                    b.HasIndex("EncounterId");
 
                     b.ToTable("Creatures");
                 });
@@ -709,7 +709,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("DamageTypes");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Enconter", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Encounter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1376,9 +1376,9 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany()
                         .HasForeignKey("CreatureTypeId");
 
-                    b.HasOne("RoleRollsPocketEdition.Encounters.Entities.Enconter", null)
+                    b.HasOne("RoleRollsPocketEdition.Encounters.Entities.Encounter", null)
                         .WithMany("Creatures")
-                        .HasForeignKey("EnconterId");
+                        .HasForeignKey("EncounterId");
 
                     b.Navigation("Archetype");
 
@@ -1588,10 +1588,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasForeignKey("CampaignTemplateId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Enconter", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Encounter", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Campaigns.Entities.Campaign", "Campaign")
-                        .WithMany("Enconters")
+                        .WithMany("Encounters")
                         .HasForeignKey("CampaignId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2094,7 +2094,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.Navigation("CampaignPlayers");
 
-                    b.Navigation("Enconters");
+                    b.Navigation("Encounters");
 
                     b.Navigation("PowerTemplates");
 
@@ -2142,7 +2142,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("MinorSkills");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Enconter", b =>
+            modelBuilder.Entity("RoleRollsPocketEdition.Encounters.Entities.Encounter", b =>
                 {
                     b.Navigation("Creatures");
                 });
