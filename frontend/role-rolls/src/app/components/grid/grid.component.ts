@@ -1,16 +1,15 @@
-import {Component, createComponent, effect, EventEmitter, input, Input, Output, Type} from '@angular/core';
+import { Component, computed, effect, EventEmitter, input, Input, Output } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
-import { Entity } from '../../models/Entity.model';
+import { Entity } from '@app/models/Entity.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PagedOutput } from '../../models/PagedOutput';
-import { safeCast } from '../../tokens/utils.funcs';
+import { PagedOutput } from '@app/models/PagedOutput';
+import { safeCast } from '@app/tokens/utils.funcs';
 import { Tooltip } from 'primeng/tooltip';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
-import { Button, ButtonDirective, ButtonIcon } from 'primeng/button';
-import { BaseCrudService } from '../../services/base-service/base-crud-service';
-import { GetListInput } from '../../tokens/get-list-input';
+import { ButtonDirective } from 'primeng/button';
+import { GetListInput } from '@app/tokens/get-list-input';
 import { InputText } from 'primeng/inputtext';
 import {Observable} from 'rxjs';
 
@@ -26,7 +25,10 @@ import {Observable} from 'rxjs';
     InputText,
   ],
   templateUrl: './grid.component.html',
-  styleUrl: './grid.component.scss'
+  styleUrl: './grid.component.scss',
+  host: {
+    'class': 'min-h-300'
+  }
 })
 export class GridComponent<T extends Entity, TView extends Entity> {
   data: TView[] = [];
@@ -34,11 +36,16 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   @Input() getListCallback!: (input: GetListInput) => Observable<PagedOutput<TView>>;
   @Input() refresh!: EventEmitter<void>;
   public refreshList = input<boolean>();
+  public hasGlobalFilter = input<boolean>();
+  public title = input<string>();
   @Input() headerActions: RRHeaderAction[] = [];
   @Input() actions: RRTableAction<TView>[] = [];
   totalCount: number = 0;
   loading = true;
   first = 0;
+  public hasTitle = computed(() => {
+    return Boolean(this.title);
+  })
   public actionsWidth() {
     return {width: `${this.actions.length * 3}%`}
   }

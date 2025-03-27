@@ -2,14 +2,15 @@
          (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event.data)" [totalRecords]="totalCount" [loading]="loading"
 >
   <ng-template #caption>
-    <div class="grid nogutter justify-between">
-      <div class="col-6">
-        <div class="p-inputgroup">
+    <div class="grid nogutter grid-cols-2 justify-between items-center">
+      <div class="col-6 grid gri-col-2 justify-between">
+        <h3 *ngIf="hasTitle">{{title()}}</h3>
+        <div class="p-inputgroup" *ngIf="hasGlobalFilter()">
           <span class="p-inputgroup-addon"><i class="fa fa-search"></i></span>
           <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
         </div>
       </div>
-      <div class="grid justify-end align-center nogutter">
+      <div class="grid col-6 justify-end align-center nogutter">
         <div class="col">
           <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
         </div>

@@ -369,8 +369,13 @@ const RrPrimengPreset = definePreset(Aura, {
     }
   },
   components: {
+    datatable: {
+      header: {
+        padding: '0.5rem', // Altere este valor conforme necessário
+      }
+    }
+  },
 
-  }
 
 })
 export default RrPrimengPreset;

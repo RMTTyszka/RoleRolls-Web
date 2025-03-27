@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Encounters.Models;
 using RoleRollsPocketEdition.Encounters.Services;
 
-[ApiController]
-[Route("api/campaigns/{campaignId}/encounters")]
+namespace RoleRollsPocketEdition.Encounters.Controllers;
+
+[Route("campaigns/{campaignId}/encounters")]
 public class EncounterController : ControllerBase
 {
     private readonly IEncounterService _encounterService;
@@ -63,9 +62,9 @@ public class EncounterController : ControllerBase
     }
 
     [HttpGet("{encounterId}/creatures")]
-    Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
+    public async Task<PagedResult<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
     {
-        return _encounterService.GetAllCreaturesAsync(campaignId, encounterId, input);
+        return await _encounterService.GetAllCreaturesAsync(campaignId, encounterId, input);
     }
 
     [HttpPost("{encounterId}/creatures")]

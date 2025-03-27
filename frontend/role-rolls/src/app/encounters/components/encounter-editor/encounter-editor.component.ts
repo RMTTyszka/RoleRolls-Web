@@ -12,9 +12,9 @@ import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { v4 as uuid } from 'uuid';
 import { getAsForm } from '@app/tokens/EditorExtension';
-import { canEdit } from '@app/tokens/utils.funcs';
+import { canEditCampaign, canEditTemplate } from '@app/tokens/utils.funcs';
 import { Bonus } from '@app/models/bonuses/bonus';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { Encounter } from '@app/encounters/models/encounter';
 import { EncountersService } from '@app/encounters/services/encounters.service';
 import { Creature } from '@app/campaigns/models/creature';
@@ -22,6 +22,9 @@ import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { CreatureSelectTableComponent } from '@app/creatures/creature-select-table/creature-select-table.component';
 import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
 import { GetListInput } from '@app/tokens/get-list-input';
+import { ButtonDirective } from 'primeng/button';
+import { IftaLabel, IftaLabelModule } from 'primeng/iftalabel';
+import { PagedOutput } from '@app/models/PagedOutput';
 
 @Component({
   selector: 'rr-encounter-editor',
@@ -30,7 +33,9 @@ import { GetListInput } from '@app/tokens/get-list-input';
     InputText,
     NgIf,
     ReactiveFormsModule,
-    GridComponent
+    GridComponent,
+    ButtonDirective,
+    IftaLabelModule
   ],
   templateUrl: './encounter-editor.component.html',
   styleUrl: './encounter-editor.component.scss'
@@ -65,8 +70,8 @@ export class EncounterEditorComponent {
       creatures: [],
     });
 
-    this.form = getAsForm(this.encounter());
-    if (!canEdit(this.campaign)) {
+    this.form = getAsForm(this.encounter(), false, ['name']);
+    if (!canEditCampaign(this.campaign)) {
       this.form.disable();
     }
     this.headerActions = this.buildHeaderActions();
@@ -83,7 +88,14 @@ export class EncounterEditorComponent {
     })
   }
   getList = (input: GetListInput) => {
-    return this.service.getAllCreatures(this.campaign.id, this.encounter().id, input);
+    if (this.action === EditorAction.create) {
+      return of<PagedOutput<Creature>>({
+        items: [],
+        totalCount: 0
+      });
+    } else {
+      return this.service.getAllCreatures(this.campaign.id, this.encounter().id, input);
+    }
   }
   async addCreature(creature: Creature): Promise<void> {
       await firstValueFrom(this.service.addCreature(this.campaign.campaignTemplate.id, this.encounter().id, creature));
@@ -109,6 +121,18 @@ export class EncounterEditorComponent {
       header: 'Name',
       property: 'name'
     } as RRColumns];
+  }
+
+  public async save(): Promise<void> {
+    if (!this.form.valid) {
+      return;
+    }
+    const encounter = this.form.value as Encounter;
+    const saveAction = this.action === EditorAction.create
+      ? this.service.create(this.campaign.id, encounter)
+      : this.service.update(this.campaign.id, encounter);
+
+    await firstValueFrom(saveAction);
   }
 }
 

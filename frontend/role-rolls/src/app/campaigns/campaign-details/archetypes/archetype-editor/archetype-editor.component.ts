@@ -9,7 +9,7 @@ import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {NgIf} from '@angular/common';
-import {canEdit} from '@app/tokens/utils.funcs';
+import {canEditTemplate} from '@app/tokens/utils.funcs';
 import { BonusesComponent } from '@app/bonuses/bonuses/bonuses.component';
 import { Bonus } from '@app/models/bonuses/bonus';
 import { firstValueFrom } from 'rxjs';
@@ -60,7 +60,7 @@ export class ArchetypeEditorComponent {
     });
 
     this.form = getAsForm(this.archetype());
-    if (!canEdit(this.campaign)) {
+    if (!canEditTemplate(this.campaign)) {
       this.form.disable();
     }
     this.loaded.set(true);

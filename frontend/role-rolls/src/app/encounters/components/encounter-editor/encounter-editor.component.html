@@ -1,12 +1,22 @@
+<div class="flex flex-col h-full">
+  <div class="flex-grow overflow-auto">
+  <form [formGroup]="form" *ngIf="loaded()" >
+    <p-fieldset legend="Creature Type">
+      <p-iftalabel>
+        <input id="name" class="col-span-1" type="text" pInputText formControlName="name" required="true">
+        <label for="name">Name</label>
+      </p-iftalabel>
+    </p-fieldset>
 
-<form [formGroup]="form" *ngIf="loaded()">
-  <p-fieldset legend="Creature Type">
-    <div class="grid grid-cols-1 gap-4">
-      <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
-    </div>
-  </p-fieldset>
+  </form>
   <rr-grid [headerActions]="headerActions" [columns]="columns"
            [refreshList]="refreshGrid()"
-           [getListCallback]="getList"></rr-grid>
+           [getListCallback]="getList"
+           title="Enemies"
+           class="overflow-auto"></rr-grid>
+  </div>
 
-</form>
+  <button pButton severity="primary" class="w-full p-2 mt-4"
+          [disabled]="form.invalid || !form.dirty"
+  (click)="save()">Save</button>
+</div>

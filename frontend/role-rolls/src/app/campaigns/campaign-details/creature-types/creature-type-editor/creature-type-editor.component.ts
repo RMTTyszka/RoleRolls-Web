@@ -10,7 +10,7 @@ import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {NgIf} from '@angular/common';
-import {canEdit} from '@app/tokens/utils.funcs';
+import {canEditTemplate} from '@app/tokens/utils.funcs';
 import { BonusesComponent } from '@app/bonuses/bonuses/bonuses.component';
 import { CreatureTypesService } from '@services/creature-types/creature-types.service';
 import { Bonus } from '@app/models/bonuses/bonus';
@@ -60,7 +60,7 @@ export class CreatureTypeEditorComponent {
     });
 
     this.form = getAsForm(this.creatureType());
-    if (!canEdit(this.campaign)) {
+    if (!canEditTemplate(this.campaign)) {
       this.form.disable();
     }
     this.loaded.set(true);

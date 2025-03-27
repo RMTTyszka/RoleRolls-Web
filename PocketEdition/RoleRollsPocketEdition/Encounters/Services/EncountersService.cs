@@ -21,7 +21,7 @@ public interface IEncounterService
     Task CreateAsync(Guid campaignId, EnconterModel encounter);
     Task UpdateAsync(Guid campaignId, EnconterModel encounterModel);
     Task<EncounterValidationResult> DeleteAsync(Guid id);
-    Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input);
+    Task<PagedResult<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input);
     Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel);
     Task<EncounterValidationResult> RemoveCreatureAsync(Guid encounterId, Guid creatureId, bool delete);
 }
@@ -103,17 +103,21 @@ public class EncounterService : IEncounterService, ITransientDependency
         return EncounterValidationResult.Ok();
 
     }
-    public async Task<IEnumerable<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
+    public async Task<PagedResult<CreatureModel>> GetAllCreaturesAsync(Guid campaignId, Guid encounterId, PagedRequestInput input)
     {
-        var output = await _context.Encounters
+        var query =  _context.Encounters
             .AsNoTracking()
             .Include(e => e.Creatures)
             .SelectMany(e => e.Creatures)
             .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
             .Where(e => e.CampaignId == campaignId)
+            .Where(e => e.Id == encounterId);
+        var totalCount = await query.CountAsync();
+        var itens = await query
             .PageBy(input)
             .Select(e => new CreatureModel(e))
             .ToListAsync();
+        var output = new PagedResult<CreatureModel>(totalCount, itens);
         return output;
     }
     public async Task<EncounterValidationResult> AddCreatureAsync(Guid campaignId, Guid encounterId, CreatureModel creatureModel)
