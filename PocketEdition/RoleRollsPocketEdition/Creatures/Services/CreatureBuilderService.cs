@@ -45,4 +45,28 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
         return result;
 
     }
+    public async Task<List<CreatureUpdateValidationResult>> BuildCreatures(Guid campaignId, List<CreatureModel> creatureModels)
+    {
+        var ownerId = _currentUser.User.Id;
+        var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+        var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
+        var creatures = creatureModels.Select(c => creatureTemplate.InstantiateCreature(c.Name, c.Id, campaignId, c.Category,
+            ownerId, c.IsTemplate)).ToList();
+        foreach (var creature in creatures)
+        {
+            var result = creature.Update(creatureModel);
+            if (result.Validation == CreatureUpdateValidation.Ok)
+            {
+                creature.FullRestore();
+                return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null)
+                {
+                    Creature = creature,
+                };
+            }
+        }
+
+
+        return result;
+
+    }
 }
