@@ -139,6 +139,7 @@ export class EncounterEditorComponent {
       return;
     }
     const encounter = this.form.value as Encounter;
+    encounter.creatures = this.creatures();
     const saveAction = this.action === EditorAction.create
       ? this.service.create(this.campaign.id, encounter)
       : this.service.update(this.campaign.id, encounter);

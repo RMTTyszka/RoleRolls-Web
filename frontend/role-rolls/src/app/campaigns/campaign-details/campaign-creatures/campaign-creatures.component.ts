@@ -1,16 +1,16 @@
-import { Component, input, signal } from '@angular/core';
-import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
-import { Campaign } from '@app/campaigns/models/campaign';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '@app/authentication/services/authentication.service';
-import { CampaignCreaturesService } from '@services/campaign-creatures/campaign-creatures.service';
-import { GetAllCampaignCreaturesInput } from '@app/models/campaign-creatures/get-all-campaign-creatures-input';
-import { Creature } from '@app/campaigns/models/creature';
-import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
-import { GetListInput } from '@app/tokens/get-list-input';
-import { EditorAction } from '@app/models/EntityActionData';
-import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
+import {Component, input, signal} from '@angular/core';
+import {GridComponent, RRColumns, RRHeaderAction} from '@app/components/grid/grid.component';
+import {Campaign} from '@app/campaigns/models/campaign';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthenticationService} from '@app/authentication/services/authentication.service';
+import {CampaignCreaturesService} from '@services/campaign-creatures/campaign-creatures.service';
+import {GetAllCampaignCreaturesInput} from '@app/models/campaign-creatures/get-all-campaign-creatures-input';
+import {Creature} from '@app/campaigns/models/creature';
+import {CreatureEditorComponent} from '@app/creatures/creature-editor/creature-editor.component';
+import {GetListInput} from '@app/tokens/get-list-input';
+import {EditorAction} from '@app/models/EntityActionData';
+import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
 
 @Component({
   selector: 'rr-campaign-creatures',
@@ -47,7 +47,8 @@ export class CampaignCreaturesComponent {
   getList = (input: GetListInput) => {
     const getCreaturesInput = {
       ...input,
-      creatureCategory: this.creatureCategory()
+      creatureCategory: this.creatureCategory(),
+      onlyTemplates: this.creatureCategory() === CreatureCategory.Enemy
     } as GetAllCampaignCreaturesInput;
     return this.campaignCreaturesService.getList(this.campaign.id, getCreaturesInput);
   }
