@@ -42,7 +42,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
         using (_unitOfWork.Begin())
         {
             _context.Creatures.Update(creature);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
     }
 
@@ -62,7 +62,7 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
         using (_unitOfWork.Begin())
         {
             _context.Creatures.Update(creature);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
     }
 }

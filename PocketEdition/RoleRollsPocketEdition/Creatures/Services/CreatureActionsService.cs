@@ -55,7 +55,7 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         {
             _creatureRepository.Update(creature);
             await _dbContext.SceneActions.AddAsync(result);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
         await _notificationService.NotifyScene(sceneId, history);
 
@@ -70,7 +70,7 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         {
             _creatureRepository.Update(creature);
             await _dbContext.SceneActions.AddAsync(result);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
         await _notificationService.NotifyScene(sceneId, history);
     }

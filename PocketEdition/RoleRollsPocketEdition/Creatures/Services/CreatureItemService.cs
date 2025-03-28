@@ -48,7 +48,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
         {
             _context.Creatures.Update(creature);
             await _context.ItemInstances.AddAsync(item);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
 
         return ItemModel.FromItem(item);
@@ -66,7 +66,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
         {
             _context.ItemInstances.Remove(item);
             _context.Creatures.Update(creature);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
     }    
     public async Task Update(Guid campaignId, Guid creatureId, Guid id, ItemInstanceUpdate input)
@@ -81,7 +81,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
         {
             _context.ItemInstances.Remove(item);
             _context.Creatures.Update(creature);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitAsync();
         }
     }
 }

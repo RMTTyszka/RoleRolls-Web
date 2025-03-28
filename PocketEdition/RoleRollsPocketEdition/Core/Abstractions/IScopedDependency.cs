@@ -1,5 +1,5 @@
 namespace RoleRollsPocketEdition.Core.Abstractions;
 
-public interface IScopedDepedency
+public interface IScopedDependency
 {
 }

@@ -7,11 +7,11 @@ namespace RoleRollsPocketEdition.Core.EntityFramework;
 public interface IUnitOfWork : IDisposable
 {
     IUnitOfWork Begin();
-    Task Commit();
-    Task Rollback();
+    Task CommitAsync();
+    Task RollbackAsync();
 }
 
-public class UnitOfWork : IUnitOfWork, IScopedDepedency
+public class UnitOfWork : IUnitOfWork, IScopedDependency, IAsyncDisposable, IDisposable
 {
     private readonly RoleRollsDbContext _context;
     private IDbContextTransaction _transaction;
@@ -19,48 +19,76 @@ public class UnitOfWork : IUnitOfWork, IScopedDepedency
 
     public UnitOfWork(RoleRollsDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public IUnitOfWork Begin()
     {
+        if (_transaction != null)
+        {
+            throw new InvalidOperationException("A transaction is already in progress.");
+        }
+
         _transaction = _context.Database.BeginTransaction();
         _transactionCompleted = false;
         return this;
     }
 
-    public async Task Commit()
+    public async Task CommitAsync()
     {
+        if (_transaction == null)
+        {
+            throw new InvalidOperationException("No transaction has been started.");
+        }
+
         try
         {
             await _context.SaveChangesAsync();
-            await _transaction?.CommitAsync()!;
+            await _transaction.CommitAsync();
             _transactionCompleted = true;
         }
         catch
         {
-            await _transaction?.RollbackAsync()!;
+            await RollbackAsync();
             throw;
+        }
+        finally
+        {
+            await DisposeTransactionAsync();
         }
     }
 
-    public async Task Rollback()
+    public async Task RollbackAsync()
     {
-        if (!_transactionCompleted)
+        if (_transaction != null && !_transactionCompleted)
         {
-            await _transaction?.RollbackAsync()!;
+            await _transaction.RollbackAsync();
             _transactionCompleted = true;
         }
     }
+
+    private async Task DisposeTransactionAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.DisposeAsync();
+            _transaction = null;
+        }
+    }
+
     public void Dispose()
     {
-        if (!_transactionCompleted)
+        DisposeAsync().GetAwaiter().GetResult();
+        GC.SuppressFinalize(this);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (!_transactionCompleted && _transaction != null)
         {
-            // Se o commit não foi realizado, faz rollback.
-            _transaction?.Rollback();
+            await RollbackAsync();
         }
 
-        _transaction?.Dispose();
-        _context.Dispose();
+        await DisposeTransactionAsync();
     }
 }

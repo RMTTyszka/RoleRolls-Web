@@ -8,7 +8,7 @@ import { Textarea } from "primeng/textarea";
 import { Campaign } from '@app/campaigns/models/campaign';
 import { Archetype } from '@app/models/archetypes/archetype';
 import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
-import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { v4 as uuid } from 'uuid';
 import { getAsForm } from '@app/tokens/EditorExtension';
@@ -54,6 +54,7 @@ export class EncounterEditorComponent {
 
   constructor(dialogConfig: DynamicDialogConfig,
               private service: EncountersService,
+              private dialogRef: DynamicDialogRef<EncounterEditorComponent>,
               private dialog: DialogService) {
     this.campaign = dialogConfig.data.campaign as Campaign;
     const encounter = dialogConfig.data.encounter as Encounter;
@@ -80,7 +81,10 @@ export class EncounterEditorComponent {
   }
   public selectCreatureTemplate() {
     this.dialog.open(CreatureSelectTableComponent, {
-      data: { creatureCategory: CreatureCategory.Enemy, campaign: this.campaign }
+      data: { creatureCategory: CreatureCategory.Enemy, campaign: this.campaign },
+      height: '90vh',
+      width: '80vh',
+      closable: true
     }).onClose.subscribe(async (creature: Creature) => {
       if (creature) {
         await this.addCreature(creature);
@@ -98,12 +102,12 @@ export class EncounterEditorComponent {
     }
   }
   async addCreature(creature: Creature): Promise<void> {
-      await firstValueFrom(this.service.addCreature(this.campaign.campaignTemplate.id, this.encounter().id, creature));
-    this.encounter.set(await firstValueFrom(this.service.getById(this.campaign.campaignTemplate.id, this.encounter().id)));
+      await firstValueFrom(this.service.addCreature(this.campaign.id, this.encounter().id, creature));
+      this.refreshGrid.set(true);
   }
   async removeCreature(creatureId: string) {
-      await firstValueFrom(this.service.removeCreature(this.campaign.campaignTemplate.id, this.encounter().id, creatureId));
-    this.encounter.set(await firstValueFrom(this.service.getById(this.campaign.campaignTemplate.id, this.encounter().id)));
+      await firstValueFrom(this.service.removeCreature(this.campaign.id, this.encounter().id, creatureId));
+    this.encounter.set(await firstValueFrom(this.service.getById(this.campaign.id, this.encounter().id)));
   }
   private buildHeaderActions() {
     return [
@@ -133,6 +137,7 @@ export class EncounterEditorComponent {
       : this.service.update(this.campaign.id, encounter);
 
     await firstValueFrom(saveAction);
+    this.dialogRef.close(true);
   }
 }
 

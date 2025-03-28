@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import {Component, effect, signal} from '@angular/core';
 import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -67,8 +67,11 @@ export class EncountersComponent {
       duplicate: true,
     } as DynamicDialogConfig);
 
-    this.dialogRef.onClose.subscribe(() => {
+    this.dialogRef.onClose.subscribe((updated: boolean) => {
       this.dialogRef = null;
+      if (updated) {
+        this.refreshGrid.set(true);
+      }
     });
   }
   private buildHeaderActions() {

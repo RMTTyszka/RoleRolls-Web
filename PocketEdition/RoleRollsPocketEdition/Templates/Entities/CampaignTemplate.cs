@@ -64,10 +64,11 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Id = campaignModel.CampaignTemplateId ?? campaignModel.Id;
             ItemConfiguration = new ItemConfiguration(this);
         }
-        public Creature InstantiateCreature(string name, Guid campaignId, CreatureCategory category, Guid ownerId,
+        public Creature InstantiateCreature(string name, Guid id, Guid campaignId, CreatureCategory category, Guid ownerId,
             bool isTemplate)
         {
             var creature = Creature.FromTemplate(this, campaignId, category, isTemplate);
+            creature.Id = id;
             creature.OwnerId = ownerId;
             creature.Category = category;
             creature.Name = name;

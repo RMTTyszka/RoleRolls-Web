@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
     }
     public static void AddScopedServices(this IServiceCollection services, Assembly assembly)
     {
-        var interfaceBType = typeof(IScopedDepedency);
+        var interfaceBType = typeof(IScopedDependency);
 
         // Encontra todas as classes que implementam InterfaceB
         var implementations = assembly.GetTypes()

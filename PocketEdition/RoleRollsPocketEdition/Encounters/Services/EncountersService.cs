@@ -17,7 +17,7 @@ namespace RoleRollsPocketEdition.Encounters.Services;
 public interface IEncounterService
 {
     Task<EnconterModel?> GetAsync(Guid campaignId, Guid id);
-    Task<IEnumerable<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input);
+    Task<PagedResult<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input);
     Task CreateAsync(Guid campaignId, EnconterModel encounter);
     Task UpdateAsync(Guid campaignId, EnconterModel encounterModel);
     Task<EncounterValidationResult> DeleteAsync(Guid id);
@@ -50,18 +50,19 @@ public class EncounterService : IEncounterService, ITransientDependency
         return entity == null ? null : new EnconterModel(entity);
     }
 
-    public async Task<IEnumerable<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input)
+    public async Task<PagedResult<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input)
     {
-        var output = await _context.Campaigns
+        var query =  _context.Campaigns
             .AsNoTracking()
             .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
             .Where(e => e.Id == campaignId)
             .Include(e => e.Encounters)
-            .SelectMany(c => c.Encounters)
-            .PageBy(input)
+            .SelectMany(c => c.Encounters);
+            var totalCount = await query.CountAsync();
+            var items = await query.PageBy(input)
             .Select(e => new EnconterModel(e))
             .ToListAsync();
-        return output;
+        return new PagedResult<EnconterModel>(totalCount, items);
     }
 
     public async Task CreateAsync(Guid campaignId, EnconterModel encounter)
@@ -73,7 +74,7 @@ public class EncounterService : IEncounterService, ITransientDependency
         using (_unitOfWork.Begin())
         {
             await campaign.AddEncounter(newEncounter, _context);
-            await _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
         }
     }
 
@@ -88,7 +89,7 @@ public class EncounterService : IEncounterService, ITransientDependency
         using (_unitOfWork.Begin())
         {
             _context.Encounters.Update(encounter);
-            await _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
         }
     }
 
@@ -108,10 +109,10 @@ public class EncounterService : IEncounterService, ITransientDependency
         var query =  _context.Encounters
             .AsNoTracking()
             .Include(e => e.Creatures)
+            .Where(e => e.Id == encounterId)
             .SelectMany(e => e.Creatures)
             .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
-            .Where(e => e.CampaignId == campaignId)
-            .Where(e => e.Id == encounterId);
+ ;
         var totalCount = await query.CountAsync();
         var itens = await query
             .PageBy(input)
@@ -125,10 +126,17 @@ public class EncounterService : IEncounterService, ITransientDependency
         var encounter = await _context.Encounters.FindAsync(encounterId);
         if (encounter == null)
             return EncounterValidationResult.NotFound();
+        creatureModel.IsTemplate = false;
+        creatureModel.Id = Guid.NewGuid();
         var result = await _creatureBuilderService.BuildCreature(campaignId, creatureModel);
 
-        await _context.Creatures.AddAsync(result.Creature);
-        encounter.AddCreature(result.Creature);
+        using (_unitOfWork.Begin())
+        {
+            await _context.Creatures.AddAsync(result.Creature);
+            encounter.AddCreature(result.Creature);
+            await _unitOfWork.CommitAsync();
+        }
+
         return EncounterValidationResult.Ok();
     }
 
@@ -148,7 +156,7 @@ public class EncounterService : IEncounterService, ITransientDependency
             {
                 _context.Creatures.Remove(creature);
             }
-            await _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
         }
         return EncounterValidationResult.Ok();
     }

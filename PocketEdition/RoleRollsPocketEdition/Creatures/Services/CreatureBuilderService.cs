@@ -30,7 +30,7 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
         var ownerId = _currentUser.User.Id;
         var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
         var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
-        var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, campaignId, creatureModel.Category,
+        var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, creatureModel.Id, campaignId, creatureModel.Category,
             ownerId, creatureModel.IsTemplate);
         var result = creature.Update(creatureModel);
         if (result.Validation == CreatureUpdateValidation.Ok)
