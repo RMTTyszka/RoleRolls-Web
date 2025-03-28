@@ -94,15 +94,22 @@ export class EncounterEditorComponent {
   getList = (input: GetListInput) => {
     if (this.action === EditorAction.create) {
       return of<PagedOutput<Creature>>({
-        items: [],
-        totalCount: 0
+        items: this.creatures(),
+        totalCount: this.creatures().length
       });
     } else {
       return this.service.getAllCreatures(this.campaign.id, this.encounter().id, input);
     }
   }
   async addCreature(creature: Creature): Promise<void> {
+    if (this.action === EditorAction.create) {
+      this.encounter.set({
+        ...this.encounter(),
+        creatures: [...this.encounter().creatures, creature]
+      });
+    } else {
       await firstValueFrom(this.service.addCreature(this.campaign.id, this.encounter().id, creature));
+    }
       this.refreshGrid.set(true);
   }
   async removeCreature(creatureId: string) {

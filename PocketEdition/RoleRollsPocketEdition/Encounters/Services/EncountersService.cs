@@ -70,6 +70,10 @@ public class EncounterService : IEncounterService, ITransientDependency
         var campaign = await _context.Campaigns
             .FirstAsync(e => e.Id == campaignId);
         var newEncounter = new Encounter(encounter);
+        foreach (var encounterCreature in encounter.Creatures)
+        {
+            var creature = _creatureBuilderService.BuildCreature(campaignId, encounterCreature);
+        }
 
         using (_unitOfWork.Begin())
         {
