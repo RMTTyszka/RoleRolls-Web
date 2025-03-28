@@ -70,14 +70,20 @@ public class EncounterService : IEncounterService, ITransientDependency
         var campaign = await _context.Campaigns
             .FirstAsync(e => e.Id == campaignId);
         var newEncounter = new Encounter(encounter);
-        foreach (var encounterCreature in encounter.Creatures)
+        foreach (var creature in encounter.Creatures)
         {
-            var creature = _creatureBuilderService.BuildCreature(campaignId, encounterCreature);
+        }
+        var creatures = await _creatureBuilderService.BuildCreatures(campaignId, encounter.Creatures);
+        foreach (var creature in creatures)
+        {
+            creature.Creature.Id = Guid.NewGuid();
+            newEncounter.AddCreature(creature.Creature);
         }
 
         using (_unitOfWork.Begin())
         {
             await campaign.AddEncounter(newEncounter, _context);
+        //    await _context.Creatures.AddRangeAsync(creatures.Select(e => e.Creature));
             await _unitOfWork.CommitAsync();
         }
     }

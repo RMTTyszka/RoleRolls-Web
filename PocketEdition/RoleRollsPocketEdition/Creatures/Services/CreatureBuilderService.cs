@@ -10,6 +10,7 @@ namespace RoleRollsPocketEdition.Creatures.Services;
 public interface ICreatureBuilderService
 {
     Task<CreatureUpdateValidationResult> BuildCreature(Guid campaignId, CreatureModel creatureModel);
+    Task<List<CreatureUpdateValidationResult>> BuildCreatures(Guid campaignId, List<CreatureModel> creatureModels);
 }
 
 public class CreatureBuilderService : ICreatureBuilderService, ITransientDependency
@@ -47,6 +48,7 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
     }
     public async Task<List<CreatureUpdateValidationResult>> BuildCreatures(Guid campaignId, List<CreatureModel> creatureModels)
     {
+        var output = new List<CreatureUpdateValidationResult>();
         var ownerId = _currentUser.User.Id;
         var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
         var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
@@ -54,19 +56,18 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
             ownerId, c.IsTemplate)).ToList();
         foreach (var creature in creatures)
         {
-            var result = creature.Update(creatureModel);
+            var model = creatureModels.First(c => c.Id == creature.Id);
+            var result = creature.Update(model);
             if (result.Validation == CreatureUpdateValidation.Ok)
             {
                 creature.FullRestore();
-                return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null)
+                output.Add(new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null)
                 {
                     Creature = creature,
-                };
+                });
             }
         }
-
-
-        return result;
+        return output;
 
     }
 }
