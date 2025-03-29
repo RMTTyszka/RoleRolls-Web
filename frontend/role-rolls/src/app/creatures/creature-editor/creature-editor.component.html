@@ -53,8 +53,8 @@
                           </ng-template>
                           <div class="flex justify-between gap-2">
                             <div class="flex-1" form [formGroup]="skill">
-                              <div *ngFor="let minorSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let minorSkillIndex=index">
-                                <div form [formGroup]="minorSkill">
+                              <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
+                                <div form [formGroup]="specificSkill">
                                   <div class="p-inputgroup">
                                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
                                     <span class="p-inputgroup-addon">

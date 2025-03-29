@@ -6,7 +6,7 @@ public class ItemTemplateModel
     public string Name { get; set; }
     public Guid? PowerId { get; set; }
     public ItemType Type { get; set; }
-    public Guid? CampaignId { get; set; }
+    public Guid CampaignId { get; set; }
 
 
     public static T FromTemplate<T>(ItemTemplate entity) where T : ItemTemplateModel, new()

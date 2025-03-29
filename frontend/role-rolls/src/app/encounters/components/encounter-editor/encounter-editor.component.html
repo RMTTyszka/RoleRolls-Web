@@ -9,8 +9,8 @@
     </p-fieldset>
 
   </form>
-  <rr-grid [headerActions]="headerActions" [columns]="columns"
-           [refreshList]="refreshGrid()"
+  <rr-grid [headerActions]="headerActions" [columns]="columns" [actions]="creatureActions"
+           [refresh]="refreshGrid"
            [getListCallback]="getList"
            title="Enemies"
            class="overflow-auto"></rr-grid>

@@ -2,8 +2,10 @@ using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.CreatureTypes.Entities;
 
@@ -15,7 +17,10 @@ public class CreatureType : Entity
     public string Description { get; set; }
     public bool CanBeAlly { get; set; }
     public bool CanBeEnemy { get; set; }
+    public Guid CampaignTemplateId { get; set; }
+    public CampaignTemplate CampaignTemplate { get; set; }
     public List<Bonus> Bonuses { get; set; }
+    public ICollection<Creature> Creatures { get; set; }
 
     public async Task Update(CreatureTypeModel creatureTypeModel, RoleRollsDbContext dbContext)
     {

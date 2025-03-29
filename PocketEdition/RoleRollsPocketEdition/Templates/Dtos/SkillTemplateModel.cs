@@ -6,7 +6,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
     {
         public SkillTemplateModel()
         {
-            MinorSkills = new List<MinorSkillTemplateModel>();
+            SpecificSkills = new List<MinorSkillTemplateModel>();
         }
         public SkillTemplateModel(SkillTemplate skill) : base()
         {
@@ -14,14 +14,14 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Name = skill.Name;
             AttributeId = skill.AttributeTemplateId;
             PointsLimit = skill.PointsLimit;
-            MinorSkills = skill.MinorSkills.OrderBy(e => e.Name).Select(minorSkill => new MinorSkillTemplateModel(minorSkill)).ToList();
+            SpecificSkills = skill.SpecificSkills.OrderBy(e => e.Name).Select(minorSkill => new MinorSkillTemplateModel(minorSkill)).ToList();
         }
 
         public string Name { get; set; }
         public Guid Id { get; set; }
         public Guid? AttributeId { get; set; }
 
-        public List<MinorSkillTemplateModel> MinorSkills { get; set; }
+        public List<MinorSkillTemplateModel> SpecificSkills { get; set; }
         public int PointsLimit { get; init; }
     }
 }

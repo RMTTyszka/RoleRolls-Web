@@ -27,7 +27,7 @@ import {
   CampaignTemplate,
   DefenseTemplate,
   VitalityTemplate,
-  MinorSkillsTemplate,
+  SpecificSkillsTemplate,
   SkillTemplate
 } from 'app/campaigns/models/campaign.template';
 import { CampaignView } from '@app/models/campaigns/campaign-view';
@@ -119,15 +119,15 @@ export class CampaignsService {
    }
 
 
-   public addMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkill: MinorSkillsTemplate): Observable<never> {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills`, minorSkill);
+   public addSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills`, specificSkill);
   }
 
-   public updateMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string, minorSkill: MinorSkillsTemplate): Observable<never> {
-    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`, minorSkill);
+   public updateSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${specificSkillId}`, specificSkill);
   }
-   public removeMinorSkill(campaignId: string, attributeId: string, skillId: string, minorSkillId: string): Observable<never> {
-    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${minorSkillId}`);
+   public removeSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkillId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${specificSkillId}`);
   }
 
   public addVitality(campaignId: string, vitality: VitalityTemplate): Observable<never> {

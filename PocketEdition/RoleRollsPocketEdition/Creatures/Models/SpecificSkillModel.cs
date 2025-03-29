@@ -2,20 +2,20 @@
 
 namespace RoleRollsPocketEdition.Creatures.Models
 {
-    public class MinorSkillModel
+    public class SpecificSkillModel
     {
-        public MinorSkillModel()
+        public SpecificSkillModel()
         {
 
         }
         public Guid Id { get; set; }
-        public Guid MinorSkillTemplateId { get; set; }
+        public Guid SpecificSkillTemplateId { get; set; }
         public string Name { get; set; }
         public int Points { get; set; }
-        public MinorSkillModel(MinorSkill skill)
+        public SpecificSkillModel(SpecificSkill skill)
         {
             Id = skill.Id;
-            MinorSkillTemplateId = skill.MinorSkillTemplateId;
+            SpecificSkillTemplateId = skill.SpecificSkillTemplateId;
             Name = skill.Name;
             Points = skill.Points;
         }

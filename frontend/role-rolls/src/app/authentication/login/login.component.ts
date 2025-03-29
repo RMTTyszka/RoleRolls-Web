@@ -45,6 +45,7 @@ export class LoginComponent {
       /*       password: [''],
             email: [''] */
       password: [],
+      login: [],
       email: []
     });
   }

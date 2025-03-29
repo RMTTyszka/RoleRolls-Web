@@ -47,7 +47,7 @@ namespace RoleRollsPocketEdition.Rolls
 
                         join minorSkill in _roleRollsDbContext.MinorSkills on roll.PropertyId equals minorSkill.Id into joinedMinorSkill
                         from minorSkill in joinedMinorSkill.DefaultIfEmpty()
-                        join minorSkillTemplate in _roleRollsDbContext.MinorSkillTemplates on minorSkill.MinorSkillTemplateId equals minorSkillTemplate.Id into joinedMinorSkillTemplate
+                        join minorSkillTemplate in _roleRollsDbContext.MinorSkillTemplates on minorSkill.SpecificSkillTemplateId equals minorSkillTemplate.Id into joinedMinorSkillTemplate
                         from minorSkillTemplate in joinedMinorSkillTemplate.DefaultIfEmpty()
                         select new
                         {
@@ -130,7 +130,7 @@ namespace RoleRollsPocketEdition.Rolls
                 .Include(creature => creature.Attributes)
                 .Include(creature => creature.Vitalities)
                 .Include(creature => creature.Skills)
-                .ThenInclude(skill => skill.MinorSkills)
+                .ThenInclude(skill => skill.SpecificSkills)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.Value, input.PropertyBonus, input.RollBonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);

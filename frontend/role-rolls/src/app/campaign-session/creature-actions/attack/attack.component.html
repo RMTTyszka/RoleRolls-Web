@@ -16,7 +16,7 @@
       <!-- Campo Hit Property -->
       <ng-template fieldTitle="Hit Property">
         <rr-property-selector id="hit-input" [campaign]="campaign()"
-                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
+                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
                               formControlName="hitPropertyId">
         </rr-property-selector>
       </ng-template>
@@ -24,7 +24,7 @@
       <!-- Campo Damage Property -->
       <ng-template fieldTitle="Damage Property">
         <rr-property-selector id="damage-input" [campaign]="campaign()"
-                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.MinorSkill]"
+                              [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
                               formControlName="damagePropertyId"
                               class="w-full">
         </rr-property-selector>

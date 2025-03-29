@@ -5,15 +5,15 @@ using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Templates.Entities
 {
-    public class MinorSkillTemplate : Entity
+    public class SpecificSkillTemplate : Entity
     {
         private Guid? _attributeId;
 
-        public MinorSkillTemplate()
+        public SpecificSkillTemplate()
         {
 
         }
-        public MinorSkillTemplate(Guid skillId, MinorSkillTemplateModel minorSkill)
+        public SpecificSkillTemplate(Guid skillId, MinorSkillTemplateModel minorSkill)
         {
             Id = minorSkill.Id;
             SkillTemplateId = skillId;
@@ -41,11 +41,11 @@ namespace RoleRollsPocketEdition.Templates.Entities
             set => _attributeId = value;
         }
 
-        public AttributeTemplate? Attribute { get; set; }
+        public AttributeTemplate? AttributeTemplate { get; set; }
         public Guid SkillTemplateId { get; set; }
         public SkillTemplate SkillTemplate { get; set; }
 
-        public ICollection<MinorSkill> MinorSkills { get; set; }
+        public ICollection<SpecificSkill> SpecificSkills { get; set; } = new List<SpecificSkill>();
 
         public Guid GetAttributeId
         {

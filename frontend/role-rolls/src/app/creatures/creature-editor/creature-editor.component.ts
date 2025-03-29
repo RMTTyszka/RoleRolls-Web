@@ -123,10 +123,10 @@ export class CreatureEditorComponent {
       skill.get('remainingPoints').disable();
       this.setRemainingPoints(skill);
       skill.setValidators(validateSkillValue);
-      (skill.get('minorSkills') as FormArray).controls.forEach(minorSkill => {
-        minorSkill.get('name').disable();
-        // minorSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
-        this.subscriptionManager.add(minorSkill.get('name').value, minorSkill.get('points').valueChanges.subscribe(() => {
+      (skill.get('specificSkills') as FormArray).controls.forEach(specificSkill => {
+        specificSkill.get('name').disable();
+        // specificSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
+        this.subscriptionManager.add(specificSkill.get('name').value, specificSkill.get('points').valueChanges.subscribe(() => {
           this.setRemainingPoints(skill);
           skill.get('usedPoints').updateValueAndValidity();
         }));
@@ -169,7 +169,7 @@ export class CreatureEditorComponent {
   }
 
   private setRemainingPoints(skill: FormGroup): void {
-    const value = (skill.get('minorSkills') as FormArray).controls
+    const value = (skill.get('specificSkills') as FormArray).controls
       .map((control: AbstractControl) => Number(control.get('points').value))
       .reduce((previous: number, current: number) => current + previous, 0);
     const maxPoints = skill.get('pointsLimit').value;
@@ -185,11 +185,11 @@ export class CreatureEditorComponent {
         .filter(control => control.get('skillTemplateId').value === skill.skillTemplateId)[0];
       this.skillsMapping.get(skill.attributeId).push(skillForm);
       this.minorsSkillBySkill.set(skill.id, new FormArray([]));
-      const minorSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.minorSkills.forEach(minorSkill => {
-        const minorSkillForm = (skillForm.get('minorSkills') as FormArray<FormGroup>).controls
-          .filter(control => control.get('minorSkillTemplateId').value == minorSkill.minorSkillTemplateId)[0];
-        minorSkills.push(minorSkillForm);
+      const specificSkills = this.minorsSkillBySkill.get(skill.id);
+      skill.specificSkills.forEach(specificSkill => {
+        const specificSkillForm = (skillForm.get('specificSkills') as FormArray<FormGroup>).controls
+          .filter(control => control.get('specificSkillTemplateId').value == specificSkill.specificSkillTemplateId)[0];
+        specificSkills.push(specificSkillForm);
       });
     });
   }

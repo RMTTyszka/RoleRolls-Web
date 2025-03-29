@@ -64,7 +64,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
             .ThenInclude(inventory => inventory.Items)
             .ThenInclude(item => item.Template)
             .Include(creature => creature.Skills)
-            .ThenInclude(skill => skill.MinorSkills)
+            .ThenInclude(skill => skill.SpecificSkills)
             .Where(creature => ids.Contains(creature.Id))
             .ToListAsync();
         return creatures;
@@ -75,6 +75,10 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
         var query = _dbContext.Creatures
             .AsSplitQuery()
             .Include(creature => creature.Attributes)
+            .ThenInclude(skill => skill.SpecificSkills)
+            .Include(creature => creature.Attributes)
+            .ThenInclude(skill => skill.Skills)
+            .ThenInclude(skill => skill.SpecificSkills)
             .Include(creature => creature.Vitalities)
             .ThenInclude(v => v.VitalityTemplate)
             .Include(creature => creature.Defenses)
@@ -113,9 +117,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
             .ThenInclude(e => e.Template)
             .Include(creature => creature.Inventory)
             .ThenInclude(inventory => inventory.Items)
-            .ThenInclude(item => item.Template)
-            .Include(creature => creature.Skills)
-            .ThenInclude(skill => skill.MinorSkills);
+            .ThenInclude(item => item.Template);
         return query;
     }
 

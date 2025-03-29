@@ -1,10 +1,13 @@
-﻿using System.Data;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
+using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -18,13 +21,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     public class Creature : Entity
     {
         public ICollection<Attribute> Attributes { get; set; }
-        public ICollection<Skill> Skills { get; set; }
+        [NotMapped] public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills).ToList();
 
         public ICollection<Vitality> Vitalities { get; set; }
         public ICollection<Defense> Defenses { get; set; }
         public ICollection<CreaturePower> Powers { get; set; }
 
         public Guid CampaignId { get; set; }
+        public Campaign Campaign { get; set; }
         public Guid CreatureTemplateId { get; set; }
         public Guid OwnerId { get; set; }
 
@@ -37,10 +41,13 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public Inventory Inventory { get; set; }
         public CreatureType? CreatureType { get; set; }
         public Archetype? Archetype { get; set; }
+        
+        public Guid? EncounterId { get; set; }
+        public Encounter? Encounter { get; set; }
+        [NotMapped] public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills).ToList();
         public Creature()
         {
             Attributes = new List<Attribute>();
-            Skills = new List<Skill>();
             Vitalities = new List<Vitality>();
             Defenses = new List<Defense>();
             Equipment = new Equipment();
@@ -61,7 +68,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             Attribute? attribute;
             Skill? skill;
-            MinorSkill? minorSkill;
+            SpecificSkill? minorSkill;
             int rollBonus;
             var result = new PropertyValue();
             switch (propertyType)
@@ -77,7 +84,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     result.Bonus = 0;
                     break;
                 case RollPropertyType.MinorSkill:
-                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).First(minorSkill => minorSkill.Id == propertyId);
+                    minorSkill = Skills.SelectMany(skill => skill.SpecificSkills).First(minorSkill => minorSkill.Id == propertyId);
                     skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
                     attribute = Attributes.First(at => at.Id == skill.AttributeId);
                     rollBonus = minorSkill.Points;
@@ -96,7 +103,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                         result.Value = attribute.Value;
                         result.Bonus = 0;
                     }      
-                    minorSkill = Skills.SelectMany(skill => skill.MinorSkills).FirstOrDefault(minorSkill => minorSkill.Id == propertyId);
+                    minorSkill = Skills.SelectMany(skill => skill.SpecificSkills).FirstOrDefault(minorSkill => minorSkill.Id == propertyId);
                     if (minorSkill != null)
                     {
                         skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
@@ -115,7 +122,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var creature = new Creature
             {
                 Attributes = attributes,
-                Skills = template.Skills.Select(skill => new Skill(skill, attributes.First(attribute => attribute.AttributeTemplateId == skill.AttributeTemplateId))).ToList(),
                 Vitalities = template.Vitalities.Select(vitality => new Vitality(vitality)).ToList(),
                 Defenses = template.Defenses.Select(Defense.FromTemplate).ToList(),
                 CampaignId = campaignId,
@@ -277,7 +283,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
      
             replacesFormula = Skills.Aggregate(replacesFormula,
                 (formula, skill) => replacesFormula.Replace(skill.Name, GetPropertyValue(RollPropertyType.Skill, skill.Id).ToString()));     
-            replacesFormula = MinorSkills.Aggregate(replacesFormula,
+            replacesFormula = SpecificSkills.Aggregate(replacesFormula,
                 (formula, minorSKill) => replacesFormula.Replace(minorSKill.Name, GetPropertyValue(RollPropertyType.MinorSkill, minorSKill.Id).ToString()));
             DataTable dt = new DataTable();
             var result = dt.Compute(replacesFormula,"");
@@ -290,7 +296,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return 0;
         }
 
-        public List<MinorSkill> MinorSkills => Skills.SelectMany(s => s.MinorSkills).ToList();
 
         public void AddItemToInventory(ItemInstance? item)
         {

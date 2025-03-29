@@ -12,7 +12,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
 import { Campaign } from '@app/campaigns/models/campaign';
 import {
   AttributeTemplate, DefenseTemplate, VitalityTemplate,
-  MinorSkillsTemplate,
+  SpecificSkillsTemplate,
   SkillTemplate
 } from '@app/campaigns/models/campaign.template';
 import { Property } from '@app/models/bonuses/bonus';
@@ -54,7 +54,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
           options = options.concat(
             this.attributes()
               .concat(this.skills())
-              .concat(this.minorSkills())
+              .concat(this.specificSkills())
               .concat(this.defenses())
               .concat(this.vitalities())
           );
@@ -65,8 +65,8 @@ export class PropertySelectorComponent implements ControlValueAccessor {
         case PropertyType.Skill:
           options = options.concat(this.skills());
           break;
-        case PropertyType.MinorSkill:
-          options = options.concat(this.minorSkills());
+        case PropertyType.SpecificSkill:
+          options = options.concat(this.specificSkills());
           break;
         case PropertyType.Defense:
           options = options.concat(this.defenses());
@@ -93,17 +93,17 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     }));
   });
 
-  public minorSkills = computed<RROption<Property>[]>(() => {
+  public specificSkills = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) =>
-      s.minorSkills.map((a: MinorSkillsTemplate) => ({
+      s.specificSkills.map((a: SpecificSkillsTemplate) => ({
         label: a.name,
-        value: { propertyId: a.id, type: PropertyType.MinorSkill }
+        value: { propertyId: a.id, type: PropertyType.SpecificSkill }
       }))
     ).concat(
       this.campaign().campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-        s.minorSkills.map((a: MinorSkillsTemplate) => ({
+        s.specificSkills.map((a: SpecificSkillsTemplate) => ({
           label: a.name,
-          value: { propertyId: a.id, type: PropertyType.MinorSkill }
+          value: { propertyId: a.id, type: PropertyType.SpecificSkill }
         }))
       )
     );

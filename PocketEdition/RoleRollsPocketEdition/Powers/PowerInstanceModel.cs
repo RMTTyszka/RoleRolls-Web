@@ -2,15 +2,15 @@ using RoleRollsPocketEdition.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Powers;
 
-public class PowerModel
+public class PowerInstanceModel
 {
-    public static PowerModel? FromPower(PowerTemplate? itemPower)
+    public static PowerInstanceModel? FromPower(PowerInstance? itemPower)
     {
         if (itemPower is null)
         {
             return null;
         }
 
-        return new PowerModel();
+        return new PowerInstanceModel();
     }
 }

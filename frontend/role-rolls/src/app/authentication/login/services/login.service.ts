@@ -31,13 +31,15 @@ export class LoginService {
       } );
   }
   addUser(input: CreateUserInput): Observable<never> {
+    input.login = input.email
     return this.httpClient.post<never>(this.serverUrl + 'users', input);
   }
   updateUser(username: string, password: string, email: string) {
     return this.httpClient.put(this.serverUrl + 'users', {
       username: username,
       password: password,
-      email: email
+      email: email,
+      login: email,
     });
   }
 }

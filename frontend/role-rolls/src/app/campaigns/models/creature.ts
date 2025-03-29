@@ -33,16 +33,16 @@ export class Skill implements Entity {
   public attributeId!: string;
   public skillTemplateId!: string;
   public value!: number;
-  public minorSkills: MinorSkill[] = [];
+  public specificSkills: SpecificSkill[] = [];
   public pointsLimit!: number;
   public usedPoints!: number;
 
 }
-export class MinorSkill implements Entity {
+export class SpecificSkill implements Entity {
   public id: string;
   public name!: string;
   public skillId!: string;
-  public minorSkillTemplateId!: string;
+  public specificSkillTemplateId!: string;
   public points!: number;
 }
 export class Vitality implements Entity {

@@ -9,14 +9,14 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public SkillTemplate()
         {
-            MinorSkills = new List<MinorSkillTemplate>();
+            SpecificSkills = new List<SpecificSkillTemplate>();
         }
         public SkillTemplate(Guid? attributeTemplateId, SkillTemplateModel skill)
         {
             Id = skill.Id;
             Name = skill.Name;
             AttributeTemplateId = attributeTemplateId;
-            MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillTemplate(skill.Id, minorSkill)).ToList();
+            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkillTemplate(skill.Id, minorSkill)).ToList();
         }
 
         public string Name { get; set; }
@@ -24,18 +24,18 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public AttributeTemplate? AttributeTemplate { get; set; }
 
         public ICollection<Skill> Skills { get; set; }
-        public List<MinorSkillTemplate> MinorSkills { get; set; }
+        public List<SpecificSkillTemplate> SpecificSkills { get; set; }
         
-        public int PointsLimit => MinorSkills.Count * 3 - MinorSkills.Count - 1; 
+        public int PointsLimit => SpecificSkills.Count * 3 - SpecificSkills.Count - 1; 
 
         public void Update(SkillTemplateModel skillModel)
         {
             Name = skillModel.Name;
         }        
-        public async Task AddMinorSkillAsync(MinorSkillTemplate minorSkill, RoleRollsDbContext dbContext)
+        public async Task AddMinorSkillAsync(SpecificSkillTemplate specificSkill, RoleRollsDbContext dbContext)
         {
-            MinorSkills.Add(minorSkill);
-            await dbContext.MinorSkillTemplates.AddAsync(minorSkill);
+            SpecificSkills.Add(specificSkill);
+            await dbContext.MinorSkillTemplates.AddAsync(specificSkill);
         }        
 
     }

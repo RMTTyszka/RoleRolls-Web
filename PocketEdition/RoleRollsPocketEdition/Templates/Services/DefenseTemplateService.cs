@@ -28,7 +28,7 @@ namespace RoleRollsPocketEdition.Templates.Services
             var template = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
-                .ThenInclude(skill => skill.MinorSkills)
+                .ThenInclude(skill => skill.SpecificSkills)
                 .Include(template => template.Vitalities)
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);
@@ -41,7 +41,7 @@ namespace RoleRollsPocketEdition.Templates.Services
             var template = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
-                .ThenInclude(skill => skill.MinorSkills)
+                .ThenInclude(skill => skill.SpecificSkills)
                 .Include(template => template.Vitalities)
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == creatureTemplateId);

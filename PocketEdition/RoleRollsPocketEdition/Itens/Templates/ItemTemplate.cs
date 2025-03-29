@@ -25,8 +25,8 @@ public class ItemTemplate : Entity
     public Guid? PowerId { get; set; }
     public PowerTemplate? Power { get; set; }
     public ItemType Type { get; set; }
-    public Guid? CampaignId { get; set; }
-    public Campaign? Campaign { get; set; }
+    public Guid CampaignId { get; set; }
+    public Campaign Campaign { get; set; }
 
 
     public void Update(ItemTemplateModel item)
@@ -46,7 +46,6 @@ public class ItemTemplate : Entity
         {
             Id = Guid.NewGuid(),
             Name = input.Name ?? Name,
-            PowerId = PowerId,
             Level = input.Level,
             TemplateId = Id,
             Template = this

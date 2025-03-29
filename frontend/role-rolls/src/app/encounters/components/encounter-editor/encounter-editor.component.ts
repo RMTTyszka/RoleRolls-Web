@@ -1,4 +1,4 @@
-import { Component, computed, signal, WritableSignal } from '@angular/core';
+import {Component, computed, EventEmitter, Input, signal, WritableSignal} from '@angular/core';
 import { BonusesComponent } from "@app/bonuses/bonuses/bonuses.component";
 import { Fieldset } from "primeng/fieldset";
 import { InputText } from "primeng/inputtext";
@@ -20,7 +20,7 @@ import { EncountersService } from '@app/encounters/services/encounters.service';
 import { Creature } from '@app/campaigns/models/creature';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { CreatureSelectTableComponent } from '@app/creatures/creature-select-table/creature-select-table.component';
-import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
+import {GridComponent, RRColumns, RRHeaderAction, RRTableAction} from '@app/components/grid/grid.component';
 import { GetListInput } from '@app/tokens/get-list-input';
 import { ButtonDirective } from 'primeng/button';
 import { IftaLabel, IftaLabelModule } from 'primeng/iftalabel';
@@ -42,9 +42,10 @@ import { PagedOutput } from '@app/models/PagedOutput';
 })
 export class EncounterEditorComponent {
   public loaded = signal(false);
-  headerActions: RRHeaderAction[] = [];
-  columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(false);
+  public headerActions: RRHeaderAction[] = [];
+  public creatureActions: RRTableAction<Creature>[] = [];
+  public columns: RRColumns[] = [];
+  public refreshGrid = new EventEmitter<void>();
   public form: FormGroup;
   public campaign: Campaign;
   public encounter: WritableSignal<Encounter>;
@@ -76,6 +77,7 @@ export class EncounterEditorComponent {
       this.form.disable();
     }
     this.headerActions = this.buildHeaderActions();
+    this.creatureActions = this.buildCreatureActions();
     this.columns = this.buildColumns();
     this.loaded.set(true);
   }
@@ -110,11 +112,11 @@ export class EncounterEditorComponent {
     } else {
       await firstValueFrom(this.service.addCreature(this.campaign.id, this.encounter().id, creature));
     }
-      this.refreshGrid.set(true);
+      this.refreshGrid.next();
   }
   async removeCreature(creatureId: string) {
-      await firstValueFrom(this.service.removeCreature(this.campaign.id, this.encounter().id, creatureId));
-    this.encounter.set(await firstValueFrom(this.service.getById(this.campaign.id, this.encounter().id)));
+    await firstValueFrom(this.service.removeCreature(this.campaign.id, this.encounter().id, creatureId, true));
+    this.refreshGrid.next();
   }
   private buildHeaderActions() {
     return [
@@ -124,6 +126,16 @@ export class EncounterEditorComponent {
         tooltip: 'Add',
         callBack: () => this.selectCreatureTemplate(),
       } as RRHeaderAction
+    ];
+  }
+  private buildCreatureActions() {
+    return [
+      {
+        icon: 'pi pi-times',
+        condition: () => true,
+        tooltip: 'Remove',
+        callBack: (creature: Creature) => this.removeCreature(creature.id),
+      } as RRTableAction<Creature>
     ];
   }
 

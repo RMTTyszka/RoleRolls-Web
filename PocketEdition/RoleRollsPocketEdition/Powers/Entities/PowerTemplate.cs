@@ -1,5 +1,6 @@
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Itens.Templates;
 
 namespace RoleRollsPocketEdition.Powers.Entities
 {
@@ -19,7 +20,8 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public Guid? TargetDefenseId { get; set; }
         public string UsagesFormula { get; set; }
         public UsageType? UsageType { get; set; }
-        public ICollection<PowerInstance> Instances { get; set; }        
+        public ICollection<PowerInstance> Instances { get; set; }
+        public ICollection<ItemTemplate> ItemTemplates { get; set; }
     }
 
     public enum PowerDurationType

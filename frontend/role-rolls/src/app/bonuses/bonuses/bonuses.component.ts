@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { PropertyType } from '@app/campaigns/models/propertyType';
-import { AttributeTemplate, MinorSkillsTemplate, SkillTemplate } from '@app/campaigns/models/campaign.template';
+import { AttributeTemplate, SpecificSkillsTemplate, SkillTemplate } from '@app/campaigns/models/campaign.template';
 import { RROption } from '@app/models/RROption';
 
 @Component({
@@ -53,8 +53,8 @@ export class BonusesComponent {
     } as RROption<any>));
 
     // Mapeia as habilidades menores
-    const minorSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
-      s.minorSkills.map((ms: MinorSkillsTemplate) => ({
+    const specificSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
+      s.specificSkills.map((ms: SpecificSkillsTemplate) => ({
           value: ms.id,
           label: ms.name
         } as RROption<any>)));
@@ -62,13 +62,13 @@ export class BonusesComponent {
 
     // Mapeia as habilidades menores
     const attributelessSkills = campaign.campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-      s.minorSkills.map((ms: MinorSkillsTemplate) => ({
+      s.specificSkills.map((ms: SpecificSkillsTemplate) => ({
         value: ms.id,
         label: ms.name
       } as RROption<any>)));
 
     // Combina todos os arrays
-    return [...attributes, ...skills, ...minorSkills, ...attributelessSkills];
+    return [...attributes, ...skills, ...specificSkills, ...attributelessSkills];
   });
   clonedBonuss: { [s: string]: Bonus } = {};
   constructor() {

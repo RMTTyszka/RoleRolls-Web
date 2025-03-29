@@ -1,6 +1,6 @@
 ﻿using RoleRollsPocketEdition.Templates.Dtos;
 
-namespace RoleRollsPocketEdition.Campaigns.Events.Vitalities;
+namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
 
 public class VitalityAdded
 {

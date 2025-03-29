@@ -8,6 +8,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     {
         public string Name { get; set; }
         public string Formula { get; set; }
+        public Guid CreatureId { get; set; }
+        public Creature Creature { get; set; }
         public Guid DefenseTemplateId { get; set; }
         public DefenseTemplate DefenseTemplate { get; set; }
 

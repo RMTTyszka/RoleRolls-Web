@@ -70,9 +70,6 @@ public class EncounterService : IEncounterService, ITransientDependency
         var campaign = await _context.Campaigns
             .FirstAsync(e => e.Id == campaignId);
         var newEncounter = new Encounter(encounter);
-        foreach (var creature in encounter.Creatures)
-        {
-        }
         var creatures = await _creatureBuilderService.BuildCreatures(campaignId, encounter.Creatures);
         foreach (var creature in creatures)
         {
@@ -83,7 +80,6 @@ public class EncounterService : IEncounterService, ITransientDependency
         using (_unitOfWork.Begin())
         {
             await campaign.AddEncounter(newEncounter, _context);
-        //    await _context.Creatures.AddRangeAsync(creatures.Select(e => e.Creature));
             await _unitOfWork.CommitAsync();
         }
     }
@@ -162,7 +158,7 @@ public class EncounterService : IEncounterService, ITransientDependency
         encounter.RemoveCreature(creature);
         using (_unitOfWork.Begin())
         {
-            if (delete == true)
+            if (delete)
             {
                 _context.Creatures.Remove(creature);
             }

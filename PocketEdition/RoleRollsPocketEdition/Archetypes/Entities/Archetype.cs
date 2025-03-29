@@ -2,15 +2,20 @@ using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.Templates.Entities;
 
-namespace RoleRollsPocketEdition.Archetypes;
+namespace RoleRollsPocketEdition.Archetypes.Entities;
 
 public class Archetype : Entity, IHaveBonuses
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public Guid CampaignTemplateId { get; set; }
+    public CampaignTemplate CampaignTemplate { get; set; }
     public List<Bonus> Bonuses { get; set; }
+    public ICollection<Creature> Creatures { get; set; }
 
     public Archetype()
     {

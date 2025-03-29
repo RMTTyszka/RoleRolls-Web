@@ -27,9 +27,9 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .AsNoTracking()
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
-                .ThenInclude(skill => skill.MinorSkills)        
+                .ThenInclude(skill => skill.SpecificSkills)        
                 .Include(template => template.AttributelessSkills)
-                .ThenInclude(skill => skill.MinorSkills)
+                .ThenInclude(skill => skill.SpecificSkills)
                 .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
             var output = new CampaignTemplateModel(template);
@@ -59,7 +59,7 @@ namespace RoleRollsPocketEdition.Templates.Services
             var template = await _dbContextl.CampaignTemplates
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
-                .ThenInclude(skill => skill.MinorSkills)
+                .ThenInclude(skill => skill.SpecificSkills)
                 .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
 
@@ -84,21 +84,21 @@ namespace RoleRollsPocketEdition.Templates.Services
             var skillsToUpdate= template.Skills.Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
             var skillsToDelete= template.Skills.Where(skill => !updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
 
-            var minorSkillsToCreate = new List<MinorSkillTemplate>();
-            var minorSkillsToUpdate = new List<MinorSkillTemplate>();
-            var minorSkillsToDelete = new List<MinorSkillTemplate>();
+            var minorSkillsToCreate = new List<SpecificSkillTemplate>();
+            var minorSkillsToUpdate = new List<SpecificSkillTemplate>();
+            var minorSkillsToDelete = new List<SpecificSkillTemplate>();
 
             foreach (var skill in skillsToUpdate)
             {
                 var updatedSkill= updatedTemplate.Skills.First(sk => sk.Id == skill.Id);
                 skill.Name = updatedSkill.Name;
 
-                var minorSkillsToCreate2 = updatedSkill.MinorSkills
-                    .Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id))
-                    .Select(minorSkill => new MinorSkillTemplate(skill.Id, minorSkill))
+                var minorSkillsToCreate2 = updatedSkill.SpecificSkills
+                    .Where(minorSkill => !updatedSkill.SpecificSkills.Select(s => s.Id).Contains(minorSkill.Id))
+                    .Select(minorSkill => new SpecificSkillTemplate(skill.Id, minorSkill))
                     .ToList();
-                var minorSToUpdate2 = skill.MinorSkills.Where(minorSkill => updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
-                var minorSToDelete2 = skill.MinorSkills.Where(minorSkill => !updatedSkill.MinorSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
+                var minorSToUpdate2 = skill.SpecificSkills.Where(minorSkill => updatedSkill.SpecificSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
+                var minorSToDelete2 = skill.SpecificSkills.Where(minorSkill => !updatedSkill.SpecificSkills.Select(s => s.Id).Contains(minorSkill.Id)).ToList();
 
                 minorSkillsToCreate.AddRange(minorSkillsToCreate2);
                 minorSkillsToUpdate.AddRange(minorSToUpdate2);
@@ -106,11 +106,11 @@ namespace RoleRollsPocketEdition.Templates.Services
 
                 foreach (var minorSkill in minorSkillsToCreate)
                 {
-                    skill.MinorSkills.Add(minorSkill);
+                    skill.SpecificSkills.Add(minorSkill);
                 }
                 foreach (var minorSkill in minorSkillsToDelete)
                 {
-                    skill.MinorSkills.Remove(minorSkill);
+                    skill.SpecificSkills.Remove(minorSkill);
                 }
             }
             foreach (var skill in skillsToCreate)
@@ -120,7 +120,7 @@ namespace RoleRollsPocketEdition.Templates.Services
             foreach (var skill in skillsToDelete)
             {
                 template.Skills.Remove(skill);
-                minorSkillsToDelete.AddRange(skill.MinorSkills);
+                minorSkillsToDelete.AddRange(skill.SpecificSkills);
             }
 
             var vitalitiesToCreate = updatedTemplate.Vitalities
@@ -152,11 +152,11 @@ namespace RoleRollsPocketEdition.Templates.Services
             {
                 template.Attributes.Remove(attribute);
                 var skillsFromAttribute = template.Skills.Where(sk => sk.AttributeTemplateId == attribute.Id).ToList();
-                var minorSkills = skillsFromAttribute.SelectMany(sk => sk.MinorSkills).ToList();
+                var minorSkills = skillsFromAttribute.SelectMany(sk => sk.SpecificSkills).ToList();
                 foreach (var skill in skillsFromAttribute) 
                 {
                     template.Skills.Remove(skill);
-                    skill.MinorSkills.RemoveAll(_ => true);
+                    skill.SpecificSkills.RemoveAll(_ => true);
                 }
                 skillsToDelete.AddRange(skillsFromAttribute);
                 minorSkillsToDelete.AddRange(minorSkills);

@@ -34,8 +34,7 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   data: TView[] = [];
   public columns = input<RRColumns[]>();
   @Input() getListCallback!: (input: GetListInput) => Observable<PagedOutput<TView>>;
-  @Input() refresh!: EventEmitter<void>;
-  public refreshList = input<boolean>();
+  @Input() refresh: EventEmitter<void>;
   public hasGlobalFilter = input<boolean>();
   public title = input<string>();
   @Input() headerActions: RRHeaderAction[] = [];
@@ -55,19 +54,12 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     private dialogService: DialogService,
     private router: Router,
   ) {
-    effect(() => {
-      if (this.refreshList()) {
-        this.getList('', 0, 15 );
-      }
-    });
   }
 
   ngOnInit() {
-    if (this.refresh) {
-      this.refresh.subscribe(() => {
-        this.getList();
-      })
-    }
+    this.refresh.subscribe(() => {
+      this.getList();
+    })
 /*    this.service.entityUpdated.subscribe(entity => this.updateData(entity));
     this.service.entityCreated.subscribe(entity => this.addData(entity));
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));*/
@@ -94,7 +86,7 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     const index = this.data.findIndex(e => e.id === entity.id);
     this.data = this.data.filter(e => e.id !== entity.id);
   }
-  getList(filter?: string, skipCount?: number, maxResultCount?: number) {
+  getList(filter?: string, skipCount: number = 0, maxResultCount: number = 10) {
     this.getListCallback({
       filter,
       skipCount,
@@ -136,7 +128,7 @@ export interface RRColumns {
 }
 export interface RRTableAction<T> {
   icon: string;
-  csClass: string | null | undefined;
+  csClass?: string | null | undefined;
   tooltip: string;
   callBack: (rowData: T, target: any) => void;
   condition: (rowData: T) => boolean;

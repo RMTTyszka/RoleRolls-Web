@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Campaigns.Events.Defenses;
@@ -17,8 +18,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
 {
     public class CampaignTemplate : Entity
     {
-    
-
         public string Name { get; set; }
         public bool Default { get; set; }
         public string? CreatureTypeTitle { get; set; }
@@ -96,9 +95,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
             foreach (var skill in skills)
             {
                 Skills.Remove(skill);
-                foreach (var minorSkill in skill.MinorSkills)
+                foreach (var minorSkill in skill.SpecificSkills)
                 {
-                    skill.MinorSkills.Remove(minorSkill);
+                    skill.SpecificSkills.Remove(minorSkill);
                     dbContext.MinorSkillTemplates.Remove(minorSkill);
                 }
                 dbContext.SkillTemplates.Remove(skill);
@@ -151,22 +150,22 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public async Task AddMinorSkillAsync(Guid skillId, MinorSkillTemplateModel minorSkill, RoleRollsDbContext dbContext)
         {
-            var newMinorSkill = new MinorSkillTemplate(skillId, minorSkill);
+            var newMinorSkill = new SpecificSkillTemplate(skillId, minorSkill);
             var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
             await skill.AddMinorSkillAsync(newMinorSkill, dbContext);
         }       
         public void UpdateMinorSkill(Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkillModel, RoleRollsDbContext dbContext)
         {
             var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
-            var minorSkill = skill.MinorSkills.First(minorSkill => minorSkill.Id == minorSkillId);
+            var minorSkill = skill.SpecificSkills.First(minorSkill => minorSkill.Id == minorSkillId);
             minorSkill.Update(minorSkillModel, dbContext);
         }
 
         public void RemoveMinorSkill(Guid skillId, Guid minorSkillId, RoleRollsDbContext dbContext)
         {
             var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
-            var minorSkill = skill.MinorSkills.First(minorSkill => minorSkill.Id == minorSkillId);
-            skill.MinorSkills.Remove(minorSkill);
+            var minorSkill = skill.SpecificSkills.First(minorSkill => minorSkill.Id == minorSkillId);
+            skill.SpecificSkills.Remove(minorSkill);
             dbContext.MinorSkillTemplates.Remove(minorSkill);
         }
 
@@ -174,7 +173,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             var newVitality = new VitalityTemplate(vitality);
             newVitality.CampaignTemplate = this;
-            newVitality.CreatureTemplateId = Id;
+            newVitality.CampaignTemplateId = Id;
             Vitalities.Add(newVitality);
             await dbContext.VitalityTemplates.AddAsync(newVitality);
         }

@@ -8,12 +8,12 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         {
 
         }
-        public MinorSkillTemplateModel(MinorSkillTemplate minorSkill)
+        public MinorSkillTemplateModel(SpecificSkillTemplate specificSkill)
         {
-            Id = minorSkill.Id;
-            Name = minorSkill.Name;
-            SkillTemplateId = minorSkill.SkillTemplateId;
-            AttributeId = minorSkill.AttributeId;
+            Id = specificSkill.Id;
+            Name = specificSkill.Name;
+            SkillTemplateId = specificSkill.SkillTemplateId;
+            AttributeId = specificSkill.AttributeId;
         }
 
         public string Name { get; set; }

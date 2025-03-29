@@ -25,10 +25,18 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         public ICollection<Roll> Rolls { get; set; } = new List<Roll>();
 
         public string Name { get; set; }
+        public SceneStatus Status { get; set; }
 
         public void Update(SceneModel sceneModel)
         {
             Name = sceneModel.Name;
         }
+    }
+
+    public enum SceneStatus
+    {
+        Active = 0,
+        Hidden = 1,
+        Finalized = 2,
     }
 }

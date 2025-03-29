@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition.Campaigns
             .Include(template => template.Attributes)
             .ThenInclude(attribute => attribute.SkillTemplates)
             .Include(template => template.AttributelessSkills)
-            .ThenInclude(attribute => attribute.MinorSkills)
+            .ThenInclude(attribute => attribute.SpecificSkills)
             .Include(template => template.Vitalities)
             .Include(template => template.Defenses)
             .FirstAsync(template => template.Id == id);

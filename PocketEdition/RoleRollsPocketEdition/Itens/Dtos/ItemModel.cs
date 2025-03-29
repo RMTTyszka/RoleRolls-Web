@@ -9,11 +9,11 @@ public class ItemModel
     protected ItemModel(ItemInstance item)
     {
         Name = item.Name;
-        PowerId = item.PowerId;
+        PowerInstanceId = item.PowerInstanceId;
         Id = item.Id;
         Level = item.Level;
         TemplateId = item.TemplateId;
-        Power = PowerModel.FromPower(item.Power);
+        PowerInstance = PowerInstanceModel.FromPower(item.PowerInstance);
         Template = item.Template switch
         {
             WeaponTemplate template => WeaponTemplateModel.FromTemplate(template),
@@ -33,7 +33,7 @@ public class ItemModel
 
     public ItemTemplateModel Template { get; set; }
 
-    public PowerModel? Power { get; set; }
+    public PowerInstanceModel? PowerInstance { get; set; }
 
     public Guid TemplateId { get; set; }
 
@@ -41,6 +41,6 @@ public class ItemModel
 
     public Guid Id { get; set; }
 
-    public Guid? PowerId { get; set; }
+    public Guid? PowerInstanceId { get; set; }
     public string Name { get; set; }
 }

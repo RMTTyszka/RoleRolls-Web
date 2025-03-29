@@ -10,8 +10,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         [NotMapped] public int MaxValue => CalculateMaxValue(Creature);
         public int Value { get; set; }
         public string Name { get; set; }
-        public Guid VitalityTemplateId { get; set; }
+        public Guid CreatureId { get; set; }
         public Creature Creature { get; set; }
+        public Guid VitalityTemplateId { get; set; }
+        public VitalityTemplate VitalityTemplate { get; set; }
         public Vitality(VitalityTemplate vitality)
         {
             Id = Guid.NewGuid();
@@ -20,7 +22,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             VitalityTemplate = vitality;
         }
 
-        public VitalityTemplate VitalityTemplate { get; set; }
 
         public Vitality()
         {

@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events.Vitalities;
+﻿namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
 
 public class VitalityRemoved
 {

@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public int Value { get; set; }
         public Guid AttributeId { get; set; }
         public Guid SkillTemplateId { get; set; }
-        public List<MinorSkillModel> MinorSkills { get; set; }
+        public List<SpecificSkillModel> SpecificSkills { get; set; }
         
         public int PointsLimit { get; init; }
         public int UsedPoints { get; init; }
@@ -23,7 +23,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
             Name = skill.Name;
             AttributeId = skill.AttributeId;
             SkillTemplateId = skill.SkillTemplateId;
-            MinorSkills = skill.MinorSkills.Select(minorSkill => new MinorSkillModel(minorSkill)).ToList();
+            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkillModel(minorSkill)).ToList();
             PointsLimit = skill.PointsLimit;
             UsedPoints = skill.UsedPoints;
         }

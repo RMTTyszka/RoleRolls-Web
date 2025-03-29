@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
+using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Dtos;
@@ -149,7 +151,7 @@ public class LandOfHeroesLoader : IStartupTask
             }
             else
             {
-                await SynchronizeMinorSkills(codeSkill, codeSkill.MinorSkills, dbSkill.MinorSkills, context);
+                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkills, dbSkill.SpecificSkills, context);
                 dbSkill.Name = codeSkill.Name;
                 context.SkillTemplates.Update(dbSkill);
             }
@@ -203,7 +205,7 @@ public class LandOfHeroesLoader : IStartupTask
             }
             else
             {
-                await SynchronizeMinorSkills(codeSkill, codeSkill.MinorSkills, dbSkill.MinorSkills, context);
+                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkills, dbSkill.SpecificSkills, context);
                 dbSkill.Name = codeSkill.Name;
                 dbSkill.AttributeTemplateId = codeSkill.AttributeTemplateId;
                 context.SkillTemplates.Update(dbSkill);
@@ -216,8 +218,8 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeMinorSkills(SkillTemplate codeSkill, List<MinorSkillTemplate> fromCode,
-        List<MinorSkillTemplate> fromDb, RoleRollsDbContext context)
+    private async Task SynchronizeMinorSkills(SkillTemplate codeSkill, List<SpecificSkillTemplate> fromCode,
+        List<SpecificSkillTemplate> fromDb, RoleRollsDbContext context)
     {
         var dbMinorSkills = fromDb.ToDictionary(ms => ms.Id);
         var codeMinorSkills = fromCode.ToDictionary(ms => ms.Id);

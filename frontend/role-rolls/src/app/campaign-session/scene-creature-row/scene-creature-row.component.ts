@@ -177,14 +177,14 @@ export class SceneCreatureRowComponent {
             } as MenuItem
           ]
         } as MenuItem;
-        skill.minorSkills.forEach(minorSkill => {
-          const minorSkillMenu = {
-            label: minorSkill.name,
+        skill.specificSkills.forEach(specificSkill => {
+          const specificSkillMenu = {
+            label: specificSkill.name,
             command: (event) => {
-              this.roll(this.selectedCreatureForRoll, RollOrigin.MinorSkill, minorSkill.id);
+              this.roll(this.selectedCreatureForRoll, RollOrigin.SpecificSkill, specificSkill.id);
             }
           } as MenuItem;
-          skillMenu.items.push(minorSkillMenu);
+          skillMenu.items.push(specificSkillMenu);
         });
         attributeMenu.items.push(skillMenu);
       });
@@ -217,14 +217,14 @@ export class SceneCreatureRowComponent {
             } as MenuItem
           ]
         } as MenuItem;
-        skill.minorSkills.forEach(minorSkill => {
-          const minorSkillMenu = {
-            label: minorSkill.name,
+        skill.specificSkills.forEach(specificSkill => {
+          const specificSkillMenu = {
+            label: specificSkill.name,
             command: (event) => {
-              this.simulateCd(this.selectedCreatureForSimulateCd, RollOrigin.MinorSkill, minorSkill.id);
+              this.simulateCd(this.selectedCreatureForSimulateCd, RollOrigin.SpecificSkill, specificSkill.id);
             }
           } as MenuItem;
-          skillMenu.items.push(minorSkillMenu);
+          skillMenu.items.push(specificSkillMenu);
         });
         attributeMenu.items.push(skillMenu);
       });
@@ -246,11 +246,11 @@ export class SceneCreatureRowComponent {
       input.propertyId = skill.id;
       input.propertyName = skill.name;
       input.propertyValue = skill.value;
-    } else if (propertyType === RollOrigin.MinorSkill) {
-      const skill = creature.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
-      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
-      input.propertyId = minorSkills.id;
-      input.propertyName = minorSkills.name;
+    } else if (propertyType === RollOrigin.SpecificSkill) {
+      const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
+      const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
+      input.propertyId = specificSkills.id;
+      input.propertyName = specificSkills.name;
       input.propertyValue = skill.value;
     }
     this.displayRollSidebar = true;
@@ -267,10 +267,10 @@ export class SceneCreatureRowComponent {
     } else if (propertyType === RollOrigin.Skill) {
       const skill = creature.skills.find(s => s.skillTemplateId === propertyId);
       input.propertyId = skill.id;
-    } else if (propertyType === RollOrigin.MinorSkill) {
-      const skill = creature.skills.find(s => s.minorSkills.some(m => m.minorSkillTemplateId === propertyId));
-      const minorSkills = skill.minorSkills.find(m => m.minorSkillTemplateId === propertyId);
-      input.propertyId = minorSkills.id;
+    } else if (propertyType === RollOrigin.SpecificSkill) {
+      const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
+      const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
+      input.propertyId = specificSkills.id;
     }
     this.displaySimulateCdSidebar = !this.displaySimulateCdSidebar;
     this.simulateCdInputEmitter.next(input);
