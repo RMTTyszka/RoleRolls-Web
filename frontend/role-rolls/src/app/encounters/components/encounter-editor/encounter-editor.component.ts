@@ -1,30 +1,27 @@
-import {Component, computed, EventEmitter, Input, signal, WritableSignal} from '@angular/core';
-import { BonusesComponent } from "@app/bonuses/bonuses/bonuses.component";
-import { Fieldset } from "primeng/fieldset";
-import { InputText } from "primeng/inputtext";
-import { NgIf } from "@angular/common";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Textarea } from "primeng/textarea";
-import { Campaign } from '@app/campaigns/models/campaign';
-import { Archetype } from '@app/models/archetypes/archetype';
-import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
+import {Component, computed, EventEmitter, signal, WritableSignal} from '@angular/core';
+import {Fieldset} from "primeng/fieldset";
+import {InputText} from "primeng/inputtext";
+import {NgIf} from "@angular/common";
+import {FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {Campaign} from '@app/campaigns/models/campaign';
+import {EditorAction} from '@app/models/EntityActionData';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
-import { ArchetypesService } from '@services/archetypes/archetypes.service';
-import { v4 as uuid } from 'uuid';
-import { getAsForm } from '@app/tokens/EditorExtension';
-import { canEditCampaign, canEditTemplate } from '@app/tokens/utils.funcs';
-import { Bonus } from '@app/models/bonuses/bonus';
-import { firstValueFrom, Observable, of } from 'rxjs';
-import { Encounter } from '@app/encounters/models/encounter';
-import { EncountersService } from '@app/encounters/services/encounters.service';
-import { Creature } from '@app/campaigns/models/creature';
-import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
-import { CreatureSelectTableComponent } from '@app/creatures/creature-select-table/creature-select-table.component';
+import {v4 as uuid} from 'uuid';
+import {getAsForm} from '@app/tokens/EditorExtension';
+import {canEditCampaign} from '@app/tokens/utils.funcs';
+import {firstValueFrom, of} from 'rxjs';
+import {Encounter} from '@app/encounters/models/encounter';
+import {EncountersService} from '@app/encounters/services/encounters.service';
+import {Creature} from '@app/campaigns/models/creature';
+import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
+import {CreatureSelectTableComponent} from '@app/creatures/creature-select-table/creature-select-table.component';
 import {GridComponent, RRColumns, RRHeaderAction, RRTableAction} from '@app/components/grid/grid.component';
-import { GetListInput } from '@app/tokens/get-list-input';
-import { ButtonDirective } from 'primeng/button';
-import { IftaLabel, IftaLabelModule } from 'primeng/iftalabel';
-import { PagedOutput } from '@app/models/PagedOutput';
+import {GetListInput} from '@app/tokens/get-list-input';
+import {ButtonDirective} from 'primeng/button';
+import {IftaLabelModule} from 'primeng/iftalabel';
+import {PagedOutput} from '@app/models/PagedOutput';
+import {CreatureDetailsService} from '@app/creatures/creature-details.service';
+import {subtract} from 'lodash';
 
 @Component({
   selector: 'rr-encounter-editor',
@@ -55,6 +52,7 @@ export class EncounterEditorComponent {
 
   constructor(dialogConfig: DynamicDialogConfig,
               private service: EncountersService,
+              private creatureDetailsService: CreatureDetailsService,
               private dialogRef: DynamicDialogRef<EncounterEditorComponent>,
               private dialog: DialogService) {
     this.campaign = dialogConfig.data.campaign as Campaign;
@@ -135,7 +133,14 @@ export class EncounterEditorComponent {
         condition: () => true,
         tooltip: 'Remove',
         callBack: (creature: Creature) => this.removeCreature(creature.id),
-      } as RRTableAction<Creature>
+      } as RRTableAction<Creature>,
+      {
+        icon: 'pi pi-pencil',
+        condition: () => true,
+        tooltip: 'Edit',
+        csClass: 'p-button-danger',
+        callBack: (creature: Creature) => this.editCreature(creature.id),
+      } as RRTableAction<Creature>,
     ];
   }
 
@@ -158,6 +163,10 @@ export class EncounterEditorComponent {
 
     await firstValueFrom(saveAction);
     this.dialogRef.close(true);
+  }
+
+  private async editCreature(id: string) {
+    const creature = await firstValueFrom(this.creatureDetailsService.openCreatureEditor(this.campaign, id, CreatureCategory.Enemy, EditorAction.update));
   }
 }
 

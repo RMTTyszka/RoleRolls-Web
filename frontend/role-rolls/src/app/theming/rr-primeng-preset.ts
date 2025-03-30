@@ -1,4 +1,4 @@
-import { definePreset } from '@primeng/themes';
+import { definePreset  } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 
 const RrPrimengPreset = definePreset(Aura, {
@@ -371,11 +371,32 @@ const RrPrimengPreset = definePreset(Aura, {
   components: {
     datatable: {
       header: {
-        padding: '0.5rem', // Altere este valor conforme necessário
+        padding: '0.5rem',
       }
+    },
+    button: {
+      // Usando o método extend para modificar o danger
+      extend: {
+        danger: {
+          background: '#7f1d1d',  // Cor vermelha escura
+          color: '#ffffff',       // Texto branco
+          border: '#7f1d1d'       // Borda da mesma cor
+        }
+      },
+      css: ({ dt }: { dt: (path: string) => string }) => `
+        .p-button.p-button-danger {
+          background: ${dt('button.danger.background')};
+          color: ${dt('button.danger.color')};
+          border-color: ${dt('button.danger.border')};
+        }
+
+        .p-button.p-button-danger:hover {
+          background: ${dt('color.red.800')};
+          border-color: ${dt('color.red.800')};
+        }
+      `
     }
   },
-
 
 })
 export default RrPrimengPreset;

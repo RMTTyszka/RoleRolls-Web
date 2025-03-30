@@ -1,4 +1,4 @@
-import {Component, effect, signal} from '@angular/core';
+import {Component, effect, EventEmitter, signal} from '@angular/core';
 import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -20,7 +20,7 @@ import { Encounter } from '@app/encounters/models/encounter';
 export class EncountersComponent {
   headerActions: RRHeaderAction[] = [];
   columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(false);
+  refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
   isMaster: boolean;
   private dialogRef: DynamicDialogRef<EncounterEditorComponent>;
@@ -70,7 +70,7 @@ export class EncountersComponent {
     this.dialogRef.onClose.subscribe((updated: boolean) => {
       this.dialogRef = null;
       if (updated) {
-        this.refreshGrid.set(true);
+        this.refreshGrid.next();
       }
     });
   }

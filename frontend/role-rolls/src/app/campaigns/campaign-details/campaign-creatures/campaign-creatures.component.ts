@@ -1,4 +1,4 @@
-import {Component, input, signal} from '@angular/core';
+import {Component, EventEmitter, input, signal} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from '@app/components/grid/grid.component';
 import {Campaign} from '@app/campaigns/models/campaign';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -24,7 +24,7 @@ export class CampaignCreaturesComponent {
   public creatureCategory = input<CreatureCategory>();
   headerActions: RRHeaderAction[] = [];
   columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(false);
+  refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
   isMaster = signal<boolean>(false);
   private dialogRef: DynamicDialogRef<CreatureEditorComponent>;
@@ -81,7 +81,7 @@ export class CampaignCreaturesComponent {
     this.dialogRef.onClose.subscribe((refresh: boolean) => {
       this.dialogRef = null;
       if (refresh) {
-        this.refreshGrid.set(true);
+        this.refreshGrid.next();
       }
     });
   }

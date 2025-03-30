@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, EventEmitter, signal} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from "@app/components/grid/grid.component";
 import {ActivatedRoute, Router} from '@angular/router';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -22,7 +22,7 @@ import { Archetype } from '@app/models/archetypes/archetype';
 export class ArchetypesComponent {
   headerActions: RRHeaderAction[] = [];
   columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(false);
+  refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
   isMaster: boolean;
   private dialogRef: DynamicDialogRef<ArchetypeEditorComponent>;

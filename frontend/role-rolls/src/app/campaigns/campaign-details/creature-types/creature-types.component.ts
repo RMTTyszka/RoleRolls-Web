@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, EventEmitter, signal} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from "@app/components/grid/grid.component";
 import {CreatureType} from '@app/models/creatureTypes/creature-type';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -22,7 +22,7 @@ import {GetListInput} from '@app/tokens/get-list-input';
 export class CreatureTypesComponent {
   headerActions: RRHeaderAction[] = [];
   columns: RRColumns[] = [];
-  refreshGrid = signal<boolean>(true);
+  refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
   isMaster: boolean;
   private dialogRef: DynamicDialogRef<CreatureTypeEditorComponent>;
