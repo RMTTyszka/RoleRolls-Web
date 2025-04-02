@@ -6,6 +6,9 @@ import { GetListInput } from '@app/tokens/get-list-input';
 import { Encounter } from '@app/encounters/models/encounter';
 import { Creature } from '@app/campaigns/models/creature';
 import { PagedOutput } from '@app/models/PagedOutput';
+import {Campaign} from '@app/campaigns/models/campaign';
+import {DialogService} from 'primeng/dynamicdialog';
+import {EncounterSelectComponent} from '@app/encounters/components/encounter-select/encounter-select.component';
 export enum EncounterValidationMotive {
   Ok = 0,
   NotFound = 1
@@ -25,6 +28,7 @@ export class EncountersService {
 
   constructor(
     private http: HttpClient,
+    private dialogService: DialogService,
   ) {
   }
 
@@ -78,5 +82,16 @@ export class EncountersService {
       `${RR_API.backendUrl}${this.path(campaignId)}/${encounterId}/creatures/${creatureId}`,
       { params }
     );
+  }
+  public openSelectEncounter(campaign: Campaign) {
+    return this.dialogService.open(EncounterSelectComponent, {
+      width: '60vw',
+      height: '900vh',
+      data: {
+        campaign: campaign,
+      },
+      focusOnShow: false,
+      closable: true,
+    }).onClose
   }
 }

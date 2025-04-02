@@ -153,9 +153,15 @@ export class CampaignsService {
    public getCreatureTemplate(id: string): Observable<CampaignTemplate> {
     return this.http.get<CampaignTemplate>(`${RR_API.backendUrl}creature-templates/${id}`);
   }
-  public getCreatures(campaignId: string, creatureCategory: CreatureCategory): Observable<PagedOutput<Creature>> {
-    const params = new HttpParams().set('creatureCategory', creatureCategory)
+  public getCreatures(campaignId: string, creatureCategory: CreatureCategory, onlyTemplates?: boolean): Observable<PagedOutput<Creature>> {
+    let params = new HttpParams()
+      .set('creatureCategory', creatureCategory)
       .set('maxResultCount', 999);
+
+    if (onlyTemplates !== undefined && onlyTemplates !== null) {
+      params = params.set('onlyTemplates', onlyTemplates);
+    }
+
     return this.http.get<PagedOutput<Creature>>(`${this.completePath}/${campaignId}/creatures`, {
       params
     });

@@ -17,11 +17,14 @@
                             [creatureType]="CreatureCategory.Enemy"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
+        <button pButton icon="pi pi-plus"
+                *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster"
+                (click)="selectEncounter()">Encounter</button>
       </div>
     </div>
   </ng-template>
 
-  <div *ngFor="let hero of heroes">
+  <div *ngFor="let hero of creatures">
     <rr-scene-creature-row [creature]="hero"></rr-scene-creature-row>
   </div>
 </p-panel>

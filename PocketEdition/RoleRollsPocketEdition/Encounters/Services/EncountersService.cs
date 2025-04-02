@@ -44,7 +44,9 @@ public class EncounterService : IEncounterService, ITransientDependency
     {
         var entity = await _context.Campaigns
             .AsNoTracking()
-            .Include(e => e.Encounters).Where(e => e.Id == campaignId)
+            .Include(e => e.Encounters)
+            .ThenInclude(e => e.Creatures)
+            .Where(e => e.Id == campaignId)
             .Select(c => c.Encounters.First(e => e.Id == id))
             .FirstOrDefaultAsync();
         return entity == null ? null : new EnconterModel(entity);

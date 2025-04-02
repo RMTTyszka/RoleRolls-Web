@@ -57,9 +57,12 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   }
 
   ngOnInit() {
-    this.refresh.subscribe(() => {
-      this.getList();
-    })
+    if (this.refresh) {
+      this.refresh.subscribe(() => {
+        this.getList();
+      })
+    }
+
 /*    this.service.entityUpdated.subscribe(entity => this.updateData(entity));
     this.service.entityCreated.subscribe(entity => this.addData(entity));
     this.service.entityDeleted.subscribe(entity => this.deleteData(entity));*/

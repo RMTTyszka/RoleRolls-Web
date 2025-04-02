@@ -38,7 +38,7 @@ export class CreatureSelectComponent {
       this.result = [...this.creaturesAvailable];
       return;
     }
-    this.campaignsService.getCreatures(this.campaign.id, this.creatureType).pipe(
+    this.campaignsService.getCreatures(this.campaign.id, this.creatureType, this.creatureType === CreatureCategory.Enemy ? true : null).pipe(
       tap(resp => this.creatures = resp.items),
     ).subscribe(response => this.result = response.items);
   }
