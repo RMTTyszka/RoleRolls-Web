@@ -4,6 +4,7 @@ using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
@@ -103,7 +104,7 @@ public class LandOfHeroesTemplate
     [
         new Archetype
         {
-            Name = "Fighter",
+            Name = "Warrior",
             Description = "",
             Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
             Bonuses = new List<Bonus>
@@ -115,6 +116,41 @@ public class LandOfHeroesTemplate
                     Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
+                }
+            },
+            PowerSchematics = new List<ArchertypePowerSchematic>
+            {
+                new ArchertypePowerSchematic
+                {
+                    Id = Guid.Parse("C79A18A2-3383-4199-86CE-C6AD76C08FAE"),
+                    Name = "Fighting Style",
+                    Level = 1,
+                    NumberOfChoises = 1,
+                    Powers = new List<PowerTemplate>
+                    {
+                        new PowerTemplate
+                        {
+                            Name = "Fencer",
+                            Description = "",
+                            Id = Guid.Parse("Fighting Style"),
+                            Type = PowerType.Buff,
+                            UsageType = UsageType.Continuous,
+                            PowerDurationType = PowerDurationType.Continuous,
+                            Bonuses = new List<Bonus>
+                            {
+                                new Bonus
+                                {
+                                    Id = Guid.Parse("12896C1B-62C8-4C86-A5DB-AF18E68051BE"),
+                                    Name = "Fencer",
+                                    ValueType = BonusValueType.Roll,
+                                    Type = BonusType.Innate,
+                                    Value = 2,
+                                    Property = new Property()
+                                }
+                            }
+                            
+                        }
+                    }
                 }
             }
         },

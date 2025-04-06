@@ -61,7 +61,7 @@ export class ArchetypesComponent {
       },
       position: 'right',
       height: '100%',
-      width: '40vw',
+      width: '90vw',
       focusOnShow: false,
       closable: true,
       closeOnEscape: true,

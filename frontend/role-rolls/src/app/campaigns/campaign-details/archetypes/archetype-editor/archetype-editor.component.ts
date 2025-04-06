@@ -15,16 +15,21 @@ import { Bonus } from '@app/models/bonuses/bonus';
 import { firstValueFrom } from 'rxjs';
 import { Archetype } from '@app/models/archetypes/archetype';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
+import { Tab, TabList, TabPanels, TabsModule } from 'primeng/tabs';
+import {
+  ArchetypeDetailsComponent
+} from '@app/campaigns/campaign-details/archetypes/components/archetype-details/archetype-details.component';
 
 @Component({
   selector: 'rr-archetype-editor',
   imports: [
     ReactiveFormsModule,
-    Fieldset,
     InputText,
     Textarea,
     NgIf,
-    BonusesComponent
+    BonusesComponent,
+    TabsModule,
+    ArchetypeDetailsComponent,
   ],
   templateUrl: './archetype-editor.component.html',
   styleUrl: './archetype-editor.component.scss'

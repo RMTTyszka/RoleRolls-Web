@@ -1,5 +1,8 @@
-﻿using MassTransit;
+﻿using System.Text;
+using System.Text.Unicode;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Bonuses;
@@ -73,9 +76,30 @@ namespace RoleRollsPocketEdition.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(Entity).IsAssignableFrom(entityType.ClrType) && entityType.BaseType is null)
+                {
+                    modelBuilder.Entity(entityType.ClrType).HasKey("Id");
+                }
+                else
+                {
+                    Console.WriteLine($"Entity type {entityType.ClrType} is not supported");
+                }
+                var stringProperties = entityType.ClrType.GetProperties()
+                    .Where(p => p.PropertyType == typeof(string));
+
+                foreach (var property in stringProperties)
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property(property.Name)
+                        .HasMaxLength(450);
+                }
+            }
 
             base.OnModelCreating(modelBuilder);
             ModelCreature(modelBuilder);
+            ModelArchetype(modelBuilder);
             modelBuilder.Owned<Property>();
 
             modelBuilder.Entity<CampaignTemplate>(template =>
@@ -113,16 +137,7 @@ namespace RoleRollsPocketEdition.Infrastructure
             {
                 skill.Navigation(c => c.SpecificSkills).AutoInclude();
             });      
-            modelBuilder.Entity<Archetype>(e =>
-            {
-                e.Navigation(c => c.Bonuses).AutoInclude();
-                e.HasMany(a => a.Bonuses)
-                    .WithOne()
-                    .OnDelete(DeleteBehavior.Cascade);
-                e.HasMany<Creature>(p => p.Creatures)
-                    .WithOne(p => p.Archetype)
-                    .OnDelete(DeleteBehavior.SetNull);
-            });          
+       
 
             
             modelBuilder.Entity<ItemTemplate>(e =>
@@ -218,31 +233,31 @@ namespace RoleRollsPocketEdition.Infrastructure
            
 
             
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (typeof(Entity).IsAssignableFrom(entityType.ClrType) && entityType.BaseType is null)
-                {
-                    modelBuilder.Entity(entityType.ClrType).HasKey("Id");
-                }
-                else
-                {
-                    Console.WriteLine($"Entity type {entityType.ClrType} is not supported");
-                }
-                var stringProperties = entityType.ClrType.GetProperties()
-                    .Where(p => p.PropertyType == typeof(string));
 
-                foreach (var property in stringProperties)
-                {
-                    modelBuilder.Entity(entityType.ClrType)
-                        .Property(property.Name)
-                        .HasMaxLength(450);
-                }
-            }
             
             modelBuilder.AddInboxStateEntity();
             modelBuilder.AddOutboxMessageEntity();
             modelBuilder.AddOutboxStateEntity();
             modelBuilder.AddTransactionalOutboxEntities();
+        }
+
+        private void ModelArchetype(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Archetype>(e =>
+            {
+                e.Navigation(c => c.Bonuses).AutoInclude();
+                e.HasMany(a => a.Bonuses)
+                    .WithOne()
+                    .OnDelete(DeleteBehavior.Cascade);
+                e.HasMany<Creature>(p => p.Creatures)
+                    .WithOne(p => p.Archetype)
+                    .OnDelete(DeleteBehavior.SetNull);
+                e.Property(p => p.Details)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+            });   
         }
 
         private void ModelCreature(ModelBuilder modelBuilder)

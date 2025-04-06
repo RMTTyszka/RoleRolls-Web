@@ -12,10 +12,12 @@ public class Archetype : Entity, IHaveBonuses
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public string Details { get; set; }
     public Guid CampaignTemplateId { get; set; }
     public CampaignTemplate CampaignTemplate { get; set; }
     public List<Bonus> Bonuses { get; set; }
     public ICollection<Creature> Creatures { get; set; }
+    public ICollection<ArchertypePowerSchematic> PowerSchematics { get; set; }
 
     public Archetype()
     {
@@ -26,6 +28,7 @@ public class Archetype : Entity, IHaveBonuses
         Id = archetype.Id;
         Name = archetype.Name;
         Description = archetype.Description;
+        Details = archetype.Details;
         Bonuses = archetype.Bonuses.Select(bonus => new Bonus(bonus)).ToList();
     }
 

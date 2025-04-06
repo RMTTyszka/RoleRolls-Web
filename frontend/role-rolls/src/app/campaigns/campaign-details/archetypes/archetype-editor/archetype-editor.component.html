@@ -1,12 +1,29 @@
+<form [formGroup]="form" *ngIf="loaded()" class="flex flex-col" style="min-height: 100%">
+  <p-tabs value="0" class="flex-grow">
+    <p-tablist>
+      <p-tab value="0">Creature Type</p-tab>
+      <p-tab value="1">Details</p-tab>
+      <p-tab value="2">Powers</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <div class="grid grid-cols-1 gap-4">
+          <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
+          <textarea class="col" cols="10" pTextarea placeholder="Description" formControlName="description" required>
+          </textarea>
+        </div>
+        <rr-bonuses [bonuses]="bonuses()" [campaign]="campaign"
+                    (bonusUpdated)="onBonusUpdated($event)"></rr-bonuses>
+      </p-tabpanel>
+      <p-tabpanel value="1">
+        <rr-archetype-details></rr-archetype-details>
+      </p-tabpanel>
+      <p-tabpanel value="2">
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 
-<form [formGroup]="form" *ngIf="loaded()">
-  <p-fieldset legend="Creature Type">
-    <div class="grid grid-cols-1 gap-4">
-      <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
-      <textarea class="col" cols="10" pTextarea placeholder="Description" formControlName="description" required>
-    </textarea>
-    </div>
-    <rr-bonuses [bonuses]="bonuses()" [campaign]="campaign"
-                (bonusUpdated)="onBonusUpdated($event)"></rr-bonuses>
-  </p-fieldset>
+  <div class="mt-4 flex justify-start">
+    <button pButton type="button" label="Save" class="p-button-primary"></button>
+  </div>
 </form>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402104754_Migration_20250402_074748")]
+    partial class Migration_20250402_074748
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,30 +191,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasIndex("Created");
 
                     b.ToTable("OutboxState");
-                });
-
-            modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerSchematic", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ArchetypeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PowerId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArchetypeId");
-
-                    b.HasIndex("PowerId");
-
-                    b.ToTable("ArchertypePowerSchematic");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.Archetype", b =>
@@ -1308,25 +1287,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasPrincipalKey("MessageId", "ConsumerId");
                 });
 
-            modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerSchematic", b =>
-                {
-                    b.HasOne("RoleRollsPocketEdition.Archetypes.Entities.Archetype", "Archetype")
-                        .WithMany("PowerSchematics")
-                        .HasForeignKey("ArchetypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RoleRollsPocketEdition.Powers.Entities.PowerTemplate", "Power")
-                        .WithMany()
-                        .HasForeignKey("PowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Archetype");
-
-                    b.Navigation("Power");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.Archetype", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
@@ -2178,8 +2138,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Bonuses");
 
                     b.Navigation("Creatures");
-
-                    b.Navigation("PowerSchematics");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>
