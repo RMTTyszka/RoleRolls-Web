@@ -23,6 +23,7 @@ public class Bonus : Entity
     public string Description { get; set; } = "";
 
     public int Value { get; set; }
+    public bool Active { get; set; }
     public Property Property { get; set; }
     public string Name { get; set; } = "";
     public BonusValueType ValueType { get; set; }

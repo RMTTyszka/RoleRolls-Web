@@ -15,9 +15,9 @@ public class Archetype : Entity, IHaveBonuses
     public string Details { get; set; }
     public Guid CampaignTemplateId { get; set; }
     public CampaignTemplate CampaignTemplate { get; set; }
-    public List<Bonus> Bonuses { get; set; }
+    public List<Bonus> Bonuses { get; set; } = [];
     public ICollection<Creature> Creatures { get; set; }
-    public ICollection<ArchertypePowerSchematic> PowerSchematics { get; set; }
+    public List<ArchertypePowerDescription> PowerDescriptions { get; set; } = [];
 
     public Archetype()
     {
@@ -51,7 +51,25 @@ public class Archetype : Entity, IHaveBonuses
             var bonus = Bonuses.First(e => e.Id == bonusModel.Id);
             Bonuses.Remove(bonus);
             dbContext.Bonus.Remove(bonus);
-        }
+        }      
+        var syncedPowerDescriptions = PowerDescriptions.Synchronize(archetypeModel.PowerDescriptions);
+        foreach (var toAdd in syncedPowerDescriptions.ToAdd)
+        {
+            var entity = new ArchertypePowerDescription(toAdd);
+            PowerDescriptions.Add(entity);
+            await dbContext.ArchertypePowerDescriptions.AddAsync(entity);
+        }     
+        foreach (var toUpdate in syncedPowerDescriptions.ToUpdate)       
+        {
+            var entity = PowerDescriptions.First(e => e.Id == toUpdate.Id);
+            entity.Update(toUpdate);
+        }      
+        foreach (var toRemove in syncedPowerDescriptions.ToRemove)       
+        {
+            var entity = PowerDescriptions.First(e => e.Id == toRemove.Id);
+            PowerDescriptions.Remove(entity);
+            dbContext.ArchertypePowerDescriptions.Remove(entity);
+        }      
         dbContext.Archetypes.Update(this);
     }
 }

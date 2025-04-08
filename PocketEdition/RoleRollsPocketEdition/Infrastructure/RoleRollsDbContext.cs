@@ -60,6 +60,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<CreatureType> CreatureTypes { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Encounter> Encounters { get; set; }
+        public DbSet<ArchertypePowerDescription> ArchertypePowerDescriptions { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -257,7 +258,20 @@ namespace RoleRollsPocketEdition.Infrastructure
                         v => Encoding.UTF8.GetBytes(v),
                         v => Encoding.UTF8.GetString(v))
                     .Metadata.SetMaxLength(null);
-            });   
+            });
+            modelBuilder.Entity<ArchertypePowerDescription>(e =>
+            {
+                e.Property(p => p.Description)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.GameDescription)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+            });
         }
 
         private void ModelCreature(ModelBuilder modelBuilder)

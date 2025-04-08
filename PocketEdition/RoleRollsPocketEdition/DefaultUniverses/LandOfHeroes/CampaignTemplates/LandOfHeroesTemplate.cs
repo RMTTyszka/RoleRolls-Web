@@ -3,6 +3,7 @@ using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -64,9 +65,9 @@ public class LandOfHeroesTemplate
         return skills.Select(skill => new SkillTemplate
         {
             Name = skill.ToString(),
-            Id = SkillIds[skill],
+            Id = LandOfHeroesSkills.SkillIds[skill],
             AttributeTemplateId = null,
-            SpecificSkills = GetMinorSkills(skill, SkillIds[skill], null)
+            SpecificSkills = GetMinorSkills(skill, LandOfHeroesSkills.SkillIds[skill], null)
         }).ToList();
     }
 
@@ -102,58 +103,7 @@ public class LandOfHeroesTemplate
 
     private static List<Archetype> Roles =>
     [
-        new Archetype
-        {
-            Name = "Warrior",
-            Description = "",
-            Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
-                    Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
-                }
-            },
-            PowerSchematics = new List<ArchertypePowerSchematic>
-            {
-                new ArchertypePowerSchematic
-                {
-                    Id = Guid.Parse("C79A18A2-3383-4199-86CE-C6AD76C08FAE"),
-                    Name = "Fighting Style",
-                    Level = 1,
-                    NumberOfChoises = 1,
-                    Powers = new List<PowerTemplate>
-                    {
-                        new PowerTemplate
-                        {
-                            Name = "Fencer",
-                            Description = "",
-                            Id = Guid.Parse("Fighting Style"),
-                            Type = PowerType.Buff,
-                            UsageType = UsageType.Continuous,
-                            PowerDurationType = PowerDurationType.Continuous,
-                            Bonuses = new List<Bonus>
-                            {
-                                new Bonus
-                                {
-                                    Id = Guid.Parse("12896C1B-62C8-4C86-A5DB-AF18E68051BE"),
-                                    Name = "Fencer",
-                                    ValueType = BonusValueType.Roll,
-                                    Type = BonusType.Innate,
-                                    Value = 2,
-                                    Property = new Property()
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        },
+        
         new Archetype
         {
             Name = "Savage",
@@ -165,7 +115,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -182,7 +132,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -199,7 +149,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("655394b6-e1bf-4175-90e8-cdb95da1613c"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -216,7 +166,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("85de058e-64fe-4f7f-b49d-df5cfbb84d19"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -233,7 +183,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("fd3b88be-b55d-4c0b-8010-9c1b56eef367"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -250,7 +200,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("dcd0ab9d-0e95-448b-ba42-8aead55b6c62"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -267,7 +217,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("4e150329-37b6-4263-9dc9-caa0d4723388"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -284,7 +234,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("913ffad2-33d3-4ef7-9621-effbfcecf82f"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -301,7 +251,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -318,7 +268,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("172B2C5D-160B-4760-9D87-0879E265BAD8"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -335,7 +285,7 @@ public class LandOfHeroesTemplate
                 {
                     Id = Guid.Parse("6806B42D-E833-4775-B077-9223FB4901FD"),
                     Value = 1,
-                    Property = new Property(SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
+                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     ValueType = BonusValueType.Roll,
                     Type = BonusType.Innate,
                 }
@@ -486,9 +436,9 @@ public class LandOfHeroesTemplate
         return skills.Select(skill => new SkillTemplate
         {
             Name = skill.ToString(),
-            Id = SkillIds[skill],
+            Id = LandOfHeroesSkills.SkillIds[skill],
             AttributeTemplateId = attributeId,
-            SpecificSkills = GetMinorSkills(skill, SkillIds[skill], attributeId)
+            SpecificSkills = GetMinorSkills(skill, LandOfHeroesSkills.SkillIds[skill], attributeId)
         }).ToList();
     }
 
@@ -531,19 +481,7 @@ public class LandOfHeroesTemplate
         { LandOfHeroesVitality.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
         { LandOfHeroesVitality.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
     };
-
-    public static Dictionary<LandOfHeroesSkill, Guid> SkillIds = new()
-    {
-        { LandOfHeroesSkill.Awareness, Guid.Parse("A8659BFC-33EA-4FE4-9E5F-213D6C8B583F") },
-        { LandOfHeroesSkill.Empathy, Guid.Parse("63D26738-AC72-4C13-9D9C-9732AE97C172") },
-        { LandOfHeroesSkill.Knowledge, Guid.Parse("F48792C4-B5A6-4BA1-B0AB-FB8F4E35C867") },
-        { LandOfHeroesSkill.Nimbleness, Guid.Parse("7689F6A5-B8D7-4D92-99FA-52248B5C9A39") },
-        { LandOfHeroesSkill.Survival, Guid.Parse("F6A7A4A2-B5E4-408E-A9A3-8FDD6C6C598A") },
-        { LandOfHeroesSkill.Treatment, Guid.Parse("7F8C3E7B-36C4-432E-832F-7152AECD9A8C") },
-        { LandOfHeroesSkill.Athletics, Guid.Parse("BCDEF8A1-7C6A-47A2-9D7A-1E6C8D1E3F22") },
-        { LandOfHeroesSkill.Combat, Guid.Parse("D4CD2313-7AC5-4FF1-9F23-F534FA1CFBD6") },
-        { LandOfHeroesSkill.Defense, Guid.Parse("C5614352-312C-4318-84D1-4253C97C3D40") },
-    };
+    
     
     public static Dictionary<LandOfHeroesMinorSkill, Guid> AttributelessMinorSkillsAttributeId = new()
     {

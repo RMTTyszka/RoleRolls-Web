@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408155828_Migration_20250408_125809")]
+    partial class Migration_20250408_125809
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,7 +222,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasIndex("ArchetypeId");
 
-                    b.ToTable("ArchertypePowerDescriptions");
+                    b.ToTable("ArchertypePowerDescription");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.Archetype", b =>

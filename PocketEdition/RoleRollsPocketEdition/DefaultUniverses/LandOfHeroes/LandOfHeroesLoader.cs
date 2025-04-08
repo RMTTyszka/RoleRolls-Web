@@ -66,6 +66,7 @@ public class LandOfHeroesLoader : IStartupTask
 
             var archetypes = await _dbContext.CampaignTemplates
                 .Include(t => t.Archetypes)
+                .ThenInclude(t => t.PowerDescriptions)
                 .Where(e => e.Id == templateFromCode.Id)
                 .Select(e => e.Archetypes)
                 .FirstAsync(cancellationToken);
