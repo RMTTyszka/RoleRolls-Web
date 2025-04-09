@@ -111,7 +111,7 @@ public class LandOfHeroesLoader : IStartupTask
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task SynchronizeArchetypes(Templates.Entities.CampaignTemplate templateFromDb, List<Archetype> fromCode, List<Archetype> fromDb, RoleRollsDbContext dbContext)
+    private async Task SynchronizeArchetypes(CampaignTemplate templateFromDb, List<Archetype> fromCode, List<Archetype> fromDb, RoleRollsDbContext dbContext)
     {
         var dbCreatureTypes = fromDb.ToDictionary(c => c.Id);
         var codeCreatureTypes = fromCode.ToDictionary(c => c.Id);

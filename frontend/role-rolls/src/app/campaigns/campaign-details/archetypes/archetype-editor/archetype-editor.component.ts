@@ -19,6 +19,9 @@ import { Tab, TabList, TabPanels, TabsModule } from 'primeng/tabs';
 import {
   ArchetypeDetailsComponent
 } from '@app/campaigns/campaign-details/archetypes/components/archetype-details/archetype-details.component';
+import {
+  ArchetypePowerDescriptionsComponent
+} from '@app/campaigns/campaign-details/archetypes/components/archetype-power-descriptions/archetype-power-descriptions.component';
 
 @Component({
   selector: 'rr-archetype-editor',
@@ -30,6 +33,7 @@ import {
     BonusesComponent,
     TabsModule,
     ArchetypeDetailsComponent,
+    ArchetypePowerDescriptionsComponent,
   ],
   templateUrl: './archetype-editor.component.html',
   styleUrl: './archetype-editor.component.scss'
@@ -46,22 +50,29 @@ export class ArchetypeEditorComponent {
     return this.campaign.campaignTemplate.archetypeTitle;
   }
 
-  constructor(dialogConfig: DynamicDialogConfig,
+  constructor(private dialogConfig: DynamicDialogConfig,
               private service: ArchetypesService) {
-    this.campaign = dialogConfig.data.campaign as Campaign;
-    const creature = dialogConfig.data.archetype as Archetype;
 
-    if (creature) {
+  }
+
+  async ngOnInit() {
+    this.campaign = this.dialogConfig.data.campaign as Campaign;
+    const id = this.dialogConfig.data.archetypeId;
+
+    let archetype: Archetype;
+    if (id) {
       this.action = EditorAction.update;
+      archetype = await firstValueFrom(this.service.getById(this.campaign.campaignTemplateId, id));
     } else {
       this.action = EditorAction.create;
     }
 
-    this.archetype = signal(creature ?? {
+    this.archetype = signal(archetype ?? {
       id: uuid(),
       name: '',
       bonuses: [],
       description: '',
+      powerDescriptions: []
     });
 
     this.form = getAsForm(this.archetype());

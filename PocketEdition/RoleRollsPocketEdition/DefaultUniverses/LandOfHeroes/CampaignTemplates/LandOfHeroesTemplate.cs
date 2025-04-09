@@ -3,6 +3,7 @@ using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Powers.Entities;
@@ -103,11 +104,12 @@ public class LandOfHeroesTemplate
 
     private static List<Archetype> Roles =>
     [
-        
+        LandOfHeroesArchetypes.WarriorArchetype,
         new Archetype
         {
             Name = "Savage",
             Description = "",
+            Details = "",
             Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
             Bonuses = new List<Bonus>
             {
@@ -125,6 +127,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Bard",
             Description = "",
+            Details = "",
             Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
             Bonuses = new List<Bonus>
             {
@@ -142,6 +145,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Hunter",
             Description = "",
+            Details = "",
             Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
             Bonuses = new List<Bonus>
             {
@@ -159,6 +163,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Spiritualist",
             Description = "",
+            Details = "",
             Id = Guid.Parse("7fb26adb-21e7-405e-a1a7-06d5eeb01da3"),
             Bonuses = new List<Bonus>
             {
@@ -176,6 +181,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Druid",
             Description = "",
+            Details = "",
             Id = Guid.Parse("3f15b9de-0bd5-43ce-b2af-4aad91b5b9a4"),
             Bonuses = new List<Bonus>
             {
@@ -193,6 +199,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Rogue",
             Description = "",
+            Details = "",
             Id = Guid.Parse("f44b25b9-2e87-495e-83eb-de9b8802df1f"),
             Bonuses = new List<Bonus>
             {
@@ -210,6 +217,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Warlock",
             Description = "",
+            Details = "",
             Id = Guid.Parse("0e20b28f-8b53-446e-a0e1-cd0b546e1e39"),
             Bonuses = new List<Bonus>
             {
@@ -227,6 +235,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Martialist",
             Description = "",
+            Details = "",
             Id = Guid.Parse("8036e058-bc2c-4c77-a2ae-aa20d27dfe3a"),
             Bonuses = new List<Bonus>
             {
@@ -244,6 +253,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Spellcaster",
             Description = "",
+            Details = "",
             Id = Guid.Parse("8b156640-9b67-43e7-bdfe-b1f3529a30d5"),
             Bonuses = new List<Bonus>
             {
@@ -261,6 +271,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Crusader",
             Description = "",
+            Details = "",
             Id = Guid.Parse("8FD3CF61-8BAB-4328-BFAB-89247BF1371D"),
             Bonuses = new List<Bonus>
             {
@@ -278,6 +289,7 @@ public class LandOfHeroesTemplate
         {
             Name = "Commander",
             Description = "",
+            Details = "",
             Id = Guid.Parse("B1F385D7-BB6B-4400-81AD-C79ECDF75B09"),
             Bonuses = new List<Bonus>
             {

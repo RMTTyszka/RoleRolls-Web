@@ -57,7 +57,7 @@ export class ArchetypesComponent {
     this.dialogRef = this.dialogService.open(ArchetypeEditorComponent, {
       data: {
         campaign: this.campaign,
-        archetype: archetype
+        archetypeId: archetype.id
       },
       position: 'right',
       height: '100%',

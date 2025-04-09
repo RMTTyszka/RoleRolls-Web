@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public partial class LandOfHeroesArchertypes
+public partial class LandOfHeroesArchetypes
 {
     public static Archetype  WarriorArchetype =>
 
@@ -13,6 +13,7 @@ public partial class LandOfHeroesArchertypes
         {
             Name = "Warrior",
             Description = "",
+            Details = "",
             Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
             Bonuses = new List<Bonus>
             {

@@ -5,4 +5,12 @@ export interface Archetype {
   name: string;
   description: string;
   bonuses: Bonus[];
+  powerDescriptions: ArchetypePowerDescription[];
+}
+export interface ArchetypePowerDescription {
+  id: string;
+  description: string;
+  name: string;
+  gameDescription: string;
+  level: number;
 }

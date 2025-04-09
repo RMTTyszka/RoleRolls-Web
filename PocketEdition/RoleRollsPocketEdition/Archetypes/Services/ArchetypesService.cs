@@ -38,6 +38,7 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
         var archetype = await _dbContext.CampaignTemplates
             .AsNoTracking()
             .Include(template => template.Archetypes)
+            .ThenInclude(a => a.PowerDescriptions)
             .Where(template => template.Id == campaignTemplateId)
             .SelectMany(template => template.Archetypes)
             .Where(type => type.Id == id)

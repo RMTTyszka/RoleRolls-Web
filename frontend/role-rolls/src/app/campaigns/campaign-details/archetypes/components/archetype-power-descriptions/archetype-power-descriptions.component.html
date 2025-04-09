@@ -1,0 +1,39 @@
+<form [formGroup]="form">
+  <div formArrayName="powers">
+    @for (i of powers().controls; track $index) {
+      <p-fieldset
+        [toggleable]="true"
+        [legend]="powers().at($index).value.name"
+      >
+        <div [formGroupName]="$index" class="flex gap-4 w-full">
+          <div class="flex-1">
+            <p-floatlabel variant="in">
+              <textarea
+                pTextarea
+                id="description-{{ $index }}"
+                formControlName="description"
+                rows="3"
+                class="w-full"
+                style="resize: none"
+              ></textarea>
+              <label for="description-{{ $index }}">Descrição</label>
+            </p-floatlabel>
+          </div>
+          <div class="flex-1">
+            <p-floatlabel variant="in">
+              <textarea
+                pTextarea
+                id="gameDescription-{{ $index }}"
+                formControlName="gameDescription"
+                rows="3"
+                class="w-full"
+                style="resize: none"
+              ></textarea>
+              <label for="gameDescription-{{ $index }}">Descrição no Jogo</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      </p-fieldset>
+    }
+  </div>
+</form>
