@@ -132,4 +132,35 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
         await _dbContext.SaveChangesAsync();
         return ArchetypeValidationResult.Ok;
     }
+    public async Task<ArchetypeValidationResult> AddPowerDescription(Guid templateId, Guid archetypeId, PowerDescriptionModel powerDescription)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.Archetypes)
+            .FirstAsync(template => template.Id == templateId);
+        var archetype = template.Archetypes.First(t => t.Id == archetypeId);
+        await archetype.AddPowerDescription(powerDescription, _dbContext);
+        await _dbContext.SaveChangesAsync();
+        return ArchetypeValidationResult.Ok;
+    }   
+    public async Task<ArchetypeValidationResult> UpdatePowerDescription(Guid templateId, Guid archetypeId, PowerDescriptionModel powerDescription)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.Archetypes)
+            .ThenInclude()
+            .FirstAsync(template => template.Id == templateId);
+        var archetype = template.Archetypes.First(t => t.Id == archetypeId);
+        archetype.UpdatePowerDescription(powerDescription);
+        await _dbContext.SaveChangesAsync();
+        return ArchetypeValidationResult.Ok;
+    }    
+    public async Task<ArchetypeValidationResult> RemovePowerDescription(Guid templateId, Guid archetypeId, Guid powerDescriptionId)
+    {
+        var template = await _dbContext.CampaignTemplates
+            .Include(template => template.Archetypes)
+            .FirstAsync(template => template.Id == templateId);
+        var archetype = template.Archetypes.First(t => t.Id == archetypeId);
+        archetype.RemovePowerDescription(powerDescriptionId);
+        await _dbContext.SaveChangesAsync();
+        return ArchetypeValidationResult.Ok;
+    }
 }

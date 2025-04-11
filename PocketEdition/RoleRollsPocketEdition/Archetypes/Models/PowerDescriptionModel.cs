@@ -6,16 +6,16 @@ using RoleRollsPocketEdition.Powers.Models;
 
 namespace RoleRollsPocketEdition.Archetypes.Models;
 
-public class ArchertypePowerDescriptionModel : IEntityDto
+public class PowerDescriptionModel : IEntityDto
 {
     public Guid Id { get; set; }
 
-    public ArchertypePowerDescriptionModel()
+    public PowerDescriptionModel()
     {
         
     }
 
-    public ArchertypePowerDescriptionModel(ArchertypePowerDescription archertypePowerDescription)
+    public PowerDescriptionModel(ArchertypePowerDescription archertypePowerDescription)
     {
         Name = archertypePowerDescription.Name;
         Id = archertypePowerDescription.Id;

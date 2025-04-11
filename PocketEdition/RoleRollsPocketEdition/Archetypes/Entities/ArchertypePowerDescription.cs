@@ -20,7 +20,7 @@ public class ArchertypePowerDescription : Entity
         
     }
 
-    public ArchertypePowerDescription(ArchertypePowerDescriptionModel model)
+    public ArchertypePowerDescription(PowerDescriptionModel model)
     {
         Name = model.Name;
         Description = model.Description;
@@ -28,7 +28,7 @@ public class ArchertypePowerDescription : Entity
         Level = model.Level;
     }
 
-    public void Update(ArchertypePowerDescriptionModel model)
+    public void Update(PowerDescriptionModel model)
     {
         Name = model.Name;
         Description = model.Description;

@@ -23,9 +23,9 @@ public class ArchetypeModel : IEntityDto
         Name = archetype.Name;
         Description = archetype.Description;
         Details = archetype.Details;
-        PowerDescriptions = archetype.PowerDescriptions.Select(e => new ArchertypePowerDescriptionModel(e)).ToList();
+        PowerDescriptions = archetype.PowerDescriptions.Select(e => new PowerDescriptionModel(e)).ToList();
         Bonuses = archetype.Bonuses.Select(bonus => new BonusModel(bonus)).ToList();
     }
 
-    public List<ArchertypePowerDescriptionModel> PowerDescriptions { get; set; }
+    public List<PowerDescriptionModel> PowerDescriptions { get; set; }
 }

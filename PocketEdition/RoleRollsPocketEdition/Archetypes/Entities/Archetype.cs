@@ -72,4 +72,20 @@ public class Archetype : Entity, IHaveBonuses
         }      
         dbContext.Archetypes.Update(this);
     }
+    public async Task AddPowerDescription(PowerDescriptionModel powerDescriptionModel, RoleRollsDbContext dbContext)
+    {
+        var powerDescription = new ArchertypePowerDescription(powerDescriptionModel);
+        PowerDescriptions.Add(powerDescription);
+        await dbContext.ArchertypePowerDescriptions.AddAsync(powerDescription);
+    }    
+    public void UpdatePowerDescription(PowerDescriptionModel powerDescriptionModel)
+    {
+        var powerDescription = PowerDescriptions.First(e => e.Id == powerDescriptionModel.Id);
+        powerDescription.Update(powerDescriptionModel);
+    }
+
+    public void RemovePowerDescription(Guid powerDescriptionId)
+    {
+        PowerDescriptions.RemoveAll(b => b.Id == powerDescriptionId);
+    }
 }
