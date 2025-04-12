@@ -86,5 +86,35 @@ namespace RoleRollsPocketEdition.Templates.Controllers
             }
             return Ok();
         }
+        [HttpPost("{archetypeId}/power-descriptions")]
+        public async Task<IActionResult> AddPowerDescription(Guid templateId, Guid archetypeId, PowerDescriptionModel powerDescription)
+        {
+            var result = await _creatureTemplateService.AddPowerDescription(templateId, archetypeId, powerDescription);
+            if (result.Validation != ArchetypeValidation.Ok)
+            {
+                return new UnprocessableEntityObjectResult(result);
+            }
+            return Ok();
+        }   
+        [HttpPut("{archetypeId}/power-descriptions/{powerDescriptionId}")]
+        public async Task<IActionResult> UpdatePowerDescription(Guid templateId, Guid archetypeId, Guid powerDescriptionId, PowerDescriptionModel powerDescription)
+        {
+            var result = await _creatureTemplateService.UpdatePowerDescription(templateId, archetypeId, powerDescription);
+            if (result.Validation != ArchetypeValidation.Ok)
+            {
+                return new UnprocessableEntityObjectResult(result);
+            }
+            return Ok();
+        }    
+        [HttpDelete("{archetypeId}/power-descriptions/{powerDescriptionId}")]
+        public async Task<IActionResult> RemovePowerDescription(Guid templateId, Guid archetypeId, Guid powerDescriptionId)
+        {
+            var result = await _creatureTemplateService.RemovePowerDescription(templateId, archetypeId, powerDescriptionId);
+            if (result.Validation != ArchetypeValidation.Ok)
+            {
+                return new UnprocessableEntityObjectResult(result);
+            }
+            return Ok();
+        }
     }
 }

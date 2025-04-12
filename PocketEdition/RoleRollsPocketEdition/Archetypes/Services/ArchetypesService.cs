@@ -22,7 +22,15 @@ public interface IArchetypeService
     public Task<ArchetypeValidationResult> UpdateBonus(Guid templateId, Guid archetypeId, BonusModel bonus);
 
     public Task<ArchetypeValidationResult> RemoveBonus(Guid templateId, Guid archetypeId, Guid bonusId);
+
+    Task<ArchetypeValidationResult> AddPowerDescription(Guid templateId, Guid archetypeId,
+        PowerDescriptionModel powerDescription);
+
+    Task<ArchetypeValidationResult> UpdatePowerDescription(Guid templateId, Guid archetypeId,
+        PowerDescriptionModel powerDescription);
+    Task<ArchetypeValidationResult> RemovePowerDescription(Guid templateId, Guid archetypeId, Guid powerDescriptionId);
 }
+
 
 public class ArchetypeService : IArchetypeService, ITransientDependency
 {
@@ -136,6 +144,7 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
     {
         var template = await _dbContext.CampaignTemplates
             .Include(template => template.Archetypes)
+            .ThenInclude(e => e.PowerDescriptions)
             .FirstAsync(template => template.Id == templateId);
         var archetype = template.Archetypes.First(t => t.Id == archetypeId);
         await archetype.AddPowerDescription(powerDescription, _dbContext);
@@ -146,7 +155,7 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
     {
         var template = await _dbContext.CampaignTemplates
             .Include(template => template.Archetypes)
-            .ThenInclude()
+            .ThenInclude(e => e.PowerDescriptions)
             .FirstAsync(template => template.Id == templateId);
         var archetype = template.Archetypes.First(t => t.Id == archetypeId);
         archetype.UpdatePowerDescription(powerDescription);
@@ -157,6 +166,7 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
     {
         var template = await _dbContext.CampaignTemplates
             .Include(template => template.Archetypes)
+            .ThenInclude(e => e.PowerDescriptions)
             .FirstAsync(template => template.Id == templateId);
         var archetype = template.Archetypes.First(t => t.Id == archetypeId);
         archetype.RemovePowerDescription(powerDescriptionId);

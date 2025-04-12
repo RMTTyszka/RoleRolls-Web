@@ -5,7 +5,7 @@ import {PagedOutput} from '@app/models/PagedOutput';
 import {Observable} from 'rxjs';
 import {RR_API} from '@app/tokens/loh.api';
 import { Bonus } from '@app/models/bonuses/bonus';
-import { Archetype } from '@app/models/archetypes/archetype';
+import {Archetype, ArchetypePowerDescription} from '@app/models/archetypes/archetype';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,25 @@ export class ArchetypesService {
   public removeBonus(templateId: string, archetypeId: string, bonusId: string): Observable<void> {
     return this.http.delete<void>(
       `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/bonuses/${bonusId}`
+    );
+  }
+  public addPowerDescription(templateId: string, archetypeId: string, powerDescription: ArchetypePowerDescription): Observable<ArchetypePowerDescription> {
+    return this.http.post<ArchetypePowerDescription>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/power-descriptions`,
+      powerDescription
+    );
+  }
+
+  public updatePowerDescription(templateId: string, archetypeId: string, powerDescription: ArchetypePowerDescription): Observable<ArchetypePowerDescription> {
+    return this.http.put<ArchetypePowerDescription>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/power-descriptions/${powerDescription.id}`,
+      powerDescription
+    );
+  }
+
+  public removePowerDescription(templateId: string, archetypeId: string, powerDescriptionId: string): Observable<void> {
+    return this.http.delete<void>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/power-descriptions/${powerDescriptionId}`
     );
   }
 }

@@ -1,9 +1,9 @@
-<form [formGroup]="form">
+<form [formGroup]="form()">
   <div formArrayName="powers">
     @for (i of powers().controls; track $index) {
       <p-fieldset
         [toggleable]="true"
-        [legend]="powers().at($index).value.name"
+        [legend]="powers().at($index).value.title"
       >
         <div [formGroupName]="$index" class="flex gap-4 w-full">
           <div class="flex-1">
