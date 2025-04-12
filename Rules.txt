@@ -1,3 +1,14 @@
 Quando se move, joga menos dados no ataque ( tipo action points)
 Investida nao perde dado
 Atacar quem ta sem arma corpo a corpo da mt bonus no acerto
+
+
+bardo vai trocando efeito da musica a cada turno para adaptar a situacao, pode ter habiliudades de extender o efeito para acumular. Ou dar efeitos diferentes para cada aliado
+paladino pode acumular pontos de fé e usar isso para proteger aliados
+fazer combate mais tatico, com bloqueio de movimentos,
+magia menores sao parecido com ataques mas com efetios
+magias maiores normalmente tem efeito em area mas tem casting time, podendo ser interrompidos ou dando tempo dos outros se prepararem. Para isso serve detectar magia (pericia) saber qual magia vem.
+
+Tentar combinar acoes, guerreiro/paladino protegem o mago enquanto ele casta.
+Ou ladino/caçados passam pelo inimigo e ficam expostos, e paladino/guerreiro proteger do dano que ele vai receber na sequencia.
+Fazer o congtrole do ambiente ser mais importante, para bloquear movimento e essas coisas
