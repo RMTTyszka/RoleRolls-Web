@@ -18,19 +18,19 @@ import {ButtonDirective} from 'primeng/button';
 import {EncountersService} from '@app/encounters/services/encounters.service';
 import {Encounter} from '@app/encounters/models/encounter';
 
-@Component({
-  selector: 'rr-scene-creatures',
-  imports: [
-    Panel,
-    SceneCreatureRowComponent,
-    NgForOf,
-    CreatureSelectComponent,
-    NgIf,
-    ButtonDirective
-  ],
-  templateUrl: './scene-creatures.component.html',
-  styleUrl: './scene-creatures.component.scss'
-})
+  @Component({
+    selector: 'rr-scene-creatures',
+    imports: [
+      Panel,
+      SceneCreatureRowComponent,
+      NgForOf,
+      CreatureSelectComponent,
+      NgIf,
+      ButtonDirective
+    ],
+    templateUrl: './scene-creatures.component.html',
+    styleUrl: './scene-creatures.component.scss'
+  })
 export class SceneCreaturesComponent {
 
   public creatureCategory = input<CreatureCategory>();

@@ -128,9 +128,9 @@ namespace RoleRollsPocketEdition.Rolls
         {
             var creature = await _roleRollsDbContext.Creatures
                 .Include(creature => creature.Attributes)
-                .Include(creature => creature.Vitalities)
-                .Include(creature => creature.Skills)
+                .ThenInclude(a => a.Skills)
                 .ThenInclude(skill => skill.SpecificSkills)
+                .Include(creature => creature.Vitalities)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
             var rollCommand = new RollDiceCommand(property.Value, input.PropertyBonus, input.RollBonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);

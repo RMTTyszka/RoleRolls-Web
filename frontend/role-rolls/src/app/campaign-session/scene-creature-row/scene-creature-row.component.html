@@ -16,6 +16,9 @@
           (click)="attack(creature)"></button>
   <button *ngIf="isMaster" pButton icon="fas fa-calculator" class="p-inputgroup-addon" pTooltip="Simulate CD"
           (click)="selectCreatureForSimulateCd(creature); simulateCdPanel.toggle($event)"></button>
+  <button *ngIf="isMaster || isOwner(creature)" pButton icon="fas fa-dice" class="p-inputgroup-addon" pTooltip="Quick Roll"
+          (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></button>
+
 </div>
 
 

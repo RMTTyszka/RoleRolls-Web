@@ -9,6 +9,7 @@ import { Campaign } from '@app/campaigns/models/campaign';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { SceneNotificationService } from '@app/campaign-session/services/scene-notification.service';
 import { CampaignSceneLogService } from '@services/scene-logs/campaign-scene-log.service';
+import {Panel} from 'primeng/panel';
 
 @Component({
   selector: 'rr-scene-log',
@@ -16,7 +17,8 @@ import { CampaignSceneLogService } from '@services/scene-logs/campaign-scene-log
     Card,
     LogDetailsComponent,
     DatePipe,
-    NgForOf
+    NgForOf,
+    Panel
   ],
   templateUrl: './scene-log.component.html',
   styleUrl: './scene-log.component.scss'
