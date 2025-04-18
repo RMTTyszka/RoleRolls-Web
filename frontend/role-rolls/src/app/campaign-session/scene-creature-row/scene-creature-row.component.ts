@@ -119,9 +119,9 @@ export class SceneCreatureRowComponent {
   public selectCreatureForRoll(creature: Creature) {
     this.selectedCreatureForRoll = creature;
   }
-  public quickROll(creature: Creature) {
+  public quickRoll(creature: Creature) {
     this.selectedCreatureForRoll = creature;
-    this.roll(this.selectedCreatureForRoll, RollOrigin.SpecificSkill, specificSkill.id);
+    this.roll(this.selectedCreatureForRoll, null, null);
   }
   public selectCreatureForSimulateCd(creature: Creature) {
     this.selectedCreatureForSimulateCd = creature;
