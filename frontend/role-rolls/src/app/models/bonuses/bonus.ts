@@ -16,7 +16,7 @@ export enum BonusValueType {
 }
 
 export interface Property {
-  propertyId: string;
+  id: string;
   type: PropertyType;
 }
 

@@ -1,5 +1,5 @@
 import { Entity } from '../../models/Entity.model';
-import { RollOrigin } from '../../models/RollOrigin';
+import { Property } from '@app/models/bonuses/bonus';
 
 export class Roll implements Entity{
   public id: string;
@@ -8,8 +8,7 @@ export class Roll implements Entity{
   public actorName!: string;
   public rolledDices!: string;
   public numberOfDices!: number;
-  public propertyId!: string;
-  public propertyType!: RollOrigin;
+  public property!: Property;
   public propertyName!: string;
   public numberOfSuccesses!: number;
   public numberOfCriticalSuccesses!: number;

@@ -1,10 +1,9 @@
-import { RollOrigin } from '../../models/RollOrigin';
+import { Property } from '@app/models/bonuses/bonus';
 
 export interface RollInput {
   propertyName: string;
   propertyValue: number;
-  propertyId: string;
-  propertyType: RollOrigin;
+  property: Property;
   complexity: number;
   difficulty: number;
   propertyBonus: number;

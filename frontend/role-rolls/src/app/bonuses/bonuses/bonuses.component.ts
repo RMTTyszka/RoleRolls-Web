@@ -148,7 +148,7 @@ export class BonusesComponent {
   getPropertyLabel(property: Property | null): string {
     if (!property) return ''; // Retorna uma string vazia se o property for nulo
 
-    const foundProperty = this.properties().find(opt => opt.value === property.propertyId);
+    const foundProperty = this.properties().find(opt => opt.value === property.id);
     return foundProperty ? foundProperty.label : '';
   }
 

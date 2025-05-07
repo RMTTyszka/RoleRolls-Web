@@ -14,10 +14,9 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         public ActionActorType ActorType { get; set; }
         public string RolledDices { get; set; }
         public int NumberOfDices { get; set; }
-        public int RollBonus { get; set; }
+        public int Bonus { get; set; }
 
-        public Guid PropertyId { get; set; }
-        public RollPropertyType PropertyType { get; set; }
+        public Property Property { get; set; }
         public int NumberOfSuccesses { get; set; }
         public int NumberOfCriticalSuccesses { get; set; }
         public int NumberOfCriticalFailures { get; set; }
@@ -28,19 +27,19 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         public bool Hidden { get; set; }
         public DateTime DateTime { get; set; }
         public string Description { get; set; }
+        public int Advantage { get; set; }
 
         public Roll()
         {
         }
-        public Roll(Guid campaignId, Guid sceneId, Guid actorId, Guid propertyId, RollPropertyType propertyType,
+        public Roll(Guid campaignId, Guid sceneId, Guid actorId, Property property,
             bool hidden, string description)
         {
             Id = Guid.NewGuid();
             ActorId = actorId;
             Hidden = hidden;
             SceneId = sceneId;
-            PropertyId = propertyId;
-            PropertyType = propertyType;
+            Property = property;
             Description = description;
         }
 
@@ -49,13 +48,13 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             NumberOfDices = command.PredefinedRolls.Any() ? command.PredefinedRolls.Count() : command.PropertyValue;
             Complexity = command.Complexity;
             Difficulty = command.Difficulty;
-            RollBonus = command.RollBonus;
+            Bonus = command.RollBonus;
             var rolls = new List<int>();
             foreach (var rollIndex in Enumerable.Range( 0, NumberOfDices))
             {
                 var roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[rollIndex] : RollDice();
                 rolls.Add(roll);
-                var rollWithBonus = roll += RollBonus;
+                var rollWithBonus = roll += Bonus;
                 if (rollWithBonus >= Complexity)
                 {
                     NumberOfSuccesses++;

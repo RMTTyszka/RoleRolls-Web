@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Rolls.Entities;
+﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Rolls
 {
@@ -9,12 +10,12 @@ namespace RoleRollsPocketEdition.Rolls
 
         public int Complexity { get; set; }
         public int Difficulty { get; set; }
-        public int PropertyBonus { get; set; }
-        public int RollBonus { get; set; }
+        public int Advantage { get; set; }
+        public int Bonus { get; set; }
         public bool Hidden { get; set; }
 
         public string Description { get; set; }
         public List<int> Rolls { get; set; } = new List<int>();
-
+        public Property Property { get; set; }
     }
 }

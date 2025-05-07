@@ -60,8 +60,8 @@ public class AttackCommand
     public ItemConfiguration ItemConfiguration { get; set; }
     public Guid? DefenseId { get; set; }
     public Guid? VitalityId { get; set; }
-    public Guid GetDefenseId => DefenseId ?? ItemConfiguration.ArmorProperty.PropertyId;
-    public Guid GetVitalityId => VitalityId ?? ItemConfiguration.BasicAttackTargetFirstVitality.PropertyId;
+    public Guid GetDefenseId => DefenseId ?? ItemConfiguration.ArmorProperty.Id;
+    public Guid GetVitalityId => VitalityId ?? ItemConfiguration.BasicAttackTargetFirstVitality.Id;
 }
 public class AttackResult
 {

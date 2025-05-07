@@ -20,6 +20,7 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
         public ICollection<CampaignPlayer> CampaignPlayers { get; set; } = new List<CampaignPlayer>();
         public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public ICollection<Scene> Scenes { get; set; } = new List<Scene>();
+        public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
         
         public Campaign()
         {

@@ -77,11 +77,11 @@ public class ItemConfiguration : Entity
         switch (weaponCategory)
         {
             case WeaponCategory.Light:
-                return MeleeLightWeaponHitProperty.PropertyId;
+                return MeleeLightWeaponHitProperty.Id;
             case WeaponCategory.Medium:
-                return MeleeMediumWeaponHitProperty.PropertyId;
+                return MeleeMediumWeaponHitProperty.Id;
             case WeaponCategory.Heavy:
-                return MeleeHeavyWeaponHitProperty.PropertyId;
+                return MeleeHeavyWeaponHitProperty.Id;
             default:
                 throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
         }
@@ -91,11 +91,11 @@ public class ItemConfiguration : Entity
         switch (weaponCategory)
         {
             case WeaponCategory.Light:
-                return MeleeLightWeaponDamageProperty.PropertyId;
+                return MeleeLightWeaponDamageProperty.Id;
             case WeaponCategory.Medium:
-                return MeleeMediumWeaponDamageProperty.PropertyId;
+                return MeleeMediumWeaponDamageProperty.Id;
             case WeaponCategory.Heavy:
-                return MeleeHeavyWeaponDamageProperty.PropertyId;
+                return MeleeHeavyWeaponDamageProperty.Id;
             default:
                 throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
         }

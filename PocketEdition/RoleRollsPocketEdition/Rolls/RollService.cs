@@ -35,17 +35,17 @@ namespace RoleRollsPocketEdition.Rolls
                 .Where(roll => roll.SceneId == sceneId)
                         join creature in _roleRollsDbContext.Creatures on roll.ActorId equals creature.Id into joinedCreature
                         from creature in joinedCreature.DefaultIfEmpty()
-                        join attribute in _roleRollsDbContext.Attributes on roll.PropertyId equals attribute.Id into joinedAttribute
+                        join attribute in _roleRollsDbContext.Attributes on roll.Property.Id equals attribute.Id into joinedAttribute
                         from attribute in joinedAttribute.DefaultIfEmpty()
                         join attributeTemplate in _roleRollsDbContext.AttributeTemplates on attribute.AttributeTemplateId equals attributeTemplate.Id into joinedAttributeTemplate
                         from attributeTemplate in joinedAttributeTemplate.DefaultIfEmpty()
 
-                        join skill in _roleRollsDbContext.Skills on roll.PropertyId equals skill.Id into joinedSkill
+                        join skill in _roleRollsDbContext.Skills on roll.Property.Id equals skill.Id into joinedSkill
                         from skill in joinedSkill.DefaultIfEmpty()
                         join skillTemplate in _roleRollsDbContext.SkillTemplates on skill.SkillTemplateId equals skillTemplate.Id into joinedSkillTemplate
                         from skillTemplate in joinedSkillTemplate.DefaultIfEmpty()
 
-                        join minorSkill in _roleRollsDbContext.MinorSkills on roll.PropertyId equals minorSkill.Id into joinedMinorSkill
+                        join minorSkill in _roleRollsDbContext.MinorSkills on roll.Property.Id equals minorSkill.Id into joinedMinorSkill
                         from minorSkill in joinedMinorSkill.DefaultIfEmpty()
                         join minorSkillTemplate in _roleRollsDbContext.MinorSkillTemplates on minorSkill.SpecificSkillTemplateId equals minorSkillTemplate.Id into joinedMinorSkillTemplate
                         from minorSkillTemplate in joinedMinorSkillTemplate.DefaultIfEmpty()
@@ -61,9 +61,8 @@ namespace RoleRollsPocketEdition.Rolls
                             roll.NumberOfCriticalSuccesses,
                             roll.NumberOfDices,
                             roll.NumberOfSuccesses,
-                            roll.PropertyId,
+                            roll.Property,
                             PropertyName = "",
-                            roll.PropertyType,
                             roll.RolledDices,
                             roll.Success,
                             AttributeName = (attributeTemplate != null ? attributeTemplate.Name : null),
@@ -71,7 +70,7 @@ namespace RoleRollsPocketEdition.Rolls
                             MinorSkillName = (minorSkillTemplate != null ? minorSkillTemplate.Name : null),
                             roll.DateTime,
                             roll.Description,
-                            roll.RollBonus
+                            RollBonus = roll.Bonus
                         };
 
    
@@ -96,14 +95,13 @@ namespace RoleRollsPocketEdition.Rolls
                 NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses,
                 NumberOfDices = roll.NumberOfDices,
                 NumberOfSuccesses = roll.NumberOfSuccesses,
-                PropertyId = roll.PropertyId,
+                Property = roll.Property,
                 PropertyName = roll.AttributeName ?? roll.SkillName ?? roll.MinorSkillName,
-                PropertyType = roll.PropertyType,
                 RolledDices = roll.RolledDices,
                 Success = roll.Success,
                 DateTime = roll.DateTime,
                 Description = roll.Description,
-                RollBonus = roll.RollBonus
+                Bonus = roll.RollBonus
             }).ToList();
 
             return new PagedResult<RollModel>
@@ -133,8 +131,8 @@ namespace RoleRollsPocketEdition.Rolls
                 .Include(creature => creature.Vitalities)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(input.PropertyType, input.PropertyId);
-            var rollCommand = new RollDiceCommand(property.Value, input.PropertyBonus, input.RollBonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, creatureId, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
+            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
+            var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 
@@ -147,8 +145,8 @@ namespace RoleRollsPocketEdition.Rolls
 
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
-            var rollCommand = new RollDiceCommand(input.PropertyBonus, input.PropertyBonus, input.RollBonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, _currentUser.User.Id, input.PropertyId, input.PropertyType, input.Hidden, input.Description);
+            var rollCommand = new RollDiceCommand(input.Advantage, input.Advantage, input.Bonus, input.Difficulty, input.Complexity, input.Rolls);
+            var roll = new Roll(campaignId, sceneId, _currentUser.User.Id, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
 

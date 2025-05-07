@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using RoleRollsPocketEdition.Campaigns.Dtos;
 using RoleRollsPocketEdition.Core.Abstractions;
+using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
@@ -95,15 +96,15 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
     public async Task<SceneHistory> BuildHistory(Roll roll)
     {
         var actor = await GetActor(roll.ActorId);
-        var property = roll.PropertyType switch
+        var property = roll.Property.Type switch
         {
-            RollPropertyType.Attribute => await _dbContext.Attributes.Where(e => e.Id == roll.PropertyId)
+            PropertyType.Attribute => await _dbContext.Attributes.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),
-            RollPropertyType.Skill => await _dbContext.Skills.Where(e => e.Id == roll.PropertyId)
+            PropertyType.Skill => await _dbContext.Skills.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),
-            RollPropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.Id == roll.PropertyId)
+            PropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),
             _ => throw new ArgumentOutOfRangeException()
@@ -112,7 +113,7 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
         {
             AsOfDate = roll.DateTime,
             Actor = actor,
-            Bonus = roll.RollBonus,
+            Bonus = roll.Bonus,
             Rolls = roll.RolledDices,
             Success = roll.Success,
             Complexity = roll.Complexity,

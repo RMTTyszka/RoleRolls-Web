@@ -1,8 +1,7 @@
-import { RollOrigin } from '../../models/RollOrigin';
+import { Property } from '@app/models/bonuses/bonus';
 
 export interface SimulateCdInput {
-  propertyId: string;
-  propertyType: RollOrigin;
+  property: Property;
   expectedChance: number;
   creatureId: string;
 }

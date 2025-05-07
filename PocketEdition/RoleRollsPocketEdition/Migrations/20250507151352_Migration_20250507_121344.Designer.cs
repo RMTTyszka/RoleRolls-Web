@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250507151352_Migration_20250507_121344")]
+    partial class Migration_20250507_121344
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -980,12 +983,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("ActorType")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Advantage")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Bonus")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Complexity")
                         .HasColumnType("integer");
 
@@ -1013,6 +1010,15 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("NumberOfSuccesses")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PropertyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("PropertyType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RollBonus")
                         .HasColumnType("integer");
 
                     b.Property<string>("RolledDices")
@@ -1369,7 +1375,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("BonusId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1704,7 +1710,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1723,7 +1729,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1742,7 +1748,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1761,7 +1767,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1780,7 +1786,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1799,7 +1805,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1818,7 +1824,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1837,7 +1843,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1856,7 +1862,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1875,7 +1881,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1894,7 +1900,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1913,7 +1919,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1932,7 +1938,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1951,7 +1957,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -1970,7 +1976,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("ItemConfigurationId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("Id")
+                            b1.Property<Guid>("PropertyId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("Type")
@@ -2098,28 +2104,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .WithMany("Rolls")
                         .HasForeignKey("SceneId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "Property", b1 =>
-                        {
-                            b1.Property<Guid>("RollId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("RollId");
-
-                            b1.ToTable("Rolls");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RollId");
-                        });
-
-                    b.Navigation("Property")
                         .IsRequired();
 
                     b.Navigation("Scene");

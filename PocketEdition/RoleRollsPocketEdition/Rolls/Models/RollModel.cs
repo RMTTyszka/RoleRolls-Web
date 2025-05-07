@@ -1,4 +1,5 @@
-﻿using RoleRollsPocketEdition.Rolls.Entities;
+﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Rolls.Models
 {
@@ -11,8 +12,6 @@ namespace RoleRollsPocketEdition.Rolls.Models
         public string RolledDices { get; set; }
         public int NumberOfDices { get; set; }
 
-        public Guid PropertyId { get; set; }
-        public RollPropertyType PropertyType { get; set; }
         public string? PropertyName { get; set; }
 
         public int NumberOfSuccesses { get; set; }
@@ -22,9 +21,11 @@ namespace RoleRollsPocketEdition.Rolls.Models
         public int Complexity { get; set; }
         public bool Success { get; set; }
         public Guid SceneId { get; set; }
-        public int RollBonus { get; set; }
+        public int Bonus { get; set; }
         public DateTime DateTime { get; set; }
         public string Description { get; set; }
+        public int Advantage { get; set; }
+
 
         public RollModel(Roll roll)
         {
@@ -33,18 +34,20 @@ namespace RoleRollsPocketEdition.Rolls.Models
             ActorId = roll.ActorId;
             RolledDices = roll.RolledDices;
             NumberOfDices = roll.NumberOfDices;
-            PropertyId = roll.PropertyId;
-            PropertyType = roll.PropertyType;
+            Property = roll.Property;
             NumberOfSuccesses = roll.NumberOfSuccesses;
             NumberOfCriticalSuccesses = roll.NumberOfCriticalSuccesses;
             NumberOfCriticalFailures = roll.NumberOfCriticalFailures;
             Difficulty = roll.Difficulty;
             Complexity = roll.Complexity;
             Success = roll.Success;
-            RollBonus = roll.RollBonus;
+            Bonus = roll.Bonus;
             DateTime = roll.DateTime;
             Description = roll.Description;
+            Advantage = roll.Advantage;
         }
+
+        public Property Property { get; set; }
 
         public RollModel()
         {

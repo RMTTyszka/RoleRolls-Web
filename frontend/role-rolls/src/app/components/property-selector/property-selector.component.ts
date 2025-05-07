@@ -82,14 +82,14 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public attributes = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.attributes.map((a: AttributeTemplate) => ({
       label: a.name,
-      value: { propertyId: a.id, type: PropertyType.Attribute }
+      value: { id: a.id, type: PropertyType.Attribute }
     }));
   });
 
   public skills = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.skills.map((a: SkillTemplate) => ({
       label: a.name,
-      value: { propertyId: a.id, type: PropertyType.Skill }
+      value: { id: a.id, type: PropertyType.Skill }
     }));
   });
 
@@ -97,13 +97,13 @@ export class PropertySelectorComponent implements ControlValueAccessor {
     return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) =>
       s.specificSkills.map((a: SpecificSkillsTemplate) => ({
         label: a.name,
-        value: { propertyId: a.id, type: PropertyType.SpecificSkill }
+        value: { id: a.id, type: PropertyType.SpecificSkill }
       }))
     ).concat(
       this.campaign().campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
         s.specificSkills.map((a: SpecificSkillsTemplate) => ({
           label: a.name,
-          value: { propertyId: a.id, type: PropertyType.SpecificSkill }
+          value: { id: a.id, type: PropertyType.SpecificSkill }
         }))
       )
     );
@@ -112,14 +112,14 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public defenses = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.defenses.map((a: DefenseTemplate) => ({
       label: a.name,
-      value: { propertyId: a.id, type: PropertyType.Defense }
+      value: { id: a.id, type: PropertyType.Defense }
     }));
   });
 
   public vitalities = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.vitalities.map((a: VitalityTemplate) => ({
       label: a.name,
-      value: { propertyId: a.id, type: PropertyType.Vitality }
+      value: { id: a.id, type: PropertyType.Vitality }
     }));
   });
 

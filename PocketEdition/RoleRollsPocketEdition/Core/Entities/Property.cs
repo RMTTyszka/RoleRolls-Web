@@ -1,6 +1,6 @@
 namespace RoleRollsPocketEdition.Core.Entities;
 
-public record Property(Guid PropertyId, PropertyType Type);
+public record Property(Guid Id, PropertyType Type);
 
 public enum PropertyType
 {

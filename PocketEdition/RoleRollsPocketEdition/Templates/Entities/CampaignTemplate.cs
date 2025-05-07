@@ -12,6 +12,7 @@ using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Templates.Entities
@@ -35,6 +36,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public ICollection<VitalityTemplate> Vitalities { get; set; }
         public ICollection<DefenseTemplate> Defenses { get; set; }
         public ICollection<CreatureType> CreatureTypes { get; set; }
+        public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
 
         public CampaignTemplate()
         {

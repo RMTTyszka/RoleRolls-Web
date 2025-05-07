@@ -6,7 +6,6 @@ import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditorAction } from '@app/models/EntityActionData';
-import { RollOrigin } from '@app/models/RollOrigin';
 import { RollInput } from '@app/campaigns/models/RollInput';
 import { SimulateCdInput } from '@app/campaigns/models/SimulateCdInput';
 import { TakeDamageInput } from '@app/campaigns/models/TakeDamangeInput';
@@ -30,6 +29,8 @@ import {
   VitalityManagerComponent
 } from '@app/campaign-session/creature-actions/vitality-manager/vitality-manager.component';
 import { Drawer, DrawerModule } from 'primeng/drawer';
+import { Property } from '@app/models/bonuses/bonus';
+import { PropertyType } from '@app/campaigns/models/propertyType';
 
 @Component({
   selector: 'rr-scene-creature-row',
@@ -163,7 +164,7 @@ export class SceneCreatureRowComponent {
           {
             label: `Roll ${attribute.name}`,
             command: (event) => {
-              this.roll(this.selectedCreatureForRoll, RollOrigin.Attribute, attribute.id);
+              this.roll(this.selectedCreatureForRoll, PropertyType.Attribute, attribute.id);
             }
           } as MenuItem
         ]
@@ -176,7 +177,7 @@ export class SceneCreatureRowComponent {
             {
               label: `Roll ${skill.name}`,
               command: (event) => {
-                this.roll(this.selectedCreatureForRoll, RollOrigin.Skill, skill.id);
+                this.roll(this.selectedCreatureForRoll, PropertyType.Skill, skill.id);
               }
             } as MenuItem
           ]
@@ -185,7 +186,7 @@ export class SceneCreatureRowComponent {
           const specificSkillMenu = {
             label: specificSkill.name,
             command: (event) => {
-              this.roll(this.selectedCreatureForRoll, RollOrigin.SpecificSkill, specificSkill.id);
+              this.roll(this.selectedCreatureForRoll, PropertyType.SpecificSkill, specificSkill.id);
             }
           } as MenuItem;
           skillMenu.items.push(specificSkillMenu);
@@ -203,7 +204,7 @@ export class SceneCreatureRowComponent {
           {
             label: `Roll ${attribute.name}`,
             command: (event) => {
-              this.simulateCd(this.selectedCreatureForSimulateCd, RollOrigin.Attribute, attribute.id);
+              this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.Attribute, attribute.id);
             }
           } as MenuItem
         ]
@@ -216,7 +217,7 @@ export class SceneCreatureRowComponent {
             {
               label: `Roll ${skill.name}`,
               command: (event) => {
-                this.simulateCd(this.selectedCreatureForSimulateCd, RollOrigin.Skill, skill.id);
+                this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.Skill, skill.id);
               }
             } as MenuItem
           ]
@@ -225,7 +226,7 @@ export class SceneCreatureRowComponent {
           const specificSkillMenu = {
             label: specificSkill.name,
             command: (event) => {
-              this.simulateCd(this.selectedCreatureForSimulateCd, RollOrigin.SpecificSkill, specificSkill.id);
+              this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.SpecificSkill, specificSkill.id);
             }
           } as MenuItem;
           skillMenu.items.push(specificSkillMenu);
@@ -235,46 +236,49 @@ export class SceneCreatureRowComponent {
       this.simluateCdOptions.push(attributeMenu);
     });
   }
-  private roll(creature: Creature, propertyType: RollOrigin, propertyId: string) {
+  private roll(creature: Creature, propertyType: PropertyType, propertyId: string) {
     const input = {
-      propertyType: propertyType,
+      property: { type: propertyType, id: propertyId } as Property,
       creatureId: creature.id,
     } as RollInput;
-    if (propertyType === RollOrigin.Attribute) {
+    if (propertyType === PropertyType.Attribute) {
       const attribute = creature.attributes.find(a => a.attributeTemplateId === propertyId);
-      input.propertyId = attribute.id;
+      input.property.id = attribute.id;
       input.propertyName = attribute.name;
       input.propertyValue = attribute.value;
-    } else if (propertyType === RollOrigin.Skill) {
+    } else if (propertyType === PropertyType.Skill) {
       const skill = creature.skills.find(s => s.skillTemplateId === propertyId);
-      input.propertyId = skill.id;
+      input.property.id = skill.id;
       input.propertyName = skill.name;
       input.propertyValue = skill.value;
-    } else if (propertyType === RollOrigin.SpecificSkill) {
+    } else if (propertyType === PropertyType.SpecificSkill) {
       const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
       const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
-      input.propertyId = specificSkills.id;
+      input.property.id = specificSkills.id;
       input.propertyName = specificSkills.name;
       input.propertyValue = skill.value;
     }
     this.displayRollSidebar = true;
     this.rollInputEmitter.next(input);
   }
-  private simulateCd(creature: Creature, propertyType: RollOrigin, propertyId: string) {
+  private simulateCd(creature: Creature, propertyType: PropertyType, propertyId: string) {
     const input = {
-      propertyType: propertyType,
+      property: {
+        id: propertyId,
+        type: propertyType,
+      } as Property,
       creatureId: creature.id,
     } as SimulateCdInput;
-    if (propertyType === RollOrigin.Attribute) {
+    if (propertyType === PropertyType.Attribute) {
       const attribute = creature.attributes.find(a => a.attributeTemplateId === propertyId);
-      input.propertyId = attribute.id;
-    } else if (propertyType === RollOrigin.Skill) {
+      input.property.id = attribute.id;
+    } else if (propertyType === PropertyType.Skill) {
       const skill = creature.skills.find(s => s.skillTemplateId === propertyId);
-      input.propertyId = skill.id;
-    } else if (propertyType === RollOrigin.SpecificSkill) {
+      input.property.id = skill.id;
+    } else if (propertyType === PropertyType.SpecificSkill) {
       const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
       const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
-      input.propertyId = specificSkills.id;
+      input.property.id = specificSkills.id;
     }
     this.displaySimulateCdSidebar = !this.displaySimulateCdSidebar;
     this.simulateCdInputEmitter.next(input);
