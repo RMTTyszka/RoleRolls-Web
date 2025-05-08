@@ -6,8 +6,8 @@ export interface RollInput {
   property: Property;
   complexity: number;
   difficulty: number;
-  propertyBonus: number;
-  rollBonus: number;
+  advantage: number;
+  bonus: number;
   hidden: boolean;
   creatureId: string;
   rollsAsString: string;

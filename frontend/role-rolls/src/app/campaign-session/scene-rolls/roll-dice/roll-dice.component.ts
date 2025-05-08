@@ -11,6 +11,8 @@ import { InputNumber } from 'primeng/inputnumber';
 import { NgIf } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
+import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
+import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -19,7 +21,9 @@ import { ButtonDirective } from 'primeng/button';
     InputNumber,
     NgIf,
     InputText,
-    ButtonDirective
+    ButtonDirective,
+    FormFieldWrapperComponent,
+    FieldTitleDirective,
   ],
   templateUrl: './roll-dice.component.html',
   styleUrl: './roll-dice.component.scss'
@@ -43,8 +47,8 @@ export class RollDiceComponent {
       this.rollInput = rollInput;
       this.rollInput.complexity = 0;
       this.rollInput.difficulty = 0;
-      this.rollInput.propertyBonus = 0;
-      this.rollInput.rollBonus = 0;
+      this.rollInput.advantage = 0;
+      this.rollInput.bonus = 0;
       this.rollInput.rollsAsString = '';
       this.rollInput.description = '';
       this.form = getAsForm(rollInput, false, [], ['propertyName']);

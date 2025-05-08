@@ -1,11 +1,8 @@
 <div class="flex flex-col w-full">
-  <!-- Renderiza cada título e campo -->
   <div *ngFor="let item of items" class="flex items-center mb-4 w-full">
-    <!-- Título -->
-    <input pInputText [disabled]="true" [value]="item.title" class="mr-4 w-48" />
+    <input pInputText [disabled]="true" [value]="item.title" class="mr-4 w-48 not-flex" />
 
-    <!-- Campo -->
-    <div class="w-full">
+    <div class="w-full flex-auto">
       <ng-container *ngTemplateOutlet="item.field"></ng-container>
     </div>
   </div>

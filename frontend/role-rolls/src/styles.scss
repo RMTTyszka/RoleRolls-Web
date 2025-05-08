@@ -6,6 +6,16 @@
 
 @import "primeicons/primeicons.css";
 
+rr-form-field-wrapper {
+  .w-full > * {
+    display: flex;
+    flex: auto;
+  }
+  .w-full > * > :first-child:not(.not-flex) {
+    display: flex;
+    flex: 100%;
+  }
+}
 .font-base {
   font-family: 'IM Fell English SC';
 }
