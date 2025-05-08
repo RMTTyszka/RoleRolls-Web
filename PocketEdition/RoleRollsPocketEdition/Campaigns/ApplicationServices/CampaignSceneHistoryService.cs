@@ -96,7 +96,7 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
     public async Task<SceneHistory> BuildHistory(Roll roll)
     {
         var actor = await GetActor(roll.ActorId);
-        var property = roll.Property.Type switch
+        var property = roll.Property != null ? roll.Property.Type switch
         {
             PropertyType.Attribute => await _dbContext.Attributes.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
@@ -108,7 +108,7 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
                 .Select(a => a.Name)
                 .FirstAsync(),
             _ => throw new ArgumentOutOfRangeException()
-        };
+        } : "";
         return new RollSceneHistory
         {
             AsOfDate = roll.DateTime,

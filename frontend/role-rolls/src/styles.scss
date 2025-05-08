@@ -11,13 +11,17 @@ rr-form-field-wrapper {
     display: flex;
     flex: auto;
   }
+  .w-full > * > * > :first-child:not(.not-flex) {
+    display: flex;
+    flex: auto;
+  }
   .w-full > * > :first-child:not(.not-flex) {
     display: flex;
     flex: 100%;
   }
 }
 .font-base {
-  font-family: 'IM Fell English SC';
+  font-family: 'IM Fell English SC', fantasy;
 }
 html, body {
   height: 100%;

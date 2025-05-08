@@ -64,26 +64,30 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
 
 
-        public PropertyValue GetPropertyValue(RollPropertyType? propertyType, Guid propertyId)
+        public PropertyValue GetPropertyValue(PropertyType? propertyType, Guid? propertyId)
         {
             Attribute? attribute;
             Skill? skill;
             SpecificSkill? minorSkill;
             int rollBonus;
             var result = new PropertyValue();
+            if (propertyId == null || propertyType == null)
+            {
+                return result;
+            }
             switch (propertyType)
             {
-                case RollPropertyType.Attribute:
+                case PropertyType.Attribute:
                     var value = Attributes.First(at => at.Id == propertyId || at.AttributeTemplateId == propertyId).Value;
                     result.Value = value;
                     break;
-                case RollPropertyType.Skill:
+                case PropertyType.Skill:
                     skill = Skills.First(sk => sk.Id == propertyId);
                     attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
                     result.Value = attribute.Value;
                     result.Bonus = 0;
                     break;
-                case RollPropertyType.MinorSkill:
+                case PropertyType.MinorSkill:
                     minorSkill = Skills.SelectMany(skill => skill.SpecificSkills).First(minorSkill => minorSkill.Id == propertyId);
                     skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
                     attribute = Attributes.First(at => at.Id == skill.AttributeId);
@@ -282,9 +286,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 (formula, attribute) => formula.Replace(attribute.Name, attribute.TotalValue.ToString()));
      
             replacesFormula = Skills.Aggregate(replacesFormula,
-                (formula, skill) => replacesFormula.Replace(skill.Name, GetPropertyValue(RollPropertyType.Skill, skill.Id).ToString()));     
+                (formula, skill) => replacesFormula.Replace(skill.Name, GetPropertyValue(PropertyType.Skill, skill.Id).ToString()));     
             replacesFormula = SpecificSkills.Aggregate(replacesFormula,
-                (formula, minorSKill) => replacesFormula.Replace(minorSKill.Name, GetPropertyValue(RollPropertyType.MinorSkill, minorSKill.Id).ToString()));
+                (formula, minorSKill) => replacesFormula.Replace(minorSKill.Name, GetPropertyValue(PropertyType.MinorSkill, minorSKill.Id).ToString()));
             DataTable dt = new DataTable();
             var result = dt.Compute(replacesFormula,"");
 

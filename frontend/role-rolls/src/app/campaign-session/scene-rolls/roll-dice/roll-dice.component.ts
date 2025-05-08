@@ -13,6 +13,8 @@ import { InputText } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { IntegerOnlyDirective } from '@app/directives/integer-only.directive';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -24,6 +26,9 @@ import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-ti
     ButtonDirective,
     FormFieldWrapperComponent,
     FieldTitleDirective,
+    AutoCompleteModule,
+    IntegerOnlyDirective,
+
   ],
   templateUrl: './roll-dice.component.html',
   styleUrl: './roll-dice.component.scss'
@@ -37,6 +42,7 @@ export class RollDiceComponent {
   public rollInput: RollInput;
   public form: FormGroup;
   public rollResult: Roll;
+  public hasProperty: boolean;
 
   constructor(
     private readonly campaignsService: CampaignsService
@@ -49,15 +55,16 @@ export class RollDiceComponent {
       this.rollInput.difficulty = 0;
       this.rollInput.advantage = 0;
       this.rollInput.bonus = 0;
-      this.rollInput.rollsAsString = '';
+      this.rollInput.rollsAsString = null;
       this.rollInput.description = '';
+      this.hasProperty = Boolean(this.rollInput.propertyName);
       this.form = getAsForm(rollInput, false, [], ['propertyName']);
     });
   }
 
   public roll() {
     const rollInput = this.form.value as RollInput;
-    rollInput.rolls = rollInput.rollsAsString ? rollInput.rollsAsString.split(',').map(a => Number(a)) : [];
+    rollInput.rolls = rollInput.rollsAsString ? rollInput.rollsAsString.map(a => Number(a)) : [];
     this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
       .subscribe((roll: Roll) => {
         this.rollResult = roll;

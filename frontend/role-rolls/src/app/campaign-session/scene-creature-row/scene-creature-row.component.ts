@@ -237,8 +237,8 @@ export class SceneCreatureRowComponent {
     });
   }
   private roll(creature: Creature, propertyType: PropertyType, propertyId: string) {
-    const input = {
-      property: { type: propertyType, id: propertyId } as Property,
+    const input =  {
+      property:(propertyType !== null && propertyId !== null) ? { type: propertyType, id: propertyId } as Property : null,
       creatureId: creature.id,
     } as RollInput;
     if (propertyType === PropertyType.Attribute) {

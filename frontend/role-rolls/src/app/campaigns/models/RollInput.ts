@@ -10,7 +10,7 @@ export interface RollInput {
   bonus: number;
   hidden: boolean;
   creatureId: string;
-  rollsAsString: string;
+  rollsAsString: string[];
   rolls: number[];
   description: string;
 }

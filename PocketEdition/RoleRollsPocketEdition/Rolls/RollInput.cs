@@ -5,9 +5,6 @@ namespace RoleRollsPocketEdition.Rolls
 {
     public class RollInput
     {
-        public Guid PropertyId { get; set; }
-        public RollPropertyType PropertyType { get; set; }
-
         public int Complexity { get; set; }
         public int Difficulty { get; set; }
         public int Advantage { get; set; }
@@ -16,6 +13,6 @@ namespace RoleRollsPocketEdition.Rolls
 
         public string Description { get; set; }
         public List<int> Rolls { get; set; } = new List<int>();
-        public Property Property { get; set; }
+        public Property? Property { get; set; }
     }
 }
