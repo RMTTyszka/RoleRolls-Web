@@ -9,5 +9,6 @@ export interface RRAction<T> {
 export class RROption<T> {
   public label!: string;
   public value!: T;
+  public csClass?: string | null | undefined;
 }
 

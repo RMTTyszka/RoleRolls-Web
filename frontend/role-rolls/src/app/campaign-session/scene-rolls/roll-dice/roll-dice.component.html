@@ -11,7 +11,9 @@
         <p-inputNumber placeholder formControlName='complexity'></p-inputNumber>
       </ng-template>
       <ng-template fieldTitle="Advantage">
-        <p-inputNumber placeholder formControlName='advantage'></p-inputNumber>
+        <rr-advantage-select
+          formControlName="advantage">
+        </rr-advantage-select>
       </ng-template>
       <ng-template fieldTitle="Bonus">
         <p-inputNumber placeholder formControlName='bonus'></p-inputNumber>

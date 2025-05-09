@@ -7,15 +7,15 @@
 @import "primeicons/primeicons.css";
 
 rr-form-field-wrapper {
-  .w-full > * {
+  .w-full > *:not(.not-flex) {
     display: flex;
     flex: auto;
   }
-  .w-full > * > * > :first-child:not(.not-flex) {
+  .w-full > *:not(.not-flex) > *:not(.not-flex) > :first-child:not(.not-flex) {
     display: flex;
     flex: auto;
   }
-  .w-full > * > :first-child:not(.not-flex) {
+  .w-full > *:not(.not-flex) > :first-child:not(.not-flex) {
     display: flex;
     flex: 100%;
   }

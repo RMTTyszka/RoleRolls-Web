@@ -22,6 +22,7 @@ import { PropertySelectorComponent } from '@app/components/property-selector/pro
 import { ButtonDirective } from 'primeng/button';
 import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
+import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-select.component';
 
 @Component({
   selector: 'rr-attack',
@@ -33,7 +34,8 @@ import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-ti
     PropertySelectorComponent,
     ButtonDirective,
     FormFieldWrapperComponent,
-    FieldTitleDirective
+    FieldTitleDirective,
+    AdvantageSelectComponent
   ],
   templateUrl: './attack.component.html',
   styleUrl: './attack.component.scss'
@@ -73,6 +75,7 @@ export class AttackComponent {
         hitPropertyId: hitProperty,
         damagePropertyId: damageProperty,
         targetId: null,
+        advantage: 0,
       } as AttackInput);
     }
     return null;
