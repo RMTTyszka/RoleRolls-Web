@@ -5,6 +5,8 @@ using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Powers.Models;
 using RoleRollsPocketEdition.Scenes.Services;
 
 namespace RoleRollsPocketEdition.Attacks.Services;
@@ -41,6 +43,7 @@ public class AttackService : IAttackService, ITransientDependency
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.DefenseId,
             VitalityId = input.VitalityId,
+            CombatManeuverIds = input.CombatManeuverIds,
         };
         var attackResult = attacker.Attack(target, command);
         await _scenesService.ProcessAction(sceneId, attackResult);
@@ -53,6 +56,7 @@ public class AttackInput
     public Guid? DefenseId { get; set; }
     public Guid? VitalityId { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
+    public List<Guid> CombatManeuverIds { get; set; } = [];
 }
 public class AttackCommand
 {
@@ -62,6 +66,7 @@ public class AttackCommand
     public Guid? VitalityId { get; set; }
     public Guid GetDefenseId => DefenseId ?? ItemConfiguration.ArmorProperty.Id;
     public Guid GetVitalityId => VitalityId ?? ItemConfiguration.BasicAttackTargetFirstVitality.Id;
+    public List<Guid> CombatManeuverIds { get; set; } = [];
 }
 public class AttackResult
 {

@@ -24,7 +24,7 @@ public class Bonus : Entity
 
     public int Value { get; set; }
     public bool Active { get; set; }
-    public Property Property { get; set; }
+    public Property? Property { get; set; }
     public string Name { get; set; } = "";
     public BonusValueType ValueType { get; set; }
     public BonusType Type { get; set; }
@@ -47,6 +47,9 @@ public enum BonusType
 
 public enum BonusValueType
 {
-    Dices = 0,
-    Roll = 1
+    Advantage = 0,
+    Roll = 1,
+    Points = 2,
+    Critical = 3,
+    Hit = 4
 }

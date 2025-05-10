@@ -11,6 +11,7 @@ using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
+using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Dtos;
@@ -339,11 +340,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             var totalHit = hitProperty.Bonus + WeaponDefinition.HitBonus(weaponCategory);
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
+            var advantage = 0;
+            var rollCommand = new RollDiceCommand(hitProperty, advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
+            var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
+            roll.Process(rollCommand);
             var roll = Roll(new RollCheck
             {
                 Bonus = totalHit,
-                Complexity = WeaponDefinition.HitDifficulty(weaponCategory),
-                Dificulty = totalDefense
+                Complexity = totalDefense,
+                Dificulty = WeaponDefinition.HitDifficulty(weaponCategory)
             }, hitProperty.Value);
             if (roll.Success)
             {
