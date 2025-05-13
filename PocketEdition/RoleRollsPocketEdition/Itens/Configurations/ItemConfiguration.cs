@@ -72,30 +72,30 @@ public class ItemConfiguration : Entity
         BasicAttackTargetFirstVitality = model.BasicAttackTargetFirstVitality;
     }
 
-    public Guid GetWeaponHitProperty(WeaponCategory weaponCategory)
+    public Property? GetWeaponHitProperty(WeaponCategory weaponCategory)
     {
         switch (weaponCategory)
         {
             case WeaponCategory.Light:
-                return MeleeLightWeaponHitProperty.Id;
+                return MeleeLightWeaponHitProperty;
             case WeaponCategory.Medium:
-                return MeleeMediumWeaponHitProperty.Id;
+                return MeleeMediumWeaponHitProperty;
             case WeaponCategory.Heavy:
-                return MeleeHeavyWeaponHitProperty.Id;
+                return MeleeHeavyWeaponHitProperty;
             default:
                 throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
         }
     }    
-    public Guid GetWeaponDamageProperty(WeaponCategory weaponCategory)
+    public Property? GetWeaponDamageProperty(WeaponCategory weaponCategory)
     {
         switch (weaponCategory)
         {
             case WeaponCategory.Light:
-                return MeleeLightWeaponDamageProperty.Id;
+                return MeleeLightWeaponDamageProperty;
             case WeaponCategory.Medium:
-                return MeleeMediumWeaponDamageProperty.Id;
+                return MeleeMediumWeaponDamageProperty;
             case WeaponCategory.Heavy:
-                return MeleeHeavyWeaponDamageProperty.Id;
+                return MeleeHeavyWeaponDamageProperty;
             default:
                 throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
         }

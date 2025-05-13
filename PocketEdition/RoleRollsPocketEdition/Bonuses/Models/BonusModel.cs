@@ -7,9 +7,9 @@ public class BonusModel : IEntityDto
 {
     public Guid Id { get; set; }
     public int Value { get; set; }
-    public BonusValueType ValueType { get; set; }
+    public BonusApplication Application { get; set; }
     public Property Property { get; set; }
-    public BonusType Type { get; set; }
+    public BonusOrigin Origin { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
 
@@ -19,9 +19,9 @@ public class BonusModel : IEntityDto
     {
         Id = bonus.Id;
         Value = bonus.Value;
-        ValueType = bonus.ValueType;
+        Application = bonus.Application;
         Property = bonus.Property;
-        Type = bonus.Type;
+        Origin = bonus.Origin;
         Name = bonus.Name;
         Description = bonus.Description;
     }

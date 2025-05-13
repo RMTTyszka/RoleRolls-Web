@@ -22,8 +22,8 @@ public partial class LandOfHeroesArchetypes
                     Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    ValueType = BonusValueType.Roll,
-                    Type = BonusType.Innate,
+                    Application = BonusApplication.Roll,
+                    Origin = BonusOrigin.Innate,
                 }
             },
             PowerDescriptions = new List<ArchertypePowerDescription>
