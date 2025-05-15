@@ -118,8 +118,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -136,8 +137,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -154,8 +156,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("655394b6-e1bf-4175-90e8-cdb95da1613c"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -172,8 +175,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("85de058e-64fe-4f7f-b49d-df5cfbb84d19"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -190,8 +194,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("fd3b88be-b55d-4c0b-8010-9c1b56eef367"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -208,8 +213,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("dcd0ab9d-0e95-448b-ba42-8aead55b6c62"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -226,8 +232,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("4e150329-37b6-4263-9dc9-caa0d4723388"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -244,8 +251,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("913ffad2-33d3-4ef7-9621-effbfcecf82f"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -262,8 +270,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -280,8 +289,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("172B2C5D-160B-4760-9D87-0879E265BAD8"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -298,8 +308,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("6806B42D-E833-4775-B077-9223FB4901FD"),
                     Value = 1,
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value
                 }
             }
         },
@@ -322,8 +333,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("F9C10D96-CD38-4176-B770-7618E18AD0E3"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 2,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         },
@@ -340,8 +352,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("108C8338-9168-428F-9C2F-DBAB52A846AC"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Intelligence], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 1,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         },
@@ -358,8 +371,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("D613B3CB-3C19-44E9-B3CA-3EE41FB3816D"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 2,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         },
@@ -376,8 +390,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("3B5A9542-AAE1-4CAF-9FFD-7F7E963F6814"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 2,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         },
@@ -394,8 +409,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("6DF7D32C-E690-40C0-8EC4-D6BA087FDE89"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 3,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         },
@@ -412,8 +428,9 @@ public class LandOfHeroesTemplate
                     Id = Guid.Parse("DA8B2C93-7F01-4BFB-809A-22B99B49EB9A"),
                     Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
                     Origin = BonusOrigin.Innate,
+                    Type = BonusType.Value,
                     Value = 1,
-                    Application = BonusApplication.Roll,
+                    Application = BonusApplication.Property,
                 }
             ]
         }

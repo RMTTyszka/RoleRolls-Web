@@ -123,7 +123,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
 
             result.Value += GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property);
-            result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Roll, property);
+            result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Value, property);
             return result;;
         }
         public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
@@ -311,7 +311,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             Inventory.AddItem(item);
         }
-        public async Task RemoveItem(ItemInstance? item)
+        public void RemoveItem(ItemInstance? item)
         {
             Inventory.Remove(item);
         }
@@ -321,7 +321,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Inventory.Remove(item);
         }
 
-        public async Task Equip(ItemInstance item, EquipableSlot slot)
+        public void Equip(ItemInstance item, EquipableSlot slot)
         {
             Equipment.Equip(item, slot);
         }
@@ -345,21 +345,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
             var totalHit = hitPropertyValues.Bonus + WeaponDefinition.HitBonus(weaponCategory);
-            totalHit += GetTotalBonus(BonusApplication.Hit,  null);
-            var advantage = 0;
-            var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
-            var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
+            totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Value, null);
+            var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
+            var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>());
+            var roll = new Roll();
             roll.Process(rollCommand);
-            var roll = Roll(new RollCheck
-            {
-                Bonus = totalHit,
-                Complexity = totalDefense,
-                Dificulty = WeaponDefinition.HitDifficulty(weaponCategory)
-            }, hitPropertyValues.Value);
             if (roll.Success)
             {
                 var damages = new List<DamageRollResult>();
-                for (var i = 0; i < roll.SuccessTimes; i++)
+                for (var i = 0; i < roll.NumberOfSuccesses; i++)
                 {
                     var damage = RollDamage(weapon, damagePropertyValues);
                     var block = target.GetBasicBlock();

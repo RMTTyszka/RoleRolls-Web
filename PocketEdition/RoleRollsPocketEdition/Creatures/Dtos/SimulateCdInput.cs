@@ -6,6 +6,5 @@ namespace RoleRollsPocketEdition.Creatures.Dtos;
 public class SimulateCdInput
 {
     public decimal ExpectedChance { get; set; }
-    public Guid PropertyId { get; set; }
-    public PropertyType PropertyType { get; set; }
+    public Property Property { get; set; }
 }

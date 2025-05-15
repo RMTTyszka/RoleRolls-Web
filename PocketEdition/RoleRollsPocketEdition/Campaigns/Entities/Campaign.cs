@@ -12,7 +12,7 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
     public class Campaign : Entity
     {
         public Guid MasterId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
         public Guid InvitationSecret { get; set; }

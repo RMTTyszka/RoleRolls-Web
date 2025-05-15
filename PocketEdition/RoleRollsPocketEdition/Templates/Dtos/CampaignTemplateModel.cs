@@ -46,7 +46,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public List<ArchetypeModel> Archetypes { get; set; } = [];
 
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int MaxAttributePoints { get; init; }
         public int TotalAttributePoints { get; set; }
         // 4

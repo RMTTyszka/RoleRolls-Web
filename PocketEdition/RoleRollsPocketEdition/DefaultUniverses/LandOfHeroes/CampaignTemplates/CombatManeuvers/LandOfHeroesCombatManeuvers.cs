@@ -34,8 +34,9 @@ public class LandOfHeroesCombatManeuvers
                     Active = false,
                     Property = null,
                     Name = "Open Shot",
-                    Application = BonusApplication.Advantage,
-                    Origin = BonusOrigin.Innate
+                    Application = BonusApplication.Hit,
+                    Origin = BonusOrigin.Innate,
+                    Type = BonusType.Advantage
                 }
             },
             Instances = null,

@@ -37,12 +37,12 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
             await _context.Equipment.AddAsync(creature.Equipment);
             await _context.SaveChangesAsync();
         }
-        await creature.Equip(item, input.Slot);
+        creature.Equip(item, input.Slot);
         
         using (_unitOfWork.Begin())
         {
             _context.Creatures.Update(creature);
-            _unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
         }
     }
 

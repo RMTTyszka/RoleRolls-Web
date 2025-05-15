@@ -60,5 +60,5 @@ public enum BonusApplication
 public enum BonusType
 {
     Advantage = 0,
-    Roll = 1,
+    Value = 1,
 }

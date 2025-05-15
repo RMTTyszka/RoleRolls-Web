@@ -17,39 +17,28 @@ using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Templates.Entities
 {
-    public class CampaignTemplate : Entity
+    public class CampaignTemplate() : Entity
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public bool Default { get; set; }
-        public string? CreatureTypeTitle { get; set; }
-        public string? ArchetypeTitle { get; set; }
+        public string CreatureTypeTitle { get; set; } = "";
+        public string ArchetypeTitle { get; set; } = "";
         public int MaxAttributePoints => 5;
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
         public int TotalAttributePoints { get; set; }
         // 4
         public int TotalSkillsPoints { get; set; }
-        public ItemConfiguration ItemConfiguration { get; set; }
-        public List<AttributeTemplate> Attributes { get; set; }
-        public List<DamageType> DamageTypes { get; set; }
-        public List<SkillTemplate> AttributelessSkills { get; set; }
-        public List<Campaign> Campaigns { get; set; }
-        public ICollection<VitalityTemplate> Vitalities { get; set; }
-        public ICollection<DefenseTemplate> Defenses { get; set; }
-        public ICollection<CreatureType> CreatureTypes { get; set; }
+        public ItemConfiguration ItemConfiguration { get; set; } = new();
+        public List<AttributeTemplate> Attributes { get; set; } = [];
+        public List<DamageType> DamageTypes { get; set; } = [];
+        public List<SkillTemplate> AttributelessSkills { get; set; } = [];
+        public List<Campaign>? Campaigns { get; set; }
+        public ICollection<VitalityTemplate> Vitalities { get; set; } = [];
+        public ICollection<DefenseTemplate> Defenses { get; set; } = [];
+        public ICollection<CreatureType> CreatureTypes { get; set; } = [];
         public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
 
-        public CampaignTemplate()
-        {
-            Attributes = [];
-            Vitalities = [];
-            Defenses = [];
-            ItemConfiguration = new ItemConfiguration();
-            AttributelessSkills = [];
-            DamageTypes = [];
-            Archetypes = [];
-            CreatureTypes = [];
-        }
-        public CampaignTemplate(CampaignTemplateModel template) : base()
+        public CampaignTemplate(CampaignTemplateModel template) : this()
         {
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
@@ -59,7 +48,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);
         }
 
-        public CampaignTemplate(CampaignCreateInput campaignModel)
+        public CampaignTemplate(CampaignCreateInput campaignModel) : this()
         {
             Name = campaignModel.Name;
             Id = campaignModel.CampaignTemplateId ?? campaignModel.Id;
@@ -79,7 +68,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         [NotMapped]
         public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        public List<Archetype> Archetypes { get; set; }
+        public List<Archetype> Archetypes { get; set; } = [];
 
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)

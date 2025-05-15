@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Campaigns.Models
         public Guid MasterId { get; set; }
         public Guid? CampaignTemplateId { get; set; }
         public CampaignTemplateModel? CampaignTemplate { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public CampaignModel()
         {
