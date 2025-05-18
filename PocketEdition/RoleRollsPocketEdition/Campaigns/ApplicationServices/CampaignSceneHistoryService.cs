@@ -106,7 +106,8 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
                 .FirstAsync(),
             PropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
-                .FirstAsync(),
+                .FirstAsync(),   
+            PropertyType.All => null,
             _ => throw new ArgumentOutOfRangeException()
         } : "";
         return new RollSceneHistory

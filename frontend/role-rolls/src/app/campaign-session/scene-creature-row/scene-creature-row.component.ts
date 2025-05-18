@@ -119,13 +119,16 @@ export class SceneCreatureRowComponent {
   }
   public selectCreatureForRoll(creature: Creature) {
     this.selectedCreatureForRoll = creature;
+    this.displayRollSidebar = false;
   }
   public quickRoll(creature: Creature) {
     this.selectedCreatureForRoll = creature;
+    this.displayRollSidebar = false;
     this.roll(this.selectedCreatureForRoll, null, null);
   }
   public selectCreatureForSimulateCd(creature: Creature) {
     this.selectedCreatureForSimulateCd = creature;
+    this.displaySimulateCdSidebar = false;
   }
 
   private subscribeToCampaignLoaded() {
