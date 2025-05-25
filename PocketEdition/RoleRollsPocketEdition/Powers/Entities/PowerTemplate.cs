@@ -21,9 +21,16 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public Guid? TargetDefenseId { get; set; }
         public string UsagesFormula { get; set; }
         public UsageType? UsageType { get; set; }
+        public TargetType TargetType { get; set; }
         public List<Bonus> Bonuses { get; set; }
         public ICollection<PowerInstance> Instances { get; set; }
         public ICollection<ItemTemplate> ItemTemplates { get; set; }
+    }
+
+    public enum TargetType
+    {
+        Self = 0,
+        Other = 1
     }
 
     public enum PowerDurationType

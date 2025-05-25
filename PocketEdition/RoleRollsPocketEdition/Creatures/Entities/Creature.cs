@@ -123,7 +123,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
 
             result.Value += GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property);
-            result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Value, property);
+            result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Buff, property);
             return result;;
         }
         public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
@@ -345,7 +345,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
             var totalHit = hitPropertyValues.Bonus + WeaponDefinition.HitBonus(weaponCategory);
-            totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Value, null);
+            totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
             var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>());
             var roll = new Roll();

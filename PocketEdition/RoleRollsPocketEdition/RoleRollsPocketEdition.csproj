@@ -46,5 +46,8 @@
       <LastGenOutput>LandOfHeroes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DefaultUniverses\Global\" />
+  </ItemGroup>
 
 </Project>

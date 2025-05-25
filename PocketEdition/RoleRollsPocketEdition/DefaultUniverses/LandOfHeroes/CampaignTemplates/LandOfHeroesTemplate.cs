@@ -4,6 +4,9 @@ using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.CombatManeuvers;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Races;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Powers.Entities;
@@ -28,8 +31,9 @@ public class LandOfHeroesTemplate
                 AttributelessSkills = BuildAttributelessSkills(),
                 Vitalities = BuildVitalities(),
                 DamageTypes = BuildDamageTypes(),
-                CreatureTypes = Races,
+                CreatureTypes = LandOfHeroesRaces.Races,
                 Archetypes = Roles,
+                CombatManeuvers = LandOfHeroesCombatManeuvers.Maneuvers,
             };
             template.ItemConfiguration = BuildItemConfiguration(template);
             return template;
@@ -120,7 +124,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -139,7 +143,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -158,7 +162,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -177,7 +181,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -196,7 +200,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -215,7 +219,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -234,7 +238,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -253,7 +257,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -272,7 +276,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -291,7 +295,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -310,7 +314,7 @@ public class LandOfHeroesTemplate
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
             }
         },
@@ -318,123 +322,7 @@ public class LandOfHeroesTemplate
 
 
 
-    private static List<CreatureType> Races =>
-    [
-        new()
-        {
-            Id = Guid.Parse("7DA646BA-637E-4CFF-99BC-5C3A934A1A63"),
-            Name = "Elf",
-            Description = "",
-            CanBeAlly = true,
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("F9C10D96-CD38-4176-B770-7618E18AD0E3"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 2,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        },
-        new()
-        {
-            Id = Guid.Parse("D8E510F0-D49F-4623-95C6-FCF2CA8C24E2"),
-            Name = "Human",
-            Description = "",
-            CanBeAlly = true,
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("108C8338-9168-428F-9C2F-DBAB52A846AC"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Intelligence], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 1,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        },
-        new()
-        {
-            Id = Guid.Parse("E9F2C583-167E-423D-97B8-6C0C3F92EEFF"),
-            Name = "Dwarf",
-            Description = "",
-            CanBeAlly = true,
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("D613B3CB-3C19-44E9-B3CA-3EE41FB3816D"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 2,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        },
-        new()
-        {
-            Id = Guid.Parse("D84B7197-A3EC-46C8-9B59-7E066D8FF8EF"),
-            Name = "Halfling",
-            CanBeAlly = true,
-            Description = "",
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("3B5A9542-AAE1-4CAF-9FFD-7F7E963F6814"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 2,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        },
-        new()
-        {
-            Id = Guid.Parse("6E4E0713-CBD4-442E-9569-CF5073D80764"),
-            Name = "Orc",
-            CanBeAlly = true,
-            Description = "",
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("6DF7D32C-E690-40C0-8EC4-D6BA087FDE89"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Strength], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 3,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        },
-        new()
-        {
-            Id = Guid.Parse("4E1D1FDC-9193-4FF2-B76F-8790B830798A"),
-            Name = "Goblin",
-            CanBeAlly = true,
-            Description = "",
-            Bonuses =
-            [
-                new Bonus
-                {
-                    Id = Guid.Parse("DA8B2C93-7F01-4BFB-809A-22B99B49EB9A"),
-                    Property = new Property(AttributeIds[LandOfHeroesAttribute.Agility], PropertyType.Attribute),
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value,
-                    Value = 1,
-                    Application = BonusApplication.Property,
-                }
-            ]
-        }
-    ];
+    
 
 
     public static List<DamageType> BuildDamageTypes()
@@ -450,7 +338,7 @@ public class LandOfHeroesTemplate
 
     private static List<AttributeTemplate> BuildAttributes()
     {
-        return AttributeIds.Select(attributeEntry => new AttributeTemplate
+        return LandOfHeroesAttributes.AttributeIds.Select(attributeEntry => new AttributeTemplate
         {
             Name = attributeEntry.Key.ToString(),
             Id = attributeEntry.Value,
@@ -496,15 +384,6 @@ public class LandOfHeroesTemplate
         { DamageTypeEnum.Necrotic, new Guid("c1d25d0e-634c-4e5e-b367-6647dc79675e") },
         { DamageTypeEnum.Radiant, new Guid("9dd8562c-83c6-4b1f-8c54-78b64a85951a") }
     };
-    public static Dictionary<LandOfHeroesAttribute, Guid> AttributeIds = new()
-    {
-        { LandOfHeroesAttribute.Agility, Guid.Parse("A94BA9AE-D800-4445-A996-19E6281FC0DD") },
-        { LandOfHeroesAttribute.Charisma, Guid.Parse("0E2F1A7A-B39D-4C19-91CE-623A4E75D681") },
-        { LandOfHeroesAttribute.Intelligence, Guid.Parse("F6E11C7E-C4F6-414E-8E92-B8C2C06A4F93") },
-        { LandOfHeroesAttribute.Intuition, Guid.Parse("D8C6D5C2-6D13-4E92-9C8F-31A7C74EAF52") },
-        { LandOfHeroesAttribute.Strength, Guid.Parse("80D7685B-6E9A-44C2-AC99-BA3173B2C41E") },
-        { LandOfHeroesAttribute.Vigor, Guid.Parse("1F5B3E5E-C5B8-44A3-A9B3-8B1A3F7444AB") },
-    };
     public static Dictionary<LandOfHeroesVitality, Guid> VitalityIds = new()
     {
         { LandOfHeroesVitality.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
@@ -514,17 +393,17 @@ public class LandOfHeroesTemplate
     
     public static Dictionary<LandOfHeroesMinorSkill, Guid> AttributelessMinorSkillsAttributeId = new()
     {
-        { LandOfHeroesMinorSkill.MeleeLightWeapon, AttributeIds[LandOfHeroesAttribute.Agility]},
-        { LandOfHeroesMinorSkill.MeleeMediumWeapon, AttributeIds[LandOfHeroesAttribute.Strength]},
-        { LandOfHeroesMinorSkill.MeleeHeavyWeapon, AttributeIds[LandOfHeroesAttribute.Strength]},
-        { LandOfHeroesMinorSkill.RangedLightWeapon, AttributeIds[LandOfHeroesAttribute.Agility]},
-        { LandOfHeroesMinorSkill.RangedMediumWeapon, AttributeIds[LandOfHeroesAttribute.Strength]},
-        { LandOfHeroesMinorSkill.RangedHeavyWeapon, AttributeIds[LandOfHeroesAttribute.Strength]},
-        { LandOfHeroesMinorSkill.ResitInjury, AttributeIds[LandOfHeroesAttribute.Vigor]},
-        { LandOfHeroesMinorSkill.ResistPoison, AttributeIds[LandOfHeroesAttribute.Vigor]},
-        { LandOfHeroesMinorSkill.ResistCurse, AttributeIds[LandOfHeroesAttribute.Vigor]},
-        { LandOfHeroesMinorSkill.ResistDisease, AttributeIds[LandOfHeroesAttribute.Vigor]},
-        { LandOfHeroesMinorSkill.Evasion, AttributeIds[LandOfHeroesAttribute.Agility]},
+        { LandOfHeroesMinorSkill.MeleeLightWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility]},
+        { LandOfHeroesMinorSkill.MeleeMediumWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength]},
+        { LandOfHeroesMinorSkill.MeleeHeavyWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength]},
+        { LandOfHeroesMinorSkill.RangedLightWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility]},
+        { LandOfHeroesMinorSkill.RangedMediumWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength]},
+        { LandOfHeroesMinorSkill.RangedHeavyWeapon, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength]},
+        { LandOfHeroesMinorSkill.ResitInjury, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]},
+        { LandOfHeroesMinorSkill.ResistPoison, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]},
+        { LandOfHeroesMinorSkill.ResistCurse, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]},
+        { LandOfHeroesMinorSkill.ResistDisease, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]},
+        { LandOfHeroesMinorSkill.Evasion, LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility]},
     };
 
     public static Dictionary<LandOfHeroesMinorSkill, Guid> MinorSkillIds = new()

@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public partial class LandOfHeroesArchetypes
+public class LandOfHeroesArchetypes
 {
     public static Archetype  WarriorArchetype =>
 
@@ -15,8 +15,8 @@ public partial class LandOfHeroesArchetypes
             Description = "",
             Details = "",
             Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
-            Bonuses = new List<Bonus>
-            {
+            Bonuses =
+            [
                 new Bonus
                 {
                     Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
@@ -24,11 +24,11 @@ public partial class LandOfHeroesArchetypes
                     Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
                     Application = BonusApplication.Property,
                     Origin = BonusOrigin.Innate,
-                    Type = BonusType.Value
+                    Type = BonusType.Buff
                 }
-            },
-            PowerDescriptions = new List<ArchertypePowerDescription>
-            {
+            ],
+            PowerDescriptions =
+            [
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("C79A18A2-3383-4199-86CE-C6AD76C08FAE"),
@@ -37,6 +37,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("1A2B3C4D-5E6F-7A8B-9C0D-1E2F3A4B5C6D"),
@@ -45,6 +46,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("2B3C4D5E-6F7A-8B9C-0D1E-2F3A4B5C6D7E"),
@@ -53,6 +55,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("3C4D5E6F-7A8B-9C0D-1E2F-3A4B5C6D7E8F"),
@@ -61,6 +64,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("4D5E6F7A-8B9C-0D1E-2F3A-4B5C6D7E8F9A"),
@@ -69,6 +73,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("5E6F7A8B-9C0D-1E2F-3A4B-5C6D7E8F9A0B"),
@@ -77,6 +82,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("6F7A8B9C-0D1E-2F3A-4B5C-6D7E8F9A0B1C"),
@@ -85,6 +91,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("7A8B9C0D-1E2F-3A4B-5C6D-7E8F9A0B1C2D"),
@@ -93,6 +100,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("8B9C0D1E-2F3A-4B5C-6D7E-8F9A0B1C2D3E"),
@@ -101,6 +109,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("9C0D1E2F-3A4B-5C6D-7E8F-9A0B1C2D3E4F"),
@@ -109,6 +118,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("0D1E2F3A-4B5C-6D7E-8F9A-0B1C2D3E4F5A"),
@@ -117,6 +127,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("1E2F3A4B-5C6D-7E8F-9A0B-1C2D3E4F5A6B"),
@@ -125,6 +136,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("2F3A4B5C-6D7E-8F9A-0B1C-2D3E4F5A6B7C"),
@@ -133,6 +145,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("3A4B5C6D-7E8F-9A0B-1C2D-3E4F5A6B7C8D"),
@@ -141,6 +154,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("4B5C6D7E-8F9A-0B1C-2D3E-4F5A6B7C8D9E"),
@@ -149,6 +163,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("5C6D7E8F-9A0B-1C2D-3E4F-5A6B7C8D9E0F"),
@@ -157,6 +172,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("6D7E8F9A-0B1C-2D3E-4F5A-6B7C8D9E0F1A"),
@@ -165,6 +181,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("7E8F9A0B-1C2D-3E4F-5A6B-7C8D9E0F1A2B"),
@@ -173,6 +190,7 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 },
+
                 new ArchertypePowerDescription
                 {
                     Id = Guid.Parse("8F9A0B1C-2D3E-4F5A-6B7C-8D9E0F1A2B3C"),
@@ -181,6 +199,6 @@ public partial class LandOfHeroesArchetypes
                     Description = "",
                     GameDescription = ""
                 }
-            }
+            ]
         };
 }

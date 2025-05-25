@@ -3,8 +3,10 @@ namespace RoleRollsPocketEdition.Powers.Entities
     public enum PowerActionType
     {
         None = 0,
-        Active = 1,
-        Reactive = 2,
-        Free = 3,
+        PartialAction = 1,
+        FullAction = 2,
+        AttackAction = 3,
+        Reactive = 4,
+        Free = 5,
     }
 }

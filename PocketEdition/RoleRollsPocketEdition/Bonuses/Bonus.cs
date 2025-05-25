@@ -54,11 +54,13 @@ public enum BonusApplication
     Property = 0,
     Critical = 1,
     Hit = 2,
-    Defense = 3
+    Evasion = 3
 }
 
 public enum BonusType
 {
     Advantage = 0,
-    Value = 1,
+    Buff = 1,
+    Disadvantage = 2,
+    Debuff = 3,
 }
