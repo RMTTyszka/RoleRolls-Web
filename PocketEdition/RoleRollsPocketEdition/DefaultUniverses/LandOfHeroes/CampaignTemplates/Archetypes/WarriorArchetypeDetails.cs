@@ -5,11 +5,11 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public class LandOfHeroesArchetypes
+public static partial class WarriorArchetypeDetails
 {
     public static Archetype  WarriorArchetype =>
 
-        new Archetype
+        new()
         {
             Name = "Warrior",
             Description = "",

@@ -42,8 +42,8 @@ public class LandOfHeroesTemplate
 
     private static List<VitalityTemplate> BuildVitalities()
     {
-        return new List<VitalityTemplate>
-        {
+        return
+        [
             new()
             {
                 Id = VitalityIds[LandOfHeroesVitality.Life],
@@ -51,7 +51,8 @@ public class LandOfHeroesTemplate
                 Formula = "10 + 4 * Vigor",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
-            },   
+            },
+
             new()
             {
                 Id = VitalityIds[LandOfHeroesVitality.Moral],
@@ -59,8 +60,9 @@ public class LandOfHeroesTemplate
                 Formula = "15 + 2 * Intuition",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
-            },
-        };
+            }
+
+        ];
     }
 
     private static List<SkillTemplate> BuildAttributelessSkills()
@@ -108,216 +110,17 @@ public class LandOfHeroesTemplate
 
     private static List<Archetype> Roles =>
     [
-        LandOfHeroesArchetypes.WarriorArchetype,
-        new Archetype
-        {
-            Name = "Savage",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("b082a02d-1718-4b8f-bbbb-0bc37cce4e93"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Bard",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("a767180f-cd59-41f4-9b25-2cf83faeca2c"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Hunter",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("396e8751-df67-41db-b7b9-adfc108c978c"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("655394b6-e1bf-4175-90e8-cdb95da1613c"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Spiritualist",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("7fb26adb-21e7-405e-a1a7-06d5eeb01da3"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("85de058e-64fe-4f7f-b49d-df5cfbb84d19"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Treatment], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Druid",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("3f15b9de-0bd5-43ce-b2af-4aad91b5b9a4"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("fd3b88be-b55d-4c0b-8010-9c1b56eef367"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Awareness], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Rogue",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("f44b25b9-2e87-495e-83eb-de9b8802df1f"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("dcd0ab9d-0e95-448b-ba42-8aead55b6c62"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Nimbleness], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Warlock",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("0e20b28f-8b53-446e-a0e1-cd0b546e1e39"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("4e150329-37b6-4263-9dc9-caa0d4723388"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Martialist",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("8036e058-bc2c-4c77-a2ae-aa20d27dfe3a"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("913ffad2-33d3-4ef7-9621-effbfcecf82f"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Spellcaster",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("8b156640-9b67-43e7-bdfe-b1f3529a30d5"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("d3d9b663-7486-40f7-87e6-8c873cedcdde"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Knowledge], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Crusader",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("8FD3CF61-8BAB-4328-BFAB-89247BF1371D"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("172B2C5D-160B-4760-9D87-0879E265BAD8"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Combat], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
-        new Archetype
-        {
-            Name = "Commander",
-            Description = "",
-            Details = "",
-            Id = Guid.Parse("B1F385D7-BB6B-4400-81AD-C79ECDF75B09"),
-            Bonuses = new List<Bonus>
-            {
-                new Bonus
-                {
-                    Id = Guid.Parse("6806B42D-E833-4775-B077-9223FB4901FD"),
-                    Value = 1,
-                    Property = new Property(LandOfHeroesSkills.SkillIds[LandOfHeroesSkill.Empathy], PropertyType.Skill),
-                    Application = BonusApplication.Property,
-                    Origin = BonusOrigin.Innate,
-                    Type = BonusType.Buff
-                }
-            }
-        },
+        WarriorArchetypeDetails.WarriorArchetype,
+        BarbarianArchetypeDetails.BarbarianArchetype,
+        BardArchetypeDetails.BardArchetype,
+        CrusaderArchetypeDetails.CrusaderArchetype,
+        DruidArchetypeDetails.DruidArchetype,
+        HunterArchetypeDetails.HunterArchetype,
+        MartialistArchetypeDetails.MartialistArchetype,
+        RogueArchetypeDetails.RogueArchetype,
+        SpellcasterArchetypeDetails.SpellcasterArchetype,
+        SpiritualistArchetypeDetails.SpiritualistArchetype,
+        WarlockArchetypeDetails.WarlockArchetype,
     ];
 
 
@@ -348,7 +151,7 @@ public class LandOfHeroesTemplate
 
     private static ICollection<SkillTemplate> GetSkills(LandOfHeroesAttribute attribute, Guid attributeId)
     {
-        var skills = AttributeSkills.ContainsKey(attribute) ? AttributeSkills[attribute] : new List<LandOfHeroesSkill>();
+        var skills = AttributeSkills.ContainsKey(attribute) ? AttributeSkills[attribute] : [];
 
         return skills.Select(skill => new SkillTemplate
         {
@@ -361,7 +164,7 @@ public class LandOfHeroesTemplate
 
     private static List<SpecificSkillTemplate> GetMinorSkills(LandOfHeroesSkill skill, Guid skillId, Guid? attributeId)
     {
-        var minorSkills = SkillMinorSkills.ContainsKey(skill) ? SkillMinorSkills[skill] : new List<LandOfHeroesMinorSkill>();
+        var minorSkills = SkillMinorSkills.ContainsKey(skill) ? SkillMinorSkills[skill] : [];
 
         return minorSkills.Select(minorSkill => new SpecificSkillTemplate
         {
@@ -451,41 +254,63 @@ public class LandOfHeroesTemplate
     public static Dictionary<LandOfHeroesAttribute, List<LandOfHeroesSkill>> AttributeSkills =>
         new()
         {
-            { LandOfHeroesAttribute.Agility, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Nimbleness } },
-            { LandOfHeroesAttribute.Charisma, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Empathy } },
-            { LandOfHeroesAttribute.Intelligence, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Knowledge, LandOfHeroesSkill.Treatment } },
-            { LandOfHeroesAttribute.Intuition, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Awareness } },
-            { LandOfHeroesAttribute.Strength, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Athletics } },
-            { LandOfHeroesAttribute.Vigor, new List<LandOfHeroesSkill> { LandOfHeroesSkill.Survival } }
+            { LandOfHeroesAttribute.Agility, [LandOfHeroesSkill.Nimbleness] },
+            { LandOfHeroesAttribute.Charisma, [LandOfHeroesSkill.Empathy] },
+            { LandOfHeroesAttribute.Intelligence, [LandOfHeroesSkill.Knowledge, LandOfHeroesSkill.Treatment] },
+            { LandOfHeroesAttribute.Intuition, [LandOfHeroesSkill.Awareness] },
+            { LandOfHeroesAttribute.Strength, [LandOfHeroesSkill.Athletics] },
+            { LandOfHeroesAttribute.Vigor, [LandOfHeroesSkill.Survival] }
         };
     public static Dictionary<LandOfHeroesSkill, List<LandOfHeroesMinorSkill>> SkillMinorSkills =>
         new()
         {
-            { LandOfHeroesSkill.Awareness, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Observe, LandOfHeroesMinorSkill.Listen, LandOfHeroesMinorSkill.Search, LandOfHeroesMinorSkill.Feeling } },
-            { LandOfHeroesSkill.Empathy, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Diplomacy, LandOfHeroesMinorSkill.Bluff } },
-            { LandOfHeroesSkill.Knowledge, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.History, LandOfHeroesMinorSkill.Arcane, LandOfHeroesMinorSkill.Religion, LandOfHeroesMinorSkill.Nature, LandOfHeroesMinorSkill.Dungeons } },
-            { LandOfHeroesSkill.Nimbleness, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Acrobacy, LandOfHeroesMinorSkill.Hide, LandOfHeroesMinorSkill.Stealth } },
-            { LandOfHeroesSkill.Survival, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Hunger, LandOfHeroesMinorSkill.ColdWeather, LandOfHeroesMinorSkill.WarmWeather, } },
-            { LandOfHeroesSkill.Treatment, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Injury, LandOfHeroesMinorSkill.Poison, LandOfHeroesMinorSkill.Curse, LandOfHeroesMinorSkill.Disease } },
-            { LandOfHeroesSkill.Athletics, new List<LandOfHeroesMinorSkill> { LandOfHeroesMinorSkill.Swim, LandOfHeroesMinorSkill.Run, LandOfHeroesMinorSkill.Climb, LandOfHeroesMinorSkill.Jump } },
-            { LandOfHeroesSkill.Combat, new List<LandOfHeroesMinorSkill> 
-                { 
-                    LandOfHeroesMinorSkill.MeleeLightWeapon, 
-                    LandOfHeroesMinorSkill.MeleeMediumWeapon, 
-                    LandOfHeroesMinorSkill.MeleeHeavyWeapon, 
-                    LandOfHeroesMinorSkill.RangedLightWeapon, 
-                    LandOfHeroesMinorSkill.RangedMediumWeapon, 
-                    LandOfHeroesMinorSkill.RangedHeavyWeapon,
-                } 
+            { LandOfHeroesSkill.Awareness,
+                [
+                    LandOfHeroesMinorSkill.Observe, LandOfHeroesMinorSkill.Listen, LandOfHeroesMinorSkill.Search,
+                    LandOfHeroesMinorSkill.Feeling
+                ]
+            },
+            { LandOfHeroesSkill.Empathy, [LandOfHeroesMinorSkill.Diplomacy, LandOfHeroesMinorSkill.Bluff] },
+            { LandOfHeroesSkill.Knowledge,
+                [
+                    LandOfHeroesMinorSkill.History, LandOfHeroesMinorSkill.Arcane, LandOfHeroesMinorSkill.Religion,
+                    LandOfHeroesMinorSkill.Nature, LandOfHeroesMinorSkill.Dungeons
+                ]
+            },
+            { LandOfHeroesSkill.Nimbleness,
+                [LandOfHeroesMinorSkill.Acrobacy, LandOfHeroesMinorSkill.Hide, LandOfHeroesMinorSkill.Stealth]
+            },
+            { LandOfHeroesSkill.Survival,
+                [LandOfHeroesMinorSkill.Hunger, LandOfHeroesMinorSkill.ColdWeather, LandOfHeroesMinorSkill.WarmWeather]
+            },
+            { LandOfHeroesSkill.Treatment,
+                [
+                    LandOfHeroesMinorSkill.Injury, LandOfHeroesMinorSkill.Poison, LandOfHeroesMinorSkill.Curse,
+                    LandOfHeroesMinorSkill.Disease
+                ]
+            },
+            { LandOfHeroesSkill.Athletics,
+                [
+                    LandOfHeroesMinorSkill.Swim, LandOfHeroesMinorSkill.Run, LandOfHeroesMinorSkill.Climb,
+                    LandOfHeroesMinorSkill.Jump
+                ]
+            },
+            { LandOfHeroesSkill.Combat, [
+                    LandOfHeroesMinorSkill.MeleeLightWeapon,
+                    LandOfHeroesMinorSkill.MeleeMediumWeapon,
+                    LandOfHeroesMinorSkill.MeleeHeavyWeapon,
+                    LandOfHeroesMinorSkill.RangedLightWeapon,
+                    LandOfHeroesMinorSkill.RangedMediumWeapon,
+                    LandOfHeroesMinorSkill.RangedHeavyWeapon
+                ]
             },       
-            { LandOfHeroesSkill.Defense, new List<LandOfHeroesMinorSkill> 
-                { 
-                    LandOfHeroesMinorSkill.ResitInjury, 
-                    LandOfHeroesMinorSkill.ResistPoison, 
-                    LandOfHeroesMinorSkill.ResistCurse, 
-                    LandOfHeroesMinorSkill.ResistDisease, 
-                    LandOfHeroesMinorSkill.Evasion, 
-                } 
+            { LandOfHeroesSkill.Defense, [
+                    LandOfHeroesMinorSkill.ResitInjury,
+                    LandOfHeroesMinorSkill.ResistPoison,
+                    LandOfHeroesMinorSkill.ResistCurse,
+                    LandOfHeroesMinorSkill.ResistDisease,
+                    LandOfHeroesMinorSkill.Evasion
+                ]
             }
         };
 
