@@ -178,7 +178,55 @@ public class GlobalCombatManeuvers
             },
         ],
     };
-    public static PowerTemplate FullDefence => new()
+    public static PowerTemplate CoverAlly => new()
+    {
+        Id = Guid.Parse("E22CAF76-D78E-4C5B-A3C5-3F057B2C8958"),
+        Campaign = null,
+        CampaignId = default,
+        Type = PowerType.Instant,
+        PowerDurationType = PowerDurationType.Instant,
+        Duration = null,
+        ActionType = PowerActionType.AttackAction,
+        Name = "Cover Ally",
+        Description = "",
+        CastFormula = null,
+        CastDescription = null,
+        UseAttributeId = null,
+        TargetDefenseId = null,
+        UsagesFormula = null,
+        UsageType = null,
+        TargetType = TargetType.Both,
+        Bonuses =
+        [
+            new Bonus
+            {
+                Id = Guid.Parse("CDDE0F24-5D2E-40EB-9161-B3E456715498"),
+                Description = null,
+                Value = 1,
+                Active = false,
+                Property = null,
+                Name = "Cover Ally Hit Disadvantage",
+                Application = BonusApplication.Hit,
+                Origin = BonusOrigin.Innate,
+                Type = BonusType.Disadvantage,
+                Target = TargetType.Self
+            },     
+            new Bonus
+            {
+                Id = Guid.Parse("32345A0A-B2BF-43AB-BD9E-47B28FAE389B"),
+                Description = null,
+                Value = 1,
+                Active = false,
+                Property = null,
+                Name = "Cover Ally Evasion Advantage",
+                Application = BonusApplication.Evasion,
+                Origin = BonusOrigin.Innate,
+                Type = BonusType.Advantage,
+                Target = TargetType.Target,
+            },
+        ],
+    };
+    public static PowerTemplate FullCover => new()
     {
         Id = Guid.Parse("B8685A16-BDE3-4407-92E7-2C7917195B82"),
         Campaign = null,
@@ -205,7 +253,7 @@ public class GlobalCombatManeuvers
                 Value = 3,
                 Active = false,
                 Property = null,
-                Name = "Full Defence Hit Disadvantage",
+                Name = "Full Cover Hit Disadvantage",
                 Application = BonusApplication.Hit,
                 Origin = BonusOrigin.Innate,
                 Type = BonusType.Disadvantage
@@ -217,7 +265,7 @@ public class GlobalCombatManeuvers
                 Value = 2,
                 Active = false,
                 Property = null,
-                Name = "Full Defense Evasion Advantage",
+                Name = "Full Cover Evasion Advantage",
                 Application = BonusApplication.Evasion,
                 Origin = BonusOrigin.Innate,
                 Type = BonusType.Advantage
@@ -229,7 +277,7 @@ public class GlobalCombatManeuvers
                 Value = 2,
                 Active = false,
                 Property = null,
-                Name = "Full Defense Evasion Value",
+                Name = "Full Cover Evasion Value",
                 Application = BonusApplication.Evasion,
                 Origin = BonusOrigin.Innate,
                 Type = BonusType.Buff

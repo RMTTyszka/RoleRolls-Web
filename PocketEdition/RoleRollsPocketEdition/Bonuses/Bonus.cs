@@ -1,5 +1,6 @@
 using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Bonuses;
 
@@ -29,6 +30,7 @@ public class Bonus : Entity
     public BonusApplication Application { get; set; }
     public BonusOrigin Origin { get; set; }
     public BonusType Type { get; set; }
+    public TargetType Target { get; set; }
 
     public void Update(BonusModel bonusModel)
     {
@@ -38,6 +40,7 @@ public class Bonus : Entity
         Origin = bonusModel.Origin;
         Description = bonusModel.Description;
         Name = bonusModel.Name;
+        Target = bonusModel.Target;
     }
 }
 

@@ -6,11 +6,11 @@ namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates
 
 public static class LandOfHeroesCombatManeuvers
 {
-    public static List<PowerTemplate> Maneuvers = [
+    public static readonly List<PowerTemplate> Maneuvers = [
         GlobalCombatManeuvers.OpenShot, 
         GlobalCombatManeuvers.FullAttack, 
         GlobalCombatManeuvers.PartialAttack,
         GlobalCombatManeuvers.CautiousAttack,
-        GlobalCombatManeuvers.FullDefence,
+        GlobalCombatManeuvers.FullCover,
     ];
 }

@@ -30,7 +30,8 @@ namespace RoleRollsPocketEdition.Powers.Entities
     public enum TargetType
     {
         Self = 0,
-        Other = 1
+        Target = 1,
+        Both = 2
     }
 
     public enum PowerDurationType

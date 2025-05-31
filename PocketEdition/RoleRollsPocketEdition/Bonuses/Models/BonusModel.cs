@@ -1,5 +1,6 @@
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
+using RoleRollsPocketEdition.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Bonuses.Models;
 
@@ -12,6 +13,7 @@ public class BonusModel : IEntityDto
     public BonusOrigin Origin { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
+    public TargetType Target { get; set; }
 
     public BonusModel() { }
 
