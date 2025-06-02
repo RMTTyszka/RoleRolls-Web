@@ -21,7 +21,7 @@ public class PowerDescriptionModel : IEntityDto
         Id = archertypePowerDescription.Id;
         Description = archertypePowerDescription.Description;
         GameDescription = archertypePowerDescription.GameDescription;
-        Level = archertypePowerDescription.Level;
+        Level = archertypePowerDescription.RequiredLevel;
     }
 
     public int Level { get; set; }

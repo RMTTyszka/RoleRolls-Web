@@ -13,7 +13,7 @@ public class ArchertypePowerDescription : Entity
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public string GameDescription { get; set; } = "";
-    public int Level { get; set; } = 1;
+    public int RequiredLevel { get; set; } = 1;
 
     public ArchertypePowerDescription()
     {
@@ -25,7 +25,7 @@ public class ArchertypePowerDescription : Entity
         Name = model.Name;
         Description = model.Description;
         GameDescription = model.GameDescription;
-        Level = model.Level;
+        RequiredLevel = model.Level;
     }
 
     public void Update(PowerDescriptionModel model)
@@ -33,6 +33,6 @@ public class ArchertypePowerDescription : Entity
         Name = model.Name;
         Description = model.Description;
         GameDescription = model.GameDescription;
-        Level = model.Level;
+        RequiredLevel = model.Level;
     }
 }

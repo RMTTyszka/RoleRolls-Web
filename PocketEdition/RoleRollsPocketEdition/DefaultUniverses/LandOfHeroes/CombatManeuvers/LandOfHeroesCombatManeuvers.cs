@@ -12,5 +12,7 @@ public static class LandOfHeroesCombatManeuvers
         GlobalCombatManeuvers.PartialAttack,
         GlobalCombatManeuvers.CautiousAttack,
         GlobalCombatManeuvers.FullCover,
+        GlobalCombatManeuvers.CoverAlly,
+        GlobalCombatManeuvers.FullCoverAlly,
     ];
 }

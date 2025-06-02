@@ -50,4 +50,11 @@
     <Folder Include="DefaultUniverses\Global\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="DefaultUniverses/LandofHeroes/Archetypes/Powers/*.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
 </Project>
