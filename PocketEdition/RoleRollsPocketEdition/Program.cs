@@ -98,19 +98,6 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    /*var migrator = scope.ServiceProvider.GetRequiredService<ISqlTransportDatabaseMigrator>();
-    await migrator.CreateSchemaIfNotExist(new SqlTransportOptions
-    {
-        Host = "localhost",
-        Database = "RoleRolls",
-        Schema = "transport",
-        Role = "postgres",
-        Username = "postgres",
-        Password = "123qwe",
-        AdminUsername = "postgres",
-        AdminPassword = "123qwe",
-    });*/
-
     var dataContext = scope.ServiceProvider.GetRequiredService<RoleRollsDbContext>();
     dataContext.Database.Migrate();
 
