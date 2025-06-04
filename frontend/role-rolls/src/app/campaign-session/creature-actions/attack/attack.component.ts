@@ -23,6 +23,7 @@ import { ButtonDirective } from 'primeng/button';
 import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
 import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-select.component';
+import { LuckSelectComponent } from '@app/rolls/luck-select/luck-select.component';
 
 @Component({
   selector: 'rr-attack',
@@ -35,7 +36,8 @@ import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-
     ButtonDirective,
     FormFieldWrapperComponent,
     FieldTitleDirective,
-    AdvantageSelectComponent
+    AdvantageSelectComponent,
+    LuckSelectComponent
   ],
   templateUrl: './attack.component.html',
   styleUrl: './attack.component.scss'
@@ -76,6 +78,7 @@ export class AttackComponent {
         damagePropertyId: damageProperty,
         targetId: null,
         advantage: 0,
+        luck: 0
       } as AttackInput);
     }
     return null;

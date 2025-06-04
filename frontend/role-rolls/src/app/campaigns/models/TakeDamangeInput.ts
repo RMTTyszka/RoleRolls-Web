@@ -12,4 +12,6 @@ export interface AttackInput {
     damagePropertyId: Property;
     vitalityId: Property;
     targetId: string;
+    luck: number;
+    advantage: number;
 }
