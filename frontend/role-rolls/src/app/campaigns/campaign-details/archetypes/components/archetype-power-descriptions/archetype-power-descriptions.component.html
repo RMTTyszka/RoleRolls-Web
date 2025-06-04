@@ -21,14 +21,12 @@
           </div>
           <div class="flex-1">
             <p-floatlabel variant="in">
-              <textarea
-                pTextarea
+              <p-editor
+                [style]="{ height: '320px' }"
                 id="gameDescription-{{ $index }}"
                 formControlName="gameDescription"
-                rows="3"
                 class="w-full"
-                style="resize: none"
-              ></textarea>
+              ></p-editor>
               <label for="gameDescription-{{ $index }}">Game Description</label>
             </p-floatlabel>
           </div>

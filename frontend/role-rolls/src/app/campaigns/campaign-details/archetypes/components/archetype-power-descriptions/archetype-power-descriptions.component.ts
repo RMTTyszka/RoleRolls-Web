@@ -9,6 +9,7 @@ import { Textarea } from 'primeng/textarea';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import {Campaign} from '@app/campaigns/models/campaign';
+import { Editor } from 'primeng/editor';
 
 @Component({
   selector: 'rr-archetype-power-descriptions',
@@ -16,7 +17,8 @@ import {Campaign} from '@app/campaigns/models/campaign';
     Fieldset,
     ReactiveFormsModule,
     FloatLabel,
-    Textarea
+    Textarea,
+    Editor
   ],
   templateUrl: './archetype-power-descriptions.component.html',
   styleUrl: './archetype-power-descriptions.component.scss'

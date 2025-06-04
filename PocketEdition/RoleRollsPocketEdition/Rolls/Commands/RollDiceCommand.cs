@@ -2,7 +2,7 @@
 {
     public class RollDiceCommand
     {
-        public RollDiceCommand(int propertyValue, int advantage, int bonus, int difficulty, int complexity, List<int> predefinedRolls)
+        public RollDiceCommand(int propertyValue, int advantage, int bonus, int difficulty, int complexity, List<int> predefinedRolls, int luck)
         {
             PropertyValue = propertyValue;
             Bonus = bonus;
@@ -10,7 +10,10 @@
             Difficulty = difficulty;
             Complexity = complexity;
             PredefinedRolls = predefinedRolls;
+            Luck = luck;
         }
+
+        public int Luck { get; set; }
 
         public int PropertyValue { get; init; } 
         public int Bonus { get; init; } 

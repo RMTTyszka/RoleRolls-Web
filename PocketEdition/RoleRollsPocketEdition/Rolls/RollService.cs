@@ -131,7 +131,7 @@ namespace RoleRollsPocketEdition.Rolls
                 .Include(creature => creature.Vitalities)
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(input.Property);
-            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls);
+            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
@@ -145,7 +145,7 @@ namespace RoleRollsPocketEdition.Rolls
 
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, RollInput input)
         {
-            var rollCommand = new RollDiceCommand(input.Advantage, input.Advantage, input.Bonus, input.Difficulty, input.Complexity, input.Rolls);
+            var rollCommand = new RollDiceCommand(input.Advantage, input.Advantage, input.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, _currentUser.User.Id, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);

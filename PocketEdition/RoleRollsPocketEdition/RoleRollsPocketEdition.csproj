@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="DefaultUniverses/LandofHeroes/Archetypes/Powers/*.md">
+    <None Include="DefaultUniverses/LandofHeroes/Archetypes/**/Powers/*.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

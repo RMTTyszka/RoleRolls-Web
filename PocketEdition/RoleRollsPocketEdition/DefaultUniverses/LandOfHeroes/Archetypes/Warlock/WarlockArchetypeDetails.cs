@@ -1,3 +1,4 @@
+using System.Text;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
@@ -7,6 +8,20 @@ namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates
 
 public static partial class WarlockArchetypeDetails
 {
+    private static string LoadPowerDescription(string powerName)
+    {
+        var basePath = Path.Combine(AppContext.BaseDirectory, "DefaultUniverses", "LandOfHeroes", "Archetypes", "Warlock", "Powers");
+        var fileName = $"{powerName.Replace(" ", "")}.md";
+        var path = Path.Combine(basePath, fileName);
+        
+        if (File.Exists(path))
+        {
+            return File.ReadAllText(path, Encoding.UTF8);
+        }
+        
+        return string.Empty;
+    }
+
     public static Archetype WarlockArchetype =>
         new()
         {
@@ -30,7 +45,8 @@ public static partial class WarlockArchetypeDetails
             [
                 new ArchertypePowerDescription
                 {
-                    Id = Guid.Parse("f9a8b7c6-d5e4-4f3a-2b1c-0a9b8c7d6e5f"), RequiredLevel = 0, Name = "Curse",
+                    Id = Guid.Parse("f9a8b7c6-d5e4-4f3a-2b1c-0a9b8c7d6e5f"), RequiredLevel = 0, Name = "Hex",
+                    GameDescription = LoadPowerDescription("Hex")
                 },
                 new ArchertypePowerDescription
                 {

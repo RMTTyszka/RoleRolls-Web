@@ -65,14 +65,14 @@ public class RollSimulationService : IRollSimulationService
         for (var rolls = 0; rolls < NumberOfRolls; rolls++)
         {
             var roll = new Roll();
-            var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>());
+            var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>(), 0);
             chance += roll.Process(rollCommand).Success ? 1 : 0;
         }
 
         return chance / NumberOfRolls * 100;
     }
     private bool getChance(int points, int bonus, int difficulty, int complexity) {
-        var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>());
+        var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>(), 0);
         var roll = new Roll().Process(rollCommand);
         return roll.Success;
     }

@@ -5,7 +5,7 @@ Uma criatura não pode receber mais uma maldição.
 
 ## Efeitos da Maldição
 -   -2 Acerto
--  - reduz deslocamento em 1/3 
--  - 2 Esquiva
--  - 2 Defesax
+-  reduz deslocamento em 1/3 
+-  -2 Esquiva
+-  -2 Defesa
 

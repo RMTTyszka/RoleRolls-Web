@@ -45,41 +45,76 @@ namespace RoleRollsPocketEdition.Rolls.Entities
 
         public Roll Process(RollDiceCommand command)
         {
-            NumberOfDices = command.PredefinedRolls.Any() 
-                ? command.PredefinedRolls.Count 
+            NumberOfDices = command.PredefinedRolls.Any()
+                ? command.PredefinedRolls.Count
                 : command.PropertyValue + command.Advantage;
             Complexity = command.Complexity;
             Difficulty = command.Difficulty;
             Bonus = command.Bonus;
+
+            var baseRolls = RollAllDice(command);
+            ApplyLuck(ref baseRolls, command.Luck);
+            ProcessRolls(baseRolls);
+
+            RolledDices = JsonSerializer.Serialize(baseRolls.Select(r => r + Bonus).ToList());
+            this.DateTime = DateTime.UtcNow;
+            return this;
+        }
+
+        private List<int> RollAllDice(RollDiceCommand command)
+        {
             var rolls = new List<int>();
-            foreach (var rollIndex in Enumerable.Range( 0, NumberOfDices))
+            for (int i = 0; i < NumberOfDices; i++)
             {
-                var roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[rollIndex] : RollDice();
+                int roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[i] : RollDice();
                 rolls.Add(roll);
-                var rollWithBonus = roll += Bonus;
+            }
+            return rolls;
+        }
+
+        private void ApplyLuck(ref List<int> rolls, int luck)
+        {
+            if (luck == 0) return;
+
+            var indicesToReroll = rolls
+                .Select((value, index) => new { value, index })
+                .OrderBy(pair => luck > 0 ? pair.value : -pair.value)
+                .Take(Math.Abs(luck))
+                .Select(pair => pair.index)
+                .ToList();
+
+            foreach (int index in indicesToReroll)
+            {
+                var newRoll = RollDice();
+                rolls[index] = luck > 0
+                    ? Math.Max(rolls[index], newRoll)
+                    : Math.Min(rolls[index], newRoll);
+            }
+        }
+
+        private void ProcessRolls(List<int> baseRolls)
+        {
+            foreach (var roll in baseRolls)
+            {
+                int rollWithBonus = roll + Bonus;
+
                 if (rollWithBonus >= Complexity)
                 {
                     NumberOfSuccesses++;
                     if (roll == 20)
-                    {
                         NumberOfCriticalSuccesses++;
-                    }
-                } else 
+                }
+                else
                 {
-                    if (roll == 1) 
-                    {
+                    if (roll == 1)
                         NumberOfCriticalFailures++;
-                    }
                 }
             }
-            if (NumberOfSuccesses >= Difficulty)
-            {
-                Success = true;
-            }
-            RolledDices = JsonSerializer.Serialize(rolls);
-            this.DateTime = DateTime.UtcNow;
-            return this;
+
+            Success = NumberOfSuccesses >= Difficulty;
         }
+
+
 
         private int RollDice()
         {

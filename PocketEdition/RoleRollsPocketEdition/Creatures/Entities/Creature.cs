@@ -347,7 +347,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var totalHit = hitPropertyValues.Bonus + WeaponDefinition.HitBonus(weaponCategory);
             totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
-            var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>());
+            var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>(), input.Luck);
             var roll = new Roll();
             roll.Process(rollCommand);
             if (roll.Success)
