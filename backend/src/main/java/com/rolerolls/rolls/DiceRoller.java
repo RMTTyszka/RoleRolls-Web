@@ -35,6 +35,10 @@ public class DiceRoller {
 
     public RollTestResult rollTest(Integer points, Integer bonus, Integer difficulty, Integer complexity, boolean allowCritical) {
 
+        if (complexity == null || complexity <= 0) {
+            complexity = 1;
+        }
+
         Integer numberOfRolls = Loh.getLevel(points);
         List<Roll> rolls = new ArrayList<>();
         Integer criticalSuccesses = 0;
