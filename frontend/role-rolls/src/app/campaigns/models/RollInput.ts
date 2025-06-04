@@ -7,6 +7,7 @@ export interface RollInput {
   complexity: number;
   difficulty: number;
   advantage: number;
+  luck: number;
   bonus: number;
   hidden: boolean;
   creatureId: string;

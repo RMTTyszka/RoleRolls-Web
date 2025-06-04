@@ -16,6 +16,7 @@ import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-ti
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { IntegerOnlyDirective } from '@app/directives/integer-only.directive';
 import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-select.component';
+import { LuckSelectComponent } from '@app/rolls/luck-select/luck-select.component';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -30,6 +31,7 @@ import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-
     AutoCompleteModule,
     IntegerOnlyDirective,
     AdvantageSelectComponent,
+    LuckSelectComponent,
 
   ],
   templateUrl: './roll-dice.component.html',
@@ -56,6 +58,7 @@ export class RollDiceComponent {
       this.rollInput.complexity = 0;
       this.rollInput.difficulty = 0;
       this.rollInput.advantage = 0;
+      this.rollInput.luck = 0;
       this.rollInput.bonus = 0;
       this.rollInput.rollsAsString = null;
       this.rollInput.description = '';
