@@ -1,6 +1,8 @@
 import { Property } from '@app/models/bonuses/bonus';
+import { Entity } from '@app/models/Entity.model';
 
-export class ItemConfigurationModel {
+export class ItemConfigurationModel implements Entity {
+  id: string;
   public armorProperty?: Property | null;
   public basicAttackTargetFirstVitality?: Property | null;
   public meleeLightWeaponHitProperty?: Property | null;

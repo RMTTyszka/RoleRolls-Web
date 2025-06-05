@@ -48,11 +48,13 @@ export class CampaignItemConfigurationComponent {
   async ngOnInit(): Promise<void> {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration);
+      console.log(JSON.stringify(this.campaign.campaignTemplate.itemConfiguration, null, 2))
+      this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration, {
+        recursive: false
+      });
       this.populateOptions();
       this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
       this.disabled = false;
-      this.loaded = true;
       if (!this.disabled) {
         this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
           await this.save();
@@ -60,7 +62,7 @@ export class CampaignItemConfigurationComponent {
       } else {
         this.form.disable();
       }
-
+      this.loaded = true;
     });
 
   }

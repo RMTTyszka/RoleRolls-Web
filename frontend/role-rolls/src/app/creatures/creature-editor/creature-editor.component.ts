@@ -197,7 +197,9 @@ export class CreatureEditorComponent {
   private subscribeToRefreshCreature() {
     this.subscriptionManager.add('refreshCreature', this.creatureDetailsService.refreshCreature.subscribe(async () => {
       this.creature = await firstValueFrom(this.campaignService.getCreature(this.campaign.id, this.creatureId));
-      ultraPatchValue(this.form, this.creature, 'creature');
+      ultraPatchValue(this.form, this.creature, {
+        entityName: 'creature'
+      });
     }));
   }
 }

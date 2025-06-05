@@ -72,10 +72,10 @@ export class AttackComponent {
       const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
       return getAsForm({
         slot: EquipableSlot.MainHand,
-        vitalityId: itemConfiguration.basicAttackTargetFirstVitality,
-        defenseId: itemConfiguration.armorProperty,
-        hitPropertyId: hitProperty,
-        damagePropertyId: damageProperty,
+        vitality: itemConfiguration.basicAttackTargetFirstVitality,
+        defense: itemConfiguration.armorProperty,
+        hitProperty: hitProperty,
+        damageProperty: damageProperty,
         targetId: null,
         advantage: 0,
         luck: 0

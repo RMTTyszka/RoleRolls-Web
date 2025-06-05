@@ -47,7 +47,10 @@ export class CampaignCreatorComponent {
     } as RROption<string>,
 
   ];
-  public form = getAsForm(this.formControls, true, [this.formControls.id, this.formControls.name]);
+  public form = getAsForm(this.formControls, {
+    empty: true,
+    requiredFields: [this.formControls.id, this.formControls.name]
+  });
   constructor(private readonly authenticationService: AuthenticationService,
               private readonly campaignsService: CampaignsService,
               private readonly router: Router,

@@ -6,6 +6,21 @@
 
 @import "primeicons/primeicons.css";
 
+
+.fa-sword::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  mask: url('/assets/icons/sword-icon-fullsize.svg') no-repeat center;
+  -webkit-mask: url('/assets/icons/sword-icon-fullsize.svg') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+
 rr-form-field-wrapper {
   .w-full > *:not(.not-flex) {
     display: flex;

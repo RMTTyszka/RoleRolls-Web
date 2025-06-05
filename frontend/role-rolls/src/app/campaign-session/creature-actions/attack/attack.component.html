@@ -17,7 +17,7 @@
       <ng-template fieldTitle="Hit Property">
         <rr-property-selector id="hit-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
-                              formControlName="hitPropertyId">
+                              formControlName="hitProperty">
         </rr-property-selector>
       </ng-template>
 
@@ -25,7 +25,7 @@
       <ng-template fieldTitle="Damage Property">
         <rr-property-selector id="damage-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
-                              formControlName="damagePropertyId"
+                              formControlName="damageProperty"
                               class="w-full">
         </rr-property-selector>
       </ng-template>
@@ -34,7 +34,7 @@
       <ng-template fieldTitle="Defense">
         <rr-property-selector id="defense-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Defense]"
-                              formControlName="defenseId"
+                              formControlName="defense"
                               class="w-full">
         </rr-property-selector>
       </ng-template>
@@ -43,7 +43,7 @@
       <ng-template fieldTitle="Vitality">
         <rr-property-selector id="vitality-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Vitality]"
-                              formControlName="vitalityId"
+                              formControlName="vitality"
                               class="w-full">
         </rr-property-selector>
       </ng-template>

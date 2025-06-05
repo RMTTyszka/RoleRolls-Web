@@ -63,8 +63,9 @@ export class RollDiceComponent {
       this.rollInput.rollsAsString = null;
       this.rollInput.description = '';
       this.hasProperty = Boolean(this.rollInput.propertyName);
-      this.form = getAsForm(rollInput, false, [], ['propertyName']);
-    });
+      this.form = getAsForm(rollInput, {
+        disabledFields: ['propertyName']
+      });    });
   }
 
   public roll() {

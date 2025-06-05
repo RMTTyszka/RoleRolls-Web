@@ -336,6 +336,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var weapon = Equipment.GetItem(input.WeaponSlot);
             var weaponTemplate = weapon?.Template as WeaponTemplate;
             var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
+            var gripTypeDetails = GripTypeExtensions.Stats[Equipment.GripType];
             var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
             var damageProperty = input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory);
             var hitPropertyValues = GetPropertyValue(hitProperty);
@@ -344,9 +345,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var defenseValue = target.DefenseValue(defenseId);
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
-            var totalHit = hitPropertyValues.Bonus + WeaponDefinition.HitBonus(weaponCategory);
+            var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit;
             totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
+            advantage = Math.Max(advantage, input.Advantage);
             var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>(), input.Luck);
             var roll = new Roll();
             roll.Process(rollCommand);
@@ -355,10 +357,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 var damages = new List<DamageRollResult>();
                 for (var i = 0; i < roll.NumberOfSuccesses; i++)
                 {
-                    var damage = RollDamage(weapon, damagePropertyValues);
+                    var damage = RollDamage(weapon, damagePropertyValues, gripTypeDetails);
                     var block = target.GetBasicBlock();
                     damage.ReducedDamage -= block;
-                    damage.ReducedDamage = Math.Max(0, damage.ReducedDamage);
+                    damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
                     damages.Add(damage);
                     target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
                 }
@@ -383,21 +385,22 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         }
 
-        private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty)
+        private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty,
+            GripTypeStats gripTypeDetails)
         {
             var result = new DamageRollResult();
             var random = new Random();
-            var weaponTemplate = weapon.Template as WeaponTemplate;
-            var maxValue = WeaponDefinition.MaxDamage(weaponTemplate.Category);
-            var flatBonus = WeaponDefinition.BaseDamageBonus(weaponTemplate.Category);
-            var bonusModifier = WeaponDefinition.DamageBonusModifier(weaponTemplate.Category);
-            var damage = random.Next(0, maxValue);
+            var maxValue = gripTypeDetails.Damage;
+            var flatBonus = gripTypeDetails.BaseBonusDamage;
+            var attributeModifier = gripTypeDetails.AttributeModifier;
+            var magicModifier = gripTypeDetails.MagicBonusModifier;
+            var damage = random.Next(1, maxValue + 1);
             result.DiceValue = damage;
-            result.BonusModifier = bonusModifier;
+            result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
             damage += flatBonus;
-            damage += weapon.Level * bonusModifier;
-            damage += damageProperty.Bonus * bonusModifier;
+            damage += weapon.Level / 2 * magicModifier;
+            damage += damageProperty.Bonus * attributeModifier;
             result.TotalDamage = damage;
             result.ReducedDamage = damage;
             // TODO any extra damage * levelModifier;

@@ -70,7 +70,9 @@ export class EncounterEditorComponent {
       creatures: [],
     });
 
-    this.form = getAsForm(this.encounter(), false, ['name']);
+    this.form = getAsForm(this.encounter(), {
+      requiredFields: ['name']
+    });
     if (!canEditCampaign(this.campaign)) {
       this.form.disable();
     }
