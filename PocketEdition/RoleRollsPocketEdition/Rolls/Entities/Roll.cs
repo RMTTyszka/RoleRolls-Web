@@ -28,6 +28,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         public DateTime DateTime { get; set; }
         public string Description { get; set; }
         public int Advantage { get; set; }
+        public int Luck { get; set; }
 
         public Roll()
         {
@@ -50,6 +51,8 @@ namespace RoleRollsPocketEdition.Rolls.Entities
                 : command.PropertyValue + command.Advantage;
             Complexity = command.Complexity;
             Difficulty = command.Difficulty;
+            Luck = command.Luck;
+            Advantage = command.Advantage;
             Bonus = command.Bonus;
 
             var baseRolls = RollAllDice(command);

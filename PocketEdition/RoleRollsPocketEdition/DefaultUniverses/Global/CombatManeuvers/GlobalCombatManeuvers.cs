@@ -226,16 +226,16 @@ public class GlobalCombatManeuvers
             },
         ],
     };
-    public static PowerTemplate FullCoverAlly => new()
+    public static PowerTemplate AuxiliarAttack => new()
     {
-        Id = Guid.Parse("E22CAF76-D78E-4C5B-A3C5-3F057B2C8958"),
+        Id = Guid.Parse("F8A23B91-D4C7-4E5B-9D8A-1234567890AB"),
         Campaign = null,
         CampaignId = default,
         Type = PowerType.Instant,
         PowerDurationType = PowerDurationType.Instant,
         Duration = null,
         ActionType = PowerActionType.AttackAction,
-        Name = "Full Cover Ally",
+        Name = "Auxiliar Attack",
         Description = "",
         CastFormula = null,
         CastDescription = null,
@@ -248,12 +248,12 @@ public class GlobalCombatManeuvers
         [
             new Bonus
             {
-                Id = Guid.Parse("CDDE0F24-5D2E-40EB-9161-B3E456715498"),
+                Id = Guid.Parse("A1B2C3D4-E5F6-4A5B-9C8D-1234567890AB"),
                 Description = null,
                 Value = 3,
                 Active = false,
                 Property = null,
-                Name = "Full Cover Ally Hit Disadvantage",
+                Name = "Auxiliar Attack Hit Disadvantage",
                 Application = BonusApplication.Hit,
                 Origin = BonusOrigin.Innate,
                 Type = BonusType.Disadvantage,
@@ -261,12 +261,12 @@ public class GlobalCombatManeuvers
             },     
             new Bonus
             {
-                Id = Guid.Parse("32345A0A-B2BF-43AB-BD9E-47B28FAE389B"),
+                Id = Guid.Parse("B2C3D4E5-F6A7-4B5C-8D9E-1234567890AB"),
                 Description = null,
                 Value = 2,
                 Active = false,
                 Property = null,
-                Name = "Full Cover Ally Evasion Advantage",
+                Name = "Auxiliar Attack Evasion Advantage",
                 Application = BonusApplication.Evasion,
                 Origin = BonusOrigin.Innate,
                 Type = BonusType.Advantage,
