@@ -39,7 +39,7 @@ public class ItemConfiguration : Entity
     public CampaignTemplate CampaignTemplate { get; set; }
     public Guid CampaignTemplateId { get; set; }
     public Property? ArmorProperty { get; set; }
-    public Property? BasicAttackTargetFirstVitality {get; private set; }
+    public Property? BasicAttackTargetFirstVitality {get; set; }
     public Property? MeleeLightWeaponHitProperty { get; set; }
     public Property? MeleeMediumWeaponHitProperty { get; set; }
     public Property? MeleeHeavyWeaponHitProperty { get; set; }   

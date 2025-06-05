@@ -570,6 +570,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("FeetId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("GripType")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("HandsId")
                         .HasColumnType("uuid");
 

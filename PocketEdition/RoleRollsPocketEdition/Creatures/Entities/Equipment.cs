@@ -30,6 +30,7 @@ public class Equipment : Entity
     public Guid? NeckId { get; set; }
     public Guid? LeftRingId { get; set; }
     public Guid? RightRingId { get; set; }
+    public GripType GripType { get; set; }
     
 
 

@@ -2,7 +2,11 @@ namespace RoleRollsPocketEdition.Itens;
 
 public enum WeaponCategory
 {
-    Light = 0,
-    Medium = 1,
-    Heavy = 2,
+    None = 0,
+    Light = 1,
+    Medium = 2,
+    Heavy = 3,
+    LightShield = 4,
+    MediumShield = 5,
+    HeavyShield = 6
 }
