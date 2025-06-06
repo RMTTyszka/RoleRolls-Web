@@ -1,0 +1,10 @@
+<p-select
+  [options]="properties()"
+  optionLabel="label"
+  optionValue="value"
+  [disabled]="disabled"
+  [placeholder]="placeholder()"
+  dataKey="idProperty"
+  [(ngModel)]="value"
+  (onChange)="onInput($event.value)"
+></p-select>
