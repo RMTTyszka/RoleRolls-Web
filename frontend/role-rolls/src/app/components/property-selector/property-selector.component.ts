@@ -21,9 +21,9 @@ import { Property } from '@app/models/bonuses/bonus';
   selector: 'rr-property-selector',
   standalone: true,
   imports: [
-    SelectModule, // Certifique-se de que SelectModule é compatível com formulários reativos
-    ReactiveFormsModule, // Adicione ReactiveFormsModule para suporte a formulários reativos
-    FormsModule // Adicione FormsModule para suporte a ngModel
+    SelectModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './property-selector.component.html',
   styleUrl: './property-selector.component.scss',

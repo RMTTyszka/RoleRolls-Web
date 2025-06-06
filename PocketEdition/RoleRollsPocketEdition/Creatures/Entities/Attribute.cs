@@ -28,6 +28,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             AttributeTemplateId = attribute.Id;
             AttributeTemplate = attribute;
             Skills = attribute.SkillTemplates.Select(skill => new Skill(skill, this)).ToList();
+            Skills = attribute.SpecificSkillTemplates.Select(s => new SpecificSkillTemplate(s., this)).ToList();
         }
 
         public void Update(AttributeModel updatedAttribute)

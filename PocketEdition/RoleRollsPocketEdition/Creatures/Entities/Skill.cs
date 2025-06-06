@@ -8,8 +8,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     {
         public string Name { get; set; }
         public int Value { get; set; }
-        public Guid AttributeId { get; set; }
-        public Attribute Attribute { get; set; }
+        public Guid? AttributeId { get; set; }
+        public Attribute? Attribute { get; set; }
         public Guid SkillTemplateId { get; set; }
         public SkillTemplate SkillTemplate { get; set; }
         public List<SpecificSkill> SpecificSkills { get; set; }
@@ -21,11 +21,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
         }
 
-        public Skill(SkillTemplate skill, Attribute attribute)
+        public Skill(SkillTemplate skill, Attribute? attribute)
         {
             Id = Guid.NewGuid();
             Name = skill.Name;
-            AttributeId = attribute.Id;
+            AttributeId = attribute?.Id;
             SkillTemplateId = skill.Id;
             SkillTemplate = skill;
             SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill)).ToList();

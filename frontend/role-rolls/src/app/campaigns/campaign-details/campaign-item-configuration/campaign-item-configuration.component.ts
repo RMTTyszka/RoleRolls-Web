@@ -48,7 +48,6 @@ export class CampaignItemConfigurationComponent {
   async ngOnInit(): Promise<void> {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      console.log(JSON.stringify(this.campaign.campaignTemplate.itemConfiguration, null, 2))
       this.form = getAsForm(this.campaign.campaignTemplate.itemConfiguration, {
         recursive: false
       });

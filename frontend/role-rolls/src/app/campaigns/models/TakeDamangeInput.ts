@@ -9,7 +9,8 @@ export interface AttackInput {
     slot: EquipableSlot;
     defense: Property;
     hitProperty: Property;
-    damageProperty: Property;
+    hitAttribute: Property;
+    damageAttribute: Property;
     vitality: Property;
     targetId: string;
     luck: number;

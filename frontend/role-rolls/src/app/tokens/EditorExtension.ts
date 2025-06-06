@@ -38,7 +38,7 @@ export function createForm(
     empty = false,
     requiredFields = [],
     disabledFields = [],
-    recursive = false
+    recursive = true
   } = config;
 
   Object.entries(entity).forEach(([key, value]) => {

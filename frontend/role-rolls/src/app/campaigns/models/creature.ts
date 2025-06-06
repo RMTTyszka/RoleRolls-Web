@@ -10,6 +10,7 @@ export class Creature implements Entity {
   public name!: string;
   public attributes: Attribute[] = [];
   public skills: Skill[] = [];
+  public attributelessSkills: Skill[] = [];
   public vitalities: Vitality[] = [];
   public defenses: Defense[] = [];
   public category!: CreatureCategory;
@@ -30,7 +31,7 @@ export class Attribute implements Entity {
 export class Skill implements Entity {
   public id: string;
   public name!: string;
-  public attributeId!: string;
+  public attributeId?: string | null;
   public skillTemplateId!: string;
   public value!: number;
   public specificSkills: SpecificSkill[] = [];

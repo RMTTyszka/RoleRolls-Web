@@ -130,7 +130,7 @@ namespace RoleRollsPocketEdition.Rolls
                 .ThenInclude(skill => skill.SpecificSkills)
                 .Include(creature => creature.Vitalities)
                 .FirstAsync(creature => creature.Id == creatureId);
-            var property = creature.GetPropertyValue(input.Property);
+            var property = creature.GetPropertyValue(input.Property, null);
             var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);

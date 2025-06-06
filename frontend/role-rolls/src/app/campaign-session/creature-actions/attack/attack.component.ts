@@ -24,6 +24,7 @@ import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/fo
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
 import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-select.component';
 import { LuckSelectComponent } from '@app/rolls/luck-select/luck-select.component';
+import { Property } from '@app/models/bonuses/bonus';
 
 @Component({
   selector: 'rr-attack',
@@ -70,16 +71,20 @@ export class AttackComponent {
       const mainHand = this.attacker().equipment.mainHand;
       const hitProperty = this.resolveHitProperty(mainHand, itemConfiguration);
       const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
+      const hitAttribute = this.resolveHitAttribute(hitProperty, attacker);
       return getAsForm({
         slot: EquipableSlot.MainHand,
         vitality: itemConfiguration.basicAttackTargetFirstVitality,
         defense: itemConfiguration.armorProperty,
         hitProperty: hitProperty,
-        damageProperty: damageProperty,
+        hitAttribute: hitAttribute,
+        damageAttribute: damageProperty,
         targetId: null,
         advantage: 0,
         luck: 0
-      } as AttackInput);
+      } as AttackInput, {
+        requiredFields: hitAttribute ? ['hitAttribute'] : null
+      });
     }
     return null;
   });
@@ -137,6 +142,46 @@ export class AttackComponent {
       return itemConfiguration.meleeLightWeaponDamageProperty;
     }
     return itemConfiguration.meleeLightWeaponDamageProperty;
+  }
+
+  private resolveHitAttribute(hitProperty: Property, attacker: Creature): Property | null {
+    for (const skill of attacker.skills) {
+      if (skill.id === hitProperty.id) {
+        if (skill.attributeId) {
+          return {
+            id: skill.attributeId,
+            type: PropertyType.Attribute
+          };
+        }
+        return null;
+      }
+
+      for (const specificSkill of skill.specificSkills) {
+        if (specificSkill.id === hitProperty.id) {
+          if (skill.attributeId) {
+            return {
+              id: skill.attributeId,
+              type: PropertyType.Attribute
+            };
+          }
+          return null;
+        }
+      }
+    }
+
+    for (const attributelessSkill of attacker.attributelessSkills) {
+      if (attributelessSkill.id === hitProperty.id) {
+        return null;
+      }
+
+      for (const specificSkill of attributelessSkill.specificSkills) {
+        if (specificSkill.id === hitProperty.id) {
+          return null;
+        }
+      }
+    }
+
+    return null;
   }
 }
 

@@ -69,12 +69,16 @@ public class LandOfHeroesTemplate
     {
         var skills = Enum.GetValues<LandOfHeroesSkill>().Where(s => !AttributeSkills.SelectMany(e => e.Value).Contains(s));
 
-        return skills.Select(skill => new SkillTemplate
+        return skills.Select(skill =>
         {
-            Name = skill.ToString(),
-            Id = LandOfHeroesSkills.SkillIds[skill],
-            AttributeTemplateId = null,
-            SpecificSkills = GetMinorSkills(skill, LandOfHeroesSkills.SkillIds[skill], null)
+            
+            return new SkillTemplate
+            {
+                Name = skill.ToString(),
+                Id = LandOfHeroesSkills.SkillIds[skill],
+                AttributeTemplateId = null,
+                SpecificSkills = GetMinorSkills(skill, LandOfHeroesSkills.SkillIds[skill], null)
+            };
         }).ToList();
     }
 

@@ -1,4 +1,5 @@
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
+
 public enum LandOfHeroesAttribute
 {
     Agility = 0,

@@ -18,7 +18,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
         public string Name { get; set; }
         public Guid Id { get; set; }
-        public Guid SkillTemplateId { get; set; }
+        public Guid? SkillTemplateId { get; set; }
         public Guid? AttributeId { get; set; }
     }
 }

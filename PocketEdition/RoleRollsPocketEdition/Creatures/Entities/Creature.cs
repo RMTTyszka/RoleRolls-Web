@@ -47,6 +47,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public Guid? EncounterId { get; set; }
         public Encounter? Encounter { get; set; }
         [NotMapped] public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills).ToList();
+        [NotMapped] public List<SpecificSkill> Attribu => Skills.SelectMany(s => s.SpecificSkills).ToList();
         public Creature()
         {
             Attributes = new List<Attribute>();
@@ -66,65 +67,112 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
 
 
-        public PropertyValue GetPropertyValue(Property? property)
+        public PropertyValue GetPropertyValue(Property? property, Property? overriderAttribute)
         {
-            Attribute? attribute;
-            Skill? skill;
-            SpecificSkill? minorSkill;
-            int rollBonus;
             var result = new PropertyValue();
             if (property == null)
             {
                 return result;           
             }
 
+            int GetAttributeValue(Guid attributeId)
+            {
+                if (overriderAttribute != null)
+                {
+                    var overrideAttr = Attributes.FirstOrDefault(at => at.Id == overriderAttribute.Id || at.AttributeTemplateId == overriderAttribute.Id);
+                    if (overrideAttr != null)
+                    {
+                        return overrideAttr.Value;
+                    }
+                }
+        
+                var originalAttr = Attributes.First(at => at.Id == attributeId);
+                return originalAttr.Value;
+            }
+
             switch (property.Type)
             {
                 case PropertyType.Attribute:
-                    var value = Attributes.First(at => at.Id == property.Id || at.AttributeTemplateId == property.Id).Value;
-                    result.Value = value;
+                    var attribute = Attributes.First(at => at.Id == property.Id || at.AttributeTemplateId == property.Id);
+                    if (overriderAttribute != null)
+                    {
+                        var overrideAttr = Attributes.FirstOrDefault(at => at.Id == overriderAttribute.Id || at.AttributeTemplateId == overriderAttribute.Id);
+                        result.Value = overrideAttr?.Value ?? attribute.Value;
+                    }
+                    else
+                    {
+                        result.Value = attribute.Value;
+                    }
                     break;
+
                 case PropertyType.Skill:
-                    skill = Skills.First(sk => sk.Id == property.Id);
-                    attribute = Attributes.First(attribute => attribute.Id == skill.AttributeId);
-                    result.Value = attribute.Value;
+                    var skill = Skills.Concat(AttributelessSkills).First(sk => sk.Id == property.Id);
+                    if (skill.AttributeId.HasValue)
+                    {
+                        result.Value = GetAttributeValue(skill.AttributeId.Value);
+                    }
                     result.Bonus = 0;
                     break;
+
                 case PropertyType.MinorSkill:
-                    minorSkill = Skills.SelectMany(skill => skill.SpecificSkills).First(minorSkill => minorSkill.Id == property.Id);
-                    skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
-                    attribute = Attributes.First(at => at.Id == skill.AttributeId);
-                    rollBonus = minorSkill.Points;
-                    result.Value = attribute.Value;
-                    result.Bonus = rollBonus;
+                    var minorSkill = Skills.SelectMany(skill => skill.SpecificSkills)
+                        .Concat(AttributelessSkills.SelectMany(s => s.SpecificSkills))
+                        .First(ms => ms.Id == property.Id);
+            
+                    var parentSkill = Skills.First(sk => sk.Id == minorSkill.SkillId);
+                    if (parentSkill.AttributeId.HasValue)
+                    {
+                        result.Value = GetAttributeValue(parentSkill.AttributeId.Value);
+                    }
+                    result.Bonus = minorSkill.Points;
                     break;
+
                 default:
-                    attribute = Attributes.FirstOrDefault(at => at.Id == property.Id || at.AttributeTemplateId == property.Id);
-                    if (attribute != null)
+                    // Tenta como Attribute primeiro
+                    var attr = Attributes.FirstOrDefault(at => at.Id == property.Id || at.AttributeTemplateId == property.Id);
+                    if (attr != null)
                     {
-                        result.Value = attribute.Value;
-                    }         
-                    skill = Skills.FirstOrDefault(at => at.Id == property.Id);
-                    if (skill != null)
+                        if (overriderAttribute != null)
+                        {
+                            var overrideAttr = Attributes.FirstOrDefault(at => at.Id == overriderAttribute.Id || at.AttributeTemplateId == overriderAttribute.Id);
+                            result.Value = overrideAttr?.Value ?? attr.Value;
+                        }
+                        else
+                        {
+                            result.Value = attr.Value;
+                        }
+                        break;
+                    }
+
+                    // Tenta como Skill
+                    var skillMatch = Skills.FirstOrDefault(sk => sk.Id == property.Id);
+                    if (skillMatch != null && skillMatch.AttributeId.HasValue)
                     {
-                        result.Value = attribute.Value;
+                        result.Value = GetAttributeValue(skillMatch.AttributeId.Value);
                         result.Bonus = 0;
-                    }      
-                    minorSkill = Skills.SelectMany(skill => skill.SpecificSkills).FirstOrDefault(minorSkill => minorSkill.Id == property.Id);
-                    if (minorSkill != null)
+                        break;
+                    }
+
+                    // Tenta como MinorSkill
+                    var minorSkillMatch = Skills.SelectMany(skill => skill.SpecificSkills)
+                        .Concat(AttributelessSkills.SelectMany(s => s.SpecificSkills))
+                        .FirstOrDefault(ms => ms.Id == property.Id);
+            
+                    if (minorSkillMatch != null)
                     {
-                        skill = Skills.First(sk => sk.Id == minorSkill.SkillId);
-                        attribute = Attributes.First(at => at.Id == skill.AttributeId);
-                        rollBonus = minorSkill.Points;
-                        result.Value = attribute.Value;
-                        result.Bonus = rollBonus;
+                        var parentSkillMatch = Skills.First(sk => sk.Id == minorSkillMatch.SkillId);
+                        if (parentSkillMatch.AttributeId.HasValue)
+                        {
+                            result.Value = GetAttributeValue(parentSkillMatch.AttributeId.Value);
+                            result.Bonus = minorSkillMatch.Points;
+                        }
                     }
                     break;
             }
 
             result.Value += GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property);
             result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Buff, property);
-            return result;;
+            return result;
         }
         public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
         {
@@ -138,6 +186,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 CreatureTemplateId = template.Id,
                 Category = creatureCategory,
                 IsTemplate = isTemplate,
+                AttributelessSkills = template.AttributelessSkills.Select(skill => new Skill(skill, null)).ToList()
             };
             foreach (var vitality in creature.Vitalities)
             {
@@ -292,9 +341,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 (formula, attribute) => formula.Replace(attribute.Name, attribute.TotalValue.ToString()));
      
             replacesFormula = Skills.Aggregate(replacesFormula,
-                (formula, skill) => replacesFormula.Replace(skill.Name, GetPropertyValue(new Property(skill.Id, PropertyType.Skill)).ToString()));     
+                (formula, skill) => replacesFormula.Replace(skill.Name, GetPropertyValue(new Property(skill.Id, PropertyType.Skill), null).ToString()));     
             replacesFormula = SpecificSkills.Aggregate(replacesFormula,
-                (formula, minorSKill) => replacesFormula.Replace(minorSKill.Name, GetPropertyValue(new Property(minorSKill.Id, PropertyType.MinorSkill)).ToString()));
+                (formula, minorSKill) => replacesFormula.Replace(minorSKill.Name, GetPropertyValue(new Property(minorSKill.Id, PropertyType.MinorSkill), null).ToString()));
             DataTable dt = new DataTable();
             var result = dt.Compute(replacesFormula,"");
 
@@ -339,8 +388,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var gripTypeDetails = GripTypeExtensions.Stats[Equipment.GripType];
             var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
             var damageProperty = input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory);
-            var hitPropertyValues = GetPropertyValue(hitProperty);
-            var damagePropertyValues = GetPropertyValue(damageProperty);
+            var hitPropertyValues = GetPropertyValue(hitProperty, input.HitAttribute);
+            var damagePropertyValues = GetPropertyValue(damageProperty, input.DamageAttribute);
             var defenseId = input.GetDefenseId;
             var defenseValue = target.DefenseValue(defenseId);
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;

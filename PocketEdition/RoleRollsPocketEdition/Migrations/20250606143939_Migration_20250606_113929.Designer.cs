@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250606143939_Migration_20250606_113929")]
+    partial class Migration_20250606_113929
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -661,10 +664,7 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AttributeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatureId")
+                    b.Property<Guid>("AttributeId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -681,8 +681,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttributeId");
-
-                    b.HasIndex("CreatureId");
 
                     b.HasIndex("SkillTemplateId");
 
@@ -1639,11 +1637,9 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Attribute", "Attribute")
                         .WithMany("Skills")
-                        .HasForeignKey("AttributeId");
-
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
-                        .WithMany("AttributelessSkills")
-                        .HasForeignKey("CreatureId");
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
                         .WithMany("Skills")
@@ -2289,8 +2285,6 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
                 {
-                    b.Navigation("AttributelessSkills");
-
                     b.Navigation("Attributes");
 
                     b.Navigation("Bonuses");

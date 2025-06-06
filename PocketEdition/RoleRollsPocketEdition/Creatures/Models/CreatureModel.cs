@@ -16,6 +16,8 @@ namespace RoleRollsPocketEdition.Creatures.Models
             Id = creature.Id;
             OwnerId = creature.OwnerId;
             Attributes = creature.Attributes.Select(attribute => new AttributeModel(attribute))
+                .OrderBy(a => a.Name).ToList();        
+            AttributelessSkills = creature.AttributelessSkills.Select(skill => new SkillModel(skill))
                 .OrderBy(a => a.Name).ToList();
             Skills = creature.Skills.Select(skill => new SkillModel(skill))
                 .OrderBy(a => a.Name).ToList();
@@ -29,6 +31,8 @@ namespace RoleRollsPocketEdition.Creatures.Models
             Inventory = InventoryModel.FromCreature(creature);
             Equipment = EquipmentModel.FromCreature(creature);
         }
+
+        public List<SkillModel> AttributelessSkills { get; set; } = new();
 
         public EquipmentModel Equipment { get; set; }
 

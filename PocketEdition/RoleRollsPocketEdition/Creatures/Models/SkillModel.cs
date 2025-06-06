@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Value { get; set; }
-        public Guid AttributeId { get; set; }
+        public Guid? AttributeId { get; set; }
         public Guid SkillTemplateId { get; set; }
         public List<SpecificSkillModel> SpecificSkills { get; set; }
         

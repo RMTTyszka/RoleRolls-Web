@@ -126,7 +126,7 @@
                       <div class="col-6" form [formGroup]="skill">
                         <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
                           <div [formGroup]="specificSkill" class="grid grid-cols-2 gap-4 justify-start">
-                            <rr-property-selector class="flex-auto" placeholder="Attribute" formControlName="attributeId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-selector>
+                            <rr-property-by-id-selector class="flex-auto" placeholder="Attribute" formControlName="attributeId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-by-id-selector>
                             <div class="p-inputgroup">
                               <input type="text" pInputText (blur)="updateSpecificSkill(skill, specificSkill)" placeholder="Name" formControlName="name" required>
                               <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>

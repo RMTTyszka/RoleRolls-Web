@@ -18,6 +18,9 @@ import {LoggerService} from '@services/logger/logger.service';
 import {firstValueFrom} from 'rxjs';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { PropertyType } from '@app/campaigns/models/propertyType';
+import {
+  PropertyByIdSelectorComponent
+} from '@app/components/property-by-id-selector/property-by-id-selector.component';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -31,7 +34,8 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     ButtonDirective,
     InputText,
     NgForOf,
-    PropertySelectorComponent
+    PropertySelectorComponent,
+    PropertyByIdSelectorComponent
   ],
   styleUrl: './campaign-template.component.scss'
 })

@@ -274,6 +274,54 @@ public class GlobalCombatManeuvers
             },
         ],
     };
+    public static PowerTemplate FullCoverAlly => new()
+    {
+        Id = Guid.Parse("E22CAF76-D78E-4C5B-A3C5-3F057B2C8958"),
+        Campaign = null,
+        CampaignId = default,
+        Type = PowerType.Instant,
+        PowerDurationType = PowerDurationType.Instant,
+        Duration = null,
+        ActionType = PowerActionType.AttackAction,
+        Name = "Full Cover Ally",
+        Description = "",
+        CastFormula = null,
+        CastDescription = null,
+        UseAttributeId = null,
+        TargetDefenseId = null,
+        UsagesFormula = null,
+        UsageType = null,
+        TargetType = TargetType.Both,
+        Bonuses =
+        [
+            new Bonus
+            {
+                Id = Guid.Parse("CDDE0F24-5D2E-40EB-9161-B3E456715498"),
+                Description = null,
+                Value = 3,
+                Active = false,
+                Property = null,
+                Name = "Full Cover Ally Hit Disadvantage",
+                Application = BonusApplication.Hit,
+                Origin = BonusOrigin.Innate,
+                Type = BonusType.Disadvantage,
+                Target = TargetType.Self
+            },     
+            new Bonus
+            {
+                Id = Guid.Parse("32345A0A-B2BF-43AB-BD9E-47B28FAE389B"),
+                Description = null,
+                Value = 2,
+                Active = false,
+                Property = null,
+                Name = "Full Cover Ally Evasion Advantage",
+                Application = BonusApplication.Evasion,
+                Origin = BonusOrigin.Innate,
+                Type = BonusType.Advantage,
+                Target = TargetType.Target,
+            },
+        ],
+    };
     public static PowerTemplate FullCover => new()
     {
         Id = Guid.Parse("B8685A16-BDE3-4407-92E7-2C7917195B82"),

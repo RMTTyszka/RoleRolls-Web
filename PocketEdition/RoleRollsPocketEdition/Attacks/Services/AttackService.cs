@@ -48,6 +48,9 @@ public class AttackService : IAttackService, ITransientDependency
             CombatManeuverIds = input.CombatManeuverIds,
             Luck = input.Luck,
             Advantage = input.Advantage,
+            HitProperty = input.HitProperty,
+            HitAttribute = input.HitAttribute,
+            DamageAttribute = input.DamageAttribute,
         };
         var attackResult = attacker.Attack(target, command);
         await _scenesService.ProcessAction(sceneId, attackResult);
@@ -60,19 +63,22 @@ public class AttackInput
     public Property? Defense { get; set; }
     public Property? Vitality { get; set; }
     public Property? HitProperty { get; set; }
-    public Property? DamageProperty { get; set; }
+    public Property? DamageAttribute { get; set; }
     public EquipableSlot WeaponSlot { get; set; }
     public List<Guid> CombatManeuverIds { get; set; } = [];
     public int Luck { get; set; }
     public int Advantage { get; set; }
-    
+    public Property? HitAttribute { get; set; }
 }
 public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; }
     public Property? DefenseId { get; set; }
+    public Property? HitProperty { get; set; }
+    public Property? HitAttribute { get; set; }
     public Property? VitalityId { get; set; }
+    public Property? DamageAttribute { get; set; }
     public int Luck { get; set; }
     public int Advantage { get; set; }
     public Guid GetDefenseId => DefenseId?.Id ?? ItemConfiguration.ArmorProperty.Id;
