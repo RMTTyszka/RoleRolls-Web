@@ -176,7 +176,7 @@ public class LandOfHeroesTemplate
             Id = MinorSkillIds[minorSkill],
             SkillTemplateId = skillId,
             SkillTemplate = null,
-            AttributeId = attributeId ?? AttributelessMinorSkillsAttributeId[minorSkill]
+            AttributeTemplateId = attributeId ?? AttributelessMinorSkillsAttributeId[minorSkill]
         }).ToList();
     }
 

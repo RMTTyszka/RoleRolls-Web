@@ -20,9 +20,9 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         Task RemoveSkill(Guid id, Guid? attributeId, Guid skillId);
         Task UpdateSkill(Guid id, Guid? attributeId, Guid skillId, SkillTemplateModel skill);     
         
-        Task AddMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, MinorSkillTemplateModel minorSkill);
+        Task AddMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, SpecificSkillTemplateModel specificSkill);
         Task RemoveMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, Guid minorSkillId);
-        Task UpdateMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkill);
+        Task UpdateMinorSkillAsync(Guid id, Guid? attributeId, Guid skillId, Guid minorSkillId, SpecificSkillTemplateModel specificSkill);
         Task AddVitality(Guid id, VitalityTemplateModel vitality);
         Task RemoveVitality(Guid id, Guid vitalityId);
         Task UpdateVitality(Guid id, Guid vitalityId, VitalityTemplateModel vitality);

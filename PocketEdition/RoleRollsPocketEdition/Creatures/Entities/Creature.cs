@@ -46,8 +46,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         
         public Guid? EncounterId { get; set; }
         public Encounter? Encounter { get; set; }
-        [NotMapped] public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills).ToList();
-        [NotMapped] public List<SpecificSkill> Attribu => Skills.SelectMany(s => s.SpecificSkills).ToList();
+        [NotMapped] public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills)
+            .Concat(AttributelessSkills.SelectMany(a => a.SpecificSkills)).ToList();
         public Creature()
         {
             Attributes = new List<Attribute>();
@@ -115,8 +115,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     break;
 
                 case PropertyType.MinorSkill:
-                    var minorSkill = Skills.SelectMany(skill => skill.SpecificSkills)
-                        .Concat(AttributelessSkills.SelectMany(s => s.SpecificSkills))
+                    var minorSkill = SpecificSkills
                         .First(ms => ms.Id == property.Id);
             
                     var parentSkill = Skills.First(sk => sk.Id == minorSkill.SkillId);
@@ -186,7 +185,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 CreatureTemplateId = template.Id,
                 Category = creatureCategory,
                 IsTemplate = isTemplate,
-                AttributelessSkills = template.AttributelessSkills.Select(skill => new Skill(skill, null)).ToList()
+                AttributelessSkills = template.AttributelessSkills.Select(skill => new Skill(skill, attributes)).ToList()
             };
             foreach (var vitality in creature.Vitalities)
             {
@@ -196,6 +195,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
             return creature;
         }
+
+        public ICollection<Skill> AttributelessSkills { get; set; } = new List<Skill>();
 
         public CreatureUpdateValidationResult Update(CreatureModel creatureModel)
         {

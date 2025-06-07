@@ -83,7 +83,7 @@ export class AttackComponent {
         advantage: 0,
         luck: 0
       } as AttackInput, {
-        requiredFields: hitAttribute ? ['hitAttribute'] : null
+        requiredFields: hitAttribute ? ['hitAttribute'] : []
       });
     }
     return null;
@@ -176,11 +176,13 @@ export class AttackComponent {
 
       for (const specificSkill of attributelessSkill.specificSkills) {
         if (specificSkill.id === hitProperty.id) {
-          return null;
+          return {
+            id: specificSkill.attributeId,
+            type: PropertyType.Attribute,
+          } as Property;
         }
       }
     }
-
     return null;
   }
 }

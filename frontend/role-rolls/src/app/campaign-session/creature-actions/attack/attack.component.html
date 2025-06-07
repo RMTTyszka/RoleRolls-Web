@@ -20,6 +20,13 @@
                               formControlName="hitProperty">
         </rr-property-selector>
       </ng-template>
+      <!-- Campo Hit Property -->
+      <ng-template fieldTitle="Hit Property">
+        <rr-property-selector id="hit-input" [campaign]="campaign()"
+                              [propertyType]="[propertyType.Attribute]"
+                              formControlName="hitAttribute">
+        </rr-property-selector>
+      </ng-template>
 
       <!-- Campo Damage Property -->
       <ng-template fieldTitle="Damage Property">

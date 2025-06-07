@@ -7,27 +7,27 @@ namespace RoleRollsPocketEdition.Templates.Entities
 {
     public class SpecificSkillTemplate : Entity
     {
-        private Guid? _attributeId;
+        private Guid? _attributeTemplateId;
 
         public SpecificSkillTemplate()
         {
 
         }
-        public SpecificSkillTemplate(Guid skillId, MinorSkillTemplateModel minorSkill)
+        public SpecificSkillTemplate(Guid skillTemplateId, SpecificSkillTemplateModel specificSkill)
         {
-            Id = minorSkill.Id;
-            SkillTemplateId = skillId;
-            Name = minorSkill.Name;
-            AttributeId = minorSkill.AttributeId;
+            Id = specificSkill.Id;
+            SkillTemplateId = skillTemplateId;
+            Name = specificSkill.Name;
+            AttributeTemplateId = specificSkill.AttributeTemplateId;
         }
 
         public string Name { get; set; }
 
-        public Guid? AttributeId
+        public Guid? AttributeTemplateId
         {
             get
             {
-                if (!_attributeId.HasValue)
+                if (!_attributeTemplateId.HasValue)
                 {
                     if (!SkillTemplate.AttributeTemplateId.HasValue)
                     {
@@ -36,9 +36,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
                     return SkillTemplate.AttributeTemplateId.Value;
 
                 }
-                return _attributeId.Value;
+                return _attributeTemplateId.Value;
             }
-            set => _attributeId = value;
+            set => _attributeTemplateId = value;
         }
 
         public AttributeTemplate? AttributeTemplate { get; set; }
@@ -51,7 +51,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             get
             {
-                if (!AttributeId.HasValue)
+                if (!AttributeTemplateId.HasValue)
                 {
                     if (!SkillTemplate.AttributeTemplateId.HasValue)
                     {
@@ -60,12 +60,12 @@ namespace RoleRollsPocketEdition.Templates.Entities
                     return SkillTemplate.AttributeTemplateId.Value;
 
                 }
-                return AttributeId.Value;
+                return AttributeTemplateId.Value;
             }
         }
-        public void Update(MinorSkillTemplateModel minorSkillModel, RoleRollsDbContext dbContext)
+        public void Update(SpecificSkillTemplateModel specificSkillModel, RoleRollsDbContext dbContext)
         {
-            Name = minorSkillModel.Name;
+            Name = specificSkillModel.Name;
             dbContext.MinorSkillTemplates.Update(this);
         }
     }

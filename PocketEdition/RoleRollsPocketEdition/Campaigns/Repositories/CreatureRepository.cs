@@ -74,7 +74,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
     {
         var query = _dbContext.Creatures
             .AsSplitQuery()
-            .Include(creature => creature.Attributes)
+            .Include(creature => creature.AttributelessSkills)
             .ThenInclude(skill => skill.SpecificSkills)
             .Include(creature => creature.Attributes)
             .ThenInclude(skill => skill.Skills)

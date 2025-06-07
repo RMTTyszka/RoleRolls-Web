@@ -235,7 +235,7 @@ public class LandOfHeroesLoader : IStartupTask
             {
                 dbMinorSkill.Name = codeMinorSkill.Name;
                 dbMinorSkill.SkillTemplateId = codeMinorSkill.SkillTemplateId;
-                dbMinorSkill.AttributeId = codeMinorSkill.AttributeId;
+                dbMinorSkill.AttributeTemplateId = codeMinorSkill.AttributeTemplateId;
                 context.MinorSkillTemplates.Update(dbMinorSkill);
             }
         }

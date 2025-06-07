@@ -139,17 +139,17 @@ namespace RoleRollsPocketEdition.Templates.Entities
             return skill;
         }
 
-        public async Task AddMinorSkillAsync(Guid skillId, MinorSkillTemplateModel minorSkill, RoleRollsDbContext dbContext)
+        public async Task AddMinorSkillAsync(Guid skillId, SpecificSkillTemplateModel specificSkill, RoleRollsDbContext dbContext)
         {
-            var newMinorSkill = new SpecificSkillTemplate(skillId, minorSkill);
+            var newMinorSkill = new SpecificSkillTemplate(skillId, specificSkill);
             var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
             await skill.AddMinorSkillAsync(newMinorSkill, dbContext);
         }       
-        public void UpdateMinorSkill(Guid skillId, Guid minorSkillId, MinorSkillTemplateModel minorSkillModel, RoleRollsDbContext dbContext)
+        public void UpdateMinorSkill(Guid skillId, Guid minorSkillId, SpecificSkillTemplateModel specificSkillModel, RoleRollsDbContext dbContext)
         {
             var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
             var minorSkill = skill.SpecificSkills.First(minorSkill => minorSkill.Id == minorSkillId);
-            minorSkill.Update(minorSkillModel, dbContext);
+            minorSkill.Update(specificSkillModel, dbContext);
         }
 
         public void RemoveMinorSkill(Guid skillId, Guid minorSkillId, RoleRollsDbContext dbContext)

@@ -28,7 +28,16 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             AttributeId = attribute?.Id;
             SkillTemplateId = skill.Id;
             SkillTemplate = skill;
-            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill)).ToList();
+            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill, Id, [])).ToList();
+        }     
+        public Skill(SkillTemplate skillTemplate, List<Attribute> attributes)
+        {
+            Id = Guid.NewGuid();
+            Name = skillTemplate.Name;
+            AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;;
+            SkillTemplateId = skillTemplate.Id;
+            SkillTemplate = skillTemplate;
+            SpecificSkills = skillTemplate.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill, Id, attributes)).ToList();
         }
 
         public CreatureUpdateValidationResult Update(SkillModel updatedSkill)

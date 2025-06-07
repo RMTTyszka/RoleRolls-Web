@@ -43,6 +43,7 @@ export class SpecificSkill implements Entity {
   public id: string;
   public name!: string;
   public skillId!: string;
+  public attributeId?: string | null;
   public specificSkillTemplateId!: string;
   public points!: number;
 }
