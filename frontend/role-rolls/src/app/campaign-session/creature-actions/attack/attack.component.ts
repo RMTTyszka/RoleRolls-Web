@@ -149,7 +149,7 @@ export class AttackComponent {
       if (skill.skillTemplateId === hitProperty.id) {
         if (skill.attributeId) {
           return {
-            id: skill.attributeId,
+            id: this.resolveAttributeTemplateId(skill.attributeId),
             type: PropertyType.Attribute
           };
         }
@@ -160,7 +160,7 @@ export class AttackComponent {
         if (specificSkill.specificSkillTemplateId === hitProperty.id) {
           if (skill.attributeId) {
             return {
-              id: skill.attributeId,
+              id: this.resolveAttributeTemplateId(skill.attributeId),
               type: PropertyType.Attribute
             };
           }
@@ -177,13 +177,17 @@ export class AttackComponent {
       for (const specificSkill of attributelessSkill.specificSkills) {
         if (specificSkill.specificSkillTemplateId === hitProperty.id) {
           return {
-            id: specificSkill.attributeId,
+            id: this.resolveAttributeTemplateId(specificSkill.attributeId),
             type: PropertyType.Attribute,
           } as Property;
         }
       }
     }
     return null;
+  }
+
+  private resolveAttributeTemplateId(attributeId: string) {
+    return this.attacker().attributes.find(a => a.id === attributeId).attributeTemplateId;
   }
 }
 

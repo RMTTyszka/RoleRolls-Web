@@ -15,7 +15,7 @@
 
       <!-- Campo Hit Property -->
       <ng-template fieldTitle="Hit Property">
-        <rr-property-selector id="hit-input" [campaign]="campaign()"
+        <rr-property-selector id="hit-input" [campaign]="campaign()" [creature]="attacker()"
                               [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
                               formControlName="hitProperty">
         </rr-property-selector>

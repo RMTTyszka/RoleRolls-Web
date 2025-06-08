@@ -16,6 +16,7 @@ import {
   SkillTemplate
 } from '@app/campaigns/models/campaign.template';
 import { Property } from '@app/models/bonuses/bonus';
+import {Creature} from '@app/campaigns/models/creature';
 
 @Component({
   selector: 'rr-property-selector',
@@ -41,6 +42,7 @@ import { Property } from '@app/models/bonuses/bonus';
 export class PropertySelectorComponent implements ControlValueAccessor {
   public _value: Property | null = null;
   public campaign = input.required<Campaign>();
+  public creature = input<Creature>();
   public propertyType = input.required<PropertyType[]>();
   public placeholder = input<string>();
   public disabled: boolean = false;

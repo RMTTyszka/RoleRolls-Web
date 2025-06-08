@@ -370,7 +370,8 @@ export class CampaignTemplateComponent {
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const specificSkills = this.minorsSkillBySkill.get(skill.id);
       skill.specificSkills.forEach((specificSkill: SpecificSkillsTemplate) => {
-        specificSkills.push(getAsForm(specificSkill));
+        const form = getAsForm(specificSkill);
+        specificSkills.push(form);
       });
     });
   }
