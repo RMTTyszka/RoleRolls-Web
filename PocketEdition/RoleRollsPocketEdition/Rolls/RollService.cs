@@ -2,6 +2,8 @@
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;
+using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
@@ -130,8 +132,11 @@ namespace RoleRollsPocketEdition.Rolls
                 .ThenInclude(skill => skill.SpecificSkills)
                 .Include(creature => creature.Vitalities)
                 .FirstAsync(creature => creature.Id == creatureId);
-            var property = creature.GetPropertyValue(input.Property, null);
-            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
+            var property = creature.GetPropertyValue(new PropertyInput(
+                input.Property, 
+                null, 
+                PropertyValueOrigin.CreatureProperty
+            ));            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);
