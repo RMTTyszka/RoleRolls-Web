@@ -37,4 +37,9 @@ export class CampaignSessionService {
       this.campaign = campaign;
     });
   }
+
+  public clear() {
+    this.sceneChanged.next(null);
+    this.campaignLoaded.next(null);
+  }
 }

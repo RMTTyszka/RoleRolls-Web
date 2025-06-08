@@ -176,6 +176,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
+            var attributelessSkills =
+                template.AttributelessSkills.Select(skill => new Skill(skill, attributes)).ToList();
             var creature = new Creature
             {
                 Attributes = attributes,
@@ -185,7 +187,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 CreatureTemplateId = template.Id,
                 Category = creatureCategory,
                 IsTemplate = isTemplate,
-                AttributelessSkills = template.AttributelessSkills.Select(skill => new Skill(skill, attributes)).ToList()
+                AttributelessSkills = attributelessSkills
             };
             foreach (var vitality in creature.Vitalities)
             {

@@ -18,6 +18,12 @@ namespace RoleRollsPocketEdition.Creatures.Models
             SpecificSkillTemplateId = skill.SpecificSkillTemplateId;
             Name = skill.Name;
             Points = skill.Points;
+            AttributeId = skill.AttributeId;
+            SkillId = skill.SkillId;
         }
+
+        public Guid? SkillId { get; set; }
+
+        public Guid? AttributeId { get; set; }
     }
 }

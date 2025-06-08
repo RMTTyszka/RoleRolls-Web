@@ -25,7 +25,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Name = skillTemplate.Name;
             SkillId = skillId;
             Skill = null;
-            AttributeId = skillTemplate.AttributeTemplateId ?? attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;
+            AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;
             Attribute = null;
         }
 

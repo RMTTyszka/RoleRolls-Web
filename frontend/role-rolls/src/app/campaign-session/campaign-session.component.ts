@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { CampaignPlayer } from '@app/campaigns/models/CampaignPlayer.model';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { MenuItem } from 'primeng/api';
@@ -42,7 +42,7 @@ import {Toolbar} from 'primeng/toolbar';
   templateUrl: './campaign-session.component.html',
   styleUrl: './campaign-session.component.scss'
 })
-export class CampaignSessionComponent {
+export class CampaignSessionComponent implements OnDestroy {
   @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
   public invitationCode: string;
   public get campaignId() {
@@ -68,6 +68,10 @@ export class CampaignSessionComponent {
     private readonly dialogService: DialogService,
   ) {
   }
+
+  ngOnDestroy(): void {
+       this.detailsService.clear();
+    }
 
   ngOnInit(): void {
     this.route.data.pipe(

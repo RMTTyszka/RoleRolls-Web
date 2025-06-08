@@ -146,7 +146,7 @@ export class AttackComponent {
 
   private resolveHitAttribute(hitProperty: Property, attacker: Creature): Property | null {
     for (const skill of attacker.skills) {
-      if (skill.id === hitProperty.id) {
+      if (skill.skillTemplateId === hitProperty.id) {
         if (skill.attributeId) {
           return {
             id: skill.attributeId,
@@ -157,7 +157,7 @@ export class AttackComponent {
       }
 
       for (const specificSkill of skill.specificSkills) {
-        if (specificSkill.id === hitProperty.id) {
+        if (specificSkill.specificSkillTemplateId === hitProperty.id) {
           if (skill.attributeId) {
             return {
               id: skill.attributeId,
@@ -170,12 +170,12 @@ export class AttackComponent {
     }
 
     for (const attributelessSkill of attacker.attributelessSkills) {
-      if (attributelessSkill.id === hitProperty.id) {
+      if (attributelessSkill.skillTemplateId === hitProperty.id) {
         return null;
       }
 
       for (const specificSkill of attributelessSkill.specificSkills) {
-        if (specificSkill.id === hitProperty.id) {
+        if (specificSkill.specificSkillTemplateId === hitProperty.id) {
           return {
             id: specificSkill.attributeId,
             type: PropertyType.Attribute,
