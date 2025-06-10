@@ -246,18 +246,18 @@ export class SceneCreatureRowComponent {
     } as RollInput;
     if (propertyType === PropertyType.Attribute) {
       const attribute = creature.attributes.find(a => a.attributeTemplateId === propertyId);
-      input.property.id = attribute.id;
+      input.property.id = attribute.attributeTemplateId;
       input.propertyName = attribute.name;
       input.propertyValue = attribute.value;
     } else if (propertyType === PropertyType.Skill) {
       const skill = creature.skills.find(s => s.skillTemplateId === propertyId);
-      input.property.id = skill.id;
+      input.property.id = skill.skillTemplateId;
       input.propertyName = skill.name;
       input.propertyValue = skill.value;
     } else if (propertyType === PropertyType.SpecificSkill) {
       const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
       const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
-      input.property.id = specificSkills.id;
+      input.property.id = specificSkills.specificSkillTemplateId;
       input.propertyName = specificSkills.name;
       input.propertyValue = skill.value;
     }
@@ -274,14 +274,14 @@ export class SceneCreatureRowComponent {
     } as SimulateCdInput;
     if (propertyType === PropertyType.Attribute) {
       const attribute = creature.attributes.find(a => a.attributeTemplateId === propertyId);
-      input.property.id = attribute.id;
+      input.property.id = attribute.attributeTemplateId;
     } else if (propertyType === PropertyType.Skill) {
       const skill = creature.skills.find(s => s.skillTemplateId === propertyId);
-      input.property.id = skill.id;
+      input.property.id = skill.skillTemplateId;
     } else if (propertyType === PropertyType.SpecificSkill) {
       const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
       const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);
-      input.property.id = specificSkills.id;
+      input.property.id = specificSkills.specificSkillTemplateId;
     }
     this.displaySimulateCdSidebar = !this.displaySimulateCdSidebar;
     this.simulateCdInputEmitter.next(input);

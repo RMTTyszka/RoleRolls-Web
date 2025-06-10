@@ -21,6 +21,8 @@ public static class BonusExtensions
                             (property == null || bonus.Property == property))
             .ToList();
     }
+    public static IEnumerable<Bonus> GetBonusesOrEmpty(this IHaveBonuses? iHaveBonuses) =>
+        iHaveBonuses?.Bonuses ?? Enumerable.Empty<Bonus>();
 
     public static int SumBonus(this IList<Bonus> bonuses, BonusApplication application, Property? property)
     {

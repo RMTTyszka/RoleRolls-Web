@@ -2,7 +2,7 @@ using RoleRollsPocketEdition.Creatures.Models;
 
 namespace RoleRollsPocketEdition.Core.Entities;
 
-public record Property(Guid Id, PropertyType Type);
+public record Property(Guid Id, PropertyType? Type = null);
 
 public enum PropertyType
 {

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -128,5 +130,8 @@ public class Equipment : Entity
         { EquipableSlot.OffHand, OffHand },
     };
 
+    // TODO
+    [NotMapped]
+    public List<Bonus> Bonuses => new List<Bonus>();
 }
 

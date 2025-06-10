@@ -9,7 +9,7 @@ using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.CreatureTypes.Entities;
 
-public class CreatureType : Entity
+public class CreatureType : Entity, IHaveBonuses
 {
    
 

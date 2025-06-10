@@ -2,6 +2,7 @@
 using System.Text.Unicode;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
@@ -71,7 +72,9 @@ namespace RoleRollsPocketEdition.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
-            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+                .ConfigureWarnings(builder => builder.Log([(RelationalEventId.PendingModelChangesWarning, LogLevel.Warning)]));
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
 

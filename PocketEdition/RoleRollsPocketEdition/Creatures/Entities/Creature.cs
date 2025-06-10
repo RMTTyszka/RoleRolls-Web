@@ -23,7 +23,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     public class Creature : Entity, IHaveBonuses
     {
         public ICollection<Attribute> Attributes { get; set; }
-        [NotMapped] public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills).ToList();
+        [NotMapped] public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills)
+            .Concat(AttributelessSkills)
+            .ToList();
 
         public ICollection<Vitality> Vitalities { get; set; }
         public ICollection<Defense> Defenses { get; set; }
@@ -238,17 +240,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             replacesFormula = Skills.Aggregate(replacesFormula,
                 (formula, skill) => replacesFormula.Replace(skill.Name, 
                     this.GetPropertyValue(new PropertyInput(
-                        new Property(skill.Id, PropertyType.Skill), 
-                        null, 
-                        PropertyValueOrigin.CreatureProperty
+                        new Property(skill.SkillTemplateId, PropertyType.Skill), 
+                        null
                     )).ToString()));     
 
             replacesFormula = SpecificSkills.Aggregate(replacesFormula,
                 (formula, minorSkill) => replacesFormula.Replace(minorSkill.Name, 
                     this.GetPropertyValue(new PropertyInput(
-                        new Property(minorSkill.Id, PropertyType.MinorSkill), 
-                        null, 
-                        PropertyValueOrigin.CreatureProperty
+                        new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill), 
+                        null
                     )).ToString()));DataTable dt = new DataTable();
             var result = dt.Compute(replacesFormula,"");
 
@@ -293,21 +293,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var gripTypeDetails = GripTypeExtensions.Stats[Equipment.GripType];
             var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
             var damageProperty = input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory);
-            var hitPropertyValues = this.GetPropertyValue(new PropertyInput(
-                hitProperty, 
-                input.HitAttribute, 
-                PropertyValueOrigin.CreatureProperty
-            ));
+            var hitPropertyValues = this.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
 
-            var damagePropertyValues = this.GetPropertyValue(new PropertyInput(
-                damageProperty, 
-                input.DamageAttribute, 
-                PropertyValueOrigin.CreatureProperty
-            ));
+            var damagePropertyValues = this.GetPropertyValue(new PropertyInput(damageProperty, input.DamageAttribute));
             var defenseId = input.GetDefenseId;
-            var defenseValue = target.DefenseValue(defenseId);
+            var defenseValue = target.GetPropertyValue(new PropertyInput(new Property(defenseId)));
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
-            var totalDefense = defenseValue + ArmorDefinition.DefenseBonus(armorTemplate);
+            // TODO verificar se é bonus mesmo
+            var totalDefense = defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorTemplate);
             var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit;
             totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
@@ -376,8 +369,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return bonuses.SumBonus(bonusApplication, property);
         }
 
+        
 
-        public List<Bonus> Bonuses { get; set; }
+        [NotMapped] public List<Bonus> AllBonuses =>
+            Bonuses.Concat(CreatureType.GetBonusesOrEmpty())
+                .Concat(Archetype.GetBonusesOrEmpty())
+                .Concat(Equipment.Bonuses)
+                .ToList();
+
+        public List<Bonus> Bonuses { get; set; } = [];
     }
    
 }

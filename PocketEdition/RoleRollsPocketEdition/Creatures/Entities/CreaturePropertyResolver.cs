@@ -5,8 +5,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public record PropertyInput(
     Property? Property,
-    Property? OverriderAttribute,
-    PropertyValueOrigin? PropertyValueOrigin
+    Property? OverriderAttribute = null
 );
 
 public static class CreatureExtensions
@@ -44,29 +43,25 @@ public static class CreatureExtensions
 
     private static int GetAttributeValue(this Creature creature, Guid attributeId, PropertyInput input)
     {
-        var attribute = creature.FindAttribute(attributeId, input.PropertyValueOrigin);
+        var attribute = creature.Attributes.First(at => at.AttributeTemplateId == attributeId);
         
         if (input.OverriderAttribute != null)
         {
-            var overrideAttr = creature.FindAttributeOrDefault(input.OverriderAttribute.Id, input.PropertyValueOrigin);
+            var overrideAttr = creature.Attributes.FirstOrDefault(at => at.AttributeTemplateId == input.OverriderAttribute.Id);
             return overrideAttr?.Value ?? attribute.Value;
         }
         
         return attribute.Value;
     }
 
-    private static Attribute FindAttribute(this Creature creature, Guid id, PropertyValueOrigin? origin)
+    private static Attribute FindAttribute(this Creature creature, Guid id)
     {
-        return origin == PropertyValueOrigin.CreatureProperty
-            ? creature.Attributes.First(at => at.Id == id)
-            : creature.Attributes.First(at => at.AttributeTemplateId == id);
+        return creature.Attributes.First(at => at.AttributeTemplateId == id);
     }
 
-    private static Attribute? FindAttributeOrDefault(this Creature creature, Guid id, PropertyValueOrigin? origin)
+    private static Attribute? FindAttributeOrDefault(this Creature creature, Guid id)
     {
-        return origin == PropertyValueOrigin.CreatureProperty
-            ? creature.Attributes.FirstOrDefault(at => at.Id == id)
-            : creature.Attributes.FirstOrDefault(at => at.AttributeTemplateId == id);
+        return creature.Attributes.FirstOrDefault(at => at.AttributeTemplateId == id);
     }
 
     private static void ProcessSkillProperty(this Creature creature, Guid skillId, PropertyValue result, PropertyInput input)
@@ -83,13 +78,20 @@ public static class CreatureExtensions
 
     private static void ProcessMinorSkillProperty(this Creature creature, Guid minorSkillId, PropertyValue result, PropertyInput input)
     {
-        var minorSkill = creature.SpecificSkills.First(ms => ms.Id == minorSkillId);
+        var minorSkill = creature.SpecificSkills.First(ms => ms.SpecificSkillTemplateId == minorSkillId);
         var parentSkill = creature.Skills.First(sk => sk.Id == minorSkill.SkillId);
         
         if (parentSkill.AttributeId.HasValue)
         {
-            result.Value = creature.GetAttributeValue(parentSkill.AttributeId.Value, input);
+            var attribute = creature.Attributes.First(at => at.Id == parentSkill.AttributeId.Value);
+            result.Value = creature.GetAttributeValue(attribute.AttributeTemplateId, input);
         }
+        else if (minorSkill.AttributeId.HasValue)
+        {
+            var attribute = creature.Attributes.First(at => at.Id == minorSkill.AttributeId.Value);
+            result.Value = creature.GetAttributeValue(attribute.AttributeTemplateId, input);
+        }
+        
         
         result.Bonus = minorSkill.Points;
     }
@@ -107,13 +109,13 @@ public static class CreatureExtensions
 
     private static bool TryProcessAsAttribute(this Creature creature, Property property, PropertyValue result, PropertyInput input)
     {
-        var attr = creature.FindAttributeOrDefault(property.Id, input.PropertyValueOrigin);
+        var attr = creature.FindAttributeOrDefault(property.Id);
         
         if (attr == null)
             return false;
         
         result.Value = input.OverriderAttribute != null
-            ? creature.FindAttributeOrDefault(input.OverriderAttribute.Id, input.PropertyValueOrigin)?.Value ?? attr.Value
+            ? creature.FindAttributeOrDefault(input.OverriderAttribute.Id)?.Value ?? attr.Value
             : attr.Value;
         
         return true;

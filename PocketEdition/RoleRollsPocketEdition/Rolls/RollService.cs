@@ -134,8 +134,7 @@ namespace RoleRollsPocketEdition.Rolls
                 .FirstAsync(creature => creature.Id == creatureId);
             var property = creature.GetPropertyValue(new PropertyInput(
                 input.Property, 
-                null, 
-                PropertyValueOrigin.CreatureProperty
+                null
             ));            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
