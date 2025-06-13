@@ -31,6 +31,11 @@ import {
 } from '@app/creatures/creature-editor/creature-inventory/creature-inventory.component';
 import { InputText } from 'primeng/inputtext';
 import { Tooltip } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
+import {
+  PropertyByIdSelectorComponent
+} from '@app/components/property-by-id-selector/property-by-id-selector.component';
+import { PropertyType } from '@app/campaigns/models/propertyType';
 
 @Component({
   selector: 'rr-creature-editor',
@@ -45,7 +50,9 @@ import { Tooltip } from 'primeng/tooltip';
     CreatureInventoryComponent,
     InputText,
     Tooltip,
-    NgIf
+    NgIf,
+    ButtonDirective,
+    PropertyByIdSelectorComponent
   ],
   templateUrl: './creature-editor.component.html',
   styleUrl: './creature-editor.component.scss'
@@ -180,10 +187,15 @@ export class CreatureEditorComponent {
     this.creature.attributes.forEach(attribute => {
       this.skillsMapping.set(attribute.id, new FormArray([]));
     });
+    this.skillsMapping.set('attributelessSkills', new FormArray([]));
     this.creature.skills.forEach(skill => {
       const skillForm = (this.form.get('skills') as FormArray<FormGroup>).controls
         .filter(control => control.get('skillTemplateId').value === skill.skillTemplateId)[0];
-      this.skillsMapping.get(skill.attributeId).push(skillForm);
+      if (skill.attributeId) {
+        this.skillsMapping.get(skill.attributeId).push(skillForm);
+      } else {
+        this.skillsMapping.get('attributelessSkills').push(skillForm);
+      }
       this.minorsSkillBySkill.set(skill.id, new FormArray([]));
       const specificSkills = this.minorsSkillBySkill.get(skill.id);
       skill.specificSkills.forEach(specificSkill => {
@@ -202,6 +214,8 @@ export class CreatureEditorComponent {
       });
     }));
   }
+
+  protected readonly PropertyType = PropertyType;
 }
 const validateSkillValue: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const pointsLimit = Number(control.get('pointsLimit').value);

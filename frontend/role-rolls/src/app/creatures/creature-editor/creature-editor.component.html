@@ -71,6 +71,41 @@
                   </div>
                 </div>
               </p-panel>
+              div class="p-grid p-justify-between p-align-start p-nogutter">
+              <div class="col-6">
+                <div *ngFor="let skill of attributeSkills('attributeless')?.controls; let skillIndex=index">
+                  <div form [formGroup]="skill">
+                    <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                      <ng-template  #header>
+                        <div class="p-inputgroup">
+                          <input type="text" pInputText (blur)="updateAttributelessSkill(skill)" placeholder="Name" formControlName="name" required>
+                          <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeAttributelessSkill(skill, skillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                        </div>
+                        <div form class="col-6" [formGroup]="specificSkillForm">
+                          <div *ngIf=!disabled class="p-inputgroup">
+                            <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addSpecificSkill(skill)">
+                            <button class="p-inputgroup-addon" (click)="addSpecificSkill(skill)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <div class="p-grid p-justify-between p-align-start p-nogutter">
+                        <div class="col-6" form [formGroup]="skill">
+                          <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
+                            <div [formGroup]="specificSkill" class="grid grid-cols-2 gap-4 justify-start">
+                              <rr-property-by-id-selector class="flex-auto" placeholder="Attribute" formControlName="attributeTemplateId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-by-id-selector>
+                              <div class="p-inputgroup">
+                                <input type="text" pInputText (blur)="updateSpecificSkill(skill, specificSkill)" placeholder="Name" formControlName="name" required>
+                                <button *ngIf=!disabled class="p-inputgroup-addon" (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </p-panel>
+                  </div>
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </p-panel>

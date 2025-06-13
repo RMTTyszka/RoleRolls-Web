@@ -175,7 +175,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
-            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
             vitality.Value -= value;
             return new CreatureTakeDamageResult
             {
@@ -288,6 +288,18 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public AttackResult Attack(Creature target, AttackCommand input)
         {
             var weapon = Equipment.GetItem(input.WeaponSlot);
+            if (weapon is null)
+            {
+                weapon = new ItemInstance()
+                {
+                    Template = new  WeaponTemplate
+                    {
+                        Category = WeaponCategory.Medium,
+                        DamageType = WeaponDamageType.Bludgeoning
+                    }
+                };
+            }
+
             var weaponTemplate = weapon?.Template as WeaponTemplate;
             var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
             var gripTypeDetails = GripTypeExtensions.Stats[Equipment.GripType];
@@ -300,7 +312,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var defenseValue = target.GetPropertyValue(new PropertyInput(new Property(defenseId)));
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
             // TODO verificar se é bonus mesmo
-            var totalDefense = defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorTemplate);
+            var totalDefense = 10 + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorTemplate);
             var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit;
             totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
@@ -311,7 +323,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             if (roll.Success)
             {
                 var damages = new List<DamageRollResult>();
-                for (var i = 0; i < roll.NumberOfSuccesses; i++)
+                for (var i = 0; i < roll.NumberOfRollSuccesses; i++)
                 {
                     var damage = RollDamage(weapon, damagePropertyValues, gripTypeDetails);
                     var block = target.GetBasicBlock();

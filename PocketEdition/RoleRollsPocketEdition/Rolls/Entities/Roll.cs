@@ -18,6 +18,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
 
         public Property? Property { get; set; }
         public int NumberOfSuccesses { get; set; }
+        public int NumberOfRollSuccesses { get; set; }
         public int NumberOfCriticalSuccesses { get; set; }
         public int NumberOfCriticalFailures { get; set; }
         public int Difficulty { get; set; }
@@ -115,6 +116,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             }
 
             Success = NumberOfSuccesses >= Difficulty;
+            NumberOfRollSuccesses = NumberOfSuccesses / Difficulty;
         }
 
 
