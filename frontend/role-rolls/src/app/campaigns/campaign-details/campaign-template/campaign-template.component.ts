@@ -34,7 +34,6 @@ import {
     ButtonDirective,
     InputText,
     NgForOf,
-    PropertySelectorComponent,
     PropertyByIdSelectorComponent
   ],
   styleUrl: './campaign-template.component.scss'

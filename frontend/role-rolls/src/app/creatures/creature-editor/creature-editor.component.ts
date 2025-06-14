@@ -51,8 +51,6 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     InputText,
     Tooltip,
     NgIf,
-    ButtonDirective,
-    PropertyByIdSelectorComponent
   ],
   templateUrl: './creature-editor.component.html',
   styleUrl: './creature-editor.component.scss'
