@@ -10,8 +10,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate OpenShot => new()
         {
             Id = Guid.Parse("DA612BD0-15D3-442D-BCA0-CC94D8E8F1D6"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -45,8 +43,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate FullAttack => new()
         {
             Id = Guid.Parse("A0B1C2D3-E4F5-4678-9012-34567890ABCD"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -104,8 +100,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate PartialAttack => new()
         {
             Id = Guid.Parse("E4F5A6B7-C8D9-4012-3456-7890ABCDEF01"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -139,8 +133,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate CautiousAttack => new()
         {
             Id = Guid.Parse("01234567-89AB-4CDE-8012-34567890ABCD"), // Corrigido (variante "8")
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -186,8 +178,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate CoverAlly => new()
         {
             Id = Guid.Parse("34567890-ABCD-4F01-8123-4567890ABCDE"),  // OK (32 caracteres)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -235,8 +225,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate AuxiliarAttack => new()
         {
             Id = Guid.Parse("F8A23B91-D4C7-4E5B-9D8A-1234567890AB"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -284,8 +272,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate FullCoverAlly => new()
         {
             Id = Guid.Parse("67890ABC-DEF0-4222-3456-7890ABCDEF01"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Instant,
             PowerDurationType = PowerDurationType.Instant,
             Duration = null,
@@ -333,8 +319,6 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         public static PowerTemplate FullCover => new()
         {
             Id = Guid.Parse("90ABCDEF-0123-4555-6789-0ABCDEF01234"), // OK (válido)
-            Campaign = null,
-            CampaignId = default,
             Type = PowerType.Buff,
             PowerDurationType = PowerDurationType.Turns,
             Duration = 1,

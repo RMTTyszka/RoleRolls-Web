@@ -2,13 +2,14 @@ using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Itens.Templates;
+using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Powers.Entities
 {
     public class PowerTemplate : Entity, IHaveBonuses
     {
-        public Campaign Campaign { get; set; }
-        public Guid CampaignId { get; set; }
+        public CampaignTemplate CampaignTemplate { get; set; }
+        public Guid CampaignTemplateId { get; set; }
         public PowerType Type { get; set; }
         public PowerDurationType PowerDurationType { get; set; }
         public int? Duration { get; set; }

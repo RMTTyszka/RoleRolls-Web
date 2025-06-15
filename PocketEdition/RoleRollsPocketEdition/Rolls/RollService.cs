@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Core.Entities;
@@ -18,13 +19,15 @@ namespace RoleRollsPocketEdition.Rolls
         private readonly ICurrentUser _currentUser;
         private readonly ISceneNotificationService _sceneNotificationService;
         private readonly ICampaignSceneHistoryBuilderService _historyService;
+        private readonly ICreatureRepository _creatureRepository;
 
-        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService historyService)
+        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService historyService, ICreatureRepository creatureRepository)
         {
             _roleRollsDbContext = roleRollsDbContext;
             _currentUser = currentUser;
             _sceneNotificationService = sceneNotificationService;
             _historyService = historyService;
+            _creatureRepository = creatureRepository;
         }
         
 
@@ -126,16 +129,12 @@ namespace RoleRollsPocketEdition.Rolls
 
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, Guid creatureId, RollInput input)
         {
-            var creature = await _roleRollsDbContext.Creatures
-                .Include(creature => creature.Attributes)
-                .ThenInclude(a => a.Skills)
-                .ThenInclude(skill => skill.SpecificSkills)
-                .Include(creature => creature.Vitalities)
-                .FirstAsync(creature => creature.Id == creatureId);
+            var creature = await _creatureRepository.GetFullCreature(creatureId);
             var property = creature.GetPropertyValue(new PropertyInput(
                 input.Property, 
-                null
-            ));            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
+                input.Attribute
+            ));      
+            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
             roll.Process(rollCommand);
             var rollResult = new RollModel(roll);

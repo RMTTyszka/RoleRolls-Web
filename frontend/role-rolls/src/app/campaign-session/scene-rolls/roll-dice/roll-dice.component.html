@@ -23,6 +23,9 @@
       <ng-template fieldTitle="Bonus">
         <p-inputNumber placeholder formControlName='bonus'></p-inputNumber>
       </ng-template>
+      <ng-template fieldTitle="Attribute">
+        <rr-property-selector [campaign]="campaign" [propertyType]="[propertyType.Attribute]" formControlName='attribute'></rr-property-selector>
+      </ng-template>
       <ng-template fieldTitle="Rolls">
         <div class="p-inputgroup">
           <p-autocomplete rrIntegerOnly formControlName="rollsAsString" multiple [typeahead]="false" ></p-autocomplete>

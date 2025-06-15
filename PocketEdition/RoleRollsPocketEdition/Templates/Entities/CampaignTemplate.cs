@@ -37,6 +37,11 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public ICollection<DefenseTemplate> Defenses { get; set; } = [];
         public ICollection<CreatureType> CreatureTypes { get; set; } = [];
         public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
+        
+        [NotMapped]
+        public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
+
+        public List<Archetype> Archetypes { get; set; } = [];
 
         public CampaignTemplate(CampaignTemplateModel template) : this()
         {
@@ -65,10 +70,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             return creature;
         }
 
-        [NotMapped]
-        public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
-        public List<Archetype> Archetypes { get; set; } = [];
 
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)

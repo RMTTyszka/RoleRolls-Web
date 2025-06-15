@@ -125,7 +125,7 @@ public static class CreatureExtensions
     {
         var skill = creature.Skills.FirstOrDefault(sk => sk.Id == property.Id);
         
-        if (skill == null || !skill.AttributeId.HasValue)
+        if (skill is not { AttributeId: not null })
             return false;
         
         result.Value = creature.GetAttributeValue(skill.AttributeId.Value, input);

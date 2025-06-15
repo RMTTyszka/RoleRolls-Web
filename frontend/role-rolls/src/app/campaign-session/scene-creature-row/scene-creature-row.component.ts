@@ -242,7 +242,7 @@ export class SceneCreatureRowComponent {
   private roll(creature: Creature, propertyType: PropertyType, propertyId: string) {
     const input =  {
       property:(propertyType !== null && propertyId !== null) ? { type: propertyType, id: propertyId } as Property : null,
-      creatureId: creature.id,
+      creature: creature,
     } as RollInput;
     if (propertyType === PropertyType.Attribute) {
       const attribute = creature.attributes.find(a => a.attributeTemplateId === propertyId);

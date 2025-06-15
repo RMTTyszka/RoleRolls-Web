@@ -1,22 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { RollInput } from '@app/campaigns/models/RollInput';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { getAsForm } from '@app/tokens/EditorExtension';
-import { Subject } from 'rxjs';
-import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
-import { Campaign } from '@app/campaigns/models/campaign';
-import { Roll } from '@app/campaigns/models/pocket-roll.model';
-import { CampaignsService } from '@app/campaigns/services/campaigns.service';
-import { InputNumber } from 'primeng/inputnumber';
-import { NgIf } from '@angular/common';
-import { InputText } from 'primeng/inputtext';
-import { ButtonDirective } from 'primeng/button';
-import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
-import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { IntegerOnlyDirective } from '@app/directives/integer-only.directive';
-import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-select.component';
-import { LuckSelectComponent } from '@app/rolls/luck-select/luck-select.component';
+import {Component, Input} from '@angular/core';
+import {RollInput} from '@app/campaigns/models/RollInput';
+import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {getAsForm} from '@app/tokens/EditorExtension';
+import {Subject} from 'rxjs';
+import {CampaignScene} from '@app/campaigns/models/campaign-scene-model';
+import {Campaign} from '@app/campaigns/models/campaign';
+import {Roll} from '@app/campaigns/models/pocket-roll.model';
+import {CampaignsService} from '@app/campaigns/services/campaigns.service';
+import {InputNumber} from 'primeng/inputnumber';
+import {NgIf} from '@angular/common';
+import {InputText} from 'primeng/inputtext';
+import {ButtonDirective} from 'primeng/button';
+import {FormFieldWrapperComponent} from '@app/components/form-field-wrapper/form-field-wrapper.component';
+import {FieldTitleDirective} from '@app/components/form-field-wrapper/field-title.directive';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {IntegerOnlyDirective} from '@app/directives/integer-only.directive';
+import {AdvantageSelectComponent} from '@app/rolls/advantage-select/advantage-select.component';
+import {LuckSelectComponent} from '@app/rolls/luck-select/luck-select.component';
+import {PropertyType} from '@app/campaigns/models/propertyType';
+import {PropertySelectorComponent} from '@app/components/property-selector/property-selector.component';
+import {Property} from '@app/models/bonuses/bonus';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -32,6 +35,7 @@ import { LuckSelectComponent } from '@app/rolls/luck-select/luck-select.componen
     IntegerOnlyDirective,
     AdvantageSelectComponent,
     LuckSelectComponent,
+    PropertySelectorComponent,
 
   ],
   templateUrl: './roll-dice.component.html',
@@ -47,6 +51,7 @@ export class RollDiceComponent {
   public form: FormGroup;
   public rollResult: Roll;
   public hasProperty: boolean;
+  public propertyType = PropertyType;
 
   constructor(
     private readonly campaignsService: CampaignsService
@@ -62,16 +67,41 @@ export class RollDiceComponent {
       this.rollInput.bonus = 0;
       this.rollInput.rollsAsString = null;
       this.rollInput.description = '';
+      this.rollInput.attribute = null;
       this.hasProperty = Boolean(this.rollInput.propertyName);
       this.form = getAsForm(rollInput, {
         disabledFields: ['propertyName']
-      });    });
+      });
+      if (this.rollInput.property.type === PropertyType.SpecificSkill) {
+        const specificSkill = this.rollInput.creature.attributelessSkills.flatMap(s => s.specificSkills)
+          .find(s => s.id === this.rollInput.property.id);
+        if (specificSkill && !specificSkill.attributeId) {
+          this.form.get('attribute').addValidators(Validators.required);
+        } else {
+          this.form.get('attribute').setValue( {
+            type: PropertyType.Attribute,
+            id: specificSkill.attributeId,
+          } as Property);
+        }
+      } else if (this.rollInput.property.type === PropertyType.Skill) {
+        const skill = this.rollInput.creature.skills
+          .find(s => s.id === this.rollInput.property.id);
+        if (skill && !skill.attributeId) {
+          this.form.get('attribute').addValidators(Validators.required);
+        } else {
+          this.form.get('attribute').setValue( {
+            type: PropertyType.Attribute,
+            id: skill.attributeId,
+          } as Property);
+        }
+      }
+    });
   }
 
   public roll() {
     const rollInput = this.form.value as RollInput;
     rollInput.rolls = rollInput.rollsAsString ? rollInput.rollsAsString.map(a => Number(a)) : [];
-    this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creatureId, rollInput)
+    this.campaignsService.rollForCreature(this.campaign.id, this.scene.id, rollInput.creature.id, rollInput)
       .subscribe((roll: Roll) => {
         this.rollResult = roll;
         if (this.rollResultEmitter) {

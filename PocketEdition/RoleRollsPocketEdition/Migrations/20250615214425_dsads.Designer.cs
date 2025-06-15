@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250615214425_dsads")]
+    partial class dsads
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -737,6 +740,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("CampaignTemplateId1")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("CastDescription")
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
@@ -781,6 +787,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignTemplateId");
+
+                    b.HasIndex("CampaignTemplateId1");
 
                     b.ToTable("PowerTemplates");
                 });
@@ -1872,9 +1880,15 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Powers.Entities.PowerTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
                         .WithMany("CombatManeuvers")
                         .HasForeignKey("CampaignTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
+                        .WithMany()
+                        .HasForeignKey("CampaignTemplateId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

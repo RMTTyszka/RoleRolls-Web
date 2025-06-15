@@ -118,16 +118,12 @@ namespace RoleRollsPocketEdition.Infrastructure
             
             modelBuilder.Entity<Campaign>(e =>
             {
-                e.HasMany(c => c.CombatManeuvers)
-                    .WithOne()
-                    .HasForeignKey(p => p.CampaignId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });            
             modelBuilder.Entity<CampaignTemplate>(e =>
             {
                 e.HasMany(c => c.CombatManeuvers)
-                    .WithOne()
-                    .HasForeignKey(p => p.CampaignId)
+                    .WithOne(p => p.CampaignTemplate)
+                    .HasForeignKey(p => p.CampaignTemplateId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
             
