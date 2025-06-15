@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.Unicode;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -70,11 +69,10 @@ namespace RoleRollsPocketEdition.Infrastructure
             _configuration = configuration;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging()
-                .EnableDetailedErrors()
-                .ConfigureWarnings(builder => builder.Log([(RelationalEventId.PendingModelChangesWarning, LogLevel.Warning)]));
+                .EnableDetailedErrors();
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
 
@@ -97,6 +95,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                 {
                     modelBuilder.Entity(entityType.ClrType)
                         .Property(property.Name)
+                        .IsRequired(false)
                         .HasMaxLength(450);
                 }
             }
@@ -243,15 +242,6 @@ namespace RoleRollsPocketEdition.Infrastructure
                     .OnDelete(DeleteBehavior.SetNull);
             });
             
-           
-
-            
-
-            
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            modelBuilder.AddTransactionalOutboxEntities();
         }
 
         private void ModelArchetype(ModelBuilder modelBuilder)

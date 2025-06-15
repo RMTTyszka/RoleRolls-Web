@@ -224,7 +224,12 @@ public class LandOfHeroesLoader : IStartupTask
     {
         var dbMinorSkills = fromDb.ToDictionary(ms => ms.Id);
         var codeMinorSkills = fromCode.ToDictionary(ms => ms.Id);
-
+        foreach (var dbMinorSkill in fromDb.Where(ms => !codeMinorSkills.ContainsKey(ms.Id)).ToList())
+        {
+            fromDb.Remove(dbMinorSkill);
+            context.MinorSkillTemplates.Remove(dbMinorSkill);
+            await context.SaveChangesAsync();
+        }
         foreach (var codeMinorSkill in fromCode)
         {
             if (!dbMinorSkills.TryGetValue(codeMinorSkill.Id, out var dbMinorSkill))
@@ -240,10 +245,7 @@ public class LandOfHeroesLoader : IStartupTask
             }
         }
 
-        foreach (var dbMinorSkill in fromDb.Where(ms => !codeMinorSkills.ContainsKey(ms.Id)).ToList())
-        {
-            fromDb.Remove(dbMinorSkill);
-        }
+
     }
 
     private async Task SynchronizeItemConfiguration(Templates.Entities.CampaignTemplate templateFromDb,

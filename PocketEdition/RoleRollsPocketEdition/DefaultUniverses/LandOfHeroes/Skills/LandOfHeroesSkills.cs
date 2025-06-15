@@ -12,6 +12,6 @@ public class LandOfHeroesSkills
         { LandOfHeroesSkill.Treatment, Guid.Parse("7F8C3E7B-36C4-432E-832F-7152AECD9A8C") },
         { LandOfHeroesSkill.Athletics, Guid.Parse("BCDEF8A1-7C6A-47A2-9D7A-1E6C8D1E3F22") },
         { LandOfHeroesSkill.Combat, Guid.Parse("D4CD2313-7AC5-4FF1-9F23-F534FA1CFBD6") },
-        { LandOfHeroesSkill.Defense, Guid.Parse("C5614352-312C-4318-84D1-4253C97C3D40") },
+        { LandOfHeroesSkill.Resistance, Guid.Parse("C5614352-312C-4318-84D1-4253C97C3D40") },
     };
 }
