@@ -78,11 +78,13 @@ public class AttackCommand
     public Property? HitProperty { get; set; }
     public Property? HitAttribute { get; set; }
     public Property? VitalityId { get; set; }
+    public Property? SecondVitalityId { get; set; }
     public Property? DamageAttribute { get; set; }
     public int Luck { get; set; }
     public int Advantage { get; set; }
     public Guid GetDefenseId => DefenseId?.Id ?? ItemConfiguration.ArmorProperty.Id;
     public Guid GetVitalityId => VitalityId?.Id ?? ItemConfiguration.BasicAttackTargetFirstVitality.Id;
+    public Guid GetSecondVitalityId => SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality.Id;
     public List<Guid> CombatManeuverIds { get; set; } = [];
 }
 public class AttackResult

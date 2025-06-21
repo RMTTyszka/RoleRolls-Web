@@ -45,6 +45,8 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   public creature = input<Creature>();
   public propertyType = input.required<PropertyType[]>();
   public placeholder = input<string>();
+  public cleanable = input<boolean>();
+  public required = input<boolean>();
   public disabled: boolean = false;
 
   public properties = computed<RROption<Property>[]>(() => {

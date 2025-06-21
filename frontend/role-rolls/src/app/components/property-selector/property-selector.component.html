@@ -6,5 +6,7 @@
   [placeholder]="placeholder()"
   dataKey="idProperty"
   [(ngModel)]="value"
+  [showClear]="cleanable()"
+  [required]="required()"
 (onChange)="onInput($event.value)"
 ></p-select>

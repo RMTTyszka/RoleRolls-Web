@@ -1,35 +1,31 @@
 <div *ngIf="form()" class="p-4 w-full">
   <form [formGroup]="form()" class="w-full">
     <rr-form-field-wrapper>
-      <!-- Campo Slot -->
       <ng-template fieldTitle="Slot">
         <p-select id="slot-input" formControlName="slot" [options]="slotOptions" optionLabel="label" optionValue="value" class="w-full">
         </p-select>
       </ng-template>
 
-      <!-- Campo Target -->
       <ng-template fieldTitle="Target">
         <rr-creature-select id="target-input" [creaturesAvailable]="targets" (creatureSelected)="targetSelected($event)" class="w-full">
         </rr-creature-select>
       </ng-template>
 
-      <!-- Campo Hit Property -->
       <ng-template fieldTitle="Hit Property">
         <rr-property-selector id="hit-input" [campaign]="campaign()" [creature]="attacker()"
                               [propertyType]="[propertyType.Attribute, propertyType.Skill, propertyType.SpecificSkill]"
                               formControlName="hitProperty">
         </rr-property-selector>
       </ng-template>
-      <!-- Campo Hit Property -->
-      <ng-template fieldTitle="Hit Property">
+      <ng-template fieldTitle="Hit Attribute">
         <rr-property-selector id="hit-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Attribute]"
+                              [required]="true"
                               formControlName="hitAttribute">
         </rr-property-selector>
       </ng-template>
 
-      <!-- Campo Damage Property -->
-      <ng-template fieldTitle="Damage Property">
+      <ng-template fieldTitle="Damage Attribute">
         <rr-property-selector id="damage-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Attribute]"
                               formControlName="damageAttribute"
@@ -37,7 +33,6 @@
         </rr-property-selector>
       </ng-template>
 
-      <!-- Campo Defense -->
       <ng-template fieldTitle="Defense">
         <rr-property-selector id="defense-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Defense]"
@@ -46,7 +41,6 @@
         </rr-property-selector>
       </ng-template>
 
-      <!-- Campo Vitality -->
       <ng-template fieldTitle="Vitality">
         <rr-property-selector id="vitality-input" [campaign]="campaign()"
                               [propertyType]="[propertyType.Vitality]"

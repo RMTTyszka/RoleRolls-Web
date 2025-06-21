@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import {Component, computed, effect, input, signal} from '@angular/core';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { ItemModel } from '@app/campaigns/models/item-model';
 import { ItemConfigurationModel } from '@app/campaigns/models/item-configuration-model';
@@ -52,50 +52,50 @@ export class AttackComponent {
   public targets: Creature[] = [];
   public slotOptions: RROption<EquipableSlot>[] = [];
   public propertyType = PropertyType;
-  public form = computed<FormGroup>(() => {
-    const attacker = this.attacker();
-    if (attacker) {
-      this.slotOptions = [];
-      this.slotOptions.push({
-        label: EquipableSlot[EquipableSlot.MainHand].toString(),
-        value: EquipableSlot.MainHand,
-      } as RROption<EquipableSlot>);
-      if (attacker.equipment?.offHand) {
-        this.slotOptions.push({
-          label: EquipableSlot[EquipableSlot.OffHand].toString(),
-          value: EquipableSlot.OffHand,
-        } as RROption<EquipableSlot>);
-      }
-      this.resolveTargets();
-      const itemConfiguration = this.campaign().campaignTemplate.itemConfiguration;
-      const mainHand = this.attacker().equipment.mainHand;
-      const hitProperty = this.resolveHitProperty(mainHand, itemConfiguration);
-      const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
-      const hitAttribute = this.resolveHitAttribute(hitProperty, attacker);
-      return getAsForm({
-        slot: EquipableSlot.MainHand,
-        vitality: itemConfiguration.basicAttackTargetFirstVitality,
-        defense: itemConfiguration.armorProperty,
-        hitProperty: hitProperty,
-        hitAttribute: hitAttribute,
-        damageAttribute: damageProperty,
-        targetId: null,
-        advantage: 0,
-        luck: 0
-      } as AttackInput, {
-        requiredFields: hitAttribute ? ['hitAttribute'] : []
-      });
-    }
-    return null;
-  });
+  public form = signal<FormGroup>(null);
   constructor(
     private pocketCampaignDetailsService: CampaignSessionService,
     private readonly campaignService: CampaignsService,
   ) {
+    effect(() => {
+      const attacker = this.attacker();
+      if (attacker) {
+        this.slotOptions = [];
+        this.slotOptions.push({
+          label: EquipableSlot[EquipableSlot.MainHand].toString(),
+          value: EquipableSlot.MainHand,
+        } as RROption<EquipableSlot>);
+        if (attacker.equipment?.offHand) {
+          this.slotOptions.push({
+            label: EquipableSlot[EquipableSlot.OffHand].toString(),
+            value: EquipableSlot.OffHand,
+          } as RROption<EquipableSlot>);
+        }
+        this.resolveTargets();
+        const itemConfiguration = this.campaign().campaignTemplate.itemConfiguration;
+        const mainHand = attacker.equipment.mainHand;
+        const hitProperty = this.resolveHitProperty(mainHand, itemConfiguration);
+        const damageProperty = this.resolveDamageProperty(mainHand, itemConfiguration);
+        const damageAttribute = this.resolveHitAttribute(damageProperty, attacker);
+        const hitAttribute = this.resolveHitAttribute(hitProperty, attacker);
+        this.form.set(getAsForm({
+          slot: EquipableSlot.MainHand,
+          vitality: null,
+          defense: itemConfiguration.armorProperty,
+          hitProperty: hitProperty,
+          hitAttribute: hitAttribute,
+          damageAttribute: damageAttribute,
+          targetId: null,
+          advantage: 0,
+          luck: 0
+        } as AttackInput, {
+          requiredFields: ['hitAttribute', 'targetId', 'slot']
+        }));
+      };
+    });
   }
-
   targetSelected(creature: Creature) {
-    this.form().get('targetId').setValue(creature.id);
+    this.form().get('targetId').setValue(creature?.id);
   }
 
   private resolveTargets() {
@@ -158,36 +158,42 @@ export class AttackComponent {
 
       for (const specificSkill of skill.specificSkills) {
         if (specificSkill.specificSkillTemplateId === hitProperty.id) {
-          if (skill.attributeId) {
+          if (specificSkill.attributeId) {
             return {
-              id: this.resolveAttributeTemplateId(skill.attributeId),
+              id: this.resolveAttributeTemplateId(specificSkill.attributeId),
               type: PropertyType.Attribute
             };
+          } else if (skill.attributeId) {
+            return {
+              id: this.resolveAttributeTemplateId(specificSkill.attributeId),
+              type: PropertyType.Attribute
+            }
           }
           return null;
         }
       }
-    }
 
-    for (const attributelessSkill of attacker.attributelessSkills) {
-      if (attributelessSkill.skillTemplateId === hitProperty.id) {
-        return null;
-      }
+      for (const attributelessSkill of attacker.attributelessSkills) {
+        if (attributelessSkill.skillTemplateId === hitProperty.id) {
+          return null;
+        }
 
-      for (const specificSkill of attributelessSkill.specificSkills) {
-        if (specificSkill.specificSkillTemplateId === hitProperty.id) {
-          return {
-            id: this.resolveAttributeTemplateId(specificSkill.attributeId),
-            type: PropertyType.Attribute,
-          } as Property;
+        for (const specificSkill of attributelessSkill.specificSkills) {
+          if (specificSkill.specificSkillTemplateId === hitProperty.id) {
+            return {
+              id: this.resolveAttributeTemplateId(specificSkill.attributeId),
+              type: PropertyType.Attribute,
+            } as Property;
+          }
         }
       }
+      return null;
     }
     return null;
   }
 
   private resolveAttributeTemplateId(attributeId: string) {
-    return this.attacker().attributes.find(a => a.id === attributeId).attributeTemplateId;
+      return this.attacker().attributes.find(a => a.id === attributeId).attributeTemplateId;
+    }
   }
-}
 

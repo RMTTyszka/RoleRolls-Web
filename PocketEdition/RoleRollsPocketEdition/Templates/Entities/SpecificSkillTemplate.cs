@@ -25,19 +25,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public Guid? AttributeTemplateId
         {
-            get
-            {
-                if (!_attributeTemplateId.HasValue)
-                {
-                    if (!SkillTemplate.AttributeTemplateId.HasValue)
-                    {
-                        throw new Exception();
-                    }
-                    return SkillTemplate.AttributeTemplateId.Value;
-
-                }
-                return _attributeTemplateId.Value;
-            }
+            get => _attributeTemplateId ?? SkillTemplate?.AttributeTemplateId;
             set => _attributeTemplateId = value;
         }
 

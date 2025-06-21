@@ -15,6 +15,7 @@ public class ItemConfiguration : Entity
         {
             ArmorProperty = templateItemConfiguration.ArmorProperty;
             BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality;
+            BasicAttackTargetSecondVitality = templateItemConfiguration.BasicAttackTargetSecondVitality;
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty;
             MeleeMediumWeaponHitProperty = templateItemConfiguration.MeleeMediumWeaponHitProperty;
             MeleeHeavyWeaponHitProperty = templateItemConfiguration.MeleeHeavyWeaponHitProperty;
@@ -70,6 +71,7 @@ public class ItemConfiguration : Entity
         RangedMediumWeaponDamageProperty = model.RangedMediumWeaponDamageProperty;
         RangedHeavyWeaponDamageProperty = model.RangedHeavyWeaponDamageProperty;
         BasicAttackTargetFirstVitality = model.BasicAttackTargetFirstVitality;
+        BasicAttackTargetSecondVitality = model.BasicAttackTargetSecondVitality;
     }
 
     public Property? GetWeaponHitProperty(WeaponCategory weaponCategory)

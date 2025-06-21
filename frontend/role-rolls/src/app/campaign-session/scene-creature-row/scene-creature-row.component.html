@@ -24,7 +24,6 @@
 
     <p-tieredMenu #rollPanel [model]="rollOptions" [popup]="true" ></p-tieredMenu>
 <p-tieredMenu #simulateCdPanel [model]="simluateCdOptions" [popup]="true"></p-tieredMenu>
-{{displayRollSidebar}}
 <p-drawer [(visible)]="displayRollSidebar" position="right" [modal]="false" appendTo="body" [style]="{width:'60em'}">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-drawer>
@@ -32,7 +31,7 @@
 <p-drawer [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false"  [style]="{width:'60em'}">
   <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
 </p-drawer>
-<p-drawer [dismissible]="false"  [(visible)]="displayAttackSidebar" position="right" [modal]="false" [style]="{width:'60em'}"
+<p-drawer [dismissible]="false"  [(visible)]="displayAttackSidebar" (onHide)="attack(null)" position="right" [modal]="false" [style]="{width:'60em'}"
 >
   <rr-attack
     [attacker]="attacker()"

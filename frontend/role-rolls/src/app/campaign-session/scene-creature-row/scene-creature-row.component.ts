@@ -300,7 +300,10 @@ export class SceneCreatureRowComponent {
   }
 
   public attack(creature: Creature) {
-    this.attacker.set(creature);
-    this.displayAttackSidebar.set(!this.displayAttackSidebar());
+    const hasCreature = Boolean(creature);
+    this.displayAttackSidebar.set(hasCreature);
+    setTimeout(() => {
+      this.attacker.set(creature);
+    })
   }
 }

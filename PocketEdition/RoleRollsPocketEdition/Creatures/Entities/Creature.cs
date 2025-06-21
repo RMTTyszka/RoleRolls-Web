@@ -176,16 +176,30 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
             var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
-            vitality.Value -= value;
+    
+            var excessDamage = 0;
+            var actualDamage = value;
+    
+            if (vitality.Value - value <= 0)
+            {
+                actualDamage = vitality.Value; 
+                excessDamage = value - vitality.Value; 
+                vitality.Value = 0; 
+            }
+            else
+            {
+                vitality.Value -= value;
+            }
+    
             return new CreatureTakeDamageResult
             {
                 Name = Name,
-                Value = value,
+                Value = actualDamage,
+                ExcessDamage = excessDamage,
                 Vitality = vitality.Name,
                 ActorId = Id
             };
-
-        }        
+        }     
 
 
         public int GetBasicBlock()
@@ -311,9 +325,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var defenseId = input.GetDefenseId;
             var defenseValue = target.GetPropertyValue(new PropertyInput(new Property(defenseId)));
             var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
-            // TODO verificar se é bonus mesmo
-            var totalDefense = 10 + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorTemplate);
-            var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit;
+            var totalDefense = 10 + defenseValue.Bonus + defenseValue.Value + ArmorDefinition.DefenseBonus(armorTemplate);
+            var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit + hitPropertyValues.Value;
             totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
             var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
             advantage = Math.Max(advantage, input.Advantage);
@@ -330,7 +343,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     damage.ReducedDamage -= block;
                     damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
                     damages.Add(damage);
-                    target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
+                    var damageResult = target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
+                    if (damageResult.ExcessDamage > 0)
+                    {
+                        var secondaryDamageResult = target.TakeDamage(input.GetSecondVitalityId, damageResult.ExcessDamage);
+                    }
                 }
                 return new AttackResult
                 {

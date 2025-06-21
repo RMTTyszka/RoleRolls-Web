@@ -45,4 +45,7 @@ export class CreatureSelectComponent {
   selected(selectedCreature: Creature) {
     this.creatureSelected.emit(selectedCreature);
   }
+  onAutocompleteClear() {
+    this.creatureSelected.emit(null);
+  }
 }
