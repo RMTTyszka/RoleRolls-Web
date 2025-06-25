@@ -32,16 +32,38 @@ public class AttackService : IAttackService, ITransientDependency
 
     public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input)
     {
-        var attacker = await _creatureRepository.GetFullCreature(attackerId);   
-        var target = await _creatureRepository.GetFullCreature(input.TargetId);
-        var command = new AttackCommand
+        var attacker = await LoadCreature(attackerId);
+        var target = await LoadCreature(input.TargetId);
+        var itemConfiguration = await LoadItemConfiguration(campaignId);
+        var command = BuildAttackCommand(itemConfiguration, input);
+        var attackResult = attacker.Attack(target, command);
+        await _scenesService.ProcessAction(sceneId, attackResult);
+    }
+
+    private async Task<Creature> LoadCreature(Guid creatureId)
+    {
+        var creature = await _creatureRepository.GetFullCreature(creatureId);
+        if (creature == null)
+            throw new InvalidOperationException($"Creature not found: {creatureId}");
+        return creature;
+    }
+
+    private async Task<ItemConfiguration> LoadItemConfiguration(Guid campaignId)
+    {
+        return await _context.Campaigns
+            .AsNoTracking()
+            .Include(e => e.CampaignTemplate)
+            .ThenInclude(e => e.ItemConfiguration)
+            .Where(e => e.Id == campaignId)
+            .Select(e => e.CampaignTemplate.ItemConfiguration)
+            .FirstAsync();
+    }
+
+    private AttackCommand BuildAttackCommand(ItemConfiguration config, AttackInput input)
+    {
+        return new AttackCommand
         {
-            ItemConfiguration = await _context.Campaigns
-                .AsNoTracking()
-                .Include(e => e.CampaignTemplate)
-                .ThenInclude(e => e.ItemConfiguration).Where(e => e.Id == campaignId)
-                .Select(e => e.CampaignTemplate.ItemConfiguration)
-                .FirstAsync(),
+            ItemConfiguration = config,
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.Defense,
             VitalityId = input.Vitality,
@@ -52,9 +74,8 @@ public class AttackService : IAttackService, ITransientDependency
             HitAttribute = input.HitAttribute,
             DamageAttribute = input.DamageAttribute,
         };
-        var attackResult = attacker.Attack(target, command);
-        await _scenesService.ProcessAction(sceneId, attackResult);
     }
+
 }
 
 public class AttackInput

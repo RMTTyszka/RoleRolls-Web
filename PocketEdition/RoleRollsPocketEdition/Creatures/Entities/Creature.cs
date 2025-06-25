@@ -20,7 +20,7 @@ using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Entities
 {
-    public class Creature : Entity, IHaveBonuses
+    public partial class Creature : Entity, IHaveBonuses
     {
         public ICollection<Attribute> Attributes { get; set; }
         [NotMapped] public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills)
@@ -253,14 +253,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
      
             replacesFormula = Skills.Aggregate(replacesFormula,
                 (formula, skill) => replacesFormula.Replace(skill.Name, 
-                    this.GetPropertyValue(new PropertyInput(
+                    GetPropertyValue(new PropertyInput(
                         new Property(skill.SkillTemplateId, PropertyType.Skill), 
                         null
                     )).ToString()));     
 
             replacesFormula = SpecificSkills.Aggregate(replacesFormula,
                 (formula, minorSkill) => replacesFormula.Replace(minorSkill.Name, 
-                    this.GetPropertyValue(new PropertyInput(
+                    GetPropertyValue(new PropertyInput(
                         new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill), 
                         null
                     )).ToString()));DataTable dt = new DataTable();
@@ -299,76 +299,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Equipment.Unequip(slot);
         }
 
-        public AttackResult Attack(Creature target, AttackCommand input)
-        {
-            var weapon = Equipment.GetItem(input.WeaponSlot);
-            if (weapon is null)
-            {
-                weapon = new ItemInstance()
-                {
-                    Template = new  WeaponTemplate
-                    {
-                        Category = WeaponCategory.Medium,
-                        DamageType = WeaponDamageType.Bludgeoning
-                    }
-                };
-            }
+        
 
-            var weaponTemplate = weapon?.Template as WeaponTemplate;
-            var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
-            var gripTypeDetails = GripTypeExtensions.Stats[Equipment.GripType];
-            var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
-            var damageProperty = input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory);
-            var hitPropertyValues = this.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
-
-            var damagePropertyValues = this.GetPropertyValue(new PropertyInput(damageProperty, input.DamageAttribute));
-            var defenseId = input.GetDefenseId;
-            var defenseValue = target.GetPropertyValue(new PropertyInput(new Property(defenseId)));
-            var armorTemplate = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
-            var totalDefense = 10 + defenseValue.Bonus + defenseValue.Value + ArmorDefinition.DefenseBonus(armorTemplate);
-            var totalHit = hitPropertyValues.Bonus + gripTypeDetails.Hit + hitPropertyValues.Value;
-            totalHit += GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
-            var advantage = GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null);
-            advantage = Math.Max(advantage, input.Advantage);
-            var rollCommand = new RollDiceCommand(hitPropertyValues.Value, advantage, totalHit, WeaponDefinition.HitDifficulty(weaponCategory), totalDefense, new List<int>(), input.Luck);
-            var roll = new Roll();
-            roll.Process(rollCommand);
-            if (roll.Success)
-            {
-                var damages = new List<DamageRollResult>();
-                for (var i = 0; i < roll.NumberOfRollSuccesses; i++)
-                {
-                    var damage = RollDamage(weapon, damagePropertyValues, gripTypeDetails);
-                    var block = target.GetBasicBlock();
-                    damage.ReducedDamage -= block;
-                    damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
-                    damages.Add(damage);
-                    var damageResult = target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
-                    if (damageResult.ExcessDamage > 0)
-                    {
-                        var secondaryDamageResult = target.TakeDamage(input.GetSecondVitalityId, damageResult.ExcessDamage);
-                    }
-                }
-                return new AttackResult
-                {
-                    Attacker = this,
-                    Target = target,
-                    TotalDamage = damages.Sum(d => d.ReducedDamage),
-                    Weapon = weapon,
-                    Success = true
-                };
-            }
-
-            return new AttackResult
-            {
-                Attacker = this,
-                Target = target,
-                Weapon = weapon,
-                Success = false
-            };
-
-
-        }
 
         private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty,
             GripTypeStats gripTypeDetails)
