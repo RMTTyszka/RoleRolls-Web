@@ -16,13 +16,13 @@ namespace RoleRollsPocketEdition.Campaigns
         public async Task<CampaignTemplate> GetCreatureTemplateAggregateAsync(Guid id)
         {
             var creatureTemplate = await _dbContext.CampaignTemplates
-            .Include(template => template.Attributes)
-            .ThenInclude(attribute => attribute.SkillTemplates)
-            .Include(template => template.AttributelessSkills)
-            .ThenInclude(attribute => attribute.SpecificSkills)
-            .Include(template => template.Vitalities)
-            .Include(template => template.Defenses)
-            .FirstAsync(template => template.Id == id);
+                .Include(template => template.Attributes)
+                .ThenInclude(attribute => attribute.SkillTemplates)
+                .Include(template => template.AttributelessSkills)
+                .ThenInclude(attribute => attribute.SpecificSkillTemplates)
+                .Include(template => template.Vitalities)
+                .Include(template => template.Defenses)
+                .FirstAsync(template => template.Id == id);
             return creatureTemplate;
         }
 

@@ -14,9 +14,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public SkillTemplate SkillTemplate { get; set; }
         public List<SpecificSkill> SpecificSkills { get; set; }
 
-        public int PointsLimit => Math.Max(3 + SpecificSkills.Count - 1, 0); 
+        public int PointsLimit => Math.Max(3 + SpecificSkills.Count - 1, 0);
         public int UsedPoints => SpecificSkills.Sum(minorSkill => minorSkill.Points);
         public int TotalValue => Value + PointsLimit;
+
         public Skill()
         {
         }
@@ -28,16 +29,21 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             AttributeId = attribute?.Id;
             SkillTemplateId = skill.Id;
             SkillTemplate = skill;
-            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill, Id, [])).ToList();
-        }     
+            SpecificSkills = skill.SpecificSkillTemplates.Select(minorSkill => new SpecificSkill(minorSkill, Id, []))
+                .ToList();
+        }
+
         public Skill(SkillTemplate skillTemplate, List<Attribute> attributes)
         {
             Id = Guid.NewGuid();
             Name = skillTemplate.Name;
-            AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;;
+            AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)
+                ?.Id;
+            ;
             SkillTemplateId = skillTemplate.Id;
             SkillTemplate = skillTemplate;
-            SpecificSkills = skillTemplate.SpecificSkills.Select(minorSkill => new SpecificSkill(minorSkill, Id, attributes)).ToList();
+            SpecificSkills = skillTemplate.SpecificSkillTemplates
+                .Select(minorSkill => new SpecificSkill(minorSkill, Id, attributes)).ToList();
         }
 
         public CreatureUpdateValidationResult Update(SkillModel updatedSkill)
@@ -45,7 +51,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Value = updatedSkill.Value;
             foreach (var minorSkill in SpecificSkills)
             {
-                var updatedMinorSkill = updatedSkill.SpecificSkills.First(minorsk => minorsk.SpecificSkillTemplateId == minorSkill.SpecificSkillTemplateId);
+                var updatedMinorSkill = updatedSkill.SpecificSkills.First(minorsk =>
+                    minorsk.SpecificSkillTemplateId == minorSkill.SpecificSkillTemplateId);
                 var totalPointAfterUpdate = UsedPoints - minorSkill.Points + updatedMinorSkill.Points;
                 if (totalPointAfterUpdate > PointsLimit)
                 {
@@ -55,8 +62,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
                 minorSkill.Update(updatedMinorSkill.Points);
             }
+
             return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);
         }
     }
-   
 }

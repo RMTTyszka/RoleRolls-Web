@@ -7,6 +7,7 @@ using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Entities;
 
@@ -20,64 +21,78 @@ public partial class Creature
         public int RemainingHits { get; set; }
         public Roll Roll { get; set; }
     }
-    public AttackResult Evade(Creature attacker, AttackCommand input)
-{
-    var defenseId = input.GetDefenseId;
-    var defenseProperty = new Property(defenseId);
-    var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
-    var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
 
-    var weapon = attacker.Equipment.GetItem(input.WeaponSlot) ?? new ItemInstance
+    public AttackResult Evade(Creature attacker, AttackCommand input, IDiceRoller dice)
     {
-        Template = new WeaponTemplate { Category = WeaponCategory.Medium }
-    };
-    var weaponTemplate = (WeaponTemplate)weapon.Template;
-    var gripStats = GripTypeExtensions.Stats[attacker.Equipment.GripType];
-    var difficulty = WeaponDefinition.HitDifficulty(weaponTemplate.Category);
+        var weapon = attacker.Equipment.GetItem(input.WeaponSlot) ?? new ItemInstance
+        {
+            Template = new WeaponTemplate
+            {
+                Category = WeaponCategory.Medium,
+                DamageType = WeaponDamageType.Bludgeoning
+            }
+        };
+        var weaponTemplate = (WeaponTemplate)weapon.Template;
+        var weaponCategory = weaponTemplate.Category;
+        var gripStats = GripTypeExtensions.Stats[attacker.Equipment.GripType];
 
-    var rollCommand = new RollDiceCommand(
-        defenseValue.Value,
-        advantage,
-        defenseValue.Bonus,
-        difficulty, 
-        difficulty,
-        [],
-        input.Luck
-    );
+        var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
+        var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
+        var totalHitBonus = hitValue.Bonus + gripStats.Hit +
+                            attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
+        var attackSuccesses = hitValue.Value;
+        var evadeComplexity = 10 + totalHitBonus;
 
-    var roll = new Roll();
-    roll.Process(rollCommand);
+        var defenseProperty = new Property(input.GetDefenseId);
+        var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
+        var defenseAdvantage =
+            Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
 
-    var numberOfFails = roll.NumberOfDices - roll.NumberOfRollSuccesses;
+        var evadeRollCommand = new RollDiceCommand(
+            defenseValue.Value,
+            defenseAdvantage,
+            defenseValue.Bonus,
+            evadeComplexity,
+            evadeComplexity,
+            [],
+            input.Luck
+        );
+        var evadeRoll = new Roll();
+        evadeRoll.Process(evadeRollCommand);
 
-    var damages = new List<DamageRollResult>();
-    for (int i = 0; i < numberOfFails; i++)
-    {
+        // 3. Subtrair sucessos da evasão dos sucessos do atacante
+        var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfRollSuccesses);
+
+        // 4. Comparar com dificuldade da arma
+        var hitDifficulty = WeaponDefinition.HitDifficulty(weaponCategory);
+        var numberOfHits = remainingSuccesses / hitDifficulty;
+
+        // 5. Rolar dano para cada hit
         var damageProperty = attacker.GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(weaponTemplate.Category),
+            input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory),
             input.DamageAttribute
         ));
-        var damage = attacker.RollDamage(weapon, damageProperty, gripStats);
-        damage.ReducedDamage -= GetBasicBlock();
-        damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
-        damages.Add(damage);
 
-        var result = TakeDamage(input.GetVitalityId, damage.TotalDamage);
-        if (result.ExcessDamage > 0)
+        var damages = new List<DamageRollResult>();
+        for (int i = 0; i < numberOfHits; i++)
         {
-            TakeDamage(input.GetSecondVitalityId, result.ExcessDamage);
+            var damage = attacker.RollDamage(weapon, damageProperty, gripStats);
+            damage.ReducedDamage -= GetBasicBlock();
+            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
+            damages.Add(damage);
+
+            var result = TakeDamage(input.GetVitalityId, damage.TotalDamage);
+            if (result.ExcessDamage > 0)
+                TakeDamage(input.GetSecondVitalityId, result.ExcessDamage);
         }
+
+        return new AttackResult
+        {
+            Attacker = attacker,
+            Target = this,
+            Weapon = weapon,
+            TotalDamage = damages.Sum(d => d.ReducedDamage),
+            Success = numberOfHits > 0
+        };
     }
-
-    return new AttackResult
-    {
-        Attacker = attacker,
-        Target = this,
-        Weapon = weapon,
-        TotalDamage = damages.Sum(d => d.ReducedDamage),
-        Success = numberOfFails > 0
-    };
-}
-
-
 }

@@ -25,7 +25,7 @@ using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 namespace RoleRollsPocketEdition.Infrastructure
 {
     public class RoleRollsDbContext : DbContext
-    { 
+    {
         public DbSet<Creature> Creatures { get; set; }
         public DbSet<Attribute> Attributes { get; set; }
         public DbSet<Skill> Skills { get; set; }
@@ -76,7 +76,7 @@ namespace RoleRollsPocketEdition.Infrastructure
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -88,6 +88,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                 {
                     Console.WriteLine($"Entity type {entityType.ClrType} is not supported");
                 }
+
                 var stringProperties = entityType.ClrType.GetProperties()
                     .Where(p => p.PropertyType == typeof(string));
 
@@ -109,16 +110,14 @@ namespace RoleRollsPocketEdition.Infrastructure
             {
                 e.HasMany<SkillTemplate>(p => p.SkillTemplates)
                     .WithOne(c => c.AttributeTemplate)
-                    .OnDelete(DeleteBehavior.Cascade);        
+                    .OnDelete(DeleteBehavior.Cascade);
                 e.HasMany<SpecificSkillTemplate>(p => p.SpecificSkillTemplates)
                     .WithOne(c => c.AttributeTemplate)
                     .OnDelete(DeleteBehavior.Cascade);
                 e.Navigation(c => c.SkillTemplates).AutoInclude();
             });
-            
-            modelBuilder.Entity<Campaign>(e =>
-            {
-            });            
+
+            modelBuilder.Entity<Campaign>(e => { });
             modelBuilder.Entity<CampaignTemplate>(e =>
             {
                 e.HasMany(c => c.CombatManeuvers)
@@ -126,7 +125,7 @@ namespace RoleRollsPocketEdition.Infrastructure
                     .HasForeignKey(p => p.CampaignTemplateId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-            
+
             modelBuilder.Entity<Encounter>(e =>
             {
                 e.HasMany<Creature>(p => p.Creatures)
@@ -142,27 +141,26 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany<Creature>(p => p.Creatures)
                     .WithOne(p => p.CreatureType)
                     .OnDelete(DeleteBehavior.SetNull);
-            });        
+            });
             modelBuilder.Entity<SkillTemplate>(skill =>
             {
-                skill.Navigation(c => c.SpecificSkills).AutoInclude();
-            });      
-       
+                skill.Navigation(c => c.SpecificSkillTemplates).AutoInclude();
+            });
 
-            
+
             modelBuilder.Entity<ItemInstance>(e =>
             {
                 e.HasDiscriminator<string>("ItemType")
                     .HasValue<ItemInstance>("Item");
-                    e.HasOne<Equipment>()
+                e.HasOne<Equipment>()
                     .WithOne(e => e.Neck)
                     .HasForeignKey<Equipment>(e => e.NeckId)
                     .OnDelete(DeleteBehavior.Cascade);
-                    e.HasOne<PowerInstance>(p => p.PowerInstance)
-                        .WithMany(p => p.ItemInstances)
-                        .OnDelete(DeleteBehavior.SetNull);
+                e.HasOne<PowerInstance>(p => p.PowerInstance)
+                    .WithMany(p => p.ItemInstances)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
-            
+
             modelBuilder.Entity<ItemTemplate>(e =>
             {
                 e.HasDiscriminator<string>("ItemType")
@@ -174,70 +172,70 @@ namespace RoleRollsPocketEdition.Infrastructure
                     .WithMany(p => p.ItemTemplates)
                     .OnDelete(DeleteBehavior.SetNull);
             });
-  
+
 
             modelBuilder.Entity<Inventory>()
                 .HasMany<ItemInstance>(e => e.Items)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-            
-            modelBuilder.Entity<Equipment>(equipment => {
+
+            modelBuilder.Entity<Equipment>(equipment =>
+            {
                 equipment.HasOne<ItemInstance>(e => e.Arms)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.ArmsId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Chest)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.ChestId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Feet)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.FeetId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Hands)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.HandsId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Head)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.HeadId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.LeftRing)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.LeftRingId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.MainHand)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.MainHandId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Neck)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.NeckId)
                     .OnDelete(DeleteBehavior.Cascade);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.OffHand)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.OffHandId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.RightRing)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.RightRingId)
                     .OnDelete(DeleteBehavior.SetNull);
-                    
+
                 equipment.HasOne<ItemInstance>(e => e.Waist)
                     .WithOne()
                     .HasForeignKey<Equipment>(e => e.WaistId)
                     .OnDelete(DeleteBehavior.SetNull);
             });
-            
         }
 
         private void ModelArchetype(ModelBuilder modelBuilder)
@@ -279,14 +277,13 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany<SpecificSkill>(p => p.SpecificSkills)
                     .WithOne(p => p.Attribute)
                     .OnDelete(DeleteBehavior.Cascade);
-            });         
+            });
             modelBuilder.Entity<Skill>(e =>
             {
                 e.HasMany<SpecificSkill>(p => p.SpecificSkills)
                     .WithOne(p => p.Skill)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-
         }
     }
 }

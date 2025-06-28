@@ -23,7 +23,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     public partial class Creature : Entity, IHaveBonuses
     {
         public ICollection<Attribute> Attributes { get; set; }
-        [NotMapped] public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills)
+
+        [NotMapped]
+        public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills)
             .Concat(AttributelessSkills)
             .ToList();
 
@@ -45,11 +47,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public Inventory Inventory { get; set; }
         public CreatureType? CreatureType { get; set; }
         public Archetype? Archetype { get; set; }
-        
+
         public Guid? EncounterId { get; set; }
         public Encounter? Encounter { get; set; }
-        [NotMapped] public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills)
+
+        [NotMapped]
+        public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills)
             .Concat(AttributelessSkills.SelectMany(a => a.SpecificSkills)).ToList();
+
         public Creature()
         {
             Attributes = new List<Attribute>();
@@ -67,7 +72,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return value;
         }
 
-        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId, CreatureCategory creatureCategory, bool isTemplate) 
+        public static Creature FromTemplate(CampaignTemplate template, Guid campaignId,
+            CreatureCategory creatureCategory, bool isTemplate)
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
             var attributelessSkills =
@@ -101,12 +107,14 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 Name = creatureModel.Name;
                 foreach (var attribute in Attributes)
                 {
-                    var updatedAttribute = creatureModel.Attributes.First(attr => attr.AttributeTemplateId == attribute.AttributeTemplateId);
+                    var updatedAttribute = creatureModel.Attributes.First(attr =>
+                        attr.AttributeTemplateId == attribute.AttributeTemplateId);
                     attribute.Update(updatedAttribute);
-                }           
+                }
+
                 foreach (var skill in Skills)
                 {
-                    var updatedSkill= creatureModel.Skills.First(sk => sk.SkillTemplateId == skill.SkillTemplateId);
+                    var updatedSkill = creatureModel.Skills.First(sk => sk.SkillTemplateId == skill.SkillTemplateId);
                     var result = skill.Update(updatedSkill);
                     if (result.Validation == CreatureUpdateValidation.Ok)
                     {
@@ -115,21 +123,25 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
                     return result;
                 }
-                
+
                 return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);
             }
+
             return new CreatureUpdateValidationResult(CreatureUpdateValidation.InvalidModel, null);
         }
 
         private bool Valid(CreatureModel creatureModel)
         {
-            var hasDifferentArchetype = Archetype is not null && creatureModel.Archetype is not null && Archetype.Id != creatureModel.Archetype.Id;
-            var hasDifferentCreatureType = CreatureType is not null && creatureModel.CreatureType is not null && CreatureType.Id != creatureModel.CreatureType.Id;
+            var hasDifferentArchetype = Archetype is not null && creatureModel.Archetype is not null &&
+                                        Archetype.Id != creatureModel.Archetype.Id;
+            var hasDifferentCreatureType = CreatureType is not null && creatureModel.CreatureType is not null &&
+                                           CreatureType.Id != creatureModel.CreatureType.Id;
 
             if (hasDifferentArchetype || hasDifferentCreatureType)
             {
                 return false;
             }
+
             return true;
         }
 
@@ -140,7 +152,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var rolls = Enumerable.Range(0, level).Select((int _) =>
             {
                 var value = random.Next(0, 21);
-                if (roll.Dificulty.HasValue) 
+                if (roll.Dificulty.HasValue)
                 {
                     var success = value + roll.Bonus > roll.Complexity;
                     if (success)
@@ -151,7 +163,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                             result.CriticalSuccesses += 1;
                         }
                     }
-                    else 
+                    else
                     {
                         result.Misses += 1;
                         if (value == 1)
@@ -168,6 +180,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             {
                 result.Success = result.Successes > roll.Dificulty;
             }
+
             result.Rolls = rolls;
             result.SuccessTimes = result.Successes / roll.Complexity.GetValueOrDefault(1);
             return result;
@@ -176,21 +189,21 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
             var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
-    
+
             var excessDamage = 0;
             var actualDamage = value;
-    
+
             if (vitality.Value - value <= 0)
             {
-                actualDamage = vitality.Value; 
-                excessDamage = value - vitality.Value; 
-                vitality.Value = 0; 
+                actualDamage = vitality.Value;
+                excessDamage = value - vitality.Value;
+                vitality.Value = 0;
             }
             else
             {
                 vitality.Value -= value;
             }
-    
+
             return new CreatureTakeDamageResult
             {
                 Name = Name,
@@ -199,7 +212,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 Vitality = vitality.Name,
                 ActorId = Id
             };
-        }     
+        }
 
 
         public int GetBasicBlock()
@@ -250,21 +263,22 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             var replacesFormula = Attributes.Aggregate(formula,
                 (formula, attribute) => formula.Replace(attribute.Name, attribute.TotalValue.ToString()));
-     
+
             replacesFormula = Skills.Aggregate(replacesFormula,
-                (formula, skill) => replacesFormula.Replace(skill.Name, 
+                (formula, skill) => replacesFormula.Replace(skill.Name,
                     GetPropertyValue(new PropertyInput(
-                        new Property(skill.SkillTemplateId, PropertyType.Skill), 
+                        new Property(skill.SkillTemplateId, PropertyType.Skill),
                         null
-                    )).ToString()));     
+                    )).ToString()));
 
             replacesFormula = SpecificSkills.Aggregate(replacesFormula,
-                (formula, minorSkill) => replacesFormula.Replace(minorSkill.Name, 
+                (formula, minorSkill) => replacesFormula.Replace(minorSkill.Name,
                     GetPropertyValue(new PropertyInput(
-                        new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill), 
+                        new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill),
                         null
-                    )).ToString()));DataTable dt = new DataTable();
-            var result = dt.Compute(replacesFormula,"");
+                    )).ToString()));
+            DataTable dt = new DataTable();
+            var result = dt.Compute(replacesFormula, "");
 
             if (int.TryParse(result.ToString(), out var value))
             {
@@ -279,6 +293,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             Inventory.AddItem(item);
         }
+
         public void RemoveItem(ItemInstance? item)
         {
             Inventory.Remove(item);
@@ -291,15 +306,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public void Equip(ItemInstance item, EquipableSlot slot)
         {
-            Equipment.Equip(item, slot);
+            var removedItem = Equipment.Equip(item, slot);
+            RemoveItem(item);
+            AddItemToInventory(removedItem);
         }
 
         public void Unequip(EquipableSlot slot)
-        { 
+        {
             Equipment.Unequip(slot);
         }
-
-        
 
 
         private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty,
@@ -330,9 +345,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return bonuses.SumBonus(bonusApplication, property);
         }
 
-        
 
-        [NotMapped] public List<Bonus> AllBonuses =>
+        [NotMapped]
+        public List<Bonus> AllBonuses =>
             Bonuses.Concat(CreatureType.GetBonusesOrEmpty())
                 .Concat(Archetype.GetBonusesOrEmpty())
                 .Concat(Equipment.Bonuses)
@@ -340,5 +355,4 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public List<Bonus> Bonuses { get; set; } = [];
     }
-   
 }

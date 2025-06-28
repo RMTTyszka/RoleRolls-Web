@@ -20,7 +20,7 @@ public class Equipment : Entity
     public ItemInstance? Waist { get; set; }
     public ItemInstance? Neck { get; set; }
     public ItemInstance? LeftRing { get; set; }
-    public ItemInstance? RightRing { get; set; } 
+    public ItemInstance? RightRing { get; set; }
     public Guid? MainHandId { get; set; }
     public Guid? OffHandId { get; set; }
     public Guid? HeadId { get; set; }
@@ -33,10 +33,9 @@ public class Equipment : Entity
     public Guid? LeftRingId { get; set; }
     public Guid? RightRingId { get; set; }
     public GripType GripType { get; set; }
-    
 
 
-    public void Equip(ItemInstance item, EquipableSlot slot)
+    public ItemInstance? Equip(ItemInstance item, EquipableSlot slot)
     {
         switch (slot)
         {
@@ -44,16 +43,12 @@ public class Equipment : Entity
                 if (item.Template is WeaponTemplate)
                 {
                     var equipedItem = MainHand;
-                    if (equipedItem != null)
-                    {
-                        Creature.AddItemToInventory(equipedItem);
-                    }
 
                     MainHand = item;
-                    Creature.RemoveItem(item);
-                    break;
+                    return equipedItem;
                 }
-                return;
+
+                return null;
             case EquipableSlot.Chest:
             case EquipableSlot.Hands:
             case EquipableSlot.Arms:
@@ -68,16 +63,16 @@ public class Equipment : Entity
                 if (item.Template is WeaponTemplate)
                 {
                     var equipedItem = OffHand;
-                    if (equipedItem != null)
-                    {
-                        Creature.AddItemToInventory(equipedItem);
-                    }
                     OffHand = item;
+                    return equipedItem;
                 }
-                break;
+
+                return null;
             default:
                 throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
         }
+
+        return null;
     }
 
     public void Unequip(EquipableSlot slot)
@@ -131,7 +126,5 @@ public class Equipment : Entity
     };
 
     // TODO
-    [NotMapped]
-    public List<Bonus> Bonuses => new List<Bonus>();
+    [NotMapped] public List<Bonus> Bonuses => new List<Bonus>();
 }
-

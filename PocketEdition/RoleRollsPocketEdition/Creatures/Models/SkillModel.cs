@@ -5,14 +5,15 @@ namespace RoleRollsPocketEdition.Creatures.Models
     public class SkillModel
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Value { get; set; }
         public Guid? AttributeId { get; set; }
         public Guid SkillTemplateId { get; set; }
         public List<SpecificSkillModel> SpecificSkills { get; set; }
-        
+
         public int PointsLimit { get; init; }
         public int UsedPoints { get; init; }
+
         public SkillModel()
         {
         }

@@ -9,34 +9,36 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public SkillTemplate()
         {
-            SpecificSkills = new List<SpecificSkillTemplate>();
         }
-        public SkillTemplate(Guid? attributeTemplateId, SkillTemplateModel skill)
+
+        public SkillTemplate(AttributeTemplate? attributeTemplate, SkillTemplateModel skill) : base()
         {
             Id = skill.Id;
             Name = skill.Name;
-            AttributeTemplateId = attributeTemplateId;
-            SpecificSkills = skill.SpecificSkills.Select(minorSkill => new SpecificSkillTemplate(skill.Id, minorSkill)).ToList();
+            AttributeTemplateId = attributeTemplate?.Id;
+            AttributeTemplate = attributeTemplate;
+            SpecificSkillTemplates = skill.SpecificSkillTemplates
+                .Select(minorSkill => new SpecificSkillTemplate(skill.Id, minorSkill)).ToList();
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public Guid? AttributeTemplateId { get; set; }
         public AttributeTemplate? AttributeTemplate { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
-        public List<SpecificSkillTemplate> SpecificSkills { get; set; }
-        
-        public int PointsLimit => SpecificSkills.Count * 3 - SpecificSkills.Count - 1; 
+        public ICollection<Skill> Skills { get; set; } = [];
+        public List<SpecificSkillTemplate> SpecificSkillTemplates { get; set; } = [];
+
+        public int PointsLimit => SpecificSkillTemplates.Count * 3 - SpecificSkillTemplates.Count - 1;
 
         public void Update(SkillTemplateModel skillModel)
         {
             Name = skillModel.Name;
-        }        
+        }
+
         public async Task AddMinorSkillAsync(SpecificSkillTemplate specificSkill, RoleRollsDbContext dbContext)
         {
-            SpecificSkills.Add(specificSkill);
+            SpecificSkillTemplates.Add(specificSkill);
             await dbContext.MinorSkillTemplates.AddAsync(specificSkill);
-        }        
-
+        }
     }
 }

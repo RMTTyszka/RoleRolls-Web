@@ -8,13 +8,14 @@ using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Powers.Models;
+using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Services;
 
 namespace RoleRollsPocketEdition.Attacks.Services;
 
 public interface IAttackService
 {
-    Task Attack(Guid campaignId, Guid sceneId, Guid attackerId,  AttackInput input);
+    Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input);
 }
 
 public class AttackService : IAttackService, ITransientDependency
@@ -22,12 +23,15 @@ public class AttackService : IAttackService, ITransientDependency
     private readonly RoleRollsDbContext _context;
     private readonly ICreatureRepository _creatureRepository;
     private readonly IScenesService _scenesService;
+    private readonly IDiceRoller _diceRoller;
 
-    public AttackService(RoleRollsDbContext context, ICreatureRepository creatureRepository, IScenesService scenesService)
+    public AttackService(RoleRollsDbContext context, ICreatureRepository creatureRepository,
+        IScenesService scenesService, IDiceRoller diceRoller)
     {
         _context = context;
         _creatureRepository = creatureRepository;
         _scenesService = scenesService;
+        _diceRoller = diceRoller;
     }
 
     public async Task Attack(Guid campaignId, Guid sceneId, Guid attackerId, AttackInput input)
@@ -36,7 +40,7 @@ public class AttackService : IAttackService, ITransientDependency
         var target = await LoadCreature(input.TargetId);
         var itemConfiguration = await LoadItemConfiguration(campaignId);
         var command = BuildAttackCommand(itemConfiguration, input);
-        var attackResult = attacker.Attack(target, command);
+        var attackResult = attacker.Attack(target, command, _diceRoller);
         await _scenesService.ProcessAction(sceneId, attackResult);
     }
 
@@ -75,7 +79,6 @@ public class AttackService : IAttackService, ITransientDependency
             DamageAttribute = input.DamageAttribute,
         };
     }
-
 }
 
 public class AttackInput
@@ -91,6 +94,7 @@ public class AttackInput
     public int Advantage { get; set; }
     public Property? HitAttribute { get; set; }
 }
+
 public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
@@ -108,11 +112,12 @@ public class AttackCommand
     public Guid GetSecondVitalityId => SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality.Id;
     public List<Guid> CombatManeuverIds { get; set; } = [];
 }
+
 public class AttackResult
 {
     public Creature Attacker { get; set; }
     public Creature Target { get; set; }
-    public object TotalDamage { get; set; }
+    public int TotalDamage { get; set; }
     public ItemInstance Weapon { get; set; }
     public bool Success { get; set; }
 }

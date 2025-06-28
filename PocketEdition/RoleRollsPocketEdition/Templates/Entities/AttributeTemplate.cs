@@ -9,7 +9,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public AttributeTemplate()
         {
-
         }
 
         public AttributeTemplate(AttributeTemplateModel attribute)
@@ -30,11 +29,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Name = attributeModel.Name;
         }
 
-        public async Task<SkillTemplate> AddSkill(SkillTemplateModel skillModel, RoleRollsDbContext context)
+        public SkillTemplate AddSkill(SkillTemplateModel skillModel)
         {
-            var skill = new SkillTemplate(Id, skillModel);
+            var skill = new SkillTemplate(this, skillModel);
             SkillTemplates.Add(skill);
-            await context.SkillTemplates.AddAsync(skill);
             return skill;
         }
     }

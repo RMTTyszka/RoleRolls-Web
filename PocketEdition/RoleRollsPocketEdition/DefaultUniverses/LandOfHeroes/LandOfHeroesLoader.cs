@@ -26,13 +26,13 @@ public class LandOfHeroesLoader : IStartupTask
         _dbContext = dbDbContext;
         _campaignsService = campaignsService;
     }
-    
+
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         var templateFromCode = LandOfHeroesTemplate.Template;
         var templateFromDb = await _dbContext.CampaignTemplates
             .FirstOrDefaultAsync(t => t.Id == templateFromCode.Id, cancellationToken: cancellationToken);
-        
+
 
         if (templateFromDb == null)
         {
@@ -89,7 +89,7 @@ public class LandOfHeroesLoader : IStartupTask
                 .Where(e => e.Id == templateFromCode.Id)
                 .Select(e => e.ItemConfiguration)
                 .FirstAsync(cancellationToken);
-        
+
             templateFromDb.Name = templateFromCode.Name;
             templateFromDb.Default = templateFromCode.Default;
             templateFromDb.ItemConfiguration = itemConfiguration;
@@ -100,19 +100,26 @@ public class LandOfHeroesLoader : IStartupTask
             templateFromDb.AttributelessSkills = attributelessSkills;
             templateFromDb.Defenses = defenses;
             templateFromDb.Vitalities = vitalities;
-            await SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes, _dbContext);
-            await SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills, templateFromDb.AttributelessSkills, _dbContext);
-            await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration, templateFromDb.ItemConfiguration, _dbContext);
+            await SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes,
+                _dbContext);
+            await SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills,
+                templateFromDb.AttributelessSkills, _dbContext);
+            await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration,
+                templateFromDb.ItemConfiguration, _dbContext);
             await SynchronizeLives(templateFromDb, templateFromCode.Vitalities, templateFromDb.Vitalities, _dbContext);
-            await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes, _dbContext);
-            await SynchronizeCreatureTypes(templateFromDb, templateFromCode.CreatureTypes, templateFromDb.CreatureTypes, _dbContext);
-            await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes, _dbContext);
+            await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes,
+                _dbContext);
+            await SynchronizeCreatureTypes(templateFromDb, templateFromCode.CreatureTypes, templateFromDb.CreatureTypes,
+                _dbContext);
+            await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes,
+                _dbContext);
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task SynchronizeArchetypes(CampaignTemplate templateFromDb, List<Archetype> fromCode, List<Archetype> fromDb, RoleRollsDbContext dbContext)
+    private async Task SynchronizeArchetypes(CampaignTemplate templateFromDb, List<Archetype> fromCode,
+        List<Archetype> fromDb, RoleRollsDbContext dbContext)
     {
         var dbCreatureTypes = fromDb.ToDictionary(c => c.Id);
         var codeCreatureTypes = fromCode.ToDictionary(c => c.Id);
@@ -153,7 +160,8 @@ public class LandOfHeroesLoader : IStartupTask
             }
             else
             {
-                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkills, dbSkill.SpecificSkills, context);
+                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkillTemplates,
+                    dbSkill.SpecificSkillTemplates, context);
                 dbSkill.Name = codeSkill.Name;
                 context.SkillTemplates.Update(dbSkill);
             }
@@ -181,7 +189,8 @@ public class LandOfHeroesLoader : IStartupTask
             else
             {
                 dbAttr.Update(new AttributeTemplateModel(codeAttr));
-                await SynchronizeSkills(codeAttr, codeAttr.SkillTemplates.ToList(), dbAttr.SkillTemplates.ToList(), context);
+                await SynchronizeSkills(codeAttr, codeAttr.SkillTemplates.ToList(), dbAttr.SkillTemplates.ToList(),
+                    context);
                 dbAttr.Name = codeAttr.Name;
                 context.AttributeTemplates.Update(dbAttr);
             }
@@ -203,11 +212,13 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbSkills.TryGetValue(codeSkill.Id, out var dbSkill))
             {
-                await attributeTemplate.AddSkill(new SkillTemplateModel(codeSkill), context);
+                var skill = attributeTemplate.AddSkill(new SkillTemplateModel(codeSkill));
+                context.SkillTemplates.Add(skill);
             }
             else
             {
-                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkills, dbSkill.SpecificSkills, context);
+                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkillTemplates,
+                    dbSkill.SpecificSkillTemplates, context);
                 dbSkill.Name = codeSkill.Name;
                 dbSkill.AttributeTemplateId = codeSkill.AttributeTemplateId;
                 context.SkillTemplates.Update(dbSkill);
@@ -231,6 +242,7 @@ public class LandOfHeroesLoader : IStartupTask
             context.MinorSkillTemplates.Remove(dbMinorSkill);
             await context.SaveChangesAsync();
         }
+
         foreach (var codeMinorSkill in fromCode)
         {
             if (!dbMinorSkills.TryGetValue(codeMinorSkill.Id, out var dbMinorSkill))
@@ -245,8 +257,6 @@ public class LandOfHeroesLoader : IStartupTask
                 context.MinorSkillTemplates.Update(dbMinorSkill);
             }
         }
-
-
     }
 
     private async Task SynchronizeItemConfiguration(Templates.Entities.CampaignTemplate templateFromDb,
@@ -265,6 +275,7 @@ public class LandOfHeroesLoader : IStartupTask
             context.ItemConfigurations.Update(fromDb);
         }
     }
+
     private async Task SynchronizeLives(
         Templates.Entities.CampaignTemplate creatureFromDb,
         ICollection<VitalityTemplate> fromCode,
@@ -291,6 +302,7 @@ public class LandOfHeroesLoader : IStartupTask
             creatureFromDb.Vitalities.Remove(dbVitality);
         }
     }
+
     private async Task SynchronizeCreatureTypes(
         Templates.Entities.CampaignTemplate campaignFromDb,
         ICollection<CreatureType> fromCode,
@@ -310,7 +322,8 @@ public class LandOfHeroesLoader : IStartupTask
             {
                 dbCreature.Name = codeCreature.Name;
                 dbCreature.Description = codeCreature.Description;
-                await campaignFromDb.UpdateCreatureType(codeCreature.Id, new CreatureTypeModel(codeCreature), dbContext);
+                await campaignFromDb.UpdateCreatureType(codeCreature.Id, new CreatureTypeModel(codeCreature),
+                    dbContext);
             }
         }
 
@@ -320,6 +333,7 @@ public class LandOfHeroesLoader : IStartupTask
             dbContext.CreatureTypes.Remove(dbCreature);
         }
     }
+
     private async Task SynchronizeDamageTypes(Templates.Entities.CampaignTemplate creatureFromDb,
         ICollection<DamageType> fromCode,
         ICollection<DamageType> fromDb, RoleRollsDbContext context)
@@ -346,5 +360,4 @@ public class LandOfHeroesLoader : IStartupTask
             context.DamageTypes.Remove(damageType);
         }
     }
-
 }

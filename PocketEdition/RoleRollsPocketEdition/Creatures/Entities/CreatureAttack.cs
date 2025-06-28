@@ -7,12 +7,13 @@ using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
-    public AttackResult Attack(Creature target, AttackCommand input)
+    public AttackResult Attack(Creature target, AttackCommand input, IDiceRoller diceRoller)
     {
         var weapon = GetWeaponOrDefault(input.WeaponSlot);
         var weaponTemplate = (WeaponTemplate?)weapon.Template;
@@ -23,7 +24,7 @@ public partial class Creature
         var defenseValue = GetDefenseValue(target, input.GetDefenseId);
         var roll = RollToHit(hitValue, defenseValue, weaponCategory, input);
 
-        return roll.Success 
+        return roll.Success
             ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats)
             : CreateFailedResult(target, weapon);
     }
@@ -74,7 +75,8 @@ public partial class Creature
         return roll;
     }
 
-    private AttackResult ResolveSuccessfulAttack(Creature target, ItemInstance weapon, int times, AttackCommand input, GripTypeStats gripStats)
+    private AttackResult ResolveSuccessfulAttack(Creature target, ItemInstance weapon, int times, AttackCommand input,
+        GripTypeStats gripStats)
     {
         var damages = new List<DamageRollResult>();
 
@@ -121,7 +123,8 @@ public partial class Creature
         damage += (weapon.Level / 2) * gripStats.MagicBonusModifier;
 
         var damageProperty = GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(((WeaponTemplate?)weapon.Template)?.Category ?? WeaponCategory.Light),
+            input.ItemConfiguration.GetWeaponDamageProperty(((WeaponTemplate?)weapon.Template)?.Category ??
+                                                            WeaponCategory.Light),
             input.DamageAttribute
         ));
 
