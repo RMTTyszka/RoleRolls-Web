@@ -20,9 +20,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public string Name { get; set; }
         public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
-        public ICollection<Attribute> Attributes { get; set; }
-        public ICollection<SpecificSkillTemplate> SpecificSkillTemplates { get; set; }
-        public ICollection<SkillTemplate> SkillTemplates { get; set; }
+        public ICollection<Attribute> Attributes { get; set; } = [];
+        public ICollection<SpecificSkillTemplate> SpecificSkillTemplates { get; set; } = [];
+        public ICollection<SkillTemplate> SkillTemplates { get; set; } = [];
 
         public void Update(AttributeTemplateModel attributeModel)
         {

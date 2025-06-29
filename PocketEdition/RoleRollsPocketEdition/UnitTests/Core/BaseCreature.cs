@@ -1,4 +1,6 @@
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
@@ -7,11 +9,12 @@ namespace RoleRollsPocketEdition.UnitTests.Core;
 
 public static class BaseCreature
 {
-    public static Creature CreateCreature(List<Guid> ids)
+    public static Creature CreateCreature(List<Guid> ids, List<int> values)
     {
-        var creatureTemplate = CreateCreatureTemplate(ids);
+        var creatureTemplate = LandOfHeroesTemplate.Template;
 
         var creature = Creature.FromTemplate(creatureTemplate, Guid.Empty, CreatureCategory.Hero, false);
+
         return creature;
     }
 

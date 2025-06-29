@@ -6,6 +6,7 @@ using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Services;
+using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
@@ -19,7 +20,7 @@ public class EvadeTests
         // Arrange
         var hitPropertyId = Guid.NewGuid();
         var defensePropertyId = Guid.NewGuid();
-        var damagePropertyId = Guid.NewGuid();
+        var damagePropertyId = hitPropertyId;
 
         var config = new ItemConfiguration
         {
@@ -27,12 +28,7 @@ public class EvadeTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new Creature
-        {
-            Equipment = new Equipment { GripType = GripType.OneMediumWeapon },
-            Attributes = [new Attribute { AttributeTemplateId = hitPropertyId, Value = 4 }],
-            Inventory = new Inventory()
-        };
+        var attacker = BaseCreature.CreateCreature([hitPropertyId, defensePropertyId], [4, 4]);
 
         var weapon = new ItemInstance
         {
@@ -44,11 +40,7 @@ public class EvadeTests
 
         attacker.Equip(weapon, EquipableSlot.MainHand);
 
-        var defender = new Creature
-        {
-            Equipment = new Equipment(),
-            Attributes = [new Attribute { AttributeTemplateId = defensePropertyId, Value = 2 }]
-        };
+        var defender = BaseCreature.CreateCreature([hitPropertyId, defensePropertyId], [4, 4]);
 
         var input = new AttackCommand
         {
@@ -57,6 +49,7 @@ public class EvadeTests
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
+            VitalityId = new Property(defensePropertyId, PropertyType.Attribute),
             Luck = 0,
             Advantage = 0
         };
