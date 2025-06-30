@@ -9,6 +9,7 @@ using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Rolls.Models;
+using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Rolls
 {
@@ -20,14 +21,16 @@ namespace RoleRollsPocketEdition.Rolls
         private readonly ISceneNotificationService _sceneNotificationService;
         private readonly ICampaignSceneHistoryBuilderService _historyService;
         private readonly ICreatureRepository _creatureRepository;
+        private readonly IDiceRoller _diceRoller;
 
-        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService historyService, ICreatureRepository creatureRepository)
+        public RollService(RoleRollsDbContext roleRollsDbContext, ICurrentUser currentUser, ISceneNotificationService sceneNotificationService, ICampaignSceneHistoryBuilderService historyService, ICreatureRepository creatureRepository, IDiceRoller diceRoller)
         {
             _roleRollsDbContext = roleRollsDbContext;
             _currentUser = currentUser;
             _sceneNotificationService = sceneNotificationService;
             _historyService = historyService;
             _creatureRepository = creatureRepository;
+            _diceRoller = diceRoller;
         }
         
 
@@ -136,7 +139,7 @@ namespace RoleRollsPocketEdition.Rolls
             ));      
             var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
-            roll.Process(rollCommand);
+            roll.Process(rollCommand, _diceRoller, 20);
             var rollResult = new RollModel(roll);
 
             await _roleRollsDbContext.AddAsync(roll);
@@ -150,7 +153,7 @@ namespace RoleRollsPocketEdition.Rolls
         {
             var rollCommand = new RollDiceCommand(input.Advantage, input.Advantage, input.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
             var roll = new Roll(campaignId, sceneId, _currentUser.User.Id, input.Property, input.Hidden, input.Description);
-            roll.Process(rollCommand);
+            roll.Process(rollCommand, _diceRoller, 20);
             var rollResult = new RollModel(roll);
 
             await _roleRollsDbContext.AddAsync(roll);

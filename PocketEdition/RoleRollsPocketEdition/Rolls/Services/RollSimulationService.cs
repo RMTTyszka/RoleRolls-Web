@@ -16,7 +16,7 @@ public class RollSimulationService : IRollSimulationService
         _logger = logger;
     }
 
-    public List<CdSimulationResult> GetDc(int points, int bonus, decimal chance) 
+    public List<CdSimulationResult> GetDc(int points, int bonus, decimal chance, IDiceRoller diceRoller) 
 {
     var results = new List<CdSimulationResult>();
     var adjustedDifficultRange = Math.Min(DifficultyRange, points);
@@ -36,7 +36,7 @@ public class RollSimulationService : IRollSimulationService
                 () => 0L,
                 (rolls, loopState, localSuccesses) => 
                 {
-                    if (getChance(points, bonus, difficulty, complexity)) 
+                    if (getChance(points, bonus, difficulty, complexity, diceRoller)) 
                     {
                         localSuccesses++;
                     }
@@ -59,21 +59,21 @@ public class RollSimulationService : IRollSimulationService
     return results.OrderBy(c => c.Chance).ToList();
 }
 
-    public decimal VerifyDc(int points, int bonus, int difficulty, int complexity) {
+    public decimal VerifyDc(int points, int bonus, int difficulty, int complexity, IDiceRoller diceRoller) {
         var chance = 0m;
 
         for (var rolls = 0; rolls < NumberOfRolls; rolls++)
         {
             var roll = new Roll();
             var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>(), 0);
-            chance += roll.Process(rollCommand).Success ? 1 : 0;
+            chance += roll.Process(rollCommand, diceRoller, 20).Success ? 1 : 0;
         }
 
         return chance / NumberOfRolls * 100;
     }
-    private bool getChance(int points, int bonus, int difficulty, int complexity) {
+    private bool getChance(int points, int bonus, int difficulty, int complexity, IDiceRoller diceRoller) {
         var rollCommand = new RollDiceCommand(points, 0, bonus, difficulty, complexity, new List<int>(), 0);
-        var roll = new Roll().Process(rollCommand);
+        var roll = new Roll().Process(rollCommand, diceRoller, 20);
         return roll.Success;
     }
 }

@@ -58,7 +58,7 @@ public partial class Creature
             input.Luck
         );
         var evadeRoll = new Roll();
-        evadeRoll.Process(evadeRollCommand);
+        evadeRoll.Process(evadeRollCommand, dice, 20);
 
         // 3. Subtrair sucessos da evasão dos sucessos do atacante
         var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfRollSuccesses);

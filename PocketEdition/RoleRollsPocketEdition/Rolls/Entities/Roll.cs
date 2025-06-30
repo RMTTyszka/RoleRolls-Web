@@ -2,6 +2,7 @@
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Rolls.Commands;
+using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Entities;
 
 namespace RoleRollsPocketEdition.Rolls.Entities
@@ -45,7 +46,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             Description = description;
         }
 
-        public Roll Process(RollDiceCommand command)
+        public Roll Process(RollDiceCommand command, IDiceRoller diceRoller, int sizes)
         {
             NumberOfDices = command.PredefinedRolls.Any()
                 ? command.PredefinedRolls.Count
@@ -56,8 +57,8 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             Advantage = command.Advantage;
             Bonus = command.Bonus;
 
-            var baseRolls = RollAllDice(command);
-            ApplyLuck(ref baseRolls, command.Luck);
+            var baseRolls = RollAllDice(command, diceRoller, sizes);
+            ApplyLuck(ref baseRolls, command.Luck, diceRoller, sizes);
             ProcessRolls(baseRolls);
 
             RolledDices = JsonSerializer.Serialize(baseRolls.Select(r => r + Bonus).ToList());
@@ -65,18 +66,18 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             return this;
         }
 
-        private List<int> RollAllDice(RollDiceCommand command)
+        private List<int> RollAllDice(RollDiceCommand command, IDiceRoller diceRoller, int sizes)
         {
             var rolls = new List<int>();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                int roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[i] : RollDice();
+                int roll = command.PredefinedRolls.Any() ? command.PredefinedRolls[i] : RollDice(diceRoller, sizes);
                 rolls.Add(roll);
             }
             return rolls;
         }
 
-        private void ApplyLuck(ref List<int> rolls, int luck)
+        private void ApplyLuck(ref List<int> rolls, int luck, IDiceRoller diceRoller, int sizes)
         {
             if (luck == 0) return;
 
@@ -89,7 +90,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
 
             foreach (int index in indicesToReroll)
             {
-                var newRoll = RollDice();
+                var newRoll = RollDice(diceRoller, sizes);
                 rolls[index] = luck > 0
                     ? Math.Max(rolls[index], newRoll)
                     : Math.Min(rolls[index], newRoll);
@@ -121,10 +122,9 @@ namespace RoleRollsPocketEdition.Rolls.Entities
 
 
 
-        private int RollDice()
+        private int RollDice(IDiceRoller diceRoller, int sizes)
         {
-            var randomMaker = new Random();
-            var roll = randomMaker.Next(20) + 1;
+            var roll = diceRoller.Roll(sizes);
             return roll;
         }
     }

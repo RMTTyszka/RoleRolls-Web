@@ -22,8 +22,9 @@ namespace RoleRollsPocketEdition.Creatures.Services
         private readonly IRollSimulationService _simulationService;
         private readonly ICreatureRepository _creatureRepository;
         private readonly ICreatureBuilderService _creatureBuilderService;
+        private readonly IDiceRoller _diceRoller;
 
-        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, IRollSimulationService simulationService, ICreatureRepository creatureRepository, ICreatureBuilderService creatureBuilderService)
+        public CreatureService(RoleRollsDbContext dbContext, ICampaignRepository campaignsService, ICurrentUser currentUser, IRollSimulationService simulationService, ICreatureRepository creatureRepository, ICreatureBuilderService creatureBuilderService, IDiceRoller diceRoller)
         {
             _dbContext = dbContext;
             _campaignRepository = campaignsService;
@@ -31,6 +32,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
             _simulationService = simulationService;
             _creatureRepository = creatureRepository;
             _creatureBuilderService = creatureBuilderService;
+            _diceRoller = diceRoller;
         }
 
         public async Task<PagedResult<CreatureModel>> GetAllAsync(Guid campaignId, GetAllCampaignCreaturesInput input)
@@ -102,7 +104,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
                 input.Property, 
                 null
             ));            var simulation = _simulationService.GetDc(propertyValue.Value, propertyValue.Bonus,
-                input.ExpectedChance);
+                input.ExpectedChance, _diceRoller);
             return simulation;
         }
 

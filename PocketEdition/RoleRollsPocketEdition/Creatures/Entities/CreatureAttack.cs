@@ -22,7 +22,7 @@ public partial class Creature
 
         var hitValue = GetHitValue(input, weaponCategory, gripStats);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId);
-        var roll = RollToHit(hitValue, defenseValue, weaponCategory, input);
+        var roll = RollToHit(hitValue, defenseValue, weaponCategory, input, diceRoller, 20);
 
         return roll.Success
             ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats)
@@ -58,7 +58,7 @@ public partial class Creature
         return 10 + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorCategory);
     }
 
-    private Roll RollToHit(PropertyValue hitValue, int defenseValue, WeaponCategory category, AttackCommand input)
+    private Roll RollToHit(PropertyValue hitValue, int defenseValue, WeaponCategory category, AttackCommand input, IDiceRoller diceRoller, int sizes)
     {
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
         var command = new RollDiceCommand(
@@ -71,7 +71,7 @@ public partial class Creature
             input.Luck
         );
         var roll = new Roll();
-        roll.Process(command);
+        roll.Process(command, diceRoller, sizes);
         return roll;
     }
 

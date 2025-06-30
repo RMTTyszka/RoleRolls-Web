@@ -2,6 +2,8 @@ using NSubstitute;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
@@ -18,9 +20,9 @@ public class EvadeTests
     public void Evade_ShouldCauseDamage_WhenDefenseFailsAllRolls()
     {
         // Arrange
-        var hitPropertyId = Guid.NewGuid();
-        var defensePropertyId = Guid.NewGuid();
-        var damagePropertyId = hitPropertyId;
+        var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
+        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
+        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
 
         var config = new ItemConfiguration
         {
@@ -28,7 +30,7 @@ public class EvadeTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = BaseCreature.CreateCreature([hitPropertyId, defensePropertyId], [4, 4]);
+        var attacker = BaseCreature.CreateCreature();
 
         var weapon = new ItemInstance
         {
@@ -40,7 +42,7 @@ public class EvadeTests
 
         attacker.Equip(weapon, EquipableSlot.MainHand);
 
-        var defender = BaseCreature.CreateCreature([hitPropertyId, defensePropertyId], [4, 4]);
+        var defender = BaseCreature.CreateCreature();
 
         var input = new AttackCommand
         {
@@ -49,7 +51,8 @@ public class EvadeTests
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-            VitalityId = new Property(defensePropertyId, PropertyType.Attribute),
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
         };
@@ -75,21 +78,17 @@ public class EvadeTests
     public void Evade_ShouldNegateAllHits_WhenDefenseSucceeds()
     {
         // Arrange
-        var hitPropertyId = Guid.NewGuid();
-        var defensePropertyId = Guid.NewGuid();
-        var damagePropertyId = Guid.NewGuid();
-
+        var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
+        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
+        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
         var config = new ItemConfiguration
         {
             MeleeMediumWeaponHitProperty = new Property(hitPropertyId, PropertyType.Attribute),
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new Creature
-        {
-            Equipment = new Equipment { GripType = GripType.OneMediumWeapon },
-            Attributes = [new Attribute { AttributeTemplateId = hitPropertyId, Value = 2 }] // 2 acertos
-        };
+        var attacker = BaseCreature.CreateCreature();
+
 
         var weapon = new ItemInstance
         {
@@ -98,13 +97,11 @@ public class EvadeTests
             Level = 1
         };
 
+        attacker.AddItemToInventory(weapon);
+
         attacker.Equip(weapon, EquipableSlot.MainHand);
 
-        var defender = new Creature
-        {
-            Equipment = new Equipment(),
-            Attributes = [new Attribute { AttributeTemplateId = defensePropertyId, Value = 4 }] // 4 dados de defesa
-        };
+        var defender = BaseCreature.CreateCreature();
 
         var input = new AttackCommand
         {
@@ -113,6 +110,8 @@ public class EvadeTests
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
         };

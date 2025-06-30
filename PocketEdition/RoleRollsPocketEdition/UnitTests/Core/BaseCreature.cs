@@ -9,11 +9,15 @@ namespace RoleRollsPocketEdition.UnitTests.Core;
 
 public static class BaseCreature
 {
-    public static Creature CreateCreature(List<Guid> ids, List<int> values)
+    public static Creature CreateCreature()
     {
         var creatureTemplate = LandOfHeroesTemplate.Template;
 
         var creature = Creature.FromTemplate(creatureTemplate, Guid.Empty, CreatureCategory.Hero, false);
+        foreach (var attribute in creature.Attributes)
+        {
+            attribute.Value = 4;
+        }
 
         return creature;
     }
