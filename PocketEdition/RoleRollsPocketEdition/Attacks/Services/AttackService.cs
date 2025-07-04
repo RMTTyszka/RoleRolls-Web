@@ -111,6 +111,7 @@ public class AttackCommand
     public Guid GetVitalityId => VitalityId?.Id ?? ItemConfiguration.BasicAttackTargetFirstVitality.Id;
     public Guid GetSecondVitalityId => SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality.Id;
     public List<Guid> CombatManeuverIds { get; set; } = [];
+    public Property? BlockProperty { get; set; }
 }
 
 public class AttackResult

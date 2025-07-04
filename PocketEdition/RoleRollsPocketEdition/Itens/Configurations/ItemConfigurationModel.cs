@@ -43,8 +43,10 @@ public class ItemConfigurationModel
             RangedLightWeaponDamageProperty = templateItemConfiguration.RangedLightWeaponDamageProperty,
             RangedMediumWeaponDamageProperty = templateItemConfiguration.RangedMediumWeaponDamageProperty,
             RangedHeavyWeaponDamageProperty = templateItemConfiguration.RangedHeavyWeaponDamageProperty,
+            BlockProperty = templateItemConfiguration.BlockProperty,
         };
     }
 
     public Property? BasicAttackTargetSecondVitality { get; set; }
+    public Property? BlockProperty { get; set; }
 }

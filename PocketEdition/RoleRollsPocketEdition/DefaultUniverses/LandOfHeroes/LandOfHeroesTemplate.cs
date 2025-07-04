@@ -86,7 +86,7 @@ public class LandOfHeroesTemplate
         return new ItemConfiguration(template, new ItemConfigurationModel
         {
             ArmorProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
-
+            BlockProperty = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]),
             MeleeLightWeaponHitProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
                 PropertyType.MinorSkill),
             MeleeMediumWeaponHitProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon],

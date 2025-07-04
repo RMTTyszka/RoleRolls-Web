@@ -14,6 +14,7 @@ using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
+using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -87,7 +88,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 CreatureTemplateId = template.Id,
                 Category = creatureCategory,
                 IsTemplate = isTemplate,
-                AttributelessSkills = attributelessSkills
+                AttributelessSkills = attributelessSkills,
+                Id = Guid.NewGuid()
             };
             foreach (var vitality in creature.Vitalities)
             {
@@ -215,7 +217,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         }
 
 
-        public int GetBasicBlock()
+        public int GetBasicBlock(PropertyValue blockProperty)
         {
             var armor = Equipment.Chest;
             var armorCategory = ArmorCategory.None;
@@ -229,7 +231,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
             var blockLevelModifier = ArmorDefinition.BlockLevelModifier(armorCategory);
             var baseBlock = ArmorDefinition.BaseBlock(armorCategory);
-            return blockLevelModifier * armorLevelBonus + baseBlock;
+            return blockLevelModifier * armorLevelBonus + baseBlock + blockProperty.Value;
         }
 
         public SceneAction Heal(Guid vitalityId, int value)
@@ -308,7 +310,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             var removedItem = Equipment.Equip(item, slot);
             RemoveItem(item);
-            AddItemToInventory(removedItem);
+            if (removedItem is not null)
+            {
+                AddItemToInventory(removedItem); 
+            }
         }
 
         public void Unequip(EquipableSlot slot)
@@ -318,21 +323,20 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
 
         private DamageRollResult RollDamage(ItemInstance weapon, PropertyValue damageProperty,
-            GripTypeStats gripTypeDetails)
+            GripTypeStats gripTypeDetails, IDiceRoller diceRoller)
         {
             var result = new DamageRollResult();
-            var random = new Random();
             var maxValue = gripTypeDetails.Damage;
             var flatBonus = gripTypeDetails.BaseBonusDamage;
             var attributeModifier = gripTypeDetails.AttributeModifier;
             var magicModifier = gripTypeDetails.MagicBonusModifier;
-            var damage = random.Next(1, maxValue + 1);
+            var damage = diceRoller.Roll(maxValue);
             result.DiceValue = damage;
             result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
             damage += flatBonus;
             damage += weapon.Level / 2 * magicModifier;
-            damage += damageProperty.Bonus * attributeModifier;
+            damage += damageProperty.Value * attributeModifier;
             result.TotalDamage = damage;
             result.ReducedDamage = damage;
             // TODO any extra damage * levelModifier;
@@ -354,5 +358,36 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 .ToList();
 
         public List<Bonus> Bonuses { get; set; } = [];
+
+        public void LevelUp()
+        {
+            Level += 1;
+        }
+
+        public void AddPointToAttribute(Guid attributeId)
+        {
+            var attribute = Attributes.First(a => a.Id == attributeId);
+            if (attribute.Points < MaxAttributePoints)
+            {
+                attribute.Points += 1;
+            }
+        }     
+        public void AddPointToSpecificSkill(Guid specificSkillId)
+        {
+            var specificSkill = SpecificSkills.First(s => s.Id == specificSkillId);
+            var skill = specificSkill.Skill;
+            if (specificSkill.Points < skill.PointsLimit)
+            {
+                specificSkill.Points += 1;
+            }
+        }      
+        public void AddPointToSkill(Guid skillId)
+        {
+            var skill = Skills.First(s => s.Id == skillId);
+            if (skill.Points < skill.PointsLimit)
+            {
+                skill.Points += 1;
+            }
+        }
     }
 }

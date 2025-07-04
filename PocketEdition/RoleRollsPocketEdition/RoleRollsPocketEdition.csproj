@@ -9,6 +9,7 @@
     <ItemGroup>
         <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.18.1"/>
         <PackageReference Include="EFCore.BulkExtensions" Version="9.0.1"/>
+        <PackageReference Include="FluentAssertions" Version="8.4.0" />
         <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0"/>
         <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.6"/>

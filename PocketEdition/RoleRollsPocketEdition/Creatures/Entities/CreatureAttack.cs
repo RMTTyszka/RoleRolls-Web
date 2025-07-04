@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
@@ -25,7 +26,7 @@ public partial class Creature
         var roll = RollToHit(hitValue, defenseValue, weaponCategory, input, diceRoller, 20);
 
         return roll.Success
-            ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats)
+            ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats, diceRoller)
             : CreateFailedResult(target, weapon);
     }
 
@@ -55,7 +56,7 @@ public partial class Creature
         var defenseInput = new PropertyInput(new Property(defenseId));
         var armorCategory = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
         var defenseValue = target.GetPropertyValue(defenseInput);
-        return 10 + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorCategory);
+        return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorCategory);
     }
 
     private Roll RollToHit(PropertyValue hitValue, int defenseValue, WeaponCategory category, AttackCommand input, IDiceRoller diceRoller, int sizes)
@@ -64,7 +65,7 @@ public partial class Creature
         var command = new RollDiceCommand(
             hitValue.Value,
             advantage,
-            hitValue.Bonus,
+            hitValue.Bonus + hitValue.Value,
             WeaponDefinition.HitDifficulty(category),
             defenseValue,
             [],
@@ -76,14 +77,20 @@ public partial class Creature
     }
 
     private AttackResult ResolveSuccessfulAttack(Creature target, ItemInstance weapon, int times, AttackCommand input,
-        GripTypeStats gripStats)
+        GripTypeStats gripStats, IDiceRoller diceRoller)
     {
         var damages = new List<DamageRollResult>();
-
+        Debug.Assert(weapon.WeaponTemplate != null, "weapon.WeaponTemplate != null");
+        var damageProperty = GetPropertyValue(new PropertyInput(
+            input.ItemConfiguration.GetWeaponDamageProperty(weapon.WeaponTemplate.Category),
+            input.DamageAttribute
+        ));
+        var property = input.ItemConfiguration.BlockProperty;
+        var propertyValue = GetPropertyValue(new PropertyInput(property, input.BlockProperty));
         for (int i = 0; i < times; i++)
         {
-            var damage = RollDamage(weapon, input, gripStats);
-            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage - target.GetBasicBlock());
+            var damage = RollDamage(weapon, damageProperty, gripStats, diceRoller);
+            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage - target.GetBasicBlock(propertyValue));
             damages.Add(damage);
 
             var result = target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
@@ -110,32 +117,5 @@ public partial class Creature
             Weapon = weapon,
             Success = false
         };
-    }
-
-    private DamageRollResult RollDamage(ItemInstance weapon, AttackCommand input, GripTypeStats gripStats)
-    {
-        var result = new DamageRollResult();
-        var rng = new Random();
-        var max = gripStats.Damage;
-
-        var damage = rng.Next(1, max + 1);
-        damage += gripStats.BaseBonusDamage;
-        damage += (weapon.Level / 2) * gripStats.MagicBonusModifier;
-
-        var damageProperty = GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(((WeaponTemplate?)weapon.Template)?.Category ??
-                                                            WeaponCategory.Light),
-            input.DamageAttribute
-        ));
-
-        damage += damageProperty.Bonus * gripStats.AttributeModifier;
-
-        result.DiceValue = damage;
-        result.BonusModifier = gripStats.AttributeModifier;
-        result.FlatBonus = gripStats.BaseBonusDamage;
-        result.TotalDamage = damage;
-        result.ReducedDamage = damage;
-
-        return result;
     }
 }

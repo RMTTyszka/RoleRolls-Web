@@ -9,6 +9,10 @@ public static class WeaponDefinition
             WeaponCategory.Light => 1,
             WeaponCategory.Medium => 2,
             WeaponCategory.Heavy => 3,
+            WeaponCategory.None => 1,
+            WeaponCategory.LightShield => 1,
+            WeaponCategory.MediumShield => 2,
+            WeaponCategory.HeavyShield => 3,
             _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
         };
     }   

@@ -7,9 +7,9 @@ public class Inventory : Entity
 {
     public Guid CreatureId { get; set; }
     public Creature Creature { get; set; }
-    public List<ItemInstance> Items { get; set; } = new();
+    public List<ItemInstance> Items { get; set; } = [];
 
-    public void AddItem(ItemInstance? item)
+    public void AddItem(ItemInstance item)
     {
         if (Items.Any(e => e.Id == item.Id))
         {

@@ -7,7 +7,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     public class Attribute : Entity
     {
         public string Name { get; set; }
-        public int Value { get; set; }
+        public int Points { get; set; }
         public Guid CreatureId { get; set; }
         public Creature Creature { get; set; }
         public Guid AttributeTemplateId { get; set; }
@@ -16,7 +16,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public List<SpecificSkill> SpecificSkills { get; set; }
 
         // TODO bonus
-        public int TotalValue => Value;
+        public int TotalValue => Points;
         public Attribute()
         {
         }
@@ -32,7 +32,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public void Update(AttributeModel updatedAttribute)
         {
-            Value = updatedAttribute.Value;
+            Points = updatedAttribute.Value;
         }
     }     
    

@@ -18,6 +18,8 @@ public class ItemInstance : Entity
 
     public ItemTemplate Template { get; set; }
     public ArmorTemplate? ArmorTemplate => Template as ArmorTemplate;
+    public WeaponTemplate? WeaponTemplate => Template as WeaponTemplate;
+    public bool IsWeaponTemplate => Template is WeaponTemplate;
 
     public void Update(ItemInstanceUpdate input)
     {

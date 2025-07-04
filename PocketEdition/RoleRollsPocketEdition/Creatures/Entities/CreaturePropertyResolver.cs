@@ -48,10 +48,10 @@ public partial class Creature
         if (input.OverriderAttribute != null)
         {
             var overrideAttr = Attributes.FirstOrDefault(at => at.AttributeTemplateId == input.OverriderAttribute.Id);
-            return overrideAttr?.Value ?? attribute.Value;
+            return overrideAttr?.Points ?? attribute.Points;
         }
         
-        return attribute.Value;
+        return attribute.Points;
     }
 
     private Attribute FindAttribute(Guid id)
@@ -115,8 +115,8 @@ public partial class Creature
             return false;
         
         result.Value = input.OverriderAttribute != null
-            ? FindAttributeOrDefault(input.OverriderAttribute.Id)?.Value ?? attr.Value
-            : attr.Value;
+            ? FindAttributeOrDefault(input.OverriderAttribute.Id)?.Points ?? attr.Points
+            : attr.Points;
         
         return true;
     }
@@ -156,4 +156,6 @@ public partial class Creature
         result.Value += GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property);
         result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Buff, property);
     }
+
+    private int MaxAttributePoints => 4 + Level / 6;
 }

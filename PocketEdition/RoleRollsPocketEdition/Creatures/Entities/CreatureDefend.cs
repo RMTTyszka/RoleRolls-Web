@@ -22,7 +22,7 @@ public partial class Creature
         public Roll Roll { get; set; }
     }
 
-    public AttackResult Evade(Creature attacker, AttackCommand input, IDiceRoller dice)
+    public AttackResult Evade(Creature attacker, AttackCommand input, IDiceRoller diceRoller)
     {
         var weapon = attacker.Equipment.GetItem(input.WeaponSlot) ?? new ItemInstance
         {
@@ -58,10 +58,10 @@ public partial class Creature
             input.Luck
         );
         var evadeRoll = new Roll();
-        evadeRoll.Process(evadeRollCommand, dice, 20);
+        evadeRoll.Process(evadeRollCommand, diceRoller, 20);
 
         // 3. Subtrair sucessos da evasão dos sucessos do atacante
-        var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfRollSuccesses);
+        var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfSuccesses);
 
         // 4. Comparar com dificuldade da arma
         var hitDifficulty = WeaponDefinition.HitDifficulty(weaponCategory);
@@ -76,8 +76,10 @@ public partial class Creature
         var damages = new List<DamageRollResult>();
         for (int i = 0; i < numberOfHits; i++)
         {
-            var damage = attacker.RollDamage(weapon, damageProperty, gripStats);
-            damage.ReducedDamage -= GetBasicBlock();
+            var property = input.ItemConfiguration.BlockProperty;
+            var propertyValue = attacker.GetPropertyValue(new PropertyInput(property, input.BlockProperty));
+            var damage = attacker.RollDamage(weapon, damageProperty, gripStats, diceRoller);
+            damage.ReducedDamage -= GetBasicBlock(propertyValue);
             damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
             damages.Add(damage);
 
@@ -92,7 +94,7 @@ public partial class Creature
             Target = this,
             Weapon = weapon,
             TotalDamage = damages.Sum(d => d.ReducedDamage),
-            Success = numberOfHits > 0
+            Success = numberOfHits <= 0
         };
     }
 }

@@ -50,6 +50,14 @@ public class Equipment : Entity
 
                 return null;
             case EquipableSlot.Chest:
+                if (item.Template is ArmorTemplate)
+                {
+                    var equipedItem = Chest;
+
+                    Chest = item;
+                    return equipedItem;
+                }
+                return null;
             case EquipableSlot.Hands:
             case EquipableSlot.Arms:
             case EquipableSlot.RightRing:

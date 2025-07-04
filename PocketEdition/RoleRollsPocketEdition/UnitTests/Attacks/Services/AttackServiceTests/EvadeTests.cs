@@ -20,34 +20,20 @@ public class EvadeTests
     public void Evade_ShouldCauseDamage_WhenDefenseFailsAllRolls()
     {
         // Arrange
+        var campaignTemplate = LandOfHeroesTemplate.Template;
         var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
         var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
 
-        var config = new ItemConfiguration
-        {
-            MeleeMediumWeaponHitProperty = new Property(hitPropertyId, PropertyType.Attribute),
-            MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
-        };
+        
 
-        var attacker = BaseCreature.CreateCreature();
-
-        var weapon = new ItemInstance
-        {
-            Template = new WeaponTemplate
-                { Category = WeaponCategory.Medium, DamageType = WeaponDamageType.Bludgeoning },
-            Level = 1
-        };
-        attacker.AddItemToInventory(weapon);
-
-        attacker.Equip(weapon, EquipableSlot.MainHand);
-
-        var defender = BaseCreature.CreateCreature();
+        var attacker = new BaseCreature(campaignTemplate).Creature;
+        var defender = new BaseCreature(campaignTemplate).Creature;
 
         var input = new AttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
-            ItemConfiguration = config,
+            ItemConfiguration = campaignTemplate.ItemConfiguration,
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
@@ -58,16 +44,14 @@ public class EvadeTests
         };
 
         var dice = Substitute.For<IDiceRoller>();
-        // Simula rolagens de defesa (todos falham)
-        dice.Roll(20).Returns(2, 3);
-        // Simula danos (dois hits após defesa)
-        dice.Roll(10).Returns(5, 6);
+        dice.Roll(20).Returns(2);
+        dice.Roll(8).Returns(8);
 
         // Act
         var result = defender.Evade(attacker, input, dice);
 
         // Assert
-        Assert.True(result.Success);
+        Assert.False(result.Success);
         Assert.True(result.TotalDamage > 0);
         Assert.Equal(attacker, result.Attacker);
         Assert.Equal(defender, result.Target);
@@ -78,6 +62,7 @@ public class EvadeTests
     public void Evade_ShouldNegateAllHits_WhenDefenseSucceeds()
     {
         // Arrange
+        var campaignTemplate = LandOfHeroesTemplate.Template;
         var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
         var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
@@ -87,21 +72,8 @@ public class EvadeTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = BaseCreature.CreateCreature();
-
-
-        var weapon = new ItemInstance
-        {
-            Template = new WeaponTemplate
-                { Category = WeaponCategory.Medium, DamageType = WeaponDamageType.Bludgeoning },
-            Level = 1
-        };
-
-        attacker.AddItemToInventory(weapon);
-
-        attacker.Equip(weapon, EquipableSlot.MainHand);
-
-        var defender = BaseCreature.CreateCreature();
+        var attacker = new BaseCreature(campaignTemplate).Creature;;
+        var defender = new BaseCreature(campaignTemplate).Creature;;
 
         var input = new AttackCommand
         {
@@ -117,15 +89,13 @@ public class EvadeTests
         };
 
         var dice = Substitute.For<IDiceRoller>();
-        // Todas as defesas vencem a complexidade (sup. 13)
-        dice.Roll(20).Returns(18, 17, 19, 20); // 4 sucessos
-        dice.Roll(10).Returns(0); // nunca usado
-
+        dice.Roll(20).Returns(18, 17, 19, 20);
+        dice.Roll(10).Returns(0);
         // Act
         var result = defender.Evade(attacker, input, dice);
 
         // Assert
-        Assert.False(result.Success);
+        Assert.True(result.Success);
         Assert.Equal(0, result.TotalDamage);
     }
 }

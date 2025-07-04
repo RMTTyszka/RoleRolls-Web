@@ -9,22 +9,22 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public SpecificSkillTemplate SpecificSkillTemplate { get; set; }
         public string Name { get; set; }
         public int Points { get; set; }
-        public Guid? SkillId { get; set; }
-        public Skill? Skill { get; set; }
+        public Guid SkillId { get; set; }
+        public Skill Skill { get; set; }
         public Guid? AttributeId { get; set; }
         public Attribute? Attribute { get; set; }
 
         public SpecificSkill()
         {
         }
-        public SpecificSkill(SpecificSkillTemplate skillTemplate, Guid skillId, List<Attribute> attributes)
+        public SpecificSkill(SpecificSkillTemplate skillTemplate, Skill skill, List<Attribute> attributes)
         {
             Id = Guid.NewGuid();
             SpecificSkillTemplateId = skillTemplate.Id;
             SpecificSkillTemplate = skillTemplate;
             Name = skillTemplate.Name;
-            SkillId = skillId;
-            Skill = null;
+            SkillId = skill.Id;
+            Skill = skill;
             AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;
             Attribute = null;
         }

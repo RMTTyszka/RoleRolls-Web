@@ -1,76 +1,99 @@
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
+using RoleRollsPocketEdition.Itens;
+using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.UnitTests.Core;
 
-public static class BaseCreature
+public class BaseCreature
 {
-    public static Creature CreateCreature()
+    public Creature Creature { get; set; }
+    public BaseCreature(CampaignTemplate campaignTemplate)
     {
-        var creatureTemplate = LandOfHeroesTemplate.Template;
-
-        var creature = Creature.FromTemplate(creatureTemplate, Guid.Empty, CreatureCategory.Hero, false);
-        foreach (var attribute in creature.Attributes)
+        Creature = Creature.FromTemplate(campaignTemplate, Guid.Empty, CreatureCategory.Hero, false);
+        foreach (var attribute in Creature.Attributes)
         {
-            attribute.Value = 4;
+            attribute.Points = 4;
+            foreach (var attributeSkill in attribute.Skills)
+            {
+                foreach (var attributeSkillSpecificSkill in attributeSkill.SpecificSkills)
+                {
+                    attributeSkillSpecificSkill.Points = 3;
+                }
+            }
         }
 
-        return creature;
+        var weapon = new ItemInstance
+        {
+            Template = new WeaponTemplate
+                { Category = WeaponCategory.Medium, DamageType = WeaponDamageType.Bludgeoning },
+            Level = 1,
+            Id = Guid.NewGuid()
+        };
+
+        Creature.AddItemToInventory(weapon);
+        Creature.Equip(weapon, EquipableSlot.MainHand);
+        
+        var armor = new ItemInstance
+        {
+            Template = new ArmorTemplate()
+                { Category = ArmorCategory.Medium },
+            Level = 1,
+            Id = Guid.NewGuid()
+        };
+        Creature.AddItemToInventory(armor);
+        Creature.Equip(armor, EquipableSlot.Chest);
+        
+        Creature.FullRestore();
     }
 
-    private static CampaignTemplate CreateCreatureTemplate(List<Guid> ids)
+    public BaseCreature WithWeapon(WeaponCategory category, EquipableSlot slot, int level)
     {
-        var creatureTemplate = new CampaignTemplate();
-        foreach (var id in ids)
+        var weapon = new ItemInstance
         {
-            creatureTemplate.Attributes.Add(CreateAttributeTemplate(id));
+            Template = new WeaponTemplate
+                { Category = category, DamageType = WeaponDamageType.Bludgeoning },
+            Level = 1
+        };
+        Creature.AddItemToInventory(weapon);
+        Creature.Equip(weapon, slot);
+        return this;
+    }   
+    public BaseCreature WithArmor(ArmorCategory category, int level)
+    {
+        var armor = new ItemInstance
+        {
+            Template = new ArmorTemplate()
+                { Category = category },
+            Level = level
+        };
+        Creature.AddItemToInventory(armor);
+        Creature.Equip(armor, EquipableSlot.Chest);
+        return this;
+    }
+
+    public BaseCreature WithLevel(int level)
+    {
+        foreach (var currentLevel in Enumerable.Range(1, level))
+        {
+            Creature.LevelUp();
+            foreach (var attribute in Creature.Attributes)
+            {
+                Creature.AddPointToAttribute(attribute.Id);
+            }    
+            foreach (var skill in Creature.Skills)
+            {
+                Creature.AddPointToSkill(skill.Id);
+            }      
+            foreach (var specificSkill in Creature.SpecificSkills)
+            {
+                Creature.AddPointToSpecificSkill(specificSkill.Id);
+            }
         }
-
-        foreach (var id in ids)
-        {
-            creatureTemplate.AddAttributelessSkill(CreateSkillTemplate(id, null));
-        }
-
-        return creatureTemplate;
-    }
-
-    private static AttributeTemplate CreateAttributeTemplate(Guid id)
-    {
-        var attributeTemplate = new AttributeTemplate
-        {
-            Id = id,
-        };
-        attributeTemplate.AddSkill(CreateSkillTemplate(id, attributeTemplate.Id));
-        return attributeTemplate;
-    }
-
-    private static SkillTemplateModel CreateSkillTemplate(Guid id,
-        Guid? attributeTemplateId)
-    {
-        var skillTemplate = new SkillTemplateModel
-        {
-            Id = id,
-            Name = "Test",
-            AttributeId = attributeTemplateId
-        };
-        skillTemplate.SpecificSkillTemplates.Add(CreateSpecificSkillTemplate(id, id, attributeTemplateId));
-        return skillTemplate;
-    }
-
-    private static SpecificSkillTemplateModel CreateSpecificSkillTemplate(Guid id, Guid skillTemplateId,
-        Guid? attributeTemplateId)
-    {
-        var skillTemplate = new SpecificSkillTemplateModel
-        {
-            Id = id,
-            Name = "Test",
-            AttributeTemplateId = attributeTemplateId,
-            SkillTemplateId = skillTemplateId
-        };
-        return skillTemplate;
+        return this;
     }
 }

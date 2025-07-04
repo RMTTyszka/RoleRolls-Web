@@ -28,6 +28,7 @@ public class ItemConfiguration : Entity
             RangedLightWeaponDamageProperty = templateItemConfiguration.RangedLightWeaponDamageProperty;
             RangedMediumWeaponDamageProperty = templateItemConfiguration.RangedMediumWeaponDamageProperty;
             RangedHeavyWeaponDamageProperty = templateItemConfiguration.RangedHeavyWeaponDamageProperty;
+            BlockProperty = templateItemConfiguration.BlockProperty;
         }
     }
 
@@ -54,6 +55,7 @@ public class ItemConfiguration : Entity
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
     public Property? BasicAttackTargetSecondVitality { get; set; }
+    public Property? BlockProperty { get; set; }
 
     public void Update(ItemConfigurationModel model)
     {
@@ -72,21 +74,22 @@ public class ItemConfiguration : Entity
         RangedHeavyWeaponDamageProperty = model.RangedHeavyWeaponDamageProperty;
         BasicAttackTargetFirstVitality = model.BasicAttackTargetFirstVitality;
         BasicAttackTargetSecondVitality = model.BasicAttackTargetSecondVitality;
+        BlockProperty = model.BlockProperty;
     }
 
     public Property? GetWeaponHitProperty(WeaponCategory weaponCategory)
     {
-        switch (weaponCategory)
+        return weaponCategory switch
         {
-            case WeaponCategory.Light:
-                return MeleeLightWeaponHitProperty;
-            case WeaponCategory.Medium:
-                return MeleeMediumWeaponHitProperty;
-            case WeaponCategory.Heavy:
-                return MeleeHeavyWeaponHitProperty;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null);
-        }
+            WeaponCategory.Light => MeleeLightWeaponHitProperty,
+            WeaponCategory.Medium => MeleeMediumWeaponHitProperty,
+            WeaponCategory.Heavy => MeleeHeavyWeaponHitProperty,
+            WeaponCategory.None => MeleeLightWeaponHitProperty,
+            WeaponCategory.LightShield => MeleeLightWeaponHitProperty,
+            WeaponCategory.MediumShield => MeleeMediumWeaponHitProperty,
+            WeaponCategory.HeavyShield => MeleeHeavyWeaponHitProperty,
+            _ => throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null)
+        };
     }    
     public Property? GetWeaponDamageProperty(WeaponCategory weaponCategory)
     {

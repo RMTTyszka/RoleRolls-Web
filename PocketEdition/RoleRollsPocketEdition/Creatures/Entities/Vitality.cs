@@ -35,7 +35,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
 
             var replacesFormula = creature.Attributes.Aggregate(VitalityTemplate.Formula,
-                (formula, attribute) => formula.Replace(attribute.Name, attribute.Value.ToString()));
+                (formula, attribute) => formula.Replace(attribute.Name, attribute.Points.ToString()));
      
             var dt = new DataTable();
             try

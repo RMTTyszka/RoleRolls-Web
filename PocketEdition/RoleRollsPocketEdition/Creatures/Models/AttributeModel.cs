@@ -18,7 +18,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
             Id = attribute.Id;
             Name = attribute.Name;
             AttributeTemplateId = attribute.AttributeTemplateId;
-            Value = attribute.Value;
+            Value = attribute.Points;
         }
     }
 
