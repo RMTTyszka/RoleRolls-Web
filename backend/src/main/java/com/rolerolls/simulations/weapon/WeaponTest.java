@@ -7,12 +7,16 @@ import com.rolerolls.domain.creatures.heroes.Hero;
 import com.rolerolls.domain.creatures.heroes.HeroRepository;
 import com.rolerolls.domain.items.equipables.armors.categories.ArmorCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @Service
 @Transactional
 public class WeaponTest {
@@ -28,12 +32,13 @@ public class WeaponTest {
     Long endTime;
 
     private final Integer NumberOfAttacks = 100;
+    @EventListener(ApplicationReadyEvent.class)
     public void test() {
         List<WeaponTestResult> resultsToSave = new ArrayList<>();
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Light);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Medium);
         weaponTestResultRepository.deleteAllByArmorCategory(ArmorCategory.Heavy);
-        for (int level = 1; level <= 20; level++) {
+        for (int level = 1; level <= 1; level++) {
             System.out.println("Level " + level);
             List<Hero> heroes = new ArrayList<>();
             Hero oneLightHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.OneLightWeapon, level));
@@ -43,10 +48,10 @@ public class WeaponTest {
             Hero twoMediumHero = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.TwoMediumWeapons, level));
 
             heroes.add(oneLightHero);
-            heroes.add(oneMediumHero);
-            heroes.add(oneHeavyHero);
+           // heroes.add(oneMediumHero);
+/*            heroes.add(oneHeavyHero);
             heroes.add(twoLightsHero);
-            heroes.add(twoMediumHero);
+            heroes.add(twoMediumHero);*/
             Hero targetLight = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.LightArmor, level));
             Hero targetMedium= heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.MediumArmor, level));
             Hero targetHeavy = heroRepository.findByName(DefaultHeroes.getNameWithLevel(DefaultHeroes.HeavyArmor, level));

@@ -27,8 +27,8 @@ public class EvadeTests
 
         
 
-        var attacker = new BaseCreature(campaignTemplate).Creature;
-        var defender = new BaseCreature(campaignTemplate).Creature;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;
 
         var input = new AttackCommand
         {
@@ -72,8 +72,8 @@ public class EvadeTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new BaseCreature(campaignTemplate).Creature;;
-        var defender = new BaseCreature(campaignTemplate).Creature;;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;;
 
         var input = new AttackCommand
         {

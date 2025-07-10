@@ -19,14 +19,15 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         }
         public SpecificSkill(SpecificSkillTemplate skillTemplate, Skill skill, List<Attribute> attributes)
         {
+            var attribute = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId);
             Id = Guid.NewGuid();
             SpecificSkillTemplateId = skillTemplate.Id;
             SpecificSkillTemplate = skillTemplate;
             Name = skillTemplate.Name;
             SkillId = skill.Id;
             Skill = skill;
-            AttributeId = attributes.FirstOrDefault(a => a.AttributeTemplateId == skillTemplate.AttributeTemplateId)?.Id;
-            Attribute = null;
+            AttributeId = attribute?.Id;
+            Attribute = attribute;
         }
 
 

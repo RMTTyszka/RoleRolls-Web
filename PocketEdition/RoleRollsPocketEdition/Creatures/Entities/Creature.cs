@@ -226,7 +226,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             {
                 var armorTemplate = armor.ArmorTemplate;
                 armorCategory = armorTemplate.Category;
-                armorLevelBonus = armor.GetBonus;
+                armorLevelBonus = armor.GetBonus + 1;
             }
 
             var blockLevelModifier = ArmorDefinition.BlockLevelModifier(armorCategory);
@@ -335,7 +335,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
             damage += flatBonus;
-            damage += weapon.Level / 2 * magicModifier;
+            damage += (weapon.GetBonus + 1) * magicModifier;
             damage += damageProperty.Value * attributeModifier;
             result.TotalDamage = damage;
             result.ReducedDamage = damage;

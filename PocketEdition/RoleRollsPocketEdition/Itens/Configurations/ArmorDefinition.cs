@@ -7,9 +7,9 @@ public static class ArmorDefinition
     {
         return armorCategory switch
         {
-            ArmorCategory.None => 2,
-            ArmorCategory.Light => 1,
-            ArmorCategory.Medium => -1,
+            ArmorCategory.None => 0,
+            ArmorCategory.Light => 0,
+            ArmorCategory.Medium => 0,
             ArmorCategory.Heavy => -3,
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
@@ -32,9 +32,20 @@ public static class ArmorDefinition
         return armorCategory switch
         {
             ArmorCategory.None => 0,
-            ArmorCategory.Light => 2,
-            ArmorCategory.Medium => 3,
-            ArmorCategory.Heavy => 4,
+            ArmorCategory.Light => 1,
+            ArmorCategory.Medium => 4,
+            ArmorCategory.Heavy => 5,
+            _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
+        };
+    }  
+    public static int BaseEvasion(ArmorCategory armorCategory)
+    {
+        return armorCategory switch
+        {
+            ArmorCategory.None => 1,
+            ArmorCategory.Light => 1,
+            ArmorCategory.Medium => 0,
+            ArmorCategory.Heavy => -1,
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
     }

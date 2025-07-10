@@ -19,11 +19,13 @@ public partial class Creature
         var weapon = GetWeaponOrDefault(input.WeaponSlot);
         var weaponTemplate = (WeaponTemplate?)weapon.Template;
         var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
-        var gripStats = GripTypeExtensions.Stats[Equipment.GripType];
+        var gripStats = GripTypeDefinition.Stats[Equipment.GripType];
 
         var hitValue = GetHitValue(input, weaponCategory, gripStats);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId);
-        var roll = RollToHit(hitValue, defenseValue, weaponCategory, input, diceRoller, 20);
+        var unluck = target.GetEvasion();
+        input.Luck -= unluck;
+        var roll = RollToHit(weapon, hitValue, defenseValue, gripStats, input, diceRoller, 20);
 
         return roll.Success
             ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats, diceRoller)
@@ -59,14 +61,16 @@ public partial class Creature
         return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorCategory);
     }
 
-    private Roll RollToHit(PropertyValue hitValue, int defenseValue, WeaponCategory category, AttackCommand input, IDiceRoller diceRoller, int sizes)
+    private Roll RollToHit(ItemInstance weapon, PropertyValue hitValue, int defenseValue, GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, int sizes)
     {
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
+        var weaponBonus = weapon.GetBonus + 1;
+        var weaponInnateHitBonus = gripType.Hit;
         var command = new RollDiceCommand(
             hitValue.Value,
             advantage,
-            hitValue.Bonus + hitValue.Value,
-            WeaponDefinition.HitDifficulty(category),
+            hitValue.Bonus + hitValue.Value + weaponBonus + weaponInnateHitBonus,
+            gripType.AttackDifficult,
             defenseValue,
             [],
             input.Luck

@@ -137,16 +137,23 @@ public partial class Creature
     {
         var minorSkill = Skills.SelectMany(skill => skill.SpecificSkills)
             .Concat(AttributelessSkills.SelectMany(s => s.SpecificSkills))
-            .FirstOrDefault(ms => ms.Id == property.Id);
+            .FirstOrDefault(ms => ms.SpecificSkillTemplateId == property.Id);
         
         if (minorSkill == null)
             return;
-        
+
+        if (minorSkill.Attribute is not null)
+        {
+            result.Value = GetAttributeValue(minorSkill.Attribute.AttributeTemplateId, input);
+            result.Bonus = minorSkill.Points;
+            return;
+        }
+
         var parentSkill = Skills.First(sk => sk.Id == minorSkill.SkillId);
         
-        if (parentSkill.AttributeId.HasValue)
+        if (parentSkill.Attribute is not null)
         {
-            result.Value = GetAttributeValue(parentSkill.AttributeId.Value, input);
+            result.Value = GetAttributeValue(parentSkill.Attribute.AttributeTemplateId, input);
             result.Bonus = minorSkill.Points;
         }
     }

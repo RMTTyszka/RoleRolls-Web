@@ -34,7 +34,7 @@ public partial class Creature
         };
         var weaponTemplate = (WeaponTemplate)weapon.Template;
         var weaponCategory = weaponTemplate.Category;
-        var gripStats = GripTypeExtensions.Stats[attacker.Equipment.GripType];
+        var gripStats = GripTypeDefinition.Stats[attacker.Equipment.GripType];
 
         var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
         var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
@@ -60,14 +60,11 @@ public partial class Creature
         var evadeRoll = new Roll();
         evadeRoll.Process(evadeRollCommand, diceRoller, 20);
 
-        // 3. Subtrair sucessos da evasão dos sucessos do atacante
         var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfSuccesses);
 
-        // 4. Comparar com dificuldade da arma
-        var hitDifficulty = WeaponDefinition.HitDifficulty(weaponCategory);
+        var hitDifficulty = gripStats.AttackDifficult;
         var numberOfHits = remainingSuccesses / hitDifficulty;
 
-        // 5. Rolar dano para cada hit
         var damageProperty = attacker.GetPropertyValue(new PropertyInput(
             input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory),
             input.DamageAttribute
@@ -96,5 +93,13 @@ public partial class Creature
             TotalDamage = damages.Sum(d => d.ReducedDamage),
             Success = numberOfHits <= 0
         };
+    }
+
+    private int GetEvasion()
+    {
+        var armorTemplate = Equipment.Chest?.Template as ArmorTemplate;
+        var armorCategory = armorTemplate.Category;
+        var evasion = ArmorDefinition.BaseEvasion(armorCategory);
+        return evasion;
     }
 }

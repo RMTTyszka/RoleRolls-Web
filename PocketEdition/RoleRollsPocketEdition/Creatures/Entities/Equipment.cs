@@ -42,9 +42,21 @@ public class Equipment : Entity
             case EquipableSlot.MainHand:
                 if (item.Template is WeaponTemplate)
                 {
+                    var weaponTemplate = (WeaponTemplate)item.Template;
                     var equipedItem = MainHand;
 
                     MainHand = item;
+                    GripType = weaponTemplate.Category switch
+                    {
+                        WeaponCategory.None => GripType.None,
+                        WeaponCategory.Light => GripType.OneLightWeapon,
+                        WeaponCategory.Medium => GripType.OneMediumWeapon,
+                        WeaponCategory.Heavy => GripType.TwoHandedHeavyWeapon,
+                        WeaponCategory.LightShield => GripType.None,
+                        WeaponCategory.MediumShield => GripType.None,
+                        WeaponCategory.HeavyShield => GripType.None,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                     return equipedItem;
                 }
 

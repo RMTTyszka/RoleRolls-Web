@@ -19,6 +19,7 @@ namespace RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests;
 
 public class AttackTests
 {
+    private const int TotalAttacks = 1000;
     private ITestOutputHelper _testOutputHelper;
 
     public AttackTests(ITestOutputHelper testOutputHelper)
@@ -35,8 +36,8 @@ public class AttackTests
         var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
 
-        var attacker = new BaseCreature(campaignTemplate).Creature;
-        var defender = new BaseCreature(campaignTemplate).Creature;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;
 
         var input = new AttackCommand
         {
@@ -79,8 +80,8 @@ public class AttackTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new BaseCreature(campaignTemplate).Creature;;
-        var defender = new BaseCreature(campaignTemplate).Creature;;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;;
 
         var input = new AttackCommand
         {
@@ -123,21 +124,27 @@ public class AttackTests
         foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
         {
             if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
-                or WeaponCategory.HeavyShield)
+                or WeaponCategory.HeavyShield
+                //or WeaponCategory.Heavy or WeaponCategory.Medium
+                )
             {
                 continue;
             }
 
-            var attacker = new BaseCreature(campaignTemplate)
+            var attacker = new BaseCreature(campaignTemplate, $"{weaponCategory.ToString()} Level {level}")
                 .WithLevel(level)
                 .WithWeapon(weaponCategory, EquipableSlot.MainHand, level)
                 .Creature;
                 
             var byArmor = new Dictionary<ArmorCategory, int>();
             
-            foreach (var armorCategory in Enum.GetValues<ArmorCategory>())
+            foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
+                         .Where(e => 
+                             e is not ArmorCategory.None
+                             )
+                     )
             {
-                var defender = new BaseCreature(campaignTemplate)
+                var defender = new BaseCreature(campaignTemplate, $"{armorCategory.ToString()} Level {level}")
                     .WithLevel(level)
                     .WithArmor(armorCategory, level)
                     .Creature;
@@ -146,22 +153,18 @@ public class AttackTests
                 {
                     WeaponSlot = EquipableSlot.MainHand,
                     ItemConfiguration = campaignTemplate.ItemConfiguration,
-                    HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
-                    DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-                    DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-                    VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-                    SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
                     Luck = 0,
                     Advantage = 0
                 };
-                
+
+                var diceRoller = new DiceRoller();
                 var totalDamage = 0;
-                for (var i = 0; i < 1000; i++)
+                for (var i = 0; i < TotalAttacks; i++)
                 {
-                    var result = attacker.Attack(defender, input, new DiceRoller());
+                    var result = attacker.Attack(defender, input, diceRoller);
                     totalDamage += result.TotalDamage;
                 }
-                totalDamage /= 1000;
+                totalDamage /= TotalAttacks;
                 
                 byArmor.Add(armorCategory, totalDamage);
             }
@@ -174,4 +177,5 @@ public class AttackTests
     
     _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
 }
+
 }

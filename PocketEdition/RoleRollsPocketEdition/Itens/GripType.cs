@@ -17,19 +17,19 @@ namespace RoleRollsPocketEdition.Itens
         None = 10
     }
 
-    public static class GripTypeExtensions
+    public static class GripTypeDefinition
     {
         public static readonly Dictionary<GripType, GripTypeStats> Stats;
         public static readonly Dictionary<GripType, Dictionary<GripType, GripType?>> MainGripType;
 
-        static GripTypeExtensions()
+        static GripTypeDefinition()
         {
             // Initialize stats
             Stats = new Dictionary<GripType, GripTypeStats>
             {
                 [GripType.OneLightWeapon] = new GripTypeStats(1, 6, 2, 2, 2, 1, 0, 0),
-                [GripType.OneMediumWeapon] = new GripTypeStats(2, 10, 0, 3, 3, 2, 0, 0),
-                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(2, 12, 0, 4, 4, 3, 0, 0),
+                [GripType.OneMediumWeapon] = new GripTypeStats(1, 10, 0, 3, 3, 2, 0, 0),
+                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(1, 12, 2, 5, 4, 3, 0, 0),
                 [GripType.TwoWeaponsLight] = new GripTypeStats(0, 4, 0, 2, 2, 1, 0, 0),
                 [GripType.TwoWeaponsMedium] = new GripTypeStats(1, 8, 2, 3, 2, 2, 0, 0),
                 [GripType.OneHandedHeavyWeapon] = new GripTypeStats(0, 10, 0, 4, 3, 2, 0, 0),
@@ -171,7 +171,7 @@ namespace RoleRollsPocketEdition.Itens
         public static int GetBaseBonusDamage(this GripType gripType) => Stats[gripType].BaseBonusDamage;
         public static int GetMagicBonusModifier(this GripType gripType) => Stats[gripType].MagicBonusModifier;
         public static int GetAttributeModifier(this GripType gripType) => Stats[gripType].AttributeModifier;
-        public static int GetAttackComplexity(this GripType gripType) => Stats[gripType].AttackComplexity;
+        public static int GetAttackComplexity(this GripType gripType) => Stats[gripType].AttackDifficult;
         public static int GetShieldEvasionBonus(this GripType gripType) => Stats[gripType].ShieldEvasionBonus;
         public static int GetShieldHitBonus(this GripType gripType) => Stats[gripType].ShieldHitBonus;
 
@@ -218,7 +218,7 @@ namespace RoleRollsPocketEdition.Itens
         int BaseBonusDamage,
         int MagicBonusModifier,
         int AttributeModifier,
-        int AttackComplexity,
+        int AttackDifficult,
         int ShieldEvasionBonus,
         int ShieldHitBonus
     );

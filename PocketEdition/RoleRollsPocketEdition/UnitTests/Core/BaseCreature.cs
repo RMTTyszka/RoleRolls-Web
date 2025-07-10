@@ -12,9 +12,10 @@ namespace RoleRollsPocketEdition.UnitTests.Core;
 public class BaseCreature
 {
     public Creature Creature { get; set; }
-    public BaseCreature(CampaignTemplate campaignTemplate)
+    public BaseCreature(CampaignTemplate campaignTemplate, string name)
     {
         Creature = Creature.FromTemplate(campaignTemplate, Guid.Empty, CreatureCategory.Hero, false);
+        Creature.Name = name;
         foreach (var attribute in Creature.Attributes)
         {
             attribute.Points = 4;

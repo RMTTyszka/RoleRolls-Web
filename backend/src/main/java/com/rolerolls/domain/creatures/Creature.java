@@ -308,7 +308,7 @@ public class Creature extends Entity {
 
 
     public void levelUpforTest(CreatureRepository creatureRepository, ItemInstanceRepository itemInstanceRepository, Integer level) {
-        for (int levelUp = this.level; levelUp <= level ; levelUp++) {
+        for (int levelUp = this.level; levelUp < level ; levelUp++) {
             bonusAttributes.levelUp(Attributes.Agility);
             bonusAttributes.levelUp(Attributes.Strength);
             bonusAttributes.levelUp(Attributes.Vitality);
