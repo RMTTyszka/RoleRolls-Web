@@ -99,13 +99,13 @@ export class PropertySelectorComponent implements ControlValueAccessor {
 
   public specificSkills = computed<RROption<Property>[]>(() => {
     return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) =>
-      s.specificSkills.map((a: SpecificSkillsTemplate) => ({
+      s.specificSkillTemplates.map((a: SpecificSkillsTemplate) => ({
         label: a.name,
         value: { id: a.id, type: PropertyType.SpecificSkill }
       }))
     ).concat(
       this.campaign().campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-        s.specificSkills.map((a: SpecificSkillsTemplate) => ({
+        s.specificSkillTemplates.map((a: SpecificSkillsTemplate) => ({
           label: a.name,
           value: { id: a.id, type: PropertyType.SpecificSkill }
         }))

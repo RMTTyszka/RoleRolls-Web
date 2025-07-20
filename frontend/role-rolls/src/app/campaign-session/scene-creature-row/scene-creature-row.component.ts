@@ -185,7 +185,7 @@ export class SceneCreatureRowComponent {
             } as MenuItem
           ]
         } as MenuItem;
-        skill.specificSkills.forEach(specificSkill => {
+        skill.specificSkillTemplates.forEach(specificSkill => {
           const specificSkillMenu = {
             label: specificSkill.name,
             command: (event) => {
@@ -225,7 +225,7 @@ export class SceneCreatureRowComponent {
             } as MenuItem
           ]
         } as MenuItem;
-        skill.specificSkills.forEach(specificSkill => {
+        skill.specificSkillTemplates.forEach(specificSkill => {
           const specificSkillMenu = {
             label: specificSkill.name,
             command: (event) => {

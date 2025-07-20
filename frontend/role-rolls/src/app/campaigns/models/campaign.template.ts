@@ -29,7 +29,7 @@ export interface AttributeTemplate extends Entity {
 export interface SkillTemplate extends Entity {
   attributeId: string | null;
   name: string
-  specificSkills: SpecificSkillsTemplate[];
+  specificSkillTemplates: SpecificSkillsTemplate[];
 }
 
 export interface SpecificSkillsTemplate extends Entity {

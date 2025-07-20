@@ -54,7 +54,7 @@ export class BonusesComponent {
 
     // Mapeia as habilidades menores
     const specificSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
-      s.specificSkills.map((ms: SpecificSkillsTemplate) => ({
+      s.specificSkillTemplates.map((ms: SpecificSkillsTemplate) => ({
           value: ms.id,
           label: ms.name
         } as RROption<any>)));
@@ -62,7 +62,7 @@ export class BonusesComponent {
 
     // Mapeia as habilidades menores
     const attributelessSkills = campaign.campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-      s.specificSkills.map((ms: SpecificSkillsTemplate) => ({
+      s.specificSkillTemplates.map((ms: SpecificSkillsTemplate) => ({
         value: ms.id,
         label: ms.name
       } as RROption<any>)));

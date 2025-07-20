@@ -106,7 +106,7 @@ export class CampaignTemplateComponent {
     createForm(this.skillForm, {
       id: null,
       name: null,
-      specificSkills: []
+      specificSkillTemplates: []
     } as SkillTemplate);
     createForm(this.specificSkillForm, {
       id: null,
@@ -360,7 +360,7 @@ export class CampaignTemplateComponent {
       this.skillsMapping.get(skill.attributeId).push(getAsForm(skill));
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkills.forEach((specificSkill: SpecificSkillsTemplate) => {
+      skill.specificSkillTemplates.forEach((specificSkill: SpecificSkillsTemplate) => {
         specificSkills.push(getAsForm(specificSkill));
       });
     });
@@ -368,7 +368,7 @@ export class CampaignTemplateComponent {
       this.skillsMapping.get('attributeless').push(getAsForm(skill));
       this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
       const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkills.forEach((specificSkill: SpecificSkillsTemplate) => {
+      skill.specificSkillTemplates.forEach((specificSkill: SpecificSkillsTemplate) => {
         const form = getAsForm(specificSkill);
         specificSkills.push(form);
       });
