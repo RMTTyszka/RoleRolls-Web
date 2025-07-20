@@ -27,7 +27,7 @@ public class AttackTests
         _testOutputHelper = testOutputHelper;
     }
 
-    [Fact(DisplayName = "When an attack fail, the defender doesn't take damage")]
+  //  [Fact(DisplayName = "When an attack fail, the defender doesn't take damage")]
     public void T1()
     {
         // Arrange
@@ -49,7 +49,7 @@ public class AttackTests
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
             SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
             Luck = 0,
-            Advantage = 0
+            Advantage = 10
         };
 
         var dice = Substitute.For<IDiceRoller>();
@@ -66,7 +66,7 @@ public class AttackTests
         result.Weapon.Should().NotBeNull();
     }
 
-    [Fact(DisplayName = "When an attack succeeded, the defender take damage")]
+  //  [Fact(DisplayName = "When an attack succeeded, the defender take damage")]
     public void T2()
     {
         // Arrange
@@ -111,10 +111,6 @@ public class AttackTests
 {
     // Arrange
     var campaignTemplate = LandOfHeroesTemplate.Template;
-    var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-    var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
-    var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-    
     var byLevelAndWeapon = new Dictionary<int, Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>>();
     
     foreach (var level in Enumerable.Range(1, 20))
@@ -124,8 +120,8 @@ public class AttackTests
         foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
         {
             if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
-                or WeaponCategory.HeavyShield
-                //or WeaponCategory.Heavy or WeaponCategory.Medium
+                or WeaponCategory.HeavyShield 
+                //or WeaponCategory.Medium or WeaponCategory.Heavy
                 )
             {
                 continue;

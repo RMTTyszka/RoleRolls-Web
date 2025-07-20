@@ -147,4 +147,5 @@ public class Equipment : Entity
 
     // TODO
     [NotMapped] public List<Bonus> Bonuses => new List<Bonus>();
+    public ArmorCategory ArmorCategory => Chest?.Template is ArmorTemplate armorTemplate ? armorTemplate.Category : ArmorCategory.None;
 }

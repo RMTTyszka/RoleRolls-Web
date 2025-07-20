@@ -27,9 +27,9 @@ namespace RoleRollsPocketEdition.Itens
             // Initialize stats
             Stats = new Dictionary<GripType, GripTypeStats>
             {
-                [GripType.OneLightWeapon] = new GripTypeStats(1, 6, 2, 2, 2, 1, 0, 0),
-                [GripType.OneMediumWeapon] = new GripTypeStats(1, 10, 0, 3, 3, 2, 0, 0),
-                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(1, 12, 2, 5, 4, 3, 0, 0),
+                [GripType.OneLightWeapon] = new GripTypeStats(0, 6, 0, 2, 1, 1, 0, 0),
+                [GripType.OneMediumWeapon] = new GripTypeStats(0, 8, 1, 3, 2, 2, 0, 0),
+                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(1, 12, 0, 4, 3, 3, 0, 0),
                 [GripType.TwoWeaponsLight] = new GripTypeStats(0, 4, 0, 2, 2, 1, 0, 0),
                 [GripType.TwoWeaponsMedium] = new GripTypeStats(1, 8, 2, 3, 2, 2, 0, 0),
                 [GripType.OneHandedHeavyWeapon] = new GripTypeStats(0, 10, 0, 4, 3, 2, 0, 0),
@@ -172,7 +172,7 @@ namespace RoleRollsPocketEdition.Itens
         public static int GetMagicBonusModifier(this GripType gripType) => Stats[gripType].MagicBonusModifier;
         public static int GetAttributeModifier(this GripType gripType) => Stats[gripType].AttributeModifier;
         public static int GetAttackComplexity(this GripType gripType) => Stats[gripType].AttackDifficult;
-        public static int GetShieldEvasionBonus(this GripType gripType) => Stats[gripType].ShieldEvasionBonus;
+        public static int GetShieldEvasionBonus(this GripType gripType) => Stats[gripType].EvasionBonus;
         public static int GetShieldHitBonus(this GripType gripType) => Stats[gripType].ShieldHitBonus;
 
         public static GripType? GetCombinedGripType(GripType currentGripType, GripType? otherGripType)
@@ -219,7 +219,7 @@ namespace RoleRollsPocketEdition.Itens
         int MagicBonusModifier,
         int AttributeModifier,
         int AttackDifficult,
-        int ShieldEvasionBonus,
+        int EvasionBonus,
         int ShieldHitBonus
     );
 }

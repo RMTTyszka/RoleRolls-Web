@@ -23,9 +23,11 @@ public partial class Creature
 
         var hitValue = GetHitValue(input, weaponCategory, gripStats);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId);
-        var unluck = target.GetEvasion();
+        var unluck = target.GetEvasionLuck();
         input.Luck -= unluck;
-        var roll = RollToHit(weapon, hitValue, defenseValue, gripStats, input, diceRoller, 20);
+        var armorCategory = target.Equipment.ArmorCategory;
+        var dicesByLevel = GetRollDices();
+        var roll = RollToHit(weapon, dicesByLevel, hitValue, defenseValue, gripStats, input, diceRoller, armorCategory);
 
         return roll.Success
             ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats, diceRoller)
@@ -58,13 +60,14 @@ public partial class Creature
         var defenseInput = new PropertyInput(new Property(defenseId));
         var armorCategory = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
         var defenseValue = target.GetPropertyValue(defenseInput);
-        return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.DefenseBonus(armorCategory);
+        return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.EvasionBonus(armorCategory);
     }
 
-    private Roll RollToHit(ItemInstance weapon, PropertyValue hitValue, int defenseValue, GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, int sizes)
+    private Roll RollToHit(ItemInstance weapon, int dices, PropertyValue hitValue, int defenseValue, GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, ArmorCategory armorCategory)
     {
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
-        var weaponBonus = weapon.GetBonus + 1;
+        advantage += ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
+        var weaponBonus = weapon.GetBonus;
         var weaponInnateHitBonus = gripType.Hit;
         var command = new RollDiceCommand(
             hitValue.Value,
@@ -76,8 +79,45 @@ public partial class Creature
             input.Luck
         );
         var roll = new Roll();
-        roll.Process(command, diceRoller, sizes);
+        roll.Process(command, diceRoller, 20);
         return roll;
+    }
+
+    private int ResolveWeaponVsArmorAdvantage(ItemInstance weapon, ArmorCategory armorCategory)
+    {
+        switch (weapon.WeaponTemplate.Category)
+        {
+            case WeaponCategory.None:
+                break;
+            case WeaponCategory.Light:
+                if (armorCategory is ArmorCategory.Light)
+                {
+                    return 2;
+                }
+                if (armorCategory is ArmorCategory.Heavy)
+                {
+                    return -2;
+                }
+                break;
+            case WeaponCategory.Heavy:
+                if (armorCategory is ArmorCategory.Heavy)
+                {
+                    return 2;
+                }
+                if (armorCategory is ArmorCategory.Light)
+                {
+                    return -1;
+                }
+                break;
+            case WeaponCategory.Medium:
+            case WeaponCategory.LightShield:
+            case WeaponCategory.MediumShield:
+            case WeaponCategory.HeavyShield:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        return 0;
     }
 
     private AttackResult ResolveSuccessfulAttack(Creature target, ItemInstance weapon, int times, AttackCommand input,

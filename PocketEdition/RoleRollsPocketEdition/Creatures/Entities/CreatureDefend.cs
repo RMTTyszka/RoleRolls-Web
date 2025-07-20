@@ -94,12 +94,29 @@ public partial class Creature
             Success = numberOfHits <= 0
         };
     }
-
-    private int GetEvasion()
+    public int GetBasicBlock(PropertyValue blockProperty)
     {
-        var armorTemplate = Equipment.Chest?.Template as ArmorTemplate;
-        var armorCategory = armorTemplate.Category;
-        var evasion = ArmorDefinition.BaseEvasion(armorCategory);
+        var armor = Equipment.Chest;
+        var armorCategory = ArmorCategory.None;
+        var armorLevelBonus = 0;
+        if (armor is not null)
+        {
+            var armorTemplate = armor.ArmorTemplate;
+            armorCategory = armorTemplate.Category;
+            armorLevelBonus = armor.GetBonus;
+        }
+
+        var blockLevelModifier = ArmorDefinition.DamageReductionByLevel(armorCategory);
+        var baseBlock = ArmorDefinition.BaseDamageReduction(armorCategory);
+        var total = blockLevelModifier * armorLevelBonus + baseBlock + blockProperty.Value;
+        Console.WriteLine($"BLOCK: {total}, LEVEL: {Level}, ARMOR: {armorCategory}, BONUS: {armorLevelBonus}, BLOCK_LEVEL_MODIFIER: {blockLevelModifier}, BASE_BLOCK: {baseBlock}, BLOCK_PROPERTY: {blockProperty.Value}");
+        return total;
+    }
+
+    private int GetEvasionLuck()
+    {
+        var armorCategory = Equipment.ArmorCategory;
+        var evasion = ArmorDefinition.BaseLuck(armorCategory);
         return evasion;
     }
 }

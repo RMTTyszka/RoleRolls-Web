@@ -147,47 +147,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return true;
         }
 
-        private RollsResult Roll(RollCheck roll, int level)
-        {
-            var random = new Random();
-            var result = new RollsResult();
-            var rolls = Enumerable.Range(0, level).Select((int _) =>
-            {
-                var value = random.Next(0, 21);
-                if (roll.Dificulty.HasValue)
-                {
-                    var success = value + roll.Bonus > roll.Complexity;
-                    if (success)
-                    {
-                        result.Successes += 1;
-                        if (value == 20)
-                        {
-                            result.CriticalSuccesses += 1;
-                        }
-                    }
-                    else
-                    {
-                        result.Misses += 1;
-                        if (value == 1)
-                        {
-                            result.CriticalMisses += 1;
-                        }
-                    }
-                }
-
-
-                return value;
-            }).ToList();
-            if (roll.Dificulty.HasValue)
-            {
-                result.Success = result.Successes > roll.Dificulty;
-            }
-
-            result.Rolls = rolls;
-            result.SuccessTimes = result.Successes / roll.Complexity.GetValueOrDefault(1);
-            return result;
-        }
-
         public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
             var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
@@ -217,22 +176,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         }
 
 
-        public int GetBasicBlock(PropertyValue blockProperty)
-        {
-            var armor = Equipment.Chest;
-            var armorCategory = ArmorCategory.None;
-            var armorLevelBonus = 0;
-            if (armor is not null)
-            {
-                var armorTemplate = armor.ArmorTemplate;
-                armorCategory = armorTemplate.Category;
-                armorLevelBonus = armor.GetBonus + 1;
-            }
 
-            var blockLevelModifier = ArmorDefinition.BlockLevelModifier(armorCategory);
-            var baseBlock = ArmorDefinition.BaseBlock(armorCategory);
-            return blockLevelModifier * armorLevelBonus + baseBlock + blockProperty.Value;
-        }
 
         public SceneAction Heal(Guid vitalityId, int value)
         {
@@ -335,8 +279,9 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
             damage += flatBonus;
-            damage += (weapon.GetBonus + 1) * magicModifier;
+            damage += (weapon.GetBonus) * magicModifier;
             damage += damageProperty.Value * attributeModifier;
+            Console.WriteLine($"LEVEL: {Level}. DAMAGE: {damage - result.DiceValue}");
             result.TotalDamage = damage;
             result.ReducedDamage = damage;
             // TODO any extra damage * levelModifier;
@@ -388,6 +333,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             {
                 skill.Points += 1;
             }
+        }
+
+        private int GetRollDices()
+        {
+            return 4 + Level / 6;
         }
     }
 }
