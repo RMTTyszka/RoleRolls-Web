@@ -10,7 +10,7 @@ public static class ArmorDefinition
             ArmorCategory.None => 3,
             ArmorCategory.Light => 2,
             ArmorCategory.Medium => 0,
-            ArmorCategory.Heavy => -2,
+            ArmorCategory.Heavy => -1,
             _ => throw new ArgumentOutOfRangeException(nameof(armorCategory), armorCategory, null)
         };
     }  

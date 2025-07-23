@@ -107,21 +107,21 @@ public partial class Creature
             case WeaponCategory.Light:
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return 0;
+                    return 1;
                 }
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return -0;
+                    return -1;
                 }
                 break;
             case WeaponCategory.Heavy:
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return 0;
+                    return 1;
                 }
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return -0;
+                    return -1;
                 }
                 break;
             case WeaponCategory.Medium:
@@ -143,21 +143,21 @@ public partial class Creature
             case WeaponCategory.Light:
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return 2;
+                    return 0;
                 }
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return -2;
+                    return -0;
                 }
                 break;
             case WeaponCategory.Heavy:
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return 2;
+                    return 0;
                 }
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return -2;
+                    return -0;
                 }
                 break;
             case WeaponCategory.Medium:

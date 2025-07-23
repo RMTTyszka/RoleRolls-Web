@@ -116,14 +116,15 @@ public class AttackTests
 
     foreach (var level in Enumerable.Range(1, 20))
     {
+         //        if (level != 5) continue;
         var byWeaponAndArmor = new Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>();
         var byArmorAndWeapon = new Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>();
         foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
         {
             if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
                 or WeaponCategory.HeavyShield 
-            //    or WeaponCategory.Medium 
-             //   or WeaponCategory.Light 
+           //     or WeaponCategory.Medium 
+            //    or WeaponCategory.Light 
             //    or WeaponCategory.Heavy
                 )
             {
@@ -140,13 +141,12 @@ public class AttackTests
             foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
                          .Where(e => 
                              e is not ArmorCategory.None
-                          //   and not ArmorCategory.Medium
+                        //     and not ArmorCategory.Medium
                         //     and not ArmorCategory.Heavy
-                          //   and not ArmorCategory.Light
+                       //      and not ArmorCategory.Light
                              )
                      )
             {
-                // if (level != 1) continue;
                 var defender = new BaseCreature(campaignTemplate, $"{armorCategory.ToString()} Level {level}")
                     .WithLevel(level)
                     .WithArmor(armorCategory, level)
@@ -203,7 +203,7 @@ public class AttackTests
         
         _testOutputHelper.WriteLine(""); 
     }*/
-    _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndArmor, Formatting.Indented));
+    _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
 }
 
 }
