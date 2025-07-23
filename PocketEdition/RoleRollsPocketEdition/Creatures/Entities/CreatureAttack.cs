@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Newtonsoft.Json;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
@@ -9,12 +10,14 @@ using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Rolls.Services;
+using Xunit.Abstractions;
 
 namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
-    public AttackResult Attack(Creature target, AttackCommand input, IDiceRoller diceRoller)
+    public AttackResult Attack(Creature target, AttackCommand input, IDiceRoller diceRoller,
+        ITestOutputHelper? testOutputHelper = null)
     {
         var weapon = GetWeaponOrDefault(input.WeaponSlot);
         var weaponTemplate = (WeaponTemplate?)weapon.Template;
@@ -28,10 +31,20 @@ public partial class Creature
         var armorCategory = target.Equipment.ArmorCategory;
         var dicesByLevel = GetRollDices();
         var roll = RollToHit(weapon, dicesByLevel, hitValue, defenseValue, gripStats, input, diceRoller, armorCategory);
+        // testOutputHelper?.WriteLine($"LEVEL: {Level}, ROLL {JsonConvert.SerializeObject(roll)}");
 
-        return roll.Success
+        var result = roll.Success
             ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats, diceRoller)
             : CreateFailedResult(target, weapon);
+        result.Attacker = null;
+        result.Target = null;
+        result.Weapon = null;
+        result.Difficulty = roll.Difficulty;
+        result.NumberOfRollSuccesses = roll.NumberOfRollSuccesses;
+        /*testOutputHelper?.WriteLine($"LEVEL: {Level}, RESULT {JsonConvert.SerializeObject(result, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore})}");*/
+        return result;
     }
 
     private ItemInstance GetWeaponOrDefault(EquipableSlot slot)
@@ -68,6 +81,8 @@ public partial class Creature
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
         advantage += ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
         var weaponBonus = weapon.GetBonus;
+        var luck = input.Luck;
+        luck += ResolveWeaponVsArmorLuck(weapon, armorCategory);
         var weaponInnateHitBonus = gripType.Hit;
         var command = new RollDiceCommand(
             hitValue.Value,
@@ -76,7 +91,7 @@ public partial class Creature
             gripType.AttackDifficult,
             defenseValue,
             [],
-            input.Luck
+            luck
         );
         var roll = new Roll();
         roll.Process(command, diceRoller, 20);
@@ -84,6 +99,42 @@ public partial class Creature
     }
 
     private int ResolveWeaponVsArmorAdvantage(ItemInstance weapon, ArmorCategory armorCategory)
+    {
+        switch (weapon.WeaponTemplate.Category)
+        {
+            case WeaponCategory.None:
+                break;
+            case WeaponCategory.Light:
+                if (armorCategory is ArmorCategory.Light)
+                {
+                    return 0;
+                }
+                if (armorCategory is ArmorCategory.Heavy)
+                {
+                    return -0;
+                }
+                break;
+            case WeaponCategory.Heavy:
+                if (armorCategory is ArmorCategory.Heavy)
+                {
+                    return 0;
+                }
+                if (armorCategory is ArmorCategory.Light)
+                {
+                    return -0;
+                }
+                break;
+            case WeaponCategory.Medium:
+            case WeaponCategory.LightShield:
+            case WeaponCategory.MediumShield:
+            case WeaponCategory.HeavyShield:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        return 0;
+    }
+    private int ResolveWeaponVsArmorLuck(ItemInstance weapon, ArmorCategory armorCategory)
     {
         switch (weapon.WeaponTemplate.Category)
         {
@@ -106,7 +157,7 @@ public partial class Creature
                 }
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return -1;
+                    return -2;
                 }
                 break;
             case WeaponCategory.Medium:
@@ -131,10 +182,14 @@ public partial class Creature
         ));
         var property = input.ItemConfiguration.BlockProperty;
         var propertyValue = GetPropertyValue(new PropertyInput(property, input.BlockProperty));
+        var block = 0;
+        var damageBonus = 0;
         for (int i = 0; i < times; i++)
         {
             var damage = RollDamage(weapon, damageProperty, gripStats, diceRoller);
-            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage - target.GetBasicBlock(propertyValue));
+            damageBonus = damage.FlatBonus + damage.AttributeBonus + damage.MagicBonus;
+            block = target.GetBasicBlock(propertyValue);
+            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage - block);
             damages.Add(damage);
 
             var result = target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
@@ -148,7 +203,9 @@ public partial class Creature
             Target = target,
             TotalDamage = damages.Sum(d => d.ReducedDamage),
             Weapon = weapon,
-            Success = true
+            Success = true,
+            Block = block,
+            DamageBonus = damageBonus,
         };
     }
 

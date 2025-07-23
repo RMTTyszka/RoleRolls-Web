@@ -28,8 +28,8 @@ namespace RoleRollsPocketEdition.Itens
             Stats = new Dictionary<GripType, GripTypeStats>
             {
                 [GripType.OneLightWeapon] = new GripTypeStats(0, 6, 0, 2, 1, 1, 0, 0),
-                [GripType.OneMediumWeapon] = new GripTypeStats(0, 8, 1, 3, 2, 2, 0, 0),
-                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(1, 12, 0, 4, 3, 3, 0, 0),
+                [GripType.OneMediumWeapon] = new GripTypeStats(0, 8, 0, 3, 2, 2, 0, 0),
+                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(2, 12, 0, 4, 3, 3, 0, 0),
                 [GripType.TwoWeaponsLight] = new GripTypeStats(0, 4, 0, 2, 2, 1, 0, 0),
                 [GripType.TwoWeaponsMedium] = new GripTypeStats(1, 8, 2, 3, 2, 2, 0, 0),
                 [GripType.OneHandedHeavyWeapon] = new GripTypeStats(0, 10, 0, 4, 3, 2, 0, 0),

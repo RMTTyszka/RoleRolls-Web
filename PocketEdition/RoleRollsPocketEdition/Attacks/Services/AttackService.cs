@@ -121,4 +121,8 @@ public class AttackResult
     public int TotalDamage { get; set; }
     public ItemInstance Weapon { get; set; }
     public bool Success { get; set; }
+    public int Block { get; set; }
+    public int DamageBonus { get; set; }
+    public int NumberOfRollSuccesses { get; set; }
+    public int Difficulty { get; set; }
 }

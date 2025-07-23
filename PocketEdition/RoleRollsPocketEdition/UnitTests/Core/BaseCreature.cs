@@ -58,7 +58,7 @@ public class BaseCreature
         {
             Template = new WeaponTemplate
                 { Category = category, DamageType = WeaponDamageType.Bludgeoning },
-            Level = 1
+            Level = level
         };
         Creature.AddItemToInventory(weapon);
         Creature.Equip(weapon, slot);
@@ -79,7 +79,7 @@ public class BaseCreature
 
     public BaseCreature WithLevel(int level)
     {
-        foreach (var currentLevel in Enumerable.Range(1, level))
+        foreach (var currentLevel in Enumerable.Range(1, level-1))
         {
             Creature.LevelUp();
             foreach (var attribute in Creature.Attributes)

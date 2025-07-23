@@ -278,6 +278,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             result.DiceValue = damage;
             result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
+            result.MagicBonus = (weapon.GetBonus) * magicModifier;
+            result.AttributeBonus = damageProperty.Value * attributeModifier;
             damage += flatBonus;
             damage += (weapon.GetBonus) * magicModifier;
             damage += damageProperty.Value * attributeModifier;

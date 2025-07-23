@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests;
 
 public class AttackTests
 {
-    private const int TotalAttacks = 1000;
+    private const int TotalAttacks = 100;
     private ITestOutputHelper _testOutputHelper;
 
     public AttackTests(ITestOutputHelper testOutputHelper)
@@ -112,16 +112,19 @@ public class AttackTests
     // Arrange
     var campaignTemplate = LandOfHeroesTemplate.Template;
     var byLevelAndWeapon = new Dictionary<int, Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>>();
-    
+    var byLevelAndArmor = new Dictionary<int, Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>>();
+
     foreach (var level in Enumerable.Range(1, 20))
     {
         var byWeaponAndArmor = new Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>();
-        
+        var byArmorAndWeapon = new Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>();
         foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
         {
             if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
                 or WeaponCategory.HeavyShield 
-                //or WeaponCategory.Medium or WeaponCategory.Heavy
+            //    or WeaponCategory.Medium 
+             //   or WeaponCategory.Light 
+            //    or WeaponCategory.Heavy
                 )
             {
                 continue;
@@ -137,9 +140,13 @@ public class AttackTests
             foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
                          .Where(e => 
                              e is not ArmorCategory.None
+                          //   and not ArmorCategory.Medium
+                        //     and not ArmorCategory.Heavy
+                          //   and not ArmorCategory.Light
                              )
                      )
             {
+                // if (level != 1) continue;
                 var defender = new BaseCreature(campaignTemplate, $"{armorCategory.ToString()} Level {level}")
                     .WithLevel(level)
                     .WithArmor(armorCategory, level)
@@ -153,25 +160,50 @@ public class AttackTests
                     Advantage = 0
                 };
 
-                var diceRoller = new DiceRoller();
+                // var diceRoller = new DiceRoller();
+                var diceRoller = Substitute.For<IDiceRoller>();
+                diceRoller.Roll(20).Returns(19);
                 var totalDamage = 0;
+                var hits = 0m;
+                var weaponDifficult = 0;
                 for (var i = 0; i < TotalAttacks; i++)
                 {
-                    var result = attacker.Attack(defender, input, diceRoller);
+                    var result = attacker.Attack(defender, input, new DiceRoller(), _testOutputHelper);
                     totalDamage += result.TotalDamage;
+                    hits += result.Success ? 1 : 0;
+                    weaponDifficult = result.Difficulty;
                 }
                 totalDamage /= TotalAttacks;
+                var hit = hits / (TotalAttacks * weaponDifficult);
+          //      _testOutputHelper.WriteLine($"LEVEL {level} - Weapon {weaponCategory.ToString()} - Armor {armorCategory.ToString()} - {hit} hits - {totalDamage} damage");
                 
                 byArmor.Add(armorCategory, totalDamage);
+                if (!byArmorAndWeapon.ContainsKey(armorCategory))
+                {
+                    byArmorAndWeapon[armorCategory] = new Dictionary<WeaponCategory, int>();
+                }
+                byArmorAndWeapon[armorCategory].Add(weaponCategory, totalDamage);
             }
             
             byWeaponAndArmor.Add(weaponCategory, byArmor);
         }
         
         byLevelAndWeapon.Add(level, byWeaponAndArmor);
+        byLevelAndArmor.Add(level, byArmorAndWeapon);
     }
-    
-    _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
+    /*foreach (var level in byLevelAndArmor.Keys.OrderBy(x => x))
+    {
+        _testOutputHelper.WriteLine($"=== LEVEL {level} ===");
+        
+        foreach (var armorCategory in byLevelAndArmor[level].Keys)
+        {
+            var totalDamageAgainstArmor = byLevelAndArmor[level][armorCategory].Values.Sum();
+            _testOutputHelper.WriteLine($"  {armorCategory}: {totalDamageAgainstArmor} total damage");
+        }
+        
+        _testOutputHelper.WriteLine(""); 
+    }*/
+    _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndArmor, Formatting.Indented));
 }
 
 }
