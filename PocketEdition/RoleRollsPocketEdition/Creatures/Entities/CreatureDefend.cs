@@ -47,15 +47,17 @@ public partial class Creature
         var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
         var defenseAdvantage =
             Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
-
+        defenseAdvantage += ResolveWeaponVsArmorAdvantage(weapon, Equipment.ArmorCategory);
+        var luck = input.Luck;
+        luck += ResolveWeaponVsArmorLuck(weapon, Equipment.ArmorCategory);
         var evadeRollCommand = new RollDiceCommand(
             defenseValue.Value,
             defenseAdvantage,
-            defenseValue.Bonus,
+            defenseValue.Bonus + defenseValue.Value + Equipment.Chest.GetBonus + ArmorDefinition.EvasionBonus(Equipment.ArmorCategory),
             evadeComplexity,
             evadeComplexity,
             [],
-            input.Luck
+            luck
         );
         var evadeRoll = new Roll();
         evadeRoll.Process(evadeRollCommand, diceRoller, 20);

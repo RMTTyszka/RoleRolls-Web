@@ -71,9 +71,11 @@ public partial class Creature
     private int GetDefenseValue(Creature target, Guid defenseId)
     {
         var defenseInput = new PropertyInput(new Property(defenseId));
+        var armor = target.Equipment.Chest;
         var armorCategory = (target.Equipment.Chest?.Template as ArmorTemplate)?.Category ?? ArmorCategory.None;
         var defenseValue = target.GetPropertyValue(defenseInput);
-        return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.EvasionBonus(armorCategory);
+        return 10 + defenseValue.Value + defenseValue.Bonus + ArmorDefinition.EvasionBonus(armorCategory) +
+               armor.GetBonus;
     }
 
     private Roll RollToHit(ItemInstance weapon, int dices, PropertyValue hitValue, int defenseValue, GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, ArmorCategory armorCategory)
