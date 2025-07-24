@@ -166,12 +166,13 @@ public class AttackTests
                     diceRoller.Roll(6).Returns(6);
                     diceRoller.Roll(8).Returns(8);
                     diceRoller.Roll(12).Returns(12);
+                    var newDiceRoller = new DiceRoller();
                     var totalDamage = 0;
                     var hits = 0m;
                     var weaponDifficult = 0;
                     for (var i = 0; i < TotalAttacks; i++)
                     {
-                        var result = attacker.Attack(defender, input, diceRoller, _testOutputHelper);
+                        var result = attacker.Attack(defender, input, newDiceRoller, _testOutputHelper);
                         totalDamage += result.TotalDamage;
                         hits += result.Success ? 1 : 0;
                         weaponDifficult = result.Difficulty;
@@ -194,6 +195,7 @@ public class AttackTests
             byLevelAndWeapon.Add(level, byWeaponAndArmor);
             byLevelAndArmor.Add(level, byArmorAndWeapon);
         }
+        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
         Assert.Equal(25, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
         Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
         Assert.Equal(9, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Heavy]);
@@ -374,7 +376,6 @@ public class AttackTests
         Assert.Equal(110, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Light]);
         Assert.Equal(88, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Medium]);
         Assert.Equal(66, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
     }
 
 }
