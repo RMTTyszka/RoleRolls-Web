@@ -378,4 +378,102 @@ public class AttackTests
         Assert.Equal(66, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Heavy]);
     }
 
+    [Fact(DisplayName = "Attack and Evade test")]
+    public void T4()
+    {
+        // Arrange
+        var campaignTemplate = LandOfHeroesTemplate.Template;
+        var byLevelAndWeapon = new Dictionary<int, Dictionary<WeaponCategory, Dictionary<ArmorCategory, (int, int)>>>();
+        var byLevelAndArmor = new Dictionary<int, Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>>();
+
+        foreach (var level in Enumerable.Range(1, 20))
+        {
+            //        if (level != 5) continue;
+            var byWeaponAndArmor = new Dictionary<WeaponCategory, Dictionary<ArmorCategory, (int, int)>>();
+            var byArmorAndWeapon = new Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>();
+            foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
+            {
+                if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
+                    or WeaponCategory.HeavyShield
+                    //     or WeaponCategory.Medium 
+                    //    or WeaponCategory.Light 
+                    //    or WeaponCategory.Heavy
+                   )
+                {
+                    continue;
+                }
+
+                var attacker = new BaseCreature(campaignTemplate, $"{weaponCategory.ToString()} Level {level}")
+                    .WithLevel(level)
+                    .WithWeapon(weaponCategory, EquipableSlot.MainHand, level)
+                    .Creature;
+
+                var byArmor = new Dictionary<ArmorCategory, (int, int)>();
+
+                foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
+                             .Where(e =>
+                                     e is not ArmorCategory.None
+                                 //     and not ArmorCategory.Medium
+                                 //     and not ArmorCategory.Heavy
+                                 //      and not ArmorCategory.Light
+                             )
+                        )
+                {
+                    var defender = new BaseCreature(campaignTemplate, $"{armorCategory.ToString()} Level {level}")
+                        .WithLevel(level)
+                        .WithArmor(armorCategory, level)
+                        .Creature;
+
+                    var input = new AttackCommand
+                    {
+                        WeaponSlot = EquipableSlot.MainHand,
+                        ItemConfiguration = campaignTemplate.ItemConfiguration,
+                        Luck = 0,
+                        Advantage = 0
+                    };
+
+                    // var diceRoller = new DiceRoller();
+                    var diceRoller = Substitute.For<IDiceRoller>();
+                    diceRoller.Roll(20).Returns(19);
+                    diceRoller.Roll(6).Returns(6);
+                    diceRoller.Roll(8).Returns(8);
+                    diceRoller.Roll(12).Returns(12);
+                    var newDiceRoller = new DiceRoller();
+                    var totalDamage = 0;
+                    var totalDamageEvasion = 0;
+                    var hits = 0m;
+                    for (var i = 0; i < TotalAttacks; i++)
+                    {
+                        var result = attacker.Attack(defender, input, newDiceRoller, _testOutputHelper);
+                        totalDamage += result.TotalDamage;
+                        hits += result.Success ? 1 : 0;
+                    }             
+                    for (var i = 0; i < TotalAttacks; i++)
+                    {
+                        diceRoller.Roll(20).Returns(2);
+                        var evasionResult = defender.Evade(attacker, input, newDiceRoller);
+                        totalDamageEvasion += evasionResult.TotalDamage;
+                    }
+
+                    totalDamage /= TotalAttacks;
+                    totalDamageEvasion /= TotalAttacks;
+
+                    byArmor.Add(armorCategory, (totalDamage, totalDamageEvasion));
+                    if (!byArmorAndWeapon.ContainsKey(armorCategory))
+                    {
+                        byArmorAndWeapon[armorCategory] = new Dictionary<WeaponCategory, int>();
+                    }
+
+                    byArmorAndWeapon[armorCategory].Add(weaponCategory, totalDamage);
+                }
+
+                byWeaponAndArmor.Add(weaponCategory, byArmor);
+            }
+
+            byLevelAndWeapon.Add(level, byWeaponAndArmor);
+            byLevelAndArmor.Add(level, byArmorAndWeapon);
+        }
+
+        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
+    }
 }
