@@ -13,17 +13,16 @@ public class SerilogBadRequestLoggingMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        if (context.Response.StatusCode == StatusCodes.Status400BadRequest)
+        var originalBodyStream = context.Response.Body;
+        using var responseBodyStream = new MemoryStream();
+        context.Response.Body = responseBodyStream;
+        try
         {
-            var originalBodyStream = context.Response.Body;
-            using var responseBodyStream = new MemoryStream();
-            context.Response.Body = responseBodyStream;
-            try
-            {
-                await _next(context);
+            await _next(context);
 
+            if (context.Response.StatusCode == StatusCodes.Status400BadRequest)
+            {
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
-            
 
                 var responseBody = await new StreamReader(responseBodyStream).ReadToEndAsync();
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
@@ -34,15 +33,14 @@ public class SerilogBadRequestLoggingMiddleware
                     context.Request.QueryString,
                     context.User.Identity?.Name ?? "Anonymous",
                     responseBody);
+            }
 
-                // Ensure the response body is correctly written to the original body stream
-                await responseBodyStream.CopyToAsync(originalBodyStream);
-            }
-            finally
-            {
-                context.Response.Body = originalBodyStream;
-            }
+            // Ensure the response body is correctly written to the original body stream
+            await responseBodyStream.CopyToAsync(originalBodyStream);
         }
-        await _next(context);
+        finally
+        {
+            context.Response.Body = originalBodyStream;
+        }
     }
 }
