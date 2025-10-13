@@ -27,7 +27,10 @@
         </p-panel>
         <p-panel [toggleable]="true">
           <ng-template #header class="flex justify-between items-center w-full">
-            <span class="text-lg font-semibold">Skills</span>
+            <span class="text-lg font-semibold">
+              Skills — SpecificSkills Points: {{ usedSkillPoints }}/{{ totalSkillPoints }}
+              <span class="ml-2 text-sm opacity-80">(Remaining: {{ remainingSkillPoints }})</span>
+            </span>
           </ng-template>
           <div formArrayName="skills">
             <div *ngFor="let skill of skills.controls; let skillIndex=index">
@@ -39,8 +42,9 @@
                         <input type="text" pInputText placeholder="Name" formControlName="name" required>
                       </div>
                       <div class="flex items-center gap-2 w-1/3">
-                        <span>Remaining Points </span>
-                        <input type="text" pInputText formControlName="remainingPoints" required>
+                        <span>Remaining SpecificSkills Points:</span>
+                        <span>{{ remainingSkillPoints }}</span>
+                        <span class="opacity-70 text-sm">/ {{ totalSkillPoints }}</span>
                       </div>
                     </div>
                   </ng-template>
@@ -51,7 +55,7 @@
                           <div class="p-inputgroup">
                             <input type="text" pInputText placeholder="Name" formControlName="name" required>
                             <span class="p-inputgroup-addon">
-                              <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()">
+                              <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()" [attr.min]="-1" [attr.max]="getSpecificSkillMax(skill, specificSkill)">
                             </span>
                           </div>
                         </div>

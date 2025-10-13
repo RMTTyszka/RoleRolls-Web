@@ -28,9 +28,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
         public int TotalAttributePoints { get; set; }
-
-        // 4
-        public int TotalSkillsPoints { get; set; }
+        
         public ItemConfiguration ItemConfiguration { get; set; } = new();
         public List<AttributeTemplate> Attributes { get; set; } = [];
         public List<DamageType> DamageTypes { get; set; } = [];
@@ -47,7 +45,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
-            TotalSkillsPoints = template.TotalSkillsPoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
             Vitalities = template.Vitalities.Select(vitality => new VitalityTemplate(vitality)).ToList();
             ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);

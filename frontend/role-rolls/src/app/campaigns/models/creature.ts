@@ -20,6 +20,8 @@ export class Creature implements Entity {
   public ownerId!: string;
   public level!: number;
   public isTemplate!: boolean;
+  public totalSkillsPoints!: number;
+  public maxPointsPerSpecificSkill!: number;
 }
 
 export class Attribute implements Entity {

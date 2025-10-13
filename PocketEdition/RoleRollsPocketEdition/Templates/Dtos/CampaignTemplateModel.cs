@@ -20,7 +20,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             ArchetypeTitle = template.ArchetypeTitle;
             TotalAttributePoints = template.TotalAttributePoints;
             MaxAttributePoints = template.MaxAttributePoints;
-            TotalSkillsPoints = template.TotalSkillsPoints;
             Default = template.Default;
             Attributes = template.Attributes.OrderBy(e => e.Name).Select(attribute => new AttributeTemplateModel(attribute)).ToList();
             Skills = template.Skills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
@@ -48,7 +47,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public int MaxAttributePoints { get; init; }
         public int TotalAttributePoints { get; set; }
         // 4
-        public int TotalSkillsPoints { get; set; }
         public virtual ICollection<AttributeTemplateModel> Attributes { get; set; }
         public ICollection<SkillTemplateModel> Skills { get; set; }
 

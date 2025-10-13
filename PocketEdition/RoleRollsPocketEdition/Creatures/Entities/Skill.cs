@@ -48,13 +48,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             {
                 var updatedMinorSkill = updatedSkill.SpecificSkills.First(minorsk =>
                     minorsk.SpecificSkillTemplateId == minorSkill.SpecificSkillTemplateId);
-                var totalPointAfterUpdate = UsedPoints - minorSkill.Points + updatedMinorSkill.Points;
-                if (totalPointAfterUpdate > PointsLimit)
-                {
-                    return new CreatureUpdateValidationResult(CreatureUpdateValidation.SkillPointsGreaterThanAllowed,
-                        Name);
-                }
-
                 minorSkill.Update(updatedMinorSkill.Points);
             }
 
