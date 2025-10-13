@@ -10,7 +10,8 @@ export class Creature implements Entity {
   public name!: string;
   public attributes: Attribute[] = [];
   public skills: Skill[] = [];
-  public attributelessSkills: Skill[] = [];
+  // Back-compat: attributeless skills are those without attribute
+  public get attributelessSkills(): Skill[] { return (this.skills ?? []).filter(s => !s.attributeId); }
   public vitalities: Vitality[] = [];
   public defenses: Defense[] = [];
   public category!: CreatureCategory;

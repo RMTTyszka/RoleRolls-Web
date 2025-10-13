@@ -52,23 +52,15 @@ export class BonusesComponent {
       label: s.name
     } as RROption<any>));
 
-    // Mapeia as habilidades menores
+    // Mapeia as habilidades menores (inclui skills com e sem atributo)
     const specificSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
       s.specificSkillTemplates.map((ms: SpecificSkillsTemplate) => ({
           value: ms.id,
           label: ms.name
         } as RROption<any>)));
 
-
-    // Mapeia as habilidades menores
-    const attributelessSkills = campaign.campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-      s.specificSkillTemplates.map((ms: SpecificSkillsTemplate) => ({
-        value: ms.id,
-        label: ms.name
-      } as RROption<any>)));
-
     // Combina todos os arrays
-    return [...attributes, ...skills, ...specificSkills, ...attributelessSkills];
+    return [...attributes, ...skills, ...specificSkills];
   });
   clonedBonuss: { [s: string]: Bonus } = {};
   constructor() {

@@ -95,16 +95,13 @@ export class CreatureEditorComponent {
   // public template: PocketCreature;
   public creature: Creature;
   public editorAction: EditorAction;
-  public skillsMapping = new Map<string, FormArray<FormGroup>>();
   public minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
   public creatureId: string;
   public creatureCategory: CreatureCategory;
 
   private subscriptionManager = new SubscriptionManager();
 
-  public attributeSkills(attributeId: string): FormArray<FormGroup> {
-    return this.skillsMapping.get(attributeId);
-  }
+  // attributeSkills mapping removed; iterate directly over skills FormArray in template
 
   ngOnDestroy(): void {
     this.subscriptionManager.clear();
@@ -182,25 +179,17 @@ export class CreatureEditorComponent {
   }
 
   private buildSkills() {
-    this.creature.attributes.forEach(attribute => {
-      this.skillsMapping.set(attribute.id, new FormArray([]));
-    });
-    this.skillsMapping.set('attributelessSkills', new FormArray([]));
+    // Build minorsSkillBySkill map for quick access in template
+    this.minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
     this.creature.skills.forEach(skill => {
       const skillForm = (this.form.get('skills') as FormArray<FormGroup>).controls
-        .filter(control => control.get('skillTemplateId').value === skill.skillTemplateId)[0];
-      if (skill.attributeId) {
-        this.skillsMapping.get(skill.attributeId).push(skillForm);
-      } else {
-        this.skillsMapping.get('attributelessSkills').push(skillForm);
-      }
-      this.minorsSkillBySkill.set(skill.id, new FormArray([]));
-      const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkills.forEach(specificSkill => {
-        const specificSkillForm = (skillForm.get('specificSkills') as FormArray<FormGroup>).controls
-          .filter(control => control.get('specificSkillTemplateId').value == specificSkill.specificSkillTemplateId)[0];
-        specificSkills.push(specificSkillForm);
+        .find(control => control.get('skillTemplateId').value === skill.skillTemplateId);
+      if (!skillForm) { return; }
+      const specificSkillsArray = new FormArray<FormGroup>([]);
+      (skillForm.get('specificSkills') as FormArray<FormGroup>).controls.forEach(specificSkillForm => {
+        specificSkillsArray.push(specificSkillForm);
       });
+      this.minorsSkillBySkill.set(skill.id, specificSkillsArray);
     });
   }
 
