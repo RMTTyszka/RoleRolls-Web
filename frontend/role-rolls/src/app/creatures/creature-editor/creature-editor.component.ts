@@ -208,7 +208,7 @@ export class CreatureEditorComponent {
   }
 
   public print() {
-    console.log(this.form);
+   // console.log(this.form);
   }
 
   public canSave() {
@@ -280,11 +280,25 @@ export class CreatureEditorComponent {
     }));
   }
 
-  protected readonly PropertyType = PropertyType;
+  
+  public incrementSpecific(skill: FormGroup, specificSkill: FormGroup): void {
+    const ctrl = specificSkill.get('points');
+    const current = Number(ctrl?.value ?? 0);
+    const proposed = current + 1;
+    ctrl?.setValue(proposed);
+  }
+
+  public decrementSpecific(skill: FormGroup, specificSkill: FormGroup): void {
+    const ctrl = specificSkill.get('points');
+    const current = Number(ctrl?.value ?? 0);
+    const proposed = current - 1;
+    ctrl?.setValue(proposed);
+  }  protected readonly PropertyType = PropertyType;
 }
 const validateSkillValue: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   // Validation now handled at creature-level server-side. Always valid here.
   return null;
 };
+
 
 

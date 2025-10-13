@@ -1,4 +1,4 @@
-<div class="modal-container">
+﻿<div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
@@ -28,7 +28,7 @@
         <p-panel [toggleable]="true">
           <ng-template #header class="flex justify-between items-center w-full">
             <span class="text-lg font-semibold">
-              Skills — SpecificSkills Points: {{ usedSkillPoints }}/{{ totalSkillPoints }}
+              Skills â€” SpecificSkills Points: {{ usedSkillPoints }}/{{ totalSkillPoints }}
               <span class="ml-2 text-sm opacity-80">(Remaining: {{ remainingSkillPoints }})</span>
             </span>
           </ng-template>
@@ -51,11 +51,13 @@
                   <div class="flex justify-between gap-2">
                     <div class="flex-1" form [formGroup]="skill">
                       <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
-                        <div form [formGroup]="specificSkill">
+                        <div form [formGroup]="specificSkill" class="pb-1">
                           <div class="p-inputgroup">
                             <input type="text" pInputText placeholder="Name" formControlName="name" required>
                             <span class="p-inputgroup-addon">
-                              <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()" [attr.min]="-1" [attr.max]="getSpecificSkillMax(skill, specificSkill)">
+                              <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" [attr.min]="-1" [attr.max]="getSpecificSkillMax(skill, specificSkill)">
+                              <button type="button" class="p-button p-component" (click)="incrementSpecific(skill, specificSkill)">+</button>
+                              <button type="button" class="p-button p-component" (click)="decrementSpecific(skill, specificSkill)">-</button>
                             </span>
                           </div>
                         </div>
@@ -115,3 +117,5 @@
   <button class="p-button p-component" style="display: flex; flex: initial" (click)="save()" [disabled]="!canSave()">Save</button>
 </div>
 <p-message></p-message>
+
+
