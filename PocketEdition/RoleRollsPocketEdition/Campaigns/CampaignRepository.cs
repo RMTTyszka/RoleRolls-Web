@@ -17,9 +17,8 @@ namespace RoleRollsPocketEdition.Campaigns
         {
             var creatureTemplate = await _dbContext.CampaignTemplates
                 .Include(template => template.Attributes)
-                .ThenInclude(attribute => attribute.SkillTemplates)
-                .Include(template => template.AttributelessSkills)
-                .ThenInclude(attribute => attribute.SpecificSkillTemplates)
+                .Include(template => template.Skills)
+                .ThenInclude(skill => skill.SpecificSkillTemplates)
                 .Include(template => template.Vitalities)
                 .Include(template => template.Defenses)
                 .FirstAsync(template => template.Id == id);

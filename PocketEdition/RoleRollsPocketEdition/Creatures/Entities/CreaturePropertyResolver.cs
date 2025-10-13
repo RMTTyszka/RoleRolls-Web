@@ -41,16 +41,14 @@ public partial class Creature
         return result;
     }
 
-    private int GetAttributeValue( Guid attributeId, PropertyInput input)
+    private int GetAttributeValue(Guid? attributeId, PropertyInput input)
     {
-        var attribute = Attributes.First(at => at.AttributeTemplateId == attributeId);
-        
         if (input.OverriderAttribute != null)
         {
             var overrideAttr = Attributes.FirstOrDefault(at => at.AttributeTemplateId == input.OverriderAttribute.Id);
-            return overrideAttr?.Points ?? attribute.Points;
+            return overrideAttr?.Points ?? 0;
         }
-        
+        var attribute = Attributes.First(at => at.AttributeTemplateId == attributeId);
         return attribute.Points;
     }
 
@@ -66,12 +64,9 @@ public partial class Creature
 
     private void ProcessSkillProperty(Guid skillId, PropertyValue result, PropertyInput input)
     {
-        var skill = Skills.Concat(AttributelessSkills).First(sk => sk.Id == skillId);
+        var skill = Skills.First(sk => sk.Id == skillId);
         
-        if (skill.AttributeId.HasValue)
-        {
-            result.Value = GetAttributeValue(skill.AttributeId.Value, input);
-        }
+        result.Value = GetAttributeValue(null, input);
         
         result.Bonus = 0;
     }
@@ -79,14 +74,8 @@ public partial class Creature
     private void ProcessMinorSkillProperty(Guid minorSkillId, PropertyValue result, PropertyInput input)
     {
         var minorSkill = SpecificSkills.First(ms => ms.SpecificSkillTemplateId == minorSkillId);
-        var parentSkill = Skills.First(sk => sk.Id == minorSkill.SkillId);
         
-        if (parentSkill.AttributeId.HasValue)
-        {
-            var attribute = Attributes.First(at => at.Id == parentSkill.AttributeId.Value);
-            result.Value = GetAttributeValue(attribute.AttributeTemplateId, input);
-        }
-        else if (minorSkill.AttributeId.HasValue)
+        if (minorSkill.AttributeId.HasValue)
         {
             var attribute = Attributes.First(at => at.Id == minorSkill.AttributeId.Value);
             result.Value = GetAttributeValue(attribute.AttributeTemplateId, input);
@@ -125,10 +114,7 @@ public partial class Creature
     {
         var skill = Skills.FirstOrDefault(sk => sk.Id == property.Id);
         
-        if (skill is not { AttributeId: not null })
-            return false;
-        
-        result.Value = GetAttributeValue(skill.AttributeId.Value, input);
+        result.Value = GetAttributeValue(null, input);
         result.Bonus = 0;
         return true;
     }
@@ -136,24 +122,11 @@ public partial class Creature
     private void TryProcessAsMinorSkill(Property property, PropertyValue result, PropertyInput input)
     {
         var minorSkill = Skills.SelectMany(skill => skill.SpecificSkills)
-            .Concat(AttributelessSkills.SelectMany(s => s.SpecificSkills))
             .FirstOrDefault(ms => ms.SpecificSkillTemplateId == property.Id);
-        
-        if (minorSkill == null)
-            return;
 
-        if (minorSkill.Attribute is not null)
+        if (minorSkill?.Attribute != null)
         {
             result.Value = GetAttributeValue(minorSkill.Attribute.AttributeTemplateId, input);
-            result.Bonus = minorSkill.Points;
-            return;
-        }
-
-        var parentSkill = Skills.First(sk => sk.Id == minorSkill.SkillId);
-        
-        if (parentSkill.Attribute is not null)
-        {
-            result.Value = GetAttributeValue(parentSkill.Attribute.AttributeTemplateId, input);
             result.Bonus = minorSkill.Points;
         }
     }

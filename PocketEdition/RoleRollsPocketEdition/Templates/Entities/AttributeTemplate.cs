@@ -21,19 +21,11 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
         public ICollection<Attribute> Attributes { get; set; } = [];
-        public ICollection<SpecificSkillTemplate> SpecificSkillTemplates { get; set; } = [];
-        public ICollection<SkillTemplate> SkillTemplates { get; set; } = [];
 
         public void Update(AttributeTemplateModel attributeModel)
         {
             Name = attributeModel.Name;
         }
 
-        public SkillTemplate AddSkill(SkillTemplateModel skillModel)
-        {
-            var skill = new SkillTemplate(this, skillModel);
-            SkillTemplates.Add(skill);
-            return skill;
-        }
     }
 }

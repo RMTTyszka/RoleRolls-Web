@@ -24,7 +24,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Default = template.Default;
             Attributes = template.Attributes.OrderBy(e => e.Name).Select(attribute => new AttributeTemplateModel(attribute)).ToList();
             Skills = template.Skills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
-            AttributelessSkills = template.AttributelessSkills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
             Vitalities = template.Vitalities.OrderBy(e => e.Name).Select(vitality => new VitalityTemplateModel(vitality)).ToList();
             Defenses = template.Defenses.OrderBy(e => e.Name).Select(defense => new DefenseTemplateModel(defense)).ToList();
             CreatureTypes = template.CreatureTypes.OrderBy(e => e.Name).Select(defense => new CreatureTypeModel(defense)).ToList();
@@ -38,7 +37,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
         public List<CreatureTypeModel> CreatureTypes { get; set; } = [];
 
-        public List<SkillTemplateModel> AttributelessSkills { get; set; } = [];
 
         public bool Default { get; set; }
 

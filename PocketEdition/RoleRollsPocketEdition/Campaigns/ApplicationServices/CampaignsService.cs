@@ -66,14 +66,14 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
 
             campaign.CampaignTemplate.Attributes = attributes;
 
-            var attributelessSkills = await _dbContext.Campaigns
+            var skills = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
-                .ThenInclude(a => a.AttributelessSkills)
+                .ThenInclude(a => a.Skills)
                 .Where(e => e.Id == id)
-                .Select(e => e.CampaignTemplate.AttributelessSkills)
+                .Select(e => e.CampaignTemplate.Skills)
                 .FirstAsync();
 
-            campaign.CampaignTemplate.AttributelessSkills = attributelessSkills;
+            campaign.CampaignTemplate.Skills = skills;
 
             var defenses = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)

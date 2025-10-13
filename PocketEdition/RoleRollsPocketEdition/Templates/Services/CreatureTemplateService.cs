@@ -29,8 +29,6 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
-                .Include(template => template.AttributelessSkills)
-                .ThenInclude(skill => skill.SpecificSkillTemplates)
                 .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
             var output = new CampaignTemplateModel(template);
