@@ -22,6 +22,8 @@ namespace RoleRollsPocketEdition.Templates.Entities
         }
 
         public string Name { get; set; } = string.Empty;
+        public Guid CampaignTemplateId { get; set; }
+        public CampaignTemplate? CampaignTemplate { get; set; }
         public Guid? AttributeTemplateId { get; set; }
         public AttributeTemplate? AttributeTemplate { get; set; }
 

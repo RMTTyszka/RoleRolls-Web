@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+﻿import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { createForm, getAsForm } from '../../../tokens/EditorExtension';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Campaign } from '../../models/campaign';
@@ -107,7 +107,7 @@ export class CampaignTemplateComponent {
       id: null,
       name: null,
       specificSkillTemplates: []
-    } as SkillTemplate);
+    } as any);
     createForm(this.specificSkillForm, {
       id: null,
       name: null,
@@ -141,11 +141,7 @@ export class CampaignTemplateComponent {
         console.log(this.skillForm.disabled)
       })
       this.vitalityForm.disable();
-      this.skillsMapping.forEach(skill => {
-        skill.controls.forEach((control) => {
-          control.disable();
-        })
-      })
+      this.skills.controls.forEach((control) => control.disable());
       this.form.get('name').enable();
     }
   }
@@ -184,24 +180,20 @@ export class CampaignTemplateComponent {
         this.skillsMapping.delete(attribute.id);
       });
   }
-  public addSkill(attributeForm: FormGroup) {
+  public addSkill(attributeForm: FormGroup) { this.addSkillFromHeader(); }
+  public addSkillFromHeader() {
     if (this.disabled) return;
-    const attribute = attributeForm.value as AttributeTemplate;
-    const skill = this.skillForm.value as SkillTemplate;
-    skill.attributeId = attribute.id;
-    this.service.addSkill(this.campaign.id, attribute.id, skill)
-      .subscribe(() => {
-        const formArray = this.skills;
-        const newFormGroup = new FormGroup({});
-        createForm(newFormGroup, this.skillForm.value as Entity);
-        formArray.controls.push(newFormGroup);
-        this.skillForm.reset();
-        this.skillForm.get('id').setValue(uuidv4() as never);
-        const newSkillForm = new FormGroup({});
-        createForm(newSkillForm, skill);
-        this.skillsMapping.get(attribute.id).push(newSkillForm);
-        this.minorsSkillBySkill.set(skill.id, new FormArray([]));
-      });
+    const skill = this.skillForm.value as any;
+    const afterAdd = () => {
+      const formArray = this.skills;
+      const newFormGroup = new FormGroup({});
+      createForm(newFormGroup, this.skillForm.value as Entity);
+      formArray.controls.push(newFormGroup);
+      this.skillForm.reset();
+      this.skillForm.get('id').setValue(uuidv4() as never);
+      this.minorsSkillBySkill.set(skill.id, new FormArray([]));
+    };
+    this.service.addAttributelessSkill(this.campaign.id, skill).subscribe(afterAdd);
   }
   public addAttributelessSkill() {
     if (this.disabled) return;
@@ -220,13 +212,11 @@ export class CampaignTemplateComponent {
         this.minorsSkillBySkill.set(skill.id, new FormArray([]));
       });
   }
-  public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) {
+  public updateSkill(attributeControl: FormGroup, skillControl: FormGroup) { this.updateSkillFlat(skillControl); }
+  public updateSkillFlat(skillControl: FormGroup) {
     if (this.disabled) return;
-    const attribute = attributeControl.value as AttributeTemplate;
-    const skill = skillControl.value as SkillTemplate;
-    // skill.attributeId = attribute.id;
-    this.service.updateSkill(this.campaign.id, attribute.id, skill.id, skill)
-      .subscribe();
+    const skill = skillControl.value as any;
+    this.service.updateAttributelessSkill(this.campaign.id, skill).subscribe();
   }
   public updateAttributelessSkill(skillControl: FormGroup) {
     if (this.disabled) return;
@@ -234,15 +224,12 @@ export class CampaignTemplateComponent {
     this.service.updateAttributelessSkill(this.campaign.id, skill)
       .subscribe();
   }
-  public removeSkill(attributeControl: FormGroup, skillControl: FormGroup, index: number) {
-    const skill = skillControl.value as SkillTemplate;
-    const attribute = attributeControl.value as AttributeTemplate;
-    this.service.removeSkill(this.campaign.id, attribute.id, skill.id)
-      .subscribe(() => {
-        const formArray = this.skills;
-        formArray.removeAt(index);
-        this.skillsMapping.get(skill.attributeId).removeAt(index);
-      });
+  public removeSkill(attributeControl: FormGroup, skillControl: FormGroup, index: number) { this.removeSkillFlat(skillControl, index); }
+  public removeSkillFlat(skillControl: FormGroup, index: number) {
+    const skill = skillControl.value as any;
+    this.service.removeAttributelessSkill(this.campaign.id, skill).subscribe(() => {
+      this.skills.removeAt(index);
+    });
   }
   public removeAttributelessSkill(skillControl: FormGroup, index: number) {
     const skill = skillControl.value as SkillTemplate;
@@ -250,7 +237,7 @@ export class CampaignTemplateComponent {
       .subscribe(() => {
         const formArray = this.skills;
         formArray.removeAt(index);
-        this.skillsMapping.get(skill.attributeId).removeAt(index);
+        this.skillsMapping.get('attributeless').removeAt(index);
       });
   }
 
@@ -258,7 +245,7 @@ export class CampaignTemplateComponent {
     const specificSkill = this.specificSkillForm.value as SpecificSkillsTemplate;
     const skill = skillForm.value as SkillTemplate;
     specificSkill.skillTemplateId = skill.id;
-    this.service.addSpecificSkill(this.campaign.id, skill.attributeId, skill.id, specificSkill)
+    this.service.addSpecificSkill(this.campaign.id, skill.id, specificSkill)
       .subscribe(() => {
         const newFormGroup = new FormGroup({});
         createForm(newFormGroup, specificSkill);
@@ -271,7 +258,7 @@ export class CampaignTemplateComponent {
     if (this.disabled) return;
     const skill = skillControl.value as SkillTemplate;
     const specificSkill = specificSkillControl.value as SpecificSkillsTemplate;
-    this.service.updateSpecificSkill(this.campaign.id, skill.attributeId, skill.id, specificSkill.id, specificSkill)
+    this.service.updateSpecificSkill(this.campaign.id, skill.id, specificSkill.id, specificSkill)
       .subscribe(() => {
       });
   }
@@ -279,7 +266,7 @@ export class CampaignTemplateComponent {
     if (this.disabled) return;
     const skill = skillControl.value as SkillTemplate;
     const specificSkill = specificSkillControl.value as SpecificSkillsTemplate;
-    this.service.removeSpecificSkill(this.campaign.id, skill.attributeId, skill.id, specificSkill.id)
+    this.service.removeSpecificSkill(this.campaign.id, skill.id, specificSkill.id)
       .subscribe(() => {
         this.minorsSkillBySkill.get(skill.id).removeAt(index);
       });
@@ -352,26 +339,13 @@ export class CampaignTemplateComponent {
   }
 
   private buildSkills() {
-    this.campaign.campaignTemplate.attributes.forEach((attribute: AttributeTemplate) => {
-      this.skillsMapping.set(attribute.id, new FormArray<any>([]));
-    });
-    this.skillsMapping.set('attributeless', new FormArray<any>([]));
-    this.campaign.campaignTemplate.skills.forEach((skill: SkillTemplate) => {
-      this.skillsMapping.get(skill.attributeId).push(getAsForm(skill));
-      this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
-      const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkillTemplates.forEach((specificSkill: SpecificSkillsTemplate) => {
-        specificSkills.push(getAsForm(specificSkill));
-      });
-    });
-    this.campaign.campaignTemplate.attributelessSkills.forEach((skill: SkillTemplate) => {
-      this.skillsMapping.get('attributeless').push(getAsForm(skill));
-      this.minorsSkillBySkill.set(skill.id, new FormArray<any>([]));
-      const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkillTemplates.forEach((specificSkill: SpecificSkillsTemplate) => {
-        const form = getAsForm(specificSkill);
-        specificSkills.push(form);
-      });
+    // Build minorsSkillBySkill and ensure helper control on each skill form
+    this.minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
+    (this.skills as FormArray<FormGroup>).controls.forEach((skillForm: FormGroup) => {
+      const skill = skillForm.value as SkillTemplate;
+      const specificSkillsArray = new FormArray<FormGroup>([]);
+      (skillForm.get('specificSkillTemplates') as FormArray<FormGroup>).controls.forEach(ss => specificSkillsArray.push(ss));
+      this.minorsSkillBySkill.set(skill.id, specificSkillsArray);
     });
   }
 
@@ -381,4 +355,5 @@ export class CampaignTemplateComponent {
 
   protected readonly PropertyType = PropertyType;
 }
+
 

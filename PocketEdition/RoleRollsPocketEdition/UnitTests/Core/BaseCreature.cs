@@ -19,12 +19,13 @@ public class BaseCreature
         foreach (var attribute in Creature.Attributes)
         {
             attribute.Points = 4;
-            foreach (var attributeSkill in attribute.Skills)
+        }
+
+        foreach (var skill in Creature.Skills)
+        {
+            foreach (var skillSpecificSkill in skill.SpecificSkills)
             {
-                foreach (var attributeSkillSpecificSkill in attributeSkill.SpecificSkills)
-                {
-                    attributeSkillSpecificSkill.Points = 3;
-                }
+                skillSpecificSkill.Points = 3;
             }
         }
 

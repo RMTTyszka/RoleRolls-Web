@@ -12,7 +12,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public Creature Creature { get; set; }
         public Guid AttributeTemplateId { get; set; }
         public AttributeTemplate AttributeTemplate { get; set; }
-        public List<Skill> Skills { get; set; }
         public List<SpecificSkill> SpecificSkills { get; set; }
 
         // TODO bonus
@@ -27,7 +26,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Name = attribute.Name;
             AttributeTemplateId = attribute.Id;
             AttributeTemplate = attribute;
-            Skills = attribute.SkillTemplates.Select(skill => new Skill(skill, this)).ToList();
+            Points = 1;
         }
 
         public void Update(AttributeModel updatedAttribute)

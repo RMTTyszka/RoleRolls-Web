@@ -37,41 +37,5 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
             await _campaignsService.UpdateAttribute(campaignId, attributeId, attribute);
             return Ok();
         }         
-        [HttpPost("{attributeId}/skills")]
-        public async Task<IActionResult> AddSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromBody] SkillTemplateModel skill)
-        {
-            await _campaignsService.AddSkill(campaignId, attributeId, skill);
-            return Ok();
-        }       
-        [HttpDelete("{attributeId}/skills/{skillId}")]
-        public async Task<IActionResult> RemoveSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId)
-        {
-            await _campaignsService.RemoveSkill(campaignId, attributeId, skillId);
-            return Ok();
-        }
-        [HttpPut("{attributeId}/skills/{skillId}")]
-        public async Task<IActionResult> UpdateSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] SkillTemplateModel skill)
-        {
-            await _campaignsService.UpdateSkill(campaignId, attributeId, skillId, skill);
-            return Ok();
-        }       
-        [HttpPost("{attributeId}/skills/{skillId}/minor-skills")]
-        public async Task<IActionResult> AddMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromBody] SpecificSkillTemplateModel specificSkill)
-        {
-            await _campaignsService.AddMinorSkillAsync(campaignId, attributeId, skillId, specificSkill);
-            return Ok();
-        }       
-        [HttpDelete("{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
-        public async Task<IActionResult> RemoveMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId)
-        {
-            await _campaignsService.RemoveMinorSkillAsync(campaignId, attributeId, skillId, minorSkillId);
-            return Ok();
-        }
-        [HttpPut("{attributeId}/skills/{skillId}/minor-skills/{minorSkillId}")]
-        public async Task<IActionResult> UpdateMinorSkill([FromRoute] Guid campaignId, [FromRoute] Guid attributeId, [FromRoute] Guid skillId, [FromRoute] Guid minorSkillId, [FromBody] SpecificSkillTemplateModel specificSkill)
-        {
-            await _campaignsService.UpdateMinorSkillAsync(campaignId, attributeId, skillId, minorSkillId, specificSkill);
-            return Ok();
-        }
     }
 }

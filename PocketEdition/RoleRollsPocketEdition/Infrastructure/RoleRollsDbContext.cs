@@ -108,13 +108,7 @@ namespace RoleRollsPocketEdition.Infrastructure
 
             modelBuilder.Entity<AttributeTemplate>(e =>
             {
-                e.HasMany<SkillTemplate>(p => p.SkillTemplates)
-                    .WithOne(c => c.AttributeTemplate)
-                    .OnDelete(DeleteBehavior.Cascade);
-                e.HasMany<SpecificSkillTemplate>(p => p.SpecificSkillTemplates)
-                    .WithOne(c => c.AttributeTemplate)
-                    .OnDelete(DeleteBehavior.Cascade);
-                e.Navigation(c => c.SkillTemplates).AutoInclude();
+                // AttributeTemplate no longer owns skills or specific skills navigations
             });
 
             modelBuilder.Entity<Campaign>(e => { });
@@ -123,6 +117,11 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany(c => c.CombatManeuvers)
                     .WithOne(p => p.CampaignTemplate)
                     .HasForeignKey(p => p.CampaignTemplateId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                // CampaignTemplate now owns SkillTemplates collection
+                e.HasMany<SkillTemplate>(p => p.Skills)
+                    .WithOne(s => s.CampaignTemplate)
+                    .HasForeignKey(s => s.CampaignTemplateId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
 

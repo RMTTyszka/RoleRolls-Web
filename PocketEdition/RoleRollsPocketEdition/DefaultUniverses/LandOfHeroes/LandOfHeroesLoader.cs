@@ -46,10 +46,10 @@ public class LandOfHeroesLoader : IStartupTask
                 .Select(e => e.Attributes)
                 .FirstAsync(cancellationToken);
 
-            var attributelessSkills = await _dbContext.CampaignTemplates
-                .Include(a => a.AttributelessSkills)
+            var skills = await _dbContext.CampaignTemplates
+                .Include(a => a.Skills)
                 .Where(e => e.Id == templateFromCode.Id)
-                .Select(e => e.AttributelessSkills)
+                .Select(e => e.Skills)
                 .FirstAsync(cancellationToken);
 
             var defenses = await _dbContext.CampaignTemplates
@@ -97,13 +97,13 @@ public class LandOfHeroesLoader : IStartupTask
             templateFromDb.CreatureTypes = creatureTypes;
             templateFromDb.Archetypes = archetypes;
             templateFromDb.Attributes = attributes;
-            templateFromDb.AttributelessSkills = attributelessSkills;
+            templateFromDb.Skills = skills;
             templateFromDb.Defenses = defenses;
             templateFromDb.Vitalities = vitalities;
             await SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes,
                 _dbContext);
-            await SynchronizeAttributelessSkills(templateFromDb, templateFromCode.AttributelessSkills,
-                templateFromDb.AttributelessSkills, _dbContext);
+            await SynchronizeSkills(templateFromDb, templateFromCode.Skills,
+                templateFromDb.Skills, _dbContext);
             await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration,
                 templateFromDb.ItemConfiguration, _dbContext);
             await SynchronizeLives(templateFromDb, templateFromCode.Vitalities, templateFromDb.Vitalities, _dbContext);
@@ -145,7 +145,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeAttributelessSkills(Templates.Entities.CampaignTemplate templateFromDb,
+    private async Task SynchronizeSkills(Templates.Entities.CampaignTemplate templateFromDb,
         List<SkillTemplate> fromCode, List<SkillTemplate> fromDb, RoleRollsDbContext context)
     {
         var dbSkills = fromDb.ToDictionary(s => s.Id);
@@ -155,7 +155,7 @@ public class LandOfHeroesLoader : IStartupTask
         {
             if (!dbSkills.TryGetValue(codeSkill.Id, out var dbSkill))
             {
-                templateFromDb.AttributelessSkills.Add(codeSkill);
+                templateFromDb.Skills.Add(codeSkill);
                 await context.SkillTemplates.AddAsync(codeSkill);
             }
             else
@@ -163,6 +163,7 @@ public class LandOfHeroesLoader : IStartupTask
                 await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkillTemplates,
                     dbSkill.SpecificSkillTemplates, context);
                 dbSkill.Name = codeSkill.Name;
+                dbSkill.AttributeTemplateId = codeSkill.AttributeTemplateId;
                 context.SkillTemplates.Update(dbSkill);
             }
         }
@@ -189,8 +190,6 @@ public class LandOfHeroesLoader : IStartupTask
             else
             {
                 dbAttr.Update(new AttributeTemplateModel(codeAttr));
-                await SynchronizeSkills(codeAttr, codeAttr.SkillTemplates.ToList(), dbAttr.SkillTemplates.ToList(),
-                    context);
                 dbAttr.Name = codeAttr.Name;
                 context.AttributeTemplates.Update(dbAttr);
             }
@@ -202,34 +201,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeSkills(AttributeTemplate attributeTemplate, List<SkillTemplate> fromCode,
-        List<SkillTemplate> fromDb, RoleRollsDbContext context)
-    {
-        var dbSkills = fromDb.ToDictionary(s => s.Id);
-        var codeSkills = fromCode.ToDictionary(s => s.Id);
-
-        foreach (var codeSkill in fromCode)
-        {
-            if (!dbSkills.TryGetValue(codeSkill.Id, out var dbSkill))
-            {
-                var skill = attributeTemplate.AddSkill(new SkillTemplateModel(codeSkill));
-                context.SkillTemplates.Add(skill);
-            }
-            else
-            {
-                await SynchronizeMinorSkills(codeSkill, codeSkill.SpecificSkillTemplates,
-                    dbSkill.SpecificSkillTemplates, context);
-                dbSkill.Name = codeSkill.Name;
-                dbSkill.AttributeTemplateId = codeSkill.AttributeTemplateId;
-                context.SkillTemplates.Update(dbSkill);
-            }
-        }
-
-        foreach (var dbSkill in fromDb.Where(s => !codeSkills.ContainsKey(s.Id)).ToList())
-        {
-            fromDb.Remove(dbSkill);
-        }
-    }
+    // attribute-level skills synchronization removed; skills are synchronized at template level
 
     private async Task SynchronizeMinorSkills(SkillTemplate codeSkill, List<SpecificSkillTemplate> fromCode,
         List<SpecificSkillTemplate> fromDb, RoleRollsDbContext context)

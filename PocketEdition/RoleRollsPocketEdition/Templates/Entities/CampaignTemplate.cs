@@ -28,20 +28,16 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         // 5 + 4 + 3 + 2 + 2 + 1 = 17
         public int TotalAttributePoints { get; set; }
-
-        // 4
-        public int TotalSkillsPoints { get; set; }
+        
         public ItemConfiguration ItemConfiguration { get; set; } = new();
         public List<AttributeTemplate> Attributes { get; set; } = [];
         public List<DamageType> DamageTypes { get; set; } = [];
-        public List<SkillTemplate> AttributelessSkills { get; set; } = [];
+        public List<SkillTemplate> Skills { get; set; } = [];
         public List<Campaign>? Campaigns { get; set; }
         public ICollection<VitalityTemplate> Vitalities { get; set; } = [];
         public ICollection<DefenseTemplate> Defenses { get; set; } = [];
         public ICollection<CreatureType> CreatureTypes { get; set; } = [];
         public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
-
-        [NotMapped] public List<SkillTemplate> Skills => Attributes.SelectMany(a => a.SkillTemplates).ToList();
 
         public List<Archetype> Archetypes { get; set; } = [];
 
@@ -49,7 +45,6 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
-            TotalSkillsPoints = template.TotalSkillsPoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
             Vitalities = template.Vitalities.Select(vitality => new VitalityTemplate(vitality)).ToList();
             ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);
@@ -86,10 +81,10 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             var attribute = Attributes.First(attribute => attribute.Id == attributeId);
             Attributes.Remove(attribute);
-            var skills = Skills.Where(skill => skill.AttributeTemplateId == attributeId);
+            var skills = Skills.Where(skill => skill.AttributeTemplateId == attributeId).ToList();
             foreach (var skill in skills)
             {
-                Skills.Remove(skill);
+                this.Skills.Remove(skill);
                 foreach (var minorSkill in skill.SpecificSkillTemplates)
                 {
                     skill.SpecificSkillTemplates.Remove(minorSkill);
@@ -120,51 +115,41 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public void RemoveSkill(Guid skillId, RoleRollsDbContext dbContext)
         {
             var skill = Skills.First(skill => skill.Id == skillId);
-            Skills.Remove(skill);
+            this.Skills.Remove(skill);
             dbContext.SkillTemplates.Remove(skill);
         }
 
         public async Task AddSkill(Guid? attributeId, SkillTemplateModel skillModel, RoleRollsDbContext dbContext)
         {
-            if (attributeId.HasValue)
+            var attribute = attributeId.HasValue ? Attributes.First(a => a.Id == attributeId) : null;
+            var skill = new SkillTemplate(attribute, skillModel)
             {
-                var attribute = Attributes.First(attribute => attribute.Id == attributeId);
-                var skill = attribute.AddSkill(skillModel);
-                await dbContext.SkillTemplates.AddAsync(skill);
-            }
-            else
-            {
-                var skill = AddAttributelessSkill(skillModel);
-                await dbContext.SkillTemplates.AddAsync(skill);
-            }
-        }
-
-        public SkillTemplate AddAttributelessSkill(SkillTemplateModel skillModel)
-        {
-            var skill = new SkillTemplate(null, skillModel);
-            AttributelessSkills.Add(skill);
-            return skill;
+                CampaignTemplate = this,
+                CampaignTemplateId = this.Id
+            };
+            this.Skills.Add(skill);
+            await dbContext.SkillTemplates.AddAsync(skill);
         }
 
         public async Task AddMinorSkillAsync(Guid skillId, SpecificSkillTemplateModel specificSkill,
             RoleRollsDbContext dbContext)
         {
             var newMinorSkill = new SpecificSkillTemplate(skillId, specificSkill);
-            var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
+            var skill = Skills.First(skill => skill.Id == skillId);
             await skill.AddMinorSkillAsync(newMinorSkill, dbContext);
         }
 
         public void UpdateMinorSkill(Guid skillId, Guid minorSkillId, SpecificSkillTemplateModel specificSkillModel,
             RoleRollsDbContext dbContext)
         {
-            var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
+            var skill = Skills.First(skill => skill.Id == skillId);
             var minorSkill = skill.SpecificSkillTemplates.First(minorSkill => minorSkill.Id == minorSkillId);
             minorSkill.Update(specificSkillModel, dbContext);
         }
 
         public void RemoveMinorSkill(Guid skillId, Guid minorSkillId, RoleRollsDbContext dbContext)
         {
-            var skill = Skills.Concat(AttributelessSkills).First(skill => skill.Id == skillId);
+            var skill = Skills.First(skill => skill.Id == skillId);
             var minorSkill = skill.SpecificSkillTemplates.First(minorSkill => minorSkill.Id == minorSkillId);
             skill.SpecificSkillTemplates.Remove(minorSkill);
             dbContext.MinorSkillTemplates.Remove(minorSkill);

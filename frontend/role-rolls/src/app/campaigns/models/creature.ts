@@ -10,7 +10,8 @@ export class Creature implements Entity {
   public name!: string;
   public attributes: Attribute[] = [];
   public skills: Skill[] = [];
-  public attributelessSkills: Skill[] = [];
+  // Back-compat: attributeless skills are those without attribute
+  public get attributelessSkills(): Skill[] { return (this.skills ?? []).filter(s => !s.attributeId); }
   public vitalities: Vitality[] = [];
   public defenses: Defense[] = [];
   public category!: CreatureCategory;
@@ -19,6 +20,9 @@ export class Creature implements Entity {
   public ownerId!: string;
   public level!: number;
   public isTemplate!: boolean;
+  public totalSkillsPoints!: number;
+  public maxPointsPerSpecificSkill!: number;
+  public minPointsPerSpecificSkill!: number;
 }
 
 export class Attribute implements Entity {

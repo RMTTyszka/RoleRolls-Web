@@ -29,8 +29,6 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
-                .Include(template => template.AttributelessSkills)
-                .ThenInclude(skill => skill.SpecificSkillTemplates)
                 .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id);
             var output = new CampaignTemplateModel(template);
@@ -83,9 +81,7 @@ namespace RoleRollsPocketEdition.Templates.Services
 
             var skillsToCreate = updatedTemplate.Skills
                 .Where(skill => !template.Skills.Select(s => s.Id).Contains(skill.Id))
-                .Select(skill =>
-                    new SkillTemplate(
-                        attributesToCreate.Concat(attributesToUpdate).First(a => a.Id == skill.AttributeId), skill))
+                .Select(skill => new SkillTemplate(null, skill))
                 .ToList();
             var skillsToUpdate = template.Skills
                 .Where(skill => updatedTemplate.Skills.Select(s => s.Id).Contains(skill.Id)).ToList();
@@ -206,14 +202,6 @@ namespace RoleRollsPocketEdition.Templates.Services
 
         private CreatureTemplateValidationResult ValidateInput(CampaignTemplateModel template)
         {
-            var hasAttribute = template.Skills.All(skill =>
-                template.Attributes.Any(attribute => attribute.Id == skill.AttributeId));
-
-            if (!hasAttribute)
-            {
-                return CreatureTemplateValidationResult.SkillWithoutAttribute;
-            }
-
             return CreatureTemplateValidationResult.Ok;
         }
     }

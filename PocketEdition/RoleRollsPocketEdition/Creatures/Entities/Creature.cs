@@ -25,10 +25,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     {
         public ICollection<Attribute> Attributes { get; set; }
 
-        [NotMapped]
-        public ICollection<Skill> Skills => Attributes.SelectMany(a => a.Skills)
-            .Concat(AttributelessSkills)
-            .ToList();
+        public ICollection<Skill> Skills { get; set; }
 
         public ICollection<Vitality> Vitalities { get; set; }
         public ICollection<Defense> Defenses { get; set; }
@@ -42,6 +39,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public string Name { get; set; }
         public int Level { get; set; }
         public bool IsTemplate { get; set; }
+        
+        [NotMapped]
+        public int TotalSkillsPointsLimit => Skills?.Sum(s => s.PointsLimit) ?? 0;
+        public int MaxPointsPerSpecificSkill => 3 + Level - 1;
+        public int MinPointsPerSpecificSkill => 0;
 
         public CreatureCategory Category { get; set; }
         public Equipment Equipment { get; set; }
@@ -53,12 +55,12 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public Encounter? Encounter { get; set; }
 
         [NotMapped]
-        public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills)
-            .Concat(AttributelessSkills.SelectMany(a => a.SpecificSkills)).ToList();
+        public List<SpecificSkill> SpecificSkills => Skills.SelectMany(s => s.SpecificSkills).ToList();
 
         public Creature()
         {
             Attributes = new List<Attribute>();
+            Skills = new List<Skill>();
             Vitalities = new List<Vitality>();
             Defenses = new List<Defense>();
             Equipment = new Equipment();
@@ -77,8 +79,12 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             CreatureCategory creatureCategory, bool isTemplate)
         {
             var attributes = template.Attributes.Select(attribute => new Attribute(attribute)).ToList();
-            var attributelessSkills =
-                template.AttributelessSkills.Select(skill => new Skill(skill, attributes)).ToList();
+            var creatureSkills = new List<Skill>();
+            foreach (var st in template.Skills)
+            {
+                creatureSkills.Add(new Skill(st, attributes));
+            }
+
             var creature = new Creature
             {
                 Attributes = attributes,
@@ -88,7 +94,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 CreatureTemplateId = template.Id,
                 Category = creatureCategory,
                 IsTemplate = isTemplate,
-                AttributelessSkills = attributelessSkills,
+                Skills = creatureSkills,
                 Id = Guid.NewGuid()
             };
             foreach (var vitality in creature.Vitalities)
@@ -100,7 +106,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return creature;
         }
 
-        public ICollection<Skill> AttributelessSkills { get; set; } = new List<Skill>();
+        // Removed AttributelessSkills; use Skills where Skill.AttributeId may be null
 
         public CreatureUpdateValidationResult Update(CreatureModel creatureModel)
         {
@@ -114,16 +120,31 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     attribute.Update(updatedAttribute);
                 }
 
+                // Validate global minor skills points
+                var allUpdatedSpecifics = creatureModel.Skills.SelectMany(s => s.SpecificSkills).ToList();
+                var totalRequested = allUpdatedSpecifics.Sum(ms => ms.Points);
+                if (totalRequested > TotalSkillsPointsLimit)
+                {
+                    return new CreatureUpdateValidationResult(CreatureUpdateValidation.SkillPointsGreaterThanAllowed,
+                        "Skills");
+                }
+                foreach (var s in allUpdatedSpecifics)
+                {
+                    if (s.Points > MaxPointsPerSpecificSkill || s.Points < MinPointsPerSpecificSkill)
+                    {
+                        return new CreatureUpdateValidationResult(CreatureUpdateValidation.SkillPointsGreaterThanAllowed,
+                            "SpecificSkills");
+                    }
+                }
+
                 foreach (var skill in Skills)
                 {
                     var updatedSkill = creatureModel.Skills.First(sk => sk.SkillTemplateId == skill.SkillTemplateId);
                     var result = skill.Update(updatedSkill);
-                    if (result.Validation == CreatureUpdateValidation.Ok)
+                    if (result.Validation != CreatureUpdateValidation.Ok)
                     {
-                        continue;
+                        return result;
                     }
-
-                    return result;
                 }
 
                 return new CreatureUpdateValidationResult(CreatureUpdateValidation.Ok, null);

@@ -28,7 +28,7 @@ public class LandOfHeroesTemplate
                 CreatureTypeTitle = "Races",
                 Default = true,
                 Attributes = BuildAttributes(),
-                AttributelessSkills = BuildAttributelessSkills(),
+                Skills = BuildSkills(),
                 Vitalities = BuildVitalities(),
                 DamageTypes = BuildDamageTypes(),
                 CreatureTypes = LandOfHeroesRaces.Races,
@@ -79,6 +79,19 @@ public class LandOfHeroesTemplate
                 SpecificSkillTemplates = GetMinorSkills(skill, LandOfHeroesSkills.SkillIds[skill], null)
             };
         }).ToList();
+    }
+
+    private static List<SkillTemplate> BuildSkills()
+    {
+        var result = new List<SkillTemplate>();
+        // attribute-linked skills
+        foreach (var attributeEntry in LandOfHeroesAttributes.AttributeIds)
+        {
+            result.AddRange(GetSkills(attributeEntry.Key, attributeEntry.Value));
+        }
+        // attributeless skills
+        result.AddRange(BuildAttributelessSkills());
+        return result;
     }
 
     private static ItemConfiguration BuildItemConfiguration(CampaignTemplate template)
@@ -158,7 +171,6 @@ public class LandOfHeroesTemplate
         {
             Name = attributeEntry.Key.ToString(),
             Id = attributeEntry.Value,
-            SkillTemplates = GetSkills(attributeEntry.Key, attributeEntry.Value)
         }).ToList();
     }
 

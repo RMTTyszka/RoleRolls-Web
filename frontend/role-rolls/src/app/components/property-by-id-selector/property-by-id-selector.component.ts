@@ -94,13 +94,6 @@ export class PropertyByIdSelectorComponent implements ControlValueAccessor {
         label: a.name,
         value: a.id
       }))
-    ).concat(
-      this.campaign().campaignTemplate.attributelessSkills.flatMap((s: SkillTemplate) =>
-        s.specificSkillTemplates.map((a: SpecificSkillsTemplate) => ({
-          label: a.name,
-          value: a.id
-        }))
-      )
     );
   });
 

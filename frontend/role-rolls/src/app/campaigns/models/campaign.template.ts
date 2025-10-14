@@ -5,12 +5,13 @@ import {ItemConfigurationModel} from '@app/campaigns/models/item-configuration-m
 
 export class CampaignTemplate implements Entity {
   public id: string;
+  public name: string;
   public maxAttributePoints: number = 0;
   public totalAttributePoints: number = 0;
   public totalSkillsPoints: number = 0;
   public attributes: AttributeTemplate[] = [];
   public skills: SkillTemplate[] = [];
-  public attributelessSkills: SkillTemplate[] = [];
+  // Removed back-compat getter; use skills.filter(s => !s.attributeId) where needed
   public vitalities: VitalityTemplate[] = [];
   public defenses: DefenseTemplate[] = [];
   public archetypes: Archetype[] = [];
@@ -34,7 +35,7 @@ export interface SkillTemplate extends Entity {
 
 export interface SpecificSkillsTemplate extends Entity {
   name: string
-  attributeId: string | null;
+  attributeTemplateId: string | null;
   skillTemplateId: string;
 }
 

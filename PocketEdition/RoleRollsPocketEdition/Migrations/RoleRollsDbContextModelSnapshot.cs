@@ -476,9 +476,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AttributeId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("CreatureId")
                         .HasColumnType("uuid");
 
@@ -493,8 +490,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AttributeId");
 
                     b.HasIndex("CreatureId");
 
@@ -972,9 +967,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("TotalAttributePoints")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TotalSkillsPoints")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("CampaignTemplates");
@@ -1013,7 +1005,7 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("AttributeTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CampaignTemplateId")
+                    b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -1407,12 +1399,8 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Skill", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Attribute", "Attribute")
-                        .WithMany("Skills")
-                        .HasForeignKey("AttributeId");
-
                     b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
-                        .WithMany("AttributelessSkills")
+                        .WithMany("Skills")
                         .HasForeignKey("CreatureId");
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
@@ -1420,8 +1408,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasForeignKey("SkillTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Attribute");
 
                     b.Navigation("SkillTemplate");
                 });
@@ -1991,23 +1977,25 @@ namespace RoleRollsPocketEdition.Migrations
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "AttributeTemplate")
-                        .WithMany("SkillTemplates")
-                        .HasForeignKey("AttributeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AttributeTemplateId");
 
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
-                        .WithMany("AttributelessSkills")
-                        .HasForeignKey("CampaignTemplateId");
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
+                        .WithMany("Skills")
+                        .HasForeignKey("CampaignTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AttributeTemplate");
+
+                    b.Navigation("CampaignTemplate");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.SpecificSkillTemplate", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "AttributeTemplate")
-                        .WithMany("SpecificSkillTemplates")
-                        .HasForeignKey("AttributeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AttributeTemplateId");
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
                         .WithMany("SpecificSkillTemplates")
@@ -2058,15 +2046,11 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
                 {
-                    b.Navigation("Skills");
-
                     b.Navigation("SpecificSkills");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
                 {
-                    b.Navigation("AttributelessSkills");
-
                     b.Navigation("Attributes");
 
                     b.Navigation("Bonuses");
@@ -2080,6 +2064,8 @@ namespace RoleRollsPocketEdition.Migrations
                         .IsRequired();
 
                     b.Navigation("Powers");
+
+                    b.Navigation("Skills");
 
                     b.Navigation("Vitalities");
                 });
@@ -2125,17 +2111,11 @@ namespace RoleRollsPocketEdition.Migrations
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", b =>
                 {
                     b.Navigation("Attributes");
-
-                    b.Navigation("SkillTemplates");
-
-                    b.Navigation("SpecificSkillTemplates");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", b =>
                 {
                     b.Navigation("Archetypes");
-
-                    b.Navigation("AttributelessSkills");
 
                     b.Navigation("Attributes");
 
@@ -2151,6 +2131,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Navigation("ItemConfiguration")
                         .IsRequired();
+
+                    b.Navigation("Skills");
 
                     b.Navigation("Vitalities");
                 });

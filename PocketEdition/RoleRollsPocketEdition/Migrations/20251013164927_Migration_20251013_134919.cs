@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace RoleRollsPocketEdition.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Migration_20251013_134919 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +16,7 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     Default = table.Column<bool>(type: "boolean", nullable: false),
                     CreatureTypeTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     ArchetypeTitle = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
@@ -30,52 +29,13 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InboxState",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ConsumerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LockId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: true),
-                    Received = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ReceiveCount = table.Column<int>(type: "integer", nullable: false),
-                    ExpirationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Consumed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Delivered = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    LastSequenceNumber = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InboxState", x => x.Id);
-                    table.UniqueConstraint("AK_InboxState_MessageId_ConsumerId", x => new { x.MessageId, x.ConsumerId });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OutboxState",
-                columns: table => new
-                {
-                    OutboxId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LockId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Delivered = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    LastSequenceNumber = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OutboxState", x => x.OutboxId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Login = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Email = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Password = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
+                    Login = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Email = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Password = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,8 +47,9 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Details = table.Column<byte[]>(type: "bytea", nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -107,7 +68,7 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -127,7 +88,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MasterId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
                     InvitationSecret = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -147,8 +108,8 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CanBeAlly = table.Column<bool>(type: "boolean", nullable: false),
                     CanBeEnemy = table.Column<bool>(type: "boolean", nullable: false),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -169,7 +130,7 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -188,8 +149,8 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -209,36 +170,38 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ArmorProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ArmorProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     ArmorProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    BasicAttackTargetFirstVitality_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BasicAttackTargetFirstVitality_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     BasicAttackTargetFirstVitality_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeLightWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeLightWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeLightWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeMediumWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeMediumWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeMediumWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeHeavyWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeHeavyWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeHeavyWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeLightWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeLightWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeLightWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeMediumWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeMediumWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeMediumWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    MeleeHeavyWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MeleeHeavyWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     MeleeHeavyWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedLightWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedLightWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedLightWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedMediumWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedMediumWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedMediumWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedHeavyWeaponHitProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedHeavyWeaponHitProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedHeavyWeaponHitProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedLightWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedLightWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedLightWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedMediumWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedMediumWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedMediumWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    RangedHeavyWeaponDamageProperty_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RangedHeavyWeaponDamageProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
                     RangedHeavyWeaponDamageProperty_Type = table.Column<int>(type: "integer", nullable: true),
-                    BasicAttackTargetSecondVitality_PropertyId = table.Column<Guid>(type: "uuid", nullable: true),
-                    BasicAttackTargetSecondVitality_Type = table.Column<int>(type: "integer", nullable: true)
+                    BasicAttackTargetSecondVitality_Id = table.Column<Guid>(type: "uuid", nullable: true),
+                    BasicAttackTargetSecondVitality_Type = table.Column<int>(type: "integer", nullable: true),
+                    BlockProperty_Id = table.Column<Guid>(type: "uuid", nullable: true),
+                    BlockProperty_Type = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -252,12 +215,43 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PowerTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    PowerDurationType = table.Column<int>(type: "integer", nullable: false),
+                    Duration = table.Column<int>(type: "integer", nullable: true),
+                    ActionType = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    CastFormula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    CastDescription = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    UseAttributeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    TargetDefenseId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UsagesFormula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    UsageType = table.Column<int>(type: "integer", nullable: true),
+                    TargetType = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PowerTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PowerTemplates_CampaignTemplates_CampaignTemplateId",
+                        column: x => x.CampaignTemplateId,
+                        principalTable: "CampaignTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VitalityTemplates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -272,45 +266,25 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OutboxMessage",
+                name: "ArchertypePowerDescriptions",
                 columns: table => new
                 {
-                    SequenceNumber = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EnqueueTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    SentTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Headers = table.Column<string>(type: "text", nullable: true),
-                    Properties = table.Column<string>(type: "text", nullable: true),
-                    InboxMessageId = table.Column<Guid>(type: "uuid", nullable: true),
-                    InboxConsumerId = table.Column<Guid>(type: "uuid", nullable: true),
-                    OutboxId = table.Column<Guid>(type: "uuid", nullable: true),
-                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ContentType = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    MessageType = table.Column<string>(type: "text", nullable: false),
-                    Body = table.Column<string>(type: "text", nullable: false),
-                    ConversationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    InitiatorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RequestId = table.Column<Guid>(type: "uuid", nullable: true),
-                    SourceAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    DestinationAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ResponseAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    FaultAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ExpirationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ArchetypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Description = table.Column<byte[]>(type: "bytea", nullable: true),
+                    GameDescription = table.Column<byte[]>(type: "bytea", nullable: true),
+                    RequiredLevel = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OutboxMessage", x => x.SequenceNumber);
+                    table.PrimaryKey("PK_ArchertypePowerDescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OutboxMessage_InboxState_InboxMessageId_InboxConsumerId",
-                        columns: x => new { x.InboxMessageId, x.InboxConsumerId },
-                        principalTable: "InboxState",
-                        principalColumns: new[] { "MessageId", "ConsumerId" });
-                    table.ForeignKey(
-                        name: "FK_OutboxMessage_OutboxState_OutboxId",
-                        column: x => x.OutboxId,
-                        principalTable: "OutboxState",
-                        principalColumn: "OutboxId");
+                        name: "FK_ArchertypePowerDescriptions_Archetypes_ArchetypeId",
+                        column: x => x.ArchetypeId,
+                        principalTable: "Archetypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -318,9 +292,9 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    CampaignTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -329,13 +303,13 @@ namespace RoleRollsPocketEdition.Migrations
                         name: "FK_SkillTemplates_AttributeTemplates_AttributeTemplateId",
                         column: x => x.AttributeTemplateId,
                         principalTable: "AttributeTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_SkillTemplates_CampaignTemplates_CampaignTemplateId",
                         column: x => x.CampaignTemplateId,
                         principalTable: "CampaignTemplates",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -364,7 +338,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -383,7 +357,7 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CampaignId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -398,63 +372,54 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PowerTemplates",
+                name: "ItemTemplates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    PowerId = table.Column<Guid>(type: "uuid", nullable: true),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    PowerDurationType = table.Column<int>(type: "integer", nullable: false),
-                    Duration = table.Column<int>(type: "integer", nullable: true),
-                    ActionType = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    CastFormula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    CastDescription = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    UseAttributeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    TargetDefenseId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UsagesFormula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    UsageType = table.Column<int>(type: "integer", nullable: true)
+                    CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ItemType = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    Category = table.Column<int>(type: "integer", nullable: true),
+                    Slot = table.Column<int>(type: "integer", nullable: true),
+                    WeaponTemplate_Category = table.Column<int>(type: "integer", nullable: true),
+                    DamageType = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PowerTemplates", x => x.Id);
+                    table.PrimaryKey("PK_ItemTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PowerTemplates_Campaigns_CampaignId",
+                        name: "FK_ItemTemplates_Campaigns_CampaignId",
                         column: x => x.CampaignId,
                         principalTable: "Campaigns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemTemplates_PowerTemplates_PowerId",
+                        column: x => x.PowerId,
+                        principalTable: "PowerTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bonus",
+                name: "PowerInstance",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
-                    Property_PropertyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Property_Type = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    ValueType = table.Column<int>(type: "integer", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    ArchetypeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatureTypeId = table.Column<Guid>(type: "uuid", nullable: true)
+                    TemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    UsedCharges = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bonus", x => x.Id);
+                    table.PrimaryKey("PK_PowerInstance", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bonus_Archetypes_ArchetypeId",
-                        column: x => x.ArchetypeId,
-                        principalTable: "Archetypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bonus_CreatureTypes_CreatureTypeId",
-                        column: x => x.CreatureTypeId,
-                        principalTable: "CreatureTypes",
+                        name: "FK_PowerInstance_PowerTemplates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "PowerTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -464,8 +429,7 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    AttributeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: true),
                     SkillTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -476,8 +440,7 @@ namespace RoleRollsPocketEdition.Migrations
                         name: "FK_MinorSkillTemplates_AttributeTemplates_AttributeTemplateId",
                         column: x => x.AttributeTemplateId,
                         principalTable: "AttributeTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MinorSkillTemplates_SkillTemplates_SkillTemplateId",
                         column: x => x.SkillTemplateId,
@@ -494,12 +457,13 @@ namespace RoleRollsPocketEdition.Migrations
                     SceneId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActorId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActorType = table.Column<int>(type: "integer", nullable: false),
-                    RolledDices = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    RolledDices = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     NumberOfDices = table.Column<int>(type: "integer", nullable: false),
-                    RollBonus = table.Column<int>(type: "integer", nullable: false),
-                    PropertyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PropertyType = table.Column<int>(type: "integer", nullable: false),
+                    Bonus = table.Column<int>(type: "integer", nullable: false),
+                    Property_Id = table.Column<Guid>(type: "uuid", nullable: true),
+                    Property_Type = table.Column<int>(type: "integer", nullable: true),
                     NumberOfSuccesses = table.Column<int>(type: "integer", nullable: false),
+                    NumberOfRollSuccesses = table.Column<int>(type: "integer", nullable: false),
                     NumberOfCriticalSuccesses = table.Column<int>(type: "integer", nullable: false),
                     NumberOfCriticalFailures = table.Column<int>(type: "integer", nullable: false),
                     Difficulty = table.Column<int>(type: "integer", nullable: false),
@@ -507,7 +471,9 @@ namespace RoleRollsPocketEdition.Migrations
                     Success = table.Column<bool>(type: "boolean", nullable: false),
                     Hidden = table.Column<bool>(type: "boolean", nullable: false),
                     DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Advantage = table.Column<int>(type: "integer", nullable: false),
+                    Luck = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -528,7 +494,7 @@ namespace RoleRollsPocketEdition.Migrations
                     ActorId = table.Column<Guid>(type: "uuid", nullable: false),
                     SceneId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActorType = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -570,9 +536,12 @@ namespace RoleRollsPocketEdition.Migrations
                     CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatureTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     Level = table.Column<int>(type: "integer", nullable: false),
                     IsTemplate = table.Column<bool>(type: "boolean", nullable: false),
+                    TotalSkillsPointsLimit = table.Column<int>(type: "integer", nullable: false),
+                    MaxPointsPerSpecificSkill = table.Column<int>(type: "integer", nullable: false),
+                    MinPointsPerSpecificSkill = table.Column<int>(type: "integer", nullable: false),
                     Category = table.Column<int>(type: "integer", nullable: false),
                     CreatureTypeId = table.Column<Guid>(type: "uuid", nullable: true),
                     ArchetypeId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -608,65 +577,12 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    PowerId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    CampaignId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ItemType = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    Category = table.Column<int>(type: "integer", nullable: true),
-                    Slot = table.Column<int>(type: "integer", nullable: true),
-                    WeaponTemplate_Category = table.Column<int>(type: "integer", nullable: true),
-                    DamageType = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemTemplates_Campaigns_CampaignId",
-                        column: x => x.CampaignId,
-                        principalTable: "Campaigns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ItemTemplates_PowerTemplates_PowerId",
-                        column: x => x.PowerId,
-                        principalTable: "PowerTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PowerInstance",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    UsedCharges = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PowerInstance", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PowerInstance_PowerTemplates_TemplateId",
-                        column: x => x.TemplateId,
-                        principalTable: "PowerTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Attributes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Points = table.Column<int>(type: "integer", nullable: false),
                     CreatureId = table.Column<Guid>(type: "uuid", nullable: false),
                     AttributeTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -685,6 +601,53 @@ namespace RoleRollsPocketEdition.Migrations
                         principalTable: "Creatures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bonus",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
+                    Property_Id = table.Column<Guid>(type: "uuid", nullable: true),
+                    Property_Type = table.Column<int>(type: "integer", nullable: true),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Application = table.Column<int>(type: "integer", nullable: false),
+                    Origin = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Target = table.Column<int>(type: "integer", nullable: false),
+                    ArchetypeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatureId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatureTypeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PowerTemplateId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bonus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bonus_Archetypes_ArchetypeId",
+                        column: x => x.ArchetypeId,
+                        principalTable: "Archetypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bonus_CreatureTypes_CreatureTypeId",
+                        column: x => x.CreatureTypeId,
+                        principalTable: "CreatureTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bonus_Creatures_CreatureId",
+                        column: x => x.CreatureId,
+                        principalTable: "Creatures",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bonus_PowerTemplates_PowerTemplateId",
+                        column: x => x.PowerTemplateId,
+                        principalTable: "PowerTemplates",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -718,8 +681,8 @@ namespace RoleRollsPocketEdition.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Formula = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CreatureId = table.Column<Guid>(type: "uuid", nullable: false),
                     DefenseTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -759,12 +722,38 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    Points = table.Column<int>(type: "integer", nullable: false),
+                    SkillTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatureId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Skills_Creatures_CreatureId",
+                        column: x => x.CreatureId,
+                        principalTable: "Creatures",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Skills_SkillTemplates_SkillTemplateId",
+                        column: x => x.SkillTemplateId,
+                        principalTable: "SkillTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Vitalities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     CreatureId = table.Column<Guid>(type: "uuid", nullable: false),
                     VitalityTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -786,38 +775,11 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Skills",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
-                    AttributeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SkillTemplateId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skills", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Skills_Attributes_AttributeId",
-                        column: x => x.AttributeId,
-                        principalTable: "Attributes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Skills_SkillTemplates_SkillTemplateId",
-                        column: x => x.SkillTemplateId,
-                        principalTable: "SkillTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ItemInstances",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     PowerInstanceId = table.Column<Guid>(type: "uuid", nullable: true),
                     Level = table.Column<int>(type: "integer", nullable: false),
                     TemplateId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -853,9 +815,9 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     SpecificSkillTemplateId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    Name = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
                     Points = table.Column<int>(type: "integer", nullable: false),
-                    SkillId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SkillId = table.Column<Guid>(type: "uuid", nullable: false),
                     AttributeId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -897,7 +859,8 @@ namespace RoleRollsPocketEdition.Migrations
                     WaistId = table.Column<Guid>(type: "uuid", nullable: true),
                     NeckId = table.Column<Guid>(type: "uuid", nullable: true),
                     LeftRingId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RightRingId = table.Column<Guid>(type: "uuid", nullable: true)
+                    RightRingId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GripType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -977,6 +940,11 @@ namespace RoleRollsPocketEdition.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ArchertypePowerDescriptions_ArchetypeId",
+                table: "ArchertypePowerDescriptions",
+                column: "ArchetypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Archetypes_CampaignTemplateId",
                 table: "Archetypes",
                 column: "CampaignTemplateId");
@@ -1002,9 +970,19 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "ArchetypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bonus_CreatureId",
+                table: "Bonus",
+                column: "CreatureId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bonus_CreatureTypeId",
                 table: "Bonus",
                 column: "CreatureTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bonus_PowerTemplateId",
+                table: "Bonus",
+                column: "PowerTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CampaignPlayers_CampaignId",
@@ -1154,11 +1132,6 @@ namespace RoleRollsPocketEdition.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_InboxState_Delivered",
-                table: "InboxState",
-                column: "Delivered");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Inventory_CreatureId",
                 table: "Inventory",
                 column: "CreatureId",
@@ -1221,41 +1194,14 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "SkillTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OutboxMessage_EnqueueTime",
-                table: "OutboxMessage",
-                column: "EnqueueTime");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OutboxMessage_ExpirationTime",
-                table: "OutboxMessage",
-                column: "ExpirationTime");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OutboxMessage_InboxMessageId_InboxConsumerId_SequenceNumber",
-                table: "OutboxMessage",
-                columns: new[] { "InboxMessageId", "InboxConsumerId", "SequenceNumber" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OutboxMessage_OutboxId_SequenceNumber",
-                table: "OutboxMessage",
-                columns: new[] { "OutboxId", "SequenceNumber" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OutboxState_Created",
-                table: "OutboxState",
-                column: "Created");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PowerInstance_TemplateId",
                 table: "PowerInstance",
                 column: "TemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PowerTemplates_CampaignId",
+                name: "IX_PowerTemplates_CampaignTemplateId",
                 table: "PowerTemplates",
-                column: "CampaignId");
+                column: "CampaignTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rolls_SceneId",
@@ -1273,9 +1219,9 @@ namespace RoleRollsPocketEdition.Migrations
                 column: "SceneId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skills_AttributeId",
+                name: "IX_Skills_CreatureId",
                 table: "Skills",
-                column: "AttributeId");
+                column: "CreatureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Skills_SkillTemplateId",
@@ -1312,6 +1258,9 @@ namespace RoleRollsPocketEdition.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ArchertypePowerDescriptions");
+
+            migrationBuilder.DropTable(
                 name: "Bonus");
 
             migrationBuilder.DropTable(
@@ -1336,9 +1285,6 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "MinorSkills");
 
             migrationBuilder.DropTable(
-                name: "OutboxMessage");
-
-            migrationBuilder.DropTable(
                 name: "Rolls");
 
             migrationBuilder.DropTable(
@@ -1360,16 +1306,13 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "ItemInstances");
 
             migrationBuilder.DropTable(
+                name: "Attributes");
+
+            migrationBuilder.DropTable(
                 name: "MinorSkillTemplates");
 
             migrationBuilder.DropTable(
                 name: "Skills");
-
-            migrationBuilder.DropTable(
-                name: "InboxState");
-
-            migrationBuilder.DropTable(
-                name: "OutboxState");
 
             migrationBuilder.DropTable(
                 name: "CampaignScenes");
@@ -1387,16 +1330,13 @@ namespace RoleRollsPocketEdition.Migrations
                 name: "PowerInstance");
 
             migrationBuilder.DropTable(
-                name: "Attributes");
-
-            migrationBuilder.DropTable(
                 name: "SkillTemplates");
 
             migrationBuilder.DropTable(
-                name: "PowerTemplates");
+                name: "Creatures");
 
             migrationBuilder.DropTable(
-                name: "Creatures");
+                name: "PowerTemplates");
 
             migrationBuilder.DropTable(
                 name: "AttributeTemplates");

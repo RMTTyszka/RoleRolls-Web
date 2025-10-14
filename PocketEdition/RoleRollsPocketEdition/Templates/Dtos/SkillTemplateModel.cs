@@ -13,7 +13,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         {
             Id = skill.Id;
             Name = skill.Name;
-            AttributeId = skill.AttributeTemplateId;
             PointsLimit = skill.PointsLimit;
             SpecificSkillTemplates = skill.SpecificSkillTemplates.OrderBy(e => e.Name)
                 .Select(minorSkill => new SpecificSkillTemplateModel(minorSkill)).ToList();
@@ -21,7 +20,6 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
         public string Name { get; set; }
         public Guid Id { get; set; }
-        public Guid? AttributeId { get; set; }
 
         public List<SpecificSkillTemplateModel> SpecificSkillTemplates { get; set; }
         public int PointsLimit { get; init; }

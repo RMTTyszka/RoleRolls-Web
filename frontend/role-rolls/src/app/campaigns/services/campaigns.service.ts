@@ -99,9 +99,7 @@ export class CampaignsService {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}`);
    }
 
-   public addSkill(campaignId: string, attributeId: string, skill: SkillTemplate): Observable<never> {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills`, skill);
-   }
+   // Unified skill endpoints (use attributeless routes)
    public addAttributelessSkill(campaignId: string, skill: SkillTemplate): Observable<never> {
     return this.http.post<never>(`${this.completePath}/${campaignId}/attributeless-skills`, skill);
    }
@@ -111,23 +109,16 @@ export class CampaignsService {
    public removeAttributelessSkill(campaignId: string, skill: SkillTemplate): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skill.id}`);
    }
-   public updateSkill(campaignId: string, attributeId: string, skillId: string, skill: SkillTemplate): Observable<never> {
-    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`, skill);
-   }
-   public removeSkill(campaignId: string, attributeId: string, skillId: string): Observable<never> {
-    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}`);
-   }
-
-
-   public addSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
-    return this.http.post<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills`, specificSkill);
+   // Minor skills under unified route
+   public addSpecificSkill(campaignId: string, skillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skillId}/minor-skills`, specificSkill);
   }
 
-   public updateSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
-    return this.http.put<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${specificSkillId}`, specificSkill);
+   public updateSpecificSkill(campaignId: string, skillId: string, specificSkillId: string, specificSkill: SpecificSkillsTemplate): Observable<never> {
+    return this.http.put<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skillId}/minor-skills/${specificSkillId}`, specificSkill);
   }
-   public removeSpecificSkill(campaignId: string, attributeId: string, skillId: string, specificSkillId: string): Observable<never> {
-    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributes/${attributeId}/skills/${skillId}/minor-skills/${specificSkillId}`);
+   public removeSpecificSkill(campaignId: string, skillId: string, specificSkillId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/attributeless-skills/${skillId}/minor-skills/${specificSkillId}`);
   }
 
   public addVitality(campaignId: string, vitality: VitalityTemplate): Observable<never> {

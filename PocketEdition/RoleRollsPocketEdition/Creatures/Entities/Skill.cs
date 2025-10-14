@@ -8,25 +8,21 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     {
         public string Name { get; set; }
         public int Points { get; set; }
-        public Guid? AttributeId { get; set; }
-        public Attribute? Attribute { get; set; }
         public Guid SkillTemplateId { get; set; }
         public SkillTemplate SkillTemplate { get; set; }
         public List<SpecificSkill> SpecificSkills { get; set; }
 
         public int PointsLimit => Math.Max(3 + SpecificSkills.Count - 1, 0);
         public int UsedPoints => SpecificSkills.Sum(minorSkill => minorSkill.Points);
-        public int TotalValue => Points + PointsLimit;
 
         public Skill()
         {
         }
 
-        public Skill(SkillTemplate skill, Attribute? attribute)
+        public Skill(SkillTemplate skill)
         {
             Id = Guid.NewGuid();
             Name = skill.Name;
-            AttributeId = attribute?.Id;
             SkillTemplateId = skill.Id;
             SkillTemplate = skill;
             SpecificSkills = skill.SpecificSkillTemplates.Select(minorSkill => new SpecificSkill(minorSkill, this, []))
@@ -39,8 +35,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 
             Id = Guid.NewGuid();
             Name = skillTemplate.Name;
-            AttributeId = attribute?.Id;
-            Attribute = attribute;
             SkillTemplateId = skillTemplate.Id;
             SkillTemplate = skillTemplate;
             SpecificSkills = skillTemplate.SpecificSkillTemplates
@@ -54,13 +48,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             {
                 var updatedMinorSkill = updatedSkill.SpecificSkills.First(minorsk =>
                     minorsk.SpecificSkillTemplateId == minorSkill.SpecificSkillTemplateId);
-                var totalPointAfterUpdate = UsedPoints - minorSkill.Points + updatedMinorSkill.Points;
-                if (totalPointAfterUpdate > PointsLimit)
-                {
-                    return new CreatureUpdateValidationResult(CreatureUpdateValidation.SkillPointsGreaterThanAllowed,
-                        Name);
-                }
-
                 minorSkill.Update(updatedMinorSkill.Points);
             }
 

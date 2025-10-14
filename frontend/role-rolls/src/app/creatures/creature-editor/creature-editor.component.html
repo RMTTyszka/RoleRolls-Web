@@ -1,4 +1,4 @@
-<div class="modal-container">
+﻿<div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
@@ -27,86 +27,43 @@
         </p-panel>
         <p-panel [toggleable]="true">
           <ng-template #header class="flex justify-between items-center w-full">
-            <span class="text-lg font-semibold">Skills</span>
+            <span class="text-lg font-semibold">
+              {{ usedSkillPoints }}/{{ totalSkillPoints }}
+              <span class="ml-2 text-sm opacity-80">(Remaining: {{ remainingSkillPoints }})</span>
+            </span>
           </ng-template>
-          <div formArrayName="attributes">
-            <div *ngFor="let attribute of attributes.controls; let i=index">
-              <p-panel [toggleable]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" [collapsed]=true toggler="header">
-                <ng-template #header class="flex justify-between items-center w-full">
-                  <span class="font-semibold">{{attribute.get('name').value}}</span>
-                </ng-template>
-                <div class="flex justify-between gap-2">
-                  <div class="flex-1">
-                    <div *ngFor="let skill of attributeSkills(attribute.get('id')?.value)?.controls; let skillIndex=index">
-                      <div form [formGroup]="skill">
-                        <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                          <ng-template #header>
-                            <div class="flex justify-between items-center w-full">
-                              <div class="flex gap-2 w-1/3">
-                                <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                              </div>
-                              <div class="flex items-center gap-2 w-1/3">
-                                <span>Remaining Points </span>
-                                <input type="text" pInputText formControlName="remainingPoints" required>
-                              </div>
-                            </div>
-                          </ng-template>
-                          <div class="flex justify-between gap-2">
-                            <div class="flex-1" form [formGroup]="skill">
-                              <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
-                                <div form [formGroup]="specificSkill">
-                                  <div class="p-inputgroup">
-                                    <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                                    <span class="p-inputgroup-addon">
-                                      <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()">
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+          <div formArrayName="skills">
+            <div *ngFor="let skill of skills.controls; let skillIndex=index">
+              <div form [formGroup]="skill">
+                <p-panel [toggleable]="true" [collapsed]="false" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+                  <ng-template #header>
+                    <div class="flex justify-between items-center w-full">
+                      <div class="flex gap-2 w-1/3">
+                        <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                      </div>
+                      <div class="flex items-center gap-2 w-1/3">
+                        <span>{{ remainingSkillPoints }}</span>
+                        <span class="opacity-70 text-sm">/ {{ totalSkillPoints }}</span>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <div class="flex justify-between gap-2">
+                    <div class="flex-1" form [formGroup]="skill">
+                      <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
+                        <div form [formGroup]="specificSkill" class="pb-1">
+                          <div class="p-inputgroup">
+                            <input type="text" pInputText placeholder="Name" formControlName="name" required>
+                            <span class="p-inputgroup-addon">
+                              <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" [attr.min]="-1" [attr.max]="getSpecificSkillMax(skill, specificSkill)">
+                              <button type="button" class="p-button p-component" (click)="incrementSpecific(skill, specificSkill)">+</button>
+                              <button type="button" class="p-button p-component" (click)="decrementSpecific(skill, specificSkill)">-</button>
+                            </span>
                           </div>
-                        </p-panel>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-              </p-panel>
-
-            </div>
-            <div class="p-grid p-justify-between p-align-start p-nogutter">
-              <div class="col-6">
-                <div *ngFor="let skill of attributeSkills('attributelessSkills')?.controls; let skillIndex=index">
-                  <div form [formGroup]="skill">
-                    <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-                      <ng-template #header>
-                        <div class="flex justify-between items-center w-full">
-                          <div class="flex gap-2 w-1/3">
-                            <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                          </div>
-                          <div class="flex items-center gap-2 w-1/3">
-                            <span>Remaining Points </span>
-                            <input type="text" pInputText formControlName="remainingPoints" required>
-                          </div>
-                        </div>
-                      </ng-template>
-                      <div class="flex justify-between gap-2">
-                        <div class="flex-1" form [formGroup]="skill">
-                          <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
-                            <div form [formGroup]="specificSkill">
-                              <div class="p-inputgroup">
-                                <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                                <span class="p-inputgroup-addon">
-                                      <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" (blur)="print()">
-                                    </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </p-panel>
-                  </div>
-                </div>
+                </p-panel>
               </div>
             </div>
           </div>
@@ -159,3 +116,5 @@
   <button class="p-button p-component" style="display: flex; flex: initial" (click)="save()" [disabled]="!canSave()">Save</button>
 </div>
 <p-message></p-message>
+
+

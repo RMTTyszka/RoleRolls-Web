@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+﻿import { ChangeDetectorRef, Component } from '@angular/core';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { EditorAction } from '@app/models/EntityActionData';
@@ -95,15 +95,39 @@ export class CreatureEditorComponent {
   // public template: PocketCreature;
   public creature: Creature;
   public editorAction: EditorAction;
-  public skillsMapping = new Map<string, FormArray<FormGroup>>();
   public minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
   public creatureId: string;
   public creatureCategory: CreatureCategory;
 
   private subscriptionManager = new SubscriptionManager();
 
-  public attributeSkills(attributeId: string): FormArray<FormGroup> {
-    return this.skillsMapping.get(attributeId);
+  // attributeSkills mapping removed; iterate directly over skills FormArray in template
+
+  public get totalSkillPoints(): number {
+    const raw = this.form?.get('totalSkillsPoints')?.value;
+    const source = (raw === '' || raw === null || raw === undefined)
+      ? this.creature?.totalSkillsPoints
+      : raw;
+    const n = Number(source);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  public get usedSkillPoints(): number {
+    if (!this.form) { return 0; }
+    const allSkills = (this.form.get('skills') as FormArray<FormGroup>)?.controls ?? [];
+    return allSkills
+      .flatMap((s: FormGroup) => (s.get('specificSkills') as FormArray)?.controls ?? [])
+      .map((c: AbstractControl) => Number(c.get('points').value))
+      .reduce((prev: number, cur: number) => prev + cur, 0);
+  }
+
+  public get remainingSkillPoints(): number {   const rem = this.totalSkillPoints - this.usedSkillPoints;   return Math.max(0, rem); }
+
+  public getSpecificSkillMax(skill: FormGroup, specificSkill: FormGroup): number {
+    const maxPer = Number(this.creature?.maxPointsPerSpecificSkill ?? this.form?.get('maxPointsPerSpecificSkill')?.value ?? 0);
+    const current = Number(specificSkill?.get('points')?.value ?? 0);
+    const remaining = Math.max(this.remainingSkillPoints, 0);
+    return Math.min(maxPer, current + remaining);
   }
 
   ngOnDestroy(): void {
@@ -131,10 +155,49 @@ export class CreatureEditorComponent {
       (skill.get('specificSkills') as FormArray).controls.forEach(specificSkill => {
         specificSkill.get('name').disable();
         // specificSkill.get('points').setValidators([Validators.max(3),  Validators.min(-1)]);
-        this.subscriptionManager.add(specificSkill.get('name').value, specificSkill.get('points').valueChanges.subscribe(() => {
-          this.setRemainingPoints(skill);
-          skill.get('usedPoints').updateValueAndValidity();
-        }));
+        this.subscriptionManager.add(specificSkill.get('name').value, specificSkill.get('points').valueChanges.subscribe((val) => {
+  const v = Number(val ?? 0);
+
+  // Total limit (from form or creature)
+  const rawLimit = this.form.get('totalSkillsPoints')?.value;
+  const limitSource = (rawLimit === '' || rawLimit === null || rawLimit === undefined)
+    ? this.creature.totalSkillsPoints
+    : rawLimit;
+  const totalLimit = Number(limitSource);
+
+  // Sum used AFTER this change (replace this control's value with v)
+  const allSkills = (this.form.get('skills') as FormArray<FormGroup>).controls;
+  const totalUsedAfter = allSkills
+    .flatMap((s: FormGroup) => (s.get('specificSkills') as FormArray).controls)
+    .map((c: AbstractControl) => {
+      if (c === specificSkill) {
+        return Number.isFinite(v) ? v : 0;
+      }
+      const n = Number(c.get('points')?.value);
+      return Number.isFinite(n) ? n : 0;
+    })
+    .reduce((prev: number, cur: number) => prev + cur, 0);
+
+  let clamped = v;
+
+  // Reduce the edited value by overflow so remaining never goes below zero
+  const overflow = totalUsedAfter - totalLimit;
+  if (overflow > 0) {
+    clamped = v - overflow;
+  }
+
+  // Per-specific caps and minimum
+  const maxPer = Number(this.creature?.maxPointsPerSpecificSkill ?? this.form?.get('maxPointsPerSpecificSkill')?.value ?? 0);
+  if (clamped > maxPer) { clamped = maxPer; }
+  if (clamped < this.creature.minPointsPerSpecificSkill) { clamped = this.creature.minPointsPerSpecificSkill; }
+
+  if (clamped !== v) {
+    specificSkill.get('points').setValue(clamped, { emitEvent: false });
+  }
+
+  this.setRemainingPoints(skill as FormGroup);
+  skill.get('usedPoints').updateValueAndValidity();
+}));
       });
     });
     this.buildSkills();
@@ -145,7 +208,7 @@ export class CreatureEditorComponent {
   }
 
   public print() {
-    console.log(this.form);
+   // console.log(this.form);
   }
 
   public canSave() {
@@ -174,33 +237,37 @@ export class CreatureEditorComponent {
   }
 
   private setRemainingPoints(skill: FormGroup): void {
-    const value = (skill.get('specificSkills') as FormArray).controls
-      .map((control: AbstractControl) => Number(control.get('points').value))
-      .reduce((previous: number, current: number) => current + previous, 0);
-    const maxPoints = skill.get('pointsLimit').value;
-    skill.get('remainingPoints').setValue(maxPoints - value);
+    // Global remaining points across all skills
+    const allSkills = (this.form.get('skills') as FormArray<FormGroup>).controls;
+    const totalUsed = allSkills
+      .flatMap((s: FormGroup) => (s.get('specificSkills') as FormArray).controls)
+      .map((c: AbstractControl) => {
+        const v = c.get('points')?.value;
+        const n = Number(v);
+        return Number.isFinite(n) ? n : 0;
+      })
+      .reduce((prev: number, cur: number) => prev + cur, 0);
+    const rawLimit = this.form.get('totalSkillsPoints')?.value;
+    const limitSource = (rawLimit === '' || rawLimit === null || rawLimit === undefined)
+      ? this.creature.totalSkillsPoints
+      : rawLimit;
+    const totalLimit = Number(limitSource);
+    const remaining = totalLimit - totalUsed;
+    skill.get('remainingPoints').setValue(remaining);
   }
 
   private buildSkills() {
-    this.creature.attributes.forEach(attribute => {
-      this.skillsMapping.set(attribute.id, new FormArray([]));
-    });
-    this.skillsMapping.set('attributelessSkills', new FormArray([]));
+    // Build minorsSkillBySkill map for quick access in template
+    this.minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
     this.creature.skills.forEach(skill => {
       const skillForm = (this.form.get('skills') as FormArray<FormGroup>).controls
-        .filter(control => control.get('skillTemplateId').value === skill.skillTemplateId)[0];
-      if (skill.attributeId) {
-        this.skillsMapping.get(skill.attributeId).push(skillForm);
-      } else {
-        this.skillsMapping.get('attributelessSkills').push(skillForm);
-      }
-      this.minorsSkillBySkill.set(skill.id, new FormArray([]));
-      const specificSkills = this.minorsSkillBySkill.get(skill.id);
-      skill.specificSkills.forEach(specificSkill => {
-        const specificSkillForm = (skillForm.get('specificSkills') as FormArray<FormGroup>).controls
-          .filter(control => control.get('specificSkillTemplateId').value == specificSkill.specificSkillTemplateId)[0];
-        specificSkills.push(specificSkillForm);
+        .find(control => control.get('skillTemplateId').value === skill.skillTemplateId);
+      if (!skillForm) { return; }
+      const specificSkillsArray = new FormArray<FormGroup>([]);
+      (skillForm.get('specificSkills') as FormArray<FormGroup>).controls.forEach(specificSkillForm => {
+        specificSkillsArray.push(specificSkillForm);
       });
+      this.minorsSkillBySkill.set(skill.id, specificSkillsArray);
     });
   }
 
@@ -213,10 +280,25 @@ export class CreatureEditorComponent {
     }));
   }
 
-  protected readonly PropertyType = PropertyType;
+
+  public incrementSpecific(skill: FormGroup, specificSkill: FormGroup): void {
+    const ctrl = specificSkill.get('points');
+    const current = Number(ctrl?.value ?? 0);
+    const proposed = current + 1;
+    ctrl?.setValue(proposed);
+  }
+
+  public decrementSpecific(skill: FormGroup, specificSkill: FormGroup): void {
+    const ctrl = specificSkill.get('points');
+    const current = Number(ctrl?.value ?? 0);
+    const proposed = current - 1;
+    ctrl?.setValue(proposed);
+  }  protected readonly PropertyType = PropertyType;
 }
 const validateSkillValue: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const pointsLimit = Number(control.get('pointsLimit').value);
-  const usedPoints = Number(control.get('usedPoints').value);
-  return usedPoints > pointsLimit ? { invalidPoints: true } : null;
+  // Validation now handled at creature-level server-side. Always valid here.
+  return null;
 };
+
+
+

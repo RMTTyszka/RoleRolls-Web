@@ -12,186 +12,18 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    [Migration("20250507152226_Migration_20250507_122220")]
-    partial class Migration_20250507_122220
+    [Migration("20251013164927_Migration_20251013_134919")]
+    partial class Migration_20251013_134919
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime?>("Consumed")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("ConsumerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Delivered")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long?>("LastSequenceNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("LockId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("ReceiveCount")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Received")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Delivered");
-
-                    b.ToTable("InboxState");
-                });
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
-                {
-                    b.Property<long>("SequenceNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("SequenceNumber"));
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid?>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CorrelationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("DestinationAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<DateTime?>("EnqueueTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("FaultAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Headers")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("InboxConsumerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("InboxMessageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("InitiatorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("OutboxId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Properties")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("RequestId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ResponseAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<DateTime>("SentTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("SourceAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("SequenceNumber");
-
-                    b.HasIndex("EnqueueTime");
-
-                    b.HasIndex("ExpirationTime");
-
-                    b.HasIndex("OutboxId", "SequenceNumber")
-                        .IsUnique();
-
-                    b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
-                        .IsUnique();
-
-                    b.ToTable("OutboxMessage");
-                });
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
-                {
-                    b.Property<Guid>("OutboxId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("Delivered")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long?>("LastSequenceNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("LockId")
-                        .HasColumnType("uuid");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.HasKey("OutboxId");
-
-                    b.HasIndex("Created");
-
-                    b.ToTable("OutboxState");
-                });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerDescription", b =>
                 {
@@ -203,20 +35,17 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("Description")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<byte[]>("GameDescription")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
+
+                    b.Property<int>("RequiredLevel")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -235,16 +64,13 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<byte[]>("Details")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -264,24 +90,34 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Application")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("ArchetypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatureId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("CreatureTypeId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
+                    b.Property<int>("Origin")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("PowerTemplateId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Target")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
@@ -289,12 +125,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("Value")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ValueType")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ArchetypeId");
+
+                    b.HasIndex("CreatureId");
 
                     b.HasIndex("CreatureTypeId");
 
@@ -319,7 +154,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -359,17 +193,14 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Login")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -394,12 +225,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -423,11 +252,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
-                    b.Property<int>("Value")
+                    b.Property<int>("Points")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -469,13 +297,21 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MaxPointsPerSpecificSkill")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinPointsPerSpecificSkill")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("TotalSkillsPointsLimit")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -527,12 +363,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Formula")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -562,6 +396,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<Guid?>("FeetId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("GripType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid?>("HandsId")
                         .HasColumnType("uuid");
@@ -651,23 +488,22 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AttributeId")
+                    b.Property<Guid?>("CreatureId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("SkillTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AttributeId");
+                    b.HasIndex("CreatureId");
 
                     b.HasIndex("SkillTemplateId");
 
@@ -684,14 +520,13 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<int>("Points")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("SkillId")
+                    b.Property<Guid>("SkillId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("SpecificSkillTemplateId")
@@ -718,7 +553,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -747,7 +581,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -768,7 +601,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -814,7 +646,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -852,7 +683,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("character varying(13)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -882,12 +712,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -913,24 +741,18 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("ActionType")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("CampaignId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CampaignId1")
+                    b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("CastDescription")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("CastFormula")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -938,7 +760,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -948,6 +769,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("TargetDefenseId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("TargetType")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -955,7 +779,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UsagesFormula")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -964,9 +787,7 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CampaignId");
-
-                    b.HasIndex("CampaignId1");
+                    b.HasIndex("CampaignTemplateId");
 
                     b.ToTable("PowerTemplates");
                 });
@@ -996,7 +817,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1005,6 +825,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<bool>("Hidden")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("Luck")
+                        .HasColumnType("integer");
 
                     b.Property<int>("NumberOfCriticalFailures")
                         .HasColumnType("integer");
@@ -1015,11 +838,13 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("NumberOfDices")
                         .HasColumnType("integer");
 
+                    b.Property<int>("NumberOfRollSuccesses")
+                        .HasColumnType("integer");
+
                     b.Property<int>("NumberOfSuccesses")
                         .HasColumnType("integer");
 
                     b.Property<string>("RolledDices")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1046,7 +871,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1073,7 +897,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1122,7 +945,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1151,7 +973,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1176,12 +997,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Formula")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1201,11 +1020,10 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("AttributeTemplateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CampaignTemplateId")
+                    b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1224,14 +1042,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AttributeId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("AttributeTemplateId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1257,12 +1071,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Formula")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1317,18 +1129,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasDiscriminator().HasValue("Weapon");
                 });
 
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
-                {
-                    b.HasOne("MassTransit.EntityFrameworkCoreIntegration.OutboxState", null)
-                        .WithMany()
-                        .HasForeignKey("OutboxId");
-
-                    b.HasOne("MassTransit.EntityFrameworkCoreIntegration.InboxState", null)
-                        .WithMany()
-                        .HasForeignKey("InboxMessageId", "InboxConsumerId")
-                        .HasPrincipalKey("MessageId", "ConsumerId");
-                });
-
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerDescription", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Archetypes.Entities.Archetype", "Archetype")
@@ -1358,6 +1158,10 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasForeignKey("ArchetypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
+                        .WithMany("Bonuses")
+                        .HasForeignKey("CreatureId");
+
                     b.HasOne("RoleRollsPocketEdition.CreatureTypes.Entities.CreatureType", null)
                         .WithMany("Bonuses")
                         .HasForeignKey("CreatureTypeId")
@@ -1375,7 +1179,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("BonusId");
@@ -1386,8 +1190,7 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("BonusId");
                         });
 
-                    b.Navigation("Property")
-                        .IsRequired();
+                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>
@@ -1611,19 +1414,15 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Skill", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Attribute", "Attribute")
+                    b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Creature", null)
                         .WithMany("Skills")
-                        .HasForeignKey("AttributeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatureId");
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
                         .WithMany("Skills")
                         .HasForeignKey("SkillTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Attribute");
 
                     b.Navigation("SkillTemplate");
                 });
@@ -1638,7 +1437,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.HasOne("RoleRollsPocketEdition.Creatures.Entities.Skill", "Skill")
                         .WithMany("SpecificSkills")
                         .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SpecificSkillTemplate", "SpecificSkillTemplate")
                         .WithMany("SpecificSkills")
@@ -1710,7 +1510,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1729,7 +1529,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1748,7 +1548,26 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ItemConfigurationId");
+
+                            b1.ToTable("ItemConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemConfigurationId");
+                        });
+
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BlockProperty", b1 =>
+                        {
+                            b1.Property<Guid>("ItemConfigurationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1767,7 +1586,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1786,7 +1605,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1805,7 +1624,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1824,7 +1643,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1843,7 +1662,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1862,7 +1681,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1881,7 +1700,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1900,7 +1719,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1919,7 +1738,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1938,7 +1757,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1957,7 +1776,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1976,7 +1795,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("ItemConfigurationId");
@@ -1992,6 +1811,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("BasicAttackTargetFirstVitality");
 
                     b.Navigation("BasicAttackTargetSecondVitality");
+
+                    b.Navigation("BlockProperty");
 
                     b.Navigation("CampaignTemplate");
 
@@ -2074,25 +1895,13 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Powers.Entities.PowerTemplate", b =>
                 {
-                    b.HasOne("RoleRollsPocketEdition.Campaigns.Entities.Campaign", null)
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
                         .WithMany("CombatManeuvers")
-                        .HasForeignKey("CampaignId")
+                        .HasForeignKey("CampaignTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
-                        .WithMany("CombatManeuvers")
-                        .HasForeignKey("CampaignId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RoleRollsPocketEdition.Campaigns.Entities.Campaign", "Campaign")
-                        .WithMany("PowerTemplates")
-                        .HasForeignKey("CampaignId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Campaign");
+                    b.Navigation("CampaignTemplate");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Rolls.Entities.Roll", b =>
@@ -2111,7 +1920,7 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Type")
+                            b1.Property<int?>("Type")
                                 .HasColumnType("integer");
 
                             b1.HasKey("RollId");
@@ -2122,8 +1931,7 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("RollId");
                         });
 
-                    b.Navigation("Property")
-                        .IsRequired();
+                    b.Navigation("Property");
 
                     b.Navigation("Scene");
                 });
@@ -2184,26 +1992,28 @@ namespace RoleRollsPocketEdition.Migrations
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "AttributeTemplate")
-                        .WithMany("SkillTemplates")
-                        .HasForeignKey("AttributeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AttributeTemplateId");
 
-                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", null)
-                        .WithMany("AttributelessSkills")
-                        .HasForeignKey("CampaignTemplateId");
+                    b.HasOne("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", "CampaignTemplate")
+                        .WithMany("Skills")
+                        .HasForeignKey("CampaignTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AttributeTemplate");
+
+                    b.Navigation("CampaignTemplate");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.SpecificSkillTemplate", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", "AttributeTemplate")
-                        .WithMany("SpecificSkillTemplates")
-                        .HasForeignKey("AttributeTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("AttributeTemplateId");
 
                     b.HasOne("RoleRollsPocketEdition.Templates.Entities.SkillTemplate", "SkillTemplate")
-                        .WithMany("SpecificSkills")
+                        .WithMany("SpecificSkillTemplates")
                         .HasForeignKey("SkillTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2237,11 +2047,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.Navigation("CampaignPlayers");
 
-                    b.Navigation("CombatManeuvers");
-
                     b.Navigation("Encounters");
-
-                    b.Navigation("PowerTemplates");
 
                     b.Navigation("Scenes");
                 });
@@ -2255,14 +2061,14 @@ namespace RoleRollsPocketEdition.Migrations
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Attribute", b =>
                 {
-                    b.Navigation("Skills");
-
                     b.Navigation("SpecificSkills");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Creatures.Entities.Creature", b =>
                 {
                     b.Navigation("Attributes");
+
+                    b.Navigation("Bonuses");
 
                     b.Navigation("Defenses");
 
@@ -2273,6 +2079,8 @@ namespace RoleRollsPocketEdition.Migrations
                         .IsRequired();
 
                     b.Navigation("Powers");
+
+                    b.Navigation("Skills");
 
                     b.Navigation("Vitalities");
                 });
@@ -2318,17 +2126,11 @@ namespace RoleRollsPocketEdition.Migrations
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.AttributeTemplate", b =>
                 {
                     b.Navigation("Attributes");
-
-                    b.Navigation("SkillTemplates");
-
-                    b.Navigation("SpecificSkillTemplates");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.CampaignTemplate", b =>
                 {
                     b.Navigation("Archetypes");
-
-                    b.Navigation("AttributelessSkills");
 
                     b.Navigation("Attributes");
 
@@ -2345,6 +2147,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("ItemConfiguration")
                         .IsRequired();
 
+                    b.Navigation("Skills");
+
                     b.Navigation("Vitalities");
                 });
 
@@ -2357,7 +2161,7 @@ namespace RoleRollsPocketEdition.Migrations
                 {
                     b.Navigation("Skills");
 
-                    b.Navigation("SpecificSkills");
+                    b.Navigation("SpecificSkillTemplates");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Templates.Entities.SpecificSkillTemplate", b =>
