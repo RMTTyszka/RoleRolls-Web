@@ -28,7 +28,7 @@
         <p-panel [toggleable]="true">
           <ng-template #header class="flex justify-between items-center w-full">
             <span class="text-lg font-semibold">
-              Skills â€” SpecificSkills Points: {{ usedSkillPoints }}/{{ totalSkillPoints }}
+              {{ usedSkillPoints }}/{{ totalSkillPoints }}
               <span class="ml-2 text-sm opacity-80">(Remaining: {{ remainingSkillPoints }})</span>
             </span>
           </ng-template>
@@ -42,7 +42,6 @@
                         <input type="text" pInputText placeholder="Name" formControlName="name" required>
                       </div>
                       <div class="flex items-center gap-2 w-1/3">
-                        <span>Remaining SpecificSkills Points:</span>
                         <span>{{ remainingSkillPoints }}</span>
                         <span class="opacity-70 text-sm">/ {{ totalSkillPoints }}</span>
                       </div>

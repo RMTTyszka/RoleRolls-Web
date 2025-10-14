@@ -26,6 +26,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             Name = attribute.Name;
             AttributeTemplateId = attribute.Id;
             AttributeTemplate = attribute;
+            Points = 1;
         }
 
         public void Update(AttributeModel updatedAttribute)

@@ -31,7 +31,10 @@ namespace RoleRollsPocketEdition.Creatures.Models
             // TotalSkillsPoints equals the sum of each Skill's PointsLimit, stored in Creature.TotalSkillsPointsLimit
             TotalSkillsPoints = creature.TotalSkillsPointsLimit;
             MaxPointsPerSpecificSkill = creature.MaxPointsPerSpecificSkill;
+            MinPointsPerSpecificSkill = creature.MinPointsPerSpecificSkill;
         }
+
+        public int MinPointsPerSpecificSkill { get; set; }
 
 
         public EquipmentModel Equipment { get; set; }

@@ -189,7 +189,7 @@ export class CreatureEditorComponent {
   // Per-specific caps and minimum
   const maxPer = Number(this.creature?.maxPointsPerSpecificSkill ?? this.form?.get('maxPointsPerSpecificSkill')?.value ?? 0);
   if (clamped > maxPer) { clamped = maxPer; }
-  if (clamped < -1) { clamped = -1; }
+  if (clamped < this.creature.minPointsPerSpecificSkill) { clamped = this.creature.minPointsPerSpecificSkill; }
 
   if (clamped !== v) {
     specificSkill.get('points').setValue(clamped, { emitEvent: false });
@@ -280,7 +280,7 @@ export class CreatureEditorComponent {
     }));
   }
 
-  
+
   public incrementSpecific(skill: FormGroup, specificSkill: FormGroup): void {
     const ctrl = specificSkill.get('points');
     const current = Number(ctrl?.value ?? 0);

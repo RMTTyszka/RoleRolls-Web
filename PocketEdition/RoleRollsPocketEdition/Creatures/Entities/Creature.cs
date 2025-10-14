@@ -43,7 +43,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         [NotMapped]
         public int TotalSkillsPointsLimit => Skills?.Sum(s => s.PointsLimit) ?? 0;
         public int MaxPointsPerSpecificSkill => 3 + Level - 1;
-        public int MinPointsPerSpecificSkill => -1;
+        public int MinPointsPerSpecificSkill => 0;
 
         public CreatureCategory Category { get; set; }
         public Equipment Equipment { get; set; }
