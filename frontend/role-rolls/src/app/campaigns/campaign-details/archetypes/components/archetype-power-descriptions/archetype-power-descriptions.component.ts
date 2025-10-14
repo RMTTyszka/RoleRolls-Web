@@ -10,6 +10,8 @@ import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import {Campaign} from '@app/campaigns/models/campaign';
 import { Editor } from 'primeng/editor';
+import { Button, ButtonDirective } from 'primeng/button';
+import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/markdown-viewer.component';
 
 @Component({
   selector: 'rr-archetype-power-descriptions',
@@ -18,7 +20,9 @@ import { Editor } from 'primeng/editor';
     ReactiveFormsModule,
     FloatLabel,
     Textarea,
-    Editor
+    Editor,
+    MarkdownViewerComponent,
+    ButtonDirective
   ],
   templateUrl: './archetype-power-descriptions.component.html',
   styleUrl: './archetype-power-descriptions.component.scss'
@@ -49,6 +53,7 @@ export class ArchetypePowerDescriptionsComponent {
     });
   });
   private subscriptionManager = new SubscriptionManager()
+  private editingIds = new Set<string>();
   constructor(
     private formBuilder: FormBuilder,
     private service: ArchetypesService,
@@ -60,4 +65,24 @@ export class ArchetypePowerDescriptionsComponent {
   }
 
   protected readonly FormGroup = FormGroup;
+  isEditing(index: number): boolean {
+    const id = this.getPowerId(index);
+    return this.editingIds.has(id);
+  }
+
+  toggleEdit(index: number, force?: boolean): void {
+    const id = this.getPowerId(index);
+    const shouldEdit = force ?? !this.editingIds.has(id);
+    if (shouldEdit) {
+      this.editingIds.add(id);
+    } else {
+      this.editingIds.delete(id);
+    }
+  }
+
+  private getPowerId(index: number): string {
+    const ctrl = this.powers().at(index) as AbstractControl;
+    const val = ctrl?.value as { id?: string };
+    return val?.id ?? String(index);
+  }
 }

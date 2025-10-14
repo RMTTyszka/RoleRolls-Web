@@ -20,14 +20,28 @@
             </p-floatlabel>
           </div>
           <div class="flex-1">
+            <div class="flex justify-end mb-2">
+              @if (isEditing($index)) {
+                <button pButton type="button" icon="pi pi-eye" (click)="toggleEdit($index, false)"></button>
+              }
+            </div>
             <p-floatlabel variant="in">
-              <p-editor
-                [style]="{ height: '320px' }"
-                id="gameDescription-{{ $index }}"
-                formControlName="gameDescription"
-                class="w-full"
-              ></p-editor>
-              <label for="gameDescription-{{ $index }}">Game Description</label>
+              @if (isEditing($index)) {
+                <p-editor
+                  [style]="{ height: '320px' }"
+                  id="gameDescription-{{ $index }}"
+                  formControlName="gameDescription"
+                  class="w-full"
+                ></p-editor>
+              } @else {
+                <div
+                  class="w-full border border-surface-200 dark:border-surface-700 rounded-md p-3"
+                  style="height: 320px"
+                  (click)="toggleEdit($index, true)"
+                >
+                  <rr-markdown-viewer [markdown]="powers().at($index).value.gameDescription"></rr-markdown-viewer>
+                </div>
+              }
             </p-floatlabel>
           </div>
         </div>
