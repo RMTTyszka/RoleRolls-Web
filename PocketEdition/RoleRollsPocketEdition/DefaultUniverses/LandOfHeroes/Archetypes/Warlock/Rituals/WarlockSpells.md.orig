@@ -11,31 +11,31 @@ Se esconde da visão do inimigo.
 
 *Manto inicial que envolve o conjurador e aliados em penumbra.*
 
-**Teste de Poder. Para cada 2 de CD, concede +1 de bônus em Nimbleness, afetando uma criatura para cada dado.**
-**O efeito se encerra caso o personagem interaja com alguma outra criatura.**
-**Duração:** até 1 minuto ou ao interagir com uma criatura.
+**Teste de poder, para cada 2 CD concede +1 de bônus para Nimbleness, afetando uma criatura para cada dado.**
+**O efeito se acaba caso o personagem interaja com alguma outra criatura.**
+**Duração:** até 1 minuto ou ao interagir com uma criatura
 
 ### 2- Cloak of the Hidden
 
 *Sombras se ajustam aos movimentos, permitindo agir furtivamente mesmo em ação.*
 
 **Pode se locomover na velocidade normal enquanto anda furtivo.**
-**Duração:** até 10 minutos, com concentração.
+**Duração:** até 10 minutos com concentração
 
 ### 3- Shroud of Silence
 
 *A escuridão se torna absoluta; parado, o alvo se funde ao ambiente.*
 
 **Bônus aumenta para +2 para cada 2 de CD.**
-**Se o personagem ficar parado por 2 turnos, fica completamente invisível.**
-**Duração:** até 10 minutos.
+**Se o personagem fica parado por 2 turnos, ele fica completamente invisível.**
+**Duração:** até 10 minutos;
 
 ### 4- Eclipse Mantle
 
 *Domínio total das sombras; pode interagir e se mover entre seres vivos sem quebrar o efeito.*
 
-**Fica invisível em apenas 1 turno e o efeito não acaba ao entrar em contato com outra criatura.**
-**Duração:** até 10 minutos.
+**Fica invisível em apenas 1 turno, e o efeito não acaba ao entrar em contato com outra criatura.**
+**Duração:** até 10 minutos;
 
 ## Clarividência
 
@@ -54,7 +54,7 @@ Permite ver e ouvir à distância através de um aliado, de um alvo hostil com u
 **Pode observar um aliado à distância, ou observar através de estatuetas vodu preparadas.**
 **Aliado observado é sempre um único alvo por vez.**
 **Estatuetas:** pode manter ativas até 1 estatueta para cada 5 níveis de Warlock; as estatuetas precisam estar com o warlock no momento da conjuração.
-**Duração:** (soma dos dados do Teste de Poder) x 10 minutos x Nível.
+**Duração:** (soma dos dados do Teste de Poder) × 10 minutos × nível.
 
 ### 2- Olho do Vínculo
 
@@ -62,7 +62,7 @@ Permite ver e ouvir à distância através de um aliado, de um alvo hostil com u
 
 **Pode observar um inimigo à distância, desde que possua um objeto pessoal do alvo.**
 **Estatuetas** podem ser posicionadas previamente no local antes da conjuração (não precisam estar com o warlock ao conjurar).
-**Duração:** (soma dos dados do Teste de Poder) x 10 minutos x Nível.
+**Duração:** (soma dos dados do Teste de Poder) × 10 minutos × nível.
 
 ### 3- Passos do Fetiche
 
@@ -71,7 +71,7 @@ Permite ver e ouvir à distância através de um aliado, de um alvo hostil com u
 **Pode mover cada estatueta em até 3 m por turno enquanto observa através dela.**
 **Se o conjurador tiver tocado o inimigo nos últimos 10 minutos, pode usar Clarividência sem possuir um objeto do alvo.**
 **Ter um objeto do alvo aumenta o alcance e a duração da clarividência.**
-**Duração base:** (soma dos dados do Teste de Poder) x 10 minutos x Nível.
+**Duração base:** (soma dos dados do Teste de Poder) × 10 minutos × nível.
 
 ### 4- Olhar Marcante do Vodu
 
@@ -79,7 +79,7 @@ Permite ver e ouvir à distância através de um aliado, de um alvo hostil com u
 
 **A distância deixa de ter limite para todos os usos de Clarividência.**
 **Para estatuetas, o tempo de duração só é consumido quando elas estiverem ativas (enquanto estiver observando por elas).**
-**Duração base:** (soma dos dados do Teste de Poder) x 10 minutos x Nível.
+**Duração base:** (soma dos dados do Teste de Poder) × 10 minutos × nível.
 
 ## Máscara
 
@@ -95,7 +95,7 @@ Permite moldar aparências para enganar olhos e expectativas.
 **Teste de Poder. Pode alterar apenas a aparência de roupas, armaduras e equipamentos visíveis.**
 **Concede +1 em testes de Blefar quando a aparência alterada puder influenciar o teste.**
 **A mudança é ilusória: não altera peso, som nem textura.**
-**Duração:** Inteligência x Nível x 2 minutos.
+**Duração:** Inteligencia * Nivel * 2 minutos.
 
 ### 2- Rosto Moldável
 
@@ -104,7 +104,7 @@ Permite moldar aparências para enganar olhos e expectativas.
 **Pode alterar a aparência física superficial (rosto, cabelo, altura ±10%, constituição).**
 **Não concede novas capacidades nem muda o tipo/tamanho de criatura.**
 **Mantém o bônus de +1 em Blefar quando apropriado.**
-**Duração:** Inteligência x Nível x 3 minutos.
+**Duração:** Inteligencia * Nivel * 3 minutos.
 
 ### 3- Cenário Ilusório
 
@@ -113,35 +113,36 @@ Permite moldar aparências para enganar olhos e expectativas.
 **Altera a aparência de um cômodo médio (até 10m x 10m x 3m).**
 **Inclui paredes, piso, iluminação e móveis; não bloqueia passagem nem som.**
 **Observadores podem perceber inconsistências com um teste oposto apropriado.**
-**Duração:** Inteligência x Nível x 4 minutos.
+**Duração:** Inteligencia * Nivel * 4 minutos.
 
 ### 4- Persona Irrefutável
 
 *A máscara torna-se identidade.*
 **Concede +4 em Blefar quando a aparência for relevante.**
 **Duração e estabilidade aumentadas; interações comuns não desfazem o efeito.**
-**Duração:** Inteligência x Nível x 5 minutos.
+**Duração:** Inteligencia * Nivel * 5 minutos.
 
-## Som Ilusório
+
+## Som Ilus�rio
 
 Cria, molda ou suprime sons para enganar sentidos e manipular a cena.
 
-**Requisitos:** Warlock, foco de ilusão
+**Requisitos:** Warlock, foco de ilus�o
 **Tempo de Preparo:** 12 turnos
 
 ### 1- Ecos Fabricados
 
-*Onde não há fonte, o som nasce.*
+*Onde n�o h� fonte, o som nasce.*
 
-**Cria um som ilusório com potência equivalente ao seu Poder Especial (PE),**
-capaz de enganar criaturas de nível até o seu PE, conforme a cena.
+**Cria um som ilus�rio com pot�ncia equivalente ao seu Poder Especial (PE),**
+capaz de enganar criaturas de n�vel at� o seu PE, conforme a cena.
 
-### 2- Silêncio Conveniente
+### 2- Sil�ncio Conveniente
 
-*O mundo prende a respiração.*
+*O mundo prende a respira��o.*
 
-**Remove o som de uma área (área: a definir).**
-**Criaturas que tentarem ouvir sons dentro/através da área sofrem penalidade**
+**Remove o som de uma �rea (�rea: a definir).**
+**Criaturas que tentarem ouvir sons dentro/atrav�s da �rea sofrem penalidade**
 igual ao resultado do seu Teste de Poder, com penalidade adicional de +1 para
 cada 2 de CD do efeito.
 
@@ -149,58 +150,13 @@ cada 2 de CD do efeito.
 
 *A mentira aguarda o momento certo.*
 
-**Pode definir um gatilho simples para ativar/desativar o som ilusório**
-(palavra-chave, presença de criatura, horário, ação específica, etc.).
+**Pode definir um gatilho simples para ativar/desativar o som ilus�rio**
+(palavra-chave, presen�a de criatura, hor�rio, a��o espec�fica, etc.).
 
-### 4- Clamor Irrefutável
+### 4- Clamor Irrefut�vel
 
-*O som cresce, domina e confunde sem rastro de dúvida.*
+*O som cresce, domina e confunde sem rastro de d�vida.*
 
-**Aumenta drasticamente a potência, alcance e fidelidade do som ilusório.**
-Pode simular fontes múltiplas e detalhes finos (direção, reverberação), tornando
-testes para identificar a ilusão muito mais difíceis.
-
-## Controlar os Mortos
-
-Arte profana que interroga, move e devolve fôlego aos que já partiram.
-
-**Requisitos:** Warlock, foco de necromancia
-**Tempo de Preparo:** 10 minutos
-
-### 1- Voz do Sepulcro
-
-*As cordas do além sussurram por bocas imóveis.*
-
-**Faça um Teste de Poder (PE). Para cada sucesso, pode fazer 1 pergunta**
-**a uma criatura que tenha morrido há Nível dias ou menos.**
-**As respostas são literais e curtas, limitadas ao que sabia em vida.**
-**Qualquer dano sofrido pelo cadáver encerra o efeito imediatamente.**
-**Duração:** até concluir as perguntas ou sofrer dano.
-
-### 2- Marionete Cadavérica
-
-*O corpo obedece ordens simples, sem alma nem memória.*
-
-**Controla o corpo de um morto, que mantém a aparência atual do cadáver.**
-**Pode seguir instruções simples, locomover-se e se comunicar como criatura de baixa inteligência.**
-**Não recupera habilidades, memórias ou técnicas que tinha em vida.**
-**Qualquer dano sofrido pelo cadáver encerra o efeito imediatamente.**
-**Duração:** até 10 minutos, com concentração.
-
-### 3- Possessão Cadavérica
-
-*Sua vontade habita a casca; a carne lembra o vivo.*
-
-**Pode possuir o corpo de um cadáver. O corpo recupera parte da aparência de vivo,**
-**e o conjurador age e responde através dele usando sua própria inteligência.**
-**Qualquer dano sofrido pelo cadáver encerra o efeito imediatamente.**
-**Duração:** até 10 minutos, com concentração.
-
-### 4- Chamado à Vida
-
-*O sopro retorna por tempo contado.*
-
-**Ressuscita um morto: recupera totalmente a aparência de vivo e age com sua própria inteligência.**
-**Duração:** PE x horas.
-**Qualquer dano sofrido pela criatura a faz falecer novamente, encerrando o efeito.**
-
+**Aumenta drasticamente a pot�ncia, alcance e fidelidade do som ilus�rio.**
+Pode simular fontes m�ltiplas e detalhes finos (dire��o, reverbera��o), tornando
+testes para identificar a ilus�o muito mais dif�ceis.
