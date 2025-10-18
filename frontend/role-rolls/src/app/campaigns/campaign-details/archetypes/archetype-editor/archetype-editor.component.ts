@@ -1,11 +1,10 @@
-﻿import { Component, computed, input, signal, WritableSignal } from '@angular/core';
+﻿import { Component, computed, signal, WritableSignal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
 import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
-import {createForm, getAsForm} from '@app/tokens/EditorExtension';
+import { getAsForm } from '@app/tokens/EditorExtension';
 import {v4 as uuid} from 'uuid';
-import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {NgIf} from '@angular/common';
@@ -15,7 +14,7 @@ import { Bonus } from '@app/models/bonuses/bonus';
 import { firstValueFrom } from 'rxjs';
 import { Archetype } from '@app/models/archetypes/archetype';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
-import { Tab, TabList, TabPanels, TabsModule } from 'primeng/tabs';
+import { TabsModule } from 'primeng/tabs';
 import {
   ArchetypeDetailsComponent
 } from '@app/campaigns/campaign-details/archetypes/components/archetype-details/archetype-details.component';
@@ -35,10 +34,9 @@ import { ArchetypeSpellsComponent } from '@app/campaigns/campaign-details/archet
     TabsModule,
     ArchetypeDetailsComponent,
     ArchetypePowerDescriptionsComponent,
-    ArchetypeSpellsComponent,
-],
+    ArchetypeSpellsComponent\r\n  ],
   templateUrl: './archetype-editor.component.html',
-  styleUrl: './archetype-editor.component.scss'
+  styleUrls: ['./archetype-editor.component.scss']
 })
 export class ArchetypeEditorComponent {
   public loaded = signal(false);
@@ -99,6 +97,7 @@ export class ArchetypeEditorComponent {
     this.archetype.set(await firstValueFrom(this.service.getById(this.campaign.campaignTemplate.id, this.archetype().id)));
   }
 }
+
 
 
 
