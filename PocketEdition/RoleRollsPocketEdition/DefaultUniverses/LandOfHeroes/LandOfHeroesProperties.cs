@@ -71,7 +71,8 @@ public enum LandOfHeroesMinorSkill
 public enum LandOfHeroesVitality
 {
     Life = 0,
-    Moral = 1
+    Moral = 1,
+    Mana = 2
 }
 public enum DamageTypeEnum
 {

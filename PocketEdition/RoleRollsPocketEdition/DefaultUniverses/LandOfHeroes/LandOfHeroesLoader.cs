@@ -358,11 +358,10 @@ public class LandOfHeroesLoader : IStartupTask
 
     private async Task SynchronizeSpells(Archetype archetypeFromDb, List<Spell> fromCode, RoleRollsDbContext context)
     {
-        archetypeFromDb.Spells ??= new List<Spell>();
+        archetypeFromDb.Spells ??= [];
         var dbSpells = archetypeFromDb.Spells.ToDictionary(s => s.Id);
         var codeIds = fromCode.Select(s => s.Id).ToHashSet();
 
-        // Add or update
         foreach (var codeSpell in fromCode)
         {
             var existing = await context.Spells.FindAsync(codeSpell.Id);
@@ -380,7 +379,6 @@ public class LandOfHeroesLoader : IStartupTask
             }
         }
 
-        // Remove not in code
         foreach (var dbSpell in archetypeFromDb.Spells.Where(s => !codeIds.Contains(s.Id)).ToList())
         {
             archetypeFromDb.Spells.Remove(dbSpell);
@@ -393,7 +391,6 @@ public class LandOfHeroesLoader : IStartupTask
         var dbByCircle = dbSpell.Circles.ToDictionary(c => c.Circle);
         var codeByCircle = codeCircles.ToDictionary(c => c.Circle);
 
-        // Add or update
         foreach (var codeCircle in codeCircles)
         {
             if (!dbByCircle.TryGetValue(codeCircle.Circle, out var dbCircle))
@@ -415,7 +412,6 @@ public class LandOfHeroesLoader : IStartupTask
             }
         }
 
-        // Remove circles not in code
         foreach (var dbCircle in dbSpell.Circles.Where(c => !codeByCircle.ContainsKey(c.Circle)).ToList())
         {
             dbSpell.Circles.Remove(dbCircle);

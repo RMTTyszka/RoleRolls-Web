@@ -60,6 +60,15 @@ public class LandOfHeroesTemplate
                 Formula = "15 + 2 * Intuition",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
+            },
+
+            new()
+            {
+                Id = VitalityIds[LandOfHeroesVitality.Mana],
+                Name = "Mana",
+                Formula = "10 + 2 * Intelligence",
+                CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+                CampaignTemplate = null,
             }
         ];
     }
@@ -217,6 +226,7 @@ public class LandOfHeroesTemplate
     {
         { LandOfHeroesVitality.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
         { LandOfHeroesVitality.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
+        { LandOfHeroesVitality.Mana, Guid.Parse("A9B1C2D3-E4F5-6789-ABCD-0123456789AB") },
     };
 
 
