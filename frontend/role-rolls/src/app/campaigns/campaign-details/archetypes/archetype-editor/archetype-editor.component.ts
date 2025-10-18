@@ -1,4 +1,4 @@
-import { Component, computed, input, signal, WritableSignal } from '@angular/core';
+﻿import { Component, computed, input, signal, WritableSignal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -22,6 +22,7 @@ import {
 import {
   ArchetypePowerDescriptionsComponent
 } from '@app/campaigns/campaign-details/archetypes/components/archetype-power-descriptions/archetype-power-descriptions.component';
+import { ArchetypeSpellsComponent } from '@app/campaigns/campaign-details/archetypes/components/archetype-spells/archetype-spells.component';
 
 @Component({
   selector: 'rr-archetype-editor',
@@ -34,7 +35,8 @@ import {
     TabsModule,
     ArchetypeDetailsComponent,
     ArchetypePowerDescriptionsComponent,
-  ],
+    ArchetypeSpellsComponent,
+],
   templateUrl: './archetype-editor.component.html',
   styleUrl: './archetype-editor.component.scss'
 })
@@ -97,4 +99,9 @@ export class ArchetypeEditorComponent {
     this.archetype.set(await firstValueFrom(this.service.getById(this.campaign.campaignTemplate.id, this.archetype().id)));
   }
 }
+
+
+
+
+
 

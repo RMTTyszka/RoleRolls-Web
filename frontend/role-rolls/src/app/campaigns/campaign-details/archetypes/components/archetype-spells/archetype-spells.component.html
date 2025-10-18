@@ -1,0 +1,7 @@
+﻿<div class="grid gap-2">
+  <div class="flex items-center justify-between" *ngFor="let s of spells()">
+    <div class="truncate">{{ s.name }}</div>
+    <button pButton type="button" icon="pi pi-eye" label="View" (click)="open(s)"></button>
+  </div>
+  <div *ngIf="spells().length === 0" class="text-sm text-surface-500">No spells.</div>
+</div>

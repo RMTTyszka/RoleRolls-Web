@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import {BaseCrudService} from '@services/base-service/base-crud-service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {PagedOutput} from '@app/models/PagedOutput';
@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {RR_API} from '@app/tokens/loh.api';
 import { Bonus } from '@app/models/bonuses/bonus';
 import {Archetype, ArchetypePowerDescription} from '@app/models/archetypes/archetype';
+import { Spell } from '@app/models/spells/spell';
 
 @Injectable({
   providedIn: 'root'
@@ -70,4 +71,24 @@ export class ArchetypesService {
       `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/power-descriptions/${powerDescriptionId}`
     );
   }
+  public addSpell(templateId: string, archetypeId: string, spell: Spell): Observable<Spell> {
+    return this.http.post<Spell>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/spells`,
+      spell
+    );
+  }
+
+  public updateSpell(templateId: string, archetypeId: string, spell: Spell): Observable<Spell> {
+    return this.http.put<Spell>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/spells/${spell.id}`,
+      spell
+    );
+  }
+
+  public removeSpell(templateId: string, archetypeId: string, spellId: string): Observable<void> {
+    return this.http.delete<void>(
+      `${RR_API.backendUrl}${this.path(templateId)}/${archetypeId}/spells/${spellId}`
+    );
+  }
+
 }

@@ -47,6 +47,9 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
             .AsNoTracking()
             .Include(template => template.Archetypes)
             .ThenInclude(a => a.PowerDescriptions)
+            .Include(template => template.Archetypes)
+            .ThenInclude(a => a.Spells)
+            .ThenInclude(s => s.Circles)
             .Where(template => template.Id == campaignTemplateId)
             .SelectMany(template => template.Archetypes)
             .Where(type => type.Id == id)
@@ -61,6 +64,8 @@ public class ArchetypeService : IArchetypeService, ITransientDependency
         var query = _dbContext.CampaignTemplates
             .AsNoTracking()
             .Include(template => template.Archetypes)
+            .ThenInclude(a => a.Spells)
+            .ThenInclude(s => s.Circles)
             .Where(template => template.Id == campaignTemplateId)
             .SelectMany(template => template.Archetypes)
             .Select(e => new ArchetypeModel(e));

@@ -1,9 +1,10 @@
-<form [formGroup]="form" *ngIf="loaded()" class="flex flex-col" style="min-height: 100%">
+﻿<form [formGroup]="form" *ngIf="loaded()" class="flex flex-col" style="min-height: 100%">
   <p-tabs value="0" class="flex-grow">
     <p-tablist>
       <p-tab value="0">Creature Type</p-tab>
       <p-tab value="1">Details</p-tab>
       <p-tab value="2">Powers</p-tab>
+      <p-tab value="3">Spells</p-tab>
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
@@ -19,7 +20,10 @@
         <rr-archetype-details></rr-archetype-details>
       </p-tabpanel>
       <p-tabpanel value="2">
-        <rr-archetype-power-descriptions [archetype]="archetype()"></rr-archetype-power-descriptions>
+        <rr-archetype-power-descriptions [archetype]="archetype()" [campaign]="campaign"></rr-archetype-power-descriptions>
+      </p-tabpanel>
+      <p-tabpanel value="3">
+        <rr-archetype-spells [archetype]="archetype()" [campaign]="campaign"></rr-archetype-spells>
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251018121505_Migration_20251018_091453")]
+    partial class Migration_20251018_091453
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -947,10 +950,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<byte[]>("Description")
                         .HasColumnType("bytea");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Spells");
@@ -980,18 +979,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<byte[]>("InGameDescription")
                         .HasColumnType("bytea");
 
-                    b.Property<int>("LevelRequirement")
-                        .HasColumnType("integer");
-
                     b.Property<byte[]>("Requirements")
                         .HasColumnType("bytea");
 
                     b.Property<Guid>("SpellId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 

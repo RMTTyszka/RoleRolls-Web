@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251018120210_Migration_20251018_090152")]
+    partial class Migration_20251018_090152
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace RoleRollsPocketEdition.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ArchetypeSpell", b =>
-                {
-                    b.Property<Guid>("ArchetypesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SpellsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ArchetypesId", "SpellsId");
-
-                    b.HasIndex("SpellsId");
-
-                    b.ToTable("ArchetypeSpells", (string)null);
-                });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerDescription", b =>
                 {
@@ -944,14 +932,15 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ArchetypeId")
+                        .HasColumnType("uuid");
+
                     b.Property<byte[]>("Description")
                         .HasColumnType("bytea");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ArchetypeId");
 
                     b.ToTable("Spells");
                 });
@@ -980,18 +969,11 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<byte[]>("InGameDescription")
                         .HasColumnType("bytea");
 
-                    b.Property<int>("LevelRequirement")
-                        .HasColumnType("integer");
-
                     b.Property<byte[]>("Requirements")
                         .HasColumnType("bytea");
 
                     b.Property<Guid>("SpellId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
 
                     b.HasKey("Id");
 
@@ -1189,21 +1171,6 @@ namespace RoleRollsPocketEdition.Migrations
                         });
 
                     b.HasDiscriminator().HasValue("Weapon");
-                });
-
-            modelBuilder.Entity("ArchetypeSpell", b =>
-                {
-                    b.HasOne("RoleRollsPocketEdition.Archetypes.Entities.Archetype", null)
-                        .WithMany()
-                        .HasForeignKey("ArchetypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RoleRollsPocketEdition.Spells.Entities.Spell", null)
-                        .WithMany()
-                        .HasForeignKey("SpellsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Archetypes.Entities.ArchertypePowerDescription", b =>
@@ -2044,6 +2011,17 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Scene");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Spells.Entities.Spell", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Archetypes.Entities.Archetype", "Archetype")
+                        .WithMany("Spells")
+                        .HasForeignKey("ArchetypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Archetype");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Spells.Entities.SpellCircle", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Spells.Entities.Spell", "Spell")
@@ -2129,6 +2107,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Creatures");
 
                     b.Navigation("PowerDescriptions");
+
+                    b.Navigation("Spells");
                 });
 
             modelBuilder.Entity("RoleRollsPocketEdition.Campaigns.Entities.Campaign", b =>

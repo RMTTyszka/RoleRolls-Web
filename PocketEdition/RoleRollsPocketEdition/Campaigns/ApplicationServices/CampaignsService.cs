@@ -114,6 +114,11 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             var archetypes = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
                 .ThenInclude(t => t.Archetypes)
+                .ThenInclude(a => a.Spells)
+                .ThenInclude(s => s.Circles)
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(t => t.Archetypes)
+                .ThenInclude(a => a.PowerDescriptions)
                 .Where(e => e.Id == id)
                 .Select(e => e.CampaignTemplate.Archetypes)
                 .FirstAsync();

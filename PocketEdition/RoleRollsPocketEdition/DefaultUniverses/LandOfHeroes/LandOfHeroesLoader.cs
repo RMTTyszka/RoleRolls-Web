@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
@@ -8,6 +8,9 @@ using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Spells;
+using RoleRollsPocketEdition.Spells.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Powers.Entities;
@@ -68,6 +71,9 @@ public class LandOfHeroesLoader : IStartupTask
             var archetypes = await _dbContext.CampaignTemplates
                 .Include(t => t.Archetypes)
                 .ThenInclude(t => t.PowerDescriptions)
+                .Include(t => t.Archetypes)
+                .ThenInclude(t => t.Spells)
+                .ThenInclude(s => s.Circles)
                 .Where(e => e.Id == templateFromCode.Id)
                 .Select(e => e.Archetypes)
                 .FirstAsync(cancellationToken);
@@ -113,6 +119,7 @@ public class LandOfHeroesLoader : IStartupTask
                 _dbContext);
             await SynchronizeArchetypes(templateFromDb, templateFromCode.Archetypes, templateFromDb.Archetypes,
                 _dbContext);
+            await SynchronizeAllArchetypeSpells(templateFromDb, _dbContext);
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
@@ -140,8 +147,8 @@ public class LandOfHeroesLoader : IStartupTask
 
         foreach (var dbCreature in fromDb.Where(c => !codeCreatureTypes.ContainsKey(c.Id)).ToList())
         {
+            // Avoid hard deletes to prevent concurrency issues; keep DB rows and let code ignore them
             templateFromDb.Archetypes.Remove(dbCreature);
-            dbContext.Archetypes.Remove(dbCreature);
         }
     }
 
@@ -164,14 +171,11 @@ public class LandOfHeroesLoader : IStartupTask
                     dbSkill.SpecificSkillTemplates, context);
                 dbSkill.Name = codeSkill.Name;
                 dbSkill.AttributeTemplateId = codeSkill.AttributeTemplateId;
-                context.SkillTemplates.Update(dbSkill);
+                // tracking will persist changes
             }
         }
 
-        foreach (var dbSkill in fromDb.Where(s => !codeSkills.ContainsKey(s.Id)).ToList())
-        {
-            fromDb.Remove(dbSkill);
-        }
+        // Do not remove existing skills during seed to avoid concurrency issues
     }
 
     private async Task SynchronizeAttributes(Templates.Entities.CampaignTemplate templateFromDb,
@@ -191,14 +195,11 @@ public class LandOfHeroesLoader : IStartupTask
             {
                 dbAttr.Update(new AttributeTemplateModel(codeAttr));
                 dbAttr.Name = codeAttr.Name;
-                context.AttributeTemplates.Update(dbAttr);
+                // tracking will persist changes
             }
         }
 
-        foreach (var dbAttr in fromDb.Where(a => !codeAttributes.ContainsKey(a.Id)).ToList())
-        {
-            fromDb.Remove(dbAttr);
-        }
+        // Do not remove existing attributes during seed
     }
 
     // attribute-level skills synchronization removed; skills are synchronized at template level
@@ -210,9 +211,8 @@ public class LandOfHeroesLoader : IStartupTask
         var codeMinorSkills = fromCode.ToDictionary(ms => ms.Id);
         foreach (var dbMinorSkill in fromDb.Where(ms => !codeMinorSkills.ContainsKey(ms.Id)).ToList())
         {
+            // Keep DB intact; stop tracking removal to avoid concurrency exceptions
             fromDb.Remove(dbMinorSkill);
-            context.MinorSkillTemplates.Remove(dbMinorSkill);
-            await context.SaveChangesAsync();
         }
 
         foreach (var codeMinorSkill in fromCode)
@@ -265,14 +265,11 @@ public class LandOfHeroesLoader : IStartupTask
             else
             {
                 creatureFromDb.UpdateVitality(codeVitality.Id, new VitalityTemplateModel(codeVitality), dbContext);
-                dbContext.VitalityTemplates.Update(dbVitality);
+                // tracking will persist changes
             }
         }
 
-        foreach (var dbVitality in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
-        {
-            creatureFromDb.Vitalities.Remove(dbVitality);
-        }
+        // Do not remove existing vitalities during seed
     }
 
     private async Task SynchronizeCreatureTypes(
@@ -299,11 +296,7 @@ public class LandOfHeroesLoader : IStartupTask
             }
         }
 
-        foreach (var dbCreature in fromDb.Where(c => !codeCreatureTypes.ContainsKey(c.Id)).ToList())
-        {
-            campaignFromDb.CreatureTypes.Remove(dbCreature);
-            dbContext.CreatureTypes.Remove(dbCreature);
-        }
+        // Do not remove existing creature types during seed
     }
 
     private async Task SynchronizeDamageTypes(Templates.Entities.CampaignTemplate creatureFromDb,
@@ -322,14 +315,81 @@ public class LandOfHeroesLoader : IStartupTask
             else
             {
                 dbDamageType.Name = codeDamageType.Name;
-                context.DamageTypes.Update(dbDamageType);
+                // tracking will persist changes
             }
         }
 
-        foreach (var damageType in fromDb.Where(l => !codeDamageTypes.ContainsKey(l.Id)).ToList())
+        // Do not remove existing damage types during seed
+    }
+
+    private async Task SynchronizeAllArchetypeSpells(Templates.Entities.CampaignTemplate templateFromDb,
+        RoleRollsDbContext dbContext)
+    {
+        foreach (var archetype in templateFromDb.Archetypes)
         {
-            creatureFromDb.DamageTypes.Remove(damageType);
-            context.DamageTypes.Remove(damageType);
+            var codeSpells = LandOfHeroesArchetypeSpells.GetForArchetype(archetype.Id);
+            if (codeSpells.Count == 0) continue;
+            await SynchronizeSpells(archetype, codeSpells, dbContext);
         }
     }
+
+    private async Task SynchronizeSpells(Archetype archetypeFromDb, List<Spell> fromCode, RoleRollsDbContext context)
+    {
+        archetypeFromDb.Spells ??= new List<Spell>();
+        var dbSpells = archetypeFromDb.Spells.ToDictionary(s => s.Id);
+        var codeIds = fromCode.Select(s => s.Id).ToHashSet();
+
+        // Add or update
+        foreach (var codeSpell in fromCode)
+        {
+            var existing = await context.Spells.FindAsync(codeSpell.Id);
+            if (existing == null)
+            {
+                existing = codeSpell;
+                await context.Spells.AddAsync(existing);
+            }
+            existing.Name = codeSpell.Name;
+            existing.Description = codeSpell.Description;
+            await SynchronizeSpellCircles(existing, codeSpell.Circles?.ToList() ?? new List<SpellCircle>(), context);
+            if (!archetypeFromDb.Spells.Any(s => s.Id == existing.Id))
+            {
+                archetypeFromDb.Spells.Add(existing);
+            }
+        }
+
+        // Do not remove existing associations here to avoid concurrency issues when rows were already cleaned up.
+    }
+
+    private async Task SynchronizeSpellCircles(Spell dbSpell, List<SpellCircle> codeCircles, RoleRollsDbContext context)
+    {
+        dbSpell.Circles ??= new List<SpellCircle>();
+        var dbByCircle = dbSpell.Circles.ToDictionary(c => c.Circle);
+        var codeByCircle = codeCircles.ToDictionary(c => c.Circle);
+
+        // Add or update
+        foreach (var codeCircle in codeCircles)
+        {
+            if (!dbByCircle.TryGetValue(codeCircle.Circle, out var dbCircle))
+            {
+                codeCircle.SpellId = dbSpell.Id;
+                dbSpell.Circles.Add(codeCircle);
+                await context.SpellCircles.AddAsync(codeCircle);
+            }
+            else
+            {
+                dbCircle.Title = codeCircle.Title;
+                dbCircle.InGameDescription = codeCircle.InGameDescription;
+                dbCircle.EffectDescription = codeCircle.EffectDescription;
+                dbCircle.CastingTime = codeCircle.CastingTime;
+                dbCircle.Duration = codeCircle.Duration;
+                dbCircle.AreaOfEffect = codeCircle.AreaOfEffect;
+                dbCircle.Requirements = codeCircle.Requirements;
+                dbCircle.LevelRequirement = codeCircle.LevelRequirement;
+                // tracking will persist changes
+            }
+        }
+
+        // Do not remove circles here to avoid concurrency issues if rows were already removed.
+    }
 }
+

@@ -22,6 +22,50 @@ Se esconde da visão do inimigo.
 **Pode se locomover na velocidade normal enquanto anda furtivo.**
 **Duração:** até 10 minutos, com concentração.
 
+## Comunhão com Espíritos
+
+Tece um pacto breve para convocar espíritos vigilantes e mensageiros.
+
+**Requisitos:** Warlock, foco de espíritos
+**Tempo de Preparo:** 10 minutos
+
+### 1- Vigias Etéreos
+
+*Olhos do além montam guarda em silêncio.*
+
+**Conjura espíritos para vigiar uma área definida.**
+**Podem notificar o conjurador quando ocorrer um evento/condição na área**
+**(presença, som, abertura de porta, palavra-chave, etc.).**
+**Podem acordar o conjurador durante um descanso longo ao detectar o gatilho.**
+**Duração:** até PE x horas (sem concentração) ou até o fim do descanso longo.
+
+### 2- Batedores do Vento
+
+*Sussurros atravessam paredes e retornam com relatos.*
+
+**Espíritos podem atravessar paredes e obstáculos não mágicos,**
+**observar cômodos adjacentes e relatar ao conjurador o que viram/ouviram.**
+**Duração:** até 10 minutos, com concentração.
+
+### 3- Mãos Sussurrantes
+
+*Pequenos toques que giram chaves e empurram ferrolhos.*
+
+**Espíritos podem interagir levemente com objetos pequenos (puxar, empurrar,**
+**virar maçanetas) e abrir portas simples.**
+**Ao tentar abrir portas/trancas ou furtar à distância,**
+**o conjurador pode usar Conhecimento Arcano no teste apropriado.**
+**Duração:** até 10 minutos, com concentração.
+
+### 4- Elo Anímico
+
+*Intenções reveladas no toque do espírito.*
+
+**Os espíritos podem tocar o espírito de criaturas vivas para identificar intenções.**
+**Funciona como um pressentimento guiado (use Conhecimento Arcano),**
+**com bônus de +1 para cada 2 de CD do efeito.**
+**Duração:** até 10 minutos, com concentração.
+
 ### 3- Shroud of Silence
 
 *A escuridão se torna absoluta; parado, o alvo se funde ao ambiente.*
@@ -204,3 +248,47 @@ Arte profana que interroga, move e devolve fôlego aos que já partiram.
 **Duração:** PE x horas.
 **Qualquer dano sofrido pela criatura a faz falecer novamente, encerrando o efeito.**
 
+## Poder da Escuridão
+
+Convoca trevas densas para cegar, ocultar e transitar entre sombras.
+
+**Requisitos:** Warlock, foco de sombras
+**Tempo de Preparo:** 1 turno
+
+### 1- Véu de Trevas
+
+*A luz vacila; olhos falham.*
+
+**Cria uma área de escuridão que dificulta a visão dentro e através dela.**
+**Criaturas dentro/olhando para a área sofrem penalidade em observar/identificar**
+**igual ao resultado do seu Teste de Poder (PE), a critério da cena.**
+**Ataques que dependam de visão dentro/através da área tornam-se mais difíceis conforme a penalidade.**
+**Duração:** até 10 minutos, com concentração. Área: a definir.
+
+### 2- Manto da Noite
+
+*Sombras se prendem à pele, abafando passos e contornos.*
+
+**O conjurador fica envolto em sombras, recebendo bônus em Furtividade/Esconder-se**
+**de +1 para cada 2 de CD do efeito.**
+**Se permanecer 1 turno parado em uma sombra, fica invisível enquanto permanecer imóvel.**
+**Duração:** até 10 minutos, com concentração.
+
+### 3- Sombra Vinculada ou Caminhante
+
+*As trevas seguem o alvo — ou abrem passagens curtas entre sombras.*
+
+**Escolha um modo ao conjurar:**
+**(a) Âncora Sombria:** a área de escuridão fica fixada em um objeto ou criatura e se move com ele/ela.
+**(b) Caminhante Sombrio:** o alvo recebe o efeito do 2º círculo e, além disso,**
+**1 vez por turno pode se teletransportar para uma sombra em até 9 m que esteja em sua linha de visão.**
+**Duração:** até 10 minutos, com concentração.
+
+### 4- Eclipse Profundo
+
+*As sombras dominam o espaço; passos sombrios atravessam o véu.*
+
+**Aumenta drasticamente a área da escuridão.**
+**Se conjurada em uma criatura, ela entra no “mundo das sombras” e pode se teletransportar**
+**até sombras dentro do alcance sem exigir linha de visão (a critério do narrador).**
+**Duração:** até 10 minutos, com concentração.

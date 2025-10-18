@@ -5,6 +5,7 @@ using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Entities;
+using RoleRollsPocketEdition.Spells.Entities;
 
 namespace RoleRollsPocketEdition.Archetypes.Entities;
 
@@ -18,6 +19,7 @@ public class Archetype : Entity, IHaveBonuses
     public List<Bonus> Bonuses { get; set; } = [];
     public ICollection<Creature> Creatures { get; set; }
     public List<ArchertypePowerDescription> PowerDescriptions { get; set; } = [];
+    public List<Spell> Spells { get; set; } = [];
 
     public Archetype()
     {

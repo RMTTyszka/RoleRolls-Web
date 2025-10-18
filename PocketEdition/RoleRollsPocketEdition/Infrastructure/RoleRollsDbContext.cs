@@ -20,6 +20,7 @@ using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
+using RoleRollsPocketEdition.Spells.Entities;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
@@ -61,6 +62,8 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Encounter> Encounters { get; set; }
         public DbSet<ArchertypePowerDescription> ArchertypePowerDescriptions { get; set; }
+        public DbSet<Spell> Spells { get; set; }
+        public DbSet<SpellCircle> SpellCircles { get; set; }
 
         private readonly IConfiguration _configuration;
 
@@ -104,6 +107,7 @@ namespace RoleRollsPocketEdition.Infrastructure
             base.OnModelCreating(modelBuilder);
             ModelCreature(modelBuilder);
             ModelArchetype(modelBuilder);
+            ModelSpells(modelBuilder);
             modelBuilder.Owned<Property>();
 
             modelBuilder.Entity<AttributeTemplate>(e =>
@@ -248,6 +252,9 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany<Creature>(p => p.Creatures)
                     .WithOne(p => p.Archetype)
                     .OnDelete(DeleteBehavior.SetNull);
+                e.HasMany<Spell>(a => a.Spells)
+                    .WithMany(s => s.Archetypes)
+                    .UsingEntity(j => j.ToTable("ArchetypeSpells"));
                 e.Property(p => p.Details)
                     .HasConversion(
                         v => Encoding.UTF8.GetBytes(v),
@@ -282,6 +289,57 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany<SpecificSkill>(p => p.SpecificSkills)
                     .WithOne(p => p.Skill)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+        }
+
+        private void ModelSpells(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Spell>(e =>
+            {
+                e.HasMany(s => s.Circles)
+                    .WithOne(c => c.Spell)
+                    .HasForeignKey(c => c.SpellId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                e.Property(p => p.Description)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+            });
+
+            modelBuilder.Entity<SpellCircle>(e =>
+            {
+                e.Property(p => p.InGameDescription)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.EffectDescription)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.CastingTime)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.Duration)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.AreaOfEffect)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
+                e.Property(p => p.Requirements)
+                    .HasConversion(
+                        v => Encoding.UTF8.GetBytes(v),
+                        v => Encoding.UTF8.GetString(v))
+                    .Metadata.SetMaxLength(null);
             });
         }
     }
