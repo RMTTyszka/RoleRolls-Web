@@ -12,7 +12,6 @@ public class PowerDescriptionModel : IEntityDto
 
     public PowerDescriptionModel()
     {
-        
     }
 
     public PowerDescriptionModel(ArchertypePowerDescription archertypePowerDescription)
@@ -37,16 +36,17 @@ public class PowerDescriptionModel : IEntityDto
     public PowerActionType ActionType { get; set; }
     public PowerDurationType DurationType { get; set; }
     public int? Duration { get; set; }
-    public UsageType? UsageType { get; set; }
+    public PowerUsageType? UsageType { get; set; }
     public string UsagesFormula { get; set; } = string.Empty;
     public TargetType TargetType { get; set; }
     public string CastFormula { get; set; } = string.Empty;
     public string Trigger { get; set; } = string.Empty;
     public string CastDescription { get; set; } = string.Empty;
     public Guid? UseAttributeId { get; set; }
+
     public Guid? TargetDefenseId { get; set; }
+
     // Unified usage limiting: by count (per interval) or by resource
-    public PowerUsageMode UsageMode { get; set; } = PowerUsageMode.None;
     public int? NumberOfUsages { get; set; } // when UsageMode is PerEncounter/PerDay/PerSession
     public Guid? UsageResourceId { get; set; } // when UsageMode is PerResource (e.g., Mana Vitality Id)
     public int? UsageResourceCost { get; set; } // fixed cost for the resource mode
@@ -79,9 +79,11 @@ public class PowerDescriptionModel : IEntityDto
             if (DurationType != default)
             {
                 var dur = Duration.HasValue && DurationType == PowerDurationType.Turns
-                    ? $" ({Duration} turnos)" : string.Empty;
+                    ? $" ({Duration} turnos)"
+                    : string.Empty;
                 metaParts.Add($"Duração: {DurationType}{dur}");
             }
+
             // Back-compat with legacy UsageType/UsagesFormula, if provided
             if (UsageType.HasValue)
             {
@@ -90,28 +92,29 @@ public class PowerDescriptionModel : IEntityDto
             }
 
             // New unified usage rendering
-            switch (UsageMode)
+            switch (UsageType)
             {
-                case PowerUsageMode.PerEncounter:
+                case PowerUsageType.Encounter:
                     if (NumberOfUsages.HasValue)
                         metaParts.Add($"Usos: {NumberOfUsages.Value} por combate");
                     break;
-                case PowerUsageMode.PerDay:
+                case PowerUsageType.Day:
                     if (NumberOfUsages.HasValue)
                         metaParts.Add($"Usos: {NumberOfUsages.Value} por dia");
                     break;
-                case PowerUsageMode.PerSession:
+                case PowerUsageType.Session:
                     if (NumberOfUsages.HasValue)
                         metaParts.Add($"Usos: {NumberOfUsages.Value} por sessão");
                     break;
-                case PowerUsageMode.PerResource:
+                case PowerUsageType.Resource:
                     if (UsageResourceId.HasValue && UsageResourceCost.HasValue)
                         metaParts.Add($"Custo: {UsageResourceCost.Value} (vitalidade)");
                     break;
-                case PowerUsageMode.Continuous:
+                case PowerUsageType.Continuous:
                     metaParts.Add("Uso: Contínuo");
                     break;
             }
+
             if (TargetType != default)
                 metaParts.Add($"Alvo: {TargetType}");
 
@@ -163,14 +166,4 @@ public class PowerDescriptionModel : IEntityDto
             return sb.ToString().TrimEnd();
         }
     }
-}
-
-public enum PowerUsageMode
-{
-    None = 0,
-    PerEncounter = 1,
-    PerDay = 2,
-    PerSession = 3,
-    PerResource = 4,
-    Continuous = 5
 }

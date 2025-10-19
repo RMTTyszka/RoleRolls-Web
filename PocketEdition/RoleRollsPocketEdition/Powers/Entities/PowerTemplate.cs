@@ -13,7 +13,7 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public PowerType Type { get; set; }
         public PowerDurationType PowerDurationType { get; set; }
         public int? Duration { get; set; }
-        public PowerActionType  ActionType { get; set; }
+        public PowerActionType ActionType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string CastFormula { get; set; }
@@ -21,7 +21,7 @@ namespace RoleRollsPocketEdition.Powers.Entities
         public Guid? UseAttributeId { get; set; }
         public Guid? TargetDefenseId { get; set; }
         public string UsagesFormula { get; set; }
-        public UsageType? UsageType { get; set; }
+        public PowerUsageType? UsageType { get; set; }
         public TargetType TargetType { get; set; }
         public List<Bonus> Bonuses { get; set; }
         public ICollection<PowerInstance> Instances { get; set; }
@@ -44,11 +44,12 @@ namespace RoleRollsPocketEdition.Powers.Entities
         Continuous = 4,
     }
 
-    public enum UsageType
+    public enum PowerUsageType
     {
         Day = 0,
         Session = 1,
         Encounter = 2,
         Continuous = 3,
+        Resource = 4
     }
 }
