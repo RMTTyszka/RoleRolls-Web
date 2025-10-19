@@ -55,12 +55,13 @@ Passiva: pode usar 2 de mana para aumentar o círculo de um feitiço."
             Description = "Você é um conjurador e pode lançar feitiços do Warlock.",
             Type = PowerType.None,
             ActionType = PowerActionType.None,
-            DurationType = PowerDurationType.Continuous,
-            UsageMode = PowerUsageMode.Continuous,
+            DurationType = PowerDurationType.Instant,
+            UsageType = PowerUsageType.Encounter,
             TargetType = TargetType.Self,
-            GameDescription = @"- Ganha acesso à lista de feitiços do Warlock.
-- Lançamento de feitiços consome Mana (vitalidade), conforme definido em cada feitiço ou poder.
-- Regras de aprendizagem/preparo e progressão de círculos a definir (confirme detalhes)."
+            GameDescription = @"- Pode conjurar feitiços e encantamentos.
+- Conhece: Nível + 3 feitiços e Nível + 2 encantamentos.
+- Progressão de círculo: seus feitiços/encantamentos sobem de círculo nos níveis 4, 8 e 12, a menos que a descrição da magia especifique diferente.
+- O lançamento de feitiços consome Mana (vitalidade), conforme definido em cada feitiço ou poder."
         });
 
         // MALDIÇÃO MACABRA (nível 1)

@@ -50,6 +50,7 @@ namespace RoleRollsPocketEdition.Powers.Entities
         Session = 1,
         Encounter = 2,
         Continuous = 3,
-        Resource = 4
+        Resource = 4,
+None = 5
     }
 }
