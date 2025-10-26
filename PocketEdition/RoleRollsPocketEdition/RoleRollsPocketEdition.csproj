@@ -56,6 +56,7 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="DefaultUniverses\Global\"/>
+        <Folder Include="DefaultUniverses\LandOfHeroes\Archetypes\Warlock\Spells\Major\" />
     </ItemGroup>
 
     <ItemGroup>
