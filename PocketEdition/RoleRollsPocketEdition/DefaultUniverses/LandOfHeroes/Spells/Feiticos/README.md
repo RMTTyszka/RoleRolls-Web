@@ -20,9 +20,4 @@ Observações
 - O escalonamento deve considerar também os aumentos naturais do personagem com o nível, para evitar crescimento muito rápido.
 - Organização sugerida abaixo: mova as magias para a pasta da sua categoria.
 
-### Organização de Pastas
-
-- Feiticos/Menores
-- Feiticos/Intermediarios
-- Feiticos/Maiores
 

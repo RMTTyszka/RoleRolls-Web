@@ -34,7 +34,7 @@ import { ArchetypeSpellsComponent } from '@app/campaigns/campaign-details/archet
     TabsModule,
     ArchetypeDetailsComponent,
     ArchetypePowerDescriptionsComponent,
-    ArchetypeSpellsComponent\r\n  ],
+    ArchetypeSpellsComponent  ],
   templateUrl: './archetype-editor.component.html',
   styleUrls: ['./archetype-editor.component.scss']
 })
