@@ -22,6 +22,9 @@ Observações
 
 ### Diretrizes de Design
 
+- Não invente efeitos: só inclua condições, penalidades, bônus ou impactos adicionais quando explicitamente solicitado.
+- Se um efeito não estiver claro (o que exatamente acontece), pergunte antes de implementar.
+
 - Escopo: as diretrizes abaixo consideram apenas o 1º círculo (nível base) da magia para definir alcance, área, número de alvos e tempo de conjuração. Escalonamentos em círculos superiores podem exceder esses valores, mas não alteram a categoria/base, a menos que explicitado.
 - Tempo de conjuração e múltiplos alvos: use a regra de concentração considerando o estado no 1º círculo. Se círculos superiores adicionarem alvos/área, mantenha o tempo de conjuração original salvo indicação contrária na própria melhoria.
 - Alcance padrão: 9 m.  
