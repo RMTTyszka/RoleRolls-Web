@@ -22,6 +22,12 @@ Observações
 
 ### Diretrizes de Design
 
+### Classificação por Tempo de Conjuração
+
+- 1 ação de ataque ou ação de reação: Magias Intermediárias (Medium).
+- Concentração (1, 2 ou 3): Magias Maiores (Major).
+- Ação de movimento: Magias Menores (Minor).
+
 - Não invente efeitos: só inclua condições, penalidades, bônus ou impactos adicionais quando explicitamente solicitado.
 - Se um efeito não estiver claro (o que exatamente acontece), pergunte antes de implementar.
 

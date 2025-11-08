@@ -7,7 +7,7 @@ O conjurador ergue um totem de energia necromântica que evoca vislumbres aterra
 **Tempo de Conjuração:** Concentração 2  
 **Alcance:** 9 m  
 **Área (base):** círculo de 6 m de diâmetro, centrado em um ponto no alcance  
-**Teste:** Ataque Especial vs Resistência a Medo (uma jogada por criatura na área)
+**Teste:** Ataque Especial vs Resistência a Medo
 
 **Efeito (base):** Em caso de sucesso, a criatura sofre MEDO II.  
 **Duração:** 1 turno para cada sucesso obtido no teste (por criatura).  
