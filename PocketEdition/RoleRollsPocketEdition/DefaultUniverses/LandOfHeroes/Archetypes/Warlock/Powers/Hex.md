@@ -4,8 +4,9 @@ Uma vez por rodada, uma criatura afetada por uma magia, ataque ou habilidade, re
 Uma criatura não pode receber mais uma maldição.
 
 ## Efeitos da Maldição
--   -2 Acerto
--  reduz deslocamento em 1/3 
+-  -2 Acerto
 -  -2 Esquiva
--  -2 Defesa
+-  -2 em Resistencia
+-  -2 ataque especial
+-  -4 poder especial
 
