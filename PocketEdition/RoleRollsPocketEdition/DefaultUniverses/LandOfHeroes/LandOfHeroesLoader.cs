@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
@@ -419,12 +419,5 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 }
-
-
-
-
-
-
-
 
 

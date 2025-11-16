@@ -21,3 +21,5 @@ public class DefenseTemplateModel : IDefenseTemplate
         Formula = defense.Formula;
     }
 }
+
+

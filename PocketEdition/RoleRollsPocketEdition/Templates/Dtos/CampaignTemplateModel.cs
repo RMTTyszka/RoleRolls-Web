@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Archetypes.Models;
+using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -63,3 +63,5 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         }
     }
 }
+
+

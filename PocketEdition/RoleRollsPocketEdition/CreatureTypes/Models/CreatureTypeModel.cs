@@ -13,3 +13,5 @@ public class CreatureTypeModel(CreatureType creatureType) : IEntityDto
     public bool CanBeAlly { get; set; }
     public bool CanBeEnemy { get; set; }
 }
+
+

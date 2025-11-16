@@ -31,3 +31,5 @@ public class CampaignSceneHistoryOutput
     public string Text { get; set; }
     
 }
+
+

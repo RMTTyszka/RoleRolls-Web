@@ -8,3 +8,5 @@ public class CreatureTakeDamageResult
     public Guid ActorId { get; set; }
     public int ExcessDamage { get; set; }
 }
+
+

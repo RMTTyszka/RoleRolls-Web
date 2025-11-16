@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Rolls.Entities
+namespace RoleRollsPocketEdition.Rolls.Entities
 {
     public enum RollPropertyType
     {
@@ -7,3 +7,5 @@
         MinorSkill = 2,
     }
 }
+
+

@@ -46,10 +46,12 @@ public class AttackTests
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
+                PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
+                PropertyType.Vitality),
             Luck = 0,
-            Advantage = 10
+            Advantage = 0
         };
 
         var dice = Substitute.For<IDiceRoller>();
@@ -80,8 +82,10 @@ public class AttackTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new BaseCreature(campaignTemplate, "").Creature;;
-        var defender = new BaseCreature(campaignTemplate, "").Creature;;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;
+        ;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;
+        ;
 
         var input = new AttackCommand
         {
@@ -90,8 +94,10 @@ public class AttackTests
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
+                PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
+                PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
         };
@@ -106,6 +112,7 @@ public class AttackTests
         result.Success.Should().BeTrue();
         result.TotalDamage.Should().Be(4);
     }
+
     [Fact(DisplayName = "Full Level Test")]
     public void T3()
     {
@@ -122,7 +129,7 @@ public class AttackTests
             foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
             {
                 if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
-                    or WeaponCategory.HeavyShield 
+                    or WeaponCategory.HeavyShield
                     //     or WeaponCategory.Medium 
                     //    or WeaponCategory.Light 
                     //    or WeaponCategory.Heavy
@@ -135,11 +142,11 @@ public class AttackTests
                     .WithLevel(level)
                     .WithWeapon(weaponCategory, EquipableSlot.MainHand, level)
                     .Creature;
-                
+
                 var byArmor = new Dictionary<ArmorCategory, int>();
-            
+
                 foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
-                             .Where(e => 
+                             .Where(e =>
                                      e is not ArmorCategory.None
                                  //     and not ArmorCategory.Medium
                                  //     and not ArmorCategory.Heavy
@@ -151,7 +158,7 @@ public class AttackTests
                         .WithLevel(level)
                         .WithArmor(armorCategory, level)
                         .Creature;
-                    
+
                     var input = new AttackCommand
                     {
                         WeaponSlot = EquipableSlot.MainHand,
@@ -177,24 +184,27 @@ public class AttackTests
                         hits += result.Success ? 1 : 0;
                         weaponDifficult = result.Difficulty;
                     }
+
                     totalDamage /= TotalAttacks;
                     var hit = hits / (TotalAttacks * weaponDifficult);
                     //      _testOutputHelper.WriteLine($"LEVEL {level} - Weapon {weaponCategory.ToString()} - Armor {armorCategory.ToString()} - {hit} hits - {totalDamage} damage");
-                
+
                     byArmor.Add(armorCategory, totalDamage);
                     if (!byArmorAndWeapon.ContainsKey(armorCategory))
                     {
                         byArmorAndWeapon[armorCategory] = new Dictionary<WeaponCategory, int>();
                     }
+
                     byArmorAndWeapon[armorCategory].Add(weaponCategory, totalDamage);
                 }
-            
+
                 byWeaponAndArmor.Add(weaponCategory, byArmor);
             }
-        
+
             byLevelAndWeapon.Add(level, byWeaponAndArmor);
             byLevelAndArmor.Add(level, byArmorAndWeapon);
         }
+
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
         Assert.Equal(25, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
         Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
@@ -447,7 +457,8 @@ public class AttackTests
                         var result = attacker.Attack(defender, input, newDiceRoller, _testOutputHelper);
                         totalDamage += result.TotalDamage;
                         hits += result.Success ? 1 : 0;
-                    }             
+                    }
+
                     for (var i = 0; i < TotalAttacks; i++)
                     {
                         diceRoller.Roll(20).Returns(2);

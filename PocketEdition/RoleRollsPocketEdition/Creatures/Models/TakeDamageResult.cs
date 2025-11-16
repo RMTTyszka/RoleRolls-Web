@@ -7,3 +7,5 @@ public class TakeDamageResult
     public string Description { get; set; }
     
 }
+
+

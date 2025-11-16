@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
@@ -58,3 +58,5 @@ namespace RoleRollsPocketEdition.Creatures.Entities
     }
    
 }
+
+

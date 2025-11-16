@@ -10,3 +10,5 @@ namespace RoleRollsPocketEdition.Powers.Entities
         Free = 5,
     }
 }
+
+

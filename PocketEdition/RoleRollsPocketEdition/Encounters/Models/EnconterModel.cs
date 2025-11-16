@@ -25,3 +25,5 @@ public class EnconterModel : IEntityDto
         Creatures = encounter.Creatures.Select(e => new CreatureModel(e)).ToList();
     }
 }
+
+

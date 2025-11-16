@@ -1,17 +1,19 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace RoleRollsPocketEdition.Infrastructure;
 
-public class RoleRollsDbContextDesignTime 
-  //   : IDesignTimeDbContextFactory<RoleRollsDbContext>
+public class RoleRollsDbContextDesignTime
 {
-    private readonly IConfiguration _configuration;
-
     public RoleRollsDbContext CreateDbContext(string[] args)
     {
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
 
         var optionsBuilder = new DbContextOptionsBuilder<RoleRollsDbContext>();
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
-        return new RoleRollsDbContext(optionsBuilder.Options, _configuration);
+        optionsBuilder.UseNpgsql(configuration.GetConnectionString("RoleRolls") ?? string.Empty);
+        return new RoleRollsDbContext(optionsBuilder.Options, configuration);
     }
 }

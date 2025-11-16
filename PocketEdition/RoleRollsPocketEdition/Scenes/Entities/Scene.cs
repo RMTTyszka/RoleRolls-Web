@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Campaigns.Entities;
+using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Models;
@@ -40,3 +40,5 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         Finalized = 2,
     }
 }
+
+

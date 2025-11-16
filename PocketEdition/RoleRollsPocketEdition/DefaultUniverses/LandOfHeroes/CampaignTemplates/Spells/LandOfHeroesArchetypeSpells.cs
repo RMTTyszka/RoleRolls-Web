@@ -28,3 +28,5 @@ public static class LandOfHeroesArchetypeSpells
             : new List<Spell>();
     }
 }
+
+

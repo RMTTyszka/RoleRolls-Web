@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events.Skills;
+namespace RoleRollsPocketEdition.Campaigns.Events.Skills;
 
 public class SkillRemoved
 {
@@ -6,3 +6,5 @@ public class SkillRemoved
     public Guid CreatureTemplateId { get; set; }
     public Guid SkillId { get; set; }
 }
+
+

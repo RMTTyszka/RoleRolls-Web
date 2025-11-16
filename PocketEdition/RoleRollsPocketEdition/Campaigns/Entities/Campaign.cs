@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Campaigns.Models;
+using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Encounters;
 using RoleRollsPocketEdition.Encounters.Entities;
@@ -44,3 +44,5 @@ namespace RoleRollsPocketEdition.Campaigns.Entities
         }
     }
 }
+
+

@@ -12,3 +12,5 @@ public static class LandOfHeroesAttributes
         { LandOfHeroesAttribute.Vigor, Guid.Parse("1F5B3E5E-C5B8-44A3-A9B3-8B1A3F7444AB") },
     };
 }
+
+

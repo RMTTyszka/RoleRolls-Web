@@ -9,7 +9,7 @@ public class BonusModel : IEntityDto
     public Guid Id { get; set; }
     public int Value { get; set; }
     public BonusApplication Application { get; set; }
-    public Property Property { get; set; }
+    public Property? Property { get; set; }
     public BonusOrigin Origin { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
@@ -28,3 +28,5 @@ public class BonusModel : IEntityDto
         Description = bonus.Description;
     }
 }
+
+

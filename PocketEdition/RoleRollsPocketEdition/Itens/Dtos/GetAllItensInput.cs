@@ -7,3 +7,5 @@ public class GetAllItensInput : PagedRequestInput
 {
     public ItemType? ItemType { get; set; }
 }
+
+

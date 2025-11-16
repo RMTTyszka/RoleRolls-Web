@@ -1,4 +1,4 @@
-﻿using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
+using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Creatures.Models
 {
@@ -23,3 +23,5 @@ namespace RoleRollsPocketEdition.Creatures.Models
     }
 
 }
+
+

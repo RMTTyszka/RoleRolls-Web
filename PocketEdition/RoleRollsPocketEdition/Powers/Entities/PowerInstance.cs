@@ -12,3 +12,5 @@ public class PowerInstance : Entity
     public int UsedCharges { get; set; }
     public ICollection<ItemInstance> ItemInstances { get; set; } = new List<ItemInstance>();
 }
+
+

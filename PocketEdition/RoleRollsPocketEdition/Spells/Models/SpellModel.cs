@@ -81,3 +81,5 @@ public class SpellModel : IEntityDto
             .ToList();
     }
 }
+
+

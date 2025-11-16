@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Entities
+namespace RoleRollsPocketEdition.Creatures.Entities
 {
     public enum CreatureCategory
     {
@@ -6,3 +6,5 @@
         Monster = 1
     }
 }
+
+

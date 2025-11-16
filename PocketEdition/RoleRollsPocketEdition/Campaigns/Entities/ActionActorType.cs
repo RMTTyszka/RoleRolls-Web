@@ -6,3 +6,5 @@ public enum ActionActorType
     Monster = 1,
     Master = 2,
 }
+
+

@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Core.Entities;
 
 namespace RoleRollsPocketEdition.Templates.Entities
 {
@@ -9,3 +9,5 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public string Operator { get; set; }
     }
 }
+
+

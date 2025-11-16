@@ -33,7 +33,7 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Services
             await _dbContext.AddAsync(user);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<LoginResult> LoginAsync(string email, string password)
+        public async Task<LoginResult?> LoginAsync(string email, string password)
         {
             var user =  await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
             if (user is null)

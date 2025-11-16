@@ -54,3 +54,5 @@ public static partial class BarbarianArchetypeDetails
             ]
         };
 }
+
+

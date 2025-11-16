@@ -8,3 +8,5 @@ public class ConsumableTemplateModel : ItemTemplateModel
         return consumable;
     }
 }
+
+

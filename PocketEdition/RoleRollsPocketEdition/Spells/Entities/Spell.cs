@@ -10,3 +10,5 @@ public class Spell : Entity
     public ICollection<SpellCircle> Circles { get; set; } = new List<SpellCircle>();
     public ICollection<Archetype> Archetypes { get; set; } = new List<Archetype>();
 }
+
+

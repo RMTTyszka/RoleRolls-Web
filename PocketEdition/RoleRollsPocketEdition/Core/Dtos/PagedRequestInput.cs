@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Core.Dtos
+namespace RoleRollsPocketEdition.Core.Dtos
 {
     public class PagedRequestInput
     {
@@ -7,3 +7,5 @@
         public int MaxResultCount { get; set; }
     }
 }
+
+

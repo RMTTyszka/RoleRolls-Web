@@ -19,3 +19,5 @@ public class SpellCircle : Entity
 
     public int LevelRequirement { get; set; }
 }
+
+

@@ -29,7 +29,8 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
     public async Task<CreatureUpdateValidationResult> BuildCreature(Guid campaignId, CreatureModel creatureModel)
     {
         var ownerId = _currentUser.User.Id;
-        var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+        var campaign = await _dbContext.Campaigns.FindAsync(campaignId)
+                      ?? throw new InvalidOperationException($"Campaign {campaignId} was not found.");
         var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
         var creature = creatureTemplate.InstantiateCreature(creatureModel.Name, creatureModel.Id, campaignId, creatureModel.Category,
             ownerId, creatureModel.IsTemplate);
@@ -50,7 +51,8 @@ public class CreatureBuilderService : ICreatureBuilderService, ITransientDepende
     {
         var output = new List<CreatureUpdateValidationResult>();
         var ownerId = _currentUser.User.Id;
-        var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
+        var campaign = await _dbContext.Campaigns.FindAsync(campaignId)
+                      ?? throw new InvalidOperationException($"Campaign {campaignId} was not found.");
         var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
         var creatures = creatureModels.Select(c => creatureTemplate.InstantiateCreature(c.Name, c.Id, campaignId, c.Category,
             ownerId, c.IsTemplate)).ToList();

@@ -14,7 +14,7 @@ public interface IUnitOfWork : IDisposable
 public class UnitOfWork : IUnitOfWork, IScopedDependency, IAsyncDisposable, IDisposable
 {
     private readonly RoleRollsDbContext _context;
-    private IDbContextTransaction _transaction;
+    private IDbContextTransaction? _transaction;
     private bool _transactionCompleted;
 
     public UnitOfWork(RoleRollsDbContext context)

@@ -51,12 +51,10 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
             SceneId = sceneId
         };
         var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
-        using (_unitOfWork.Begin())
-        {
-            _creatureRepository.Update(creature);
-            await _dbContext.SceneActions.AddAsync(result);
-            _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _creatureRepository.Update(creature);
+        await _dbContext.SceneActions.AddAsync(result);
+        await _unitOfWork.CommitAsync();
         await _notificationService.NotifyScene(sceneId, history);
 
     }      
@@ -66,12 +64,10 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         var result = creature.Heal(input.VitalityId, input.Value);
         result.SceneId = sceneId;
         var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
-        using (_unitOfWork.Begin())
-        {
-            _creatureRepository.Update(creature);
-            await _dbContext.SceneActions.AddAsync(result);
-            _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _creatureRepository.Update(creature);
+        await _dbContext.SceneActions.AddAsync(result);
+        await _unitOfWork.CommitAsync();
         await _notificationService.NotifyScene(sceneId, history);
     }
 }

@@ -6,3 +6,5 @@ public interface IDefenseTemplate
     string Formula { get; set; }
     Guid Id { get; set; }
 }
+
+

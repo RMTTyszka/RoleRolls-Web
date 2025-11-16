@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Rolls.Models
@@ -54,3 +54,5 @@ namespace RoleRollsPocketEdition.Rolls.Models
         }
     }
 }
+
+

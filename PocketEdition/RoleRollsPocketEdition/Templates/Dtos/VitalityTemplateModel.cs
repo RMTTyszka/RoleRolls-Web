@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Templates.Entities;
+using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Templates.Dtos
 {
@@ -21,3 +21,5 @@ namespace RoleRollsPocketEdition.Templates.Dtos
 
     }
 }
+
+

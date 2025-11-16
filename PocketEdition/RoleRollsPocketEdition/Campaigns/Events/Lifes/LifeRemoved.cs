@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
+namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
 
 public class VitalityRemoved
 {
@@ -6,3 +6,5 @@ public class VitalityRemoved
     public Guid CreatureTemplateId { get; set; }
     public Guid VitalityId { get; set; }
 }
+
+

@@ -17,3 +17,5 @@ public static class LandOfHeroesCombatManeuvers
         GlobalCombatManeuvers.FullCoverAlly,
     ];
 }
+
+

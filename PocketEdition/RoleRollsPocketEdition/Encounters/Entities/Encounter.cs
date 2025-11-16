@@ -38,3 +38,5 @@ public class Encounter : Entity
         Name = encounterModel.Name;
     }
 }
+
+

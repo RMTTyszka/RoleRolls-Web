@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events.MinorSkills;
+namespace RoleRollsPocketEdition.Campaigns.Events.MinorSkills;
 
 public class MinorSkillRemoved
 {
@@ -6,3 +6,5 @@ public class MinorSkillRemoved
     public Guid CreatureTemplateId { get; set; }
     public Guid MinorSkillId { get; set; }
 }
+
+

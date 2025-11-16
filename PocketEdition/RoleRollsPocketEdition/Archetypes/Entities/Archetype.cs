@@ -91,3 +91,5 @@ public class Archetype : Entity, IHaveBonuses
         PowerDescriptions.RemoveAll(b => b.Id == powerDescriptionId);
     }
 }
+
+

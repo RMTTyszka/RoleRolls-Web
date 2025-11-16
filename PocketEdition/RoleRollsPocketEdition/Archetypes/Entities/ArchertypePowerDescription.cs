@@ -36,3 +36,5 @@ public class ArchertypePowerDescription : Entity
         RequiredLevel = model.Level;
     }
 }
+
+

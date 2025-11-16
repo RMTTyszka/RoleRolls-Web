@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Templates.Dtos;
+using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Events.Lifes;
 
@@ -8,3 +8,5 @@ public class VitalityUpdated
     public Guid CreatureTemplateId { get; set; }
     public VitalityTemplateModel Vitality { get; set; }
 }
+
+

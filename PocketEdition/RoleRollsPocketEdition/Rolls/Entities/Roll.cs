@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Rolls.Commands;
@@ -129,3 +129,5 @@ namespace RoleRollsPocketEdition.Rolls.Entities
         }
     }
 }
+
+

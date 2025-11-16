@@ -58,3 +58,5 @@ public static partial class BardArchetypeDetails
             ]
         };
 }
+
+

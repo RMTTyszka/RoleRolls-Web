@@ -12,3 +12,5 @@ public class CampaignUpdateInput
 {
     public string? Name { get; set; }
 }
+
+

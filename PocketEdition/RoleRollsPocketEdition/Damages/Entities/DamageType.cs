@@ -16,3 +16,5 @@ public enum DamageCategory
     Energy = 1, // Magical
     Psychological = 2,
 }
+
+

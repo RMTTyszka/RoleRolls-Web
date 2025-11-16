@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events.Attributes;
+namespace RoleRollsPocketEdition.Campaigns.Events.Attributes;
 
 public class AttributeRemoved
 {
@@ -6,3 +6,5 @@ public class AttributeRemoved
     public Guid CreatureTemplateId { get; set; }
     public Guid AttributeId { get; set; }
 }
+
+

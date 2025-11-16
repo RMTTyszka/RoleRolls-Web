@@ -98,7 +98,7 @@ public class AttackInput
 public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
-    public ItemConfiguration ItemConfiguration { get; set; }
+    public ItemConfiguration ItemConfiguration { get; set; } = null!;
     public Property? DefenseId { get; set; }
     public Property? HitProperty { get; set; }
     public Property? HitAttribute { get; set; }
@@ -107,19 +107,27 @@ public class AttackCommand
     public Property? DamageAttribute { get; set; }
     public int Luck { get; set; }
     public int Advantage { get; set; }
-    public Guid GetDefenseId => DefenseId?.Id ?? ItemConfiguration.ArmorProperty.Id;
-    public Guid GetVitalityId => VitalityId?.Id ?? ItemConfiguration.BasicAttackTargetFirstVitality.Id;
-    public Guid GetSecondVitalityId => SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality.Id;
+    public Guid GetDefenseId =>
+        DefenseId?.Id ?? ItemConfiguration.ArmorProperty?.Id ??
+        throw new InvalidOperationException("Armor property is not configured for this campaign.");
+
+    public Guid GetVitalityId =>
+        VitalityId?.Id ?? ItemConfiguration.BasicAttackTargetFirstVitality?.Id ??
+        throw new InvalidOperationException("Primary target vitality is not configured for this campaign.");
+
+    public Guid GetSecondVitalityId =>
+        SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality?.Id ??
+        throw new InvalidOperationException("Secondary target vitality is not configured for this campaign.");
     public List<Guid> CombatManeuverIds { get; set; } = [];
     public Property? BlockProperty { get; set; }
 }
 
 public class AttackResult
 {
-    public Creature Attacker { get; set; }
-    public Creature Target { get; set; }
+    public Creature Attacker { get; set; } = null!;
+    public Creature Target { get; set; } = null!;
     public int TotalDamage { get; set; }
-    public ItemInstance Weapon { get; set; }
+    public ItemInstance Weapon { get; set; } = null!;
     public bool Success { get; set; }
     public int Block { get; set; }
     public int DamageBonus { get; set; }

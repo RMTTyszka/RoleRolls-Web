@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Creatures.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Models
 {
@@ -27,3 +27,5 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public Guid? AttributeId { get; set; }
     }
 }
+
+
