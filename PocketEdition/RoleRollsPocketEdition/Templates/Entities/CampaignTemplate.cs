@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
@@ -254,3 +254,5 @@ namespace RoleRollsPocketEdition.Templates.Entities
         }
     }
 }
+
+

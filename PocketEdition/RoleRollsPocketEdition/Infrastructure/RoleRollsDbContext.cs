@@ -52,7 +52,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<WeaponTemplate> WeaponTemplates { get; set; }
         public DbSet<ConsumableTemplate> ConsumableTemplates { get; set; }
         public DbSet<ArmorTemplate> ArmorTemplates { get; set; }
-        public DbSet<ItemInstance?> ItemInstances { get; set; }
+        public DbSet<ItemInstance> ItemInstances { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<ItemConfiguration> ItemConfigurations { get; set; }

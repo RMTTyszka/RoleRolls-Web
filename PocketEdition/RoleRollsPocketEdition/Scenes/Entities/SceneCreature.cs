@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 
 namespace RoleRollsPocketEdition.Scenes.Entities
@@ -13,3 +13,5 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         public CreatureCategory CreatureCategory { get; set; }
     }
 }
+
+

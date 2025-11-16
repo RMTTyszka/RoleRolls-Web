@@ -5,3 +5,5 @@ namespace RoleRollsPocketEdition.Itens.Dtos.Templates;
 public class GetAllItensTemplateInput : PagedRequestInput
 {
 }
+
+

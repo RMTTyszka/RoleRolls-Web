@@ -43,3 +43,5 @@ public class PowerTemplateModel : IEntityDto
         Id = power.Id;
     }
 }
+
+

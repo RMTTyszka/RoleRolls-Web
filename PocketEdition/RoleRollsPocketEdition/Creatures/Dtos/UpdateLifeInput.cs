@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Creatures.Dtos;
+namespace RoleRollsPocketEdition.Creatures.Dtos;
 
 public class UpdateVitalityInput
 {
@@ -13,3 +13,5 @@ public class VitalityDamageInput
     public Guid VitalityId { get; set; }
     public int Damage { get; set; }
 }
+
+

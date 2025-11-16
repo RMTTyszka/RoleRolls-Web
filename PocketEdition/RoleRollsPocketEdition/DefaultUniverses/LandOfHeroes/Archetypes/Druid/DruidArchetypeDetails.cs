@@ -49,3 +49,5 @@ public static partial class DruidArchetypeDetails
             ]
         };
 }
+
+

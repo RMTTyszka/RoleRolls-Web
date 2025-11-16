@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Core.Dtos
+namespace RoleRollsPocketEdition.Core.Dtos
 {
     public class ValidationResult<TResult>
     {
@@ -6,3 +6,5 @@
         public string Message { get; set; }
     }
 }
+
+

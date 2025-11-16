@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Creatures.Entities;
 
 namespace RoleRollsPocketEdition.Scenes.Models
 {
@@ -10,3 +10,5 @@ namespace RoleRollsPocketEdition.Scenes.Models
 
     }
 }
+
+

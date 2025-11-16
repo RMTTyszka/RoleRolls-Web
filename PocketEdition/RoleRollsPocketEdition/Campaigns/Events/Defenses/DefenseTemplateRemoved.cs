@@ -4,3 +4,5 @@ public class DefenseTemplateRemoved
 {
     public Guid DefenseTemplateId { get; set; }
 }
+
+

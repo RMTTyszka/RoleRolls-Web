@@ -50,3 +50,5 @@ public static partial class MartialistArchetypeDetails
             ]
         };
 }
+
+

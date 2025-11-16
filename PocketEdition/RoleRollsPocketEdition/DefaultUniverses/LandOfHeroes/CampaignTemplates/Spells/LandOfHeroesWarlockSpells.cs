@@ -404,3 +404,5 @@ public static class LandOfHeroesWarlockSpells
         ]
     };
 }
+
+

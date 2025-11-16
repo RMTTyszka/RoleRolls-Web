@@ -75,3 +75,5 @@ public class CreatureType : Entity, IHaveBonuses
         Bonuses.RemoveAll(b => b.Id == bonusId);
     }
 }
+
+

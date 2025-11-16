@@ -8,3 +8,5 @@ public class SimulateCdInput
     public decimal ExpectedChance { get; set; }
     public Property Property { get; set; }
 }
+
+

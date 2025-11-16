@@ -13,7 +13,7 @@ public interface IItemTemplateService
 {
     Task<PagedResult<T>> GetItemsAsync<T, TEntity>(Guid? campaignId, GetAllItensTemplateInput input) where T : ItemTemplateModel, new()
         where TEntity : ItemTemplate;
-    Task<ItemTemplateModel> GetItemAsync(Guid id);
+    Task<ItemTemplateModel?> GetItemAsync(Guid id);
     Task InsertItem(ConsumableTemplateModel item);
     Task InsertWeapon(WeaponTemplateModel item);
     Task UpdateWeapon(Guid id, WeaponTemplateModel item);
@@ -48,7 +48,7 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
             return new PagedResult<T>(totalItems, fixedItems);
     }    
     [NoTrackingAspect]
-    public async Task<ItemTemplateModel> GetItemAsync(Guid id)
+    public async Task<ItemTemplateModel?> GetItemAsync(Guid id)
     {
             var item = await _roleRollsDbContext.ItemTemplates
                 .Where(e => e.Id == id)
@@ -85,6 +85,10 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
     public async Task UpdateItem(Guid id, ConsumableTemplateModel item)
     {
         var template = await _roleRollsDbContext.ConsumableTemplates.FindAsync(id);
+        if (template is null)
+        {
+            return;
+        }
         template.Update(item);
         _roleRollsDbContext.ItemTemplates.Update(template);
         await _roleRollsDbContext.SaveChangesAsync();

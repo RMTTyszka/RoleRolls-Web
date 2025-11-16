@@ -374,3 +374,5 @@ namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
         };
     }
 }
+
+

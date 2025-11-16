@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Dtos
+namespace RoleRollsPocketEdition.Campaigns.Dtos
 {
     public enum InvitationResult
     {
@@ -6,3 +6,5 @@
         WrongCode = 1
     }
 }
+
+

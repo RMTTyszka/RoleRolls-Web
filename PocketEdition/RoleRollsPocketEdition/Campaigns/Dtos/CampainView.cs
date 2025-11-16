@@ -9,3 +9,5 @@ public class CampainView(Campaign campaign)
     public Guid MasterId { get; set; } = campaign.MasterId;
     public string? TemplateName { get; set; } = campaign.CampaignTemplate.Name;
 }
+
+

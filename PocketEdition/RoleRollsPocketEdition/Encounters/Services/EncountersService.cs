@@ -54,14 +54,19 @@ public class EncounterService : IEncounterService, ITransientDependency
 
     public async Task<PagedResult<EnconterModel>> GetAllAsync(Guid campaignId, PagedRequestInput input)
     {
-        var query =  _context.Campaigns
+        var query = _context.Campaigns
             .AsNoTracking()
-            .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
             .Where(e => e.Id == campaignId)
             .Include(e => e.Encounters)
             .SelectMany(c => c.Encounters);
-            var totalCount = await query.CountAsync();
-            var items = await query.PageBy(input)
+
+        if (!string.IsNullOrWhiteSpace(input.Filter))
+        {
+            query = query.Where(e => e.Name.Contains(input.Filter));
+        }
+
+        var totalCount = await query.CountAsync();
+        var items = await query.PageBy(input)
             .Select(e => new EnconterModel(e))
             .ToListAsync();
         return new PagedResult<EnconterModel>(totalCount, items);
@@ -79,11 +84,9 @@ public class EncounterService : IEncounterService, ITransientDependency
             newEncounter.AddCreature(creature.Creature);
         }
 
-        using (_unitOfWork.Begin())
-        {
-            await campaign.AddEncounter(newEncounter, _context);
-            await _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        await campaign.AddEncounter(newEncounter, _context);
+        await _unitOfWork.CommitAsync();
     }
 
     public async Task UpdateAsync(Guid campaignId, EnconterModel encounterModel)
@@ -94,11 +97,9 @@ public class EncounterService : IEncounterService, ITransientDependency
         var encounter = campaign.Encounters.First(e => e.Id == encounterModel.Id);
         encounter.Update(encounterModel);
 
-        using (_unitOfWork.Begin())
-        {
-            _context.Encounters.Update(encounter);
-            await _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _context.Encounters.Update(encounter);
+        await _unitOfWork.CommitAsync();
     }
 
     public async Task<EncounterValidationResult> DeleteAsync(Guid id)
@@ -118,9 +119,11 @@ public class EncounterService : IEncounterService, ITransientDependency
             .AsNoTracking()
             .Include(e => e.Creatures)
             .Where(e => e.Id == encounterId)
-            .SelectMany(e => e.Creatures)
-            .WhereIf(input.Filter.IsNullOrWhiteSpace(), e => e.Name.Contains(input.Filter))
- ;
+            .SelectMany(e => e.Creatures);
+        if (!string.IsNullOrWhiteSpace(input.Filter))
+        {
+            query = query.Where(e => e.Name.Contains(input.Filter));
+        }
         var totalCount = await query.CountAsync();
         var itens = await query
             .PageBy(input)
@@ -138,12 +141,10 @@ public class EncounterService : IEncounterService, ITransientDependency
         creatureModel.Id = Guid.NewGuid();
         var result = await _creatureBuilderService.BuildCreature(campaignId, creatureModel);
 
-        using (_unitOfWork.Begin())
-        {
-            await _context.Creatures.AddAsync(result.Creature);
-            encounter.AddCreature(result.Creature);
-            await _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        await _context.Creatures.AddAsync(result.Creature);
+        encounter.AddCreature(result.Creature);
+        await _unitOfWork.CommitAsync();
 
         return EncounterValidationResult.Ok();
     }
@@ -152,20 +153,22 @@ public class EncounterService : IEncounterService, ITransientDependency
     {
 
         var creature = await _context.Creatures.FindAsync(creatureId);
+        if (creature == null)
+        {
+            return EncounterValidationResult.NotFound();
+        }
 
         var encounter = await _context.Encounters.FindAsync(encounterId);
         if (encounter == null)
             return EncounterValidationResult.NotFound();
 
         encounter.RemoveCreature(creature);
-        using (_unitOfWork.Begin())
+        using var transaction = _unitOfWork.Begin();
+        if (delete)
         {
-            if (delete)
-            {
-                _context.Creatures.Remove(creature);
-            }
-            await _unitOfWork.CommitAsync();
+            _context.Creatures.Remove(creature);
         }
+        await _unitOfWork.CommitAsync();
         return EncounterValidationResult.Ok();
     }
 }

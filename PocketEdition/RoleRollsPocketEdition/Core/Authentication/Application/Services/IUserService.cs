@@ -7,6 +7,6 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Services
     {
         Task<User> Get(Guid id);
         Task CreateAsync(User user);
-        Task<LoginResult> LoginAsync(string email, string password);
+        Task<LoginResult?> LoginAsync(string email, string password);
     }
 }

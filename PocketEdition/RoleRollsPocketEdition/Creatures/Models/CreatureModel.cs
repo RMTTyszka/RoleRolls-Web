@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Archetypes.Models;
+using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 
@@ -60,3 +60,5 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public int MaxPointsPerSpecificSkill { get; set; }
     }
 }
+
+

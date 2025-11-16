@@ -15,3 +15,5 @@ public class LandOfHeroesSkills
         { LandOfHeroesSkill.Resistance, Guid.Parse("C5614352-312C-4318-84D1-4253C97C3D40") },
     };
 }
+
+

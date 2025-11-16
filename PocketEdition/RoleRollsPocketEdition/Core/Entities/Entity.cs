@@ -1,4 +1,4 @@
-﻿
+
 namespace RoleRollsPocketEdition.Core.Entities
 {
     public abstract class Entity
@@ -6,3 +6,5 @@ namespace RoleRollsPocketEdition.Core.Entities
         public Guid Id { get; set; }
     }
 }
+
+

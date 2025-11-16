@@ -96,3 +96,5 @@ Passiva: pode usar 2 de mana para aumentar o círculo de um feitiço."
         return _byName.TryGetValue(name, out var model) ? model : null;
     }
 }
+
+

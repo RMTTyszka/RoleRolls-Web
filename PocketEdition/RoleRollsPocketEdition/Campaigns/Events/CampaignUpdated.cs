@@ -1,6 +1,8 @@
-﻿namespace RoleRollsPocketEdition.Campaigns.Events;
+namespace RoleRollsPocketEdition.Campaigns.Events;
 
 public class CampaignUpdated
 {
     public Guid CampaingId { get; set; }
 }
+
+

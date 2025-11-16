@@ -8,7 +8,7 @@ public class CreatureUpdateValidationResult
     public CreatureUpdateValidation Validation { get; init; }
     public string? InvalidProperty { get; init; }
 
-    public Creature Creature { get; set; }
+    public Creature Creature { get; set; } = null!;
 
     public CreatureUpdateValidationResult(CreatureUpdateValidation validation, string? invalidProperty)
     {

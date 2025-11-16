@@ -33,7 +33,7 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             .Include(creature => creature.Inventory)
             .ThenInclude(inventory => inventory.Items)
             .SingleAsync(x => x.Id == creatureId);
-        var item = template.Instantiate(input);
+        var item = template.Instantiate(input) ?? throw new InvalidOperationException("Template did not create an item instance.");
         if (creature.Inventory.Id == Guid.Empty)
         {
             creature.Inventory.Id = Guid.NewGuid();
@@ -43,13 +43,10 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             await _context.SaveChangesAsync();
         }
         creature.AddItemToInventory(item);
-        
-        using (_unitOfWork.Begin())
-        {
-            _context.Creatures.Update(creature);
-            await _context.ItemInstances.AddAsync(item);
-            _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _context.Creatures.Update(creature);
+        await _context.ItemInstances.AddAsync(item);
+        await _unitOfWork.CommitAsync();
 
         return ItemModel.FromItem(item);
     }   
@@ -61,13 +58,10 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             .ThenInclude(inventory => inventory.Items)     
             .SingleAsync(x => x.Id == creatureId);
         creature.Destroy(item);
+        using var transaction = _unitOfWork.Begin();
         _context.ItemInstances.Remove(item);
-        using (_unitOfWork.Begin())
-        {
-            _context.ItemInstances.Remove(item);
-            _context.Creatures.Update(creature);
-            _unitOfWork.CommitAsync();
-        }
+        _context.Creatures.Update(creature);
+        await _unitOfWork.CommitAsync();
     }    
     public async Task Update(Guid campaignId, Guid creatureId, Guid id, ItemInstanceUpdate input)
     {
@@ -77,11 +71,9 @@ public class CreatureItemService : ICreatureItemService, ITransientDependency
             .ThenInclude(inventory => inventory.Items)
             .SingleAsync(x => x.Id == creatureId);
         item.Update(input);
-        using (_unitOfWork.Begin())
-        {
-            _context.ItemInstances.Remove(item);
-            _context.Creatures.Update(creature);
-            _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _context.ItemInstances.Remove(item);
+        _context.Creatures.Update(creature);
+        await _unitOfWork.CommitAsync();
     }
 }

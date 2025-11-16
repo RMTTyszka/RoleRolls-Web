@@ -5,3 +5,5 @@ namespace RoleRollsPocketEdition.Encounters.Models;
 public class GetAllEncountersInput : PagedRequestInput
 {
 }
+
+

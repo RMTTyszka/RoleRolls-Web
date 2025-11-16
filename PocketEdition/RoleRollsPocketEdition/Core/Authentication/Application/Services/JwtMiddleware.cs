@@ -10,7 +10,6 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Services
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings _appSettings;
-        private readonly ICurrentUser _currentUser;
 
         public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
@@ -28,7 +27,8 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Services
             await _next(context);
         }
 
-        private async Task attachUserToContext(HttpContext context, IUserService userService, string token, ICurrentUser currentUser)
+        private async Task attachUserToContext(HttpContext context, IUserService userService, string token,
+            ICurrentUser currentUser)
         {
             try
             {

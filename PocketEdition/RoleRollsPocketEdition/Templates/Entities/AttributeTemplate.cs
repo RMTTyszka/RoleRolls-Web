@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Dtos;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
@@ -29,3 +29,5 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
     }
 }
+
+

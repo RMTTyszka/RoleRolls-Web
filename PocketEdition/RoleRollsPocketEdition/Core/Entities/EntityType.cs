@@ -7,3 +7,5 @@ public enum EntityType
     Race = 2,
     Archetype = 3,
 }
+
+

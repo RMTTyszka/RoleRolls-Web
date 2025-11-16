@@ -7,3 +7,5 @@ namespace RoleRollsPocketEdition.Powers.Entities
         None = 2,
     }
 }
+
+

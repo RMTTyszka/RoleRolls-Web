@@ -35,13 +35,13 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Controllers
     }
     public class LoginInput
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }   
     public class LoginResult
     {
-        public string Token { get; set; }
-        public string UserName { get; set; }
+        public string Token { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
         public Guid UserId{ get; set; }
     }
 }

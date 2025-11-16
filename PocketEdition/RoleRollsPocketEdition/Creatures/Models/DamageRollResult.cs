@@ -10,3 +10,5 @@ public class DamageRollResult
     public int MagicBonus { get; set; }
     public int AttributeBonus { get; set; }
 }
+
+

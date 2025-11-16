@@ -39,11 +39,9 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
         }
         creature.Equip(item, input.Slot);
         
-        using (_unitOfWork.Begin())
-        {
-            _context.Creatures.Update(creature);
-            await _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _context.Creatures.Update(creature);
+        await _unitOfWork.CommitAsync();
     }
 
     public async Task Unequip(Guid campaignId, Guid creatureId, EquipableSlot slot)
@@ -59,10 +57,8 @@ public class CreatureEquipmentService : ICreatureEquipmentService, ITransientDep
         }
         creature.Unequip(slot);
         
-        using (_unitOfWork.Begin())
-        {
-            _context.Creatures.Update(creature);
-            _unitOfWork.CommitAsync();
-        }
+        using var transaction = _unitOfWork.Begin();
+        _context.Creatures.Update(creature);
+        await _unitOfWork.CommitAsync();
     }
 }

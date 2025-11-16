@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Templates.Dtos
+namespace RoleRollsPocketEdition.Templates.Dtos
 {
     public enum CreatureTemplateValidationResult
     {
@@ -6,3 +6,5 @@
         SkillWithoutAttribute = 1
     }
 }
+
+

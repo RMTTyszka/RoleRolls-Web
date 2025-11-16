@@ -41,19 +41,20 @@ namespace RoleRollsPocketEdition.Rolls
             var query = from roll in _roleRollsDbContext.Rolls
                 .AsNoTracking()
                 .Where(roll => roll.SceneId == sceneId)
+                        let propertyId = roll.Property == null ? (Guid?)null : roll.Property.Id
                         join creature in _roleRollsDbContext.Creatures on roll.ActorId equals creature.Id into joinedCreature
                         from creature in joinedCreature.DefaultIfEmpty()
-                        join attribute in _roleRollsDbContext.Attributes on roll.Property.Id equals attribute.Id into joinedAttribute
+                        join attribute in _roleRollsDbContext.Attributes on propertyId equals (Guid?)attribute.Id into joinedAttribute
                         from attribute in joinedAttribute.DefaultIfEmpty()
                         join attributeTemplate in _roleRollsDbContext.AttributeTemplates on attribute.AttributeTemplateId equals attributeTemplate.Id into joinedAttributeTemplate
                         from attributeTemplate in joinedAttributeTemplate.DefaultIfEmpty()
 
-                        join skill in _roleRollsDbContext.Skills on roll.Property.Id equals skill.Id into joinedSkill
+                        join skill in _roleRollsDbContext.Skills on propertyId equals (Guid?)skill.Id into joinedSkill
                         from skill in joinedSkill.DefaultIfEmpty()
                         join skillTemplate in _roleRollsDbContext.SkillTemplates on skill.SkillTemplateId equals skillTemplate.Id into joinedSkillTemplate
                         from skillTemplate in joinedSkillTemplate.DefaultIfEmpty()
 
-                        join minorSkill in _roleRollsDbContext.MinorSkills on roll.Property.Id equals minorSkill.Id into joinedMinorSkill
+                        join minorSkill in _roleRollsDbContext.MinorSkills on propertyId equals (Guid?)minorSkill.Id into joinedMinorSkill
                         from minorSkill in joinedMinorSkill.DefaultIfEmpty()
                         join minorSkillTemplate in _roleRollsDbContext.MinorSkillTemplates on minorSkill.SpecificSkillTemplateId equals minorSkillTemplate.Id into joinedMinorSkillTemplate
                         from minorSkillTemplate in joinedMinorSkillTemplate.DefaultIfEmpty()

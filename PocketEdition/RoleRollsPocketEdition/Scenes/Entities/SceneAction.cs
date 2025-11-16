@@ -10,3 +10,5 @@ public class SceneAction : Entity
     public ActionActorType ActorType { get; set; }
     public string Description { get; set; }
 }
+
+

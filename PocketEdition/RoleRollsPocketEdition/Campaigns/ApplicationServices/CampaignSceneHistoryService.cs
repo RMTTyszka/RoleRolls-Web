@@ -79,7 +79,8 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
 
     private async Task<string> GetActor(Guid actorId)
     {
-        if (_memoryCache.TryGetValue<string>($"Actor_{actorId}", out var resultActor))
+        if (_memoryCache.TryGetValue<string?>($"Actor_{actorId}", out var resultActor) &&
+            !string.IsNullOrWhiteSpace(resultActor))
         {
             return resultActor;
         }
@@ -88,8 +89,9 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
             .Where(c => c.Id == actorId)
             .Select(c => c.Name)
             .FirstAsync();
-        _memoryCache.Set($"Actor_{actorId}", actor);
-        return actor;
+        var actorName = actor ?? "Desconhecido";
+        _memoryCache.Set($"Actor_{actorId}", actorName);
+        return actorName;
     }
 
 
@@ -107,7 +109,7 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
             PropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.Id == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),   
-            PropertyType.All => null,
+            PropertyType.All => string.Empty,
             _ => throw new ArgumentOutOfRangeException()
         } : "";
         return new RollSceneHistory

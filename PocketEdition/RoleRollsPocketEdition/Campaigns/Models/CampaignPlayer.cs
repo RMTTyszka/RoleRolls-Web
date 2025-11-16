@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Campaigns.Entities;
+using RoleRollsPocketEdition.Campaigns.Entities;
 
 namespace RoleRollsPocketEdition.Campaigns.Models
 {
@@ -17,3 +17,5 @@ namespace RoleRollsPocketEdition.Campaigns.Models
         public Guid? InvidationCode { get; set; }
     }
 }
+
+

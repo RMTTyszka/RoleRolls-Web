@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Templates.Dtos;
+using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Events.Skills;
 
@@ -8,3 +8,5 @@ public class SkillAdded
     public Guid CreatureTemplateId { get; set; }
     public SkillTemplateModel Skill { get; set; }
 }
+
+

@@ -51,3 +51,5 @@ public static partial class HunterArchetypeDetails
             ]
         };
 }
+
+

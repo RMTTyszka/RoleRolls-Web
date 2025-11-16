@@ -34,3 +34,5 @@ public class ArchetypeModel : IEntityDto
     public List<PowerDescriptionModel> PowerDescriptions { get; set; }
     public List<SpellModel> Spells { get; set; } = new();
 }
+
+

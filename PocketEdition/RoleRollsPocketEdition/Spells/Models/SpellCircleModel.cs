@@ -35,3 +35,5 @@ public class SpellCircleModel : IEntityDto
         LevelRequirement = circle.LevelRequirement;
     }
 }
+
+

@@ -17,3 +17,5 @@ public class ArmorTemplateModel : EquipableTemplateModel
 
     public ArmorCategory Category { get; set; }
 }
+
+

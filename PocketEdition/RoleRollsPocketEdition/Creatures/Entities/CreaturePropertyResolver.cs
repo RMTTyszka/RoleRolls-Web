@@ -139,3 +139,5 @@ public partial class Creature
 
     private int MaxAttributePoints => 4 + Level / 6;
 }
+
+

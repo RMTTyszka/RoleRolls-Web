@@ -54,3 +54,5 @@ namespace RoleRollsPocketEdition.Powers.Entities
 None = 5
     }
 }
+
+

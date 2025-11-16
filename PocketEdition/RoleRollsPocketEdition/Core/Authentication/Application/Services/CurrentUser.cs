@@ -4,6 +4,6 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Services
 {
     public class CurrentUser : ICurrentUser
     {
-        public UserModel User { get; set; }
+        public UserModel User { get; set; } = new();
     }
 }

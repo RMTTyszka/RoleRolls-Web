@@ -34,3 +34,5 @@ public class CreaturePower : Entity
         ConsumedUsages = Math.Max(ConsumedUsages, 0);
     }
 }
+
+

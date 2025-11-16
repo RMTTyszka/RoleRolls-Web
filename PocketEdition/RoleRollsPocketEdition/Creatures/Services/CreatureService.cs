@@ -88,8 +88,10 @@ namespace RoleRollsPocketEdition.Creatures.Services
         public async Task<CreatureModel> InstantiateFromTemplate(Guid campaignId, CreatureCategory creatureCategory,
             bool isTemplate)
         {
-            var campaign = await _dbContext.Campaigns.FindAsync(campaignId);
-            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
+            var campaign = await _dbContext.Campaigns.FindAsync(campaignId)
+                           ?? throw new InvalidOperationException($"Campaign {campaignId} was not found.");
+            var creatureTemplate =
+                await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
             var creature = Creature.FromTemplate(creatureTemplate, campaignId, creatureCategory, isTemplate);
             var output = new CreatureModel(creature);
             return output;

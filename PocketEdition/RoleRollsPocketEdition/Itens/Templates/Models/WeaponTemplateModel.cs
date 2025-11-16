@@ -19,3 +19,5 @@ public class WeaponTemplateModel : EquipableTemplateModel
     public WeaponCategory Category { get; set; }
     public WeaponDamageType DamageType { get; set; }
 }
+
+

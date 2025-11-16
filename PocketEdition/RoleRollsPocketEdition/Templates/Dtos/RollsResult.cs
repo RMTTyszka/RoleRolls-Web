@@ -1,4 +1,4 @@
-﻿namespace RoleRollsPocketEdition.Templates.Dtos
+namespace RoleRollsPocketEdition.Templates.Dtos
 {
     public class RollsResult
     {
@@ -19,3 +19,5 @@
         public int Bonus { get; set; }
     }
 }
+
+

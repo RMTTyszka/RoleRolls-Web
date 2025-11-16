@@ -30,7 +30,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
                 .Include(template => template.Vitalities)
-                .FirstOrDefaultAsync(template => template.Id == id);
+                .FirstOrDefaultAsync(template => template.Id == id)
+                ?? throw new InvalidOperationException($"Campaign template {id} was not found.");
             var output = new CampaignTemplateModel(template);
             return output;
         }
@@ -60,7 +61,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
                 .Include(template => template.Vitalities)
-                .FirstOrDefaultAsync(template => template.Id == id);
+                .FirstAsync(template => template.Id == id);
 
             template.Name = updatedTemplate.Name;
 

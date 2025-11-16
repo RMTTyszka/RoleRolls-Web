@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Core.Dtos;
+using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Creatures.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Dtos
@@ -13,3 +13,5 @@ namespace RoleRollsPocketEdition.Creatures.Dtos
         }
     }
 }
+
+

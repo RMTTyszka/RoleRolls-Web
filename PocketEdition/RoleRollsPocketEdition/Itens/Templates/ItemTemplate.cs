@@ -21,12 +21,12 @@ public class ItemTemplate : Entity
         CampaignId = item.CampaignId;
     }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public Guid? PowerId { get; set; }
     public PowerTemplate? Power { get; set; }
     public ItemType Type { get; set; }
     public Guid CampaignId { get; set; }
-    public Campaign Campaign { get; set; }
+    public Campaign Campaign { get; set; } = null!;
 
 
     public void Update(ItemTemplateModel item)

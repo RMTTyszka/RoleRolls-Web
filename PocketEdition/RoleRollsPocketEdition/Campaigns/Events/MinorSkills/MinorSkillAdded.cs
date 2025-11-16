@@ -1,4 +1,4 @@
-﻿using RoleRollsPocketEdition.Templates.Dtos;
+using RoleRollsPocketEdition.Templates.Dtos;
 
 namespace RoleRollsPocketEdition.Campaigns.Events.MinorSkills;
 
@@ -8,3 +8,5 @@ public class MinorSkillAdded
     public Guid CreatureTemplateId { get; set; }
     public SpecificSkillTemplateModel SpecificSkill { get; set; }
 }
+
+
