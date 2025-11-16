@@ -127,17 +127,12 @@ server/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.loggi
 server/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 /server/.metadata
 web/src/app/pocket-role-rolls/campaigns/campaign-heroes/campaign-heroes.component.ts
-**obj**
-**.vs**
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/refint/RoleRollsPocketEdition.dll
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/ref/RoleRollsPocketEdition.dll
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.csproj.AssemblyReference.cache
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.assets.cache
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.GeneratedMSBuildEditorConfig.editorconfig
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.pdb
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/RoleRollsPocketEdition.dll
-PocketEdition/RoleRollsPocketEdition/obj/Release/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
-PocketEdition/RoleRollsPocketEdition/obj/staticwebassets.pack.sentinel
+**/bin/
+**/obj/
+**/.vs/
+# .NET build artifacts for the Pocket Edition solution
+PocketEdition/RoleRollsPocketEdition/bin/
+PocketEdition/RoleRollsPocketEdition/obj/
 PocketEdition/RoleRollsPocketEdition/obj/project.nuget.cache
 PocketEdition/RoleRollsPocketEdition/obj/project.assets.json
 PocketEdition/RoleRollsPocketEdition/obj/RoleRollsPocketEdition.csproj.nuget.g.props
