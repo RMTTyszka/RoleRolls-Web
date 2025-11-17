@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 
@@ -34,26 +33,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 return 0;
             }
 
-            var replacesFormula = creature.Attributes.Aggregate(VitalityTemplate.Formula,
-                (formula, attribute) => formula.Replace(attribute.Name, attribute.Points.ToString()));
-     
-            var dt = new DataTable();
-            try
-            {
-                var result = dt.Compute(replacesFormula,"");
-
-                if (int.TryParse(result.ToString(), out var value))
-                {
-                    return value;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return 0;
-            }
-
-            return 0;
+            var result = creature.GetFormulaDetails(VitalityTemplate.Formula, VitalityTemplate.FormulaTokens);
+            return result.Value;
         }
     }
    

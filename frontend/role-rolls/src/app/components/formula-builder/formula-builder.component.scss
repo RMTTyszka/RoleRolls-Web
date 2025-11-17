@@ -1,0 +1,14 @@
+.formula-builder {
+  width: 100%;
+  border: 1px solid var(--surface-border);
+
+  .token-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 200px) 1fr auto;
+    gap: 0.5rem;
+
+    &__actions button {
+      width: 2.5rem;
+    }
+  }
+}

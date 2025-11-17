@@ -1,6 +1,6 @@
-﻿import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { createForm, getAsForm } from '../../../tokens/EditorExtension';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Campaign } from '../../models/campaign';
 import { v4 as uuidv4 } from 'uuid';
 import { RROption } from '../../../models/RROption';
@@ -13,14 +13,25 @@ import { NgForOf, NgIf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
-import {AttributeTemplate, DefenseTemplate, VitalityTemplate, SpecificSkillsTemplate, SkillTemplate} from 'app/campaigns/models/campaign.template';
+import {
+  AttributeTemplate,
+  DefenseTemplate,
+  VitalityTemplate,
+  SpecificSkillsTemplate,
+  SkillTemplate
+} from 'app/campaigns/models/campaign.template';
 import {LoggerService} from '@services/logger/logger.service';
 import {firstValueFrom} from 'rxjs';
-import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 import {
   PropertyByIdSelectorComponent
 } from '@app/components/property-by-id-selector/property-by-id-selector.component';
+import {
+  FormulaBuilderComponent
+} from '@app/components/formula-builder/formula-builder.component';
+import {
+  FormulaToken
+} from '@app/campaigns/models/formula-token.model';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -28,13 +39,15 @@ import {
   templateUrl: './campaign-template.component.html',
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     Fieldset,
     Panel,
     NgIf,
     ButtonDirective,
     InputText,
     NgForOf,
-    PropertyByIdSelectorComponent
+    PropertyByIdSelectorComponent,
+    FormulaBuilderComponent
   ],
   styleUrl: './campaign-template.component.scss'
 })
@@ -98,7 +111,16 @@ export class CampaignTemplateComponent {
     });
   }
   init() {
+    this.campaign.campaignTemplate.defenses = (this.campaign.campaignTemplate.defenses ?? []).map(defense => ({
+      ...defense,
+      formulaTokens: defense.formulaTokens ?? []
+    }));
+    this.campaign.campaignTemplate.vitalities = (this.campaign.campaignTemplate.vitalities ?? []).map(vitality => ({
+      ...vitality,
+      formulaTokens: vitality.formulaTokens ?? []
+    }));
     this.form = getAsForm(this.campaign)
+    this.normalizeFormulaTokenControls();
     createForm(this.attributeForm, {
       id: null,
       name: null,
@@ -116,13 +138,17 @@ export class CampaignTemplateComponent {
     createForm(this.vitalityForm, {
       id: null,
       name: null,
-      formula: null
+      formula: null,
+      formulaTokens: []
     } as VitalityTemplate);
     createForm(this.defenseForm, {
       id: null,
       name: null,
-      formula: null
+      formula: null,
+      formulaTokens: []
     } as DefenseTemplate);
+    this.ensureFormulaTokensControl(this.vitalityForm);
+    this.ensureFormulaTokensControl(this.defenseForm);
 
     this.attributeForm.get('id').setValue(uuidv4() as never);
     this.skillForm.get('id').setValue(uuidv4() as never);
@@ -275,21 +301,28 @@ export class CampaignTemplateComponent {
   public addVitality() {
     if (this.disabled) return;
     const vitality = this.vitalityForm.value as VitalityTemplate;
-    vitality.formula = '';
+    vitality.formula = vitality.formula ?? '';
+    vitality.formulaTokens = vitality.formulaTokens ?? [];
     this.service.addVitality(this.campaign.id, vitality)
       .subscribe(() => {
         const formArray = this.vitalities;
         const newFormGroup = new FormGroup({});
         createForm(newFormGroup, this.vitalityForm.value as Entity);
+        this.ensureFormulaTokensControl(newFormGroup);
         formArray.controls.push(newFormGroup);
         this.vitalityForm.reset();
         this.vitalityForm.get('id').setValue(uuidv4() as never);
+        this.resetFormulaTokensControl(this.vitalityForm);
       });
   }
 
   public updateVitality(vitalityControl: FormGroup) {
     if (this.disabled) return;
     const vitality = vitalityControl.value as VitalityTemplate;
+    vitality.formulaTokens = (vitality.formulaTokens ?? []).map((token, index) => ({
+      ...token,
+      order: index
+    }));
     this.service.updateVitality(this.campaign.id, vitality.id, vitality)
       .subscribe();
   }
@@ -308,23 +341,67 @@ export class CampaignTemplateComponent {
   public addDefense() {
     if (this.disabled) return;
     const defense = this.defenseForm.value as DefenseTemplate;
-    defense.formula = '';
+    defense.formula = defense.formula ?? '';
+    defense.formulaTokens = defense.formulaTokens ?? [];
     this.service.addDefense(this.campaign.id, defense)
       .subscribe(() => {
         const formArray = this.defenses;
         const newFormGroup = new FormGroup({});
         createForm(newFormGroup, this.defenseForm.value as Entity);
+        this.ensureFormulaTokensControl(newFormGroup);
         formArray.controls.push(newFormGroup);
         this.defenseForm.reset();
         this.defenseForm.get('id')?.setValue(uuidv4() as never);
+        this.resetFormulaTokensControl(this.defenseForm);
       });
   }
 
   public updateDefense(defenseControl: FormGroup) {
     if (this.disabled) return;
     const defense = defenseControl.value as DefenseTemplate;
+    defense.formulaTokens = (defense.formulaTokens ?? []).map((token, index) => ({
+      ...token,
+      order: index
+    })) as FormulaToken[];
     this.service.updateDefense(this.campaign.id, defense.id, defense)
       .subscribe();
+  }
+
+  public syncFormulaExpression(group: FormGroup, expression: string) {
+    group.get('formula')?.setValue(expression ?? '');
+  }
+
+  public onFormulaTokensChanged(group: FormGroup, tokens: FormulaToken[]) {
+    this.setFormulaTokensValue(group, tokens ?? []);
+  }
+
+  private normalizeFormulaTokenControls() {
+    this.defenses?.controls?.forEach(control => this.ensureFormulaTokensControl(control));
+    this.vitalities?.controls?.forEach(control => this.ensureFormulaTokensControl(control));
+  }
+
+  private ensureFormulaTokensControl(group: FormGroup | null | undefined) {
+    if (!group) {
+      return;
+    }
+    const control = group.get('formulaTokens');
+    const value = control instanceof FormArray ? control.value : control?.value;
+    if (control) {
+      group.removeControl('formulaTokens');
+    }
+    const initialValue = Array.isArray(value) ? (value as FormulaToken[]) : [];
+    group.addControl('formulaTokens', new FormControl<FormulaToken[]>(initialValue));
+  }
+
+  private resetFormulaTokensControl(form: FormGroup) {
+    this.setFormulaTokensValue(form, []);
+  }
+
+  private setFormulaTokensValue(group: FormGroup, tokens: FormulaToken[]) {
+    const control = group.get('formulaTokens');
+    if (control instanceof FormControl) {
+      control.setValue(tokens ?? []);
+    }
   }
 
 

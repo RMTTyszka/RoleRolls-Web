@@ -81,6 +81,47 @@
     </div>
   </p-panel>
 
+  <!-- Defenses Panel -->
+  <p-panel [toggleable]="true">
+    <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
+      <span class="p-panel-title col-6">Defenses</span>
+      <div class="col-6 p-grid p-justify-end p-align-end p-nogutter" form [formGroup]="defenseForm" *ngIf="!isLoading">
+        <ng-container *ngIf="!disabled">
+          <p-fieldset class="col-6">
+            <input type="text" pInputText placeholder="Add Defense" formControlName="name" required (keydown.enter)="addDefense()">
+          </p-fieldset>
+          <button [disabled]="disabled" pButton type="button" icon="pi pi-plus" class="p-button-primary col-6" (click)="addDefense()"></button>
+        </ng-container>
+      </div>
+    </ng-template>
+    <div formGroupName="campaignTemplate">
+      <div formArrayName="defenses">
+        <div *ngFor="let defense of defenses.controls; let i=index" class="pb-3">
+          <div [formGroup]="defense">
+            <div class="p-inputgroup">
+              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
+              <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus"></button>
+            </div>
+            <rr-formula-builder
+              class="block"
+              [ngModel]="defense.get('formulaTokens')?.value"
+              (ngModelChange)="onFormulaTokensChanged(defense, $event)"
+              [ngModelOptions]="{standalone: true}"
+              [campaign]="campaign"
+              [disabled]="disabled"
+              (expressionChange)="syncFormulaExpression(defense, $event)"
+              (blur)="updateDefense(defense)">
+            </rr-formula-builder>
+            <small class="text-xs block mt-1">Formula (opcional, usada apenas se a construcao acima estiver vazia)</small>
+            <div class="p-inputgroup">
+              <input type="text" pInputText placeholder="Legacy formula" formControlName="formula" (blur)="updateDefense(defense)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
   <!-- Vitalities Panel -->
   <p-panel [toggleable]="true">
     <ng-template #header class="p-grid p-justify-between p-align-center p-nogutter" style="flex: 1;">
@@ -102,9 +143,19 @@
               <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateVitality(vitality)">
               <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
             </div>
+            <rr-formula-builder
+              class="block mt-2"
+              [ngModel]="vitality.get('formulaTokens')?.value"
+              (ngModelChange)="onFormulaTokensChanged(vitality, $event)"
+              [ngModelOptions]="{standalone: true}"
+              [campaign]="campaign"
+              [disabled]="disabled"
+              (expressionChange)="syncFormulaExpression(vitality, $event)"
+              (blur)="updateVitality(vitality)">
+            </rr-formula-builder>
+            <small class="text-xs block mt-1">Formula (opcional, usada apenas se a construcao acima estiver vazia)</small>
             <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Formula" formControlName="formula" required (blur)="updateVitality(vitality)">
-              <button [disabled]="true" class="p-inputgroup-addon" pButton type="button" icon="pi pi-info" pTooltip="5 + 4 * level + (level + 2) * Vitality" fitContent="true"></button>
+              <input type="text" pInputText placeholder="Legacy formula" formControlName="formula" (blur)="updateVitality(vitality)">
             </div>
           </div>
         </div>
@@ -112,5 +163,4 @@
     </div>
   </p-panel>
 
-  <!-- Defenses panel intentionally omitted -->
 </form>

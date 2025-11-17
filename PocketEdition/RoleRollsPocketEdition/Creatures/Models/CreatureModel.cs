@@ -19,7 +19,7 @@ namespace RoleRollsPocketEdition.Creatures.Models
                 .OrderBy(a => a.Name).ToList();        
             Skills = creature.Skills.Select(skill => new SkillModel(skill))
                 .OrderBy(a => a.Name).ToList();
-            Vitalities = creature.Vitalities.Select(vitality => new VitalityModel(vitality))
+            Vitalities = creature.Vitalities.Select(vitality => new VitalityModel(vitality, creature))
                 .OrderBy(a => a.Name).ToList();         
             Defenses = creature.Defenses.Select(defense => new DefenseModel(defense, creature))
                 .OrderBy(a => a.Name).ToList();

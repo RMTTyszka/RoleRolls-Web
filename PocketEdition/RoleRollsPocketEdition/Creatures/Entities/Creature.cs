@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Attacks.Services;
@@ -71,7 +74,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         public int DefenseValue(Guid id)
         {
             var defense = Defenses.Where(x => x.Id == id || x.DefenseTemplateId == id).First();
-            var value = ApplyFormula(defense.Formula);
+            var value = ApplyFormula(defense.Formula, defense.FormulaTokens);
             return value;
         }
 
@@ -226,30 +229,169 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
         }
 
-        public int ApplyFormula(string formula)
+        public int ApplyFormula(string formula, IReadOnlyCollection<FormulaToken>? formulaTokens = null)
         {
-            var replacesFormula = Attributes.Aggregate(formula,
-                (formula, attribute) => formula.Replace(attribute.Name, attribute.TotalValue.ToString()));
+            return GetFormulaDetails(formula, formulaTokens).Value;
+        }
 
-            replacesFormula = Skills.Aggregate(replacesFormula,
-                (formula, skill) => replacesFormula.Replace(skill.Name,
-                    GetPropertyValue(new PropertyInput(
-                        new Property(skill.SkillTemplateId, PropertyType.Skill),
-                        null
-                    )).ToString()));
-
-            replacesFormula = SpecificSkills.Aggregate(replacesFormula,
-                (formula, minorSkill) => replacesFormula.Replace(minorSkill.Name,
-                    GetPropertyValue(new PropertyInput(
-                        new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill),
-                        null
-                    )).ToString()));
-            DataTable dt = new DataTable();
-            var result = dt.Compute(replacesFormula, "");
-
-            if (int.TryParse(result.ToString(), out var value))
+        public FormulaEvaluationResult GetFormulaDetails(string formula,
+            IReadOnlyCollection<FormulaToken>? formulaTokens = null)
+        {
+            if (formulaTokens is { Count: > 0 })
             {
-                return value;
+                var (description, resolvedExpression) = BuildExpressionsFromTokens(formulaTokens);
+                var totalValue = EvaluateExpression(resolvedExpression);
+                return new FormulaEvaluationResult(totalValue, description, resolvedExpression);
+            }
+
+            if (string.IsNullOrWhiteSpace(formula))
+            {
+                return new FormulaEvaluationResult(0, string.Empty, string.Empty);
+            }
+
+            var resolved = BuildLegacyExpression(formula);
+            var value = EvaluateExpression(resolved);
+            return new FormulaEvaluationResult(value, formula, resolved);
+        }
+
+        private (string Description, string ResolvedExpression) BuildExpressionsFromTokens(
+            IEnumerable<FormulaToken> formulaTokens)
+        {
+            var orderedTokens = formulaTokens.OrderBy(token => token.Order).ToList();
+            var descriptionBuilder = new StringBuilder();
+            var resolvedBuilder = new StringBuilder();
+
+            foreach (var token in orderedTokens)
+            {
+                descriptionBuilder.Append(ResolveTokenDescription(token));
+                resolvedBuilder.Append(ResolveTokenValue(token));
+            }
+
+            return (descriptionBuilder.ToString().Trim(), resolvedBuilder.ToString());
+        }
+
+        private string ResolveTokenValue(FormulaToken token) =>
+            token.Type switch
+            {
+                FormulaTokenType.Number => token.Value?.ToString(CultureInfo.InvariantCulture) ?? "0",
+                FormulaTokenType.Operator => token.Operator ?? string.Empty,
+                FormulaTokenType.Property => ResolvePropertyValue(token.Property),
+                FormulaTokenType.CustomValue => ResolveCustomFormulaValue(token.CustomValue),
+                _ => string.Empty
+            };
+
+        private string ResolveTokenDescription(FormulaToken token) =>
+            token.Type switch
+            {
+                FormulaTokenType.Number => token.Value?.ToString(CultureInfo.InvariantCulture) ?? "0",
+                FormulaTokenType.Operator => $" {token.Operator} ",
+                FormulaTokenType.Property =>
+                    $"{GetPropertyDisplayName(token.Property)}({ResolvePropertyValue(token.Property)})",
+                FormulaTokenType.CustomValue =>
+                    $"{GetCustomFormulaLabel(token.CustomValue)}({ResolveCustomFormulaValue(token.CustomValue)})",
+                _ => string.Empty
+            };
+
+        private string BuildLegacyExpression(string formula)
+        {
+            var replacedFormula = Attributes.Aggregate(formula,
+                (current, attribute) => current.Replace(attribute.Name, attribute.TotalValue.ToString()));
+
+            replacedFormula = Skills.Aggregate(replacedFormula,
+                (current, skill) => current.Replace(skill.Name,
+                    ResolvePropertyValue(new Property(skill.SkillTemplateId, PropertyType.Skill))));
+
+            replacedFormula = SpecificSkills.Aggregate(replacedFormula,
+                (current, minorSkill) => current.Replace(minorSkill.Name,
+                    ResolvePropertyValue(new Property(minorSkill.SpecificSkillTemplateId, PropertyType.MinorSkill))));
+
+            return replacedFormula;
+        }
+
+        private string ResolvePropertyValue(Property? property)
+        {
+            if (property is null)
+            {
+                return "0";
+            }
+
+            var propertyValue = GetPropertyValue(new PropertyInput(property));
+            var total = propertyValue.Value + propertyValue.Bonus;
+            return total.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private string GetPropertyDisplayName(Property? property)
+        {
+            if (property is null)
+            {
+                return "Propriedade";
+            }
+
+            string? AttributeName() =>
+                Attributes.FirstOrDefault(attr =>
+                        attr.AttributeTemplateId == property.Id || attr.Id == property.Id)
+                    ?.Name;
+
+            return property.Type switch
+            {
+                PropertyType.Attribute => AttributeName() ?? "Atributo",
+                PropertyType.Skill => Skills.FirstOrDefault(sk =>
+                        sk.SkillTemplateId == property.Id || sk.Id == property.Id)
+                    ?.Name ?? "Pericia",
+                PropertyType.MinorSkill => SpecificSkills.FirstOrDefault(ms =>
+                        ms.SpecificSkillTemplateId == property.Id || ms.Id == property.Id)
+                    ?.Name ?? "Especializacao",
+                PropertyType.Vitality => Vitalities.FirstOrDefault(v =>
+                        v.VitalityTemplateId == property.Id || v.Id == property.Id)
+                    ?.Name ?? "Vitalidade",
+                PropertyType.Defense => Defenses.FirstOrDefault(d =>
+                        d.DefenseTemplateId == property.Id || d.Id == property.Id)
+                    ?.Name ?? "Defesa",
+                _ => AttributeName() ?? "Propriedade"
+            };
+        }
+
+        private string ResolveCustomFormulaValue(FormulaCustomValue? customValue)
+        {
+            return customValue switch
+            {
+                FormulaCustomValue.ArmorDefenseBonus =>
+                    (Equipment?.Chest?.GetBonus ?? 0).ToString(CultureInfo.InvariantCulture),
+                FormulaCustomValue.Level => Level.ToString(CultureInfo.InvariantCulture),
+                _ => "0"
+            };
+        }
+
+        private string GetCustomFormulaLabel(FormulaCustomValue? customValue)
+        {
+            return customValue switch
+            {
+                FormulaCustomValue.ArmorDefenseBonus => "Bonus Armadura",
+                FormulaCustomValue.Level => "Nivel",
+                _ => "Custom"
+            };
+        }
+
+        private static int EvaluateExpression(string expression)
+        {
+            if (string.IsNullOrWhiteSpace(expression))
+            {
+                return 0;
+            }
+
+            var dt = new DataTable();
+            try
+            {
+                var result = dt.Compute(expression, string.Empty);
+                if (decimal.TryParse(result?.ToString() ?? "0", NumberStyles.Any, CultureInfo.InvariantCulture,
+                        out var decimalValue))
+                {
+                    return (int)Math.Round(decimalValue, MidpointRounding.AwayFromZero);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
             return 0;
@@ -363,6 +505,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return 4 + Level / 6;
         }
     }
+
+    public record FormulaEvaluationResult(int Value, string Description, string ResolvedFormula);
 }
 
 
