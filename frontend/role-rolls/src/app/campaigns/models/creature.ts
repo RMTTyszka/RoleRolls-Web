@@ -56,11 +56,15 @@ export class Vitality implements Entity {
   public name!: string;
   public value!: number;
   public maxValue!: number;
+  public formulaDescription?: string;
+  public formulaExpression?: string;
 }
 export class Defense implements Entity {
   public id: string;
   public name!: string;
   public value!: number;
+  public formulaDescription?: string;
+  public formulaExpression?: string;
 }
 export enum PocketSkillProficience {
   Expert = 0, // +4

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251116213840_AddDefenseFormulaTokens")]
+    partial class AddDefenseFormulaTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,7 +374,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("FormulaTokens")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasDefaultValue("[]");
 
                     b.Property<string>("Name")
                         .HasMaxLength(450)
@@ -1068,7 +1072,8 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<string>("FormulaTokens")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasDefaultValue("[]");
 
                     b.Property<string>("Name")
                         .HasMaxLength(450)
@@ -1143,10 +1148,6 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<string>("Formula")
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
-
-                    b.Property<string>("FormulaTokens")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
 
                     b.Property<string>("Name")
                         .HasMaxLength(450)

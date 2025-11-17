@@ -1,0 +1,106 @@
+<div class="formula-builder surface-border border-round p-3">
+  <div *ngIf="tokens.length; else emptyState" class="flex flex-col gap-3">
+    <div class="token-row" *ngFor="let token of tokens; let i = index; trackBy: trackByIndex">
+      <div class="token-row__type">
+        <p-select
+          [ngModel]="token.type"
+          (ngModelChange)="onTokenTypeChanged(i, $event)"
+          [options]="tokenTypeOptions"
+          optionLabel="label"
+          optionValue="value"
+          [disabled]="disabled"
+          class="w-full">
+        </p-select>
+      </div>
+      <div class="token-row__value">
+        <ng-container [ngSwitch]="token.type">
+          <rr-property-selector
+            *ngSwitchCase="FormulaTokenType.Property"
+            [campaign]="campaign"
+            [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.SpecificSkill, PropertyType.Vitality, PropertyType.Defense]"
+            placeholder="Selecione a propriedade"
+            [disabled]="disabled"
+            [(ngModel)]="token.property"
+            (ngModelChange)="onTokenEdited()">
+          </rr-property-selector>
+          <input
+            *ngSwitchCase="FormulaTokenType.Number"
+            type="number"
+            pInputText
+            class="w-full"
+            [disabled]="disabled"
+            [(ngModel)]="token.value"
+            (ngModelChange)="onTokenEdited()">
+          <p-select
+            *ngSwitchCase="FormulaTokenType.Operator"
+            [disabled]="disabled"
+            [options]="operatorOptions"
+            optionLabel="label"
+            optionValue="value"
+            [(ngModel)]="token.operator"
+            (ngModelChange)="onTokenEdited()"
+            class="w-full">
+          </p-select>
+          <p-select
+            *ngSwitchCase="FormulaTokenType.CustomValue"
+            [disabled]="disabled"
+            [options]="customValueOptions"
+            optionLabel="label"
+            optionValue="value"
+            [(ngModel)]="token.customValue"
+            (ngModelChange)="onTokenEdited()"
+            class="w-full">
+          </p-select>
+        </ng-container>
+      </div>
+      <div class="token-row__actions flex gap-1">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-up"
+          (click)="moveToken(i, -1)"
+          [disabled]="disabled || i === 0">
+        </button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-down"
+          (click)="moveToken(i, 1)"
+          [disabled]="disabled || i === tokens.length - 1">
+        </button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-danger"
+          (click)="removeToken(i)"
+          [disabled]="disabled">
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 border-top-1 surface-border pt-3">
+      <span class="text-sm text-color-secondary">Adicionar:</span>
+      <button pButton type="button" label="Propriedade" (click)="addToken(FormulaTokenType.Property)" [disabled]="disabled"></button>
+      <button pButton type="button" label="Numero" (click)="addToken(FormulaTokenType.Number)" [disabled]="disabled"></button>
+      <button pButton type="button" label="Operador" (click)="addToken(FormulaTokenType.Operator)" [disabled]="disabled"></button>
+      <button pButton type="button" label="Valor customizado" (click)="addToken(FormulaTokenType.CustomValue)" [disabled]="disabled"></button>
+    </div>
+
+    <div class="text-sm surface-ground border-round p-2">
+      <div *ngIf="descriptionPreview">
+        <strong>Descricao:</strong> <span>{{ descriptionPreview }}</span>
+      </div>
+      <div *ngIf="expressionPreview">
+        <strong>Expressao:</strong> <span>{{ expressionPreview }}</span>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="flex flex-column gap-2">
+      <p class="text-sm text-color-secondary m-0">Nenhum passo definido para esta formula.</p>
+      <button pButton type="button" label="Adicionar propriedade" (click)="addToken(FormulaTokenType.Property)" [disabled]="disabled"></button>
+    </div>
+  </ng-template>
+</div>

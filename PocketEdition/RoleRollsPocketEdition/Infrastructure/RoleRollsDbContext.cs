@@ -1,6 +1,11 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RoleRollsPocketEdition.Archetypes;
@@ -81,6 +86,7 @@ namespace RoleRollsPocketEdition.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<FormulaToken>();
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(Entity).IsAssignableFrom(entityType.ClrType) && entityType.BaseType is null)
@@ -109,6 +115,46 @@ namespace RoleRollsPocketEdition.Infrastructure
             ModelArchetype(modelBuilder);
             ModelSpells(modelBuilder);
             modelBuilder.Owned<Property>();
+
+            var formulaTokensJsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            var serializeFormulaTokens = (Func<List<FormulaToken>?, string>)(tokens =>
+                JsonSerializer.Serialize(tokens ?? new List<FormulaToken>(), formulaTokensJsonOptions));
+
+            var formulaTokensConverter = new ValueConverter<List<FormulaToken>, string>(
+                v => serializeFormulaTokens(v),
+                v => string.IsNullOrWhiteSpace(v)
+                    ? new List<FormulaToken>()
+                    : JsonSerializer.Deserialize<List<FormulaToken>>(v, formulaTokensJsonOptions) ??
+                      new List<FormulaToken>());
+
+            var formulaTokensComparer = new ValueComparer<List<FormulaToken>>(
+                (c1, c2) => serializeFormulaTokens(c1) == serializeFormulaTokens(c2),
+                c => serializeFormulaTokens(c).GetHashCode(),
+                c => JsonSerializer.Deserialize<List<FormulaToken>>(serializeFormulaTokens(c),
+                    formulaTokensJsonOptions) ?? new List<FormulaToken>());
+
+            modelBuilder.Entity<Defense>()
+                .Property(d => d.FormulaTokens)
+                .HasColumnType("jsonb")
+                .HasConversion(formulaTokensConverter)
+                .Metadata.SetValueComparer(formulaTokensComparer);
+
+            modelBuilder.Entity<DefenseTemplate>()
+                .Property(d => d.FormulaTokens)
+                .HasColumnType("jsonb")
+                .HasConversion(formulaTokensConverter)
+                .Metadata.SetValueComparer(formulaTokensComparer);
+
+            modelBuilder.Entity<VitalityTemplate>()
+                .Property(v => v.FormulaTokens)
+                .HasColumnType("jsonb")
+                .HasConversion(formulaTokensConverter)
+                .Metadata.SetValueComparer(formulaTokensComparer);
 
             modelBuilder.Entity<AttributeTemplate>(e =>
             {

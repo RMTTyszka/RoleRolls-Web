@@ -2,6 +2,9 @@ import { Entity } from '../../models/Entity.model';
 import {Archetype} from '@app/models/archetypes/archetype';
 import {CreatureType} from '@app/models/creatureTypes/creature-type';
 import {ItemConfigurationModel} from '@app/campaigns/models/item-configuration-model';
+import {
+  FormulaToken
+} from '@app/campaigns/models/formula-token.model';
 
 export class CampaignTemplate implements Entity {
   public id: string;
@@ -42,8 +45,10 @@ export interface SpecificSkillsTemplate extends Entity {
 export interface VitalityTemplate extends Entity {
   name: string
   formula: string;
+  formulaTokens: FormulaToken[];
 }
 export interface DefenseTemplate extends Entity {
   formula: string;
+  formulaTokens: FormulaToken[];
   name: string;
 }
