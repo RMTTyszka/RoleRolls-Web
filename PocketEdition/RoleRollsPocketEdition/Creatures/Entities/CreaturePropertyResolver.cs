@@ -32,6 +32,14 @@ public partial class Creature
                 ProcessMinorSkillProperty(property.Id, result, input);
                 break;
 
+            case PropertyType.Defense:
+                ProcessDefenseProperty(property.Id, result);
+                break;
+
+            case PropertyType.Vitality:
+                ProcessVitalityProperty(property.Id, result);
+                break;
+
             default:
                 ProcessUnknownPropertyType(property, result, input);
                 break;
@@ -83,6 +91,30 @@ public partial class Creature
         
         
         result.Bonus = minorSkill.Points;
+    }
+
+    private void ProcessDefenseProperty(Guid defenseId, PropertyValue result)
+    {
+        var defense = Defenses.FirstOrDefault(d => d.Id == defenseId || d.DefenseTemplateId == defenseId);
+        if (defense is null)
+        {
+            return;
+        }
+
+        result.Value = ApplyFormula(defense.Formula, defense.FormulaTokens);
+        result.Bonus = 0;
+    }
+
+    private void ProcessVitalityProperty(Guid vitalityId, PropertyValue result)
+    {
+        var vitality = Vitalities.FirstOrDefault(v => v.Id == vitalityId || v.VitalityTemplateId == vitalityId);
+        if (vitality is null)
+        {
+            return;
+        }
+
+        result.Value = vitality.CalculateMaxValue(this);
+        result.Bonus = 0;
     }
 
     private void ProcessUnknownPropertyType(Property property, PropertyValue result, PropertyInput input)
