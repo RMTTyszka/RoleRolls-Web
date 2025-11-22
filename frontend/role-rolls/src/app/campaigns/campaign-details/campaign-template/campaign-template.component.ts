@@ -294,7 +294,7 @@ export class CampaignTemplateComponent {
     const skill = skillControl.value as SkillTemplate;
     const specificSkill = specificSkillControl.value as SpecificSkillsTemplate;
     this.service.removeSpecificSkill(this.campaign.id, skill.id, specificSkill.id)
-      .subscribe(() => {  
+      .subscribe(() => {
         this.minorsSkillBySkill.get(skill.id).removeAt(index);
       });
   }

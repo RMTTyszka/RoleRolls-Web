@@ -53,6 +53,22 @@ public class LandOfHeroesTemplate
                 Formula = "10 + 4 * Vigor",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
+                FormulaTokens =
+                [
+                    new FormulaToken
+                    {
+                        Order = 0,
+                        Type = FormulaTokenType.Manual,
+                        ManualValue = "10 + 4 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 1,
+                        Type = FormulaTokenType.Property,
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor], PropertyType.Attribute),
+                        ManualValue = string.Empty
+                    }
+                ]
             },
 
             new()
@@ -62,6 +78,22 @@ public class LandOfHeroesTemplate
                 Formula = "15 + 2 * Intuition",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
+                FormulaTokens =
+                [
+                    new FormulaToken
+                    {
+                        Order = 0,
+                        Type = FormulaTokenType.Manual,
+                        ManualValue = "15 + 2 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 1,
+                        Type = FormulaTokenType.Property,
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intuition], PropertyType.Attribute),
+                        ManualValue = string.Empty
+                    }
+                ]
             },
 
             new()
@@ -71,6 +103,22 @@ public class LandOfHeroesTemplate
                 Formula = "10 + 2 * Intelligence",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
+                FormulaTokens =
+                [
+                    new FormulaToken
+                    {
+                        Order = 0,
+                        Type = FormulaTokenType.Manual,
+                        ManualValue = "10 + 2 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 1,
+                        Type = FormulaTokenType.Property,
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intelligence], PropertyType.Attribute),
+                        ManualValue = string.Empty
+                    }
+                ]
             }
         ];
     }
