@@ -2,40 +2,40 @@
   <form form [formGroup]="form">
     <input pInputText formControlName="propertyName" style="width: 100%;">
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder">
+      <p-inputGroupAddon class="placeholder">
         Difficulty
       </span>
       <p-inputNumber placeholder formControlName='difficulty'></p-inputNumber>
     </div>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder">
+      <p-inputGroupAddon class="placeholder">
         Complexity
       </span>
       <p-inputNumber placeholder formControlName='complexity'></p-inputNumber>
     </div>
 
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder">
+      <p-inputGroupAddon class="placeholder">
         Property Bonus
       </span>
       <p-inputNumber placeholder formControlName='propertyBonus'></p-inputNumber>
     </div>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder">
+      <p-inputGroupAddon class="placeholder">
         Dice Bonus
       </span>
       <p-inputNumber placeholder formControlName='rollBonus'></p-inputNumber>
     </div>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder" pTooltip="type your rolls separated by ','">
+      <p-inputGroupAddon class="placeholder" pTooltip="type your rolls separated by ','">
         Rolls
       </span>
       <input pInputText formControlName="rollsAsString" style="width: 100%;">
-      <button pButton class="p-inputgroup-addon p-button-secondary" type="button" icon="fas fa-times-circle" (click)="cleanRolls()">
-      </button>
+      <p-inputGroupAddon><button pButton class="p-button-secondary" type="button" icon="fas fa-times-circle" (click)="cleanRolls()">
+      </button></p-inputGroupAddon>
     </div>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon placeholder">
+      <p-inputGroupAddon class="placeholder">
         Description
       </span>
       <input pInputText placeholder formControlName='description' style="width: 100%;">

@@ -5,7 +5,7 @@
         <p-fieldset class="align-right p-col-6">
           <div class="p-inputgroup" *ngIf="isMaster">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName">
-            <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6 p-inputgroup-addon" (click)="newScene()"></button>
+            <p-inputGroupAddon><button pButton type="button" icon="pi pi-plus" class="p-button-primary p-col-6" (click)="newScene()"></button></p-inputGroupAddon>
           </div>
           <div class="p-inputgroup" *ngIf="isMaster && selectedScene">
             <rr-pocket-creature-select placeholder="Add Hero" [campaign]="campaign" [creatureType]="creatureTypeEnum.Hero" (creatureSelected)="addHero($event)"></rr-pocket-creature-select>
@@ -26,9 +26,11 @@
 <p-overlayPanel #invitationCodeOverlay>
   <ng-template pTemplate>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon"> Invitation Code</span>
+      <p-inputGroupAddon> Invitation Code</p-inputGroupAddon>
       <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
-      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode" (click)="invitationCodeOverlay.toggle(false)"></button>
+      <p-inputGroupAddon>
+        <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode" (click)="invitationCodeOverlay.toggle(false)"></button>
+      </p-inputGroupAddon>
     </div>
   </ng-template>
 </p-overlayPanel>

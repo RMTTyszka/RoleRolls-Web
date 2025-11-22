@@ -1,7 +1,7 @@
 <div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
   <div class="p-inputgroup">
-    <span class="p-inputgroup-addon">
+    <p-inputGroupAddon>
       Name
     </span>
     <input pInputText formControlName="name">
@@ -17,7 +17,7 @@
               <div [formGroup]="attribute">
                 <div class="p-inputgroup">
                   <input type="text" pInputText  formControlName="name" >
-                  <span class="p-inputgroup-addon">
+                  <p-inputGroupAddon>
                     <p-inputNumber formControlName="value" ></p-inputNumber>
                   </span>
                 </div>
@@ -59,7 +59,7 @@
                                 <div form [formGroup]="minorSkill">
                                   <div class="p-inputgroup">
                                     <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                                    <span class="p-inputgroup-addon point-block">
+                                    <p-inputGroupAddon class="point-block">
                                 <input class="point-block" formControlName="points" type="number" pInputText placeholder="Value" (blur)="print()">
                               </span>
                                   </div>
@@ -85,12 +85,12 @@
               <div [formGroup]="life">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <div class="p-inputgroup-addon p-input-filled life-value" >
+                  <p-inputGroupAddon class="p-input-filled life-value" >
                     <input type="text" pInputText placeholder="Value" formControlName="value">
-                  </div>
-                  <div class="p-inputgroup-addon life-max-value" pTooltip="Max Value">
+                  </p-inputGroupAddon>
+                  <p-inputGroupAddon class="life-max-value" pTooltip="Max Value">
                     <input type="text" pInputText placeholder="Max" formControlName="maxValue">
-                  </div>
+                  </p-inputGroupAddon>
                 </div>
 
 
@@ -107,9 +107,9 @@
               <div [formGroup]="defense">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <div class="p-inputgroup-addon">
+                  <p-inputGroupAddon>
                     <input type="text" pInputText placeholder="Value" formControlName="value">
-                  </div>
+                  </p-inputGroupAddon>
                 </div>
 
               </div>

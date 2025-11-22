@@ -2,7 +2,7 @@
   <ng-container *ngIf="inventory" style="height: 100%;">
     <div class="p-inputgroup" *ngFor="let item of inventory.items">
       <ng-container *ngIf="showItem(item)">
-        <span class="p-inputgroup-addon">{{item.quantity}}</span>
+        <p-inputGroupAddon>{{item.quantity}}</span>
         <input type="text" readonly pInputText [placeholder]="item.name">
       </ng-container>
     </div>

@@ -1,6 +1,6 @@
 <ng-container *ngIf="loaded">
   <div class="p-inputgroup">
     <input type="text" pInputText [placeholder]="placeHolder" readonly [(ngModel)]="descriptionValue">
-    <span class="p-inputgroup-addon" (click)="open()"><i class="pi pi-tags" style="line-height: 1.25;" ></i></span>
+    <p-inputGroupAddon (click)="open()"><i class="pi pi-tags" style="line-height: 1.25;" ></i></span>
   </div>
 </ng-container>

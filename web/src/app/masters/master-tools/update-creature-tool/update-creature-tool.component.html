@@ -4,7 +4,7 @@
   <ng-container *ngIf="action === MasterToolAction.Status">
   <div class="p-inputgroup" #teste>
     <ng-container *ngFor="let effect of creature.effects">
-      <span class="p-inputgroup-addon small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
+      <p-inputGroupAddon class="small" style="cursor: pointer"  (click)="effectClicked($event, effectMenu, effect)" >
         <rr-effect-icon  [effect]="effect"></rr-effect-icon>
       </span>
     </ng-container>

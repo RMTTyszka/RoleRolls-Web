@@ -25,7 +25,9 @@
           <div [formGroup]="attribute">
             <div class="p-inputgroup">
               <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateAttribute(attribute)">
-              <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus"></button>
+              <p-inputGroupAddon *ngIf="!disabled">
+                <button (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus"></button>
+              </p-inputGroupAddon>
             </div>
           </div>
         </div>
@@ -40,10 +42,12 @@
     </ng-template>
     <div formGroupName="campaignTemplate">
       <div class="p-grid p-justify-between p-align-center p-nogutter" form [formGroup]="skillForm" *ngIf="!isLoading">
-        <div class="col-6 p-inputgroup">
-          <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkillFromHeader()">
-          <button class="p-inputgroup-addon" pButton type="button" icon="pi pi-plus" (click)="addSkillFromHeader()"></button>
-        </div>
+      <div class="col-6 p-inputgroup">
+        <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkillFromHeader()">
+        <p-inputGroupAddon>
+          <button pButton type="button" icon="pi pi-plus" (click)="addSkillFromHeader()"></button>
+        </p-inputGroupAddon>
+      </div>
       </div>
       <div formArrayName="skills">
         <div *ngFor="let skill of skills.controls; let skillIndex=index">
@@ -52,12 +56,16 @@
               <ng-template #header>
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSkillFlat(skill)">
-                  <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeSkillFlat(skill, skillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                  <p-inputGroupAddon *ngIf="!disabled">
+                    <button (click)="removeSkillFlat(skill, skillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                  </p-inputGroupAddon>
                 </div>
                 <div form class="col-6" [formGroup]="specificSkillForm">
                   <div *ngIf="!disabled" class="p-inputgroup">
                     <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addSpecificSkill(skill)">
-                    <button class="p-inputgroup-addon" (click)="addSpecificSkill(skill)" pButton type="button" icon="pi pi-plus"></button>
+                    <p-inputGroupAddon>
+                      <button (click)="addSpecificSkill(skill)" pButton type="button" icon="pi pi-plus"></button>
+                    </p-inputGroupAddon>
                   </div>
                 </div>
               </ng-template>
@@ -68,7 +76,9 @@
                       <rr-property-by-id-selector class="flex-auto" placeholder="Attribute" formControlName="attributeTemplateId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-by-id-selector>
                       <div class="p-inputgroup">
                         <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSpecificSkill(skill, specificSkill)">
-                        <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                        <p-inputGroupAddon *ngIf="!disabled">
+                          <button (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                        </p-inputGroupAddon>
                       </div>
                     </div>
                   </div>
@@ -100,7 +110,9 @@
           <div [formGroup]="defense">
             <div class="p-inputgroup">
               <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
-              <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus"></button>
+              <p-inputGroupAddon *ngIf="!disabled">
+                <button (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus"></button>
+              </p-inputGroupAddon>
             </div>
             <rr-formula-builder
               class="block"
@@ -136,7 +148,9 @@
           <div [formGroup]="vitality">
             <div class="p-inputgroup">
               <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateVitality(vitality)">
-              <button *ngIf="!disabled" class="p-inputgroup-addon" (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
+              <p-inputGroupAddon *ngIf="!disabled">
+                <button (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
+              </p-inputGroupAddon>
             </div>
             <rr-formula-builder
               class="block mt-2"
