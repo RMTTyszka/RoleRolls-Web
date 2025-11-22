@@ -15,6 +15,7 @@ import { safeCast } from '../../tokens/utils.funcs';
 import { CampaignView } from '@app/models/campaigns/campaign-view';
 import {GetListInput} from '@app/tokens/get-list-input';
 import {PagedOutput} from '@app/models/PagedOutput';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-campaign-list',
@@ -23,7 +24,8 @@ import {PagedOutput} from '@app/models/PagedOutput';
     Popover,
     FormsModule,
     CdkCopyToClipboard,
-    GridComponent
+    GridComponent,
+    InputGroupAddonModule
   ],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.scss'

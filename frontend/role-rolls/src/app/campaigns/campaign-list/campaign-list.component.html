@@ -6,9 +6,11 @@
 <p-popover #invitationCodeOverlay>
   <ng-template pTemplate>
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon"> Invitation Code</span>
+      <p-inputGroupAddon> Invitation Code</p-inputGroupAddon>
       <input type="text" pInputText placeholder="Invitation Code" [value]="invitationCode">
-      <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode"></button>
+      <p-inputGroupAddon>
+        <button pButton icon="pi pi-copy" [cdkCopyToClipboard]="invitationCode"></button>
+      </p-inputGroupAddon>
     </div>
   </ng-template>
 </p-popover>

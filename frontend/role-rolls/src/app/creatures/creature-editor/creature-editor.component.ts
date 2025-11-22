@@ -36,6 +36,7 @@ import {
   PropertyByIdSelectorComponent
 } from '@app/components/property-by-id-selector/property-by-id-selector.component';
 import { PropertyType } from '@app/campaigns/models/propertyType';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-creature-editor',
@@ -51,6 +52,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     InputText,
     Tooltip,
     NgIf,
+    InputGroupAddonModule,
   ],
   templateUrl: './creature-editor.component.html',
   styleUrl: './creature-editor.component.scss'

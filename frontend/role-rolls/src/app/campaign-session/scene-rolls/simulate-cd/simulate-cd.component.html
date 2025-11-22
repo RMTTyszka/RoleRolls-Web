@@ -3,8 +3,12 @@
     <!-- Campo Slot -->
     <ng-template class="p-inputgroup" fieldTitle="Desirable Chance">
         <p-inputnumber id="input" [(ngModel)]="expectedChance" [disabled]="calculating" class=""></p-inputnumber>
-        <button  pButton type="button" [disabled]="true" class="p-inputgroup-addon">%</button>
-        <button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-inputgroup-addon p-button-secondary" [disabled]="calculating"></button>
+        <p-inputGroupAddon>
+          <button  pButton type="button" [disabled]="true">%</button>
+        </p-inputGroupAddon>
+        <p-inputGroupAddon>
+          <button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-button-secondary" [disabled]="calculating"></button>
+        </p-inputGroupAddon>
     </ng-template>
   </rr-form-field-wrapper>
   <p-progressSpinner class="w-1/6" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>

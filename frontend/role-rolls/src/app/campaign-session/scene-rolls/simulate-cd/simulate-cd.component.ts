@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
 import { FormFieldWrapperComponent } from '@app/components/form-field-wrapper/form-field-wrapper.component';
 import { Select } from 'primeng/select';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-simulate-cd',
@@ -28,6 +29,7 @@ import { Select } from 'primeng/select';
     FormFieldWrapperComponent,
     FieldTitleDirective,
     ReactiveFormsModule,
+    InputGroupAddonModule,
 
   ],
   templateUrl: './simulate-cd.component.html',

@@ -16,6 +16,7 @@ import { InputText } from 'primeng/inputtext';
 import { CampaignItemCreatorComponent } from './campaign-item-creator/campaign-item-creator.component';
 import {ActivatedRoute} from '@angular/router';
 import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app/models/itens/ItemTemplateModel';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-campaign-itens',
@@ -32,7 +33,8 @@ import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app
     InputText,
     CampaignItemCreatorComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    InputGroupAddonModule
   ],
   styleUrl: './campaign-itens.component.scss'
 })

@@ -28,6 +28,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
     CascadeSelectModule,
     DialogModule,
     InputNumberModule,
+    InputGroupAddonModule,
     PanelModule,
     TooltipModule,
     MatTabGroup,
@@ -93,6 +95,7 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
         OverlayPanelModule,
         DialogModule,
         InputNumberModule,
+        InputGroupAddonModule,
     ],
     providers: []
 })

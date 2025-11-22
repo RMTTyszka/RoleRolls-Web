@@ -18,6 +18,7 @@ import { MasterItemInstantiatorComponent } from './master-item-instantiator/mast
 import {ItemsSharedModule} from '../../items-shared/items-shared.module';
 import {SharedModule} from '../../shared/shared.module';
 import {InputTextModule} from 'primeng/inputtext';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 
 
@@ -40,6 +41,7 @@ import {InputTextModule} from 'primeng/inputtext';
         ItemsSharedModule,
         SharedModule,
         InputTextModule,
+        InputGroupAddonModule,
     ],
     exports: [UpdateCreatureToolComponent, MasterItemInstantiatorComponent]
 })

@@ -12,6 +12,7 @@ import { ButtonDirective } from 'primeng/button';
 import { GetListInput } from '@app/tokens/get-list-input';
 import { InputText } from 'primeng/inputtext';
 import {Observable} from 'rxjs';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-grid',
@@ -23,6 +24,7 @@ import {Observable} from 'rxjs';
     NgForOf,
     NgIf,
     InputText,
+    InputGroupAddonModule,
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss',

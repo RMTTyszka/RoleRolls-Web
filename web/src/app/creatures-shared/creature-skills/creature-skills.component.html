@@ -13,11 +13,11 @@
     </div>
     <div class="p-col-8">
       <div class="p-inputgroup" *ngFor="let sk of getSkill(skill).list">
-        <button class="p-inputgroup-addon" (click)="removeMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
+        <p-inputGroupAddon><button (click)="removeMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button></p-inputGroupAddon>
         <input type="text" readonly pInputText [placeholder]="sk">
-        <button class="p-inputgroup-addon" (click)="addMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
-        <span class="p-inputgroup-addon" style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{getMinorSkillPoint(skill, sk)}}</span>
-        <button class="p-inputgroup-addon" pButton type="button" icon="fas fa-dice-d20" class="p-button-secondary"></button>
+        <p-inputGroupAddon><button (click)="addMinorSkillPoint(skill, sk)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button></p-inputGroupAddon>
+        <p-inputGroupAddon style="background-color: oldlace; color: black; font-weight: bold" pTooltip="total">{{getMinorSkillPoint(skill, sk)}}</p-inputGroupAddon>
+        <p-inputGroupAddon><button pButton type="button" icon="fas fa-dice-d20" class="p-button-secondary"></button></p-inputGroupAddon>
       </div>
     </div>
   </div>

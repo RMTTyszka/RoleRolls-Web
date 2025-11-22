@@ -32,6 +32,7 @@ import {
 import {
   FormulaToken
 } from '@app/campaigns/models/formula-token.model';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -47,7 +48,8 @@ import {
     InputText,
     NgForOf,
     PropertyByIdSelectorComponent,
-    FormulaBuilderComponent
+    FormulaBuilderComponent,
+    InputGroupAddonModule
   ],
   styleUrl: './campaign-template.component.scss'
 })
