@@ -1,37 +1,37 @@
 <div class="p-inputgroup">
-  <p-inputGroupAddon>
+  <p-inputgroup-addon>
     <button pButton icon="pi pi-minus" *ngIf="isMaster" (click)="removeCreature(creature)"></button>
-  </p-inputGroupAddon>
-  <p-inputGroupAddon>
+  </p-inputgroup-addon>
+  <p-inputgroup-addon>
     <button pButton class="p-button-secondary" (click)='editCreature(creature)'>
       {{creature.name}}
     </button>
-  </p-inputGroupAddon>
+  </p-inputgroup-addon>
   <ng-container *ngFor="let vitality of creature.vitalities">
-    <p-inputGroupAddon *ngIf="isMaster || isOwner(creature) || true">
+    <p-inputgroup-addon *ngIf="isMaster || isOwner(creature) || true">
       {{vitality.name}} | {{vitality.value}}
-    </p-inputGroupAddon>
+    </p-inputgroup-addon>
   </ng-container>
-  <p-inputGroupAddon *ngIf="isMaster || isOwner(creature)">
+  <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
     <button pButton icon="fas fa-dice-d20" pTooltip="Roll dice"
             (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></button>
-  </p-inputGroupAddon>
-  <p-inputGroupAddon *ngIf="isMaster || isOwner(creature)">
+  </p-inputgroup-addon>
+  <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
     <button pButton icon="fas fa-tint" pTooltip="Damage/Heal"
             (click)="takeDamage(creature)"></button>
-  </p-inputGroupAddon>
-  <p-inputGroupAddon *ngIf="isMaster || isOwner(creature)">
+  </p-inputgroup-addon>
+  <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
     <button pButton icon="fa-sword" pTooltip="Attack"
             (click)="attack(creature)"></button>
-  </p-inputGroupAddon>
-  <p-inputGroupAddon *ngIf="isMaster">
+  </p-inputgroup-addon>
+  <p-inputgroup-addon *ngIf="isMaster">
     <button pButton icon="fas fa-calculator" pTooltip="Simulate CD"
             (click)="selectCreatureForSimulateCd(creature); simulateCdPanel.toggle($event)"></button>
-  </p-inputGroupAddon>
-  <p-inputGroupAddon *ngIf="isMaster || isOwner(creature)">
+  </p-inputgroup-addon>
+  <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
     <button pButton icon="fas fa-dice" pTooltip="Quick Roll"
             (click)="quickRoll(creature)"></button>
-  </p-inputGroupAddon>
+  </p-inputgroup-addon>
 
 </div>
 

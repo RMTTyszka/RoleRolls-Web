@@ -29,10 +29,10 @@
       <ng-template fieldTitle="Rolls">
         <div class="p-inputgroup">
           <p-autocomplete rrIntegerOnly formControlName="rollsAsString" multiple [typeahead]="false" ></p-autocomplete>
-          <p-inputGroupAddon>
+          <p-inputgroup-addon>
             <button pButton class="p-button-secondary" type="button" icon="fas fa-times-circle" (click)="cleanRolls()">
             </button>
-          </p-inputGroupAddon>
+          </p-inputgroup-addon>
         </div>
       </ng-template>
       <ng-template fieldTitle="Description">

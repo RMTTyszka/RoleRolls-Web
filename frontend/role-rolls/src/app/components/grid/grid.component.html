@@ -6,7 +6,7 @@
       <div class="col-6 grid gri-col-2 justify-between">
         <h3 *ngIf="hasTitle">{{title()}}</h3>
         <div class="p-inputgroup" *ngIf="hasGlobalFilter()">
-          <p-inputGroupAddon><i class="fa fa-search"></i></p-inputGroupAddon>
+          <p-inputgroup-addon><i class="fa fa-search"></i></p-inputgroup-addon>
           <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
         </div>
       </div>

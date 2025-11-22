@@ -13,6 +13,7 @@ import { ButtonDirective } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
 import _ from 'lodash';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import {InputGroup} from 'primeng/inputgroup';
 
 @Component({
   selector: 'rr-creature-equipment-slot',
@@ -23,7 +24,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     NgStyle,
     ButtonDirective,
     Tooltip,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    InputGroup
   ],
   templateUrl: './creature-equipment-slot.component.html',
   styleUrl: './creature-equipment-slot.component.scss'

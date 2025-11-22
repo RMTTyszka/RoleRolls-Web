@@ -1,9 +1,9 @@
 ﻿<div class="modal-container">
   <form style="flex: initial; overflow: auto;" form [formGroup]="form" *ngIf="loaded">
     <div class="p-inputgroup">
-      <p-inputGroupAddon>
+      <p-inputgroup-addon>
         Name
-      </p-inputGroupAddon>
+      </p-inputgroup-addon>
       <input pInputText formControlName="name">
     </div>
     <p-tabView>
@@ -17,9 +17,9 @@
               <div [formGroup]="attribute">
                 <div class="p-inputgroup">
                   <input type="text" pInputText formControlName="name">
-                  <p-inputGroupAddon>
+                  <p-inputgroup-addon>
                     <p-inputNumber formControlName="value"></p-inputNumber>
-                  </p-inputGroupAddon>
+                  </p-inputgroup-addon>
                 </div>
               </div>
             </div>
@@ -53,11 +53,11 @@
                         <div form [formGroup]="specificSkill" class="pb-1">
                           <div class="p-inputgroup">
                             <input type="text" pInputText placeholder="Name" formControlName="name" required>
-                            <p-inputGroupAddon>
+                            <p-inputgroup-addon>
                               <input class="p-inputtext p-component" formControlName="points" type="number" placeholder="Value" [attr.min]="-1" [attr.max]="getSpecificSkillMax(skill, specificSkill)">
                               <button type="button" class="p-button p-component" (click)="incrementSpecific(skill, specificSkill)">+</button>
                               <button type="button" class="p-button p-component" (click)="decrementSpecific(skill, specificSkill)">-</button>
-                            </p-inputGroupAddon>
+                            </p-inputgroup-addon>
                           </div>
                         </div>
                       </div>
@@ -79,12 +79,12 @@
               <div [formGroup]="vitality">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <p-inputGroupAddon class="p-input-filled vitality-value">
+                  <p-inputgroup-addon class="p-input-filled vitality-value">
                     <input type="text" pInputText placeholder="Value" formControlName="value">
-                  </p-inputGroupAddon>
-                  <p-inputGroupAddon class="vitality-max-value" pTooltip="Max Value">
+                  </p-inputgroup-addon>
+                  <p-inputgroup-addon class="vitality-max-value" pTooltip="Max Value">
                     <input type="text" pInputText placeholder="Max" formControlName="maxValue">
-                  </p-inputGroupAddon>
+                  </p-inputgroup-addon>
                 </div>
               </div>
             </div>
@@ -99,9 +99,9 @@
               <div [formGroup]="defense">
                 <div class="p-inputgroup">
                   <input type="text" pInputText placeholder="Name" formControlName="name">
-                  <p-inputGroupAddon>
+                  <p-inputgroup-addon>
                     <input type="text" pInputText placeholder="Value" formControlName="value">
-                  </p-inputGroupAddon>
+                  </p-inputgroup-addon>
                 </div>
               </div>
             </div>
