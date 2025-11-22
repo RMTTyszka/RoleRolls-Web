@@ -14,43 +14,52 @@
       </div>
       <div class="token-row__value">
         <ng-container [ngSwitch]="token.type">
-          <rr-property-selector
-            *ngSwitchCase="FormulaTokenType.Property"
-            [campaign]="campaign"
-            [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.SpecificSkill, PropertyType.Vitality, PropertyType.Defense]"
-            placeholder="Selecione a propriedade"
-            [disabled]="disabled"
-            [(ngModel)]="token.property"
-            (ngModelChange)="onTokenEdited()">
-          </rr-property-selector>
+          <div *ngSwitchCase="FormulaTokenType.Property" class="flex flex-column gap-2 w-full">
+            <rr-property-selector
+              [campaign]="campaign"
+              [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.SpecificSkill, PropertyType.Vitality, PropertyType.Defense]"
+              placeholder="Selecione a propriedade"
+              [disabled]="disabled"
+              [(ngModel)]="token.property"
+              (ngModelChange)="onTokenEdited()">
+            </rr-property-selector>
+            <input
+              type="text"
+              pInputText
+              class="w-full"
+              placeholder="Complemento (ex: + 2)"
+              [disabled]="disabled"
+              [(ngModel)]="token.manualValue"
+              (blur)="onManualValueBlur()">
+          </div>
           <input
-            *ngSwitchCase="FormulaTokenType.Number"
-            type="number"
+            *ngSwitchCase="FormulaTokenType.Manual"
+            type="text"
             pInputText
             class="w-full"
+            placeholder="Digite o valor"
             [disabled]="disabled"
-            [(ngModel)]="token.value"
-            (ngModelChange)="onTokenEdited()">
-          <p-select
-            *ngSwitchCase="FormulaTokenType.Operator"
-            [disabled]="disabled"
-            [options]="operatorOptions"
-            optionLabel="label"
-            optionValue="value"
-            [(ngModel)]="token.operator"
-            (ngModelChange)="onTokenEdited()"
-            class="w-full">
-          </p-select>
-          <p-select
-            *ngSwitchCase="FormulaTokenType.CustomValue"
-            [disabled]="disabled"
-            [options]="customValueOptions"
-            optionLabel="label"
-            optionValue="value"
-            [(ngModel)]="token.customValue"
-            (ngModelChange)="onTokenEdited()"
-            class="w-full">
-          </p-select>
+            [(ngModel)]="token.manualValue"
+            (blur)="onManualValueBlur()">
+          <div *ngSwitchCase="FormulaTokenType.CustomValue" class="flex flex-column gap-2 w-full">
+            <p-select
+              [disabled]="disabled"
+              [options]="customValueOptions"
+              optionLabel="label"
+              optionValue="value"
+              [(ngModel)]="token.customValue"
+              (ngModelChange)="onTokenEdited()"
+              class="w-full">
+            </p-select>
+            <input
+              type="text"
+              pInputText
+              class="w-full"
+              placeholder="Complemento (ex: / 2)"
+              [disabled]="disabled"
+              [(ngModel)]="token.manualValue"
+              (blur)="onManualValueBlur()">
+          </div>
         </ng-container>
       </div>
       <div class="token-row__actions flex gap-1">
@@ -79,28 +88,27 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 border-top-1 surface-border pt-3">
-      <span class="text-sm text-color-secondary">Adicionar:</span>
-      <button pButton type="button" label="Propriedade" (click)="addToken(FormulaTokenType.Property)" [disabled]="disabled"></button>
-      <button pButton type="button" label="Numero" (click)="addToken(FormulaTokenType.Number)" [disabled]="disabled"></button>
-      <button pButton type="button" label="Operador" (click)="addToken(FormulaTokenType.Operator)" [disabled]="disabled"></button>
-      <button pButton type="button" label="Valor customizado" (click)="addToken(FormulaTokenType.CustomValue)" [disabled]="disabled"></button>
+    <div class="flex flex-wrap gap-2 border-top-1 surface-border pt-3 align-items-center">
+      <span class="text-sm text-color-secondary">Adicionar nova linha:</span>
+      <button
+        pButton
+        type="button"
+        label="Adicionar linha"
+        (click)="addToken()"
+        [disabled]="disabled">
+      </button>
     </div>
 
-    <div class="text-sm surface-ground border-round p-2">
-      <div *ngIf="descriptionPreview">
-        <strong>Descricao:</strong> <span>{{ descriptionPreview }}</span>
-      </div>
-      <div *ngIf="expressionPreview">
-        <strong>Expressao:</strong> <span>{{ expressionPreview }}</span>
-      </div>
+    <div class="text-sm surface-ground border-round p-2" *ngIf="descriptionPreview">
+      <strong class="block mb-1">Descricao:</strong>
+      <code class="block" style="word-break: break-word;">{{ descriptionPreview }}</code>
     </div>
   </div>
 
   <ng-template #emptyState>
     <div class="flex flex-column gap-2">
       <p class="text-sm text-color-secondary m-0">Nenhum passo definido para esta formula.</p>
-      <button pButton type="button" label="Adicionar propriedade" (click)="addToken(FormulaTokenType.Property)" [disabled]="disabled"></button>
+      <button pButton type="button" label="Adicionar linha" (click)="addToken()" [disabled]="disabled"></button>
     </div>
   </ng-template>
 </div>

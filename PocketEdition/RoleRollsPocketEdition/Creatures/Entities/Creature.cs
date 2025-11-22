@@ -273,24 +273,74 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         private string ResolveTokenValue(FormulaToken token) =>
             token.Type switch
             {
-                FormulaTokenType.Number => token.Value?.ToString(CultureInfo.InvariantCulture) ?? "0",
-                FormulaTokenType.Operator => token.Operator ?? string.Empty,
-                FormulaTokenType.Property => ResolvePropertyValue(token.Property),
-                FormulaTokenType.CustomValue => ResolveCustomFormulaValue(token.CustomValue),
-                _ => string.Empty
+                FormulaTokenType.Property => AppendManualValue(ResolvePropertyValue(token.Property), token.ManualValue),
+                FormulaTokenType.CustomValue =>
+                    AppendManualValue(ResolveCustomFormulaValue(token.CustomValue), token.ManualValue),
+                FormulaTokenType.Manual => token.ManualValue ?? string.Empty,
+                _ => ResolveLegacyTokenValue(token)
             };
 
         private string ResolveTokenDescription(FormulaToken token) =>
             token.Type switch
             {
-                FormulaTokenType.Number => token.Value?.ToString(CultureInfo.InvariantCulture) ?? "0",
-                FormulaTokenType.Operator => $" {token.Operator} ",
                 FormulaTokenType.Property =>
-                    $"{GetPropertyDisplayName(token.Property)}({ResolvePropertyValue(token.Property)})",
-                FormulaTokenType.CustomValue =>
+                    AppendManualDescription(
+                        $"{GetPropertyDisplayName(token.Property)}({ResolvePropertyValue(token.Property)})",
+                        token.ManualValue),
+                FormulaTokenType.CustomValue => AppendManualDescription(
                     $"{GetCustomFormulaLabel(token.CustomValue)}({ResolveCustomFormulaValue(token.CustomValue)})",
-                _ => string.Empty
+                    token.ManualValue),
+                FormulaTokenType.Manual => token.ManualValue ?? string.Empty,
+                _ => ResolveLegacyTokenDescription(token)
             };
+
+        private static string AppendManualValue(string baseValue, string? manualValue)
+        {
+            if (string.IsNullOrEmpty(manualValue))
+            {
+                return baseValue;
+            }
+            return $"{baseValue}{manualValue}";
+        }
+
+        private static string AppendManualDescription(string baseValue, string? manualValue)
+        {
+            if (string.IsNullOrWhiteSpace(manualValue))
+            {
+                return baseValue;
+            }
+            return $"{baseValue} {manualValue}";
+        }
+
+        private string ResolveLegacyTokenValue(FormulaToken token)
+        {
+            if (token.Value.HasValue)
+            {
+                return token.Value.Value.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (!string.IsNullOrWhiteSpace(token.Operator))
+            {
+                return token.Operator!;
+            }
+
+            return token.ManualValue ?? string.Empty;
+        }
+
+        private string ResolveLegacyTokenDescription(FormulaToken token)
+        {
+            if (token.Value.HasValue)
+            {
+                return token.Value.Value.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (!string.IsNullOrWhiteSpace(token.Operator))
+            {
+                return $" {token.Operator} ";
+            }
+
+            return token.ManualValue ?? string.Empty;
+        }
 
         private string BuildLegacyExpression(string formula)
         {

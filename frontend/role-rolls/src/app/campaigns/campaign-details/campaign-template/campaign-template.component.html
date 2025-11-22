@@ -105,17 +105,12 @@
             <rr-formula-builder
               class="block"
               [ngModel]="defense.get('formulaTokens')?.value"
-              (ngModelChange)="onFormulaTokensChanged(defense, $event)"
+              (ngModelChange)="onDefenseFormulaTokensChanged(defense, $event)"
               [ngModelOptions]="{standalone: true}"
               [campaign]="campaign"
               [disabled]="disabled"
-              (expressionChange)="syncFormulaExpression(defense, $event)"
-              (blur)="updateDefense(defense)">
+              (expressionChange)="onDefenseFormulaExpressionChanged(defense, $event)">
             </rr-formula-builder>
-            <small class="text-xs block mt-1">Formula (opcional, usada apenas se a construcao acima estiver vazia)</small>
-            <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Legacy formula" formControlName="formula" (blur)="updateDefense(defense)">
-            </div>
           </div>
         </div>
       </div>
@@ -146,17 +141,12 @@
             <rr-formula-builder
               class="block mt-2"
               [ngModel]="vitality.get('formulaTokens')?.value"
-              (ngModelChange)="onFormulaTokensChanged(vitality, $event)"
+              (ngModelChange)="onVitalityFormulaTokensChanged(vitality, $event)"
               [ngModelOptions]="{standalone: true}"
               [campaign]="campaign"
               [disabled]="disabled"
-              (expressionChange)="syncFormulaExpression(vitality, $event)"
-              (blur)="updateVitality(vitality)">
+              (expressionChange)="onVitalityFormulaExpressionChanged(vitality, $event)">
             </rr-formula-builder>
-            <small class="text-xs block mt-1">Formula (opcional, usada apenas se a construcao acima estiver vazia)</small>
-            <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Legacy formula" formControlName="formula" (blur)="updateVitality(vitality)">
-            </div>
           </div>
         </div>
       </div>

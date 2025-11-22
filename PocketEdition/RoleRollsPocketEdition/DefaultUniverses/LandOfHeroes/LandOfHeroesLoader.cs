@@ -113,6 +113,7 @@ public class LandOfHeroesLoader : IStartupTask
             await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration,
                 templateFromDb.ItemConfiguration, _dbContext);
             await SynchronizeLives(templateFromDb, templateFromCode.Vitalities, templateFromDb.Vitalities, _dbContext);
+            await SynchronizeDefenses(templateFromDb, templateFromCode.Defenses, templateFromDb.Defenses, _dbContext);
             await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes,
                 _dbContext);
             await SynchronizeCreatureTypes(templateFromDb, templateFromCode.CreatureTypes, templateFromDb.CreatureTypes,
@@ -279,6 +280,34 @@ public class LandOfHeroesLoader : IStartupTask
         foreach (var dbVitality in fromDb.Where(l => !codeLives.ContainsKey(l.Id)).ToList())
         {
             creatureFromDb.Vitalities.Remove(dbVitality);
+        }
+    }
+
+    private async Task SynchronizeDefenses(
+        Templates.Entities.CampaignTemplate templateFromDb,
+        ICollection<DefenseTemplate>? fromCode,
+        ICollection<DefenseTemplate> fromDb,
+        RoleRollsDbContext dbContext)
+    {
+        var codeDefenses = (fromCode ?? Array.Empty<DefenseTemplate>()).ToDictionary(d => d.Id);
+        var dbDefenses = fromDb.ToDictionary(d => d.Id);
+
+        foreach (var codeDefense in codeDefenses.Values)
+        {
+            if (!dbDefenses.ContainsKey(codeDefense.Id))
+            {
+                await templateFromDb.AddDefenseAsync(new DefenseTemplateModel(codeDefense), dbContext);
+            }
+            else
+            {
+                templateFromDb.UpdateDefense(new DefenseTemplateModel(codeDefense), dbContext);
+            }
+        }
+
+        foreach (var dbDefense in fromDb.Where(d => !codeDefenses.ContainsKey(d.Id)).ToList())
+        {
+            templateFromDb.Defenses.Remove(dbDefense);
+            dbContext.DefenseTemplates.Remove(dbDefense);
         }
     }
 

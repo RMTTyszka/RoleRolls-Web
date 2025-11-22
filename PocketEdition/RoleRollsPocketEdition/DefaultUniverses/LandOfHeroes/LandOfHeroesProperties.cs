@@ -74,6 +74,11 @@ public enum LandOfHeroesVitality
     Moral = 1,
     Mana = 2
 }
+
+public enum LandOfHeroesDefense
+{
+    Evasion = 0
+}
 public enum DamageTypeEnum
 {
     Martial,

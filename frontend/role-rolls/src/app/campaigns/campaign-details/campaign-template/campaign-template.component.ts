@@ -66,6 +66,7 @@ export class CampaignTemplateComponent {
   public selectedSkillSpecificSkills: FormGroup[] = [];
   public disabled: boolean = false;
   public defaultTemplates: RROption<string>[] = [];
+  private formulaAutoSaveTimers = new WeakMap<FormGroup, ReturnType<typeof setTimeout>>();
   public get default() {
     return this.campaign.campaignTemplate.default;
   }
@@ -293,7 +294,7 @@ export class CampaignTemplateComponent {
     const skill = skillControl.value as SkillTemplate;
     const specificSkill = specificSkillControl.value as SpecificSkillsTemplate;
     this.service.removeSpecificSkill(this.campaign.id, skill.id, specificSkill.id)
-      .subscribe(() => {
+      .subscribe(() => {  
         this.minorsSkillBySkill.get(skill.id).removeAt(index);
       });
   }
@@ -375,6 +376,24 @@ export class CampaignTemplateComponent {
     this.setFormulaTokensValue(group, tokens ?? []);
   }
 
+  public onDefenseFormulaTokensChanged(defenseGroup: FormGroup, tokens: FormulaToken[]) {
+    this.onFormulaTokensChanged(defenseGroup, tokens);
+  }
+
+  public onDefenseFormulaExpressionChanged(defenseGroup: FormGroup, expression: string) {
+    this.syncFormulaExpression(defenseGroup, expression);
+    this.scheduleFormulaAutoSave(defenseGroup, () => this.updateDefense(defenseGroup));
+  }
+
+  public onVitalityFormulaTokensChanged(vitalityGroup: FormGroup, tokens: FormulaToken[]) {
+    this.onFormulaTokensChanged(vitalityGroup, tokens);
+  }
+
+  public onVitalityFormulaExpressionChanged(vitalityGroup: FormGroup, expression: string) {
+    this.syncFormulaExpression(vitalityGroup, expression);
+    this.scheduleFormulaAutoSave(vitalityGroup, () => this.updateVitality(vitalityGroup));
+  }
+
   private normalizeFormulaTokenControls() {
     this.defenses?.controls?.forEach(control => this.ensureFormulaTokensControl(control));
     this.vitalities?.controls?.forEach(control => this.ensureFormulaTokensControl(control));
@@ -402,6 +421,21 @@ export class CampaignTemplateComponent {
     if (control instanceof FormControl) {
       control.setValue(tokens ?? []);
     }
+  }
+
+  private scheduleFormulaAutoSave(group: FormGroup, callback: () => void): void {
+    if (!group) {
+      return;
+    }
+    const pending = this.formulaAutoSaveTimers.get(group);
+    if (pending) {
+      clearTimeout(pending);
+    }
+    const timer = setTimeout(() => {
+      this.formulaAutoSaveTimers.delete(group);
+      callback();
+    });
+    this.formulaAutoSaveTimers.set(group, timer);
   }
 
 

@@ -30,6 +30,7 @@ public class LandOfHeroesTemplate
                 Attributes = BuildAttributes(),
                 Skills = BuildSkills(),
                 Vitalities = BuildVitalities(),
+                Defenses = BuildDefenses(),
                 DamageTypes = BuildDamageTypes(),
                 CreatureTypes = LandOfHeroesRaces.Races,
                 Archetypes = Roles,
@@ -69,6 +70,51 @@ public class LandOfHeroesTemplate
                 Formula = "10 + 2 * Intelligence",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
+            }
+        ];
+    }
+
+    private static List<DefenseTemplate> BuildDefenses()
+    {
+        var templateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632");
+        return
+        [
+            new DefenseTemplate
+            {
+                Id = DefenseIds[LandOfHeroesDefense.Evasion],
+                Name = "Evasion",
+                Formula = "10 + Evasion + ((Level - 1) * 2)",
+                CampaignTemplateId = templateId,
+                CampaignTemplate = null,
+                FormulaTokens =
+                [
+                    new FormulaToken
+                    {
+                        Order = 0,
+                        Type = FormulaTokenType.Manual,
+                        ManualValue = "10 + "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 1,
+                        Type = FormulaTokenType.Property,
+                        Property = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
+                        ManualValue = string.Empty
+                    },
+                    new FormulaToken
+                    {
+                        Order = 2,
+                        Type = FormulaTokenType.Manual,
+                        ManualValue = " + (("
+                    },
+                    new FormulaToken
+                    {
+                        Order = 3,
+                        Type = FormulaTokenType.CustomValue,
+                        CustomValue = FormulaCustomValue.Level,
+                        ManualValue = " - 1) * 2)"
+                    }
+                ]
             }
         ];
     }
@@ -220,6 +266,11 @@ public class LandOfHeroesTemplate
         { DamageTypeEnum.Acid, new Guid("42255ef3-c4c1-4b36-9298-d3d16a5f6568") },
         { DamageTypeEnum.Necrotic, new Guid("c1d25d0e-634c-4e5e-b367-6647dc79675e") },
         { DamageTypeEnum.Radiant, new Guid("9dd8562c-83c6-4b1f-8c54-78b64a85951a") }
+    };
+
+    public static Dictionary<LandOfHeroesDefense, Guid> DefenseIds = new()
+    {
+        { LandOfHeroesDefense.Evasion, Guid.Parse("A6E0E5AC-9423-4F95-AC6C-6F60EBF0C6F2") }
     };
 
     public static Dictionary<LandOfHeroesVitality, Guid> VitalityIds = new()

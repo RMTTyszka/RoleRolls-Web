@@ -2,9 +2,8 @@ import { Property } from '@app/models/bonuses/bonus';
 
 export enum FormulaTokenType {
   Property = 0,
-  Number = 1,
-  Operator = 2,
-  CustomValue = 3
+  CustomValue = 3,
+  Manual = 4,
 }
 
 export enum FormulaCustomValue {
@@ -19,4 +18,5 @@ export interface FormulaToken {
   operator?: string | null;
   value?: number | null;
   customValue?: FormulaCustomValue | null;
+  manualValue?: string | null;
 }

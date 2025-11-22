@@ -5,9 +5,8 @@ namespace RoleRollsPocketEdition.Templates.Entities;
 public enum FormulaTokenType
 {
     Property = 0,
-    Number = 1,
-    Operator = 2,
-    CustomValue = 3
+    CustomValue = 3,
+    Manual = 4
 }
 
 public enum FormulaCustomValue
@@ -24,6 +23,7 @@ public class FormulaToken
     public string? Operator { get; set; }
     public decimal? Value { get; set; }
     public FormulaCustomValue? CustomValue { get; set; }
+    public string? ManualValue { get; set; }
 
     public FormulaToken Clone()
     {
@@ -34,7 +34,8 @@ public class FormulaToken
             Property = Property is null ? null : new Property(Property.Id, Property.Type),
             Operator = Operator,
             Value = Value,
-            CustomValue = CustomValue
+            CustomValue = CustomValue,
+            ManualValue = ManualValue
         };
     }
 }
