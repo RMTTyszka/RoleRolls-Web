@@ -8,9 +8,9 @@
 <div style="border: black solid 1px;">
 
   <div class="p-inputgroup" >
-    <p-inputGroupAddon class="x" *ngIf="isCurrentOnInitiative" style="background-color: unset;"><i class="fas fa-caret-right initiative-color"></i></span>
-    <p-inputGroupAddon class="x" *ngIf="!isCurrentOnInitiative" style="background-color: unset;"></span>
-    <p-inputGroupAddon style="cursor: pointer" (click)="creature ? creatureOverlay.show($event) : null"><i class="pi pi-user" ></i></span>
+    <p-inputGroupAddon class="x" *ngIf="isCurrentOnInitiative" style="background-color: unset;"><i class="fas fa-caret-right initiative-color"></i></p-inputGroupAddon>
+    <p-inputGroupAddon class="x" *ngIf="!isCurrentOnInitiative" style="background-color: unset;"></p-inputGroupAddon>
+    <p-inputGroupAddon style="cursor: pointer" (click)="creature ? creatureOverlay.show($event) : null"><i class="pi pi-user" ></i></p-inputGroupAddon>
     <p-autoComplete  [(ngModel)]="creature" field="name" (completeMethod)="search($event.query)" [placeholder]="placeholder" [dropdown]="true" (onSelect)="selected($event)" [suggestions]="result"  [forceSelection]="true"></p-autoComplete>
   </div>
 </div>
@@ -25,9 +25,9 @@
     <span class="p-col">{{creature.currentLife}}</span>
   </div>
   <div class="p-inputgroup p-col">
-    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Death)" style="max-height: 33px;" [pTooltip]="'Dead (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull" style="color: black"></i></span>
-    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Poison)" style="max-height: 33px;" [pTooltip]="'Poisoned (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull-crossbones" style="color: darkslateblue"></i></span>
-    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Burn)" style="max-height: 33px;" [pTooltip]="'Burning (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-fire-alt" style="color: darkred"></i></span>
+    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Death)" style="max-height: 33px;" [pTooltip]="'Dead (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull" style="color: black"></i></p-inputGroupAddon>
+    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Poison)" style="max-height: 33px;" [pTooltip]="'Poisoned (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-skull-crossbones" style="color: darkslateblue"></i></p-inputGroupAddon>
+    <p-inputGroupAddon class="small" *ngIf="getEffect(effectType.Burn)" style="max-height: 33px;" [pTooltip]="'Burning (' + getEffect(effectType.Death)?.level + ')'"><i class="fas fa-fire-alt" style="color: darkred"></i></p-inputGroupAddon>
   </div>
 </div>
 

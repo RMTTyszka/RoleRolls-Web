@@ -1,7 +1,7 @@
 <div class="p-grid p-jc-between">
   <div class="p-inputgroup p-col-10">
     <input pInput placeholder="Desirable Chance" [(ngModel)]="expectedChance" [disabled]="calculating"/>
-    <p-inputGroupAddon>%</span>
+    <p-inputGroupAddon>%</p-inputGroupAddon>
     <p-inputGroupAddon><button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-button-secondary" [disabled]="calculating"></button></p-inputGroupAddon>
   </div>
     <p-progressSpinner class="p-col-2" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>

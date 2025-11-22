@@ -11,7 +11,7 @@
               <rr-role-select [form]="form" (roleSelected)="roleSelected($event)"></rr-role-select>
               <div class="p-inputgroup">
                 <input type="text" readonly pInputText placeholder="level" class="input-centered-placeholder player-color-1">
-                <p-inputGroupAddon  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</span>
+                <p-inputGroupAddon  pTooltip="level" style="background-color: oldlace; color: black; font-weight: bold">{{level}}</p-inputGroupAddon>
               </div>
               <label>Remaining Points: {{totalAttributesInitialPoints - usedAttributesBasePoints}}</label>
               <div class="p-inputgroup">
@@ -26,15 +26,15 @@
                   <button (click)="removeAttr(attr)" pButton type="button" icon="pi pi-minus" class="p-button-secondary"></button>
                   <input type="text" readonly pInputText [placeholder]="attr" class="input-centered-placeholder player-color-1">
                   <button (click)="addAttr(attr)" pButton type="button" icon="pi pi-plus" class="p-button-secondary"></button>
-                  <p-inputGroupAddon style="background-color: oldlace; color: black; font-weight: bold; min-width: 30px" pTooltip="total">{{totalAttribute(attr)}}</span>
+                  <p-inputGroupAddon style="background-color: oldlace; color: black; font-weight: bold; min-width: 30px" pTooltip="total">{{totalAttribute(attr)}}</p-inputGroupAddon>
                   <ng-container *ngIf="attributeDetailsIsOpened">
-                    <p-inputGroupAddon  pTooltip="base points">{{baseAttribute(attr)}}</span>
-                    <p-inputGroupAddon style="background-color: azure; min-width: 30px" pTooltip="bonus points">{{bonusPointsAttribute(attr)}}</span>
-                    <p-inputGroupAddon style="background-color: lightgreen; min-width: 30px" pTooltip="race bonus">{{raceAttributeBonus(attr)}}</span>
-                    <p-inputGroupAddon style="background-color: lightsalmon; min-width: 30px" pTooltip="role bonus">{{roleAttributeBonus(attr)}}</span>
-                    <p-inputGroupAddon style="background-color: darkkhaki; min-width: 30px" pTooltip="bonuses"></span>
+                    <p-inputGroupAddon  pTooltip="base points">{{baseAttribute(attr)}}</p-inputGroupAddon>
+                    <p-inputGroupAddon style="background-color: azure; min-width: 30px" pTooltip="bonus points">{{bonusPointsAttribute(attr)}}</p-inputGroupAddon>
+                    <p-inputGroupAddon style="background-color: lightgreen; min-width: 30px" pTooltip="race bonus">{{raceAttributeBonus(attr)}}</p-inputGroupAddon>
+                    <p-inputGroupAddon style="background-color: lightsalmon; min-width: 30px" pTooltip="role bonus">{{roleAttributeBonus(attr)}}</p-inputGroupAddon>
+                    <p-inputGroupAddon style="background-color: darkkhaki; min-width: 30px" pTooltip="bonuses"></p-inputGroupAddon>
                   </ng-container>
-                  <p-inputGroupAddon style="background-color: azure; min-width: 46px" pTooltip="level">{{attributeLevel(attr)}}</span>
+                  <p-inputGroupAddon style="background-color: azure; min-width: 46px" pTooltip="level">{{attributeLevel(attr)}}</p-inputGroupAddon>
                 </div>
               </div>
             </ng-container>
