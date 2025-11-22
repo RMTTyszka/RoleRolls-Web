@@ -9,6 +9,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Com
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Races;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Itens.Configurations;
+using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 
@@ -83,7 +84,7 @@ public class LandOfHeroesTemplate
             {
                 Id = DefenseIds[LandOfHeroesDefense.Evasion],
                 Name = "Evasion",
-                Formula = "10 + Evasion + ((Level - 1) * 2)",
+                Formula = "10 + Evasion + DefenseBonus1 + ArmorBonus + ((Level - 1) * 2)",
                 CampaignTemplateId = templateId,
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -99,19 +100,29 @@ public class LandOfHeroesTemplate
                         Order = 1,
                         Type = FormulaTokenType.Property,
                         Property = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
-                        ManualValue = string.Empty
+                        ManualValue = " + "
                     },
                     new FormulaToken
                     {
                         Order = 2,
-                        Type = FormulaTokenType.Manual,
-                        ManualValue = " + (("
+                        Type = FormulaTokenType.Equipment,
+                        EquipmentSlot = EquipableSlot.Chest,
+                        EquipmentValue = FormulaEquipmentValue.DefenseBonus1,
+                        ManualValue = " + "
                     },
                     new FormulaToken
                     {
                         Order = 3,
-                        Type = FormulaTokenType.CustomValue,
-                        CustomValue = FormulaCustomValue.Level,
+                        Type = FormulaTokenType.Equipment,
+                        EquipmentSlot = EquipableSlot.Chest,
+                        EquipmentValue = FormulaEquipmentValue.LevelBonus,
+                        ManualValue = " + (("
+                    },
+                    new FormulaToken
+                    {
+                        Order = 4,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Level,
                         ManualValue = " - 1) * 2)"
                     }
                 ]

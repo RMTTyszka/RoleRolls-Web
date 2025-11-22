@@ -41,10 +41,10 @@
             [disabled]="disabled"
             [(ngModel)]="token.manualValue"
             (blur)="onManualValueBlur()">
-          <div *ngSwitchCase="FormulaTokenType.CustomValue" class="flex flex-column gap-2 w-full">
+          <div *ngSwitchCase="FormulaTokenType.Creature" class="flex flex-column gap-2 w-full">
             <p-select
               [disabled]="disabled"
-              [options]="customValueOptions"
+              [options]="creatureValueOptions"
               optionLabel="label"
               optionValue="value"
               [(ngModel)]="token.customValue"
@@ -56,6 +56,25 @@
               pInputText
               class="w-full"
               placeholder="Complemento (ex: / 2)"
+              [disabled]="disabled"
+              [(ngModel)]="token.manualValue"
+              (blur)="onManualValueBlur()">
+          </div>
+          <div *ngSwitchCase="FormulaTokenType.Equipment" class="flex flex-column gap-2 w-full">
+            <p-select
+              [disabled]="disabled"
+              [options]="equipmentPropertyOptions"
+              optionLabel="label"
+              optionValue="key"
+              [ngModel]="getEquipmentOptionKey(token)"
+              (ngModelChange)="onEquipmentOptionChanged(i, $event)"
+              class="w-full">
+            </p-select>
+            <input
+              type="text"
+              pInputText
+              class="w-full"
+              placeholder="Complemento (ex: + 2)"
               [disabled]="disabled"
               [(ngModel)]="token.manualValue"
               (blur)="onManualValueBlur()">
@@ -89,11 +108,11 @@
     </div>
 
     <div class="flex flex-wrap gap-2 border-top-1 surface-border pt-3 align-items-center">
-      <span class="text-sm text-color-secondary">Adicionar nova linha:</span>
       <button
         pButton
         type="button"
-        label="Adicionar linha"
+        icon="pi pi-plus"
+        class="p-button-rounded"
         (click)="addToken()"
         [disabled]="disabled">
       </button>

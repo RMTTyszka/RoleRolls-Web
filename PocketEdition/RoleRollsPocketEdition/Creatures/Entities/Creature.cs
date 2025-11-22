@@ -274,8 +274,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             token.Type switch
             {
                 FormulaTokenType.Property => AppendManualValue(ResolvePropertyValue(token.Property), token.ManualValue),
-                FormulaTokenType.CustomValue =>
-                    AppendManualValue(ResolveCustomFormulaValue(token.CustomValue), token.ManualValue),
+                FormulaTokenType.Creature =>
+                    AppendManualValue(ResolveCreatureValue(token.CreatureValue), token.ManualValue),
+                FormulaTokenType.Equipment =>
+                    AppendManualValue(ResolveEquipmentValue(token), token.ManualValue),
                 FormulaTokenType.Manual => token.ManualValue ?? string.Empty,
                 _ => ResolveLegacyTokenValue(token)
             };
@@ -287,8 +289,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     AppendManualDescription(
                         $"{GetPropertyDisplayName(token.Property)}({ResolvePropertyValue(token.Property)})",
                         token.ManualValue),
-                FormulaTokenType.CustomValue => AppendManualDescription(
-                    $"{GetCustomFormulaLabel(token.CustomValue)}({ResolveCustomFormulaValue(token.CustomValue)})",
+                FormulaTokenType.Creature => AppendManualDescription(
+                    $"{GetCreatureValueLabel(token.CreatureValue)}({ResolveCreatureValue(token.CreatureValue)})",
+                    token.ManualValue),
+                FormulaTokenType.Equipment => AppendManualDescription(
+                    $"{GetEquipmentValueLabel(token)}({ResolveEquipmentValue(token)})",
                     token.ManualValue),
                 FormulaTokenType.Manual => token.ManualValue ?? string.Empty,
                 _ => ResolveLegacyTokenDescription(token)
@@ -401,24 +406,75 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             };
         }
 
-        private string ResolveCustomFormulaValue(FormulaCustomValue? customValue)
+        private string ResolveCreatureValue(FormulaCreatureValue? creatureValue)
         {
-            return customValue switch
+            return creatureValue switch
             {
-                FormulaCustomValue.ArmorDefenseBonus =>
-                    (Equipment?.Chest?.GetBonus ?? 0).ToString(CultureInfo.InvariantCulture),
-                FormulaCustomValue.Level => Level.ToString(CultureInfo.InvariantCulture),
+                FormulaCreatureValue.Level => Level.ToString(CultureInfo.InvariantCulture),
+                FormulaCreatureValue.ArmorDefenseBonus =>
+                    ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.DefenseBonus1),
+                FormulaCreatureValue.DefenseBonus1 =>
+                    ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.DefenseBonus1),
+                FormulaCreatureValue.DefenseBonus2 =>
+                    ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.DefenseBonus2),
+                FormulaCreatureValue.ArmorBonus =>
+                    ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.LevelBonus),
                 _ => "0"
             };
         }
 
-        private string GetCustomFormulaLabel(FormulaCustomValue? customValue)
+        private string GetCreatureValueLabel(FormulaCreatureValue? creatureValue)
         {
-            return customValue switch
+            return creatureValue switch
             {
-                FormulaCustomValue.ArmorDefenseBonus => "Bonus Armadura",
-                FormulaCustomValue.Level => "Nivel",
-                _ => "Custom"
+                FormulaCreatureValue.Level => "Nivel",
+                FormulaCreatureValue.DefenseBonus1 or FormulaCreatureValue.ArmorDefenseBonus => "Bonus defesa 1",
+                FormulaCreatureValue.DefenseBonus2 => "Bonus defesa 2",
+                FormulaCreatureValue.ArmorBonus => "Bonus armadura",
+                _ => "Criatura"
+            };
+        }
+
+        private string ResolveEquipmentValue(FormulaToken token)
+        {
+            if (token.EquipmentSlot is null || token.EquipmentValue is null)
+            {
+                return "0";
+            }
+            return ResolveEquipmentValue(token.EquipmentSlot.Value, token.EquipmentValue.Value);
+        }
+
+        private string ResolveEquipmentValue(EquipableSlot slot, FormulaEquipmentValue equipmentValue)
+        {
+            var item = Equipment?.GetItem(slot);
+            var armorCategory = slot == EquipableSlot.Chest
+                ? Equipment?.ArmorCategory ?? ArmorCategory.None
+                : ArmorCategory.None;
+
+            var value = equipmentValue switch
+            {
+                FormulaEquipmentValue.LevelBonus => item?.LevelBonus ?? 0,
+                FormulaEquipmentValue.DefenseBonus1 => slot == EquipableSlot.Chest
+                    ? item?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory)
+                    : 0,
+                FormulaEquipmentValue.DefenseBonus2 => slot == EquipableSlot.Chest
+                    ? item?.GetDefenseBonus2() ?? ArmorDefinition.DefenseBonus2(armorCategory)
+                    : 0,
+                _ => 0
+            };
+
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private string GetEquipmentValueLabel(FormulaToken token)
+        {
+            var slotName = token.EquipmentSlot?.ToString() ?? "Equipamento";
+            return token.EquipmentValue switch
+            {
+                FormulaEquipmentValue.LevelBonus => $"Bonus {slotName}",
+                FormulaEquipmentValue.DefenseBonus1 => "Bonus defesa 1",
+                FormulaEquipmentValue.DefenseBonus2 => "Bonus defesa 2",
+                _ => slotName
             };
         }
 

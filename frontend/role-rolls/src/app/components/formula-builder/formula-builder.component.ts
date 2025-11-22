@@ -19,15 +19,24 @@ import { SelectModule } from 'primeng/select';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import {
-  FormulaCustomValue,
+  FormulaCreatureValue,
+  FormulaEquipmentValue,
   FormulaToken,
   FormulaTokenType
 } from '@app/campaigns/models/formula-token.model';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 import { Property } from '@app/models/bonuses/bonus';
+import { EquipableSlot } from '@app/models/itens/equipable-slot';
 
 const LEGACY_NUMBER_TYPE = 1 as FormulaTokenType;
 const LEGACY_OPERATOR_TYPE = 2 as FormulaTokenType;
+
+type EquipmentValueOption = {
+  key: string;
+  label: string;
+  slot: EquipableSlot;
+  value: FormulaEquipmentValue;
+};
 
 @Component({
   selector: 'rr-formula-builder',
@@ -62,14 +71,13 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
 
   public tokenTypeOptions = [
     { label: 'Propriedade', value: FormulaTokenType.Property },
-    { label: 'Valor customizado', value: FormulaTokenType.CustomValue },
+    { label: 'Valor da criatura', value: FormulaTokenType.Creature },
+    { label: 'Valor de equipamento', value: FormulaTokenType.Equipment },
     { label: 'Valor manual', value: FormulaTokenType.Manual }
   ];
 
-  public customValueOptions = [
-    { label: 'Bonus da Armadura', value: FormulaCustomValue.ArmorDefenseBonus },
-    { label: 'Nivel', value: FormulaCustomValue.Level }
-  ];
+  public creatureValueOptions = [{ label: 'Nivel', value: FormulaCreatureValue.Level }];
+  public equipmentPropertyOptions: EquipmentValueOption[] = this.buildEquipmentValueOptions();
 
   private onChange: (value: FormulaToken[]) => void = () => {};
   private onTouched: () => void = () => {};
@@ -116,13 +124,42 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
         manualValue: token.manualValue ?? ''
       };
     }
-    if (token.type === FormulaTokenType.Property || token.type === FormulaTokenType.CustomValue) {
+    if (token.type === FormulaTokenType.Property) {
       return {
         ...token,
         manualValue: token.manualValue ?? ''
       };
     }
-    return token;
+    if (token.type === FormulaTokenType.Creature) {
+      const normalized: FormulaToken = {
+        ...token,
+        customValue: token.customValue ?? FormulaCreatureValue.Level,
+        manualValue: token.manualValue ?? '',
+        equipmentSlot: null,
+        equipmentValue: null
+      };
+      if (
+        normalized.customValue !== null &&
+        normalized.customValue !== undefined &&
+        normalized.customValue !== FormulaCreatureValue.Level
+      ) {
+        return this.convertLegacyCreatureToken(normalized);
+      }
+      return normalized;
+    }
+    if (token.type === FormulaTokenType.Equipment) {
+      const slot = token.equipmentSlot ?? EquipableSlot.Chest;
+      return {
+        ...token,
+        equipmentSlot: slot,
+        equipmentValue: token.equipmentValue ?? this.getDefaultEquipmentValue(slot),
+        manualValue: token.manualValue ?? ''
+      };
+    }
+    return {
+      ...token,
+      manualValue: token.manualValue ?? ''
+    };
   }
 
   registerOnChange(fn: (value: FormulaToken[]) => void): void {
@@ -187,22 +224,120 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
     current.operator = null;
     current.customValue = null;
     current.value = null;
-    current.manualValue = null;
+    current.manualValue = '';
+    current.equipmentSlot = null;
+    current.equipmentValue = null;
     switch (token) {
-      case FormulaTokenType.CustomValue:
-        current.customValue = FormulaCustomValue.Level;
-        current.manualValue = '';
+      case FormulaTokenType.Creature:
+        current.customValue = FormulaCreatureValue.Level;
         break;
-      case FormulaTokenType.Manual:
-        current.manualValue = '';
+      case FormulaTokenType.Equipment:
+        current.equipmentSlot = EquipableSlot.Chest;
+        current.equipmentValue = this.getDefaultEquipmentValue(EquipableSlot.Chest);
         break;
       case FormulaTokenType.Property:
       default:
         current.property = null;
-        current.manualValue = '';
         break;
     }
     this.emitChange();
+  }
+
+  public onEquipmentOptionChanged(index: number, key: string | null): void {
+    if (this.disabled) {
+      return;
+    }
+    const current = this.tokens[index];
+    if (!current) {
+      return;
+    }
+    const option = this.equipmentPropertyOptions.find(opt => opt.key === key);
+    if (!option) {
+      return;
+    }
+    current.equipmentSlot = option.slot;
+    current.equipmentValue = option.value;
+    this.emitChange();
+  }
+
+  public getEquipmentOptionKey(token: FormulaToken): string | null {
+    if (token.equipmentSlot === null || token.equipmentSlot === undefined) {
+      return null;
+    }
+    const option = this.equipmentPropertyOptions.find(
+      opt => opt.slot === token.equipmentSlot && opt.value === token.equipmentValue
+    );
+    return option?.key ?? null;
+  }
+
+  private getDefaultEquipmentValue(slot: EquipableSlot | null): FormulaEquipmentValue {
+    if (slot === EquipableSlot.Chest) {
+      return FormulaEquipmentValue.DefenseBonus1;
+    }
+    return FormulaEquipmentValue.LevelBonus;
+  }
+
+  private buildEquipmentValueOptions(): EquipmentValueOption[] {
+    const numericSlots = Object.values(EquipableSlot).filter(value => typeof value === 'number') as EquipableSlot[];
+    const options: EquipmentValueOption[] = [];
+    numericSlots.forEach(slot => {
+      const slotLabel = this.getEquipableSlotLabel(slot);
+      options.push({
+        key: `${slot}-level`,
+        label: `Bonus ${slotLabel.toLowerCase()}`,
+        slot,
+        value: FormulaEquipmentValue.LevelBonus
+      });
+      if (slot === EquipableSlot.Chest) {
+        options.push(
+          {
+            key: `${slot}-def1`,
+            label: 'Bonus defesa 1 (peito)',
+            slot,
+            value: FormulaEquipmentValue.DefenseBonus1
+          },
+          {
+            key: `${slot}-def2`,
+            label: 'Bonus defesa 2 (peito)',
+            slot,
+            value: FormulaEquipmentValue.DefenseBonus2
+          }
+        );
+      }
+    });
+    return options;
+  }
+
+  private getEquipableSlotLabel(slot: EquipableSlot): string {
+    const raw = EquipableSlot[slot];
+    return raw.replace(/([A-Z])/g, ' $1').trim();
+  }
+
+  private convertLegacyCreatureToken(token: FormulaToken): FormulaToken {
+    const equipmentValue = this.mapLegacyCreatureValueToEquipment(token.customValue);
+    return {
+      ...token,
+      type: FormulaTokenType.Equipment,
+      equipmentSlot: EquipableSlot.Chest,
+      equipmentValue,
+      customValue: null
+    };
+  }
+
+  private mapLegacyCreatureValueToEquipment(
+    value: FormulaCreatureValue | null | undefined
+  ): FormulaEquipmentValue {
+    switch (value) {
+      case FormulaCreatureValue.DefenseBonus1:
+      case FormulaCreatureValue.ArmorDefenseBonus:
+        return FormulaEquipmentValue.DefenseBonus1;
+      case FormulaCreatureValue.DefenseBonus2:
+        return FormulaEquipmentValue.DefenseBonus2;
+      case FormulaCreatureValue.ArmorBonus:
+        return FormulaEquipmentValue.LevelBonus;
+      default:
+        return FormulaEquipmentValue.LevelBonus;
+    }
   }
 
   public onTokenEdited(): void {
@@ -270,8 +405,10 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
       return `${text} ${manualText}`;
     };
     switch (token.type) {
-      case FormulaTokenType.CustomValue:
-        return appendManual(this.getCustomValueLabel(token.customValue), token.manualValue);
+      case FormulaTokenType.Creature:
+        return appendManual(this.getCreatureValueLabel(token.customValue), token.manualValue);
+      case FormulaTokenType.Equipment:
+        return appendManual(this.getEquipmentValueLabel(token), token.manualValue);
       case FormulaTokenType.Property:
         return appendManual(this.getPropertyLabel(token.property), token.manualValue);
       case FormulaTokenType.Manual:
@@ -290,8 +427,10 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
       return `${text}${manualText}`;
     };
     switch (token.type) {
-      case FormulaTokenType.CustomValue:
-        return appendManual(this.getCustomValueLabel(token.customValue), token.manualValue);
+      case FormulaTokenType.Creature:
+        return appendManual(this.getCreatureValueLabel(token.customValue), token.manualValue);
+      case FormulaTokenType.Equipment:
+        return appendManual(this.getEquipmentValueLabel(token), token.manualValue);
       case FormulaTokenType.Property:
         return appendManual(this.getPropertyLabel(token.property), token.manualValue);
       case FormulaTokenType.Manual:
@@ -321,14 +460,19 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
     return token.manualValue ?? '';
   }
 
-  private getCustomValueLabel(customValue?: FormulaCustomValue | null): string {
+  private getCreatureValueLabel(customValue?: FormulaCreatureValue | null): string {
     switch (customValue) {
-      case FormulaCustomValue.ArmorDefenseBonus:
-        return 'Bonus Armadura';
-      case FormulaCustomValue.Level:
+      case FormulaCreatureValue.Level:
         return 'Nivel';
+      case FormulaCreatureValue.DefenseBonus1:
+      case FormulaCreatureValue.ArmorDefenseBonus:
+        return 'Bonus defesa 1';
+      case FormulaCreatureValue.DefenseBonus2:
+        return 'Bonus defesa 2';
+      case FormulaCreatureValue.ArmorBonus:
+        return 'Bonus armadura';
       default:
-        return 'Custom';
+        return 'Criatura';
     }
   }
 
@@ -362,12 +506,27 @@ export class FormulaBuilderComponent implements ControlValueAccessor, OnChanges 
     switch (type) {
       case FormulaTokenType.Property:
         return 'Propriedade';
-      case FormulaTokenType.CustomValue:
-        return 'Valor customizado';
+      case FormulaTokenType.Creature:
+        return 'Valor da criatura';
+      case FormulaTokenType.Equipment:
+        return 'Valor de equipamento';
       case FormulaTokenType.Manual:
         return 'Valor manual';
       default:
         return 'Token';
+    }
+  }
+
+  private getEquipmentValueLabel(token: FormulaToken): string {
+    const slot = token.equipmentSlot ?? EquipableSlot.Chest;
+    const slotLabel = this.getEquipableSlotLabel(slot);
+    switch (token.equipmentValue) {
+      case FormulaEquipmentValue.DefenseBonus1:
+        return 'Bonus defesa 1';
+      case FormulaEquipmentValue.DefenseBonus2:
+        return 'Bonus defesa 2';
+      default:
+        return `Bonus ${slotLabel.toLowerCase()}`;
     }
   }
 

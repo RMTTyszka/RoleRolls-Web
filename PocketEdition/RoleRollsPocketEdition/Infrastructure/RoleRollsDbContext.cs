@@ -25,6 +25,7 @@ using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
+using RoleRollsPocketEdition.Templates.Entities.Json;
 using RoleRollsPocketEdition.Spells.Entities;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
@@ -118,9 +119,9 @@ namespace RoleRollsPocketEdition.Infrastructure
 
             var formulaTokensJsonOptions = new JsonSerializerOptions
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Converters = { new JsonStringEnumConverter() }
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
+            formulaTokensJsonOptions.Converters.Add(new FormulaTokenTypeJsonConverter());
 
             var serializeFormulaTokens = (Func<List<FormulaToken>?, string>)(tokens =>
                 JsonSerializer.Serialize(tokens ?? new List<FormulaToken>(), formulaTokensJsonOptions));

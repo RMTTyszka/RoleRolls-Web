@@ -50,10 +50,14 @@ public partial class Creature
         defenseAdvantage += ResolveWeaponVsArmorAdvantage(weapon, Equipment.ArmorCategory);
         var luck = input.Luck;
         luck += ResolveWeaponVsArmorLuck(weapon, Equipment.ArmorCategory);
+        var chestArmor = Equipment.Chest;
+        var armorCategory = chestArmor?.ArmorTemplate?.Category ?? ArmorCategory.None;
+        var armorDefenseBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
+        var armorBonus = chestArmor?.GetBonus ?? 0;
         var evadeRollCommand = new RollDiceCommand(
             defenseValue.Value,
             defenseAdvantage,
-            defenseValue.Bonus + defenseValue.Value + Equipment.Chest.GetBonus + ArmorDefinition.EvasionBonus(Equipment.ArmorCategory),
+            defenseValue.Bonus + defenseValue.Value + armorBonus + armorDefenseBonus,
             evadeComplexity,
             evadeComplexity,
             [],
