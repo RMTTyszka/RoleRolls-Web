@@ -20,6 +20,7 @@ import {LuckSelectComponent} from '@app/rolls/luck-select/luck-select.component'
 import {PropertyType} from '@app/campaigns/models/propertyType';
 import {PropertySelectorComponent} from '@app/components/property-selector/property-selector.component';
 import {Property} from '@app/models/bonuses/bonus';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-roll-dice',
@@ -36,6 +37,7 @@ import {Property} from '@app/models/bonuses/bonus';
     AdvantageSelectComponent,
     LuckSelectComponent,
     PropertySelectorComponent,
+    InputGroupAddonModule,
 
   ],
   templateUrl: './roll-dice.component.html',

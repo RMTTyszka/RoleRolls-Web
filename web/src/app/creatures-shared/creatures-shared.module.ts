@@ -40,6 +40,7 @@ import { CreatureInventoryDetailsComponent } from './creature-details/creature-i
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { CreatureEquipmentDetailsComponent } from './creature-details/creature-equipment-details/creature-equipment-details.component';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import {ProgressBarModule} from 'primeng/progressbar';
         RolesSharedModule,
         InputTextModule,
         SelectButtonModule,
-        ProgressBarModule
+        ProgressBarModule,
+        InputGroupAddonModule
     ]
 })
 export class CreaturesSharedModule { }

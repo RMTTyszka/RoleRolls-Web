@@ -56,6 +56,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SelectModule } from 'primeng/select';
 import { MessageModule } from 'primeng/message';
 import { PopoverModule } from 'primeng/popover';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 const routes: Routes = [
   {path: ':id', component: PocketCampaignBodyshellComponent},
@@ -113,6 +114,7 @@ const routes: Routes = [
     MessageModule,
     SelectModule,
     PopoverModule,
+    InputGroupAddonModule,
   ]
 })
 export class CampaignsModule { }

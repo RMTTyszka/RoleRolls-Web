@@ -17,6 +17,7 @@ import {
   ConfirmNameAndLevelItemComponent
 } from '@app/itens/confirm-name-and-level-item/confirm-name-and-level-item.component';
 import { FormsModule } from '@angular/forms';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-item-instantiator',
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     TableModule,
     InputText,
     NgForOf,
-    FormsModule
+    FormsModule,
+    InputGroupAddonModule
   ],
   templateUrl: './item-instantiator.component.html',
   styleUrl: './item-instantiator.component.scss'

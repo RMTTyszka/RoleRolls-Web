@@ -29,6 +29,7 @@ import {
   VitalityManagerComponent
 } from '@app/campaign-session/creature-actions/vitality-manager/vitality-manager.component';
 import { Drawer, DrawerModule } from 'primeng/drawer';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Property } from '@app/models/bonuses/bonus';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 
@@ -47,6 +48,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     NgForOf,
     SidebarModule,
     DrawerModule,
+    InputGroupAddonModule,
   ],
   templateUrl: './scene-creature-row.component.html',
   styleUrl: './scene-creature-row.component.scss'

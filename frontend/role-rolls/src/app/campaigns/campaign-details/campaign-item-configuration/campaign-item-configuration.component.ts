@@ -13,6 +13,7 @@ import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {AttributeTemplate, DefenseTemplate} from '@app/campaigns/models/campaign.template';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
@@ -22,7 +23,8 @@ import { AuthenticationService } from '@app/authentication/services/authenticati
     ReactiveFormsModule,
     PropertySelectorComponent,
     NgIf,
-    InputText
+    InputText,
+    InputGroupAddonModule
   ],
   styleUrl: './campaign-item-configuration.component.scss'
 })

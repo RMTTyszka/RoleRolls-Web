@@ -5,13 +5,15 @@ import { ButtonDirective } from 'primeng/button';
 import { DialogService, DynamicDialogComponent, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InstantiateItemInput } from '@app/models/itens/instances/instantiate-item-input';
 import { ItemTemplateModel } from '@app/models/itens/ItemTemplateModel';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'rr-confirm-name-and-level-item',
   imports: [
     ReactiveFormsModule,
     InputText,
-    ButtonDirective
+    ButtonDirective,
+    InputGroupAddonModule
   ],
   templateUrl: './confirm-name-and-level-item.component.html',
   styleUrl: './confirm-name-and-level-item.component.scss'
