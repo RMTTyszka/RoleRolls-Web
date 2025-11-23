@@ -73,14 +73,9 @@ public class AttackTests
     {
         // Arrange
         var campaignTemplate = LandOfHeroesTemplate.Template;
-        var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var config = new ItemConfiguration
-        {
-            MeleeMediumWeaponHitProperty = new Property(hitPropertyId, PropertyType.Attribute),
-            MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
-        };
+        var config = campaignTemplate.ItemConfiguration;
 
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
         ;
@@ -91,9 +86,9 @@ public class AttackTests
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
-            HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
+            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-            DefenseId = defensePropertyId,
+            DefenseId = null,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
                 PropertyType.Vitality),
             SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
@@ -110,7 +105,122 @@ public class AttackTests
 
         // Assert
         result.Success.Should().BeTrue();
-        result.TotalDamage.Should().Be(4);
+        result.TotalDamage.Should().Be(22);
+    }
+
+    [Fact(DisplayName = "Light weapon attacking light armor")]
+    public void T5()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Light, ArmorCategory.Light, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Light weapon attacking medium armor")]
+    public void T6()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Light, ArmorCategory.Medium, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Light weapon attacking heavy armor")]
+    public void T7()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Light, ArmorCategory.Heavy, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Medium weapon attacking light armor")]
+    public void T8()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Medium, ArmorCategory.Light, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Medium weapon attacking medium armor")]
+    public void T9()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Medium, ArmorCategory.Medium, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Medium weapon attacking heavy armor")]
+    public void T10()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Medium, ArmorCategory.Heavy, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Heavy weapon attacking light armor")]
+    public void T11()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeHeavyWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Heavy, ArmorCategory.Light, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Heavy weapon attacking medium armor")]
+    public void T12()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeHeavyWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Heavy, ArmorCategory.Medium, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Heavy weapon attacking heavy armor")]
+    public void T13()
+    {
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeHeavyWeapon];
+        var result = PerformBasicAttack(WeaponCategory.Heavy, ArmorCategory.Heavy, hitPropertyId);
+        result.Success.Should().BeTrue();
+        result.TotalDamage.Should().Be(0);
+    }
+
+    private AttackResult PerformBasicAttack(WeaponCategory weaponCategory, ArmorCategory armorCategory,
+        Guid hitPropertyId)
+    {
+        var campaignTemplate = LandOfHeroesTemplate.Template;
+        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
+        var config = campaignTemplate.ItemConfiguration;
+
+        var attacker = new BaseCreature(campaignTemplate, $"{weaponCategory} Weapon")
+            .WithWeapon(weaponCategory, EquipableSlot.MainHand, 1)
+            .Creature;
+        var defender = new BaseCreature(campaignTemplate, $"{armorCategory} Armor")
+            .WithArmor(armorCategory, 1)
+            .Creature;
+
+        var input = new AttackCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = config,
+            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
+            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
+                PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
+                PropertyType.Vitality),
+            Luck = 0,
+            Advantage = 0
+        };
+
+        var dice = Substitute.For<IDiceRoller>();
+        dice.Roll(Arg.Any<int>()).Returns(callInfo => callInfo.Arg<int>());
+
+        return attacker.Attack(defender, input, dice);
     }
 
     [Fact(DisplayName = "Full Level Test")]

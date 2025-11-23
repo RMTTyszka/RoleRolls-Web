@@ -78,11 +78,10 @@ public partial class Creature
         var weaponBonus = weapon.GetBonus;
         var luck = input.Luck;
         luck += ResolveWeaponVsArmorLuck(weapon, armorCategory);
-        var weaponInnateHitBonus = gripType.Hit;
         var command = new RollDiceCommand(
             hitValue.Value,
             advantage,
-            hitValue.Bonus + hitValue.Value + weaponBonus + weaponInnateHitBonus,
+            hitValue.Bonus + hitValue.Value + weaponBonus,
             gripType.AttackDifficult,
             defenseValue,
             [],
