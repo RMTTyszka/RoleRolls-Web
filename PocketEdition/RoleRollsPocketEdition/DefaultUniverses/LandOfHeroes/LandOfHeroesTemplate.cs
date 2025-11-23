@@ -65,7 +65,8 @@ public class LandOfHeroesTemplate
                     {
                         Order = 1,
                         Type = FormulaTokenType.Property,
-                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor], PropertyType.Attribute),
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor],
+                            PropertyType.Attribute),
                         ManualValue = string.Empty
                     }
                 ]
@@ -90,7 +91,8 @@ public class LandOfHeroesTemplate
                     {
                         Order = 1,
                         Type = FormulaTokenType.Property,
-                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intuition], PropertyType.Attribute),
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intuition],
+                            PropertyType.Attribute),
                         ManualValue = string.Empty
                     }
                 ]
@@ -115,7 +117,8 @@ public class LandOfHeroesTemplate
                     {
                         Order = 1,
                         Type = FormulaTokenType.Property,
-                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intelligence], PropertyType.Attribute),
+                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intelligence],
+                            PropertyType.Attribute),
                         ManualValue = string.Empty
                     }
                 ]
@@ -203,6 +206,7 @@ public class LandOfHeroesTemplate
         {
             result.AddRange(GetSkills(attributeEntry.Key, attributeEntry.Value));
         }
+
         // attributeless skills
         result.AddRange(BuildAttributelessSkills());
         return result;
@@ -212,7 +216,7 @@ public class LandOfHeroesTemplate
     {
         return new ItemConfiguration(template, new ItemConfigurationModel
         {
-            ArmorProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
+            ArmorDefense1 = DefenseIds[LandOfHeroesDefense.Evasion],
             BlockProperty = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]),
             MeleeLightWeaponHitProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
                 PropertyType.MinorSkill),
@@ -495,5 +499,3 @@ public class LandOfHeroesTemplate
             }
         };
 }
-
-

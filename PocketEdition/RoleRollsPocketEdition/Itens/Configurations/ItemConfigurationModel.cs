@@ -4,16 +4,15 @@ namespace RoleRollsPocketEdition.Itens.Configurations;
 
 public class ItemConfigurationModel
 {
-    public Property? ArmorProperty { get; set; }
     public Property? MeleeLightWeaponHitProperty { get; set; }
     public Property? MeleeMediumWeaponHitProperty { get; set; }
-    public Property? MeleeHeavyWeaponHitProperty { get; set; }   
+    public Property? MeleeHeavyWeaponHitProperty { get; set; }
     public Property? MeleeLightWeaponDamageProperty { get; set; }
     public Property? MeleeMediumWeaponDamageProperty { get; set; }
-    public Property? MeleeHeavyWeaponDamageProperty { get; set; }  
+    public Property? MeleeHeavyWeaponDamageProperty { get; set; }
     public Property? RangedLightWeaponHitProperty { get; set; }
     public Property? RangedMediumWeaponHitProperty { get; set; }
-    public Property? RangedHeavyWeaponHitProperty { get; set; }   
+    public Property? RangedHeavyWeaponHitProperty { get; set; }
     public Property? RangedLightWeaponDamageProperty { get; set; }
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
@@ -28,7 +27,8 @@ public class ItemConfigurationModel
 
         return new ItemConfigurationModel
         {
-            ArmorProperty = templateItemConfiguration.ArmorProperty,
+            ArmorDefense1 = templateItemConfiguration.ArmorDefense1,
+            ArmorDefense2 = templateItemConfiguration.ArmorDefense2,
             BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality,
             BasicAttackTargetSecondVitality = templateItemConfiguration.BasicAttackTargetSecondVitality,
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty,
@@ -49,4 +49,6 @@ public class ItemConfigurationModel
 
     public Property? BasicAttackTargetSecondVitality { get; set; }
     public Property? BlockProperty { get; set; }
+    public Guid? ArmorDefense1 { get; set; }
+    public Guid? ArmorDefense2 { get; set; }
 }

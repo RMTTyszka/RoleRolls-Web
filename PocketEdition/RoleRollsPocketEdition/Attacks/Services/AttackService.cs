@@ -84,7 +84,7 @@ public class AttackService : IAttackService, ITransientDependency
 public class AttackInput
 {
     public Guid TargetId { get; set; }
-    public Property? Defense { get; set; }
+    public Guid? Defense { get; set; }
     public Property? Vitality { get; set; }
     public Property? HitProperty { get; set; }
     public Property? DamageAttribute { get; set; }
@@ -99,7 +99,7 @@ public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; } = null!;
-    public Property? DefenseId { get; set; }
+    public Guid? DefenseId { get; set; }
     public Property? HitProperty { get; set; }
     public Property? HitAttribute { get; set; }
     public Property? VitalityId { get; set; }
@@ -107,8 +107,13 @@ public class AttackCommand
     public Property? DamageAttribute { get; set; }
     public int Luck { get; set; }
     public int Advantage { get; set; }
-    public Guid GetDefenseId =>
-        DefenseId?.Id ?? ItemConfiguration.ArmorProperty?.Id ??
+
+    public Guid GetDefenseId1 =>
+        DefenseId ?? ItemConfiguration.ArmorDefense1 ??
+        throw new InvalidOperationException("Armor property is not configured for this campaign.");
+
+    public Guid GetDefenseId2 =>
+        DefenseId ?? ItemConfiguration.ArmorDefense2 ??
         throw new InvalidOperationException("Armor property is not configured for this campaign.");
 
     public Guid GetVitalityId =>
@@ -118,6 +123,7 @@ public class AttackCommand
     public Guid GetSecondVitalityId =>
         SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality?.Id ??
         throw new InvalidOperationException("Secondary target vitality is not configured for this campaign.");
+
     public List<Guid> CombatManeuverIds { get; set; } = [];
     public Property? BlockProperty { get; set; }
 }

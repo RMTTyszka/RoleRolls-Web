@@ -7,13 +7,15 @@ public class ItemConfiguration : Entity
 {
     public ItemConfiguration()
     {
-        
     }
-    public ItemConfiguration(CampaignTemplate campaignTemplate, ItemConfigurationModel? templateItemConfiguration) : this(campaignTemplate)
+
+    public ItemConfiguration(CampaignTemplate campaignTemplate, ItemConfigurationModel? templateItemConfiguration) :
+        this(campaignTemplate)
     {
         if (templateItemConfiguration is not null)
         {
-            ArmorProperty = templateItemConfiguration.ArmorProperty;
+            ArmorDefense1 = templateItemConfiguration.ArmorDefense1;
+            ArmorDefense2 = templateItemConfiguration.ArmorDefense2;
             BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality;
             BasicAttackTargetSecondVitality = templateItemConfiguration.BasicAttackTargetSecondVitality;
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty;
@@ -21,7 +23,7 @@ public class ItemConfiguration : Entity
             MeleeHeavyWeaponHitProperty = templateItemConfiguration.MeleeHeavyWeaponHitProperty;
             MeleeLightWeaponDamageProperty = templateItemConfiguration.MeleeLightWeaponDamageProperty;
             MeleeMediumWeaponDamageProperty = templateItemConfiguration.MeleeMediumWeaponDamageProperty;
-            MeleeHeavyWeaponDamageProperty = templateItemConfiguration.MeleeHeavyWeaponDamageProperty;    
+            MeleeHeavyWeaponDamageProperty = templateItemConfiguration.MeleeHeavyWeaponDamageProperty;
             RangedLightWeaponHitProperty = templateItemConfiguration.RangedLightWeaponHitProperty;
             RangedMediumWeaponHitProperty = templateItemConfiguration.RangedMediumWeaponHitProperty;
             RangedHeavyWeaponHitProperty = templateItemConfiguration.RangedHeavyWeaponHitProperty;
@@ -40,17 +42,18 @@ public class ItemConfiguration : Entity
 
     public CampaignTemplate CampaignTemplate { get; set; }
     public Guid CampaignTemplateId { get; set; }
-    public Property? ArmorProperty { get; set; }
-    public Property? BasicAttackTargetFirstVitality {get; set; }
+    public Guid? ArmorDefense1 { get; set; }
+    public Guid? ArmorDefense2 { get; set; }
+    public Property? BasicAttackTargetFirstVitality { get; set; }
     public Property? MeleeLightWeaponHitProperty { get; set; }
     public Property? MeleeMediumWeaponHitProperty { get; set; }
-    public Property? MeleeHeavyWeaponHitProperty { get; set; }   
+    public Property? MeleeHeavyWeaponHitProperty { get; set; }
     public Property? MeleeLightWeaponDamageProperty { get; set; }
     public Property? MeleeMediumWeaponDamageProperty { get; set; }
-    public Property? MeleeHeavyWeaponDamageProperty { get; set; }  
+    public Property? MeleeHeavyWeaponDamageProperty { get; set; }
     public Property? RangedLightWeaponHitProperty { get; set; }
     public Property? RangedMediumWeaponHitProperty { get; set; }
-    public Property? RangedHeavyWeaponHitProperty { get; set; }   
+    public Property? RangedHeavyWeaponHitProperty { get; set; }
     public Property? RangedLightWeaponDamageProperty { get; set; }
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
@@ -59,13 +62,14 @@ public class ItemConfiguration : Entity
 
     public void Update(ItemConfigurationModel model)
     {
-        ArmorProperty = model.ArmorProperty;
+        ArmorDefense1 = model.ArmorDefense1;
+        ArmorDefense2 = model.ArmorDefense2;
         MeleeLightWeaponHitProperty = model.MeleeLightWeaponHitProperty;
         MeleeMediumWeaponHitProperty = model.MeleeMediumWeaponHitProperty;
         MeleeHeavyWeaponHitProperty = model.MeleeHeavyWeaponHitProperty;
         MeleeLightWeaponDamageProperty = model.MeleeLightWeaponDamageProperty;
         MeleeMediumWeaponDamageProperty = model.MeleeMediumWeaponDamageProperty;
-        MeleeHeavyWeaponDamageProperty = model.MeleeHeavyWeaponDamageProperty;       
+        MeleeHeavyWeaponDamageProperty = model.MeleeHeavyWeaponDamageProperty;
         RangedLightWeaponHitProperty = model.RangedLightWeaponHitProperty;
         RangedMediumWeaponHitProperty = model.RangedMediumWeaponHitProperty;
         RangedHeavyWeaponHitProperty = model.RangedHeavyWeaponHitProperty;
@@ -90,7 +94,8 @@ public class ItemConfiguration : Entity
             WeaponCategory.HeavyShield => MeleeHeavyWeaponHitProperty,
             _ => throw new ArgumentOutOfRangeException(nameof(weaponCategory), weaponCategory, null)
         };
-    }    
+    }
+
     public Property? GetWeaponDamageProperty(WeaponCategory weaponCategory)
     {
         switch (weaponCategory)

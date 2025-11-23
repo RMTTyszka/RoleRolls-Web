@@ -35,7 +35,6 @@ public class EvadeTests
         var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
 
-        
 
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
         var defender = new BaseCreature(campaignTemplate, "").Creature;
@@ -46,9 +45,11 @@ public class EvadeTests
             ItemConfiguration = campaignTemplate.ItemConfiguration,
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-            DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
+            DefenseId = defensePropertyId,
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
+                PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
+                PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
         };
@@ -74,7 +75,7 @@ public class EvadeTests
         // Arrange
         var campaignTemplate = LandOfHeroesTemplate.Template;
         var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
+        var defensePropertyId = LandOfHeroesTemplate.DefenseIds[LandOfHeroesDefense.Evasion];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
         var config = new ItemConfiguration
         {
@@ -82,8 +83,10 @@ public class EvadeTests
             MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
         };
 
-        var attacker = new BaseCreature(campaignTemplate, "").Creature;;
-        var defender = new BaseCreature(campaignTemplate, "").Creature;;
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;
+        ;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;
+        ;
 
         var input = new AttackCommand
         {
@@ -91,9 +94,11 @@ public class EvadeTests
             ItemConfiguration = config,
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-            DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality),
+            DefenseId = defensePropertyId,
+            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
+                PropertyType.Vitality),
+            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
+                PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
         };
@@ -108,6 +113,7 @@ public class EvadeTests
         Assert.True(result.Success);
         Assert.Equal(0, result.TotalDamage);
     }
+
     [Fact(DisplayName = "Full Level Test")]
     public void T3()
     {
@@ -124,7 +130,7 @@ public class EvadeTests
             foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
             {
                 if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
-                    or WeaponCategory.HeavyShield 
+                    or WeaponCategory.HeavyShield
                     //     or WeaponCategory.Medium 
                     //    or WeaponCategory.Light 
                     //    or WeaponCategory.Heavy
@@ -137,11 +143,11 @@ public class EvadeTests
                     .WithLevel(level)
                     .WithWeapon(weaponCategory, EquipableSlot.MainHand, level)
                     .Creature;
-                
+
                 var byArmor = new Dictionary<ArmorCategory, int>();
-            
+
                 foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
-                             .Where(e => 
+                             .Where(e =>
                                      e is not ArmorCategory.None
                                  //     and not ArmorCategory.Medium
                                  //     and not ArmorCategory.Heavy
@@ -153,7 +159,7 @@ public class EvadeTests
                         .WithLevel(level)
                         .WithArmor(armorCategory, level)
                         .Creature;
-                    
+
                     var input = new AttackCommand
                     {
                         WeaponSlot = EquipableSlot.MainHand,
@@ -178,21 +184,24 @@ public class EvadeTests
                         hits += result.Success ? 1 : 0;
                         weaponDifficult = result.Difficulty;
                     }
+
                     totalDamage /= TotalAttacks;
                     byArmor.Add(armorCategory, totalDamage);
                     if (!byArmorAndWeapon.ContainsKey(armorCategory))
                     {
                         byArmorAndWeapon[armorCategory] = new Dictionary<WeaponCategory, int>();
                     }
+
                     byArmorAndWeapon[armorCategory].Add(weaponCategory, totalDamage);
                 }
-            
+
                 byWeaponAndArmor.Add(weaponCategory, byArmor);
             }
-        
+
             byLevelAndWeapon.Add(level, byWeaponAndArmor);
             byLevelAndArmor.Add(level, byArmorAndWeapon);
         }
+
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
         Assert.Equal(20, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
         Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
@@ -375,5 +384,4 @@ public class EvadeTests
         Assert.Equal(88, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Medium]);
         Assert.Equal(66, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Heavy]);
     }
-
 }

@@ -43,7 +43,7 @@ public partial class Creature
         var attackSuccesses = hitValue.Value;
         var evadeComplexity = 10 + totalHitBonus;
 
-        var defenseProperty = new Property(input.GetDefenseId);
+        var defenseProperty = new Property(input.GetDefenseId1);
         var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
         var defenseAdvantage =
             Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
@@ -100,6 +100,7 @@ public partial class Creature
             Success = numberOfHits <= 0
         };
     }
+
     public int GetBasicBlock(PropertyValue blockProperty)
     {
         var armor = Equipment.Chest;
@@ -115,7 +116,8 @@ public partial class Creature
         var blockLevelModifier = ArmorDefinition.DamageReductionByLevel(armorCategory);
         var baseBlock = ArmorDefinition.BaseDamageReduction(armorCategory);
         var total = blockLevelModifier * armorLevelBonus + baseBlock + blockProperty.Value;
-        Console.WriteLine($"BLOCK: {total}, LEVEL: {Level}, ARMOR: {armorCategory}, BONUS: {armorLevelBonus}, BLOCK_LEVEL_MODIFIER: {blockLevelModifier}, BASE_BLOCK: {baseBlock}, BLOCK_PROPERTY: {blockProperty.Value}");
+        Console.WriteLine(
+            $"BLOCK: {total}, LEVEL: {Level}, ARMOR: {armorCategory}, BONUS: {armorLevelBonus}, BLOCK_LEVEL_MODIFIER: {blockLevelModifier}, BASE_BLOCK: {baseBlock}, BLOCK_PROPERTY: {blockProperty.Value}");
         return total;
     }
 
@@ -126,5 +128,3 @@ public partial class Creature
         return evasion;
     }
 }
-
-

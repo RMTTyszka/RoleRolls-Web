@@ -62,8 +62,8 @@ export class RollDiceComponent {
   ngOnInit(): void {
     this.rollInputEmitter.subscribe((rollInput: RollInput) => {
       this.rollInput = rollInput;
-      this.rollInput.complexity = 0;
-      this.rollInput.difficulty = 0;
+      this.rollInput.complexity = 10;
+      this.rollInput.difficulty = 2;
       this.rollInput.advantage = 0;
       this.rollInput.luck = 0;
       this.rollInput.bonus = 0;

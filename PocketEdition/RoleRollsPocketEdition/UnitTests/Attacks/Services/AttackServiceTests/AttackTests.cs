@@ -33,7 +33,7 @@ public class AttackTests
         // Arrange
         var campaignTemplate = LandOfHeroesTemplate.Template;
         var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
+        var defensePropertyId = LandOfHeroesTemplate.DefenseIds[LandOfHeroesDefense.Evasion];
         var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
 
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
@@ -45,7 +45,7 @@ public class AttackTests
             ItemConfiguration = campaignTemplate.ItemConfiguration,
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-            DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
+            DefenseId = defensePropertyId,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
                 PropertyType.Vitality),
             SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
@@ -93,7 +93,7 @@ public class AttackTests
             ItemConfiguration = config,
             HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
-            DefenseId = new Property(defensePropertyId, PropertyType.Attribute),
+            DefenseId = defensePropertyId,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
                 PropertyType.Vitality),
             SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],

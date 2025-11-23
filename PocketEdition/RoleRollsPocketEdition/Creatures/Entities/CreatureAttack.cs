@@ -25,7 +25,7 @@ public partial class Creature
         var gripStats = GripTypeDefinition.Stats[Equipment.GripType];
 
         var hitValue = GetHitValue(input, weaponCategory, gripStats);
-        var defenseValue = GetDefenseValue(target, input.GetDefenseId);
+        var defenseValue = GetDefenseValue(target, input.GetDefenseId1);
         var unluck = target.GetEvasionLuck();
         input.Luck -= unluck;
         var armorCategory = target.Equipment.ArmorCategory;
@@ -68,18 +68,10 @@ public partial class Creature
         return value;
     }
 
-    private int GetDefenseValue(Creature target, Guid defenseId)
-    {
-        var defenseInput = new PropertyInput(new Property(defenseId));
-        var armor = target.Equipment.Chest;
-        var armorCategory = armor?.ArmorTemplate?.Category ?? ArmorCategory.None;
-        var armorDefenseBonus = armor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
-        var armorBonus = armor?.GetBonus ?? 0;
-        var defenseValue = target.GetPropertyValue(defenseInput);
-        return 10 + defenseValue.Value + defenseValue.Bonus + armorDefenseBonus + armorBonus;
-    }
+    private int GetDefenseValue(Creature target, Guid defenseId) => target.DefenseValue(defenseId);
 
-    private Roll RollToHit(ItemInstance weapon, int dices, PropertyValue hitValue, int defenseValue, GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, ArmorCategory armorCategory)
+    private Roll RollToHit(ItemInstance weapon, int dices, PropertyValue hitValue, int defenseValue,
+        GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, ArmorCategory armorCategory)
     {
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
         advantage += ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
@@ -112,20 +104,24 @@ public partial class Creature
                 {
                     return 1;
                 }
+
                 if (armorCategory is ArmorCategory.Heavy)
                 {
                     return -1;
                 }
+
                 break;
             case WeaponCategory.Heavy:
                 if (armorCategory is ArmorCategory.Heavy)
                 {
                     return 1;
                 }
+
                 if (armorCategory is ArmorCategory.Light)
                 {
                     return -1;
                 }
+
                 break;
             case WeaponCategory.Medium:
             case WeaponCategory.LightShield:
@@ -135,8 +131,10 @@ public partial class Creature
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
         return 0;
     }
+
     private int ResolveWeaponVsArmorLuck(ItemInstance weapon, ArmorCategory armorCategory)
     {
         switch (weapon.WeaponTemplate.Category)
@@ -148,20 +146,24 @@ public partial class Creature
                 {
                     return 0;
                 }
+
                 if (armorCategory is ArmorCategory.Heavy)
                 {
                     return -0;
                 }
+
                 break;
             case WeaponCategory.Heavy:
                 if (armorCategory is ArmorCategory.Heavy)
                 {
                     return 0;
                 }
+
                 if (armorCategory is ArmorCategory.Light)
                 {
                     return -0;
                 }
+
                 break;
             case WeaponCategory.Medium:
             case WeaponCategory.LightShield:
@@ -171,6 +173,7 @@ public partial class Creature
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
         return 0;
     }
 
@@ -223,5 +226,3 @@ public partial class Creature
         };
     }
 }
-
-
