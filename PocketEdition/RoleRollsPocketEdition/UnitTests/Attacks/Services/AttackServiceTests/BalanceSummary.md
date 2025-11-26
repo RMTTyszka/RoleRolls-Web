@@ -13,12 +13,13 @@ Contexto rapido para retomar de outro computador.
 - Armas (HitBonus / DamageBonusPerHit por tier):
   - Light: diff 1, hit +1, dano +3 por tier.
   - Medium: diff 2, hit 0, dano +5 por tier.
-  - Heavy: diff 3, hit 0, dano +7 por tier.
+  - Heavy: diff 3, hit 0, dano +6 por tier (+2 fixo).
 - Armaduras (dodge / block):
   - Light: dodge 2, block 2 + 1 por tier.
   - Medium: dodge 1, block 4 + 2 por tier.
   - Heavy: dodge -1, block 6 + 3 por tier (block alto compensado por dodge negativo).
 - Tier: nivel 1 ja comeca no tier 1; a cada 2 niveis aumenta tier (tier = 1 + (level-1)/2).
+- Dados: AttributeDice base 3; ganha +1 dado de atributo nos niveis 5, 10, 15 e 20 (SkillDice permanece 2).
 
 ## Dominancia e viabilidade
 - Dominancias esperadas:

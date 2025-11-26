@@ -207,8 +207,9 @@ public class RpgBalanceDesignTests
         foreach (var level in Enumerable.Range(1, MaxLevel))
         {
             var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
             var rng = new Random(Seed + level); // pequena variacao para reduzir vi sesgo de amostra
-            var results = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles);
+            var results = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack);
 
             DominanceHolds(results).Should()
                 .BeTrue($"dominancia deve se manter no nivel {level}");
@@ -277,7 +278,7 @@ public class RpgBalanceDesignTests
             [WeaponCategory.Heavy] = new WeaponProfile(
                 Difficulty: 3,
                 HitBonus: 0,
-                DamageBonusPerHit: tier * 7)
+                DamageBonusPerHit: tier * 6 + 2)
         };
 
         var armors = new Dictionary<ArmorCategory, ArmorProfile>
@@ -298,8 +299,9 @@ public class RpgBalanceDesignTests
         foreach (var level in Enumerable.Range(1, MaxLevel))
         {
             var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
             var rng = new Random(Seed + level * 17);
-            var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles);
+            var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack);
 
             foreach (var armor in ArmorsUnderTest)
             {
@@ -320,17 +322,30 @@ public class RpgBalanceDesignTests
         }
     }
 
+    private static int GetAttributeDiceForLevel(int level)
+    {
+        var bonus = 0;
+        if (level >= 5) bonus++;
+        if (level >= 10) bonus++;
+        if (level >= 15) bonus++;
+        if (level >= 20) bonus++;
+        return AttributeDice + bonus;
+    }
+
+    private static int GetDicePerAttackForLevel(int level) => GetAttributeDiceForLevel(level) + SkillDice;
+
     private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(int samples)
     {
         var rng = new Random(Seed);
-        return RunMatrix(samples, rng, WeaponProfiles, ArmorProfiles);
+        return RunMatrix(samples, rng, WeaponProfiles, ArmorProfiles, DicePerAttack);
     }
 
     private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(
         int samples,
         Random rng,
         IReadOnlyDictionary<WeaponCategory, WeaponProfile> weaponProfiles,
-        IReadOnlyDictionary<ArmorCategory, ArmorProfile> armorProfiles)
+        IReadOnlyDictionary<ArmorCategory, ArmorProfile> armorProfiles,
+        int dicePerAttack = DicePerAttack)
     {
         var output = new Dictionary<(WeaponCategory, ArmorCategory), double>();
 
@@ -344,7 +359,7 @@ public class RpgBalanceDesignTests
 
                 for (var i = 0; i < samples; i++)
                 {
-                    total += ResolveAttack(RollDice(rng), weaponProfile, profile).TotalDamage;
+                    total += ResolveAttack(RollDice(rng, dicePerAttack), weaponProfile, profile).TotalDamage;
                 }
 
                 output[(weapon, armor)] = total / samples;
@@ -377,10 +392,10 @@ public class RpgBalanceDesignTests
         return new AttackOutcome(hits, damages.Sum(), damages);
     }
 
-    private static IReadOnlyCollection<int> RollDice(Random rng)
+    private static IReadOnlyCollection<int> RollDice(Random rng, int dicePerAttack = DicePerAttack)
     {
-        var rolls = new int[DicePerAttack];
-        for (var i = 0; i < DicePerAttack; i++)
+        var rolls = new int[dicePerAttack];
+        for (var i = 0; i < dicePerAttack; i++)
         {
             rolls[i] = rng.Next(1, 21);
         }
