@@ -17,15 +17,16 @@ public class RpgBalanceDesignTests
     private const int SimulationSamples = 20000;
     private const int SearchSamples = 2000;
     private const int Seed = 42;
+    private const int MaxLevel = 20;
     private readonly ITestOutputHelper _testOutputHelper;
 
     private static readonly IReadOnlyDictionary<WeaponCategory, WeaponProfile> WeaponProfiles =
         new Dictionary<WeaponCategory, WeaponProfile>
         {
             // Baseline escolhido pela busca: Hit(L/M/H) = (1,0,0)
-            [WeaponCategory.Light] = new WeaponProfile(Difficulty: 1, HitBonus: 1),
-            [WeaponCategory.Medium] = new WeaponProfile(Difficulty: 2, HitBonus: 0),
-            [WeaponCategory.Heavy] = new WeaponProfile(Difficulty: 3, HitBonus: 0)
+            [WeaponCategory.Light] = new WeaponProfile(Difficulty: 1, HitBonus: 1, DamageBonusPerHit: 0),
+            [WeaponCategory.Medium] = new WeaponProfile(Difficulty: 2, HitBonus: 0, DamageBonusPerHit: 0),
+            [WeaponCategory.Heavy] = new WeaponProfile(Difficulty: 3, HitBonus: 0, DamageBonusPerHit: 0)
         };
 
     // Block 0 representa alvo sem armadura; mesmo a armadura leve deve ter pelo menos 1.
@@ -66,8 +67,8 @@ public class RpgBalanceDesignTests
         var rolls = new[] { 12, 8, 14, 15, 9 };
         var noArmor = new ArmorProfile(0, 0);
         // Usa perfis neutros (HitBonus 0) para reproduzir exatamente o exemplo do enunciado.
-        var lightProfile = new WeaponProfile(Difficulty: 1, HitBonus: 0);
-        var heavyProfile = new WeaponProfile(Difficulty: 3, HitBonus: 0);
+        var lightProfile = new WeaponProfile(Difficulty: 1, HitBonus: 0, DamageBonusPerHit: 0);
+        var heavyProfile = new WeaponProfile(Difficulty: 3, HitBonus: 0, DamageBonusPerHit: 0);
 
         var lightOutcome = ResolveAttack(rolls, lightProfile, noArmor);
         lightOutcome.Hits.Should().Be(3);
@@ -154,9 +155,9 @@ public class RpgBalanceDesignTests
         {
             var weaponProfiles = new Dictionary<WeaponCategory, WeaponProfile>
             {
-                [WeaponCategory.Light] = new WeaponProfile(1, lightHit),
-                [WeaponCategory.Medium] = new WeaponProfile(2, mediumHit),
-                [WeaponCategory.Heavy] = new WeaponProfile(3, heavyHit),
+                [WeaponCategory.Light] = new WeaponProfile(1, lightHit, 0),
+                [WeaponCategory.Medium] = new WeaponProfile(2, mediumHit, 0),
+                [WeaponCategory.Heavy] = new WeaponProfile(3, heavyHit, 0),
             };
 
             var armorProfiles = new Dictionary<ArmorCategory, ArmorProfile>
@@ -194,6 +195,85 @@ public class RpgBalanceDesignTests
                results[(WeaponCategory.Heavy, ArmorCategory.Medium)]
                && results[(WeaponCategory.Heavy, ArmorCategory.Heavy)] >=
                results[(WeaponCategory.Medium, ArmorCategory.Heavy)];
+    }
+
+    [Fact(DisplayName = "Level scaling keeps balance per tier")]
+    public void LevelScalingKeepsBalance()
+    {
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var rng = new Random(Seed + level); // pequena variação para reduzir viés de amostra
+            var results = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles);
+
+            DominanceHolds(results).Should()
+                .BeTrue($"dominância deve se manter no nível {level}");
+
+            var ratio = results.Min(e => e.Value) / results.Max(e => e.Value);
+            ratio.Should().BeGreaterThan(0.07, $"viabilidade mínima por nível; nível {level} ficou desequilibrado");
+        }
+    }
+
+    private static (IReadOnlyDictionary<WeaponCategory, WeaponProfile> Weapons,
+        IReadOnlyDictionary<ArmorCategory, ArmorProfile> Armors) BuildLevelProfiles(int level)
+    {
+        // Equipamentos já começam no tier 1 (nível 1 => tier 1), e sobem a cada 2 níveis.
+        var tier = 1 + (level - 1) / 2;
+
+        var weapons = new Dictionary<WeaponCategory, WeaponProfile>
+        {
+            [WeaponCategory.Light] = new WeaponProfile(
+                Difficulty: 1,
+                HitBonus: 1,
+                DamageBonusPerHit: tier * 2),
+            [WeaponCategory.Medium] = new WeaponProfile(
+                Difficulty: 2,
+                HitBonus: 0,
+                DamageBonusPerHit: tier * 4),
+            [WeaponCategory.Heavy] = new WeaponProfile(
+                Difficulty: 3,
+                HitBonus: 0,
+                DamageBonusPerHit: tier * 7)
+        };
+
+        var armors = new Dictionary<ArmorCategory, ArmorProfile>
+        {
+            [ArmorCategory.Light] = new ArmorProfile(DodgeBonus: 2, Block: 2 + tier * 1),
+            [ArmorCategory.Medium] = new ArmorProfile(DodgeBonus: 1, Block: 4 + tier * 1),
+            [ArmorCategory.Heavy] = new ArmorProfile(DodgeBonus: 0, Block: 6 + tier * 2)
+        };
+
+        return (weapons, armors);
+    }
+
+    [Fact(DisplayName = "Average HP needed to survive 4 rounds per level")]
+    public void HitPointsNeededForFourRounds()
+    {
+        var report = new List<string>();
+
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var rng = new Random(Seed + level * 17);
+            var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles);
+
+            foreach (var armor in ArmorsUnderTest)
+            {
+                // Pior caso: arma com maior DPS médio contra esta armadura.
+                var worst = matrix
+                    .Where(e => e.Key.Armor == armor)
+                    .MaxBy(e => e.Value);
+
+                var hpNeeded = Math.Ceiling(worst.Value * 4); // 4 turnos de fôlego.
+                hpNeeded.Should().BeGreaterThan(0);
+                report.Add($"Level {level:00} Armor {armor,-6}: needs ~{hpNeeded} HP (worst vs {worst.Key.Weapon}, avg dmg {worst.Value:F2})");
+            }
+        }
+
+        foreach (var line in report)
+        {
+            _testOutputHelper.WriteLine(line);
+        }
     }
 
     private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(int samples)
@@ -245,7 +325,8 @@ public class RpgBalanceDesignTests
         for (var i = 0; i < hits; i++)
         {
             // Group successes per difficulty, sum them, then apply block once per hit.
-            var chunkDamage = successes.Skip(i * weapon.Difficulty).Take(weapon.Difficulty).Sum();
+            var chunkDamage = successes.Skip(i * weapon.Difficulty).Take(weapon.Difficulty).Sum() +
+                              weapon.DamageBonusPerHit;
             damages.Add(Math.Max(chunkDamage - armor.Block, 0));
         }
 
@@ -265,7 +346,7 @@ public class RpgBalanceDesignTests
 
     private record ArmorProfile(int DodgeBonus, int Block);
 
-    private record WeaponProfile(int Difficulty, int HitBonus);
+    private record WeaponProfile(int Difficulty, int HitBonus, int DamageBonusPerHit);
 
     private record AttackOutcome(int Hits, int TotalDamage, IReadOnlyList<int> DamagePerHit);
 }

@@ -96,5 +96,6 @@
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.MatchingWeightsAreOptimal&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.AutoSearchBalancedProfiles&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
