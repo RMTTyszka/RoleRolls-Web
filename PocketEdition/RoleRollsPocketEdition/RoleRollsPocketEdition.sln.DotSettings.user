@@ -90,12 +90,5 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c9e9fb80_002Db2d3_002D4de4_002Da08f_002D0d532c1d5b34/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="When an attack succeeded, the defender take damage #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T2&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.FixedExampleMatchesPrompt&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.MatchingWeightsAreOptimal&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.AutoSearchBalancedProfiles&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
