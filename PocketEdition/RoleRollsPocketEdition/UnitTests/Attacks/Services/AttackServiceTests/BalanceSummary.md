@@ -28,6 +28,9 @@ Contexto rapido para retomar de outro computador.
   - Medium vs Medium > Heavy vs Medium.
   - Heavy vs Heavy >= Medium vs Heavy.
 - Razao de viabilidade minima por nivel: > 0.07 no teste de escala.
+- Sorte/Azar:
+  - Light x Light e Heavy x Heavy: sorte (+1) rerrola 1 dado falho (menor), somente se precisa, nunca rerrola 1 ou 20; fica com o melhor resultado.
+  - Light x Heavy e Heavy x Light: azar (-1) rerrola 1 dado bem-sucedido (maior), somente se houve sucesso, nunca rerrola 1 ou 20; fica com o pior resultado. A rerrolagem usa o proprio alvo do ataque (complexidade/dodge/hit bonus) para decidir se houve sucesso.
 
 ## Testes adicionados
 - `FixedExampleMatchesPrompt`: usa perfis neutros (hit 0, dano 0) para reproduzir o exemplo original.

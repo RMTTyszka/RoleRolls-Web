@@ -389,11 +389,13 @@ public class RpgBalanceDesignTests
                 double total = 0;
                 var profile = armorProfiles[armor];
                 var weaponProfile = weaponProfiles[weapon];
-                var hasLuck = HasLuck(weapon, armor);
+                var luck = GetLuckType(weapon, armor);
 
                 for (var i = 0; i < samples; i++)
                 {
-                    total += ResolveAttack(RollDice(rng, dicePerAttack, hasLuck), weaponProfile, profile).TotalDamage;
+                    var targetToHit = BaseComplexity + profile.DodgeBonus - weaponProfile.HitBonus;
+                    var rolls = RollDice(rng, dicePerAttack, luck, targetToHit);
+                    total += ResolveAttack(rolls, weaponProfile, profile).TotalDamage;
                 }
 
                 output[(weapon, armor)] = total / samples;
@@ -426,28 +428,77 @@ public class RpgBalanceDesignTests
         return new AttackOutcome(hits, damages.Sum(), damages);
     }
 
-    private static bool HasLuck(WeaponCategory weapon, ArmorCategory armor) =>
-        (weapon == WeaponCategory.Light && armor == ArmorCategory.Light) ||
-        (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Heavy);
+    private static LuckType GetLuckType(WeaponCategory weapon, ArmorCategory armor)
+    {
+        if ((weapon == WeaponCategory.Light && armor == ArmorCategory.Light) ||
+            (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Heavy))
+            return LuckType.Positive;
 
-    private static IReadOnlyCollection<int> RollDice(Random rng, int dicePerAttack = DicePerAttack, bool hasLuck = false)
+        if ((weapon == WeaponCategory.Light && armor == ArmorCategory.Heavy) ||
+            (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Light))
+            return LuckType.Negative;
+
+        return LuckType.None;
+    }
+
+    private static IReadOnlyCollection<int> RollDice(
+        Random rng,
+        int dicePerAttack = DicePerAttack,
+        LuckType luck = LuckType.None,
+        int targetToHit = BaseComplexity)
     {
         var rolls = new int[dicePerAttack];
-        var minIndex = 0;
-
         for (var i = 0; i < dicePerAttack; i++)
         {
             rolls[i] = rng.Next(1, 21);
-            if (rolls[i] < rolls[minIndex]) minIndex = i;
         }
 
-        // Sorte: rerola o menor dado uma vez por ataque; mantém o melhor resultado.
-        if (hasLuck && dicePerAttack > 0)
+        if (dicePerAttack == 0 || luck == LuckType.None) return rolls;
+
+        if (luck == LuckType.Positive)
         {
-            var reroll = rng.Next(1, 21);
-            if (reroll > rolls[minIndex])
+            // Re-rola apenas se houver falha; ignora resultados 1 ou 20.
+            var candidateIndex = -1;
+            var lowest = int.MaxValue;
+            for (var i = 0; i < dicePerAttack; i++)
             {
-                rolls[minIndex] = reroll;
+                var roll = rolls[i];
+                if (roll >= targetToHit) continue;
+                if (roll <= 1 || roll >= 20) continue;
+                if (roll < lowest)
+                {
+                    lowest = roll;
+                    candidateIndex = i;
+                }
+            }
+
+            if (candidateIndex != -1)
+            {
+                var reroll = rng.Next(1, 21);
+                rolls[candidateIndex] = Math.Max(rolls[candidateIndex], reroll);
+            }
+        }
+        else if (luck == LuckType.Negative)
+        {
+            // Re-rola apenas se houver sucesso; ignora 1 ou 20.
+            var candidateIndex = -1;
+            var highest = int.MinValue;
+            for (var i = 0; i < dicePerAttack; i++)
+            {
+                var roll = rolls[i];
+                if (roll < targetToHit) continue;
+                if (roll <= 1 || roll >= 20) continue;
+                if (roll > highest)
+                {
+                    highest = roll;
+                    candidateIndex = i;
+                }
+            }
+
+            if (candidateIndex != -1)
+            {
+                var reroll = rng.Next(1, 21);
+                rolls[candidateIndex] = Math.Min(rolls[candidateIndex], reroll);
             }
         }
 
@@ -459,5 +510,12 @@ public class RpgBalanceDesignTests
     private record WeaponProfile(int Difficulty, int HitBonus, int DamageBonusPerHit);
 
     private record AttackOutcome(int Hits, int TotalDamage, IReadOnlyList<int> DamagePerHit);
+
+    private enum LuckType
+    {
+        None,
+        Positive,
+        Negative
+    }
 }
 
