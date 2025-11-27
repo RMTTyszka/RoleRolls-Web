@@ -389,10 +389,11 @@ public class RpgBalanceDesignTests
                 double total = 0;
                 var profile = armorProfiles[armor];
                 var weaponProfile = weaponProfiles[weapon];
+                var hasLuck = HasLuck(weapon, armor);
 
                 for (var i = 0; i < samples; i++)
                 {
-                    total += ResolveAttack(RollDice(rng, dicePerAttack), weaponProfile, profile).TotalDamage;
+                    total += ResolveAttack(RollDice(rng, dicePerAttack, hasLuck), weaponProfile, profile).TotalDamage;
                 }
 
                 output[(weapon, armor)] = total / samples;
@@ -425,12 +426,29 @@ public class RpgBalanceDesignTests
         return new AttackOutcome(hits, damages.Sum(), damages);
     }
 
-    private static IReadOnlyCollection<int> RollDice(Random rng, int dicePerAttack = DicePerAttack)
+    private static bool HasLuck(WeaponCategory weapon, ArmorCategory armor) =>
+        (weapon == WeaponCategory.Light && armor == ArmorCategory.Light) ||
+        (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Heavy);
+
+    private static IReadOnlyCollection<int> RollDice(Random rng, int dicePerAttack = DicePerAttack, bool hasLuck = false)
     {
         var rolls = new int[dicePerAttack];
+        var minIndex = 0;
+
         for (var i = 0; i < dicePerAttack; i++)
         {
             rolls[i] = rng.Next(1, 21);
+            if (rolls[i] < rolls[minIndex]) minIndex = i;
+        }
+
+        // Sorte: rerola o menor dado uma vez por ataque; mantém o melhor resultado.
+        if (hasLuck && dicePerAttack > 0)
+        {
+            var reroll = rng.Next(1, 21);
+            if (reroll > rolls[minIndex])
+            {
+                rolls[minIndex] = reroll;
+            }
         }
 
         return rolls;
