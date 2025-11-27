@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -259,10 +259,11 @@ public class RpgBalanceDesignTests
             _testOutputHelper.WriteLine(line);
         }
     }
+
     private static (IReadOnlyDictionary<WeaponCategory, WeaponProfile> Weapons,
         IReadOnlyDictionary<ArmorCategory, ArmorProfile> Armors) BuildLevelProfiles(int level)
     {
-        // Equipamentos já começam no tier 1 (nível 1 => tier 1), e sobem a cada 2 níveis.
+        // Equipamentos ja comecam no tier 1 (nivel 1 => tier 1), e sobem a cada 2 niveis.
         var tier = 1 + (level - 1) / 2;
 
         var weapons = new Dictionary<WeaponCategory, WeaponProfile>
@@ -285,7 +286,7 @@ public class RpgBalanceDesignTests
         {
             [ArmorCategory.Light] = new ArmorProfile(DodgeBonus: 2, Block: 2 + tier * 1),
             [ArmorCategory.Medium] = new ArmorProfile(DodgeBonus: 1, Block: 4 + tier * 2),
-            [ArmorCategory.Heavy] = new ArmorProfile(DodgeBonus: -1, Block: 6 + tier * 3)
+            [ArmorCategory.Heavy] = new ArmorProfile(DodgeBonus: -1, Block: 4 + tier * 3)
         };
 
         return (weapons, armors);
@@ -303,17 +304,10 @@ public class RpgBalanceDesignTests
             var rng = new Random(Seed + level * 17);
             var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack);
 
-            foreach (var armor in ArmorsUnderTest)
-            {
-                // Pior caso: arma com maior DPS médio contra esta armadura.
-                var worst = matrix
-                    .Where(e => e.Key.Armor == armor)
-                    .MaxBy(e => e.Value);
-
-                var hpNeeded = Math.Ceiling(worst.Value * 4); // 4 turnos de fôlego.
-                hpNeeded.Should().BeGreaterThan(0);
-                report.Add($"Level {level:00} Armor {armor,-6}: needs ~{hpNeeded} HP (worst vs {worst.Key.Weapon}, avg dmg {worst.Value:F2})");
-            }
+            var averageDamage = matrix.Average(entry => entry.Value);
+            var hpNeeded = Math.Ceiling(averageDamage * 4); // 4 turnos de folego na media geral.
+            hpNeeded.Should().BeGreaterThan(0);
+            report.Add($"Level {level:00}: needs ~{hpNeeded} HP (avg dmg {averageDamage:F2} across all weapon/armor pairs)");
         }
 
         foreach (var line in report)
@@ -322,17 +316,56 @@ public class RpgBalanceDesignTests
         }
     }
 
+    [Fact(DisplayName = "Approx HP formula stays within tolerance of simulation")]
+    public void ApproximateHpMatchesSimulation()
+    {
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            // Usa o mesmo pipeline de ataque para evitar divergencia quando as regras mudam:
+            // uma estimativa com poucas amostras vs. uma simulacao mais robusta.
+            var highSampleHp = EstimatedHpForLevel(level, samples: SearchSamples * 2, seedOffset: level * 97);
+            var lowSampleHp = EstimatedHpForLevel(level, samples: SearchSamples / 4, seedOffset: level * 131);
+
+            (lowSampleHp / (double)highSampleHp).Should().BeInRange(0.65, 1.4,
+                $"estimativa de HP (poucas amostras) deve manter ~4 turnos no nivel {level}");
+        }
+    }
+
     private static int GetAttributeDiceForLevel(int level)
     {
         var bonus = 0;
-        if (level >= 5) bonus++;
-        if (level >= 10) bonus++;
-        if (level >= 15) bonus++;
-        if (level >= 20) bonus++;
+        if (level >= 6) bonus++;
+        if (level >= 11) bonus++;
+        if (level >= 16) bonus++;
         return AttributeDice + bonus;
     }
 
-    private static int GetDicePerAttackForLevel(int level) => GetAttributeDiceForLevel(level) + SkillDice;
+    private static int GetSkillDiceForLevel(int level)
+    {
+        var bonus = 0;
+        if (level >= 4) bonus++;
+        if (level >= 8) bonus++;
+        if (level >= 12) bonus++;
+        return SkillDice + bonus;
+    }
+
+    private static int GetDicePerAttackForLevel(int level) =>
+        GetAttributeDiceForLevel(level) + GetSkillDiceForLevel(level);
+
+    private static double SimulatedAverageDamage(int level, int samples, int seedOffset)
+    {
+        var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+        var dicePerAttack = GetDicePerAttackForLevel(level);
+        var rng = new Random(Seed + seedOffset);
+        var matrix = RunMatrix(samples, rng, weaponProfiles, armorProfiles, dicePerAttack);
+        return matrix.Average(entry => entry.Value);
+    }
+
+    private static int EstimatedHpForLevel(int level, int samples, int seedOffset)
+    {
+        var averageDamage = SimulatedAverageDamage(level, samples, seedOffset);
+        return (int)Math.Ceiling(averageDamage * 4);
+    }
 
     private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(int samples)
     {

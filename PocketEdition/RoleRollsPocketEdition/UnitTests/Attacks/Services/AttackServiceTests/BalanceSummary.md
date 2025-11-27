@@ -17,9 +17,9 @@ Contexto rapido para retomar de outro computador.
 - Armaduras (dodge / block):
   - Light: dodge 2, block 2 + 1 por tier.
   - Medium: dodge 1, block 4 + 2 por tier.
-  - Heavy: dodge -1, block 6 + 3 por tier (block alto compensado por dodge negativo).
+  - Heavy: dodge -1, block 4 + 3 por tier (mais block, penalidade de dodge mais leve).
 - Tier: nivel 1 ja comeca no tier 1; a cada 2 niveis aumenta tier (tier = 1 + (level-1)/2).
-- Dados: AttributeDice base 3; ganha +1 dado de atributo nos niveis 5, 10, 15 e 20 (SkillDice permanece 2).
+- Dados: AttributeDice base 3, ganha +1 nos niveis 6, 11 e 16. SkillDice base 2, ganha +1 nos niveis 4, 8 e 12.
 
 ## Dominancia e viabilidade
 - Dominancias esperadas:
@@ -33,12 +33,12 @@ Contexto rapido para retomar de outro computador.
 - `FixedExampleMatchesPrompt`: usa perfis neutros (hit 0, dano 0) para reproduzir o exemplo original.
 - `AutoSearchBalancedProfiles`: busca combinando dodge/block e hit bonus (ainda com dano 0) e escreve a melhor combinacao.
 - `LevelScalingKeepsBalance`: aplica perfis por tier/nivel (com dano por tier) e valida dominancias + razao minima em niveis 1-20.
-- `HitPointsNeededForFourRounds`: para cada nivel e armadura, calcula o pior DPS medio (maior entre as armas) e registra o HP aproximado para aguentar ~4 turnos (ceil de 4x dano medio) no output.
+- `HitPointsNeededForFourRounds`: para cada nivel, calcula o DPS medio considerando todas as combinacoes arma/armadura e registra o HP aproximado para aguentar ~4 turnos (ceil de 4x dano medio) no output.
 
 ## Observacoes de design
 - Empate no teste (over=0) ainda conta como sucesso, mas pode gerar dano zero se o block for maior que o bonus de dano.
-- Light segue com dodge 2 e subida de block de +1 por tier; medium abre distancia com +2 por tier; heavy ganha block +3 por tier, mas com dodge -1 para continuar punida por acertos.
-- Escalonamento de dano/hit das armas subiu para 3/5/7 por tier (L/M/H) para manter dominancias e viabilidade com os blocks mais inclinados.
+- Light segue com dodge 2 e subida de block de +1 por tier; medium abre distancia com +2 por tier; heavy ganhou block +3 por tier e mantem uma penalidade moderada de dodge (-1).
+- Escalonamento de dano/hit das armas esta em 3/5/6 por tier (L/M/H), com +2 fixo na heavy para manter dominancias e viabilidade com os blocks mais inclinados.
 
 ## Caminho e execucao
 - Arquivo principal: `UnitTests/Attacks/Services/AttackServiceTests/RpgBalanceDesignTests.cs`.
