@@ -67,17 +67,149 @@ public class RpgBalanceDesignTests
         var rolls = new[] { 12, 8, 14, 15, 9 };
         var noArmor = new ArmorProfile(0, 0);
         // Usa perfis neutros (HitBonus 0) para reproduzir exatamente o exemplo do enunciado.
-        var lightProfile = new WeaponProfile(Difficulty: 1, HitBonus: 0, DamageBonusPerHit: 0);
-        var heavyProfile = new WeaponProfile(Difficulty: 3, HitBonus: 0, DamageBonusPerHit: 0);
+            var lightProfile = new WeaponProfile(Difficulty: 1, HitBonus: 0, DamageBonusPerHit: 0);
+            var heavyProfile = new WeaponProfile(Difficulty: 3, HitBonus: 0, DamageBonusPerHit: 0);
 
-        var lightOutcome = ResolveAttack(rolls, lightProfile, noArmor);
-        lightOutcome.Hits.Should().Be(3);
-        lightOutcome.DamagePerHit.Should().BeEquivalentTo(new[] { 2, 4, 5 });
-        lightOutcome.TotalDamage.Should().Be(11);
+            var lightOutcome = ResolveAttack(rolls, lightProfile, noArmor);
+            lightOutcome.Hits.Should().Be(3);
+            lightOutcome.DamagePerHit.Should().BeEquivalentTo(new[] { 2, 4, 5 });
+            lightOutcome.TotalDamage.Should().Be(11);
 
-        var heavyOutcome = ResolveAttack(rolls, heavyProfile, noArmor);
-        heavyOutcome.Hits.Should().Be(1);
-        heavyOutcome.TotalDamage.Should().Be(11);
+            var heavyOutcome = ResolveAttack(rolls, heavyProfile, noArmor);
+            heavyOutcome.Hits.Should().Be(1);
+            heavyOutcome.TotalDamage.Should().Be(11);
+        }
+
+    [Fact(DisplayName = "Luck +1 aumenta dano medio por arma e nivel")]
+    public void LuckBoostsDamagePerWeaponPerLevel()
+    {
+        var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
+
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
+            var rngBase = new Random(Seed + level * 13);
+            var rngLuck = new Random(Seed + level * 17);
+
+            var baseline = RunMatrix(SearchSamples, rngBase, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
+            var withLuck = RunMatrix(SearchSamples, rngLuck, weaponProfiles, armorProfiles, dicePerAttack, levelBonus, overrideLuck: LuckType.Positive);
+
+            foreach (var weapon in WeaponsUnderTest)
+            {
+                var baseAvg = ArmorsUnderTest.Average(armor => baseline[(weapon, armor)]);
+                var luckAvg = ArmorsUnderTest.Average(armor => withLuck[(weapon, armor)]);
+                (luckAvg - baseAvg).Should().BeGreaterThan(0, $"sorte +1 deve aumentar dano para {weapon} no nivel {level}");
+                perWeaponTotals[weapon] += luckAvg - baseAvg;
+                _testOutputHelper.WriteLine($"Level {level:00} | Weapon {weapon,-6}: base {baseAvg:F2} -> luck {luckAvg:F2} (Δ {luckAvg - baseAvg:F2})");
+            }
+        }
+
+        foreach (var weapon in WeaponsUnderTest)
+        {
+            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            _testOutputHelper.WriteLine($"Luck +1 average delta for {weapon,-6}: {avgDelta:F2} dmg");
+        }
+    }
+
+    [Fact(DisplayName = "Advantage +1 dado aumenta dano medio por arma e nivel")]
+    public void AdvantageBoostsDamagePerWeaponPerLevel()
+    {
+        var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
+
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
+            var rngBase = new Random(Seed + level * 19);
+            var rngAdv = new Random(Seed + level * 23);
+
+            var baseline = RunMatrix(SearchSamples, rngBase, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
+            var withAdv = RunMatrix(SearchSamples, rngAdv, weaponProfiles, armorProfiles, dicePerAttack, levelBonus, overrideLuck: null, extraDice: 1);
+
+            foreach (var weapon in WeaponsUnderTest)
+            {
+                var baseAvg = ArmorsUnderTest.Average(armor => baseline[(weapon, armor)]);
+                var advAvg = ArmorsUnderTest.Average(armor => withAdv[(weapon, armor)]);
+                (advAvg - baseAvg).Should().BeGreaterThan(0, $"vantagem +1 dado deve aumentar dano para {weapon} no nivel {level}");
+                perWeaponTotals[weapon] += advAvg - baseAvg;
+                _testOutputHelper.WriteLine($"Level {level:00} | Weapon {weapon,-6}: base {baseAvg:F2} -> adv {advAvg:F2} (Δ {advAvg - baseAvg:F2})");
+            }
+        }
+
+        foreach (var weapon in WeaponsUnderTest)
+        {
+            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            _testOutputHelper.WriteLine($"Advantage (+1 die) average delta for {weapon,-6}: {avgDelta:F2} dmg");
+        }
+    }
+
+    [Fact(DisplayName = "Advantage (1 sucesso automatico) aumenta dano medio por arma e nivel")]
+    public void AdvantageAutoSuccessBoostsDamagePerWeaponPerLevel()
+    {
+        var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
+
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
+            var rngBase = new Random(Seed + level * 29);
+            var rngAuto = new Random(Seed + level * 31);
+
+            var baseline = RunMatrix(SimulationSamples, rngBase, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
+            var withAuto = RunMatrix(SimulationSamples, rngAuto, weaponProfiles, armorProfiles, dicePerAttack, levelBonus, autoSuccesses: 1);
+
+            foreach (var weapon in WeaponsUnderTest)
+            {
+                var baseAvg = ArmorsUnderTest.Average(armor => baseline[(weapon, armor)]);
+                var autoAvg = ArmorsUnderTest.Average(armor => withAuto[(weapon, armor)]);
+                (autoAvg - baseAvg).Should().BeGreaterThan(0, $"sucesso automatico de vantagem deve aumentar dano para {weapon} no nivel {level}");
+                perWeaponTotals[weapon] += autoAvg - baseAvg;
+                _testOutputHelper.WriteLine($"Level {level:00} | Weapon {weapon,-6}: base {baseAvg:F2} -> auto {autoAvg:F2} (Δ {autoAvg - baseAvg:F2})");
+            }
+        }
+
+        foreach (var weapon in WeaponsUnderTest)
+        {
+            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            _testOutputHelper.WriteLine($"Advantage (auto success) average delta for {weapon,-6}: {avgDelta:F2} dmg");
+        }
+    }
+
+    [Fact(DisplayName = "Advantage (+1 dado fixo 15) aumenta dano medio por arma e nivel")]
+    public void AdvantageFixedFifteenBoostsDamagePerWeaponPerLevel()
+    {
+        var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
+
+        foreach (var level in Enumerable.Range(1, MaxLevel))
+        {
+            var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
+            var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
+            var rngBase = new Random(Seed + level * 41);
+            var rngFixed = new Random(Seed + level * 43);
+
+            var baseline = RunMatrix(SearchSamples, rngBase, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
+            var withFixed = RunMatrix(SearchSamples, rngFixed, weaponProfiles, armorProfiles, dicePerAttack, levelBonus, fixedRollValue: 15, fixedRollCount: 1);
+
+            foreach (var weapon in WeaponsUnderTest)
+            {
+                var baseAvg = ArmorsUnderTest.Average(armor => baseline[(weapon, armor)]);
+                var fixedAvg = ArmorsUnderTest.Average(armor => withFixed[(weapon, armor)]);
+                (fixedAvg - baseAvg).Should().BeGreaterThan(0, $"+1 dado fixo 15 deve aumentar dano para {weapon} no nivel {level}");
+                perWeaponTotals[weapon] += fixedAvg - baseAvg;
+                _testOutputHelper.WriteLine($"Level {level:00} | Weapon {weapon,-6}: base {baseAvg:F2} -> fixed15 {fixedAvg:F2} (Δ {fixedAvg - baseAvg:F2})");
+            }
+        }
+
+        foreach (var weapon in WeaponsUnderTest)
+        {
+            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            _testOutputHelper.WriteLine($"+1 die fixed 15 average delta for {weapon,-6}: {avgDelta:F2} dmg");
+        }
     }
 
     [Fact(DisplayName = "Matching weapon weight is best against armor of the same weight")]
@@ -208,8 +340,9 @@ public class RpgBalanceDesignTests
         {
             var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
             var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
             var rng = new Random(Seed + level); // pequena variacao para reduzir vi sesgo de amostra
-            var results = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack);
+            var results = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
 
             DominanceHolds(results).Should()
                 .BeTrue($"dominancia deve se manter no nivel {level}");
@@ -301,8 +434,9 @@ public class RpgBalanceDesignTests
         {
             var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
             var dicePerAttack = GetDicePerAttackForLevel(level);
+            var levelBonus = GetLevelBonus(level);
             var rng = new Random(Seed + level * 17);
-            var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack);
+            var matrix = RunMatrix(SearchSamples, rng, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
 
             var averageDamage = matrix.Average(entry => entry.Value);
             var hpNeeded = Math.Ceiling(averageDamage * 4); // 4 turnos de folego na media geral.
@@ -352,12 +486,15 @@ public class RpgBalanceDesignTests
     private static int GetDicePerAttackForLevel(int level) =>
         GetAttributeDiceForLevel(level) + GetSkillDiceForLevel(level);
 
+    private static int GetLevelBonus(int level) => Math.Max(level - 1, 0);
+
     private static double SimulatedAverageDamage(int level, int samples, int seedOffset)
     {
         var (weaponProfiles, armorProfiles) = BuildLevelProfiles(level);
         var dicePerAttack = GetDicePerAttackForLevel(level);
+        var levelBonus = GetLevelBonus(level);
         var rng = new Random(Seed + seedOffset);
-        var matrix = RunMatrix(samples, rng, weaponProfiles, armorProfiles, dicePerAttack);
+        var matrix = RunMatrix(samples, rng, weaponProfiles, armorProfiles, dicePerAttack, levelBonus);
         return matrix.Average(entry => entry.Value);
     }
 
@@ -367,10 +504,12 @@ public class RpgBalanceDesignTests
         return (int)Math.Ceiling(averageDamage * 4);
     }
 
-    private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(int samples)
+    private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(
+        int samples,
+        int levelBonus = 0)
     {
         var rng = new Random(Seed);
-        return RunMatrix(samples, rng, WeaponProfiles, ArmorProfiles, DicePerAttack);
+        return RunMatrix(samples, rng, WeaponProfiles, ArmorProfiles, DicePerAttack, levelBonus);
     }
 
     private static Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> RunMatrix(
@@ -378,7 +517,13 @@ public class RpgBalanceDesignTests
         Random rng,
         IReadOnlyDictionary<WeaponCategory, WeaponProfile> weaponProfiles,
         IReadOnlyDictionary<ArmorCategory, ArmorProfile> armorProfiles,
-        int dicePerAttack = DicePerAttack)
+        int dicePerAttack = DicePerAttack,
+        int levelBonus = 0,
+        LuckType? overrideLuck = null,
+        int extraDice = 0,
+        int autoSuccesses = 0,
+        int? fixedRollValue = null,
+        int fixedRollCount = 0)
     {
         var output = new Dictionary<(WeaponCategory, ArmorCategory), double>();
 
@@ -389,13 +534,20 @@ public class RpgBalanceDesignTests
                 double total = 0;
                 var profile = armorProfiles[armor];
                 var weaponProfile = weaponProfiles[weapon];
-                var luck = GetLuckType(weapon, armor);
+                var luck = overrideLuck ?? GetLuckType(weapon, armor);
+                var targetToHit = BaseComplexity + profile.DodgeBonus + levelBonus - (weaponProfile.HitBonus + levelBonus);
 
                 for (var i = 0; i < samples; i++)
                 {
-                    var targetToHit = BaseComplexity + profile.DodgeBonus - weaponProfile.HitBonus;
-                    var rolls = RollDice(rng, dicePerAttack, luck, targetToHit);
-                    total += ResolveAttack(rolls, weaponProfile, profile).TotalDamage;
+                    var rolls = RollDice(rng, dicePerAttack + extraDice, luck, targetToHit).ToList();
+                    if (fixedRollValue.HasValue && fixedRollCount > 0)
+                    {
+                        for (var k = 0; k < fixedRollCount; k++)
+                        {
+                            rolls.Add(fixedRollValue.Value);
+                        }
+                    }
+                    total += ResolveAttack(rolls, weaponProfile, profile, levelBonus, autoSuccesses).TotalDamage;
                 }
 
                 output[(weapon, armor)] = total / samples;
@@ -405,14 +557,27 @@ public class RpgBalanceDesignTests
         return output;
     }
 
-    private static AttackOutcome ResolveAttack(IReadOnlyCollection<int> rolls, WeaponProfile weapon, ArmorProfile armor)
+    private static AttackOutcome ResolveAttack(
+        IReadOnlyCollection<int> rolls,
+        WeaponProfile weapon,
+        ArmorProfile armor,
+        int levelBonus = 0,
+        int autoSuccesses = 0)
     {
-        var complexity = BaseComplexity + armor.DodgeBonus;
+        var complexity = BaseComplexity + armor.DodgeBonus + levelBonus;
         var successes = rolls
-            .Select(roll => roll + weapon.HitBonus - complexity)
+            .Select(roll => roll + weapon.HitBonus + levelBonus - complexity)
             .Where(over => over >= 0)
             .OrderByDescending(over => over)
             .ToList();
+
+        if (autoSuccesses > 0)
+        {
+            for (var i = 0; i < autoSuccesses; i++)
+            {
+                successes.Add(0); // sucesso sem excesso adicional
+            }
+        }
 
         var hits = successes.Count / weapon.Difficulty;
         var damages = new List<int>(hits);

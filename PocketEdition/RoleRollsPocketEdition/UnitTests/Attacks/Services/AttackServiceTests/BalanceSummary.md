@@ -8,6 +8,9 @@ Contexto rapido para retomar de outro computador.
 - Um sucesso conta se (roll + hitBonus - complexidade) >= 0. Empate gera excesso 0.
 - Agrupa excessos em blocos do tamanho da dificuldade da arma (light=1, medium=2, heavy=3).
 - Dano por hit = soma dos excessos do grupo + `DamageBonusPerHit` da arma - block da armadura (min 0).
+- Nos testes por nivel adicionamos um bonus plano de nivel (`level - 1`) tanto no acerto quanto na esquiva (bonus de hit e complexidade/dodge recebem esse ajuste).
+- Sorte/Azar nos testes: rerrola 1 dado (menor falho para sorte, maior bem-sucedido para azar), ignorando 1/20.
+- Vantagem nos testes: adotamos +1 dado fixo com valor 15 (impacta mais heavy/medium; light ganha menos porque o block come parte do excesso). Deltas médios de dano com vantagem (vs baseline): Light ~+3.8, Medium ~+6.8, Heavy ~+7.7.
 
 ## Perfis baseline atuais
 - Armas (HitBonus / DamageBonusPerHit por tier):
@@ -39,7 +42,7 @@ Contexto rapido para retomar de outro computador.
 - `HitPointsNeededForFourRounds`: para cada nivel, calcula o DPS medio considerando todas as combinacoes arma/armadura e registra o HP aproximado para aguentar ~4 turnos (ceil de 4x dano medio) no output.
 
 ## Observacoes de design
-- Empate no teste (over=0) ainda conta como sucesso, mas pode gerar dano zero se o block for maior que o bonus de dano.
+- Empate no teste (over=0) ainda conta como sucesso, mas pode gerar dano zero se o block for maior q ue o bonus de dano.
 - Light segue com dodge 2 e subida de block de +1 por tier; medium abre distancia com +2 por tier; heavy ganhou block +3 por tier e mantem uma penalidade moderada de dodge (-1).
 - Escalonamento de dano/hit das armas esta em 3/5/6 por tier (L/M/H), com +2 fixo na heavy para manter dominancias e viabilidade com os blocks mais inclinados.
 
