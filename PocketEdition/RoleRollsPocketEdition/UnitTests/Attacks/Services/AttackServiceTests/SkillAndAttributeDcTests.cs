@@ -12,7 +12,7 @@ public class SkillAndAttributeDcTests
 {
     private const double TargetChance = 0.5;          // probabilidade alvo
     private const double MaxAllowedDelta = 0.1;       // tolerancia de ~50%
-    private const int ComplexityMin = 5;              // faixa minima de CD
+    private const int ComplexityMin = 10;              // faixa minima de CD
     private const int ComplexityMax = 22;             // faixa maxima de CD
     private const int Samples = 20000;                // amostras para simular sorte
     private const int Seed = 42;
@@ -38,8 +38,8 @@ public class SkillAndAttributeDcTests
             var attributeDice = GetAttributeDiceForLevel(level);
             var skillDice = GetSkillDiceForLevel(level);
 
-            var attributeDc = FindClosestDc(attributeDice, bonus: 0);
-            var skillDc = FindClosestDc(skillDice, bonus: 0);
+            var attributeDc = FindClosestDc(attributeDice, bonus: 0, isSkillDice: false);
+            var skillDc = FindClosestDc(skillDice, bonus: 0, isSkillDice: true);
 
             attributeDc.Delta.Should().BeLessThanOrEqualTo(MaxAllowedDelta,
                 $"Nivel {level}: atributo com CD {attributeDc.Complexity}/{attributeDc.Difficulty} ficou com chance {attributeDc.Chance:P2}, queria perto de 50%");
@@ -171,21 +171,61 @@ public class SkillAndAttributeDcTests
         _output.WriteLine($"Media dos deltas de azar -1 | Attr: {attrAvg:P2} | Skill: {skillAvg:P2}");
     }
 
-    private static DcResult FindClosestDc(int dice, int bonus)
+    [Fact(DisplayName = "Power test (PE) media de passos e bonus por kv")]
+    public void PowerTestAverageStepsPerKv()
+    {
+        var kvs = new (int k, int v)[] { (2, 1), (2, 2), (3, 2), (5, 10) };
+        var stepTotals = kvs.ToDictionary(kv => kv, _ => 0.0);
+        var bonusTotals = kvs.ToDictionary(kv => kv, _ => 0.0);
+
+        foreach (var level in Enumerable.Range(1, 20))
+        {
+            var dice = GetAttributeDiceForLevel(level);
+            var results = kvs.ToDictionary(kv => kv,
+                kv => SimulatePowerTest(dice, kv.k, kv.v, Samples, PowerSeed(level, dice, kv.k, kv.v)));
+
+            // k menor deve render mais passos; mesmo k com v maior gera bonus maior.
+            results[(2, 2)].AvgSteps.Should().BeGreaterThanOrEqualTo(results[(3, 2)].AvgSteps,
+                $"PE2 deve render mais passos que PE3 no nivel {level}");
+            results[(2, 2)].AvgBonus.Should().BeGreaterThan(results[(2, 1)].AvgBonus,
+                $"v maior deve gerar bonus medio maior no nivel {level}");
+
+            var parts = results
+                .Select(kv => $"PE{kv.Key.k}+{kv.Key.v}: passos {kv.Value.AvgSteps:F2}, bonus {kv.Value.AvgBonus:F2}")
+                .ToArray();
+            _output.WriteLine($"Level {level:00} (dados {dice}): {string.Join(" | ", parts)}");
+
+            foreach (var kv in kvs)
+            {
+                stepTotals[kv] += results[kv].AvgSteps;
+                bonusTotals[kv] += results[kv].AvgBonus;
+            }
+        }
+
+        foreach (var kv in kvs)
+        {
+            _output.WriteLine($"PE{kv.k}+{kv.v} | media de passos por nivel: {stepTotals[kv] / 20:F2} | media de bonus por nivel: {bonusTotals[kv] / 20:F2}");
+        }
+    }
+
+    private static DcResult FindClosestDc(int dice, int bonus, bool isSkillDice = false)
     {
         var best = new DcResult(0, 0, 0, double.MaxValue);
 
-        for (var difficulty = 1; difficulty <= dice; difficulty++)
+        var minDifficulty = GetMinDifficultyForDice(dice, isSkillDice);
+        var minComplexity = Math.Max(ComplexityMin, 10);
+
+        for (var difficulty = minDifficulty; difficulty <= dice; difficulty++)
         {
-            for (var complexity = ComplexityMin; complexity <= ComplexityMax; complexity++)
+            for (var complexity = minComplexity; complexity <= ComplexityMax; complexity++)
             {
                 var chance = SuccessChance(dice, difficulty, complexity, bonus);
                 var delta = Math.Abs(chance - TargetChance);
 
                 var isBetter = delta < best.Delta ||
                                (Math.Abs(delta - best.Delta) < 1e-9 &&
-                                (complexity < best.Complexity ||
-                                 (complexity == best.Complexity && difficulty < best.Difficulty)));
+                                (difficulty < best.Difficulty ||
+                                 (difficulty == best.Difficulty && complexity < best.Complexity)));
 
                 if (isBetter)
                 {
@@ -303,6 +343,57 @@ public class SkillAndAttributeDcTests
         var attr = GetAttributeDiceForLevel(level);
         var skill = SkillDiceBase + (level >= 4 ? 1 : 0) + (level >= 8 ? 1 : 0) + (level >= 12 ? 1 : 0);
         return attr + skill;
+    }
+
+    private static int GetMinDifficultyForDice(int dice, bool isSkillDice)
+    {
+        // Sobe dificuldade minima apenas quando o atributo sobe (niveis 6/11/16); skill nao aumenta dif minima.
+        var level = FindLevelForDiceTotal(dice, isSkillDice);
+        var bonus = 1;
+        if (level >= 6) bonus++;
+        if (level >= 11) bonus++;
+        if (level >= 16) bonus++;
+        return Math.Min(dice, bonus);
+    }
+
+    private static (double AvgSteps, double AvgBonus) SimulatePowerTest(int dice, int k, int v, int samples, int seed)
+    {
+        var rng = new Random(seed);
+        long stepSum = 0;
+        long bonusSum = 0;
+
+        for (var i = 0; i < samples; i++)
+        {
+            var steps = 0;
+            for (var d = 0; d < dice; d++)
+            {
+                var roll = rng.Next(1, 21);
+                var margin = roll - 10;
+                if (margin > 0)
+                {
+                    steps += margin / k;
+                }
+            }
+
+            stepSum += steps;
+            bonusSum += steps * v;
+        }
+
+        return (stepSum / (double)samples, bonusSum / (double)samples);
+    }
+
+    private static int PowerSeed(int level, int dice, int k, int v) =>
+        HashCode.Combine(level, dice, k, v, Seed);
+
+    private static int FindLevelForDiceTotal(int totalDice, bool isSkillDice)
+    {
+        for (var level = 1; level <= 20; level++)
+        {
+            var candidate = isSkillDice ? GetSkillDiceForLevel(level) : GetAttributeDiceForLevel(level);
+            if (candidate == totalDice) return level;
+        }
+
+        return 20; // fallback defensivo
     }
 
     private static double ProbabilityAtLeast(int dice, int difficulty, double singleSuccess)
