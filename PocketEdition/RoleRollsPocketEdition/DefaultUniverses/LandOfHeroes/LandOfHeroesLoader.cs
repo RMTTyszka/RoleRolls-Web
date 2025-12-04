@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
@@ -123,7 +125,15 @@ public class LandOfHeroesLoader : IStartupTask
             await SynchronizeAllArchetypeSpells(templateFromDb, _dbContext);
         }
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Debugger.Break();
+            throw;
+        }
     }
 
     private async Task SynchronizeArchetypes(CampaignTemplate templateFromDb, List<Archetype> fromCode,
@@ -388,24 +398,52 @@ public class LandOfHeroesLoader : IStartupTask
     private async Task SynchronizeSpells(Archetype archetypeFromDb, List<Spell> fromCode, RoleRollsDbContext context)
     {
         archetypeFromDb.Spells ??= [];
-        var dbSpells = archetypeFromDb.Spells.ToDictionary(s => s.Id);
-        var codeIds = fromCode.Select(s => s.Id).ToHashSet();
+        var codeIds = new HashSet<Guid>();
 
         foreach (var codeSpell in fromCode)
         {
-            var existing = await context.Spells.FindAsync(codeSpell.Id);
+            // Spells defined in code may not carry stable IDs; try to reuse existing ones by Id or Name
+            var existing = await context.Spells
+                .Include(s => s.Circles)
+                .FirstOrDefaultAsync(s => s.Id == codeSpell.Id);
+
             if (existing == null)
             {
+                existing = archetypeFromDb.Spells.FirstOrDefault(s => s.Name == codeSpell.Name)
+                           ?? await context.Spells
+                               .Include(s => s.Circles)
+                               .FirstOrDefaultAsync(s => s.Name == codeSpell.Name);
+
+                if (existing != null)
+                {
+                    // Pin the in-code spell to the persisted Id so we don't try to change primary keys
+                    codeSpell.Id = existing.Id;
+                }
+            }
+
+            if (existing == null)
+            {
+                if (codeSpell.Id == Guid.Empty)
+                {
+                    throw new InvalidOperationException($"Spell '{codeSpell.Name}' must have a fixed Id in code.");
+                }
+
                 existing = codeSpell;
                 await context.Spells.AddAsync(existing);
             }
-            existing.Name = codeSpell.Name;
-            existing.Description = codeSpell.Description;
+            else
+            {
+                existing.Name = codeSpell.Name;
+                existing.Description = codeSpell.Description;
+            }
+
             await SynchronizeSpellCircles(existing, codeSpell.Circles?.ToList() ?? new List<SpellCircle>(), context);
             if (!archetypeFromDb.Spells.Any(s => s.Id == existing.Id))
             {
                 archetypeFromDb.Spells.Add(existing);
             }
+
+            codeIds.Add(existing.Id);
         }
 
         foreach (var dbSpell in archetypeFromDb.Spells.Where(s => !codeIds.Contains(s.Id)).ToList())
@@ -417,12 +455,22 @@ public class LandOfHeroesLoader : IStartupTask
     private async Task SynchronizeSpellCircles(Spell dbSpell, List<SpellCircle> codeCircles, RoleRollsDbContext context)
     {
         dbSpell.Circles ??= new List<SpellCircle>();
-        var dbByCircle = dbSpell.Circles.ToDictionary(c => c.Circle);
-        var codeByCircle = codeCircles.ToDictionary(c => c.Circle);
+        var codeIds = new HashSet<Guid>();
 
         foreach (var codeCircle in codeCircles)
         {
-            if (!dbByCircle.TryGetValue(codeCircle.Circle, out var dbCircle))
+            if (codeCircle.Id == Guid.Empty)
+            {
+                throw new InvalidOperationException(
+                    $"Spell circle '{dbSpell.Name}' circle {codeCircle.Circle} must have a fixed Id in code.");
+            }
+
+            codeIds.Add(codeCircle.Id);
+
+            var dbCircle = dbSpell.Circles.FirstOrDefault(c => c.Id == codeCircle.Id)
+                           ?? await context.SpellCircles.FirstOrDefaultAsync(c => c.Id == codeCircle.Id);
+
+            if (dbCircle == null)
             {
                 codeCircle.SpellId = dbSpell.Id;
                 dbSpell.Circles.Add(codeCircle);
@@ -437,11 +485,17 @@ public class LandOfHeroesLoader : IStartupTask
                 dbCircle.Duration = codeCircle.Duration;
                 dbCircle.AreaOfEffect = codeCircle.AreaOfEffect;
                 dbCircle.Requirements = codeCircle.Requirements;
-                context.SpellCircles.Update(dbCircle);
+
+                // If the circle wasn't already tracked, mark it for update
+                if (context.Entry(dbCircle).State == EntityState.Detached)
+                {
+                    context.SpellCircles.Attach(dbCircle);
+                    context.Entry(dbCircle).State = EntityState.Modified;
+                }
             }
         }
 
-        foreach (var dbCircle in dbSpell.Circles.Where(c => !codeByCircle.ContainsKey(c.Circle)).ToList())
+        foreach (var dbCircle in dbSpell.Circles.Where(c => !codeIds.Contains(c.Id)).ToList())
         {
             dbSpell.Circles.Remove(dbCircle);
             context.SpellCircles.Remove(dbCircle);

@@ -81,6 +81,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, LogLevel.Error)
                 .EnableDetailedErrors();
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("RoleRolls") ?? string.Empty);
         }
