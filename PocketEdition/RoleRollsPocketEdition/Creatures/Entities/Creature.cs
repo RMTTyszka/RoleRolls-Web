@@ -229,6 +229,79 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
         }
 
+        public Roll ExecuteRoll(
+            Property? property,
+            Property? overrideAttribute,
+            int advantage,
+            int bonus,
+            int difficulty,
+            int complexity,
+            int luck,
+            int diceSides,
+            IDiceRoller diceRoller,
+            List<int>? predefinedRolls = null,
+            Guid? sceneId = null,
+            Guid? campaignId = null,
+            bool hidden = false,
+            string? description = null)
+        {
+            var propertyValue = GetPropertyValue(new PropertyInput(property, overrideAttribute));
+            return ExecuteRollWithValue(
+                propertyValue.Value,
+                propertyValue.Bonus,
+                advantage,
+                bonus,
+                difficulty,
+                complexity,
+                luck,
+                diceSides,
+                diceRoller,
+                predefinedRolls,
+                sceneId,
+                campaignId,
+                hidden,
+                description,
+                property);
+        }
+
+        public Roll ExecuteRollWithValue(
+            int propertyValue,
+            int propertyBonus,
+            int advantage,
+            int bonus,
+            int difficulty,
+            int complexity,
+            int luck,
+            int diceSides,
+            IDiceRoller diceRoller,
+            List<int>? predefinedRolls = null,
+            Guid? sceneId = null,
+            Guid? campaignId = null,
+            bool hidden = false,
+            string? description = null,
+            Property? property = null)
+        {
+            var command = new RollDiceCommand(
+                propertyValue,
+                advantage,
+                bonus + propertyBonus,
+                difficulty,
+                complexity,
+                predefinedRolls ?? new List<int>(),
+                luck);
+
+            var roll = new Roll(
+                campaignId ?? Guid.Empty,
+                sceneId ?? Guid.Empty,
+                Id,
+                property,
+                hidden,
+                description ?? string.Empty);
+
+            roll.Process(command, diceRoller, diceSides);
+            return roll;
+        }
+
         public int ApplyFormula(string formula, IReadOnlyCollection<FormulaToken>? formulaTokens = null)
         {
             return GetFormulaDetails(formula, formulaTokens).Value;

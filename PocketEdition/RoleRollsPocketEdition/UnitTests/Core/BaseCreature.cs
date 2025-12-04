@@ -18,14 +18,14 @@ public class BaseCreature
         Creature.Name = name;
         foreach (var attribute in Creature.Attributes)
         {
-            attribute.Points = 4;
+            attribute.Points = 3;
         }
 
         foreach (var skill in Creature.Skills)
         {
             foreach (var skillSpecificSkill in skill.SpecificSkills)
             {
-                skillSpecificSkill.Points = 3;
+                skillSpecificSkill.Points = 2;
             }
         }
 

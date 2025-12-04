@@ -98,14 +98,13 @@ public class AttackTests
         };
 
         var dice = Substitute.For<IDiceRoller>();
-        dice.Roll(20).Returns(11);
-        dice.Roll(8).Returns(8);
+        dice.Roll(20).Returns(15);
         // Act
         var result = attacker.Attack(defender, input, dice);
 
         // Assert
         result.Success.Should().BeTrue();
-        result.TotalDamage.Should().Be(22);
+        result.TotalDamage.Should().Be(10);
     }
 
     [Fact(DisplayName = "Light weapon attacking light armor")]

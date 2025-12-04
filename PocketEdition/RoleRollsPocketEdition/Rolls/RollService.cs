@@ -134,13 +134,21 @@ namespace RoleRollsPocketEdition.Rolls
         public async Task<RollModel> RollAsync(Guid campaignId, Guid sceneId, Guid creatureId, RollInput input)
         {
             var creature = await _creatureRepository.GetFullCreature(creatureId);
-            var property = creature.GetPropertyValue(new PropertyInput(
-                input.Property, 
-                input.Attribute
-            ));      
-            var rollCommand = new RollDiceCommand(property.Value, input.Advantage, input.Bonus + property.Bonus, input.Difficulty, input.Complexity, input.Rolls, input.Luck);
-            var roll = new Roll(campaignId, sceneId, creatureId, input.Property, input.Hidden, input.Description);
-            roll.Process(rollCommand, _diceRoller, 20);
+            var roll = creature.ExecuteRoll(
+                input.Property,
+                input.Attribute,
+                input.Advantage,
+                input.Bonus,
+                input.Difficulty,
+                input.Complexity,
+                input.Luck,
+                20,
+                _diceRoller,
+                input.Rolls,
+                sceneId,
+                campaignId,
+                input.Hidden,
+                input.Description);
             var rollResult = new RollModel(roll);
 
             await _roleRollsDbContext.AddAsync(roll);

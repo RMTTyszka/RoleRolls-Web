@@ -1,5 +1,4 @@
-using System.Diagnostics;
-using Newtonsoft.Json;
+using System.Text.Json;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
@@ -23,27 +22,57 @@ public partial class Creature
         var weaponTemplate = (WeaponTemplate?)weapon.Template;
         var weaponCategory = weaponTemplate?.Category ?? WeaponCategory.Light;
         var gripStats = GripTypeDefinition.Stats[Equipment.GripType];
+        var weaponLevelBonus = weapon.LevelBonus;
+        var predefinedRolls = new List<int>();
 
-        var hitValue = GetHitValue(input, weaponCategory, gripStats);
+        var hitValue = GetHitValue(input, weaponCategory);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId1);
-        var unluck = target.GetEvasionLuck();
-        input.Luck -= unluck;
-        var armorCategory = target.Equipment.ArmorCategory;
-        var dicesByLevel = GetRollDices();
-        var roll = RollToHit(weapon, dicesByLevel, hitValue, defenseValue, gripStats, input, diceRoller, armorCategory);
-        // testOutputHelper?.WriteLine($"LEVEL: {Level}, ROLL {JsonConvert.SerializeObject(roll)}");
+        var diceCount = Math.Max(0, hitValue.Value + hitValue.Bonus);
+        var attackerLevelBonus = Math.Max(Level - 1, 0);
+        var hitBonus = hitValue.Value + hitValue.Bonus + gripStats.Hit +
+                       GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) + attackerLevelBonus +
+                       weaponLevelBonus;
 
-        var result = roll.Success
-            ? ResolveSuccessfulAttack(target, weapon, roll.NumberOfRollSuccesses, input, gripStats, diceRoller)
-            : CreateFailedResult(target, weapon);
+        var armorCategory = target.Equipment.ArmorCategory;
+        var complexity = defenseValue;
+
+        var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
+        advantage = Math.Max(0, advantage);
+
+        var luck = input.Luck;
+        luck -= target.GetEvasionLuck();
+        luck += ResolveWeaponVsArmorLuck(weapon, armorCategory);
+
+        var rollCommand = new RollDiceCommand(
+            propertyValue: diceCount,
+            advantage: advantage,
+            bonus: hitBonus,
+            difficulty: gripStats.AttackDifficult,
+            complexity: complexity,
+            predefinedRolls: predefinedRolls,
+            luck: luck);
+
+        var roll = new Roll();
+        roll.Process(rollCommand, diceRoller, 20);
+
+        var rolledValues = JsonSerializer.Deserialize<List<int>>(roll.RolledDices) ?? new List<int>();
+
+        var successes = rolledValues
+            .Select(total => total - complexity)
+            .Where(over => over >= 0)
+            .OrderByDescending(over => over)
+            .ToList();
+
+        var difficulty = gripStats.AttackDifficult;
+        var tier = 1 + Math.Max(Level - 1, 0) / 2;
+        var damageBonusPerHit = gripStats.BaseBonusDamage * tier + gripStats.Damage;
+
+        var result = ResolveSuccessfulAttack(target, weapon, difficulty, damageBonusPerHit, successes, armorCategory, input);
         result.Attacker = null;
         result.Target = null;
         result.Weapon = null;
-        result.Difficulty = roll.Difficulty;
+        result.Difficulty = difficulty;
         result.NumberOfRollSuccesses = roll.NumberOfRollSuccesses;
-        /*testOutputHelper?.WriteLine($"LEVEL: {Level}, RESULT {JsonConvert.SerializeObject(result, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore})}");*/
         return result;
     }
 
@@ -60,79 +89,13 @@ public partial class Creature
         };
     }
 
-    private PropertyValue GetHitValue(AttackCommand input, WeaponCategory category, GripTypeStats gripStats)
+    private PropertyValue GetHitValue(AttackCommand input, WeaponCategory category)
     {
         var property = input.ItemConfiguration.GetWeaponHitProperty(category);
-        var value = GetPropertyValue(new PropertyInput(property, input.HitAttribute));
-        value.Bonus += gripStats.Hit + GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
-        return value;
+        return GetPropertyValue(new PropertyInput(property, input.HitAttribute));
     }
 
     private int GetDefenseValue(Creature target, Guid defenseId) => target.DefenseValue(defenseId);
-
-    private Roll RollToHit(ItemInstance weapon, int dices, PropertyValue hitValue, int defenseValue,
-        GripTypeStats gripType, AttackCommand input, IDiceRoller diceRoller, ArmorCategory armorCategory)
-    {
-        var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Hit, BonusType.Advantage, null));
-        advantage += ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
-        var weaponBonus = weapon.GetBonus;
-        var luck = input.Luck;
-        luck += ResolveWeaponVsArmorLuck(weapon, armorCategory);
-        var command = new RollDiceCommand(
-            hitValue.Value,
-            advantage,
-            hitValue.Bonus + hitValue.Value + weaponBonus,
-            gripType.AttackDifficult,
-            defenseValue,
-            [],
-            luck
-        );
-        var roll = new Roll();
-        roll.Process(command, diceRoller, 20);
-        return roll;
-    }
-
-    private int ResolveWeaponVsArmorAdvantage(ItemInstance weapon, ArmorCategory armorCategory)
-    {
-        switch (weapon.WeaponTemplate.Category)
-        {
-            case WeaponCategory.None:
-                break;
-            case WeaponCategory.Light:
-                if (armorCategory is ArmorCategory.Light)
-                {
-                    return 1;
-                }
-
-                if (armorCategory is ArmorCategory.Heavy)
-                {
-                    return -1;
-                }
-
-                break;
-            case WeaponCategory.Heavy:
-                if (armorCategory is ArmorCategory.Heavy)
-                {
-                    return 1;
-                }
-
-                if (armorCategory is ArmorCategory.Light)
-                {
-                    return -1;
-                }
-
-                break;
-            case WeaponCategory.Medium:
-            case WeaponCategory.LightShield:
-            case WeaponCategory.MediumShield:
-            case WeaponCategory.HeavyShield:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        return 0;
-    }
 
     private int ResolveWeaponVsArmorLuck(ItemInstance weapon, ArmorCategory armorCategory)
     {
@@ -143,24 +106,24 @@ public partial class Creature
             case WeaponCategory.Light:
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return 0;
+                    return 1;
                 }
 
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return -0;
+                    return -1;
                 }
 
                 break;
             case WeaponCategory.Heavy:
                 if (armorCategory is ArmorCategory.Heavy)
                 {
-                    return 0;
+                    return 1;
                 }
 
                 if (armorCategory is ArmorCategory.Light)
                 {
-                    return -0;
+                    return -1;
                 }
 
                 break;
@@ -176,41 +139,50 @@ public partial class Creature
         return 0;
     }
 
-    private AttackResult ResolveSuccessfulAttack(Creature target, ItemInstance weapon, int times, AttackCommand input,
-        GripTypeStats gripStats, IDiceRoller diceRoller)
+    private AttackResult ResolveSuccessfulAttack(
+        Creature target,
+        ItemInstance weapon,
+        int difficulty,
+        int damageBonusPerHit,
+        List<int> successes,
+        ArmorCategory targetArmorCategory,
+        AttackCommand input)
     {
-        var damages = new List<DamageRollResult>();
-        Debug.Assert(weapon.WeaponTemplate != null, "weapon.WeaponTemplate != null");
-        var damageProperty = GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(weapon.WeaponTemplate.Category),
-            input.DamageAttribute
-        ));
-        var property = input.ItemConfiguration.BlockProperty;
-        var propertyValue = GetPropertyValue(new PropertyInput(property, input.BlockProperty));
-        var block = 0;
-        var damageBonus = 0;
-        for (int i = 0; i < times; i++)
-        {
-            var damage = RollDamage(weapon, damageProperty, gripStats, diceRoller);
-            damageBonus = damage.FlatBonus + damage.AttributeBonus + damage.MagicBonus;
-            block = target.GetBasicBlock(propertyValue);
-            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage - block);
-            damages.Add(damage);
+        var hits = successes.Count / difficulty;
+        var blockProperty = input.ItemConfiguration.BlockProperty;
+        var blockPropertyValue = blockProperty != null
+            ? target.GetPropertyValue(new PropertyInput(blockProperty, input.BlockProperty))
+            : new PropertyValue();
+        var block = ArmorDefinition.TotalBlock(targetArmorCategory, target.Level) +
+                    blockPropertyValue.Value + blockPropertyValue.Bonus;
 
-            var result = target.TakeDamage(input.GetVitalityId, damage.TotalDamage);
+        var totalDamage = 0;
+        for (var i = 0; i < hits; i++)
+        {
+            var chunkDamage = successes.Skip(i * difficulty)
+                .Take(difficulty)
+                .Sum();
+
+            var damage = 1 + Math.Max(chunkDamage + damageBonusPerHit - block, 0);
+
+            totalDamage += damage;
+
+            var result = target.TakeDamage(input.GetVitalityId, damage);
             if (result.ExcessDamage > 0)
                 target.TakeDamage(input.GetSecondVitalityId, result.ExcessDamage);
         }
 
+        var success = hits > 0;
         return new AttackResult
         {
             Attacker = this,
             Target = target,
-            TotalDamage = damages.Sum(d => d.ReducedDamage),
+            TotalDamage = totalDamage,
             Weapon = weapon,
-            Success = true,
+            Success = success,
             Block = block,
-            DamageBonus = damageBonus,
+            DamageBonus = damageBonusPerHit,
+            NumberOfRollSuccesses = hits
         };
     }
 
@@ -223,5 +195,90 @@ public partial class Creature
             Weapon = weapon,
             Success = false
         };
+    }
+
+    private List<int> RollAttackDice(
+        int diceCount,
+        int advantage,
+        int luck,
+        int hitBonus,
+        int complexity,
+        IDiceRoller diceRoller)
+    {
+        var rolls = new List<int>(diceCount + Math.Max(advantage, 0));
+
+        for (var i = 0; i < diceCount; i++)
+        {
+            rolls.Add(diceRoller.Roll(20));
+        }
+
+        for (var i = 0; i < advantage; i++)
+        {
+            rolls.Add(15);
+        }
+
+        ApplyLuck(rolls, luck, hitBonus, complexity, diceRoller);
+        return rolls;
+    }
+
+    private static void ApplyLuck(
+        IList<int> rolls,
+        int luck,
+        int hitBonus,
+        int complexity,
+        IDiceRoller diceRoller)
+    {
+        if (luck == 0 || rolls.Count == 0) return;
+
+        var threshold = complexity - hitBonus;
+        var iterations = Math.Abs(luck);
+
+        for (var i = 0; i < iterations; i++)
+        {
+            if (luck > 0)
+            {
+                var candidateIndex = -1;
+                var lowest = int.MaxValue;
+                for (var j = 0; j < rolls.Count; j++)
+                {
+                    var roll = rolls[j];
+                    if (roll >= threshold) continue;
+                    if (roll == 1 || roll == 20) continue;
+                    if (roll < lowest)
+                    {
+                        lowest = roll;
+                        candidateIndex = j;
+                    }
+                }
+
+                if (candidateIndex != -1)
+                {
+                    var reroll = diceRoller.Roll(20);
+                    rolls[candidateIndex] = Math.Max(rolls[candidateIndex], reroll);
+                }
+            }
+            else
+            {
+                var candidateIndex = -1;
+                var highest = int.MinValue;
+                for (var j = 0; j < rolls.Count; j++)
+                {
+                    var roll = rolls[j];
+                    if (roll < threshold) continue;
+                    if (roll == 1 || roll == 20) continue;
+                    if (roll > highest)
+                    {
+                        highest = roll;
+                        candidateIndex = j;
+                    }
+                }
+
+                if (candidateIndex != -1)
+                {
+                    var reroll = diceRoller.Roll(20);
+                    rolls[candidateIndex] = Math.Min(rolls[candidateIndex], reroll);
+                }
+            }
+        }
     }
 }
