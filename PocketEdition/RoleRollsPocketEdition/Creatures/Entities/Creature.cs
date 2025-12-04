@@ -281,10 +281,13 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             string? description = null,
             Property? property = null)
         {
+            var effectivePropertyValue = propertyValue + propertyBonus;
+            var effectiveBonus = bonus + propertyBonus;
+
             var command = new RollDiceCommand(
-                propertyValue,
+                effectivePropertyValue,
                 advantage,
-                bonus + propertyBonus,
+                effectiveBonus,
                 difficulty,
                 complexity,
                 predefinedRolls ?? new List<int>(),

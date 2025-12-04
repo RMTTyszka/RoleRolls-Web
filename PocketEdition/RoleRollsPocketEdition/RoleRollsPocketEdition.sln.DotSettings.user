@@ -82,14 +82,8 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelper_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frmttyszka_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F29ff4eecbec3445d30cf6be51b75c75bc14f83445c042e746c738e76cd8bb_003FThrowHelper_002Ecs_002Fz_003A2_002D1/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUseMiddlewareExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003FPichau_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F2b6a8c2f9d9f4a358698c657db0f9f4f4b8a0_003F13_003Fe75157bb_003FUseMiddlewareExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWebApplicationBuilder_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frmttyszka_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Ff23fbbfb5fbc45a3996fcf17454973d51b920_003Ff1_003F16f2fa8b_003FWebApplicationBuilder_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00885df5_002Dfda0_002D4ab2_002D8118_002D4eee0b172395/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="When an attack succeeded, the defender take damage #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T2&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3b9cc9df_002D8c04_002D4a75_002Da5fa_002D10f758901641/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Solution /&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=957004ae_002D3550_002D4273_002D8139_002D7c8e7204fc33/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="When an attack succeeded, the defender take damage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T2&lt;/TestId&gt;&#xD;
@@ -100,6 +94,8 @@
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.HitPointsNeededForFourRounds&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.DcPerLevelStaysNearFiftyPercent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.AdvantageImprovesSuccessRateNearFiftyPercent&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>
