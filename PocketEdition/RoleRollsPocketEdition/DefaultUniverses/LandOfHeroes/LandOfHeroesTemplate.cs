@@ -135,7 +135,7 @@ public class LandOfHeroesTemplate
             {
                 Id = DefenseIds[LandOfHeroesDefense.Evasion],
                 Name = "Evasion",
-                Formula = "10 + Evasion + DefenseBonus1 + ArmorBonus + ((Level - 1) * 2)",
+                Formula = "10 + Evasion + DefenseBonus1 + ArmorBonus + (Level - 1)",
                 CampaignTemplateId = templateId,
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -167,14 +167,14 @@ public class LandOfHeroesTemplate
                         Type = FormulaTokenType.Equipment,
                         EquipmentSlot = EquipableSlot.Chest,
                         EquipmentValue = FormulaEquipmentValue.LevelBonus,
-                        ManualValue = " + (("
+                        ManualValue = " + ("
                     },
                     new FormulaToken
                     {
                         Order = 4,
                         Type = FormulaTokenType.Creature,
                         CreatureValue = FormulaCreatureValue.Level,
-                        ManualValue = " - 1) * 2)"
+                        ManualValue = " - 1)"
                     }
                 ]
             }

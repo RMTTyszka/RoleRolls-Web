@@ -45,9 +45,7 @@ public partial class Creature
 
         var defenseProperty = new Property(input.GetDefenseId1);
         var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
-        var defenseAdvantage =
-            Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
-        defenseAdvantage += ResolveWeaponVsArmorAdvantage(weapon, Equipment.ArmorCategory);
+        var defenseAdvantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         var luck = input.Luck;
         luck += ResolveWeaponVsArmorLuck(weapon, Equipment.ArmorCategory);
         var chestArmor = Equipment.Chest;
@@ -56,7 +54,7 @@ public partial class Creature
         var armorBonus = chestArmor?.GetBonus ?? 0;
         var evadeRollCommand = new RollDiceCommand(
             defenseValue.Value,
-            defenseAdvantage,
+            defenseAdvantage + ResolveWeaponVsArmorAdvantage(weapon, armorCategory),
             defenseValue.Bonus + defenseValue.Value + armorBonus + armorDefenseBonus,
             evadeComplexity,
             evadeComplexity,
@@ -105,20 +103,13 @@ public partial class Creature
     {
         var armor = Equipment.Chest;
         var armorCategory = ArmorCategory.None;
-        var armorLevelBonus = 0;
         if (armor is not null)
         {
-            var armorTemplate = armor.ArmorTemplate;
-            armorCategory = armorTemplate.Category;
-            armorLevelBonus = armor.GetBonus;
+            armorCategory = armor.ArmorTemplate.Category;
         }
 
-        var blockLevelModifier = ArmorDefinition.DamageReductionByLevel(armorCategory);
-        var baseBlock = ArmorDefinition.BaseDamageReduction(armorCategory);
-        var total = blockLevelModifier * armorLevelBonus + baseBlock + blockProperty.Value;
-        Console.WriteLine(
-            $"BLOCK: {total}, LEVEL: {Level}, ARMOR: {armorCategory}, BONUS: {armorLevelBonus}, BLOCK_LEVEL_MODIFIER: {blockLevelModifier}, BASE_BLOCK: {baseBlock}, BLOCK_PROPERTY: {blockProperty.Value}");
-        return total;
+        var total = ArmorDefinition.TotalBlock(armorCategory, Level) + blockProperty.Value + blockProperty.Bonus;
+        return Math.Max(total, 0);
     }
 
     private int GetEvasionLuck()
@@ -126,5 +117,10 @@ public partial class Creature
         var armorCategory = Equipment.ArmorCategory;
         var evasion = ArmorDefinition.BaseLuck(armorCategory);
         return evasion;
+    }
+
+    private static int ResolveWeaponVsArmorAdvantage(ItemInstance weapon, ArmorCategory armorCategory)
+    {
+        return 0;
     }
 }

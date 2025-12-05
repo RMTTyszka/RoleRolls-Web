@@ -18,14 +18,14 @@ public class BaseCreature
         Creature.Name = name;
         foreach (var attribute in Creature.Attributes)
         {
-            attribute.Points = 4;
+            attribute.Points = 3;
         }
 
         foreach (var skill in Creature.Skills)
         {
             foreach (var skillSpecificSkill in skill.SpecificSkills)
             {
-                skillSpecificSkill.Points = 3;
+                skillSpecificSkill.Points = 2;
             }
         }
 
@@ -80,20 +80,33 @@ public class BaseCreature
 
     public BaseCreature WithLevel(int level)
     {
-        foreach (var currentLevel in Enumerable.Range(1, level-1))
+        var attributeMilestones = new[] { 6, 11, 16 };
+        var skillMilestones = new[] { 4, 8, 12 };
+
+        foreach (var currentLevel in Enumerable.Range(1, level - 1))
         {
             Creature.LevelUp();
-            foreach (var attribute in Creature.Attributes)
+
+            // Refactor: atributos sobem nos niveis 6/11/16; pericias (gerais e especificas) nos niveis 4/8/12.
+            if (attributeMilestones.Contains(Creature.Level))
             {
-                Creature.AddPointToAttribute(attribute.Id);
-            }    
-            foreach (var skill in Creature.Skills)
+                foreach (var attribute in Creature.Attributes)
+                {
+                    Creature.AddPointToAttribute(attribute.Id);
+                }
+            }
+
+            if (skillMilestones.Contains(Creature.Level))
             {
-                Creature.AddPointToSkill(skill.Id);
-            }      
-            foreach (var specificSkill in Creature.SpecificSkills)
-            {
-                Creature.AddPointToSpecificSkill(specificSkill.Id);
+                foreach (var skill in Creature.Skills)
+                {
+                    Creature.AddPointToSkill(skill.Id);
+                }
+
+                foreach (var specificSkill in Creature.SpecificSkills)
+                {
+                    Creature.AddPointToSpecificSkill(specificSkill.Id);
+                }
             }
         }
         return this;
