@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsAspireHost>true</IsAspireHost>
+    <SuppressNETSDK1228>true</SuppressNETSDK1228>
   </PropertyGroup>
 
   <ItemGroup>
