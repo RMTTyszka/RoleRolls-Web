@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
@@ -65,6 +67,32 @@ builder.Services.AddScopedServices(typeof(Program).Assembly);
 builder.Services.AddStartupTasks(typeof(Program).Assembly);
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<KeycloakSettings>(builder.Configuration.GetSection("Keycloak"));
+
+var keycloakSettings = builder.Configuration.GetSection("Keycloak").Get<KeycloakSettings>();
+var authBuilder = keycloakSettings?.Enabled == true
+    ? builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    : builder.Services.AddAuthentication();
+if (keycloakSettings?.Enabled == true)
+{
+    var authority = keycloakSettings.BaseUrl;
+    if (!string.IsNullOrWhiteSpace(keycloakSettings.BaseUrl) && !string.IsNullOrWhiteSpace(keycloakSettings.Realm))
+    {
+        authority = $"{keycloakSettings.BaseUrl.TrimEnd('/')}/realms/{keycloakSettings.Realm}";
+    }
+
+    authBuilder.AddJwtBearer(options =>
+    {
+        options.Authority = authority;
+        options.RequireHttpsMetadata = keycloakSettings.RequireHttpsMetadata;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = !string.IsNullOrWhiteSpace(authority),
+            ValidateAudience = !string.IsNullOrWhiteSpace(keycloakSettings.Audience),
+            ValidAudience = keycloakSettings.Audience
+        };
+    });
+}
 /*builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
 {
     options.Host = "localhost";
@@ -93,6 +121,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 
 builder.Services.AddPostgresMigrationHostedService();*/
 builder.Services.AddSignalR();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -109,6 +138,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiddleware<CurrentUserMiddleware>();
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<SerilogBadRequestLoggingMiddleware>();
 app.UseCors(RoleRollsPolicyOrigins);

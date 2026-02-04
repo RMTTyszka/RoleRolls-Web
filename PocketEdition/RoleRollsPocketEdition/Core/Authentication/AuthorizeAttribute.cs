@@ -9,7 +9,8 @@ namespace RoleRollsPocketEdition.Core.Authentication
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.Items["User"];
-            if (user == null)
+            var isAuthenticated = context.HttpContext.User?.Identity?.IsAuthenticated == true;
+            if (user == null && !isAuthenticated)
             {
                 // not logged in
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
