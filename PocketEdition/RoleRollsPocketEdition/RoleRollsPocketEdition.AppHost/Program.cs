@@ -6,7 +6,7 @@ var postgres = builder.AddPostgres("postgres")
     .WithEnvironment("POSTGRES_DB", "RoleRolls")
     .WithEnvironment("POSTGRES_USER", "postgres")
     .WithEnvironment("POSTGRES_PASSWORD", "123qwe")
-    .WithVolume("rolerolls-postgres-data");
+    .WithDataVolume("rolerolls-postgres-data");
 
 var roleRollsDb = postgres.AddDatabase("RoleRolls");
 postgres.AddDatabase("keycloak");
