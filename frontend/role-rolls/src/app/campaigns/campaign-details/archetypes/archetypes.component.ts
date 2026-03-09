@@ -79,7 +79,7 @@ export class ArchetypesComponent {
         icon: 'pi pi-plus',
         condition: () => this.isMaster,
         tooltip: 'New',
-        callBack: () => this.openArchetypeDialog(null),
+        callBack: () => this.openArchetypeDialog({} as Archetype),
       } as RRHeaderAction
     ];
   }

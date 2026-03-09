@@ -40,16 +40,21 @@ public class SkillAndAttributeRollTests
             var attributeDice = GetAttributeDiceForLevel(level);
             var skillDice = GetSkillDiceForLevel(level);
 
-            var attributeDc = FindClosestDc(attributeDice, bonus: 0, isSkillDice: false);
-            var skillDc = FindClosestDc(skillDice, bonus: 0, isSkillDice: true);
+            var attributeDcs = FindDcsNearTarget(attributeDice, bonus: 0, level);
+            var skillDcs = FindDcsNearTarget(skillDice, bonus: 0, level);
 
-            attributeDc.Delta.Should().BeLessThanOrEqualTo(MaxAllowedDelta,
-                $"Nivel {level}: atributo com CD {attributeDc.Complexity}/{attributeDc.Difficulty} ficou com chance {attributeDc.Chance:P2}");
-            skillDc.Delta.Should().BeLessThanOrEqualTo(MaxAllowedDelta,
-                $"Nivel {level}: pericia com CD {skillDc.Complexity}/{skillDc.Difficulty} ficou com chance {skillDc.Chance:P2}");
+            attributeDcs.Should().NotBeEmpty(
+                $"Nivel {level}: atributo nao encontrou nenhuma CD com chance proxima de {TargetChance:P0}");
+            skillDcs.Should().NotBeEmpty(
+                $"Nivel {level}: pericia nao encontrou nenhuma CD com chance proxima de {TargetChance:P0}");
 
-            _output.WriteLine(
-                $"Level {level:00} | Attr CD {attributeDc.Complexity}/{attributeDc.Difficulty}: {attributeDc.Chance:P2} | Skill CD {skillDc.Complexity}/{skillDc.Difficulty}: {skillDc.Chance:P2}");
+            _output.WriteLine($"Level {level:00} (Attr)");
+            _output.WriteLine("    CD | percentual");
+            _output.WriteLine(FormatDcLines(attributeDcs));
+
+            _output.WriteLine($"Level {level:00} (Skill)");
+            _output.WriteLine("    CD | percentual");
+            _output.WriteLine(FormatDcLines(skillDcs));
         }
     }
 
@@ -64,12 +69,12 @@ public class SkillAndAttributeRollTests
             var attrDice = GetAttributeDiceForLevel(level);
             var skillDice = GetSkillDiceForLevel(level);
 
-            var attrBaseline = FindClosestDc(attrDice, bonus: 0);
+            var attrBaseline = FindClosestDc(attrDice, bonus: 0, level);
             var attrLuck = SimulatedChance(attrDice, bonus: 0, attrBaseline.Difficulty, attrBaseline.Complexity, luck: 1);
             attrLuck.Should().BeGreaterThan(attrBaseline.Chance, $"sorte +1 deve ajudar atributo no nivel {level}");
             attrDeltas.Add(attrLuck - attrBaseline.Chance);
 
-            var skillBaseline = FindClosestDc(skillDice, bonus: 0);
+            var skillBaseline = FindClosestDc(skillDice, bonus: 0, level);
             var skillLuck = SimulatedChance(skillDice, bonus: 0, skillBaseline.Difficulty, skillBaseline.Complexity, luck: 1);
             skillLuck.Should().BeGreaterThan(skillBaseline.Chance, $"sorte +1 deve ajudar pericia no nivel {level}");
             skillDeltas.Add(skillLuck - skillBaseline.Chance);
@@ -94,12 +99,12 @@ public class SkillAndAttributeRollTests
             var attrDice = GetAttributeDiceForLevel(level);
             var skillDice = GetSkillDiceForLevel(level);
 
-            var attrBaseline = FindClosestDc(attrDice, bonus: 0);
+            var attrBaseline = FindClosestDc(attrDice, bonus: 0, level);
             var attrAdv = SimulatedChance(attrDice, bonus: 0, attrBaseline.Difficulty, attrBaseline.Complexity, luck: 0, advantageDice: 1);
             attrAdv.Should().BeGreaterThan(attrBaseline.Chance, $"vantagem +1 dado deve ajudar atributo no nivel {level}");
             attrDeltas.Add(attrAdv - attrBaseline.Chance);
 
-            var skillBaseline = FindClosestDc(skillDice, bonus: 0);
+            var skillBaseline = FindClosestDc(skillDice, bonus: 0, level);
             var skillAdv = SimulatedChance(skillDice, bonus: 0, skillBaseline.Difficulty, skillBaseline.Complexity, luck: 0, advantageDice: 1);
             skillAdv.Should().BeGreaterThan(skillBaseline.Chance, $"vantagem +1 dado deve ajudar pericia no nivel {level}");
             skillDeltas.Add(skillAdv - skillBaseline.Chance);
@@ -124,12 +129,12 @@ public class SkillAndAttributeRollTests
             var attrDice = GetAttributeDiceForLevel(level);
             var skillDice = GetSkillDiceForLevel(level);
 
-            var attrBaseline = FindClosestDc(attrDice, bonus: 0);
+            var attrBaseline = FindClosestDc(attrDice, bonus: 0, level);
             var attrDis = SimulatedChance(attrDice, bonus: 0, attrBaseline.Difficulty, attrBaseline.Complexity, luck: 0, advantageDice: -1);
             attrDis.Should().BeLessThan(attrBaseline.Chance, $"desvantagem -1 dado deve atrapalhar atributo no nivel {level}");
             attrDeltas.Add(attrBaseline.Chance - attrDis);
 
-            var skillBaseline = FindClosestDc(skillDice, bonus: 0);
+            var skillBaseline = FindClosestDc(skillDice, bonus: 0, level);
             var skillDis = SimulatedChance(skillDice, bonus: 0, skillBaseline.Difficulty, skillBaseline.Complexity, luck: 0, advantageDice: -1);
             skillDis.Should().BeLessThan(skillBaseline.Chance, $"desvantagem -1 dado deve atrapalhar pericia no nivel {level}");
             skillDeltas.Add(skillBaseline.Chance - skillDis);
@@ -143,11 +148,11 @@ public class SkillAndAttributeRollTests
         _output.WriteLine($"Media dos deltas de desvantagem (-1 dado) | Attr: {attrAvg:P2} | Skill: {skillAvg:P2}");
     }
 
-    private static DcResult FindClosestDc(int dice, int bonus, bool isSkillDice = false)
+    private static DcResult FindClosestDc(int dice, int bonus, int level)
     {
         var best = new DcResult(0, 0, 0, double.MaxValue);
 
-        var minDifficulty = GetMinDifficultyForDice(dice, isSkillDice);
+        var minDifficulty = GetMinDifficultyForLevel(level, dice);
         var minComplexity = Math.Max(ComplexityMin, 10);
 
         for (var difficulty = minDifficulty; difficulty <= dice; difficulty++)
@@ -171,6 +176,38 @@ public class SkillAndAttributeRollTests
 
         return best;
     }
+
+    private static IReadOnlyList<DcResult> FindDcsNearTarget(int dice, int bonus, int level)
+    {
+        var nearTarget = new List<DcResult>();
+
+        var minDifficulty = GetMinDifficultyForLevel(level, dice);
+        var minComplexity = Math.Max(ComplexityMin, 10);
+
+        for (var difficulty = minDifficulty; difficulty <= dice; difficulty++)
+        {
+            for (var complexity = minComplexity; complexity <= ComplexityMax; complexity++)
+            {
+                var chance = SimulatedChance(dice, bonus, difficulty, complexity, luck: 0);
+                var delta = Math.Abs(chance - TargetChance);
+
+                if (delta <= MaxAllowedDelta)
+                {
+                    nearTarget.Add(new DcResult(complexity, difficulty, chance, delta));
+                }
+            }
+        }
+
+        return nearTarget
+            .OrderBy(result => result.Delta)
+            .ThenBy(result => result.Difficulty)
+            .ThenBy(result => result.Complexity)
+            .ToList();
+    }
+
+    private static string FormatDcLines(IEnumerable<DcResult> dcResults) =>
+        string.Join(Environment.NewLine, dcResults.Select(result =>
+            $"    {result.Complexity}/{result.Difficulty} | {result.Chance:P2}"));
 
     private static double SimulatedChance(int dice, int bonus, int difficulty, int complexity, int luck, int advantageDice = 0)
     {
@@ -216,6 +253,16 @@ public class SkillAndAttributeRollTests
         return attr + skill;
     }
 
+    private static int GetMinDifficultyForLevel(int level, int dice)
+    {
+        var bonus = 1;
+        if (level >= 6) bonus++;
+        if (level >= 11) bonus++;
+        if (level >= 16) bonus++;
+        return Math.Min(dice, bonus);
+    }
+
+    // Referencia antiga: infere o nivel a partir do total de dados.
     private static int GetMinDifficultyForDice(int dice, bool isSkillDice)
     {
         var level = FindLevelForDiceTotal(dice, isSkillDice);
