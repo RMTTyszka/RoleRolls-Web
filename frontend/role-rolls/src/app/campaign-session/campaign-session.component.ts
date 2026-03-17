@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CampaignPlayer } from '@app/campaigns/models/CampaignPlayer.model';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { MenuItem } from 'primeng/api';
@@ -8,7 +8,6 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { forkJoin } from 'rxjs';
 import { EditorAction } from '@app/models/EntityActionData';
 import { SceneCreature } from '@app/campaigns/models/scene-creature.model';
-import { OverlayPanel } from 'primeng/overlaypanel';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
@@ -43,7 +42,6 @@ import {Toolbar} from 'primeng/toolbar';
   styleUrl: './campaign-session.component.scss'
 })
 export class CampaignSessionComponent implements OnDestroy {
-  @ViewChild('invitationCodeOverlay') public invitationCodeOverlay: OverlayPanel;
   public invitationCode: string;
   public get campaignId() {
     return this.campaign.id;
@@ -127,10 +125,16 @@ export class CampaignSessionComponent implements OnDestroy {
     this.detailsService.sceneChanged.next(this.selectedScene);
   }
 
-  public invitePlayer(target: any){
+  public invitePlayer(){
     this.campaignService.invitePlayer(this.campaign.id).subscribe((code: string) => {
       this.invitationCode = code;
-      this.invitationCodeOverlay.toggle(true, target);
+      if (navigator?.clipboard?.writeText) {
+        navigator.clipboard.writeText(code).catch(() => {
+          console.log('Invitation code:', code);
+        });
+      } else {
+        console.log('Invitation code:', code);
+      }
     });
   }
 

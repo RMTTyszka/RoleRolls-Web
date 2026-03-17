@@ -6,7 +6,7 @@ import { InputText } from 'primeng/inputtext';
 import { NgForOf } from '@angular/common';
 import { RRColumns } from '@app/components/grid/grid.component';
 import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app/models/itens/ItemTemplateModel';
-import { DialogService, DynamicDialogComponent, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Creature } from '@app/campaigns/models/creature';
 import { CampaignItemTemplatesService } from '@app/campaigns/campaign-details/campaign-itens/services/campaign-item-templates.service';
 import { ItemInstanceService } from '@services/itens/instances/item-instance.service';
@@ -39,7 +39,6 @@ export class ItemInstantiatorComponent {
   public itemType = signal(ItemType.Consumable);
   public data: ItemTemplateModel[] = [];
   public totalCount: number;
-  instance: DynamicDialogComponent | undefined;
   private creature: Creature;
 
   public itemTypesOptions = [
@@ -50,17 +49,17 @@ export class ItemInstantiatorComponent {
   ];
   constructor(public ref: DynamicDialogRef,
               private dialogService: DialogService,
+              public config: DynamicDialogConfig,
               private service: CampaignItemTemplatesService,
               private cdr: ChangeDetectorRef,
               private detailsServiceService: CampaignSessionService,
               private itemInstantiatorService: ItemInstanceService,
   ) {
-    this.instance = this.dialogService.getInstance(this.ref);
     this.listenToItemTypeChanges();
   }
   ngOnInit() {
-    if (this.instance && this.instance.data) {
-      this.creature = this.instance.data['creature'] as Creature;
+    if (this.config?.data) {
+      this.creature = this.config.data['creature'] as Creature;
     }
     this.columns = [
       {

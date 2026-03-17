@@ -45,7 +45,7 @@ export class GridComponent<T extends Entity, TView extends Entity> {
   loading = true;
   first = 0;
   public hasTitle = computed(() => {
-    return Boolean(this.title);
+    return Boolean(this.title());
   })
   public actionsWidth() {
     return {width: `${this.actions.length * 3}%`}
@@ -121,8 +121,11 @@ export class GridComponent<T extends Entity, TView extends Entity> {
     this.getList('', (event.first ?? 0) / (event.rows ?? 0), event.rows ?? 0);
   }
 
-  rowSelected(event: TView) {
-    this.rowSelectedEvent.emit(event);
+  rowSelected(event: TView | TView[]) {
+    const selected = Array.isArray(event) ? event[0] : event;
+    if (selected) {
+      this.rowSelectedEvent.emit(selected);
+    }
   }
 }
 

@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="flex space-x-2">
-          <button *ngIf="isMaster" pButton label="Invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer($event.target)" #invitationButton></button>
+          <button *ngIf="isMaster" pButton label="Invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer()" #invitationButton></button>
           <button *ngIf="!notInvited || isMaster" pButton label="Create Hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
         </div>
       </div>
