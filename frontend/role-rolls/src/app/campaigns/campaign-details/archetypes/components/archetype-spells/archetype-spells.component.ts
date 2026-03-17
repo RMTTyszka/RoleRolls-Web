@@ -27,7 +27,15 @@ export class ArchetypeSpellsComponent {
   constructor(private dialog: DialogService, private archetypes: ArchetypesService) {}
 
   open(spell: Spell) {
-    const ref = this.dialog.open(SpellModalComponent, { header: spell.name, width: '70vw', data: { spell, campaign: this.campaign(), archetypeId: this.archetype()?.id, templateId: this.campaign()?.campaignTemplateId } });
+    const ref = this.dialog.open(SpellModalComponent, { header: spell.name,
+      width: '70vw',
+      data: { spell, campaign: this.campaign(),
+        archetypeId: this.archetype()?.id,
+        templateId: this.campaign()?.campaignTemplateId
+        },
+      closeOnEscape: true,
+      closable: true
+    });
     ref.onClose.subscribe(result => {
       if (result && this.campaign()?.campaignTemplateId && this.archetype()?.id) {
         this.archetypes.getById(this.campaign()!.campaignTemplateId!, this.archetype()!.id!)

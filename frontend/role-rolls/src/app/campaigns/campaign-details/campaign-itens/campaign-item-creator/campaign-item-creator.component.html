@@ -1,12 +1,12 @@
 <p-panel [toggleable]="false">
-  <ng-template pTemplate="header">
-    <div class="flex p-align-center gap-2">
+  <ng-template #header>
+    <div class="flex items-center gap-2">
             <span class="font-bold">
                Item
             </span>
     </div>
   </ng-template>
-  <ng-template pTemplate="footer">
+  <ng-template #footer>
     <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
   </ng-template>
   <form [formGroup]="form">

@@ -2,7 +2,7 @@
   <p-fieldset legend="Creature Type" class="flex flex-col h-full">
     <div class="grid grid-cols-1 gap-4">
       <input class="col-span-1" type="text" pInputText placeholder="Name" formControlName="name" required>
-      <textarea class="col" cols="10" pTextarea placeholder="Description" formControlName="description" required>
+      <textarea class="w-full" cols="10" pTextarea placeholder="Description" formControlName="description" required>
       </textarea>
     </div>
     <rr-bonuses class="flex-1" [bonuses]="bonuses()" [campaign]="campaign"

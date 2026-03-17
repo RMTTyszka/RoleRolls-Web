@@ -4,10 +4,10 @@
       {{title | titlecase}}       <i class="fas fa-dice-d20"></i>
     </h1>
   </div>
-  <div  class="grid nogutter align-end justify-end" style="padding-right: 8px">
+  <div class="flex flex-col items-end justify-end pr-2">
     <ng-container *ngIf="hasUser">
-      <label class="main-header-text text-xl col-12" style="text-align: end">{{userName}}</label>
-      <label class="col-12" style="text-align: end; cursor: pointer;"  (click)="logout()">logout</label>
+      <label class="main-header-text text-xl text-right">{{userName}}</label>
+      <label class="cursor-pointer text-right" (click)="logout()">logout</label>
     </ng-container>
     <button *ngIf="false" pButton pButtonIcon="pi pi-sun" severity="info" (click)="toggleDarkMode()"></button>
     <ng-container *ngIf="!hasUser">

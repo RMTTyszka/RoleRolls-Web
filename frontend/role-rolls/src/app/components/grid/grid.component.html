@@ -1,17 +1,17 @@
-<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" styleClass="p-datatable-sm"
+<p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" class="p-datatable-sm"
          (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event.data)" [totalRecords]="totalCount" [loading]="loading"
 >
   <ng-template #caption>
-    <div class="grid nogutter grid-cols-2 justify-between items-center">
-      <div class="col-6 grid gri-col-2 justify-between">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex w-full flex-col gap-2 md:w-1/2">
         <h3 *ngIf="hasTitle()">{{title()}}</h3>
         <div class="p-inputgroup" *ngIf="hasGlobalFilter()">
           <p-inputgroup-addon><i class="fa fa-search"></i></p-inputgroup-addon>
           <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target, 'contains')" style="width:auto">
         </div>
       </div>
-      <div class="grid col-6 justify-end align-center nogutter">
-        <div class="col">
+      <div class="flex w-full justify-end md:w-auto">
+        <div class="flex">
           <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
         </div>
       </div>
@@ -39,13 +39,13 @@
       <td *ngFor="let column of columns()">{{resolve(column.property, entity)}}</td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="paginatorleft" let-state>
+  <ng-template #paginatorleft let-state>
     {{state.first}}
   </ng-template>
-  <ng-template pTemplate="paginatorright">
+  <ng-template #paginatorright>
     <span>Records: {{totalCount}}</span>
   </ng-template>
-  <!--  <ng-template pTemplate="emptymessage" let-columns>
+  <!--  <ng-template #emptymessage let-columns>
       <tr>
         <td [attr.colspan]="columns.length">
           No records found

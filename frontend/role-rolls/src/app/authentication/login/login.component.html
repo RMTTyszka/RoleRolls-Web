@@ -1,26 +1,46 @@
 
 
 <p-panel header="Login">
-  <div class="grid">
-    <form [formGroup]="form">
-      <div class="grid gap-x-4" *ngIf="!isLogged" >
-        <label class="col-2 "> Email:</label>
-        <input class="col-4 offset-1" type="text" formControlName="email"/>
-        <div class="col-5">
-        </div>
-        <label class="col-2 "> Password:</label><input class="col-4 offset-1" type="password" formControlName="password"/><div class="col-5"></div>
-        <div><button (click)="login()">Sign in</button></div>
+  <div class="flex flex-col gap-8">
+    <form [formGroup]="form" *ngIf="!isLogged" class="grid max-w-3xl gap-4">
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>Email:</label>
+        <input class="w-full" type="text" formControlName="email"/>
+      </div>
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>Password:</label>
+        <input class="w-full" type="password" formControlName="password"/>
+      </div>
+      <div>
+        <button (click)="login()">Sign in</button>
       </div>
     </form>
-    <h4 class="col-12">Doesn't have an account? Create one and become a hero!! (or a Master   ;)   )</h4>
-    <form [formGroup]="formCreated" class="col-12">
-      <div class="grid">
-        <label class="col-2 "> First Name:</label><input class="col-4 offset-1" type="text" formControlName="firstName"/><div class="col-5"></div>
-        <label class="col-2"> Last Name:</label><input class="col-4 offset-1" type="text" formControlName="lastName"/><div class="col-5"></div>
-        <label class="col-2"> User Name:</label><input class="col-4 offset-1" type="text" formControlName="userName"/><div class="col-5"></div>
-        <label class="col-2"> Email:</label><input class="col-4 offset-1" type="text" formControlName="email"/><div class="col-5"></div>
-        <label class="col-2"> Password:</label><input class="col-4 offset-1" type="password" formControlName="password"/><div class="col-5"></div>
-        <div><button (click)="add()">Create</button></div>
+
+    <h4>Doesn't have an account? Create one and become a hero!! (or a Master   ;)   )</h4>
+
+    <form [formGroup]="formCreated" class="grid max-w-3xl gap-4">
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>First Name:</label>
+        <input class="w-full" type="text" formControlName="firstName"/>
+      </div>
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>Last Name:</label>
+        <input class="w-full" type="text" formControlName="lastName"/>
+      </div>
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>User Name:</label>
+        <input class="w-full" type="text" formControlName="userName"/>
+      </div>
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>Email:</label>
+        <input class="w-full" type="text" formControlName="email"/>
+      </div>
+      <div class="grid gap-2 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+        <label>Password:</label>
+        <input class="w-full" type="password" formControlName="password"/>
+      </div>
+      <div>
+        <button (click)="add()">Create</button>
       </div>
     </form>
   </div>

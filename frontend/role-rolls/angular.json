@@ -37,6 +37,7 @@
               }
             ],
             "styles": [
+              "src/tailwind.css",
               "src/styles.scss",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
@@ -98,6 +99,7 @@
               }
             ],
             "styles": [
+              "src/tailwind.css",
               "src/styles.scss"
             ],
             "scripts": []

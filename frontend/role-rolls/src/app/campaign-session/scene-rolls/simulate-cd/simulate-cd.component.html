@@ -16,14 +16,14 @@
 
 
 <p-table [value]="chances" responsiveLayout="scroll" class="mt-4">
-  <ng-template pTemplate="header">
+  <ng-template #header>
     <tr>
       <th>Complexity</th>
       <th>Difficulty</th>
       <th>Chance</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-chance>
+  <ng-template #body let-chance>
     <tr>
       <td>{{ chance.complexity }}</td>
       <td>{{ chance.difficulty }}</td>

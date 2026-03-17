@@ -100,13 +100,13 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
         var actor = await GetActor(roll.ActorId);
         var property = roll.Property != null ? roll.Property.Type switch
         {
-            PropertyType.Attribute => await _dbContext.Attributes.Where(e => e.Id == roll.Property.Id)
+            PropertyType.Attribute => await _dbContext.Attributes.Where(e => e.AttributeTemplateId == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),
-            PropertyType.Skill => await _dbContext.Skills.Where(e => e.Id == roll.Property.Id)
+            PropertyType.Skill => await _dbContext.Skills.Where(e => e.SkillTemplateId == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),
-            PropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.Id == roll.Property.Id)
+            PropertyType.MinorSkill => await _dbContext.MinorSkills.Where(e => e.SpecificSkillTemplateId == roll.Property.Id)
                 .Select(a => a.Name)
                 .FirstAsync(),   
             PropertyType.All => string.Empty,

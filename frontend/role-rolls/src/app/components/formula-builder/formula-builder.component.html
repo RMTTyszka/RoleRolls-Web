@@ -14,7 +14,7 @@
       </div>
       <div class="token-row__value">
         <ng-container [ngSwitch]="token.type">
-          <div *ngSwitchCase="FormulaTokenType.Property" class="flex flex-column gap-2 w-full">
+          <div *ngSwitchCase="FormulaTokenType.Property" class="flex w-full flex-col gap-2">
             <rr-property-selector
               [campaign]="campaign"
               [propertyType]="[PropertyType.Attribute, PropertyType.Skill, PropertyType.SpecificSkill, PropertyType.Vitality, PropertyType.Defense]"
@@ -41,7 +41,7 @@
             [disabled]="disabled"
             [(ngModel)]="token.manualValue"
             (blur)="onManualValueBlur()">
-          <div *ngSwitchCase="FormulaTokenType.Creature" class="flex flex-column gap-2 w-full">
+          <div *ngSwitchCase="FormulaTokenType.Creature" class="flex w-full flex-col gap-2">
             <p-select
               [disabled]="disabled"
               [options]="creatureValueOptions"
@@ -60,7 +60,7 @@
               [(ngModel)]="token.manualValue"
               (blur)="onManualValueBlur()">
           </div>
-          <div *ngSwitchCase="FormulaTokenType.Equipment" class="flex flex-column gap-2 w-full">
+          <div *ngSwitchCase="FormulaTokenType.Equipment" class="flex w-full flex-col gap-2">
             <p-select
               [disabled]="disabled"
               [options]="equipmentPropertyOptions"
@@ -107,7 +107,7 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 border-top-1 surface-border pt-3 align-items-center">
+    <div class="flex flex-wrap items-center gap-2 border-t surface-border pt-3">
       <button
         pButton
         type="button"
@@ -125,7 +125,7 @@
   </div>
 
   <ng-template #emptyState>
-    <div class="flex flex-column gap-2">
+    <div class="flex flex-col gap-2">
       <p class="text-sm text-color-secondary m-0">Nenhum passo definido para esta formula.</p>
       <button pButton type="button" label="Adicionar linha" (click)="addToken()" [disabled]="disabled"></button>
     </div>

@@ -1,8 +1,5 @@
 import {APP_INITIALIZER, ApplicationConfig, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
-import Aura from '@primeng/themes/aura';
-import Nora from '@primeng/themes/nora';
-import Material from '@primeng/themes/material';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
