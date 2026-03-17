@@ -2,7 +2,7 @@ import { Component, computed, effect, EventEmitter, input, Output, signal, Writa
 import { TableModule } from 'primeng/table';
 import { Bonus, BonusType, BonusValueType, Property } from '@app/models/bonuses/bonus';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { Toolbar } from 'primeng/toolbar';
@@ -19,7 +19,7 @@ import { RROption } from '@app/models/RROption';
   imports: [
     TableModule,
     FormsModule,
-    DropdownModule,
+    SelectModule,
     InputText,
     ButtonDirective,
     Toolbar,

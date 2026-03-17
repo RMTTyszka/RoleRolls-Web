@@ -1,7 +1,7 @@
 import { definePreset  } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 
-const RrPrimengPreset = definePreset(Aura, {
+const RrPrimengPreset = definePreset(Aura as any, {
   primitive: {
     borderRadius: {
       none: "0",
@@ -383,7 +383,7 @@ const RrPrimengPreset = definePreset(Aura, {
           border: '#7f1d1d'       // Borda da mesma cor
         }
       },
-      css: ({ dt }: { dt: (path: string) => string }) => `
+      css: ({ dt }: any) => `
         .p-button.p-button-danger {
           background: ${dt('button.danger.background')};
           color: ${dt('button.danger.color')};
@@ -398,5 +398,5 @@ const RrPrimengPreset = definePreset(Aura, {
     }
   },
 
-})
+} as any)
 export default RrPrimengPreset;

@@ -22,7 +22,7 @@ import { CampaignsService } from '@app/campaigns/services/campaigns.service';
 import { CreatureDetailsService } from '@app/creatures/creature-details.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Message } from 'primeng/message';
-import { TabPanel, TabView } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
 import { Panel } from 'primeng/panel';
 import { NgForOf, NgIf } from '@angular/common';
 import { InputNumber } from 'primeng/inputnumber';
@@ -42,9 +42,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   selector: 'rr-creature-editor',
   imports: [
     Message,
-    TabPanel,
+    TabsModule,
     ReactiveFormsModule,
-    TabView,
     Panel,
     NgForOf,
     InputNumber,

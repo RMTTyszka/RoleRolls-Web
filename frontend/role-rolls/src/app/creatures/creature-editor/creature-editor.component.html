@@ -6,8 +6,13 @@
       </p-inputgroup-addon>
       <input pInputText formControlName="name">
     </div>
-    <p-tabView>
-      <p-tabPanel header="General">
+    <p-tabs value="general">
+      <p-tablist>
+        <p-tab value="general">General</p-tab>
+        <p-tab value="inventory">Inventory</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+      <p-tabpanel value="general">
         <p-panel [toggleable]="true" [collapsed]=false>
           <ng-template #header class="flex justify-between items-center w-full">
             <span class="text-lg font-semibold">Attributes</span>
@@ -107,11 +112,12 @@
             </div>
           </div>
         </p-panel>
-      </p-tabPanel>
-      <p-tabPanel header="Inventory">
+      </p-tabpanel>
+      <p-tabpanel value="inventory">
         <rr-creature-inventory [form]="form" [creature]="creature"></rr-creature-inventory>
-      </p-tabPanel>
-    </p-tabView>
+      </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
   </form>
   <button class="p-button p-component" style="display: flex; flex: initial" (click)="save()" [disabled]="!canSave()">Save</button>
 </div>

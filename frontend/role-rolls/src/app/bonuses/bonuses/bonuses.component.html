@@ -63,7 +63,7 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <p-dropdown [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-dropdown>
+                <p-select [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-select>
               </ng-template>
               <ng-template #output>{{ valueTypeLabel(bonus.valueType) }}</ng-template>
             </p-cellEditor>
@@ -71,7 +71,7 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <p-dropdown [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-dropdown>
+                <p-select [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-select>
               </ng-template>
               <ng-template #output>{{ bonusTypeLabel(bonus.type) }}</ng-template>
             </p-cellEditor>

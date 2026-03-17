@@ -1,10 +1,10 @@
 import { Component, Input, signal } from '@angular/core';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
-import { MenuItem, PrimeTemplate } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
-import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { EditorAction } from '@app/models/EntityActionData';
 import { RollInput } from '@app/campaigns/models/RollInput';
 import { SimulateCdInput } from '@app/campaigns/models/SimulateCdInput';
@@ -16,12 +16,11 @@ import { CampaignTemplate, SkillTemplate } from '@app/campaigns/models/campaign.
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
-import { ButtonDirective, ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
-import { Popover, PopoverModule } from 'primeng/popover';
-import { TieredMenu, TieredMenuModule } from 'primeng/tieredmenu';
-import { Tooltip, TooltipModule } from 'primeng/tooltip';
-import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { PopoverModule } from 'primeng/popover';
+import { TieredMenu } from 'primeng/tieredmenu';
+import { Tooltip } from 'primeng/tooltip';
 import { RollDiceComponent } from '@app/campaign-session/scene-rolls/roll-dice/roll-dice.component';
 import { SimulateCdComponent } from '@app/campaign-session/scene-rolls/simulate-cd/simulate-cd.component';
 import { AttackComponent } from '@app/campaign-session/creature-actions/attack/attack.component';
@@ -46,7 +45,6 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     AttackComponent,
     VitalityManagerComponent,
     NgForOf,
-    SidebarModule,
     DrawerModule,
     InputGroupAddonModule,
   ],
