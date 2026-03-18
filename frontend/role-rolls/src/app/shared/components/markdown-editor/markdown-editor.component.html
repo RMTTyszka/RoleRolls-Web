@@ -1,0 +1,29 @@
+<div
+  class="rr-markdown-editor"
+  [style.--rr-markdown-editor-min-height]="minHeight"
+>
+  <div class="rr-markdown-editor__toolbar">
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyHeading(1)" [disabled]="disabled" title="Heading 1">H1</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyHeading(2)" [disabled]="disabled" title="Heading 2">H2</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyBold()" [disabled]="disabled" title="Bold"><strong>B</strong></button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyItalic()" [disabled]="disabled" title="Italic"><em>I</em></button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyLink()" [disabled]="disabled" title="Link">Link</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyBulletList()" [disabled]="disabled" title="Bullet List">UL</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyOrderedList()" [disabled]="disabled" title="Ordered List">OL</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyQuote()" [disabled]="disabled" title="Quote">Quote</button>
+    <button type="button" class="rr-markdown-editor__tool" (click)="applyCodeBlock()" [disabled]="disabled" title="Code Block">Code</button>
+  </div>
+
+  <div class="rr-markdown-editor__content" [class.rr-markdown-editor__content--split]="showPreview">
+    <div class="rr-markdown-editor__panel rr-markdown-editor__panel--editor">
+      <div #editorHost class="rr-markdown-editor__host"></div>
+    </div>
+
+    @if (showPreview) {
+      <div class="rr-markdown-editor__panel rr-markdown-editor__panel--preview">
+        <div class="rr-markdown-editor__preview-title">Preview</div>
+        <rr-markdown-viewer [markdown]="value"></rr-markdown-viewer>
+      </div>
+    }
+  </div>
+</div>

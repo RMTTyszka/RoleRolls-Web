@@ -27,12 +27,11 @@
             </div>
             <p-floatlabel variant="in">
               @if (isEditing($index)) {
-                <p-editor
-                  [style]="{ height: '320px' }"
+                <rr-markdown-editor
                   id="gameDescription-{{ $index }}"
                   formControlName="gameDescription"
-                  class="w-full"
-                ></p-editor>
+                  minHeight="320px"
+                ></rr-markdown-editor>
               } @else {
                 <div
                   class="w-full border border-surface-200 dark:border-surface-700 rounded-md p-3"

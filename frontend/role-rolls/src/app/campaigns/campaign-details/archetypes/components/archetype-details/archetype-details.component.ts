@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Editor } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
+import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'rr-archetype-details',
   imports: [
-    Editor,
-    FormsModule
+    FormsModule,
+    MarkdownEditorComponent
   ],
   templateUrl: './archetype-details.component.html',
   styleUrl: './archetype-details.component.scss'

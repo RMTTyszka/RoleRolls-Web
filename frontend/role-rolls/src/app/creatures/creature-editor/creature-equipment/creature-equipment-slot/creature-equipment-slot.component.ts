@@ -11,7 +11,6 @@ import { NgIf, NgStyle } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
-import _ from 'lodash';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import {InputGroup} from 'primeng/inputgroup';
 
@@ -56,7 +55,7 @@ export class CreatureEquipmentSlotComponent {
   }
 
   public getItems() {
-    this.item = this.creatureForm.get('equipment.' + _.camelCase(this.slot)).value ?? {} as ItemModel;
+    this.item = this.creatureForm.get(`equipment.${this.toCamelCase(this.slot)}`).value ?? {} as ItemModel;
   }
   public subribeToValueChanges() {
     this.subscriptionManager.add('itensArray', this.creatureForm.get('equipment').valueChanges
@@ -71,5 +70,16 @@ export class CreatureEquipmentSlotComponent {
       .subscribe(() => {
         this.creatureDetailsService.refreshCreature.next(this.creatureId);
       });
+  }
+
+  private toCamelCase(value: string): string {
+    return (value ?? '')
+      .replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '')
+      .split(/[^a-zA-Z0-9]+/)
+      .filter(Boolean)
+      .map((part, index) => index === 0
+        ? part.charAt(0).toLowerCase() + part.slice(1)
+        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join('');
   }
 }

@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  --rr-markdown-editor-radius: var(--p-form-field-border-radius);
+  --rr-markdown-editor-font-family: "IBM Plex Mono", "Fira Code", Consolas, monospace;
+  --rr-markdown-editor-content-padding: 1rem;
+  --rr-markdown-editor-focus-outline-width: 2px;
+  --rr-markdown-editor-focus-outline-offset: 2px;
+  --rr-markdown-editor-border-color: var(--p-form-field-border-color);
+  --rr-markdown-editor-background: var(--p-form-field-background);
+  --rr-markdown-editor-toolbar-background: var(--p-content-background);
+  --rr-markdown-editor-tool-background: var(--p-form-field-background);
+  --rr-markdown-editor-tool-border-color: var(--p-form-field-border-color);
+  --rr-markdown-editor-tool-hover-background: color-mix(in srgb, var(--p-primary-color) 10%, var(--p-form-field-background));
+  --rr-markdown-editor-tool-hover-border-color: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-form-field-border-color));
+  --rr-markdown-editor-text-color: var(--p-form-field-color);
+  --rr-markdown-editor-muted-color: var(--p-text-muted-color);
+  --rr-markdown-editor-caret-color: var(--p-primary-color);
+  --rr-markdown-editor-gutter-background: color-mix(in srgb, var(--p-form-field-background) 72%, var(--p-content-background) 28%);
+  --rr-markdown-editor-gutter-color: color-mix(in srgb, var(--p-text-color) 55%, transparent);
+  --rr-markdown-editor-active-line-background: color-mix(in srgb, var(--p-primary-color) 10%, transparent);
+  --rr-markdown-editor-active-gutter-background: color-mix(in srgb, var(--p-primary-color) 14%, var(--p-form-field-background));
+  --rr-markdown-editor-selection-background: color-mix(in srgb, var(--p-primary-color) 22%, transparent);
+  --rr-markdown-editor-focus-outline-color: color-mix(in srgb, var(--p-primary-color) 24%, transparent);
+  --rr-markdown-editor-preview-background: var(--p-content-background);
+  --rr-markdown-editor-preview-title-color: var(--p-primary-color);
+  --rr-markdown-editor-preview-title-font: 'IM Fell English SC', fantasy;
+}
+
+.rr-markdown-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rr-markdown-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border: 1px solid var(--rr-markdown-editor-border-color);
+  border-radius: var(--rr-markdown-editor-radius);
+  background: var(--rr-markdown-editor-toolbar-background);
+}
+
+.rr-markdown-editor__tool {
+  border: 1px solid var(--rr-markdown-editor-tool-border-color);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: var(--rr-markdown-editor-tool-background);
+  color: var(--rr-markdown-editor-text-color);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.rr-markdown-editor__tool:hover:not(:disabled) {
+  background: var(--rr-markdown-editor-tool-hover-background);
+  border-color: var(--rr-markdown-editor-tool-hover-border-color);
+  transform: translateY(-1px);
+}
+
+.rr-markdown-editor__tool:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.rr-markdown-editor__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.rr-markdown-editor__content--split {
+  grid-template-columns: 1fr;
+}
+
+.rr-markdown-editor__panel {
+  min-width: 0;
+}
+
+.rr-markdown-editor__host {
+  min-height: var(--rr-markdown-editor-min-height, 320px);
+}
+
+.rr-markdown-editor__panel--preview {
+  min-height: var(--rr-markdown-editor-min-height, 320px);
+  padding: 1rem;
+  border: 1px solid var(--rr-markdown-editor-border-color);
+  border-radius: var(--rr-markdown-editor-radius);
+  background: var(--rr-markdown-editor-preview-background);
+}
+
+.rr-markdown-editor__preview-title {
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rr-markdown-editor-preview-title-color);
+  font-family: var(--rr-markdown-editor-preview-title-font);
+}
+
+@media (min-width: 960px) {
+  .rr-markdown-editor__content--split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: start;
+  }
+}

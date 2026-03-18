@@ -9,9 +9,9 @@ import { Textarea } from 'primeng/textarea';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import {Campaign} from '@app/campaigns/models/campaign';
-import { Editor } from 'primeng/editor';
-import { Button, ButtonDirective } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/markdown-viewer.component';
+import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'rr-archetype-power-descriptions',
@@ -20,7 +20,7 @@ import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/
     ReactiveFormsModule,
     FloatLabel,
     Textarea,
-    Editor,
+    MarkdownEditorComponent,
     MarkdownViewerComponent,
     ButtonDirective
   ],

@@ -21,7 +21,6 @@ import {ButtonDirective} from 'primeng/button';
 import {IftaLabelModule} from 'primeng/iftalabel';
 import {PagedOutput} from '@app/models/PagedOutput';
 import {CreatureDetailsService} from '@app/creatures/creature-details.service';
-import {subtract} from 'lodash';
 
 @Component({
   selector: 'rr-encounter-editor',
@@ -168,7 +167,7 @@ export class EncounterEditorComponent {
   }
 
   private async editCreature(id: string) {
-    const creature = await firstValueFrom(this.creatureDetailsService.openCreatureEditor(this.campaign, id, CreatureCategory.Enemy, EditorAction.update));
+    await firstValueFrom(this.creatureDetailsService.openCreatureEditor(this.campaign, id, CreatureCategory.Enemy, EditorAction.update));
   }
 }
 

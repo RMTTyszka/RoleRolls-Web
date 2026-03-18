@@ -1,22 +1,18 @@
 import { Route, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { CampaignDetailsComponent } from './campaigns/campaign-details/campaign-details/campaign-details.component';
-import { CampaignCreatorComponent } from './campaigns/campaign-creator/campaign-creator.component';
 import { campaignResolver } from './campaigns/campaign-details/services/campaign.resolver';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => HomeComponent
+    loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent)
   } as Route,
   {
     path: 'login',
-    loadComponent: () => LoginComponent
+    loadComponent: () => import('./authentication/login/login.component').then((m) => m.LoginComponent)
   } as Route,
   {
     path: 'campaigns/:campaignId',
-    loadComponent: () => CampaignDetailsComponent,
+    loadComponent: () => import('./campaigns/campaign-details/campaign-details/campaign-details.component').then((m) => m.CampaignDetailsComponent),
     resolve: {
       campaign: campaignResolver
     }
@@ -30,6 +26,6 @@ export const routes: Routes = [
   } as Route,
   {
     path: 'newCampaign',
-    loadComponent: () => CampaignCreatorComponent
+    loadComponent: () => import('./campaigns/campaign-creator/campaign-creator.component').then((m) => m.CampaignCreatorComponent)
   } as Route,
 ];

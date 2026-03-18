@@ -13,12 +13,16 @@ import DOMPurify from 'dompurify';
   `,
   styles: [
     `
-    :host { display: block; }
+    :host {
+      display: block;
+      --rr-markdown-block-background: color-mix(in srgb, var(--p-content-background) 72%, var(--p-form-field-background) 28%);
+      --rr-markdown-block-radius: var(--p-form-field-border-radius);
+    }
     .rr-markdown { height: 100%; overflow: auto; }
     .rr-markdown h1, .rr-markdown h2, .rr-markdown h3 { margin: 0.5rem 0; }
     .rr-markdown p { margin: 0.25rem 0; }
-    .rr-markdown pre { background: #0f172a0d; padding: 0.5rem; border-radius: 0.25rem; }
-    .rr-markdown code { background: #0f172a0d; padding: 0 0.25rem; border-radius: 0.25rem; }
+    .rr-markdown pre { background: var(--rr-markdown-block-background); padding: 0.5rem; border-radius: var(--rr-markdown-block-radius); }
+    .rr-markdown code { background: var(--rr-markdown-block-background); padding: 0 0.25rem; border-radius: var(--rr-markdown-block-radius); }
     .rr-markdown ul, .rr-markdown ol { padding-left: 1.25rem; }
     `
   ]
