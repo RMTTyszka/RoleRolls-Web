@@ -1,16 +1,23 @@
-import { ChangeDetectorRef, Component, effect, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, signal } from '@angular/core';
 import { Panel } from 'primeng/panel';
 import { RadioButton } from 'primeng/radiobutton';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
 import { InputText } from 'primeng/inputtext';
 import { NgForOf } from '@angular/common';
 import { RRColumns } from '@app/components/grid/grid.component';
-import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app/models/itens/ItemTemplateModel';
+import {
+  armorCategoryLabel,
+  ArmorCategory,
+  AnyItemTemplateModel,
+  ItemTemplateModel,
+  ItemType,
+  weaponCategoryLabel,
+  WeaponCategory
+} from '@app/models/itens/ItemTemplateModel';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Creature } from '@app/campaigns/models/creature';
 import { CampaignItemTemplatesService } from '@app/campaigns/campaign-details/campaign-itens/services/campaign-item-templates.service';
 import { ItemInstanceService } from '@services/itens/instances/item-instance.service';
-import { LazyLoadEvent } from 'primeng/api';
 import { InstantiateItemInput } from '@app/models/itens/instances/instantiate-item-input';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import {
@@ -34,10 +41,11 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   styleUrl: './item-instantiator.component.scss'
 })
 export class ItemInstantiatorComponent {
+  private readonly defaultRows = 15;
   public columns: RRColumns[];
   public loading = false;
-  public itemType = signal(ItemType.Consumable);
-  public data: ItemTemplateModel[] = [];
+  public itemType = signal<ItemType | null>(ItemType.Consumable);
+  public data: AnyItemTemplateModel[] = [];
   public totalCount: number;
   private creature: Creature;
 
@@ -55,12 +63,13 @@ export class ItemInstantiatorComponent {
               private detailsServiceService: CampaignSessionService,
               private itemInstantiatorService: ItemInstanceService,
   ) {
-    this.listenToItemTypeChanges();
   }
   ngOnInit() {
     if (this.config?.data) {
       this.creature = this.config.data['creature'] as Creature;
     }
+    this.loading = true;
+    this.get('', 0, this.defaultRows);
     this.columns = [
       {
         header: 'Name',
@@ -85,29 +94,27 @@ export class ItemInstantiatorComponent {
         property: 'category',
         format: (item: ItemTemplateModel, value: WeaponCategory | ArmorCategory) => {
           if (item.type === ItemType.Weapon) {
-            switch (value) {
-              case WeaponCategory.Light:
-                return 'Light';
-              case WeaponCategory.Medium:
-                return 'Medium';
-              case WeaponCategory.Heavy:
-                return 'Heavy';
-            }
+            return weaponCategoryLabel(value as WeaponCategory);
           }
           if (item.type === ItemType.Armor) {
-            switch (value) {
-              case ArmorCategory.Light:
-                return 'Light';
-              case ArmorCategory.Medium:
-                return 'Medium';
-              case ArmorCategory.Heavy:
-                return 'Heavy';
-            }
+            return armorCategoryLabel(value as ArmorCategory);
           }
           return '';
         }
       } as RRColumns,
+      {
+        header: 'Range',
+        property: 'range',
+        format: (item: AnyItemTemplateModel, value: string) => {
+          return item.type === ItemType.Weapon ? value || '' : '';
+        }
+      } as RRColumns,
     ];
+  }
+  public onItemTypeChange(itemType: ItemType | null) {
+    this.itemType.set(itemType);
+    this.loading = true;
+    this.get('', 0, this.defaultRows);
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
     this.service.list(this.detailsServiceService.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
@@ -132,14 +139,15 @@ export class ItemInstantiatorComponent {
     return value;
   }
   onLazyLoadEvent(event: TableLazyLoadEvent) {
+    if (!event || Object.keys(event).length === 0) {
+      return;
+    }
+
     this.loading = true;
     this.cdr.detectChanges();
-    this.get('', event.first / event.rows, event.rows);
-  }
-  private listenToItemTypeChanges() {
-    effect(() => {
-      this.get('', 0, 25);
-    });
+    const rows = event.rows ?? this.defaultRows;
+    const first = event.first ?? 0;
+    this.get('', first / rows, rows);
   }
 
   public rowSelected(event: TableRowSelectEvent) {

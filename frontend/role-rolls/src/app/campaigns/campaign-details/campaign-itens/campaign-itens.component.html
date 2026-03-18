@@ -1,16 +1,17 @@
 <div class="flex flex-wrap gap-4">
   <div class="flex items-center" *ngFor="let itemTypeOption of itemTypesOptions">
     <p-radioButton
-      [name]="itemTypeOption.name"
+      name="campaignItemType"
+      [inputId]="'campaign-item-type-' + itemTypeOption.name"
       [value]="itemTypeOption.value"
       [ngModel]="itemType()"
-      (ngModelChange)="itemType.set($event)"/>
-    <label [for]="itemTypeOption.value" class="ml-2">{{ itemTypeOption.name }}</label>
+      (ngModelChange)="onItemTypeChange($event)"/>
+    <label [for]="'campaign-item-type-' + itemTypeOption.name" class="ml-2">{{ itemTypeOption.name }}</label>
   </div>
 </div>
 <div class="grid gap-4 lg:grid-cols-2">
   <div class="min-w-0">
-    <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [lazyLoadOnInit]="true" [lazy]="true" class="p-datatable-sm"
+    <p-table #tt [value]="data" [paginator]="true" selectionMode="single" [rows]="15" [first]="first" [lazyLoadOnInit]="false" [lazy]="true" class="p-datatable-sm"
              (onLazyLoad)="onLazyLoadEvent($event)" (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount" [loading]="loading"
     >
       <ng-template #caption>
@@ -55,7 +56,7 @@
     </p-table>
   </div>
   <div class="min-w-0">
-    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" [itemType]="itemType" (saved)="get(null, 0, 25)"></rr-campaign-item-creator>
+    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" [itemType]="itemType" (saved)="refreshList()"></rr-campaign-item-creator>
   </div>
 </div>
 

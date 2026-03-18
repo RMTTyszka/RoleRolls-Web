@@ -14,11 +14,23 @@
       <label for="itemTemplateName">Item Name</label>
       <input id="itemTemplateName" [required]="true" pInputText formControlName="name" type="text">
     </div>
-    <div *ngIf="itemType() === itemTypeEnum.Weapon" class="flex flex-col gap-2">
+    <div *ngIf="currentItemType === itemTypeEnum.Weapon" class="flex flex-col gap-2">
       <label for="weaponCategory">Category</label>
       <p-select id="weaponCategory"  formControlName="category" [options]="weaponCategories" optionValue="value" optionLabel="key"/>
     </div>
-    <div *ngIf="itemType() === itemTypeEnum.Armor" class="flex flex-col gap-2">
+    <div *ngIf="currentItemType === itemTypeEnum.Weapon" class="flex flex-col gap-2">
+      <label for="weaponDamageType">Damage Type</label>
+      <p-select id="weaponDamageType" formControlName="damageType" [options]="weaponDamageTypes" optionValue="value" optionLabel="key"/>
+    </div>
+    <div *ngIf="currentItemType === itemTypeEnum.Weapon" class="flex items-center gap-2">
+      <p-checkbox formControlName="isRanged" inputId="weaponIsRanged" [binary]="true"></p-checkbox>
+      <label for="weaponIsRanged">Ranged weapon</label>
+    </div>
+    <div *ngIf="currentItemType === itemTypeEnum.Weapon" class="flex flex-col gap-2">
+      <label for="weaponRange">Range</label>
+      <input id="weaponRange" pInputText formControlName="range" type="text" [disabled]="!form.get('isRanged')?.value" placeholder="Ex: 80/320 ft">
+    </div>
+    <div *ngIf="currentItemType === itemTypeEnum.Armor" class="flex flex-col gap-2">
       <label for="armorCategory">Category</label>
       <p-select id="armorCategory"  formControlName="category" [options]="armorCategories" optionValue="value" optionLabel="key"/>
     </div>

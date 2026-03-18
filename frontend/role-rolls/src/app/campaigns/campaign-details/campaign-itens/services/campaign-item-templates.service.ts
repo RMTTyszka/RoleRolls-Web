@@ -6,6 +6,7 @@ import { RRColumns } from '@app/components/grid/grid.component';
 import { RR_API } from '@app/tokens/loh.api';
 import { PagedOutput } from '@app/models/PagedOutput';
 import {
+  AnyItemTemplateModel,
   ArmorTemplateModel,
   ItemTemplateModel,
   ItemType,
@@ -38,8 +39,9 @@ export class CampaignItemTemplatesService {
     } as ItemTemplateModel;
     return of<ItemTemplateModel>(campaignModel);
   }
-   get(itemId: string): Observable<ItemTemplateModel> {
-    return this.httpClient.get<ItemTemplateModel>(`${this.completePath(this.path)}/${itemId}`);
+
+  get(itemId: string, itemType: ItemType | null = null): Observable<AnyItemTemplateModel> {
+    return this.httpClient.get<AnyItemTemplateModel>(`${this.completePath(this.resolvePath(itemType))}/${itemId}`);
   }
 
   public addItem(item: ItemTemplateModel): Observable<never> {
@@ -48,17 +50,17 @@ export class CampaignItemTemplatesService {
   public updateItem(itemId: string, item: ItemTemplateModel): Observable<never> {
     return this.httpClient.put<never>(`${this.completePath(this.resolvePath(ItemType.Consumable))}/${itemId}`, item);
   }
-  public removeItem(itemId: string): Observable<never> {
-    return this.httpClient.delete<never>(`${this.completePath(this.resolvePath(ItemType.Consumable))}/${itemId}`);
+  public removeItem(itemId: string, itemType: ItemType): Observable<never> {
+    return this.httpClient.delete<never>(`${this.completePath(this.resolvePath(itemType))}/${itemId}`);
   }
 
-    list(campaingId: string, itemType: ItemType, filter: string, skipCount: number, maxResultCount: number) {
+    list(campaingId: string, itemType: ItemType | null, filter: string, skipCount: number, maxResultCount: number) {
     const params = new HttpParams()
       .set('filter', filter)
       .set('skipCount', skipCount)
       .set('maxResultCount', maxResultCount)
       .set('campaignId', campaingId);
-    return this.httpClient.get<PagedOutput<ItemTemplateModel>>(`${this.completePath(this.resolvePath(itemType))}`, {
+    return this.httpClient.get<PagedOutput<AnyItemTemplateModel>>(`${this.completePath(this.resolvePath(itemType))}`, {
       params
     });
   }
@@ -78,7 +80,7 @@ export class CampaignItemTemplatesService {
     return this.httpClient.put<never>(`${this.serverUrl}armor-templates/${id}`, template);
   }
 
-  private resolvePath(itemType: ItemType) {
+  private resolvePath(itemType: ItemType | null): string {
     switch (itemType) {
       case null:
         return this.path;
@@ -88,7 +90,8 @@ export class CampaignItemTemplatesService {
         return 'weapon-templates';
       case ItemType.Armor:
         return 'armor-templates';
-
+      default:
+        return this.path;
     }
   }
 }

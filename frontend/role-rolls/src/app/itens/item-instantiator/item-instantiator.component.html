@@ -2,16 +2,18 @@
   <div class="flex flex-wrap gap-3">
     <div class="flex items-center" *ngFor="let itemTypeOption of itemTypesOptions">
       <p-radioButton
-        [name]="itemTypeOption.name"
+        name="itemInstantiatorType"
+        [inputId]="'item-instantiator-type-' + itemTypeOption.name"
         [value]="itemTypeOption.value"
         [ngModel]="itemType()"
-        (ngModelChange)="itemType.set($event)"
+        (ngModelChange)="onItemTypeChange($event)"
       />
+      <label [for]="'item-instantiator-type-' + itemTypeOption.name" class="ml-2">{{ itemTypeOption.name }}</label>
     </div>
   </div>
   <p-table #tt [value]="data" [paginator]="true"
            [tableStyle]="{ 'min-width': '100rem'}" selectionMode="single" [rows]="15"
-           [lazyLoadOnInit]="true" [lazy]="true"
+           [lazyLoadOnInit]="false" [lazy]="true"
            (onLazyLoad)="onLazyLoadEvent($event)"
            (onRowSelect)="rowSelected($event)" [totalRecords]="totalCount"
            [loading]="loading" class="p-datatable-sm"

@@ -1,4 +1,4 @@
-import { Component, effect, Input, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RRColumns } from '@app/components/grid/grid.component';
 import { EditorAction } from '@app/models/EntityActionData';
@@ -15,7 +15,15 @@ import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { CampaignItemCreatorComponent } from './campaign-item-creator/campaign-item-creator.component';
 import {ActivatedRoute} from '@angular/router';
-import { ArmorCategory, ItemTemplateModel, ItemType, WeaponCategory } from '@app/models/itens/ItemTemplateModel';
+import {
+  armorCategoryLabel,
+  ArmorCategory,
+  AnyItemTemplateModel,
+  ItemTemplateModel,
+  ItemType,
+  weaponCategoryLabel,
+  WeaponCategory
+} from '@app/models/itens/ItemTemplateModel';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
@@ -39,13 +47,15 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   styleUrl: './campaign-itens.component.scss'
 })
 export class CampaignItensComponent {
-  public data: ItemTemplateModel[] = [];
+  private readonly defaultRows = 15;
+  public first = 0;
+  public data: AnyItemTemplateModel[] = [];
   public totalCount: number = 0;
   public loading: boolean = true;
   public columns: RRColumns[] = [];
   public actions: RRAction<ItemTemplateModel>[] = [];
   public campaign!: Campaign;
-  public itemType = signal(ItemType.Consumable);
+  public itemType = signal<ItemType | null>(ItemType.Consumable);
   public itemTypeEnum = ItemType;
   public itemTypesOptions = [
     {name: 'All', value: null},
@@ -63,15 +73,23 @@ export class CampaignItensComponent {
     private detailsServiceService: CampaignEditorDetailsServiceService,
     private route: ActivatedRoute,
   ) {
-    this.listenToItemTypeChanges()
     this.initGrid();
   }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
+      this.first = 0;
+      this.loading = true;
+      this.get('', this.first, this.defaultRows);
     });
 
+  }
+  public onItemTypeChange(itemType: ItemType | null) {
+    this.itemType.set(itemType);
+    this.first = 0;
+    this.loading = true;
+    this.get('', this.first, this.defaultRows);
   }
   public rowSelected(event: TableRowSelectEvent) {
     this.detailsServiceService.itemTemplate.next(event.data);
@@ -90,6 +108,10 @@ export class CampaignItensComponent {
     return value;
   }
   public get(filter?: string, skipCount?: number, maxResultCount?: number) {
+    if (!this.campaign) {
+      return;
+    }
+
     this.service.list(this.campaign.id, this.itemType(), filter, skipCount, maxResultCount).subscribe(response => {
       this.data = response.items;
       this.totalCount = response.totalCount;
@@ -101,13 +123,20 @@ export class CampaignItensComponent {
     });
   }
   onLazyLoadEvent(event: TableLazyLoadEvent) {
+    if (!this.campaign || !event || Object.keys(event).length === 0) {
+      return;
+    }
+
     this.loading = true;
-    this.get('', event?.first / event?.rows, event?.rows);
+    const rows = event.rows ?? this.defaultRows;
+    const first = event.first ?? 0;
+    this.first = first;
+    this.get('', first, rows);
   }
-  private listenToItemTypeChanges() {
-    effect(() => {
-      this.get('', 0, 25);
-    });
+
+  public refreshList() {
+    this.loading = true;
+    this.get('', this.first, this.defaultRows);
   }
 
   private initGrid() {
@@ -135,26 +164,19 @@ export class CampaignItensComponent {
         property: 'category',
         format: (item: ItemTemplateModel, value: WeaponCategory | ArmorCategory) => {
           if (item.type === ItemType.Weapon) {
-            switch (value) {
-              case WeaponCategory.Light:
-                return 'Light';
-              case WeaponCategory.Medium:
-                return 'Medium';
-              case WeaponCategory.Heavy:
-                return 'Heavy';
-            }
+            return weaponCategoryLabel(value as WeaponCategory);
           }
           if (item.type === ItemType.Armor) {
-            switch (value) {
-              case ArmorCategory.Light:
-                return 'Light';
-              case ArmorCategory.Medium:
-                return 'Medium';
-              case ArmorCategory.Heavy:
-                return 'Heavy';
-            }
+            return armorCategoryLabel(value as ArmorCategory);
           }
-          return 'Error';
+          return '';
+        }
+      } as RRColumns,
+      {
+        header: 'Range',
+        property: 'range',
+        format: (item: AnyItemTemplateModel, value: string) => {
+          return item.type === ItemType.Weapon ? value || '' : '';
         }
       } as RRColumns,
     ];
@@ -162,7 +184,7 @@ export class CampaignItensComponent {
       {
         icon: 'pi pi-times-circle',
         callBack: ((entity: ItemTemplateModel) => {
-          this.service.removeItem(entity.id).subscribe(() => this.get(null, 0, 25));
+          this.service.removeItem(entity.id, entity.type).subscribe(() => this.refreshList());
         }),
         condition: ((entity: ItemTemplateModel) => {
           return this.isMaster(this.campaign.masterId);
