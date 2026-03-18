@@ -1,5 +1,5 @@
-<div *ngIf="form()" class="p-4 w-full">
-  <form [formGroup]="form()" class="w-full">
+<div *ngIf="form() as attackForm" class="p-4 w-full">
+  <form [formGroup]="attackForm" class="w-full">
     <rr-form-field-wrapper>
       <ng-template fieldTitle="Slot">
         <p-select id="slot-input" formControlName="slot" [options]="slotOptions" optionLabel="label" optionValue="value" class="w-full">
@@ -34,11 +34,11 @@
       </ng-template>
 
       <ng-template fieldTitle="Defense">
-        <rr-property-selector id="defense-input" [campaign]="campaign()"
-                              [propertyType]="[propertyType.Defense]"
-                              formControlName="defense"
-                              class="w-full">
-        </rr-property-selector>
+        <rr-property-by-id-selector id="defense-input" [campaign]="campaign()"
+                                    [propertyType]="[propertyType.Defense]"
+                                    formControlName="defense"
+                                    class="w-full">
+        </rr-property-by-id-selector>
       </ng-template>
 
       <ng-template fieldTitle="Vitality">
@@ -62,6 +62,6 @@
   </form>
 
   <div class="mt-6 w-full">
-    <button pButton (click)="attack()" label="Attack" class="w-full danger-color" [disabled]="!form().valid"></button>
+    <button pButton (click)="attack()" label="Attack" class="w-full danger-color" [disabled]="!attackForm.valid"></button>
   </div>
 </div>

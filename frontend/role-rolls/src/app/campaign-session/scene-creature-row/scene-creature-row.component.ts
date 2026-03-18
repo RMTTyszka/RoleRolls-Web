@@ -12,7 +12,12 @@ import { TakeDamageInput } from '@app/campaigns/models/TakeDamangeInput';
 import { Creature } from '@app/campaigns/models/creature';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { CampaignsService } from '@app/campaigns/services/campaigns.service';
-import { CampaignTemplate, SkillTemplate } from '@app/campaigns/models/campaign.template';
+import {
+  AttributeTemplate,
+  CampaignTemplate,
+  SkillTemplate,
+  SpecificSkillsTemplate
+} from '@app/campaigns/models/campaign.template';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
@@ -135,6 +140,8 @@ export class SceneCreatureRowComponent {
     this.subscriptionManager.add('campaignLoaded', this.detailsService.campaignLoaded.subscribe((campaign: Campaign) => {
       if (campaign) {
         this.campaign = campaign;
+        this.rollOptions = [];
+        this.simluateCdOptions = [];
         this.populateRollOptions();
         this.populateSimulateCdOptions();
       }
@@ -160,86 +167,94 @@ export class SceneCreatureRowComponent {
 
 
   private populateRollOptions() {
-    this.creatureTemplate.attributes.forEach(attribute => {
-      const attributeMenu = {
-        label: attribute.name,
-        items: [
-          {
-            label: `Roll ${attribute.name}`,
-            command: (event) => {
-              this.roll(this.selectedCreatureForRoll, PropertyType.Attribute, attribute.id);
-            }
-          } as MenuItem
-        ]
-      } as MenuItem;
-      const skills = this.creatureTemplate.skills.filter(skill => skill.attributeId === attribute.id) as SkillTemplate[];
-      skills.forEach(skill => {
-        const skillMenu = {
-          label: skill.name,
-          items: [
-            {
-              label: `Roll ${skill.name}`,
-              command: (event) => {
-                this.roll(this.selectedCreatureForRoll, PropertyType.Skill, skill.id);
-              }
-            } as MenuItem
-          ]
-        } as MenuItem;
-        skill.specificSkillTemplates.forEach(specificSkill => {
-          const specificSkillMenu = {
-            label: specificSkill.name,
-            command: (event) => {
-              this.roll(this.selectedCreatureForRoll, PropertyType.SpecificSkill, specificSkill.id);
-            }
-          } as MenuItem;
-          skillMenu.items.push(specificSkillMenu);
-        });
-        attributeMenu.items.push(skillMenu);
-      });
-      this.rollOptions.push(attributeMenu);
+    this.rollOptions = this.buildAttributeMenus((propertyType, propertyId, attributeId) => {
+      this.roll(this.selectedCreatureForRoll, propertyType, propertyId, attributeId);
     });
   }
   private populateSimulateCdOptions() {
-    this.creatureTemplate.attributes.forEach(attribute => {
-      const attributeMenu = {
-        label: attribute.name,
-        items: [
-          {
-            label: `Roll ${attribute.name}`,
-            command: (event) => {
-              this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.Attribute, attribute.id);
-            }
-          } as MenuItem
-        ]
-      } as MenuItem;
-      const skills = this.creatureTemplate.skills.filter(skill => skill.attributeId === attribute.id) as SkillTemplate[];
-      skills.forEach(skill => {
-        const skillMenu = {
-          label: skill.name,
-          items: [
-            {
-              label: `Roll ${skill.name}`,
-              command: (event) => {
-                this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.Skill, skill.id);
-              }
-            } as MenuItem
-          ]
-        } as MenuItem;
-        skill.specificSkillTemplates.forEach(specificSkill => {
-          const specificSkillMenu = {
-            label: specificSkill.name,
-            command: (event) => {
-              this.simulateCd(this.selectedCreatureForSimulateCd, PropertyType.SpecificSkill, specificSkill.id);
-            }
-          } as MenuItem;
-          skillMenu.items.push(specificSkillMenu);
-        });
-        attributeMenu.items.push(skillMenu);
-      });
-      this.simluateCdOptions.push(attributeMenu);
+    this.simluateCdOptions = this.buildAttributeMenus((propertyType, propertyId) => {
+      this.simulateCd(this.selectedCreatureForSimulateCd, propertyType, propertyId);
     });
   }
-  private roll(creature: Creature, propertyType: PropertyType, propertyId: string) {
+  private buildAttributeMenus(
+    commandFactory: (propertyType: PropertyType, propertyId: string, attributeId?: string | null) => void
+  ): MenuItem[] {
+    return this.creatureTemplate.attributes
+      .map(attribute => this.buildAttributeMenu(attribute, commandFactory))
+      .filter((menu): menu is MenuItem => menu !== null);
+  }
+
+  private buildAttributeMenu(
+    attribute: AttributeTemplate,
+    commandFactory: (propertyType: PropertyType, propertyId: string, attributeId?: string | null) => void
+  ): MenuItem | null {
+    const items: MenuItem[] = [{
+      label: `Roll ${attribute.name}`,
+      command: () => {
+        commandFactory(PropertyType.Attribute, attribute.id, attribute.id);
+      }
+    }];
+
+    for (const skill of this.creatureTemplate.skills) {
+      const skillMenu = this.buildSkillMenuForAttribute(skill, attribute.id, commandFactory);
+      if (skillMenu) {
+        items.push(skillMenu);
+      }
+    }
+
+    if (items.length === 0) {
+      return null;
+    }
+
+    return {
+      label: attribute.name,
+      items
+    };
+  }
+
+  private buildSkillMenuForAttribute(
+    skill: SkillTemplate,
+    attributeId: string,
+    commandFactory: (propertyType: PropertyType, propertyId: string, attributeId?: string | null) => void
+  ): MenuItem | null {
+    const specificSkills = skill.specificSkillTemplates.filter(specificSkill =>
+      this.resolveSpecificSkillTemplateAttributeId(skill, specificSkill) === attributeId
+    );
+
+    if (skill.attributeId !== attributeId && specificSkills.length === 0) {
+      return null;
+    }
+
+    const items: MenuItem[] = [{
+      label: `Roll ${skill.name}`,
+      command: () => {
+        commandFactory(PropertyType.Skill, skill.id, attributeId);
+      }
+    }];
+
+    for (const specificSkill of specificSkills) {
+      items.push({
+        label: specificSkill.name,
+        command: () => {
+          commandFactory(PropertyType.SpecificSkill, specificSkill.id, attributeId);
+        }
+      });
+    }
+
+    return {
+      label: skill.name,
+      items
+    };
+  }
+
+  private resolveSpecificSkillTemplateAttributeId(
+    skill: SkillTemplate,
+    specificSkill: SpecificSkillsTemplate
+  ): string | null {
+    return specificSkill.attributeTemplateId ?? skill.attributeId ?? null;
+  }
+
+  private roll(creature: Creature, propertyType: PropertyType, propertyId: string, attributeId: string | null = null) {
     const input =  {
       property:(propertyType !== null && propertyId !== null) ? { type: propertyType, id: propertyId } as Property : null,
       creature: creature,
@@ -254,6 +269,12 @@ export class SceneCreatureRowComponent {
       input.property.id = skill.skillTemplateId;
       input.propertyName = skill.name;
       input.propertyValue = skill.value;
+      if (attributeId) {
+        input.attribute = {
+          type: PropertyType.Attribute,
+          id: attributeId
+        } as Property;
+      }
     } else if (propertyType === PropertyType.SpecificSkill) {
       const skill = creature.skills.find(s => s.specificSkills.some(m => m.specificSkillTemplateId === propertyId));
       const specificSkills = skill.specificSkills.find(m => m.specificSkillTemplateId === propertyId);

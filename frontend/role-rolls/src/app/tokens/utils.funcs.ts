@@ -10,3 +10,7 @@ export function canEditTemplate(campaign: Campaign) {
 export function canEditCampaign(campaign: Campaign) {
   return campaign.isMaster;
 }
+
+export function canEditCampaignConfiguration(campaign: Campaign) {
+  return canEditCampaign(campaign) && !campaign.campaignTemplateId;
+}

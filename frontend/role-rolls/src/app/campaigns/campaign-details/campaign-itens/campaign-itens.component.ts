@@ -25,6 +25,7 @@ import {
   WeaponCategory
 } from '@app/models/itens/ItemTemplateModel';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { canEditCampaignConfiguration } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-campaign-itens',
@@ -63,6 +64,9 @@ export class CampaignItensComponent {
     {name: 'Weapon', value: ItemType.Weapon},
     {name: 'Armor', value: ItemType.Armor},
   ];
+  public get canEdit(): boolean {
+    return Boolean(this.campaign && canEditCampaignConfiguration(this.campaign));
+  }
   public isMaster(masterId: string): boolean {
     return this.authenticationService.userId === masterId;
   }
@@ -186,8 +190,8 @@ export class CampaignItensComponent {
         callBack: ((entity: ItemTemplateModel) => {
           this.service.removeItem(entity.id, entity.type).subscribe(() => this.refreshList());
         }),
-        condition: ((entity: ItemTemplateModel) => {
-          return this.isMaster(this.campaign.masterId);
+        condition: (() => {
+          return this.canEdit;
         }),
         csClass: 'p-button-danger',
         tooltip: 'Remove'

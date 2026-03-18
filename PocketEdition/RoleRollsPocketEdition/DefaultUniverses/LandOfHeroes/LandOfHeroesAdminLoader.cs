@@ -5,9 +5,12 @@ using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Authentication.Users;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.Seeds;
 using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Infrastructure;
+using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 
@@ -109,6 +112,11 @@ public class LandOfHeroesAdminLoader : IStartupTask
         var template = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
 
         var creatures = await _dbContext.Creatures
+            .Include(creature => creature.Attributes)
+            .Include(creature => creature.Skills)
+            .ThenInclude(skill => skill.SpecificSkills)
+            .Include(creature => creature.Vitalities)
+            .Include(creature => creature.Defenses)
             .Where(creature => creature.CampaignId == campaign.Id &&
                                (creature.Id == Hero1Id ||
                                 creature.Id == Hero2Id ||
@@ -176,6 +184,8 @@ public class LandOfHeroesAdminLoader : IStartupTask
         EnsureEncounterContainsCreature(encounter, enemy1);
         EnsureEncounterContainsCreature(encounter, enemy2);
 
+        await EnsureEquipmentCatalogAsync(campaign.Id, cancellationToken);
+        await EnsureMonsterTemplatesAsync(template, campaign.Id, ownerId, cancellationToken);
         await EnsureSceneAsync(campaign.Id, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
@@ -195,6 +205,7 @@ public class LandOfHeroesAdminLoader : IStartupTask
     {
         if (existingCreatures.TryGetValue(creatureId, out var existingCreature))
         {
+            NormalizeSeedCreature(existingCreature, specificSkillPoints);
             return existingCreature;
         }
 
@@ -211,6 +222,119 @@ public class LandOfHeroesAdminLoader : IStartupTask
         existingCreatures[creatureId] = creature;
         await _dbContext.Creatures.AddAsync(creature, cancellationToken);
         return creature;
+    }
+
+    private async Task EnsureEquipmentCatalogAsync(Guid campaignId, CancellationToken cancellationToken)
+    {
+        var itemsToSeed = LandOfHeroesEquipmentCatalog.CreateItems(campaignId);
+        var itemIds = itemsToSeed.Select(item => item.Id).ToList();
+        var itemNames = itemsToSeed.Select(item => item.Name).ToList();
+
+        var existingItems = await _dbContext.ItemTemplates
+            .Where(item => item.CampaignId == campaignId &&
+                           (itemIds.Contains(item.Id) || itemNames.Contains(item.Name)))
+            .ToListAsync(cancellationToken);
+
+        var existingItemsById = existingItems.ToDictionary(item => item.Id);
+        var existingItemNames = existingItems.Select(item => item.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var item in itemsToSeed)
+        {
+            if (existingItemsById.TryGetValue(item.Id, out var existingItem))
+            {
+                UpdateSeedItem(existingItem, item);
+                continue;
+            }
+
+            if (existingItemNames.Contains(item.Name))
+            {
+                continue;
+            }
+
+            switch (item)
+            {
+                case WeaponTemplate weapon:
+                    await _dbContext.WeaponTemplates.AddAsync(weapon, cancellationToken);
+                    break;
+                case ArmorTemplate armor:
+                    await _dbContext.ArmorTemplates.AddAsync(armor, cancellationToken);
+                    break;
+                default:
+                    await _dbContext.ItemTemplates.AddAsync(item, cancellationToken);
+                    break;
+            }
+        }
+    }
+
+    private static void UpdateSeedItem(ItemTemplate existingItem, ItemTemplate seededItem)
+    {
+        existingItem.Name = seededItem.Name;
+        existingItem.Type = seededItem.Type;
+
+        if (existingItem is EquipableTemplate existingEquipable && seededItem is EquipableTemplate seededEquipable)
+        {
+            existingEquipable.Slot = seededEquipable.Slot;
+        }
+
+        if (existingItem is WeaponTemplate existingWeapon && seededItem is WeaponTemplate seededWeapon)
+        {
+            existingWeapon.Category = seededWeapon.Category;
+            existingWeapon.DamageType = seededWeapon.DamageType;
+            existingWeapon.IsRanged = seededWeapon.IsRanged;
+            existingWeapon.Range = seededWeapon.Range;
+            return;
+        }
+
+        if (existingItem is ArmorTemplate existingArmor && seededItem is ArmorTemplate seededArmor)
+        {
+            existingArmor.Category = seededArmor.Category;
+        }
+    }
+
+    private async Task EnsureMonsterTemplatesAsync(
+        CampaignTemplate template,
+        Guid campaignId,
+        Guid ownerId,
+        CancellationToken cancellationToken)
+    {
+        var monstersToSeed = LandOfHeroesMonsterCatalog.Monsters;
+        var monsterIds = monstersToSeed.Select(monster => monster.Id).ToList();
+        var monsterNames = monstersToSeed.Select(monster => monster.Name).ToList();
+        var creatureTypeNames = monstersToSeed
+            .Select(monster => monster.CreatureTypeName)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        var existingMonsterTemplates = await _dbContext.Creatures
+            .Where(creature => creature.CampaignId == campaignId &&
+                               creature.IsTemplate &&
+                               (monsterIds.Contains(creature.Id) || monsterNames.Contains(creature.Name)))
+            .Select(creature => new { creature.Id, creature.Name })
+            .ToListAsync(cancellationToken);
+
+        var existingMonsterIds = existingMonsterTemplates.Select(creature => creature.Id).ToHashSet();
+        var existingMonsterNames = existingMonsterTemplates.Select(creature => creature.Name)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var creatureTypes = await _dbContext.CreatureTypes
+            .Where(creatureType => creatureType.CampaignTemplateId == template.Id &&
+                                   creatureTypeNames.Contains(creatureType.Name))
+            .ToListAsync(cancellationToken);
+
+        var creatureTypesByName = creatureTypes.ToDictionary(creatureType => creatureType.Name,
+            StringComparer.OrdinalIgnoreCase);
+
+        foreach (var monster in monstersToSeed)
+        {
+            if (existingMonsterIds.Contains(monster.Id) || existingMonsterNames.Contains(monster.Name))
+            {
+                continue;
+            }
+
+            creatureTypesByName.TryGetValue(monster.CreatureTypeName, out var creatureType);
+            var creature = CreateMonsterTemplate(template, campaignId, ownerId, monster, creatureType);
+            await _dbContext.Creatures.AddAsync(creature, cancellationToken);
+        }
     }
 
     private static Creature CreateSeedCreature(
@@ -236,13 +360,10 @@ public class LandOfHeroesAdminLoader : IStartupTask
 
         foreach (var skill in creature.Skills)
         {
-            skill.Points = Math.Min(skill.PointsLimit, specificSkillPoints);
-
-            foreach (var specificSkill in skill.SpecificSkills)
-            {
-                specificSkill.Points = Math.Min(skill.PointsLimit, specificSkillPoints);
-            }
+            skill.Points = 0;
         }
+
+        ApplyUniformSpecificSkillPoints(creature, specificSkillPoints);
 
         foreach (var vitality in creature.Vitalities)
         {
@@ -256,6 +377,112 @@ public class LandOfHeroesAdminLoader : IStartupTask
         }
 
         return creature;
+    }
+
+    private static Creature CreateMonsterTemplate(
+        CampaignTemplate template,
+        Guid campaignId,
+        Guid ownerId,
+        LandOfHeroesMonsterSeed seed,
+        CreatureType? creatureType)
+    {
+        var creature = template.InstantiateCreature(
+            seed.Name,
+            seed.Id,
+            campaignId,
+            CreatureCategory.Monster,
+            ownerId,
+            true);
+
+        creature.Level = Math.Max(seed.Level, 1);
+        creature.CreatureType = creatureType;
+        creature.Inventory.Creature = creature;
+        creature.Equipment.Creature = creature;
+
+        foreach (var attribute in creature.Attributes)
+        {
+            attribute.Creature = creature;
+            attribute.Points = seed.AttributePoints.TryGetValue(attribute.AttributeTemplateId, out var points)
+                ? Math.Clamp(points, 1, 4)
+                : 1;
+        }
+
+        foreach (var skill in creature.Skills)
+        {
+            skill.Points = 0;
+        }
+
+        ApplySpecificSkillPoints(
+            creature,
+            specificSkill => seed.SpecificSkillPoints.TryGetValue(specificSkill.SpecificSkillTemplateId, out var points)
+                ? points
+                : 0);
+
+        foreach (var vitality in creature.Vitalities)
+        {
+            vitality.Creature = creature;
+            vitality.Value = vitality.CalculateMaxValue(creature);
+        }
+
+        foreach (var defense in creature.Defenses)
+        {
+            defense.Creature = creature;
+        }
+
+        return creature;
+    }
+
+    private static void NormalizeSeedCreature(Creature creature, int specificSkillPoints)
+    {
+        var totalSpecificSkillPoints = creature.Skills
+            .SelectMany(skill => skill.SpecificSkills)
+            .Sum(specificSkill => specificSkill.Points);
+
+        if (totalSpecificSkillPoints <= creature.TotalSkillsPointsLimit)
+        {
+            return;
+        }
+
+        foreach (var skill in creature.Skills)
+        {
+            skill.Points = 0;
+
+            foreach (var specificSkill in skill.SpecificSkills)
+            {
+                specificSkill.Points = 0;
+            }
+        }
+
+        ApplyUniformSpecificSkillPoints(creature, specificSkillPoints);
+    }
+
+    private static void ApplyUniformSpecificSkillPoints(Creature creature, int requestedPointsPerSpecificSkill)
+    {
+        ApplySpecificSkillPoints(creature, _ => requestedPointsPerSpecificSkill);
+    }
+
+    private static void ApplySpecificSkillPoints(
+        Creature creature,
+        Func<SpecificSkill, int> requestedPointsFactory)
+    {
+        var remainingCreaturePoints = creature.TotalSkillsPointsLimit;
+
+        foreach (var skill in creature.Skills)
+        {
+            var remainingSkillPoints = skill.PointsLimit;
+
+            foreach (var specificSkill in skill.SpecificSkills)
+            {
+                var requestedPoints = Math.Clamp(requestedPointsFactory(specificSkill), 0, creature.MaxPointsPerSpecificSkill);
+                var allocatedPoints = Math.Min(requestedPoints, Math.Min(remainingSkillPoints, remainingCreaturePoints));
+
+                specificSkill.Points = allocatedPoints;
+                remainingSkillPoints -= allocatedPoints;
+                remainingCreaturePoints -= allocatedPoints;
+            }
+
+            skill.Points = skill.SpecificSkills.Sum(specificSkill => specificSkill.Points);
+        }
     }
 
     private static void EnsureEncounterContainsCreature(Encounter encounter, Creature creature)

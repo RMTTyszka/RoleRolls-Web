@@ -33,13 +33,13 @@
                 <input  pInputText type="text" (input)="tt.filter($event.target.value, column.property, 'contains')">
               </th>-->
         <tr>
-          <th *ngIf="actions.length > 0" [ngStyle]="actionsWidth()"></th>
+          <th *ngIf="canEdit && actions.length > 0" [ngStyle]="actionsWidth()"></th>
           <th *ngFor="let column of columns" [pSortableColumn]="column.property">{{column.header}}</th>
         </tr>
       </ng-template>
       <ng-template #body let-entity>
         <tr [pSelectableRow]="entity">
-          <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()">
+          <td *ngIf="canEdit && actions.length > 0" [ngStyle]="actionsWidth()">
             <ng-container *ngFor="let action of actions">
               <button *ngIf="action.condition(entity)" pButton type="button" [pTooltip]=action.tooltip [icon]="action.icon" [class]="action.csClass || 'p-button-primary'" (click)="action.callBack(entity, $event.target)" style="margin-right: 4px;"></button>
             </ng-container>
@@ -56,7 +56,7 @@
     </p-table>
   </div>
   <div class="min-w-0">
-    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" [itemType]="itemType" (saved)="refreshList()"></rr-campaign-item-creator>
+    <rr-campaign-item-creator *ngIf="campaign" [campaign]="campaign" [itemType]="itemType" [disabled]="!canEdit" (saved)="refreshList()"></rr-campaign-item-creator>
   </div>
 </div>
 

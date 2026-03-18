@@ -69,34 +69,12 @@ export class RollDiceComponent {
       this.rollInput.bonus = 0;
       this.rollInput.rollsAsString = null;
       this.rollInput.description = '';
-      this.rollInput.attribute = null;
+      this.rollInput.attribute ??= null;
       this.hasProperty = Boolean(this.rollInput.propertyName);
       this.form = getAsForm(rollInput, {
         disabledFields: ['propertyName']
       });
-      if (this.rollInput.property.type === PropertyType.SpecificSkill) {
-        const specificSkill = this.rollInput.creature.attributelessSkills.flatMap(s => s.specificSkills)
-          .find(s => s.id === this.rollInput.property.id);
-        if (specificSkill && !specificSkill.attributeId) {
-          this.form.get('attribute').addValidators(Validators.required);
-        } else {
-          this.form.get('attribute').setValue( {
-            type: PropertyType.Attribute,
-            id: specificSkill.attributeId,
-          } as Property);
-        }
-      } else if (this.rollInput.property.type === PropertyType.Skill) {
-        const skill = this.rollInput.creature.skills
-          .find(s => s.id === this.rollInput.property.id);
-        if (skill && !skill.attributeId) {
-          this.form.get('attribute').addValidators(Validators.required);
-        } else {
-          this.form.get('attribute').setValue( {
-            type: PropertyType.Attribute,
-            id: skill.attributeId,
-          } as Property);
-        }
-      }
+      this.syncAttributeControl();
     });
   }
 
@@ -113,6 +91,50 @@ export class RollDiceComponent {
   }
   public cleanRolls() {
     this.form.get('rollsAsString').reset();
+  }
+
+  private syncAttributeControl() {
+    const attributeControl = this.form.get('attribute');
+    attributeControl.clearValidators();
+
+    if (!this.rollInput?.property || this.rollInput.property.type === PropertyType.Attribute) {
+      attributeControl.setValue(null);
+      attributeControl.updateValueAndValidity({ emitEvent: false });
+      return;
+    }
+
+    if (this.rollInput.property.type === PropertyType.Skill) {
+      attributeControl.addValidators(Validators.required);
+      attributeControl.updateValueAndValidity({ emitEvent: false });
+      return;
+    }
+
+    if (this.rollInput.property.type === PropertyType.SpecificSkill) {
+      const attribute = this.resolveSpecificSkillAttribute(this.rollInput.property.id);
+      if (attribute) {
+        attributeControl.setValue(attribute);
+      }
+      attributeControl.updateValueAndValidity({ emitEvent: false });
+    }
+  }
+
+  private resolveSpecificSkillAttribute(specificSkillTemplateId: string): Property | null {
+    const specificSkill = this.rollInput.creature.skills
+      .flatMap(skill => skill.specificSkills)
+      .find(skill => skill.specificSkillTemplateId === specificSkillTemplateId);
+
+    if (!specificSkill?.attributeId) {
+      return null;
+    }
+
+    const attributeTemplateId = this.rollInput.creature.attributes
+      .find(attribute => attribute.id === specificSkill.attributeId)
+      ?.attributeTemplateId;
+
+    return attributeTemplateId ? {
+      type: PropertyType.Attribute,
+      id: attributeTemplateId,
+    } as Property : null;
   }
 
 }

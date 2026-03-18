@@ -2,6 +2,7 @@ using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Bestiary;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
@@ -26,14 +27,14 @@ public class LandOfHeroesTemplate
                 Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 Name = "Land Of Heroes",
                 ArchetypeTitle = "Archetype",
-                CreatureTypeTitle = "Races",
+                CreatureTypeTitle = "Creature Types",
                 Default = true,
                 Attributes = BuildAttributes(),
                 Skills = BuildSkills(),
                 Vitalities = BuildVitalities(),
                 Defenses = BuildDefenses(),
                 DamageTypes = BuildDamageTypes(),
-                CreatureTypes = LandOfHeroesRaces.Races,
+                CreatureTypes = [.. LandOfHeroesRaces.Races, .. LandOfHeroesMonsterTypes.Monsters],
                 Archetypes = Roles,
                 CombatManeuvers = LandOfHeroesCombatManeuvers.Maneuvers,
             };

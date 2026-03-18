@@ -1,5 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace RoleRollsPocketEdition.Itens.Templates.Models;
 
+[JsonDerivedType(typeof(ConsumableTemplateModel), nameof(ConsumableTemplateModel))]
+[JsonDerivedType(typeof(WeaponTemplateModel), nameof(WeaponTemplateModel))]
+[JsonDerivedType(typeof(ArmorTemplateModel), nameof(ArmorTemplateModel))]
 public class ItemTemplateModel
 {
     public Guid Id { get; set; }

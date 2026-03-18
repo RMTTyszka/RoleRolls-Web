@@ -13,7 +13,7 @@ public interface IItemTemplateService
 {
     Task<PagedResult<T>> GetItemsAsync<T, TEntity>(Guid? campaignId, GetAllItensTemplateInput input) where T : ItemTemplateModel, new()
         where TEntity : ItemTemplate;
-    Task<ItemTemplateModel?> GetItemAsync(Guid id);
+    Task<T?> GetItemAsync<T>(Guid id) where T : ItemTemplateModel, new();
     Task InsertItem(ConsumableTemplateModel item);
     Task InsertWeapon(WeaponTemplateModel item);
     Task UpdateWeapon(Guid id, WeaponTemplateModel item);
@@ -40,21 +40,22 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
         var query = dbSet
             .AsNoTracking()
             .WhereIf(campaignId.HasValue, c => c.CampaignId == campaignId);
-            var totalItems = await query.CountAsync();
-            var items = await query
-                .PageBy(input)
-                .ToListAsync();
-            var fixedItems = items.Select(e => e.ToUpperClass<T>()).ToList();
-            return new PagedResult<T>(totalItems, fixedItems);
-    }    
+        var totalItems = await query.CountAsync();
+        var items = await query
+            .PageBy(input)
+            .ToListAsync();
+        var fixedItems = items.Select(ToTemplateModel<T>).ToList();
+        return new PagedResult<T>(totalItems, fixedItems);
+    }
+
     [NoTrackingAspect]
-    public async Task<ItemTemplateModel?> GetItemAsync(Guid id)
+    public async Task<T?> GetItemAsync<T>(Guid id) where T : ItemTemplateModel, new()
     {
-            var item = await _roleRollsDbContext.ItemTemplates
-                .Where(e => e.Id == id)
-                .Select(e =>ItemTemplateModel.FromTemplate<ItemTemplateModel>(e))
-                .FirstOrDefaultAsync();
-            return item;
+        var item = await _roleRollsDbContext.ItemTemplates
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        return item is null ? null : ToTemplateModel<T>(item);
     }
 
     public async Task InsertItem(ConsumableTemplateModel item)
@@ -116,5 +117,24 @@ public class ItemTemplateService : IItemTemplateService, ITransientDependency
             _roleRollsDbContext.ArmorTemplates.Update(template);
             await _roleRollsDbContext.SaveChangesAsync();   
         }
+    }
+
+    private static T ToTemplateModel<T>(ItemTemplate item) where T : ItemTemplateModel, new()
+    {
+        ItemTemplateModel model = item switch
+        {
+            WeaponTemplate weapon => WeaponTemplateModel.FromTemplate(weapon),
+            ArmorTemplate armor => ArmorTemplateModel.FromTemplate(armor),
+            ConsumableTemplate consumable => ItemTemplateModel.FromTemplate<ConsumableTemplateModel>(consumable),
+            _ => ItemTemplateModel.FromTemplate<ItemTemplateModel>(item)
+        };
+
+        if (model is T typedModel)
+        {
+            return typedModel;
+        }
+
+        throw new InvalidOperationException(
+            $"Item template '{item.Id}' of type '{item.GetType().Name}' cannot be mapped to '{typeof(T).Name}'.");
     }
 }

@@ -55,6 +55,8 @@ public class CreatureType : Entity, IHaveBonuses
         Id = creatureTypeModel.Id;
         Name = creatureTypeModel.Name;
         Description = creatureTypeModel.Description;
+        CanBeAlly = creatureTypeModel.CanBeAlly;
+        CanBeEnemy = creatureTypeModel.CanBeEnemy;
         Bonuses = creatureTypeModel.Bonuses.ConvertAll(e => new Bonus(e));
     }
 

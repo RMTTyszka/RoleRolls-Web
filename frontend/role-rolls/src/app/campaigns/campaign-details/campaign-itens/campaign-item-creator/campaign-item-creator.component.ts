@@ -47,11 +47,20 @@ import { EquipableSlot } from '@app/models/itens/equipable-slot';
   styleUrl: './campaign-item-creator.component.scss'
 })
 export class CampaignItemCreatorComponent {
+  private readonly defaultMeleeRange = '1.5 m';
+  private _disabled = false;
   public item: AnyItemTemplateModel | null = null;
   public action: EditorAction = EditorAction.create;
   @Output() public saved = new EventEmitter<void>();
   public form!: FormGroup;
   @Input() public itemType!: Signal<ItemType | null>;
+  @Input() public set disabled(value: boolean) {
+    this._disabled = value;
+    this.syncDisabledState();
+  }
+  public get disabled(): boolean {
+    return this._disabled;
+  }
   public itemTypeEnum = ItemType;
   public weaponCategories = [
     {key: weaponCategoryLabel(WeaponCategory.Light), value: WeaponCategory.Light},
@@ -76,7 +85,7 @@ export class CampaignItemCreatorComponent {
     return this.resolveCurrentItemType();
   }
   public get canSave(): boolean {
-    return this.form?.valid ?? false;
+    return !this.disabled && (this.form?.valid ?? false);
   }
   @Input() public campaign!: Campaign;
   private subscription: SubscriptionManager = new SubscriptionManager();
@@ -105,6 +114,7 @@ export class CampaignItemCreatorComponent {
     }));
     this.applyFormForCurrentType();
   }
+
   ngOnDestroy() {
     this.subscription.clear();
   }
@@ -112,7 +122,7 @@ export class CampaignItemCreatorComponent {
   public async save() {
     const currentItemType = this.resolveCurrentItemType();
 
-    if (currentItemType === null || (this.action === EditorAction.update && !this.item)) {
+    if (this.disabled || currentItemType === null || (this.action === EditorAction.update && !this.item)) {
       return;
     }
 
@@ -183,6 +193,8 @@ export class CampaignItemCreatorComponent {
         this.logInvalidFields();
       });
     }
+
+    this.syncDisabledState();
   }
 
   refreshForm() {
@@ -234,7 +246,7 @@ export class CampaignItemCreatorComponent {
         category: WeaponCategory.Light,
         damageType: WeaponDamageType.Cutting,
         isRanged: false,
-        range: null,
+        range: this.defaultMeleeRange,
         slot: EquipableSlot.MainHand,
       });
     }
@@ -308,12 +320,6 @@ export class CampaignItemCreatorComponent {
 
     const currentItemType = this.resolveCurrentItemType();
 
-    if (currentItemType === null) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-
     switch (currentItemType) {
       case null:
       case ItemType.Consumable:
@@ -326,6 +332,8 @@ export class CampaignItemCreatorComponent {
         this.configurarFormAsArmor();
         break;
     }
+
+    this.syncDisabledState(currentItemType);
   }
 
   private applyDerivedValues() {
@@ -357,9 +365,10 @@ export class CampaignItemCreatorComponent {
     }
   }
 
-  private updateRangeValidation(isRanged: boolean) {
+  private updateRangeValidation(_isRanged: boolean) {
     const rangeControl = this.form.get('range');
-    if (isRanged && this.resolveCurrentItemType() === ItemType.Weapon) {
+
+    if (this.resolveCurrentItemType() === ItemType.Weapon) {
       rangeControl.setValidators(Validators.required);
     } else {
       rangeControl.clearValidators();
@@ -379,6 +388,19 @@ export class CampaignItemCreatorComponent {
 
   private patchFormValues(values: Record<string, unknown>) {
     this.form.patchValue(values, { emitEvent: false });
+  }
+
+  private syncDisabledState(currentItemType: ItemType | null = this.resolveCurrentItemType()) {
+    if (!this.form) {
+      return;
+    }
+
+    if (this.disabled || currentItemType === null) {
+      this.form.disable({ emitEvent: false });
+      return;
+    }
+
+    this.form.enable({ emitEvent: false });
   }
 
   logInvalidFields(): void {

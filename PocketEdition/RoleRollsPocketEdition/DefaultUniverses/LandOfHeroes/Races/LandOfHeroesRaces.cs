@@ -90,6 +90,7 @@ public static class LandOfHeroesRaces
             Id = Guid.Parse("6E4E0713-CBD4-442E-9569-CF5073D80764"),
             Name = "Orc",
             CanBeAlly = true,
+            CanBeEnemy = true,
             Description = "",
             Bonuses =
             [
@@ -109,6 +110,7 @@ public static class LandOfHeroesRaces
             Id = Guid.Parse("4E1D1FDC-9193-4FF2-B76F-8790B830798A"),
             Name = "Goblin",
             CanBeAlly = true,
+            CanBeEnemy = true,
             Description = "",
             Bonuses =
             [

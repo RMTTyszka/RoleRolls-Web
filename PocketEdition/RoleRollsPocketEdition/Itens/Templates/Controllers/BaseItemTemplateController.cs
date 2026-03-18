@@ -22,9 +22,9 @@ where TEntity : ItemTemplate
         return await _itemTemplateService.GetItemsAsync<T, TEntity>(campaignId, input);
     }    
     [HttpGet("{id}")]
-    public async Task<ItemTemplateModel> GetItemAsync(Guid id)
+    public async Task<T?> GetItemAsync(Guid id)
     {
-        return await _itemTemplateService.GetItemAsync(id);
+        return await _itemTemplateService.GetItemAsync<T>(id);
 
     }
     

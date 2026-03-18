@@ -4,6 +4,8 @@ import { Entity } from '@app/models/Entity.model';
 export class ItemConfigurationModel implements Entity {
   id: string;
   public armorProperty?: Property | null;
+  public armorDefense1?: string | null;
+  public armorDefense2?: string | null;
   public basicAttackTargetFirstVitality?: Property | null;
   public meleeLightWeaponHitProperty?: Property | null;
   public meleeMediumWeaponHitProperty?: Property | null;
@@ -18,4 +20,5 @@ export class ItemConfigurationModel implements Entity {
   public rangedMediumWeaponDamageProperty?: Property | null;
   public rangedHeavyWeaponDamageProperty?: Property | null;
   public basicAttackTargetSecondVitality?: Property | null;
+  public blockProperty?: Property | null;
 }
