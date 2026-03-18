@@ -12,20 +12,20 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Compartment, EditorSelection, EditorState } from '@codemirror/state';
-import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
-import { markdown } from '@codemirror/lang-markdown';
-import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
-import {
-  EditorView,
-  drawSelection,
-  highlightActiveLine,
-  highlightActiveLineGutter,
-  keymap,
-  lineNumbers,
-  placeholder
-} from '@codemirror/view';
+import type * as CodeMirrorCommandsModule from '@codemirror/commands';
+import type * as CodeMirrorLanguageModule from '@codemirror/language';
+import type * as CodeMirrorMarkdownModule from '@codemirror/lang-markdown';
+import type * as CodeMirrorStateModule from '@codemirror/state';
+import type * as CodeMirrorViewModule from '@codemirror/view';
 import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/markdown-viewer.component';
+
+type CodeMirrorRuntime = {
+  commands: typeof CodeMirrorCommandsModule;
+  language: typeof CodeMirrorLanguageModule;
+  markdown: typeof CodeMirrorMarkdownModule;
+  state: typeof CodeMirrorStateModule;
+  view: typeof CodeMirrorViewModule;
+};
 
 @Component({
   selector: 'rr-markdown-editor',
@@ -49,39 +49,215 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
 
   public value = '';
   public disabled = false;
+  public editorReady = false;
 
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly editableCompartment = new Compartment();
-  private readonly placeholderCompartment = new Compartment();
-  private editorView?: EditorView;
+  private runtime?: CodeMirrorRuntime;
+  private editableCompartment?: CodeMirrorStateModule.Compartment;
+  private placeholderCompartment?: CodeMirrorStateModule.Compartment;
+  private editorView?: CodeMirrorViewModule.EditorView;
+  private editorLoadPromise?: Promise<void>;
+  private destroyed = false;
   private onChange: (value: string) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
   public ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId) || !this.editorHost) {
+    void this.ensureEditor();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroyed = true;
+    this.editorView?.destroy();
+  }
+
+  public writeValue(value: string | null | undefined): void {
+    const nextValue = value ?? '';
+    this.value = nextValue;
+
+    if (!this.editorView) {
       return;
     }
 
-    this.editorView = new EditorView({
-      state: EditorState.create({
+    const currentValue = this.editorView.state.doc.toString();
+    if (currentValue === nextValue) {
+      return;
+    }
+
+    this.editorView.dispatch({
+      changes: {
+        from: 0,
+        to: currentValue.length,
+        insert: nextValue
+      }
+    });
+  }
+
+  public registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+
+    if (!this.editorView || !this.editableCompartment || !this.runtime) {
+      return;
+    }
+
+    this.editorView.dispatch({
+      effects: this.editableCompartment.reconfigure(this.runtime.view.EditorView.editable.of(!isDisabled))
+    });
+  }
+
+  public applyHeading(level = 1): void {
+    this.prefixSelectedLines(`${'#'.repeat(level)} `);
+  }
+
+  public applyBold(): void {
+    this.wrapSelection('**', '**', 'bold text');
+  }
+
+  public applyItalic(): void {
+    this.wrapSelection('*', '*', 'italic text');
+  }
+
+  public applyLink(): void {
+    const view = this.editorView;
+    if (!view) {
+      return;
+    }
+
+    const range = view.state.selection.main;
+    const selectedText = view.state.sliceDoc(range.from, range.to) || 'link text';
+    const replacement = `[${selectedText}](https://example.com)`;
+    const urlStart = replacement.indexOf('https://');
+    const from = range.from;
+
+    view.dispatch({
+      changes: { from, to: range.to, insert: replacement },
+      selection: { anchor: from + urlStart, head: from + replacement.length - 1 },
+      scrollIntoView: true
+    });
+    view.focus();
+  }
+
+  public applyBulletList(): void {
+    this.prefixSelectedLines('- ');
+  }
+
+  public applyOrderedList(): void {
+    this.prefixSelectedLines('', true);
+  }
+
+  public applyQuote(): void {
+    this.prefixSelectedLines('> ');
+  }
+
+  public applyCodeBlock(): void {
+    this.wrapSelection('```\n', '\n```', 'code');
+  }
+
+  private wrapSelection(prefix: string, suffix: string, placeholderText: string): void {
+    const view = this.editorView;
+    if (!view) {
+      return;
+    }
+
+    const range = view.state.selection.main;
+    const selectedText = view.state.sliceDoc(range.from, range.to);
+    const text = selectedText || placeholderText;
+    const replacement = `${prefix}${text}${suffix}`;
+    const from = range.from;
+    const selectionStart = from + prefix.length;
+    const selectionEnd = selectionStart + text.length;
+
+    view.dispatch({
+      changes: { from, to: range.to, insert: replacement },
+      selection: { anchor: selectionStart, head: selectionEnd },
+      scrollIntoView: true
+    });
+    view.focus();
+  }
+
+  private prefixSelectedLines(prefix: string, ordered = false): void {
+    const view = this.editorView;
+    if (!view) {
+      return;
+    }
+
+    const range = view.state.selection.main;
+    const startLine = view.state.doc.lineAt(range.from);
+    const endLine = view.state.doc.lineAt(range.to);
+    const lines: string[] = [];
+
+    for (let lineNumber = startLine.number; lineNumber <= endLine.number; lineNumber++) {
+      const line = view.state.doc.line(lineNumber);
+      const cleanedLine = ordered ? line.text.replace(/^\d+\.\s+/, '') : line.text;
+      lines.push(ordered ? `${lineNumber - startLine.number + 1}. ${cleanedLine}` : `${prefix}${line.text}`);
+    }
+
+    const replacement = lines.join('\n');
+    view.dispatch({
+      changes: { from: startLine.from, to: endLine.to, insert: replacement },
+      selection: { anchor: startLine.from, head: startLine.from + replacement.length },
+      scrollIntoView: true
+    });
+    view.focus();
+  }
+
+  private async ensureEditor(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId) || !this.editorHost || this.editorView) {
+      return;
+    }
+
+    if (this.editorLoadPromise) {
+      return this.editorLoadPromise;
+    }
+
+    this.editorLoadPromise = this.loadCodeMirror().then((runtime) => {
+      if (this.destroyed || !this.editorHost || this.editorView) {
+        return;
+      }
+
+      this.runtime = runtime;
+      this.createEditor(runtime);
+      this.editorReady = true;
+    }).finally(() => {
+      this.editorLoadPromise = undefined;
+    });
+
+    return this.editorLoadPromise;
+  }
+
+  private createEditor(runtime: CodeMirrorRuntime): void {
+    const { commands, language, markdown, state, view } = runtime;
+
+    this.editableCompartment = new state.Compartment();
+    this.placeholderCompartment = new state.Compartment();
+
+    this.editorView = new view.EditorView({
+      state: state.EditorState.create({
         doc: this.value,
         extensions: [
-          lineNumbers(),
-          highlightActiveLineGutter(),
-          highlightActiveLine(),
-          drawSelection(),
-          history(),
-          markdown(),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-          EditorView.lineWrapping,
-          keymap.of([
-            indentWithTab,
-            ...defaultKeymap,
-            ...historyKeymap
+          view.lineNumbers(),
+          view.highlightActiveLineGutter(),
+          view.highlightActiveLine(),
+          view.drawSelection(),
+          commands.history(),
+          markdown.markdown(),
+          language.syntaxHighlighting(language.defaultHighlightStyle, { fallback: true }),
+          view.EditorView.lineWrapping,
+          view.keymap.of([
+            commands.indentWithTab,
+            ...commands.defaultKeymap,
+            ...commands.historyKeymap
           ]),
-          this.editableCompartment.of(EditorView.editable.of(!this.disabled)),
-          this.placeholderCompartment.of(placeholder(this.placeholderText)),
-          EditorView.updateListener.of((update) => {
+          this.editableCompartment.of(view.EditorView.editable.of(!this.disabled)),
+          this.placeholderCompartment.of(view.placeholder(this.placeholderText)),
+          view.EditorView.updateListener.of((update) => {
             if (!update.docChanged) {
               return;
             }
@@ -89,12 +265,12 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
             this.value = update.state.doc.toString();
             this.onChange(this.value);
           }),
-          EditorView.domEventHandlers({
+          view.EditorView.domEventHandlers({
             blur: () => {
               this.onTouched();
             }
           }),
-          EditorView.theme({
+          view.EditorView.theme({
             '&': {
               border: '1px solid var(--rr-markdown-editor-border-color)',
               borderRadius: 'var(--rr-markdown-editor-radius)',
@@ -139,145 +315,15 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
     });
   }
 
-  public ngOnDestroy(): void {
-    this.editorView?.destroy();
-  }
+  private async loadCodeMirror(): Promise<CodeMirrorRuntime> {
+    const [commands, language, markdown, state, view] = await Promise.all([
+      import('@codemirror/commands'),
+      import('@codemirror/language'),
+      import('@codemirror/lang-markdown'),
+      import('@codemirror/state'),
+      import('@codemirror/view')
+    ]);
 
-  public writeValue(value: string | null | undefined): void {
-    const nextValue = value ?? '';
-    this.value = nextValue;
-
-    if (!this.editorView) {
-      return;
-    }
-
-    const currentValue = this.editorView.state.doc.toString();
-    if (currentValue === nextValue) {
-      return;
-    }
-
-    this.editorView.dispatch({
-      changes: {
-        from: 0,
-        to: currentValue.length,
-        insert: nextValue
-      }
-    });
-  }
-
-  public registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-
-    if (!this.editorView) {
-      return;
-    }
-
-    this.editorView.dispatch({
-      effects: this.editableCompartment.reconfigure(EditorView.editable.of(!isDisabled))
-    });
-  }
-
-  public applyHeading(level = 1): void {
-    this.prefixSelectedLines(`${'#'.repeat(level)} `);
-  }
-
-  public applyBold(): void {
-    this.wrapSelection('**', '**', 'bold text');
-  }
-
-  public applyItalic(): void {
-    this.wrapSelection('*', '*', 'italic text');
-  }
-
-  public applyLink(): void {
-    const view = this.editorView;
-    if (!view) {
-      return;
-    }
-
-    const range = view.state.selection.main;
-    const selectedText = view.state.sliceDoc(range.from, range.to) || 'link text';
-    const replacement = `[${selectedText}](https://example.com)`;
-    const urlStart = replacement.indexOf('https://');
-    const from = range.from;
-
-    view.dispatch({
-      changes: { from, to: range.to, insert: replacement },
-      selection: EditorSelection.range(from + urlStart, from + replacement.length - 1),
-      scrollIntoView: true
-    });
-    view.focus();
-  }
-
-  public applyBulletList(): void {
-    this.prefixSelectedLines('- ');
-  }
-
-  public applyOrderedList(): void {
-    this.prefixSelectedLines('', true);
-  }
-
-  public applyQuote(): void {
-    this.prefixSelectedLines('> ');
-  }
-
-  public applyCodeBlock(): void {
-    this.wrapSelection('```\n', '\n```', 'code');
-  }
-
-  private wrapSelection(prefix: string, suffix: string, placeholderText: string): void {
-    const view = this.editorView;
-    if (!view) {
-      return;
-    }
-
-    const range = view.state.selection.main;
-    const selectedText = view.state.sliceDoc(range.from, range.to);
-    const text = selectedText || placeholderText;
-    const replacement = `${prefix}${text}${suffix}`;
-    const from = range.from;
-    const selectionStart = from + prefix.length;
-    const selectionEnd = selectionStart + text.length;
-
-    view.dispatch({
-      changes: { from, to: range.to, insert: replacement },
-      selection: EditorSelection.range(selectionStart, selectionEnd),
-      scrollIntoView: true
-    });
-    view.focus();
-  }
-
-  private prefixSelectedLines(prefix: string, ordered = false): void {
-    const view = this.editorView;
-    if (!view) {
-      return;
-    }
-
-    const range = view.state.selection.main;
-    const startLine = view.state.doc.lineAt(range.from);
-    const endLine = view.state.doc.lineAt(range.to);
-    const lines: string[] = [];
-
-    for (let lineNumber = startLine.number; lineNumber <= endLine.number; lineNumber++) {
-      const line = view.state.doc.line(lineNumber);
-      const cleanedLine = ordered ? line.text.replace(/^\d+\.\s+/, '') : line.text;
-      lines.push(ordered ? `${lineNumber - startLine.number + 1}. ${cleanedLine}` : `${prefix}${line.text}`);
-    }
-
-    const replacement = lines.join('\n');
-    view.dispatch({
-      changes: { from: startLine.from, to: endLine.to, insert: replacement },
-      selection: EditorSelection.range(startLine.from, startLine.from + replacement.length),
-      scrollIntoView: true
-    });
-    view.focus();
+    return { commands, language, markdown, state, view };
   }
 }

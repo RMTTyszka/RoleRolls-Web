@@ -6,16 +6,16 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { canEditTemplate } from '@app/tokens/utils.funcs';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { ButtonDirective } from 'primeng/button';
+import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'rr-spell-modal',
   standalone: true,
-  imports: [CommonModule, MarkdownViewerComponent, ReactiveFormsModule, FloatLabel, InputText, Textarea, ButtonDirective],
+  imports: [CommonModule, MarkdownViewerComponent, ReactiveFormsModule, FloatLabel, InputText, ButtonDirective, MarkdownEditorComponent],
   template: `
   <div *ngIf="!editing()" (click)="tryEdit()" class="border rounded-md p-3" style="height: 70vh; overflow:auto">
     <rr-markdown-viewer [markdown]="spell.mdDescription"></rr-markdown-viewer>
@@ -27,10 +27,10 @@ import { ButtonDirective } from 'primeng/button';
         <input pInputText id="name" formControlName="name" class="w-full" />
         <label for="name">Name</label>
       </p-floatlabel>
-      <p-floatlabel>
-        <textarea pTextarea id="description" formControlName="description" rows="2" class="w-full"></textarea>
-        <label for="description">Description</label>
-      </p-floatlabel>
+      <div class="grid gap-2">
+        <label for="description" class="text-sm font-semibold">Description</label>
+        <rr-markdown-editor id="description" formControlName="description" minHeight="10rem"></rr-markdown-editor>
+      </div>
     </div>
 
     <div formArrayName="circles" class="grid gap-4">
@@ -64,14 +64,14 @@ import { ButtonDirective } from 'primeng/button';
             <input pInputText id="req-{{i}}" formControlName="requirements" class="w-full" />
             <label for="req-{{i}}">Requirements</label>
           </p-floatlabel>
-          <p-floatlabel class="col-span-2">
-            <textarea pTextarea id="ingame-{{i}}" formControlName="inGameDescription" rows="2" class="w-full"></textarea>
-            <label for="ingame-{{i}}">In-Game Description</label>
-          </p-floatlabel>
-          <p-floatlabel class="col-span-2">
-            <textarea pTextarea id="effect-{{i}}" formControlName="effectDescription" rows="3" class="w-full"></textarea>
-            <label for="effect-{{i}}">Effect Description</label>
-          </p-floatlabel>
+          <div class="col-span-2 grid gap-2">
+            <label for="ingame-{{i}}" class="text-sm font-semibold">In-Game Description</label>
+            <rr-markdown-editor id="ingame-{{i}}" formControlName="inGameDescription" minHeight="10rem"></rr-markdown-editor>
+          </div>
+          <div class="col-span-2 grid gap-2">
+            <label for="effect-{{i}}" class="text-sm font-semibold">Effect Description</label>
+            <rr-markdown-editor id="effect-{{i}}" formControlName="effectDescription" minHeight="12rem"></rr-markdown-editor>
+          </div>
         </div>
       </div>
     </div>
