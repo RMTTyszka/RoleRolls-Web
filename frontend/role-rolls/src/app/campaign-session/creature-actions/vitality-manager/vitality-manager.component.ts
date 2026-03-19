@@ -13,6 +13,7 @@ import { NgForOf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'rr-vitality-manager',
@@ -21,7 +22,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     NgForOf,
     ButtonDirective,
     Divider,
-    InputNumberModule
+    InputNumberModule,
+    InputText
   ],
   templateUrl: './vitality-manager.component.html',
   styleUrl: './vitality-manager.component.scss'
@@ -34,9 +36,11 @@ export class VitalityManagerComponent {
   public creature: Creature;
   public damageInput: TakeDamageApiInput = new TakeDamageApiInput();
   public damageValue = 0;
+  public damageDescription = '';
   public damageVitalityId = '';
   public healVitalityId = '';
   public healValue = 0;
+  public healDescription = '';
   public healInput: TakeDamageApiInput = new TakeDamageApiInput();
   private subscriptionManager = new SubscriptionManager();
 
@@ -49,7 +53,9 @@ export class VitalityManagerComponent {
     private readonly detailsService: CampaignSessionService
   ) {
     this.damageInput.value = 0;
+    this.damageInput.description = '';
     this.healInput.value = 0;
+    this.healInput.description = '';
   }
 
   ngOnInit(): void {
@@ -63,32 +69,40 @@ export class VitalityManagerComponent {
   }
 
   public takeDamage(vitality: Vitality) {
-    this.damageInput.vitalityId = vitality.id;
+    this.damageInput.vitalityId = vitality.vitalityTemplateId;
     this.damageInput.value = this.damageValue;
+    this.damageInput.description = this.damageDescription?.trim() ?? '';
     this.campaignService.takeDamage(this.campaign.id, this.scene.id, this.creature.id, this.damageInput)
       .subscribe(() => {
         this.damageInput.value = 0;
         this.damageInput.vitalityId = null;
+        this.damageInput.description = '';
+        this.damageValue = 0;
+        this.damageDescription = '';
         this.detailsService.heroTookDamage.next();
       })
   }
 
   public heal(vitality: Vitality) {
-    this.healInput.vitalityId = vitality.id;
+    this.healInput.vitalityId = vitality.vitalityTemplateId;
     this.healInput.value = this.healValue;
+    this.healInput.description = this.healDescription?.trim() ?? '';
     this.campaignService.heal(this.campaign.id, this.scene.id, this.creature.id, this.healInput)
       .subscribe(() => {
         this.healInput.value = 0;
         this.healInput.vitalityId = null;
+        this.healInput.description = '';
+        this.healValue = 0;
+        this.healDescription = '';
         this.detailsService.heroTookDamage.next();
       })
   }
 
   public resultFromDamage(vitality: Vitality) {
-    return Math.min(...[vitality.maxValue, vitality.value - this.damageInput.value])
+    return Math.min(...[vitality.maxValue, vitality.value - this.damageValue])
   }
 
   public resultFromHeal(vitality: Vitality) {
-    return Math.min(...[vitality.maxValue, vitality.value + this.healInput.value])
+    return Math.min(...[vitality.maxValue, vitality.value + this.healValue])
   }
 }

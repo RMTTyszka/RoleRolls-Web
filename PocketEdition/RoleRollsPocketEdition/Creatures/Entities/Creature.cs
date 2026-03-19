@@ -204,7 +204,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
 
         public SceneAction Heal(Guid vitalityId, int value)
         {
-            var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
+            var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
             vitality.Value += value;
             vitality.Value = Math.Min(vitality.Value, vitality.MaxValue);
             return new SceneAction

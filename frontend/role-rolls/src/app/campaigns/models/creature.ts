@@ -53,6 +53,7 @@ export class SpecificSkill implements Entity {
 }
 export class Vitality implements Entity {
   public id: string;
+  public vitalityTemplateId: string;
   public name!: string;
   public value!: number;
   public maxValue!: number;

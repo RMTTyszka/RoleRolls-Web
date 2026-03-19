@@ -5,7 +5,7 @@ public class UpdateVitalityInput
     public Guid VitalityId { get; set; }
     public int Value { get; set; }
     // TODO damage type
-    // TODO description
+    public string? Description { get; set; }
 }
 
 public class VitalityDamageInput

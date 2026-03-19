@@ -39,7 +39,9 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         var takeDamageResult = creature.TakeDamage(input.VitalityId, input.Value);
         var result = new SceneAction
         {
-            Description = $"{takeDamageResult.Name} took {takeDamageResult.Value} of {takeDamageResult.Vitality} damage",
+            Description = AppendDescription(
+                $"{takeDamageResult.Name} took {takeDamageResult.Value} of {takeDamageResult.Vitality} damage",
+                input.Description),
             ActorType = creature.Category switch
             {
                 CreatureCategory.Hero => ActionActorType.Hero,
@@ -62,6 +64,7 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
     {
         var creature = await _creatureRepository.GetFullCreature(creatureId);
         var result = creature.Heal(input.VitalityId, input.Value);
+        result.Description = AppendDescription(result.Description, input.Description);
         result.SceneId = sceneId;
         var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
         using var transaction = _unitOfWork.Begin();
@@ -69,5 +72,15 @@ public class CreatureActionsService : ICreatureActionsService, ITransientDepende
         await _dbContext.SceneActions.AddAsync(result);
         await _unitOfWork.CommitAsync();
         await _notificationService.NotifyScene(sceneId, history);
+    }
+
+    private static string AppendDescription(string actionDescription, string? additionalDescription)
+    {
+        if (string.IsNullOrWhiteSpace(additionalDescription))
+        {
+            return actionDescription;
+        }
+
+        return $"{actionDescription} | {additionalDescription.Trim()}";
     }
 }

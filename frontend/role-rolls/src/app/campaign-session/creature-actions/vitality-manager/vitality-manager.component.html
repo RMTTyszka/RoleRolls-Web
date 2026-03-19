@@ -3,6 +3,10 @@
     <label for="damage-input">Damage</label>
     <p-inputnumber id="damage-input" [(ngModel)]="damageValue" class="w-full"/>
   </div>
+  <div class="flex flex-col gap-2 w-full">
+    <label for="damage-description">Description</label>
+    <input id="damage-description" pInputText [(ngModel)]="damageDescription" class="w-full"/>
+  </div>
   <div class="w-full">
     <div class="grid grid-cols-1 gap-2" *ngFor="let vitality of vitalities; let i = index;">
       <button pButton (click)=takeDamage(vitality) [label]="vitality.name" class="w-full danger-color" [disabled]="damageValue < 1"></button>
@@ -16,6 +20,10 @@
   <div class="flex flex-col gap-2 w-full">
     <label for="heal-input">Heal</label>
     <p-inputnumber id="heal-input" [(ngModel)]="healValue" class="w-full"/>
+  </div>
+  <div class="flex flex-col gap-2 w-full">
+    <label for="heal-description">Description</label>
+    <input id="heal-description" pInputText [(ngModel)]="healDescription" class="w-full"/>
   </div>
   <div class="w-full">
     <div class="grid grid-cols-1 gap-2" *ngFor="let vitality of vitalities; let i = index;">
