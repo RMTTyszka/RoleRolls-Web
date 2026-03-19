@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
 import { EncountersService } from '@app/encounters/services/encounters.service';
 import { Encounter } from '@app/encounters/models/encounter';
+import { canEditCampaign } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-encounters',
@@ -22,7 +23,7 @@ export class EncountersComponent {
   columns: RRColumns[] = [];
   refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
-  isMaster: boolean;
+  canEdit: boolean;
   private dialogRef: DynamicDialogRef<EncounterEditorComponent>;
 
 
@@ -37,7 +38,7 @@ export class EncountersComponent {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.isMaster = this.authenticationService.isMaster(this.campaign.masterId)
+      this.canEdit = canEditCampaign(this.campaign);
     });
   }
   getList = (input: GetListInput) => {
@@ -78,7 +79,7 @@ export class EncountersComponent {
     return [
       {
         icon: 'pi pi-plus',
-        condition: () => this.isMaster,
+        condition: () => this.canEdit,
         tooltip: 'New',
         callBack: () => this.openEncounterDialog(null),
       } as RRHeaderAction

@@ -68,9 +68,6 @@ public partial class Creature
         var damageBonusPerHit = gripStats.BaseBonusDamage * tier + gripStats.Damage;
 
         var result = ResolveSuccessfulAttack(target, weapon, difficulty, damageBonusPerHit, successes, armorCategory, input);
-        result.Attacker = null;
-        result.Target = null;
-        result.Weapon = null;
         result.Difficulty = difficulty;
         result.NumberOfRollSuccesses = roll.NumberOfRollSuccesses;
         return result;

@@ -15,6 +15,7 @@ import {AttributeTemplate, DefenseTemplate} from '@app/campaigns/models/campaign
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import {InputGroup} from 'primeng/inputgroup';
+import { canEditCampaignConfiguration } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-campaign-item-configuration',
@@ -40,9 +41,6 @@ export class CampaignItemConfigurationComponent {
   public attributes: any[] = [];
   public subcriptionManager = new SubscriptionManager();
   private disabled: boolean;
-  public get default() {
-    return this.campaign.campaignTemplate.default;
-  }
   constructor(private itemConfigurationService: ItemConfigurationService,
               private route: ActivatedRoute,
               public authService: AuthenticationService,
@@ -56,8 +54,7 @@ export class CampaignItemConfigurationComponent {
         recursive: false
       });
       this.populateOptions();
-      this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
-      this.disabled = false;
+      this.disabled = !canEditCampaignConfiguration(this.campaign);
       if (!this.disabled) {
         this.subcriptionManager.add('form.valueChanges', this.form.valueChanges.subscribe(async () => {
           await this.save();

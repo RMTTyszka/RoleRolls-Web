@@ -218,10 +218,10 @@ export class AttackComponent {
   }
 
   private resolveTargets() {
-    this.targets =
-      this.attacker().category === CreatureCategory.Ally ?
-        this.pocketCampaignDetailsService.monsters().concat(this.pocketCampaignDetailsService.heroes())
-        : this.pocketCampaignDetailsService.heroes().concat(this.pocketCampaignDetailsService.monsters());
+    const targets = this.attacker().category === CreatureCategory.Ally ?
+      this.pocketCampaignDetailsService.monsters().concat(this.pocketCampaignDetailsService.heroes())
+      : this.pocketCampaignDetailsService.heroes().concat(this.pocketCampaignDetailsService.monsters());
+    this.targets = targets;
   }
 
   private resolveWeapon(attacker: Creature, slot: EquipableSlot): ItemModel | null {

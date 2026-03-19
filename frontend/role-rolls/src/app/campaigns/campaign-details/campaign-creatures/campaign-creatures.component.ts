@@ -11,6 +11,7 @@ import {CreatureEditorComponent} from '@app/creatures/creature-editor/creature-e
 import {GetListInput} from '@app/tokens/get-list-input';
 import {EditorAction} from '@app/models/EntityActionData';
 import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
+import { canEditCampaign } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-campaign-creatures',
@@ -26,7 +27,7 @@ export class CampaignCreaturesComponent {
   columns: RRColumns[] = [];
   refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
-  isMaster = signal<boolean>(false);
+  canEdit = signal<boolean>(false);
   private dialogRef: DynamicDialogRef<CreatureEditorComponent>;
 
 
@@ -41,7 +42,7 @@ export class CampaignCreaturesComponent {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.isMaster.set(this.authenticationService.isMaster(this.campaign.masterId));
+      this.canEdit.set(canEditCampaign(this.campaign));
     });
   }
   getList = (input: GetListInput) => {
@@ -67,6 +68,7 @@ export class CampaignCreaturesComponent {
         action: creature ? EditorAction.update : EditorAction.create,
         creatureId: creature?.id,
         creatureCategory: this.creatureCategory(),
+        readOnly: !this.canEdit(),
       },
       position: 'right',
       height: '100%',
@@ -89,7 +91,7 @@ export class CampaignCreaturesComponent {
     return [
       {
         icon: 'pi pi-plus',
-        condition: () => this.isMaster(),
+        condition: () => this.canEdit(),
         tooltip: 'New',
         callBack: () => this.openCreatureDialog(null),
       } as RRHeaderAction

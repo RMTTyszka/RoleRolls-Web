@@ -8,7 +8,12 @@ describe('CampaignDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CampaignDetailsComponent]
+      imports: [CampaignDetailsComponent]
+    })
+    .overrideComponent(CampaignDetailsComponent, {
+      set: {
+        template: ''
+      }
     })
     .compileComponents();
 

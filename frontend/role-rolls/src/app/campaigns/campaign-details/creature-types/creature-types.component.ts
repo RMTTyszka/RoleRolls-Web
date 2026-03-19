@@ -10,6 +10,7 @@ import {
   CreatureTypeEditorComponent
 } from '@app/campaigns/campaign-details/creature-types/creature-type-editor/creature-type-editor.component';
 import {GetListInput} from '@app/tokens/get-list-input';
+import { canEditTemplate } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-creature-types',
@@ -24,7 +25,7 @@ export class CreatureTypesComponent {
   columns: RRColumns[] = [];
   refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
-  isMaster: boolean;
+  canEdit: boolean;
   private dialogRef: DynamicDialogRef<CreatureTypeEditorComponent>;
 
 
@@ -39,7 +40,7 @@ export class CreatureTypesComponent {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.isMaster = this.authenticationService.isMaster(this.campaign.masterId)
+      this.canEdit = canEditTemplate(this.campaign);
     });
   }
   getList = (input: GetListInput) => {
@@ -77,7 +78,7 @@ export class CreatureTypesComponent {
     return [
       {
         icon: 'pi pi-plus',
-        condition: () => this.isMaster,
+        condition: () => this.canEdit,
         tooltip: 'New',
         callBack: () => this.openCreatureTypeDialog(null),
       } as RRHeaderAction

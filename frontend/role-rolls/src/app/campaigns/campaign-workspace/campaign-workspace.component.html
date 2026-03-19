@@ -1,0 +1,101 @@
+<p-tabs [(value)]="activeTab">
+  <p-tablist>
+    @if (showSessionTab()) {
+      <p-tab value="session">Session</p-tab>
+    }
+    <p-tab value="template">Creature Template</p-tab>
+    <p-tab value="allies">Allies</p-tab>
+    <p-tab value="creature-types">Creature Types</p-tab>
+    <p-tab value="archetypes">Archetypes</p-tab>
+    <p-tab value="enemies">Enemies</p-tab>
+    <p-tab value="encounters">Encounters</p-tab>
+    <p-tab value="itens">Itens</p-tab>
+    <p-tab value="item-configuration">Item Configuration</p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    @if (showSessionTab()) {
+      <p-tabpanel value="session">
+        @if (activeTab === 'session') {
+          @defer (when activeTab === 'session') {
+            <rr-campaign-session-panel></rr-campaign-session-panel>
+          } @placeholder {
+            <div class="p-4 text-sm text-surface-500">Loading session...</div>
+          }
+        }
+      </p-tabpanel>
+    }
+    <p-tabpanel value="template">
+      @if (activeTab === 'template') {
+        @defer (when activeTab === 'template') {
+          <rr-campaign-template></rr-campaign-template>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading creature template...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="allies">
+      @if (activeTab === 'allies') {
+        @defer (when activeTab === 'allies') {
+          <rr-campaign-creatures [creatureCategory]="CreatureCategory.Ally"></rr-campaign-creatures>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading allies...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="creature-types">
+      @if (activeTab === 'creature-types') {
+        @defer (when activeTab === 'creature-types') {
+          <rr-creature-types></rr-creature-types>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading creature types...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="archetypes">
+      @if (activeTab === 'archetypes') {
+        @defer (when activeTab === 'archetypes') {
+          <rr-archetypes></rr-archetypes>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading archetypes...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="enemies">
+      @if (activeTab === 'enemies') {
+        @defer (when activeTab === 'enemies') {
+          <rr-campaign-creatures [creatureCategory]="CreatureCategory.Enemy"></rr-campaign-creatures>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading enemies...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="encounters">
+      @if (activeTab === 'encounters') {
+        @defer (when activeTab === 'encounters') {
+          <rr-encounters></rr-encounters>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading encounters...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="itens">
+      @if (activeTab === 'itens') {
+        @defer (when activeTab === 'itens') {
+          <rr-campaign-itens></rr-campaign-itens>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading itens...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="item-configuration">
+      @if (activeTab === 'item-configuration') {
+        @defer (when activeTab === 'item-configuration') {
+          <rr-campaign-item-configuration></rr-campaign-item-configuration>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading item configuration...</div>
+        }
+      }
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

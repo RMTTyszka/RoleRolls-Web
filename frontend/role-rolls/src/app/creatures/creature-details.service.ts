@@ -15,7 +15,13 @@ export class CreatureDetailsService {
   public refreshCreature = new Subject<void>();
   public debug = new Subject<void>();
   constructor(private dialog: DialogService) { }
-  public openCreatureEditor(campaign: Campaign, id: string, creatureCategory: CreatureCategory, action: EditorAction): Observable<Creature> {
+  public openCreatureEditor(
+    campaign: Campaign,
+    id: string,
+    creatureCategory: CreatureCategory,
+    action: EditorAction,
+    readOnly: boolean = false
+  ): Observable<Creature> {
     return this.dialog.open(CreatureEditorComponent, {
       width: '100vw',
       height: '100vh',
@@ -24,6 +30,8 @@ export class CreatureDetailsService {
         action: action,
         creatureId: id,
         creatureType: creatureCategory,
+        creatureCategory: creatureCategory,
+        readOnly: readOnly,
       },
       focusOnShow: false,
       closable: true,

@@ -84,7 +84,8 @@ export class CreatureEditorComponent {
   ) {
     this.campaign = config.data.campaign;
     this.editorAction = config.data.action;
-    this.creatureCategory = config.data.creatureCategory;
+    this.creatureCategory = config.data.creatureCategory ?? config.data.creatureType;
+    this.readOnly = Boolean(config.data?.readOnly);
     if (this.editorAction === EditorAction.update) {
       this.creatureId = config.data.creatureId;
     }
@@ -99,6 +100,7 @@ export class CreatureEditorComponent {
   public minorsSkillBySkill = new Map<string, FormArray<FormGroup>>();
   public creatureId: string;
   public creatureCategory: CreatureCategory;
+  public readOnly: boolean;
 
   private subscriptionManager = new SubscriptionManager();
 
@@ -204,6 +206,9 @@ export class CreatureEditorComponent {
     this.buildSkills();
     (this.form.get('vitalities') as FormArray).disable();
     (this.form.get('defenses') as FormArray).disable();
+    if (this.readOnly) {
+      this.form.disable();
+    }
     this.subscribeToRefreshCreature();
     this.loaded = true;
   }
@@ -213,10 +218,13 @@ export class CreatureEditorComponent {
   }
 
   public canSave() {
-    return this.form ? this.form.valid : false;
+    return this.form ? this.form.valid && !this.readOnly : false;
   }
 
   public save() {
+    if (this.readOnly) {
+      return;
+    }
     const creature = this.form.getRawValue() as Creature;
     creature.category = this.creatureCategory;
     if (this.creatureCategory === CreatureCategory.Enemy) {

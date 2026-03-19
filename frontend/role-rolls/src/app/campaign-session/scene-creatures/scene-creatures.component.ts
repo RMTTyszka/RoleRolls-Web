@@ -1,24 +1,24 @@
-import {Component, input, signal} from '@angular/core';
-import {CampaignScene} from '@app/campaigns/models/campaign-scene-model';
-import {SubscriptionManager} from '@app/tokens/subscription-manager';
-import {AuthenticationService} from '@app/authentication/services/authentication.service';
-import {Creature} from '@app/campaigns/models/creature';
-import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
-import {CampaignsService} from '@app/campaigns/services/campaigns.service';
-import {CampaignSessionService} from '@app/campaign-session/campaign-session.service';
-import {Panel} from 'primeng/panel';
-import {SceneCreatureRowComponent} from '@app/campaign-session/scene-creature-row/scene-creature-row.component';
-import {NgForOf, NgIf} from '@angular/common';
-import {SceneCreature} from '@app/campaigns/models/scene-creature.model';
-import {CreatureSelectComponent} from '@app/campaign-session/creature-select/creature-select.component';
-import {firstValueFrom} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {Campaign} from '@app/campaigns/models/campaign';
-import {ButtonDirective} from 'primeng/button';
-import {EncountersService} from '@app/encounters/services/encounters.service';
-import {Encounter} from '@app/encounters/models/encounter';
+import { Component, input, signal } from '@angular/core';
+import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
+import { SubscriptionManager } from '@app/tokens/subscription-manager';
+import { AuthenticationService } from '@app/authentication/services/authentication.service';
+import { Creature } from '@app/campaigns/models/creature';
+import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
+import { CampaignsService } from '@app/campaigns/services/campaigns.service';
+import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
+import { Panel } from 'primeng/panel';
+import { SceneCreatureRowComponent } from '@app/campaign-session/scene-creature-row/scene-creature-row.component';
+import { NgForOf, NgIf } from '@angular/common';
+import { SceneCreature } from '@app/campaigns/models/scene-creature.model';
+import { CreatureSelectComponent } from '@app/campaign-session/creature-select/creature-select.component';
+import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Campaign } from '@app/campaigns/models/campaign';
+import { ButtonDirective } from 'primeng/button';
+import { EncountersService } from '@app/encounters/services/encounters.service';
+import { Encounter } from '@app/encounters/models/encounter';
 
-  @Component({
+@Component({
     selector: 'rr-scene-creatures',
     imports: [
       Panel,
@@ -78,7 +78,11 @@ export class SceneCreaturesComponent {
             }
           });
         }
-        this.detailsService.heroes.set(this.creatures);
+        if (this.creatureCategory() === CreatureCategory.Ally) {
+          this.detailsService.heroes.set(this.creatures.filter(c => c.category === CreatureCategory.Ally));
+        } else {
+          this.detailsService.monsters.set(this.creatures.filter(c => c.category === CreatureCategory.Enemy));
+        }
       });
   }
   private subscribeToSceneChanges() {

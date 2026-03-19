@@ -17,6 +17,6 @@
   </div>
 
   <button pButton severity="primary" class="w-full p-2 mt-4"
-          [disabled]="form.invalid || !form.dirty"
+          [disabled]="!canEdit || form.invalid || !form.dirty"
   (click)="save()">Save</button>
 </div>

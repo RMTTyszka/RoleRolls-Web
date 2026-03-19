@@ -45,7 +45,10 @@
 <p-drawer [(visible)]="displaySimulateCdSidebar" position="right" [modal]="false"  [style]="{width:'60em'}">
   <rr-simulate-cd [simulateInputEmitter]="simulateCdInputEmitter" [simulateResultEmitter]="simulateCdResultEmitter" [campaign]="campaign" [scene]="scene"></rr-simulate-cd>
 </p-drawer>
-<p-drawer [dismissible]="false"  [(visible)]="displayAttackSidebar" (onHide)="attack(null)" position="right" [modal]="false" [style]="{width:'60em'}"
+<p-drawer [dismissible]="false"
+          [(visible)]="displayAttackSidebar"
+          [header]="attacker()?.name"
+          [closeOnEscape]="true" (onHide)="attack(null)" position="right" [modal]="false" [style]="{width:'60em'}"
 >
   <rr-attack
     [attacker]="attacker()"

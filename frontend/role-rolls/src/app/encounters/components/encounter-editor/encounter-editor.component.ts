@@ -46,6 +46,7 @@ export class EncounterEditorComponent {
   public campaign: Campaign;
   public encounter: WritableSignal<Encounter>;
   public creatures = computed(() => this.encounter().creatures);
+  public canEdit = false;
   private action: EditorAction = EditorAction.create;
 
 
@@ -72,7 +73,8 @@ export class EncounterEditorComponent {
     this.form = getAsForm(this.encounter(), {
       requiredFields: ['name']
     });
-    if (!canEditCampaign(this.campaign)) {
+    this.canEdit = canEditCampaign(this.campaign);
+    if (!this.canEdit) {
       this.form.disable();
     }
     this.headerActions = this.buildHeaderActions();
@@ -81,6 +83,9 @@ export class EncounterEditorComponent {
     this.loaded.set(true);
   }
   public selectCreatureTemplate() {
+    if (!this.canEdit) {
+      return;
+    }
     this.dialog.open(CreatureSelectTableComponent, {
       data: { creatureCategory: CreatureCategory.Enemy, campaign: this.campaign },
       height: '90vh',
@@ -103,6 +108,9 @@ export class EncounterEditorComponent {
     }
   }
   async addCreature(creature: Creature): Promise<void> {
+    if (!this.canEdit) {
+      return;
+    }
     if (this.action === EditorAction.create) {
       this.encounter.set({
         ...this.encounter(),
@@ -114,6 +122,9 @@ export class EncounterEditorComponent {
       this.refreshGrid.next();
   }
   async removeCreature(creatureId: string) {
+    if (!this.canEdit) {
+      return;
+    }
     await firstValueFrom(this.service.removeCreature(this.campaign.id, this.encounter().id, creatureId, true));
     this.refreshGrid.next();
   }
@@ -121,7 +132,7 @@ export class EncounterEditorComponent {
     return [
       {
         icon: 'pi pi-plus',
-        condition: () => true,
+        condition: () => this.canEdit,
         tooltip: 'Add',
         callBack: () => this.selectCreatureTemplate(),
       } as RRHeaderAction
@@ -131,13 +142,13 @@ export class EncounterEditorComponent {
     return [
       {
         icon: 'pi pi-times',
-        condition: () => true,
+        condition: () => this.canEdit,
         tooltip: 'Remove',
         callBack: (creature: Creature) => this.removeCreature(creature.id),
       } as RRTableAction<Creature>,
       {
         icon: 'pi pi-pencil',
-        condition: () => true,
+        condition: () => this.canEdit,
         tooltip: 'Edit',
         csClass: 'p-button-danger',
         callBack: (creature: Creature) => this.editCreature(creature.id),
@@ -153,7 +164,7 @@ export class EncounterEditorComponent {
   }
 
   public async save(): Promise<void> {
-    if (!this.form.valid) {
+    if (!this.canEdit || !this.form.valid) {
       return;
     }
     const encounter = this.form.value as Encounter;
@@ -167,6 +178,9 @@ export class EncounterEditorComponent {
   }
 
   private async editCreature(id: string) {
+    if (!this.canEdit) {
+      return;
+    }
     await firstValueFrom(this.creatureDetailsService.openCreatureEditor(this.campaign, id, CreatureCategory.Enemy, EditorAction.update));
   }
 }

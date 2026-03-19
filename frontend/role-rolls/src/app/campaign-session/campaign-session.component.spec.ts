@@ -10,6 +10,11 @@ describe('CampaignSessionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CampaignSessionComponent]
     })
+    .overrideComponent(CampaignSessionComponent, {
+      set: {
+        template: ''
+      }
+    })
     .compileComponents();
 
     fixture = TestBed.createComponent(CampaignSessionComponent);

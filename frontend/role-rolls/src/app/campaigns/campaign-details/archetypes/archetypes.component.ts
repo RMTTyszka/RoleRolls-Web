@@ -10,6 +10,7 @@ import {
 } from '@app/campaigns/campaign-details/archetypes/archetype-editor/archetype-editor.component';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { Archetype } from '@app/models/archetypes/archetype';
+import { canEditTemplate } from '@app/tokens/utils.funcs';
 
 @Component({
   selector: 'rr-archetypes',
@@ -24,7 +25,7 @@ export class ArchetypesComponent {
   columns: RRColumns[] = [];
   refreshGrid = new EventEmitter<void>();
   private campaign: Campaign;
-  isMaster: boolean;
+  canEdit: boolean;
   private dialogRef: DynamicDialogRef<ArchetypeEditorComponent>;
 
 
@@ -39,7 +40,7 @@ export class ArchetypesComponent {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.campaign = data['campaign'];
-      this.isMaster = this.authenticationService.isMaster(this.campaign.masterId)
+      this.canEdit = canEditTemplate(this.campaign);
     });
   }
   getList = (input: GetListInput) => {
@@ -77,7 +78,7 @@ export class ArchetypesComponent {
     return [
       {
         icon: 'pi pi-plus',
-        condition: () => this.isMaster,
+        condition: () => this.canEdit,
         tooltip: 'New',
         callBack: () => this.openArchetypeDialog({} as Archetype),
       } as RRHeaderAction
