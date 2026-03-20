@@ -4,6 +4,11 @@ import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { Creature } from '@app/campaigns/models/creature';
 
+export interface BoardCreatureTokenRequest {
+  creature: Creature;
+  sceneId: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +21,7 @@ export class CampaignSessionService {
   public monsterAddedToScene = new Subject<void>();
   public monsterRemovedToScene = new Subject<void>();
   public heroTookDamage = new Subject<void>();
+  public creatureTokenRequested = new Subject<BoardCreatureTokenRequest>();
   public campaign: Campaign;
   public heroes  = signal<Creature[]>([]);
   public monsters  = signal<Creature[]>([]);

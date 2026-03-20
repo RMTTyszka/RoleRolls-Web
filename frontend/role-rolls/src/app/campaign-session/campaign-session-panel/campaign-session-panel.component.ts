@@ -22,6 +22,7 @@ import { switchMap } from 'rxjs/operators';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Toolbar } from 'primeng/toolbar';
+import { SceneBoardComponent } from '@app/campaign-session/scene-board/scene-board.component';
 
 @Component({
   selector: 'rr-campaign-session-panel',
@@ -34,7 +35,8 @@ import { Toolbar } from 'primeng/toolbar';
     NgIf,
     ButtonDirective,
     InputText,
-    Toolbar
+    Toolbar,
+    SceneBoardComponent
   ],
   templateUrl: './campaign-session-panel.component.html',
   styleUrl: './campaign-session-panel.component.scss'
@@ -42,7 +44,7 @@ import { Toolbar } from 'primeng/toolbar';
 export class CampaignSessionPanelComponent implements OnDestroy {
   public invitationCode: string;
   public get campaignId() {
-    return this.campaign.id;
+    return this.campaign?.id;
   }
   public loadMe = false;
   public campaign: Campaign;

@@ -21,6 +21,7 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         public Guid CampaignId { get; set; }
         public Campaign Campaign { get; set; }
         public ICollection<SceneAction> Actions { get; set; } = new List<SceneAction>();
+        public SceneBoard? Board { get; set; }
         public ICollection<SceneCreature> Creatures { get; set; } = new List<SceneCreature>();
         public ICollection<Roll> Rolls { get; set; } = new List<Roll>();
 

@@ -122,6 +122,16 @@ export class SceneCreatureRowComponent {
       }
     });
   }
+  public addTokenToBoard(creature: Creature) {
+    if (!this.scene) {
+      return;
+    }
+
+    this.detailsService.creatureTokenRequested.next({
+      creature,
+      sceneId: this.scene.id
+    });
+  }
   public selectCreatureForRoll(creature: Creature) {
     this.selectedCreatureForRoll = creature;
     this.displayRollSidebar = false;

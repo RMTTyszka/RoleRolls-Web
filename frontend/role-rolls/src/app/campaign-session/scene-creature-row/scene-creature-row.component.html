@@ -17,6 +17,10 @@
             (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
+    <button pButton icon="pi pi-map-marker" pTooltip="Add token to board"
+            (click)="addTokenToBoard(creature)"></button>
+  </p-inputgroup-addon>
+  <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
     <button pButton icon="fas fa-tint" pTooltip="Damage/Heal"
             (click)="takeDamage(creature)"></button>
   </p-inputgroup-addon>

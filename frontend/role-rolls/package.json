@@ -30,6 +30,7 @@
     "@codemirror/view": "^6.40.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@microsoft/signalr": "^8.0.7",
+    "konva": "^10.0.0",
     "@primeuix/themes": "^2.0.3",
     "chart.js": "^3.3.2",
     "dompurify": "^3.3.3",

@@ -27,6 +27,7 @@ using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.Templates.Entities.Json;
 using RoleRollsPocketEdition.Spells.Entities;
+using RoleRollsPocketEdition.Scenes.Models;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
@@ -48,6 +49,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
         public DbSet<Scene> CampaignScenes { get; set; }
+        public DbSet<SceneBoard> SceneBoards { get; set; }
         public DbSet<SceneCreature> SceneCreatures { get; set; }
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
         public DbSet<PowerTemplate> PowerTemplates { get; set; }
@@ -89,6 +91,10 @@ namespace RoleRollsPocketEdition.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<FormulaToken>();
+            modelBuilder.Ignore<SceneBoardState>();
+            modelBuilder.Ignore<SceneBoardStroke>();
+            modelBuilder.Ignore<SceneBoardToken>();
+            modelBuilder.Ignore<SceneBoardViewport>();
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(Entity).IsAssignableFrom(entityType.ClrType) && entityType.BaseType is null)
@@ -140,6 +146,28 @@ namespace RoleRollsPocketEdition.Infrastructure
                 c => JsonSerializer.Deserialize<List<FormulaToken>>(serializeFormulaTokens(c),
                     formulaTokensJsonOptions) ?? new List<FormulaToken>());
 
+            var sceneBoardJsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var serializeSceneBoardState = (Func<SceneBoardState?, string>)(state =>
+                JsonSerializer.Serialize(state ?? SceneBoardState.CreateEmpty(), sceneBoardJsonOptions));
+
+            var sceneBoardStateConverter = new ValueConverter<SceneBoardState, string>(
+                value => serializeSceneBoardState(value),
+                value => string.IsNullOrWhiteSpace(value)
+                    ? SceneBoardState.CreateEmpty()
+                    : JsonSerializer.Deserialize<SceneBoardState>(value, sceneBoardJsonOptions) ??
+                      SceneBoardState.CreateEmpty());
+
+            var sceneBoardStateComparer = new ValueComparer<SceneBoardState>(
+                (left, right) => serializeSceneBoardState(left) == serializeSceneBoardState(right),
+                value => serializeSceneBoardState(value).GetHashCode(),
+                value => JsonSerializer.Deserialize<SceneBoardState>(serializeSceneBoardState(value),
+                    sceneBoardJsonOptions) ?? SceneBoardState.CreateEmpty());
+
             modelBuilder.Entity<Defense>()
                 .Property(d => d.FormulaTokens)
                 .HasColumnType("jsonb")
@@ -157,6 +185,20 @@ namespace RoleRollsPocketEdition.Infrastructure
                 .HasColumnType("jsonb")
                 .HasConversion(formulaTokensConverter)
                 .Metadata.SetValueComparer(formulaTokensComparer);
+
+            modelBuilder.Entity<SceneBoard>(entity =>
+            {
+                entity.Property(board => board.State)
+                    .HasColumnType("jsonb")
+                    .HasConversion(sceneBoardStateConverter)
+                    .Metadata.SetValueComparer(sceneBoardStateComparer);
+                entity.HasOne(board => board.Scene)
+                    .WithOne(scene => scene.Board)
+                    .HasForeignKey<SceneBoard>(board => board.SceneId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(board => board.SceneId)
+                    .IsUnique();
+            });
 
             modelBuilder.Entity<AttributeTemplate>(e =>
             {

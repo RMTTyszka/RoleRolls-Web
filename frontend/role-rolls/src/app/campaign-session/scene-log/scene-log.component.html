@@ -1,9 +1,14 @@
+<p-panel styleClass="scene-log-panel">
+  <div *ngFor="let history of histories" class="scene-log__entry">
+    <div class="scene-log__meta">
+      <span class="scene-log__timestamp">{{history.asOfDate | date: 'dd-MM-yy HH:mm'}}</span>
+      <span class="scene-log__actor">{{history.actor}}</span>
+    </div>
 
-<p-panel>
-  <div *ngFor="let history of histories" style="padding-bottom: 8px;">
-    <span>{{history.asOfDate | date: 'dd-MM-yy HH:mm'}}</span> -  <span>{{history.actor}}</span>
-    <p-card>
-      <rr-log-details [history]="history"></rr-log-details>
+    <p-card styleClass="scene-log__card">
+      <div class="scene-log__details">
+        <rr-log-details [history]="history"></rr-log-details>
+      </div>
     </p-card>
   </div>
 </p-panel>

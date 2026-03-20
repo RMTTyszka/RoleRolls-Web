@@ -1,1 +1,43 @@
+:host {
+  display: block;
+}
 
+.session-panel__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.session-panel__creatures-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.session-panel__content-row {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(18rem, 3fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.session-panel__board {
+  min-width: 0;
+}
+
+.session-panel__log {
+  min-width: 0;
+}
+
+.session-panel__creatures {
+  display: block;
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .session-panel__creatures-row,
+  .session-panel__content-row {
+    grid-template-columns: 1fr;
+  }
+}

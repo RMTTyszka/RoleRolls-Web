@@ -123,17 +123,19 @@ export class SceneCreaturesComponent {
       this.campaignService.addHeroToScene(this.scene.campaignId, this.scene.id, input)
         .subscribe(() => {
           this.refreshCreatures(false);
-
+          this.detailsService.heroAddedToScene.next();
         });
     } else {
       this.campaignService.addMonsterToScene(this.scene.campaignId, this.scene.id, input)
         .subscribe(() => {
           this.refreshCreatures(false);
-
+          this.detailsService.monsterAddedToScene.next();
         });
     }
   }
   public async addCreatures(creatures: Creature[]): Promise<void> {
+    let addedAllies = false;
+    let addedEnemies = false;
     for (const creature of creatures) {
       const input = {
         creatureId: creature.id,
@@ -142,11 +144,19 @@ export class SceneCreaturesComponent {
 
       if (creature.category === CreatureCategory.Ally) {
         await firstValueFrom(this.campaignService.addHeroToScene(this.scene.campaignId, this.scene.id, input));
+        addedAllies = true;
       } else {
         await firstValueFrom(this.campaignService.addMonsterToScene(this.scene.campaignId, this.scene.id, input));
+        addedEnemies = true;
       }
     }
     this.refreshCreatures(false);
+    if (addedAllies) {
+      this.detailsService.heroAddedToScene.next();
+    }
+    if (addedEnemies) {
+      this.detailsService.monsterAddedToScene.next();
+    }
   }
 
   public selectEncounter() {

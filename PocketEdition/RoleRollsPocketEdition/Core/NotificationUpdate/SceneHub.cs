@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using RoleRollsPocketEdition.Campaigns.Dtos;
+using RoleRollsPocketEdition.Scenes.Models;
 
 namespace RoleRollsPocketEdition.Core.NotificationUpdate;
 
@@ -24,4 +25,5 @@ public class SceneHub : Hub<ISceneHub>
 public interface ISceneHub  
 {
     Task UpdateHistory(SceneHistory message);
+    Task BoardOperationApplied(BoardOperationEnvelope message);
 }

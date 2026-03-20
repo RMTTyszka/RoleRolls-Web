@@ -16,10 +16,29 @@
       </div>
     </p-toolbar>
   </ng-template>
-  <div class="flex justify-between flex-wrap">
-    <rr-scene-creatures [creatureCategory]="creatureTypeEnum.Ally" class="w-full md:w-1/2 mb-4 md:mb-0"></rr-scene-creatures>
-    <rr-scene-creatures [creatureCategory]="creatureTypeEnum.Enemy" class="w-full md:w-1/2 mb-4 md:mb-0"></rr-scene-creatures>
-    <span class="w-full md:w-1/2"></span>
-    <rr-scene-log class="w-full md:w-1/2"></rr-scene-log>
+  <div class="session-panel__layout">
+    <div class="session-panel__creatures-row">
+      <rr-scene-creatures
+        [creatureCategory]="creatureTypeEnum.Ally"
+        class="session-panel__creatures session-panel__creatures--ally">
+      </rr-scene-creatures>
+
+      <rr-scene-creatures
+        [creatureCategory]="creatureTypeEnum.Enemy"
+        class="session-panel__creatures session-panel__creatures--enemy">
+      </rr-scene-creatures>
+    </div>
+
+    <div class="session-panel__content-row">
+      <rr-scene-board
+        class="session-panel__board"
+        [campaignId]="campaignId"
+        [scene]="selectedScene"
+        [isMaster]="isMaster"
+        [readOnly]="notInvited && !isMaster">
+      </rr-scene-board>
+
+      <rr-scene-log class="session-panel__log"></rr-scene-log>
+    </div>
   </div>
 </p-panel>

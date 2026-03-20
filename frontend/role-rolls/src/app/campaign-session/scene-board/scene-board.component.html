@@ -1,0 +1,115 @@
+<div class="scene-board">
+  <div class="scene-board__toolbar">
+    <div class="scene-board__tools">
+      <button
+        pButton
+        type="button"
+        class="scene-board__tool"
+        [class.scene-board__tool--active]="boardStore.tool() === 'select'"
+        (click)="setTool('select')">
+        Select
+      </button>
+      <button
+        pButton
+        type="button"
+        class="scene-board__tool"
+        [class.scene-board__tool--active]="boardStore.tool() === 'pen'"
+        [disabled]="readOnly()"
+        (click)="setTool('pen')">
+        Draw
+      </button>
+      <button
+        pButton
+        type="button"
+        class="scene-board__tool"
+        [class.scene-board__tool--active]="boardStore.tool() === 'erase'"
+        [disabled]="readOnly()"
+        (click)="setTool('erase')">
+        Erase
+      </button>
+    </div>
+
+    <div class="scene-board__controls">
+      <button
+        pButton
+        type="button"
+        class="scene-board__generic"
+        [disabled]="readOnly()"
+        (click)="addGenericToken()">
+        Add Marker
+      </button>
+
+      <label class="scene-board__field">
+        <span>Color</span>
+        <input
+          type="color"
+          [ngModel]="boardStore.strokeColor()"
+          [disabled]="readOnly() || boardStore.tool() !== 'pen'"
+          (ngModelChange)="boardStore.setStrokeColor($event)">
+      </label>
+
+      <label class="scene-board__field scene-board__field--range">
+        <span>Size {{ boardStore.strokeWidth() }}</span>
+        <input
+          type="range"
+          min="2"
+          max="18"
+          step="1"
+          [ngModel]="boardStore.strokeWidth()"
+          [disabled]="readOnly() || boardStore.tool() !== 'pen'"
+          (ngModelChange)="boardStore.setStrokeWidth(+$event)">
+      </label>
+
+      <button
+        pButton
+        type="button"
+        class="scene-board__clear"
+        *ngIf="isMaster()"
+        [disabled]="readOnly()"
+        (click)="clearBoard()">
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <div class="scene-board__canvas-shell">
+    <div class="scene-board__hint" *ngIf="!scene()">
+      Select a scene to start the board.
+    </div>
+    <div class="scene-board__hint scene-board__hint--readonly" *ngIf="scene() && readOnly()">
+      Read only mode
+    </div>
+    <div #stageHost class="scene-board__stage"></div>
+  </div>
+
+  <section class="scene-board__section scene-board__section--selection">
+    <h3>Selection</h3>
+
+    <div class="scene-board__selection" *ngIf="selectedToken(); else noSelection">
+      <label class="scene-board__field scene-board__field--selection">
+        <span>Name</span>
+        <input
+          type="text"
+          class="scene-board__text-input"
+          [ngModel]="tokenLabelDraft()"
+          [disabled]="readOnly()"
+          (ngModelChange)="tokenLabelDraft.set($event)"
+          (keydown.enter)="renameSelectedToken()">
+      </label>
+      <button
+        pButton
+        type="button"
+        class="scene-board__save"
+        [disabled]="readOnly() || !canRenameSelectedToken()"
+        (click)="renameSelectedToken()">
+        Save name
+      </button>
+    </div>
+
+    <ng-template #noSelection>
+      <div class="scene-board__empty">
+        Select a token to rename it.
+      </div>
+    </ng-template>
+  </section>
+</div>

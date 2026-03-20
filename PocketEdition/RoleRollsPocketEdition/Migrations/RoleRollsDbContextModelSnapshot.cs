@@ -923,6 +923,36 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("SceneActions");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneBoard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SceneId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SceneId")
+                        .IsUnique();
+
+                    b.ToTable("SceneBoards");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneCreature", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2037,6 +2067,17 @@ namespace RoleRollsPocketEdition.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneBoard", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Scenes.Entities.Scene", "Scene")
+                        .WithOne("Board")
+                        .HasForeignKey("RoleRollsPocketEdition.Scenes.Entities.SceneBoard", "SceneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scene");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneCreature", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Scenes.Entities.Scene", "Scene")
@@ -2209,6 +2250,8 @@ namespace RoleRollsPocketEdition.Migrations
             modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.Scene", b =>
                 {
                     b.Navigation("Actions");
+
+                    b.Navigation("Board");
 
                     b.Navigation("Creatures");
 

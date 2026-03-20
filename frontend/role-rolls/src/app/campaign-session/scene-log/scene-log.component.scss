@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.scene-log__entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-bottom: 0.75rem;
+}
+
+.scene-log__entry:last-child {
+  padding-bottom: 0;
+}
+
+.scene-log__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: #475569;
+}
+
+.scene-log__timestamp {
+  font-variant-numeric: tabular-nums;
+}
+
+.scene-log__actor {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.scene-log__details {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #334155;
+}
+
+:host ::ng-deep .scene-log-panel .p-panel-content {
+  padding: 0.85rem;
+}
+
+:host ::ng-deep .scene-log__card .p-card-body {
+  padding: 0.75rem 0.8rem;
+}
+
+:host ::ng-deep .scene-log__card .p-card-content {
+  padding: 0;
+}
