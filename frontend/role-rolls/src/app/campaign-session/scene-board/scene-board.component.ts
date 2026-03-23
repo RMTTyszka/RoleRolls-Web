@@ -30,8 +30,18 @@ import { SceneBoardService } from '@app/campaign-session/scene-board/scene-board
 import { SceneBoardApiService } from '@app/campaign-session/scene-board/scene-board-api.service';
 import { SceneBoardKonvaAdapter } from '@app/campaign-session/scene-board/scene-board-konva.adapter';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
-import { catchError, EMPTY, of } from 'rxjs';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
+
+interface SceneBoardHistoryEntry {
+  undo: () => Promise<void>;
+  redo: () => Promise<void>;
+}
+
+interface SceneBoardSnapshot {
+  strokes: BoardStroke[];
+  tokens: BoardToken[];
+}
 
 @Component({
   selector: 'rr-scene-board',
@@ -60,6 +70,9 @@ export class SceneBoardComponent implements AfterViewInit {
   private readonly authenticationService = inject(AuthenticationService);
   private readonly campaignSessionService = inject(CampaignSessionService);
   private readonly subscriptionManager = new SubscriptionManager();
+  private readonly undoStack: SceneBoardHistoryEntry[] = [];
+  private readonly redoStack: SceneBoardHistoryEntry[] = [];
+  private readonly maxUndoEntries = 10;
 
   public readonly tokenLabelDraft = signal('');
 
@@ -67,6 +80,19 @@ export class SceneBoardComponent implements AfterViewInit {
   private adapter: SceneBoardKonvaAdapter | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private loadedSceneKey: string | null = null;
+  private isHistoryReplayInProgress = false;
+  private readonly handleWindowKeydown = (event: KeyboardEvent) => {
+    if (this.shouldHandleUndoShortcut(event)) {
+      event.preventDefault();
+      void this.undoLastChange();
+      return;
+    }
+
+    if (this.shouldHandleRedoShortcut(event)) {
+      event.preventDefault();
+      void this.redoLastChange();
+    }
+  };
 
   constructor() {
     effect(() => {
@@ -90,6 +116,7 @@ export class SceneBoardComponent implements AfterViewInit {
 
       if (!scene || !campaignId) {
         this.loadedSceneKey = null;
+        this.clearUndoHistory();
         this.boardStore.clearState();
         this.adapter?.render(null, null);
         return;
@@ -101,6 +128,7 @@ export class SceneBoardComponent implements AfterViewInit {
       }
 
       this.loadedSceneKey = sceneKey;
+      this.clearUndoHistory();
       this.loadScene(campaignId, scene);
     });
 
@@ -121,11 +149,11 @@ export class SceneBoardComponent implements AfterViewInit {
       getTool: () => this.boardStore.tool(),
       getStrokeColor: () => this.boardStore.strokeColor(),
       getStrokeWidth: () => this.boardStore.strokeWidth(),
-      onStrokeCreated: points => this.createStroke(points),
-      onStrokeRemoved: strokeId => this.removeStroke(strokeId),
-      onTokenMoved: (tokenId, point) => this.moveToken(tokenId, point),
+      onStrokeCreated: points => void this.createStroke(points),
+      onStrokeRemoved: strokeId => void this.removeStroke(strokeId),
+      onTokenMoved: (tokenId, point) => void this.moveToken(tokenId, point),
       onTokenSelected: tokenId => this.boardStore.selectToken(tokenId),
-      onTokenRemoved: tokenId => this.removeToken(tokenId),
+      onTokenRemoved: tokenId => void this.removeToken(tokenId),
     });
 
     this.resizeObserver = new ResizeObserver(entries => {
@@ -156,9 +184,12 @@ export class SceneBoardComponent implements AfterViewInit {
           return;
         }
 
-        this.addCreatureToken(request.creature);
+        void this.addCreatureToken(request.creature);
       })
     );
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', this.handleWindowKeydown);
+    }
     this.viewReady.set(true);
   }
 
@@ -166,13 +197,19 @@ export class SceneBoardComponent implements AfterViewInit {
     this.subscriptionManager.clear();
     this.resizeObserver?.disconnect();
     this.adapter?.destroy();
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.handleWindowKeydown);
+    }
   }
 
   public setTool(tool: 'select' | 'pen' | 'erase'): void {
+    if (tool === 'erase' && !this.isMaster()) {
+      return;
+    }
     this.boardStore.setTool(tool);
   }
 
-  public addCreatureToken(creature: Creature): void {
+  public async addCreatureToken(creature: Creature): Promise<void> {
     const point = this.defaultSpawnPoint();
     const token = {
       id: uuidv4(),
@@ -188,10 +225,10 @@ export class SceneBoardComponent implements AfterViewInit {
       locked: false,
     } as BoardToken;
 
-    this.persistToken(token);
+    await this.persistToken(token);
   }
 
-  public addGenericToken(): void {
+  public async addGenericToken(): Promise<void> {
     const point = this.defaultSpawnPoint();
     const token = {
       id: uuidv4(),
@@ -207,17 +244,17 @@ export class SceneBoardComponent implements AfterViewInit {
       locked: false,
     } as BoardToken;
 
-    this.persistToken(token);
+    await this.persistToken(token);
   }
 
   public selectedToken(): BoardToken | null {
     return this.boardStore.selectedToken();
   }
 
-  public removeSelectedToken(): void {
+  public async removeSelectedToken(): Promise<void> {
     const token = this.selectedToken();
     if (token) {
-      this.removeToken(token.id);
+      await this.removeToken(token.id);
     }
   }
 
@@ -231,7 +268,7 @@ export class SceneBoardComponent implements AfterViewInit {
     return nextLabel.length > 0 && nextLabel !== token.label;
   }
 
-  public renameSelectedToken(): void {
+  public async renameSelectedToken(): Promise<void> {
     const token = this.selectedToken();
     if (!token || this.readOnly()) {
       return;
@@ -247,29 +284,38 @@ export class SceneBoardComponent implements AfterViewInit {
       return;
     }
 
-    this.persistToken({
-      ...token,
-      label: nextLabel,
-    });
+    await this.renameToken(token.id, nextLabel, token.label);
   }
 
-  public clearBoard(): void {
+  public async clearBoard(trackHistory: boolean = true): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
-    if (!campaignId || !scene) {
+    const document = this.boardStore.document();
+    if (!campaignId || !scene || !document) {
       return;
+    }
+
+    const snapshot = this.captureSnapshot(document);
+    if (trackHistory && (snapshot.strokes.length > 0 || snapshot.tokens.length > 0) && !this.isHistoryReplayInProgress) {
+      this.pushHistoryEntry({
+        undo: () => this.restoreSnapshot(snapshot),
+        redo: () => this.clearBoard(false)
+      });
     }
 
     const opId = uuidv4();
     this.boardStore.clearBoard(opId);
-    this.boardApi.clearBoard(campaignId, scene.id, { opId })
-      .pipe(
+    const operation = await firstValueFrom(
+      this.boardApi.clearBoard(campaignId, scene.id, { opId }).pipe(
         catchError(error => {
           console.error('Failed to clear board', error);
-          return EMPTY;
+          return of(null);
         })
       )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
   }
 
   private loadScene(campaignId: string, scene: CampaignScene): void {
@@ -290,7 +336,7 @@ export class SceneBoardComponent implements AfterViewInit {
     });
   }
 
-  private createStroke(points: number[]): void {
+  private async createStroke(points: number[]): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
     if (!campaignId || !scene) {
@@ -307,37 +353,59 @@ export class SceneBoardComponent implements AfterViewInit {
       createdBy: this.authenticationService.userId ?? 'unknown',
     } as BoardStroke;
 
+    if (!this.isHistoryReplayInProgress) {
+      this.pushHistoryEntry({
+        undo: () => this.removeStroke(stroke.id, false),
+        redo: () => this.persistStroke(this.cloneStroke(stroke), false)
+      });
+    }
+
     this.boardStore.addStroke(stroke, opId);
-    this.boardApi.addStroke(campaignId, scene.id, { opId, payload: stroke })
-      .pipe(
+    const operation = await firstValueFrom(
+      this.boardApi.addStroke(campaignId, scene.id, { opId, payload: stroke }).pipe(
         catchError(error => {
           console.error('Failed to persist stroke', error);
-          return EMPTY;
+          return of(null);
         })
       )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
   }
 
-  private removeStroke(strokeId: string): void {
+  private async removeStroke(strokeId: string, trackUndo: boolean = true): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
-    if (!campaignId || !scene) {
+    const stroke = this.boardStore.document()?.strokes.find(currentStroke => currentStroke.id === strokeId);
+    if (!campaignId || !scene || !stroke) {
       return;
+    }
+
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      const strokeSnapshot = this.cloneStroke(stroke);
+      this.pushHistoryEntry({
+        undo: () => this.persistStroke(strokeSnapshot, false),
+        redo: () => this.removeStroke(strokeId, false)
+      });
     }
 
     const opId = uuidv4();
     this.boardStore.removeStroke(strokeId, opId);
-    this.boardApi.removeStroke(campaignId, scene.id, strokeId, { opId })
-      .pipe(
+    const operation = await firstValueFrom(
+      this.boardApi.removeStroke(campaignId, scene.id, strokeId, { opId }).pipe(
         catchError(error => {
           console.error('Failed to remove stroke', error);
-          return EMPTY;
+          return of(null);
         })
       )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
   }
 
-  private moveToken(tokenId: string, point: BoardPoint): void {
+  private async moveToken(tokenId: string, point: BoardPoint): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
     const document = this.boardStore.document();
@@ -350,60 +418,166 @@ export class SceneBoardComponent implements AfterViewInit {
       return;
     }
 
-    const opId = uuidv4();
-    const updatedToken = {
-      ...token,
+    const nextPosition = {
       x: point.x,
       y: point.y,
-    } as BoardToken;
+    };
 
-    this.boardStore.upsertToken(updatedToken, opId);
-    this.boardApi.upsertToken(campaignId, scene.id, { opId, payload: updatedToken })
-      .pipe(
-        catchError(error => {
-          console.error('Failed to move token', error);
-          return EMPTY;
-        })
-      )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    if (token.x === nextPosition.x && token.y === nextPosition.y) {
+      return;
+    }
+
+    await this.persistTokenPosition(
+      tokenId,
+      nextPosition,
+      {
+        x: token.x,
+        y: token.y,
+      });
   }
 
-  private removeToken(tokenId: string): void {
+  private async removeToken(tokenId: string, trackUndo: boolean = true): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
-    if (!campaignId || !scene) {
+    const token = this.boardStore.document()?.tokens.find(currentToken => currentToken.id === tokenId);
+    if (!campaignId || !scene || !token) {
       return;
+    }
+
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      const tokenSnapshot = this.cloneToken(token);
+      this.pushHistoryEntry({
+        undo: () => this.persistToken(tokenSnapshot, null, false),
+        redo: () => this.removeToken(tokenId, false)
+      });
     }
 
     const opId = uuidv4();
     this.boardStore.removeToken(tokenId, opId);
-    this.boardApi.removeToken(campaignId, scene.id, tokenId, { opId })
-      .pipe(
+    const operation = await firstValueFrom(
+      this.boardApi.removeToken(campaignId, scene.id, tokenId, { opId }).pipe(
         catchError(error => {
           console.error('Failed to remove token', error);
-          return EMPTY;
+          return of(null);
         })
       )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
   }
 
-  private persistToken(token: BoardToken): void {
+  private async persistToken(
+    token: BoardToken,
+    previousToken: BoardToken | null = this.boardStore.document()?.tokens.find(currentToken => currentToken.id === token.id) ?? null,
+    trackUndo: boolean = true
+  ): Promise<void> {
     const campaignId = this.campaignId();
     const scene = this.scene();
     if (!campaignId || !scene) {
       return;
     }
 
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      if (previousToken) {
+        const tokenSnapshot = this.cloneToken(previousToken);
+        const nextToken = this.cloneToken(token);
+        this.pushHistoryEntry({
+          undo: () => this.persistToken(tokenSnapshot, null, false),
+          redo: () => this.persistToken(nextToken, null, false)
+        });
+      } else {
+        const createdToken = this.cloneToken(token);
+        this.pushHistoryEntry({
+          undo: () => this.removeToken(token.id, false),
+          redo: () => this.persistToken(createdToken, null, false)
+        });
+      }
+    }
+
     const opId = uuidv4();
     this.boardStore.upsertToken(token, opId);
-    this.boardApi.upsertToken(campaignId, scene.id, { opId, payload: token })
-      .pipe(
+    const operation = await firstValueFrom(
+      this.boardApi.upsertToken(campaignId, scene.id, { opId, payload: token }).pipe(
         catchError(error => {
           console.error('Failed to persist token', error);
-          return EMPTY;
+          return of(null);
         })
       )
-      .subscribe(operation => this.boardStore.acknowledgeOperation(operation));
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
+  }
+
+  private async persistTokenPosition(
+    tokenId: string,
+    position: BoardPoint,
+    previousPosition: BoardPoint,
+    trackUndo: boolean = true
+  ): Promise<void> {
+    const campaignId = this.campaignId();
+    const scene = this.scene();
+    if (!campaignId || !scene) {
+      return;
+    }
+
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      const previousPoint = { ...previousPosition };
+      const nextPoint = { ...position };
+      this.pushHistoryEntry({
+        undo: () => this.persistTokenPosition(tokenId, previousPoint, nextPoint, false),
+        redo: () => this.persistTokenPosition(tokenId, nextPoint, previousPoint, false)
+      });
+    }
+
+    const opId = uuidv4();
+    this.boardStore.moveToken(tokenId, position, opId);
+    const operation = await firstValueFrom(
+      this.boardApi.moveToken(campaignId, scene.id, tokenId, { opId, payload: position }).pipe(
+        catchError(error => {
+          console.error('Failed to move token', error);
+          return of(null);
+        })
+      )
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
+  }
+
+  private async renameToken(
+    tokenId: string,
+    label: string,
+    previousLabel: string,
+    trackUndo: boolean = true
+  ): Promise<void> {
+    const campaignId = this.campaignId();
+    const scene = this.scene();
+    if (!campaignId || !scene) {
+      return;
+    }
+
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      this.pushHistoryEntry({
+        undo: () => this.renameToken(tokenId, previousLabel, label, false),
+        redo: () => this.renameToken(tokenId, label, previousLabel, false)
+      });
+    }
+
+    const opId = uuidv4();
+    this.boardStore.renameToken(tokenId, label, opId);
+    const operation = await firstValueFrom(
+      this.boardApi.renameToken(campaignId, scene.id, tokenId, { opId, payload: { label } }).pipe(
+        catchError(error => {
+          console.error('Failed to rename token', error);
+          return of(null);
+        })
+      )
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
   }
 
   private defaultSpawnPoint(): BoardPoint {
@@ -415,5 +589,170 @@ export class SceneBoardComponent implements AfterViewInit {
       x: snapTokenCoordinate(center.x + offset),
       y: snapTokenCoordinate(center.y + offset),
     };
+  }
+
+  private async persistStroke(stroke: BoardStroke, trackUndo: boolean = true): Promise<void> {
+    const campaignId = this.campaignId();
+    const scene = this.scene();
+    if (!campaignId || !scene) {
+      return;
+    }
+
+    if (trackUndo && !this.isHistoryReplayInProgress) {
+      const strokeSnapshot = this.cloneStroke(stroke);
+      this.pushHistoryEntry({
+        undo: () => this.removeStroke(stroke.id, false),
+        redo: () => this.persistStroke(strokeSnapshot, false)
+      });
+    }
+
+    const opId = uuidv4();
+    this.boardStore.addStroke(stroke, opId);
+    const operation = await firstValueFrom(
+      this.boardApi.addStroke(campaignId, scene.id, { opId, payload: stroke }).pipe(
+        catchError(error => {
+          console.error('Failed to persist stroke', error);
+          return of(null);
+        })
+      )
+    );
+    if (operation) {
+      this.boardStore.acknowledgeOperation(operation);
+    }
+  }
+
+  private captureSnapshot(document: ReturnType<SceneBoardService['document']>): SceneBoardSnapshot {
+    return {
+      strokes: (document?.strokes ?? []).map(stroke => this.cloneStroke(stroke)),
+      tokens: (document?.tokens ?? []).map(token => this.cloneToken(token)),
+    };
+  }
+
+  private async restoreSnapshot(snapshot: SceneBoardSnapshot): Promise<void> {
+    for (const stroke of snapshot.strokes) {
+      await this.persistStroke(this.cloneStroke(stroke), false);
+    }
+
+    for (const token of snapshot.tokens) {
+      await this.persistToken(this.cloneToken(token), null, false);
+    }
+  }
+
+  private cloneStroke(stroke: BoardStroke): BoardStroke {
+    return {
+      ...stroke,
+      points: [...stroke.points],
+    };
+  }
+
+  private cloneToken(token: BoardToken): BoardToken {
+    return {
+      ...token,
+    };
+  }
+
+  private pushHistoryEntry(entry: SceneBoardHistoryEntry): void {
+    this.redoStack.length = 0;
+    this.pushStackEntry(this.undoStack, entry);
+  }
+
+  private clearUndoHistory(): void {
+    this.undoStack.length = 0;
+    this.redoStack.length = 0;
+  }
+
+  private async undoLastChange(): Promise<void> {
+    if (this.readOnly() || this.undoStack.length === 0 || this.isHistoryReplayInProgress) {
+      return;
+    }
+
+    const entry = this.undoStack.pop();
+    if (!entry) {
+      return;
+    }
+
+    this.isHistoryReplayInProgress = true;
+    try {
+      await entry.undo();
+      this.pushStackEntry(this.redoStack, entry);
+    } catch (error) {
+      console.error('Failed to undo board action', error);
+      this.undoStack.push(entry);
+    } finally {
+      this.isHistoryReplayInProgress = false;
+    }
+  }
+
+  private async redoLastChange(): Promise<void> {
+    if (this.readOnly() || this.redoStack.length === 0 || this.isHistoryReplayInProgress) {
+      return;
+    }
+
+    const entry = this.redoStack.pop();
+    if (!entry) {
+      return;
+    }
+
+    this.isHistoryReplayInProgress = true;
+    try {
+      await entry.redo();
+      this.pushStackEntry(this.undoStack, entry);
+    } catch (error) {
+      console.error('Failed to redo board action', error);
+      this.redoStack.push(entry);
+    } finally {
+      this.isHistoryReplayInProgress = false;
+    }
+  }
+
+  private shouldHandleUndoShortcut(event: KeyboardEvent): boolean {
+    const isUndoShortcut = (event.ctrlKey || event.metaKey)
+      && !event.shiftKey
+      && event.key.toLowerCase() === 'z';
+
+    if (!isUndoShortcut) {
+      return false;
+    }
+
+    const target = event.target as HTMLElement | null;
+    if (!target) {
+      return true;
+    }
+
+    return !this.isTextEditingTarget(target);
+  }
+
+  private shouldHandleRedoShortcut(event: KeyboardEvent): boolean {
+    const key = event.key.toLowerCase();
+    const isRedoShortcut = (
+      ((event.ctrlKey || event.metaKey) && event.shiftKey && key === 'z')
+      || (event.ctrlKey && !event.metaKey && !event.shiftKey && key === 'y')
+    );
+
+    if (!isRedoShortcut) {
+      return false;
+    }
+
+    const target = event.target as HTMLElement | null;
+    if (!target) {
+      return true;
+    }
+
+    return !this.isTextEditingTarget(target);
+  }
+
+  private pushStackEntry(stack: SceneBoardHistoryEntry[], entry: SceneBoardHistoryEntry): void {
+    stack.push(entry);
+    if (stack.length > this.maxUndoEntries) {
+      stack.splice(0, stack.length - this.maxUndoEntries);
+    }
+  }
+
+  private isTextEditingTarget(target: HTMLElement): boolean {
+    const tagName = target.tagName;
+    return target.isContentEditable
+      || tagName === 'INPUT'
+      || tagName === 'TEXTAREA'
+      || tagName === 'SELECT';
   }
 }

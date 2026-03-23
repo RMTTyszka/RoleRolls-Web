@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
@@ -14,12 +15,18 @@ public interface ISceneBoardService
     Task<BoardOperationEnvelope?> AddStrokeAsync(Guid campaignId, Guid sceneId, BoardCommand<SceneBoardStroke> command);
     Task<BoardOperationEnvelope?> RemoveStrokeAsync(Guid campaignId, Guid sceneId, Guid strokeId, BoardDeleteCommand command);
     Task<BoardOperationEnvelope?> UpsertTokenAsync(Guid campaignId, Guid sceneId, Guid tokenId, BoardCommand<SceneBoardToken> command);
+    Task<BoardOperationEnvelope?> MoveTokenAsync(Guid campaignId, Guid sceneId, Guid tokenId, BoardCommand<BoardTokenMoveInput> command);
+    Task<BoardOperationEnvelope?> RenameTokenAsync(Guid campaignId, Guid sceneId, Guid tokenId, BoardCommand<BoardTokenRenameInput> command);
+    Task<BoardOperationEnvelope?> SetTokenLockedAsync(Guid campaignId, Guid sceneId, Guid tokenId, BoardCommand<BoardTokenLockInput> command);
     Task<BoardOperationEnvelope?> RemoveTokenAsync(Guid campaignId, Guid sceneId, Guid tokenId, BoardDeleteCommand command);
     Task<BoardOperationEnvelope?> ClearAsync(Guid campaignId, Guid sceneId, BoardDeleteCommand command);
 }
 
 public class SceneBoardService : ISceneBoardService, ITransientDependency
 {
+    private const int MaxPersistenceRetryAttempts = 5;
+    private const string SceneBoardSceneIdIndexName = "IX_SceneBoards_SceneId";
+
     private readonly RoleRollsDbContext _dbContext;
     private readonly ISceneNotificationService _sceneNotificationService;
     private readonly ICurrentUser _currentUser;
@@ -55,23 +62,31 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
         Guid sceneId,
         BoardCommand<SceneBoardStroke> command)
     {
-        var board = await GetOrCreateBoardAsync(campaignId, sceneId);
-        if (board is null)
+        if (!await SceneExistsAsync(campaignId, sceneId))
         {
             return null;
         }
 
         var stroke = CloneStroke(command.Payload);
-        board.State.Strokes = board.State.Strokes
-            .Where(existingStroke => existingStroke.Id != stroke.Id)
-            .Append(stroke)
-            .ToList();
-
-        return await PersistOperationAsync(
-            board,
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
             command.OpId,
             SceneBoardOperationKinds.StrokeAdded,
-            stroke);
+            createIfMissing: true,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(null);
+                }
+
+                board.State.Strokes = board.State.Strokes
+                    .Where(existingStroke => existingStroke.Id != stroke.Id)
+                    .Append(CloneStroke(stroke))
+                    .ToList();
+
+                return MutationExecutionResult.Persist(CloneStroke(stroke));
+            });
     }
 
     public async Task<BoardOperationEnvelope?> RemoveStrokeAsync(
@@ -85,33 +100,37 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
             return null;
         }
 
-        var board = await _dbContext.SceneBoards.SingleOrDefaultAsync(currentBoard => currentBoard.SceneId == sceneId);
-        if (board is null)
-        {
-            return BuildEnvelope(
-                sceneId,
-                0,
-                command.OpId,
-                SceneBoardOperationKinds.StrokeRemoved,
-                new BoardStrokeRemovedPayload { StrokeId = strokeId });
-        }
-
-        var removed = board.State.Strokes.RemoveAll(stroke => stroke.Id == strokeId) > 0;
-        if (!removed)
-        {
-            return BuildEnvelope(
-                sceneId,
-                board.Version,
-                command.OpId,
-                SceneBoardOperationKinds.StrokeRemoved,
-                new BoardStrokeRemovedPayload { StrokeId = strokeId });
-        }
-
-        return await PersistOperationAsync(
-            board,
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
             command.OpId,
             SceneBoardOperationKinds.StrokeRemoved,
-            new BoardStrokeRemovedPayload { StrokeId = strokeId });
+            createIfMissing: false,
+            board =>
+            {
+                var payload = new BoardStrokeRemovedPayload { StrokeId = strokeId };
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        0,
+                        command.OpId,
+                        SceneBoardOperationKinds.StrokeRemoved,
+                        payload));
+                }
+
+                var removed = board.State.Strokes.RemoveAll(stroke => stroke.Id == strokeId) > 0;
+                if (!removed)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.StrokeRemoved,
+                        payload));
+                }
+
+                return MutationExecutionResult.Persist(payload);
+            });
     }
 
     public async Task<BoardOperationEnvelope?> UpsertTokenAsync(
@@ -120,34 +139,226 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
         Guid tokenId,
         BoardCommand<SceneBoardToken> command)
     {
-        var board = await GetOrCreateBoardAsync(campaignId, sceneId);
-        if (board is null)
+        if (!await SceneExistsAsync(campaignId, sceneId))
         {
             return null;
         }
 
         var token = CloneToken(command.Payload);
         token.Id = tokenId;
-
-        var existingIndex = board.State.Tokens.FindIndex(currentToken => currentToken.Id == token.Id);
-        if (existingIndex >= 0)
-        {
-            board.State.Tokens[existingIndex] = token;
-        }
-        else
-        {
-            board.State.Tokens.Add(token);
-        }
-
-        board.State.Tokens = board.State.Tokens
-            .OrderBy(currentToken => currentToken.ZIndex)
-            .ToList();
-
-        return await PersistOperationAsync(
-            board,
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
             command.OpId,
             SceneBoardOperationKinds.TokenUpserted,
-            token);
+            createIfMissing: true,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(null);
+                }
+
+                var existingIndex = board.State.Tokens.FindIndex(currentToken => currentToken.Id == token.Id);
+                if (existingIndex >= 0)
+                {
+                    board.State.Tokens[existingIndex] = CloneToken(token);
+                }
+                else
+                {
+                    board.State.Tokens.Add(CloneToken(token));
+                }
+
+                board.State.Tokens = board.State.Tokens
+                    .OrderBy(currentToken => currentToken.ZIndex)
+                    .ToList();
+
+                return MutationExecutionResult.Persist(CloneToken(token));
+            });
+    }
+
+    public async Task<BoardOperationEnvelope?> MoveTokenAsync(
+        Guid campaignId,
+        Guid sceneId,
+        Guid tokenId,
+        BoardCommand<BoardTokenMoveInput> command)
+    {
+        if (!await SceneExistsAsync(campaignId, sceneId))
+        {
+            return null;
+        }
+
+        var payload = new BoardTokenMovedPayload
+        {
+            TokenId = tokenId,
+            X = command.Payload.X,
+            Y = command.Payload.Y
+        };
+
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
+            command.OpId,
+            SceneBoardOperationKinds.TokenMoved,
+            createIfMissing: false,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        0,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenMoved,
+                        payload));
+                }
+
+                var token = board.State.Tokens.SingleOrDefault(currentToken => currentToken.Id == tokenId);
+                if (token is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenMoved,
+                        payload));
+                }
+
+                if (token.X == payload.X && token.Y == payload.Y)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenMoved,
+                        payload));
+                }
+
+                token.X = payload.X;
+                token.Y = payload.Y;
+
+                return MutationExecutionResult.Persist(payload);
+            });
+    }
+
+    public async Task<BoardOperationEnvelope?> RenameTokenAsync(
+        Guid campaignId,
+        Guid sceneId,
+        Guid tokenId,
+        BoardCommand<BoardTokenRenameInput> command)
+    {
+        if (!await SceneExistsAsync(campaignId, sceneId))
+        {
+            return null;
+        }
+
+        var payload = new BoardTokenRenamedPayload
+        {
+            TokenId = tokenId,
+            Label = command.Payload.Label
+        };
+
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
+            command.OpId,
+            SceneBoardOperationKinds.TokenRenamed,
+            createIfMissing: false,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        0,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenRenamed,
+                        payload));
+                }
+
+                var token = board.State.Tokens.SingleOrDefault(currentToken => currentToken.Id == tokenId);
+                if (token is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenRenamed,
+                        payload));
+                }
+
+                if (token.Label == payload.Label)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenRenamed,
+                        payload));
+                }
+
+                token.Label = payload.Label;
+
+                return MutationExecutionResult.Persist(payload);
+            });
+    }
+
+    public async Task<BoardOperationEnvelope?> SetTokenLockedAsync(
+        Guid campaignId,
+        Guid sceneId,
+        Guid tokenId,
+        BoardCommand<BoardTokenLockInput> command)
+    {
+        if (!await SceneExistsAsync(campaignId, sceneId))
+        {
+            return null;
+        }
+
+        var payload = new BoardTokenLockChangedPayload
+        {
+            TokenId = tokenId,
+            Locked = command.Payload.Locked
+        };
+
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
+            command.OpId,
+            SceneBoardOperationKinds.TokenLockChanged,
+            createIfMissing: false,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        0,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenLockChanged,
+                        payload));
+                }
+
+                var token = board.State.Tokens.SingleOrDefault(currentToken => currentToken.Id == tokenId);
+                if (token is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenLockChanged,
+                        payload));
+                }
+
+                if (token.Locked == payload.Locked)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenLockChanged,
+                        payload));
+                }
+
+                token.Locked = payload.Locked;
+
+                return MutationExecutionResult.Persist(payload);
+            });
     }
 
     public async Task<BoardOperationEnvelope?> RemoveTokenAsync(
@@ -161,33 +372,37 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
             return null;
         }
 
-        var board = await _dbContext.SceneBoards.SingleOrDefaultAsync(currentBoard => currentBoard.SceneId == sceneId);
-        if (board is null)
-        {
-            return BuildEnvelope(
-                sceneId,
-                0,
-                command.OpId,
-                SceneBoardOperationKinds.TokenRemoved,
-                new BoardTokenRemovedPayload { TokenId = tokenId });
-        }
-
-        var removed = board.State.Tokens.RemoveAll(token => token.Id == tokenId) > 0;
-        if (!removed)
-        {
-            return BuildEnvelope(
-                sceneId,
-                board.Version,
-                command.OpId,
-                SceneBoardOperationKinds.TokenRemoved,
-                new BoardTokenRemovedPayload { TokenId = tokenId });
-        }
-
-        return await PersistOperationAsync(
-            board,
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
             command.OpId,
             SceneBoardOperationKinds.TokenRemoved,
-            new BoardTokenRemovedPayload { TokenId = tokenId });
+            createIfMissing: false,
+            board =>
+            {
+                var payload = new BoardTokenRemovedPayload { TokenId = tokenId };
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        0,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenRemoved,
+                        payload));
+                }
+
+                var removed = board.State.Tokens.RemoveAll(token => token.Id == tokenId) > 0;
+                if (!removed)
+                {
+                    return MutationExecutionResult.Complete(BuildEnvelope(
+                        sceneId,
+                        board.Version,
+                        command.OpId,
+                        SceneBoardOperationKinds.TokenRemoved,
+                        payload));
+                }
+
+                return MutationExecutionResult.Persist(payload);
+            });
     }
 
     public async Task<BoardOperationEnvelope?> ClearAsync(Guid campaignId, Guid sceneId, BoardDeleteCommand command)
@@ -197,25 +412,30 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
             return null;
         }
 
-        var board = await _dbContext.SceneBoards.SingleOrDefaultAsync(currentBoard => currentBoard.SceneId == sceneId);
-        if (board is null)
-        {
-            return BuildEnvelope(sceneId, 0, command.OpId, SceneBoardOperationKinds.BoardCleared, null);
-        }
-
-        if (board.State.Strokes.Count == 0 && board.State.Tokens.Count == 0)
-        {
-            return BuildEnvelope(sceneId, board.Version, command.OpId, SceneBoardOperationKinds.BoardCleared, null);
-        }
-
-        board.State.Strokes = [];
-        board.State.Tokens = [];
-
-        return await PersistOperationAsync(
-            board,
+        return await ExecuteMutationWithRetryAsync(
+            sceneId,
             command.OpId,
             SceneBoardOperationKinds.BoardCleared,
-            null);
+            createIfMissing: false,
+            board =>
+            {
+                if (board is null)
+                {
+                    return MutationExecutionResult.Complete(
+                        BuildEnvelope(sceneId, 0, command.OpId, SceneBoardOperationKinds.BoardCleared, null));
+                }
+
+                if (board.State.Strokes.Count == 0 && board.State.Tokens.Count == 0)
+                {
+                    return MutationExecutionResult.Complete(
+                        BuildEnvelope(sceneId, board.Version, command.OpId, SceneBoardOperationKinds.BoardCleared, null));
+                }
+
+                board.State.Strokes = [];
+                board.State.Tokens = [];
+
+                return MutationExecutionResult.Persist(null);
+            });
     }
 
     private async Task<bool> SceneExistsAsync(Guid campaignId, Guid sceneId)
@@ -225,13 +445,8 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
             .AnyAsync(scene => scene.Id == sceneId && scene.CampaignId == campaignId);
     }
 
-    private async Task<SceneBoard?> GetOrCreateBoardAsync(Guid campaignId, Guid sceneId)
+    private async Task<SceneBoard?> GetOrCreateBoardAsync(Guid sceneId)
     {
-        if (!await SceneExistsAsync(campaignId, sceneId))
-        {
-            return null;
-        }
-
         var board = await _dbContext.SceneBoards.SingleOrDefaultAsync(currentBoard => currentBoard.SceneId == sceneId);
         if (board is not null)
         {
@@ -252,6 +467,61 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
         return board;
     }
 
+    private async Task<BoardOperationEnvelope?> ExecuteMutationWithRetryAsync(
+        Guid sceneId,
+        string opId,
+        string kind,
+        bool createIfMissing,
+        Func<SceneBoard?, MutationExecutionResult> mutateBoard)
+    {
+        Exception? lastException = null;
+
+        for (var attempt = 0; attempt < MaxPersistenceRetryAttempts; attempt++)
+        {
+            try
+            {
+                _dbContext.ChangeTracker.Clear();
+
+                var board = createIfMissing
+                    ? await GetOrCreateBoardAsync(sceneId)
+                    : await _dbContext.SceneBoards.SingleOrDefaultAsync(currentBoard => currentBoard.SceneId == sceneId);
+
+                var mutationResult = mutateBoard(board);
+                if (mutationResult.CompletedOperation is not null)
+                {
+                    return mutationResult.CompletedOperation;
+                }
+
+                if (board is null)
+                {
+                    return null;
+                }
+
+                if (!mutationResult.ShouldPersist)
+                {
+                    return BuildEnvelope(sceneId, board.Version, opId, kind, mutationResult.Payload);
+                }
+
+                return await PersistOperationAsync(board, opId, kind, mutationResult.Payload);
+            }
+            catch (DbUpdateConcurrencyException exception) when (attempt < MaxPersistenceRetryAttempts - 1)
+            {
+                lastException = exception;
+            }
+            catch (DbUpdateException exception) when (attempt < MaxPersistenceRetryAttempts - 1 && IsSceneBoardCreateRace(exception))
+            {
+                lastException = exception;
+            }
+        }
+
+        if (lastException is not null)
+        {
+            throw lastException;
+        }
+
+        return null;
+    }
+
     private async Task<BoardOperationEnvelope> PersistOperationAsync(
         SceneBoard board,
         string opId,
@@ -267,6 +537,15 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
         var operation = BuildEnvelope(board.SceneId, board.Version, opId, kind, payload);
         await _sceneNotificationService.NotifyBoardOperation(board.SceneId, operation);
         return operation;
+    }
+
+    private static bool IsSceneBoardCreateRace(DbUpdateException exception)
+    {
+        return exception.InnerException is PostgresException
+        {
+            SqlState: PostgresErrorCodes.UniqueViolation,
+            ConstraintName: SceneBoardSceneIdIndexName
+        };
     }
 
     private Guid? CurrentUserIdOrNull()
@@ -345,5 +624,16 @@ public class SceneBoardService : ISceneBoardService, ITransientDependency
             CreatureId = token.CreatureId,
             Locked = token.Locked
         };
+    }
+
+    private sealed record MutationExecutionResult(
+        bool ShouldPersist,
+        object? Payload,
+        BoardOperationEnvelope? CompletedOperation = null)
+    {
+        public static MutationExecutionResult Persist(object? payload) => new(true, payload);
+
+        public static MutationExecutionResult Complete(BoardOperationEnvelope? operation) =>
+            new(false, null, operation);
     }
 }

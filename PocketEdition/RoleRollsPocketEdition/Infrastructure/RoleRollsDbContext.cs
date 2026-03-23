@@ -188,6 +188,8 @@ namespace RoleRollsPocketEdition.Infrastructure
 
             modelBuilder.Entity<SceneBoard>(entity =>
             {
+                entity.Property(board => board.Version)
+                    .IsConcurrencyToken();
                 entity.Property(board => board.State)
                     .HasColumnType("jsonb")
                     .HasConversion(sceneBoardStateConverter)

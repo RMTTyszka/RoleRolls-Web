@@ -1,6 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import {
   BoardOperationEnvelope,
+  BoardTokenLockChangedPayload,
+  BoardTokenMovedPayload,
+  BoardTokenRenamedPayload,
   BoardPoint,
   BoardStroke,
   BoardToken,
@@ -106,6 +109,34 @@ export class SceneBoardService {
     });
   }
 
+  public renameToken(tokenId: string, label: string, opId?: string, version?: number): void {
+    this.rememberOperation(opId);
+    this.updateDocument(version, document => {
+      document.tokens = document.tokens.map(token =>
+        token.id === tokenId
+          ? {
+              ...token,
+              label,
+            }
+          : token
+      );
+    });
+  }
+
+  public setTokenLocked(tokenId: string, locked: boolean, opId?: string, version?: number): void {
+    this.rememberOperation(opId);
+    this.updateDocument(version, document => {
+      document.tokens = document.tokens.map(token =>
+        token.id === tokenId
+          ? {
+              ...token,
+              locked,
+            }
+          : token
+      );
+    });
+  }
+
   public removeToken(tokenId: string, opId?: string, version?: number): void {
     this.rememberOperation(opId);
     this.updateDocument(version, document => {
@@ -159,6 +190,27 @@ export class SceneBoardService {
       case 'token-upserted':
         this.upsertToken(operation.payload as BoardToken, operation.opId, operation.version);
         return;
+      case 'token-moved': {
+        const payload = operation.payload as BoardTokenMovedPayload;
+        if (payload?.tokenId) {
+          this.moveToken(payload.tokenId, payload, operation.opId, operation.version);
+        }
+        return;
+      }
+      case 'token-renamed': {
+        const payload = operation.payload as BoardTokenRenamedPayload;
+        if (payload?.tokenId) {
+          this.renameToken(payload.tokenId, payload.label, operation.opId, operation.version);
+        }
+        return;
+      }
+      case 'token-lock-changed': {
+        const payload = operation.payload as BoardTokenLockChangedPayload;
+        if (payload?.tokenId) {
+          this.setTokenLocked(payload.tokenId, payload.locked, operation.opId, operation.version);
+        }
+        return;
+      }
       case 'token-removed': {
         const payload = operation.payload as { tokenId?: string } | string;
         const tokenId = typeof payload === 'string' ? payload : payload?.tokenId;
