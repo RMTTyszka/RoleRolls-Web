@@ -5,6 +5,12 @@ import {
   BoardDeleteCommand,
   BoardOperationEnvelope,
   BoardStroke,
+  BoardTokenLockChangedPayload,
+  BoardTokenLockInput,
+  BoardTokenMoveInput,
+  BoardTokenMovedPayload,
+  BoardTokenRenameInput,
+  BoardTokenRenamedPayload,
   BoardToken,
   SceneBoardDocument
 } from '@app/campaign-session/scene-board/scene-board.models';
@@ -57,6 +63,42 @@ export class SceneBoardApiService {
   ): Observable<BoardOperationEnvelope<BoardToken>> {
     return this.http.put<BoardOperationEnvelope<BoardToken>>(
       `${this.boardPath(campaignId, sceneId)}/tokens/${command.payload.id}`,
+      command
+    );
+  }
+
+  public moveToken(
+    campaignId: string,
+    sceneId: string,
+    tokenId: string,
+    command: BoardCommand<BoardTokenMoveInput>
+  ): Observable<BoardOperationEnvelope<BoardTokenMovedPayload>> {
+    return this.http.put<BoardOperationEnvelope<BoardTokenMovedPayload>>(
+      `${this.boardPath(campaignId, sceneId)}/tokens/${tokenId}/position`,
+      command
+    );
+  }
+
+  public renameToken(
+    campaignId: string,
+    sceneId: string,
+    tokenId: string,
+    command: BoardCommand<BoardTokenRenameInput>
+  ): Observable<BoardOperationEnvelope<BoardTokenRenamedPayload>> {
+    return this.http.put<BoardOperationEnvelope<BoardTokenRenamedPayload>>(
+      `${this.boardPath(campaignId, sceneId)}/tokens/${tokenId}/label`,
+      command
+    );
+  }
+
+  public setTokenLocked(
+    campaignId: string,
+    sceneId: string,
+    tokenId: string,
+    command: BoardCommand<BoardTokenLockInput>
+  ): Observable<BoardOperationEnvelope<BoardTokenLockChangedPayload>> {
+    return this.http.put<BoardOperationEnvelope<BoardTokenLockChangedPayload>>(
+      `${this.boardPath(campaignId, sceneId)}/tokens/${tokenId}/lock`,
       command
     );
   }

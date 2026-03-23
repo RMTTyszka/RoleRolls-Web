@@ -53,6 +53,39 @@ public class SceneBoardController : ControllerBase
         return operation is null ? NotFound() : Ok(operation);
     }
 
+    [HttpPut("tokens/{tokenId}/position")]
+    public async Task<ActionResult<BoardOperationEnvelope>> MoveTokenAsync(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid tokenId,
+        [FromBody] BoardCommand<BoardTokenMoveInput> command)
+    {
+        var operation = await _sceneBoardService.MoveTokenAsync(campaignId, sceneId, tokenId, command);
+        return operation is null ? NotFound() : Ok(operation);
+    }
+
+    [HttpPut("tokens/{tokenId}/label")]
+    public async Task<ActionResult<BoardOperationEnvelope>> RenameTokenAsync(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid tokenId,
+        [FromBody] BoardCommand<BoardTokenRenameInput> command)
+    {
+        var operation = await _sceneBoardService.RenameTokenAsync(campaignId, sceneId, tokenId, command);
+        return operation is null ? NotFound() : Ok(operation);
+    }
+
+    [HttpPut("tokens/{tokenId}/lock")]
+    public async Task<ActionResult<BoardOperationEnvelope>> SetTokenLockedAsync(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid tokenId,
+        [FromBody] BoardCommand<BoardTokenLockInput> command)
+    {
+        var operation = await _sceneBoardService.SetTokenLockedAsync(campaignId, sceneId, tokenId, command);
+        return operation is null ? NotFound() : Ok(operation);
+    }
+
     [HttpDelete("tokens/{tokenId}")]
     public async Task<ActionResult<BoardOperationEnvelope>> RemoveTokenAsync(
         [FromRoute] Guid campaignId,

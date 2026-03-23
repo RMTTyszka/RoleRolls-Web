@@ -1,6 +1,7 @@
 using RoleRollsPocketEdition.Campaigns;
 using Microsoft.EntityFrameworkCore;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
+using RoleRollsPocketEdition.Campaigns.Dtos;
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Authentication.Users;
@@ -19,18 +20,23 @@ namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes;
 public class LandOfHeroesAdminLoader : IStartupTask
 {
     private static readonly Guid AdminUserId = Guid.Parse("8B54D776-6A3D-4F0E-A983-7B884E6E4C57");
+    private static readonly Guid PlayerUserId = Guid.Parse("A7AB1F65-4263-4044-8A4A-4270EE6FC769");
     private static readonly Guid AdminCampaignId = Guid.Parse("D06C598A-2D4D-4C91-9D10-8872B4B3E40B");
     private static readonly Guid Hero1Id = Guid.Parse("739E5167-06F6-4D50-94F6-4C1D4B8C3D73");
     private static readonly Guid Hero2Id = Guid.Parse("243E680D-8B17-44C4-9C6E-BFB4C36B0A5F");
+    private static readonly Guid PlayerHeroId = Guid.Parse("7EE819A4-352A-4D7F-A38D-BD673D8F11E2");
     private static readonly Guid Enemy1Id = Guid.Parse("9C8FB4B0-B3E5-44A4-B6A6-0FE81C162EB5");
     private static readonly Guid Enemy2Id = Guid.Parse("9A011BB3-7E0C-4F37-B98E-FA8353FD98A2");
     private static readonly Guid EncounterId = Guid.Parse("206BF0F8-4B62-4EEE-8444-4B4E69666E20");
     private static readonly Guid SceneId = Guid.Parse("B56D2A6A-9107-4851-A621-B82A3E68A3FF");
     private const string AdminLogin = "admin";
     private const string AdminPassword = "123qwe";
+    private const string PlayerLogin = "player";
+    private const string PlayerPassword = "123qwe";
     private const string AdminCampaignName = "Land Of Heroes";
     private const string Hero1Name = "Hero 1";
     private const string Hero2Name = "Hero 2";
+    private const string PlayerHeroName = "Player Hero";
     private const string Enemy1Name = "Enemy 1";
     private const string Enemy2Name = "Enemy 2";
     private const string EncounterName = "Land Of Heroes Encounter";
@@ -55,8 +61,10 @@ public class LandOfHeroesAdminLoader : IStartupTask
         await EnsureLandOfHeroesTemplateAsync(cancellationToken);
 
         var adminUser = await EnsureAdminUserAsync(cancellationToken);
+        var playerUser = await EnsurePlayerUserAsync(cancellationToken);
         await EnsureAdminCampaignAsync(adminUser, cancellationToken);
-        await EnsureSeedDataAsync(adminUser.Id, cancellationToken);
+        await EnsurePlayerJoinedCampaignAsync(playerUser, cancellationToken);
+        await EnsureSeedDataAsync(adminUser.Id, playerUser.Id, cancellationToken);
     }
 
     private async Task<User> EnsureAdminUserAsync(CancellationToken cancellationToken)
@@ -81,6 +89,28 @@ public class LandOfHeroesAdminLoader : IStartupTask
         return adminUser;
     }
 
+    private async Task<User> EnsurePlayerUserAsync(CancellationToken cancellationToken)
+    {
+        var playerUser = await _dbContext.Users
+            .FirstOrDefaultAsync(user => user.Login == PlayerLogin || user.Email == PlayerLogin, cancellationToken);
+
+        if (playerUser is null)
+        {
+            playerUser = new User
+            {
+                Id = PlayerUserId,
+                Login = PlayerLogin,
+                Email = PlayerLogin
+            };
+            playerUser.HashPassword(PlayerPassword);
+
+            await _dbContext.Users.AddAsync(playerUser, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        return playerUser;
+    }
+
     private async Task EnsureAdminCampaignAsync(User adminUser, CancellationToken cancellationToken)
     {
         var campaignExists = await _dbContext.Campaigns
@@ -102,7 +132,28 @@ public class LandOfHeroesAdminLoader : IStartupTask
         });
     }
 
-    private async Task EnsureSeedDataAsync(Guid ownerId, CancellationToken cancellationToken)
+    private async Task EnsurePlayerJoinedCampaignAsync(User playerUser, CancellationToken cancellationToken)
+    {
+        var playerAlreadyJoined = await _dbContext.CampaignPlayers
+            .AnyAsync(campaignPlayer =>
+                    campaignPlayer.CampaignId == AdminCampaignId &&
+                    campaignPlayer.PlayerId == playerUser.Id,
+                cancellationToken);
+
+        if (playerAlreadyJoined)
+        {
+            return;
+        }
+
+        var invitationCode = await _campaignsService.Invite(AdminCampaignId);
+        var result = await _campaignsService.AcceptInvite(playerUser.Id, invitationCode);
+        if (result.Result != InvitationResult.Ok)
+        {
+            throw new InvalidOperationException($"Could not add player '{PlayerLogin}' to the seed campaign.");
+        }
+    }
+
+    private async Task EnsureSeedDataAsync(Guid ownerId, Guid playerId, CancellationToken cancellationToken)
     {
         var campaign = await _dbContext.Campaigns
             .Include(campaign => campaign.Encounters)
@@ -120,6 +171,7 @@ public class LandOfHeroesAdminLoader : IStartupTask
             .Where(creature => creature.CampaignId == campaign.Id &&
                                (creature.Id == Hero1Id ||
                                 creature.Id == Hero2Id ||
+                                creature.Id == PlayerHeroId ||
                                 creature.Id == Enemy1Id ||
                                 creature.Id == Enemy2Id))
             .ToDictionaryAsync(creature => creature.Id, cancellationToken);
@@ -142,6 +194,17 @@ public class LandOfHeroesAdminLoader : IStartupTask
             ownerId,
             Hero2Id,
             Hero2Name,
+            CreatureCategory.Hero,
+            attributePoints: 3,
+            specificSkillPoints: 2,
+            cancellationToken);
+        await EnsureCreatureAsync(
+            creatures,
+            template,
+            campaign.Id,
+            playerId,
+            PlayerHeroId,
+            PlayerHeroName,
             CreatureCategory.Hero,
             attributePoints: 3,
             specificSkillPoints: 2,
@@ -527,6 +590,7 @@ public class LandOfHeroesAdminLoader : IStartupTask
         {
             CreateSceneCreatureIfMissing(existingCreatureIds, Hero1Id, CreatureCategory.Hero),
             CreateSceneCreatureIfMissing(existingCreatureIds, Hero2Id, CreatureCategory.Hero),
+            CreateSceneCreatureIfMissing(existingCreatureIds, PlayerHeroId, CreatureCategory.Hero),
             CreateSceneCreatureIfMissing(existingCreatureIds, Enemy1Id, CreatureCategory.Monster),
             CreateSceneCreatureIfMissing(existingCreatureIds, Enemy2Id, CreatureCategory.Monster)
         }.Where(sceneCreature => sceneCreature is not null).Cast<SceneCreature>().ToList();

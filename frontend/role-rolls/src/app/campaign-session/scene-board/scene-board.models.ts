@@ -4,6 +4,9 @@ export type BoardOperationKind =
   | 'stroke-added'
   | 'stroke-removed'
   | 'token-upserted'
+  | 'token-moved'
+  | 'token-renamed'
+  | 'token-lock-changed'
   | 'token-removed'
   | 'board-cleared';
 
@@ -39,6 +42,31 @@ export interface BoardToken {
   imageUrl?: string | null;
   creatureId?: string | null;
   locked?: boolean;
+}
+
+export interface BoardTokenMoveInput {
+  x: number;
+  y: number;
+}
+
+export interface BoardTokenRenameInput {
+  label: string;
+}
+
+export interface BoardTokenLockInput {
+  locked: boolean;
+}
+
+export interface BoardTokenMovedPayload extends BoardTokenMoveInput {
+  tokenId: string;
+}
+
+export interface BoardTokenRenamedPayload extends BoardTokenRenameInput {
+  tokenId: string;
+}
+
+export interface BoardTokenLockChangedPayload extends BoardTokenLockInput {
+  tokenId: string;
 }
 
 export const BOARD_GRID_SIZE = 60;

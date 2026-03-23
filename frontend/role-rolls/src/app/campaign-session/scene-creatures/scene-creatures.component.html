@@ -5,20 +5,20 @@
       {{ creatureCategory() === CreatureCategory.Ally ? 'Heroes' : 'Monsters' }}
     </span>
       <div class="flex gap-2">
-        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Ally && isMaster"
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Ally && isMaster()"
                             placeholder="Add Hero"
                             [campaign]="campaign()"
                             [creatureType]="CreatureCategory.Ally"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
-        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster"
+        <rr-creature-select *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster()"
                             placeholder="Add Monster"
                             [campaign]="campaign()"
                             [creatureType]="CreatureCategory.Enemy"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
         <button pButton icon="pi pi-plus"
-                *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster"
+                *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster()"
                 (click)="selectEncounter()">Encounter</button>
       </div>
     </div>

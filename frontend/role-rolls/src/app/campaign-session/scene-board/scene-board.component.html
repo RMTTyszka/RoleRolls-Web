@@ -23,6 +23,7 @@
         type="button"
         class="scene-board__tool"
         [class.scene-board__tool--active]="boardStore.tool() === 'erase'"
+        *ngIf="isMaster()"
         [disabled]="readOnly()"
         (click)="setTool('erase')">
         Erase
