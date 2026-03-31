@@ -146,6 +146,11 @@ namespace RoleRollsPocketEdition.Templates.Services
             {
                 var updatedVitality = updatedTemplate.Vitalities.First(lf => lf.Id == vitalities.Id);
                 vitalities.Name = updatedVitality.Name;
+                vitalities.Formula = updatedVitality.Formula;
+                vitalities.FormulaTokens = updatedVitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? [];
+                vitalities.BasicAttackOrder = updatedVitality.BasicAttackOrder;
+                vitalities.StatusAtThirtyPercent = updatedVitality.StatusAtThirtyPercent;
+                vitalities.StatusAtZero = updatedVitality.StatusAtZero;
             }
 
             foreach (var vitality in vitalitiesToCreate)

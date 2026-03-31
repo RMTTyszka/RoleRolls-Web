@@ -75,7 +75,7 @@ export class AttackComponent {
 
       this.slotOptions = this.buildSlotOptions(attacker);
       this.resolveTargets();
-      this.initializeForm(attacker, campaign.campaignTemplate.itemConfiguration);
+      this.initializeForm(attacker, campaign);
     });
   }
 
@@ -97,14 +97,15 @@ export class AttackComponent {
     await firstValueFrom(this.campaignService.attack(this.campaign().id, this.scene().id, this.attacker().id, input));
   }
 
-  private initializeForm(attacker: Creature, itemConfiguration: ItemConfigurationModel) {
+  private initializeForm(attacker: Creature, campaign: Campaign) {
     this.formSubscriptions.unsubscribe();
     this.formSubscriptions = new Subscription();
+    const itemConfiguration = campaign.campaignTemplate.itemConfiguration;
 
     const initialSlot = EquipableSlot.MainHand;
     const form = getAsForm({
       slot: initialSlot,
-      vitality: itemConfiguration.basicAttackTargetFirstVitality ?? null,
+      vitality: this.resolveDefaultVitality(campaign),
       defense: itemConfiguration.armorDefense1 ?? null,
       hitProperty: null,
       hitAttribute: null,
@@ -270,6 +271,28 @@ export class AttackComponent {
     }
 
     return itemConfiguration.meleeLightWeaponDamageProperty ?? null;
+  }
+
+  private resolveDefaultVitality(campaign: Campaign): Property | null {
+    const firstOrderedVitality = (campaign.campaignTemplate.vitalities ?? [])
+      .filter(vitality => Number(vitality.basicAttackOrder) > 0)
+      .sort((left, right) => {
+        const leftOrder = Number(left.basicAttackOrder);
+        const rightOrder = Number(right.basicAttackOrder);
+        if (leftOrder === rightOrder) {
+          return left.name.localeCompare(right.name);
+        }
+        return leftOrder - rightOrder;
+      })[0];
+
+    if (firstOrderedVitality?.id) {
+      return {
+        id: firstOrderedVitality.id,
+        type: PropertyType.Vitality
+      } as Property;
+    }
+
+    return null;
   }
 
   private resolveSpecificSkillAttribute(property: Property | null, attacker: Creature): Property | null {

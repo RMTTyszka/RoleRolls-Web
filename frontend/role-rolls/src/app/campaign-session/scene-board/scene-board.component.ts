@@ -32,6 +32,7 @@ import { SceneBoardKonvaAdapter } from '@app/campaign-session/scene-board/scene-
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
 import { catchError, firstValueFrom, of } from 'rxjs';
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
+import { getCssVar } from '@app/shared/utils/css-variable.utils';
 
 interface SceneBoardHistoryEntry {
   undo: () => Promise<void>;
@@ -219,7 +220,9 @@ export class SceneBoardComponent implements AfterViewInit {
       y: point.y,
       width: BOARD_GRID_SIZE,
       height: BOARD_GRID_SIZE,
-      color: creature.category === CreatureCategory.Ally ? '#2563eb' : '#dc2626',
+      color: creature.category === CreatureCategory.Ally
+        ? getCssVar('--p-primary-color')
+        : getCssVar('--p-primary-color'),
       zIndex: this.boardStore.document()?.tokens.length ?? 0,
       imageUrl: null,
       locked: false,

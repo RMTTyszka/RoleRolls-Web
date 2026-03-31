@@ -16,7 +16,6 @@ public class ItemConfigurationModel
     public Property? RangedLightWeaponDamageProperty { get; set; }
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
-    public Property? BasicAttackTargetFirstVitality { get; set; }
 
     public static ItemConfigurationModel FromConfiguration(ItemConfiguration? templateItemConfiguration)
     {
@@ -29,8 +28,6 @@ public class ItemConfigurationModel
         {
             ArmorDefense1 = templateItemConfiguration.ArmorDefense1,
             ArmorDefense2 = templateItemConfiguration.ArmorDefense2,
-            BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality,
-            BasicAttackTargetSecondVitality = templateItemConfiguration.BasicAttackTargetSecondVitality,
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty,
             MeleeMediumWeaponHitProperty = templateItemConfiguration.MeleeMediumWeaponHitProperty,
             MeleeHeavyWeaponHitProperty = templateItemConfiguration.MeleeHeavyWeaponHitProperty,
@@ -47,7 +44,6 @@ public class ItemConfigurationModel
         };
     }
 
-    public Property? BasicAttackTargetSecondVitality { get; set; }
     public Property? BlockProperty { get; set; }
     public Guid? ArmorDefense1 { get; set; }
     public Guid? ArmorDefense2 { get; set; }

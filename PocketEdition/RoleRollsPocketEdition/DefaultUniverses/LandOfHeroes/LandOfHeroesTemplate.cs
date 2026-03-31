@@ -52,6 +52,8 @@ public class LandOfHeroesTemplate
                 Id = VitalityIds[LandOfHeroesVitality.Life],
                 Name = "Life",
                 Formula = "10 + 4 * Vigor",
+                BasicAttackOrder = 2,
+                StatusAtThirtyPercent = "Debilitado",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -78,6 +80,9 @@ public class LandOfHeroesTemplate
                 Id = VitalityIds[LandOfHeroesVitality.Moral],
                 Name = "Moral",
                 Formula = "15 + 2 * Intuition",
+                BasicAttackOrder = 1,
+                StatusAtThirtyPercent = "Abalada",
+                StatusAtZero = "Sangrando",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -246,11 +251,6 @@ public class LandOfHeroesTemplate
                 PropertyType.MinorSkill),
             RangedHeavyWeaponDamageProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.RangedHeavyWeapon],
                 PropertyType.MinorSkill),
-
-            BasicAttackTargetFirstVitality =
-                new Property(VitalityIds[LandOfHeroesVitality.Moral], PropertyType.Vitality),
-            BasicAttackTargetSecondVitality =
-                new Property(VitalityIds[LandOfHeroesVitality.Life], PropertyType.Vitality)
         })
         {
             Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),

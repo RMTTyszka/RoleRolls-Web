@@ -73,8 +73,10 @@ public partial class Creature
             input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory),
             input.DamageAttribute
         ));
+        var vitalityRules = ResolveBasicAttackVitalityRules(input);
 
         var damages = new List<DamageRollResult>();
+        var triggeredStatuses = new List<VitalityStatusChange>();
         for (int i = 0; i < numberOfHits; i++)
         {
             var property = input.ItemConfiguration.BlockProperty;
@@ -84,9 +86,11 @@ public partial class Creature
             damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
             damages.Add(damage);
 
-            var result = TakeDamage(input.GetVitalityId, damage.TotalDamage);
-            if (result.ExcessDamage > 0)
-                TakeDamage(input.GetSecondVitalityId, result.ExcessDamage);
+            var hitStatuses = ApplyBasicAttackDamage(this, damage.TotalDamage, vitalityRules);
+            if (hitStatuses.Count > 0)
+            {
+                triggeredStatuses.AddRange(hitStatuses);
+            }
         }
 
         return new AttackResult
@@ -95,7 +99,8 @@ public partial class Creature
             Target = this,
             Weapon = weapon,
             TotalDamage = damages.Sum(d => d.ReducedDamage),
-            Success = numberOfHits <= 0
+            Success = numberOfHits <= 0,
+            TriggeredStatuses = triggeredStatuses
         };
     }
 

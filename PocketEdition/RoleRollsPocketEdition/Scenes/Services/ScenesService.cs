@@ -134,9 +134,15 @@ namespace RoleRollsPocketEdition.Scenes.Services
 
         public async Task ProcessAction(Guid sceneId, AttackResult attackResult)
         {
+            var statusDescription = BuildStatusDescription(attackResult);
+            var baseDescription =
+                $"{attackResult.Attacker.Name} attacked {attackResult.Target.Name} with {attackResult.Weapon.Name} and caused {attackResult.TotalDamage} damage";
+
             var result = new SceneAction
             {
-                Description = $"{attackResult.Attacker.Name} attacked {attackResult.Target.Name} with {attackResult.Weapon.Name} and caused {attackResult.TotalDamage} damage",
+                Description = string.IsNullOrWhiteSpace(statusDescription)
+                    ? baseDescription
+                    : $"{baseDescription} | {statusDescription}",
                 Id = Guid.NewGuid(),
                 ActorId = attackResult.Attacker.Id,
                 SceneId = sceneId
@@ -146,6 +152,20 @@ namespace RoleRollsPocketEdition.Scenes.Services
             await _roleRollsDbContext.SaveChangesAsync();
             await _sceneNotificationService.NotifyScene(sceneId, history);
 
+        }
+
+        private static string BuildStatusDescription(AttackResult attackResult)
+        {
+            if (attackResult.TriggeredStatuses.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return string.Join(" | ", attackResult.TriggeredStatuses.Select(status =>
+            {
+                var thresholdLabel = status.ThresholdPercent == 0 ? "0%" : $"{status.ThresholdPercent}%";
+                return $"{attackResult.Target.Name} is {status.Status} ({status.Vitality} <= {thresholdLabel})";
+            }));
         }
     }
 }

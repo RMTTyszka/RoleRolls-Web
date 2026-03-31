@@ -171,9 +171,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return true;
         }
 
-        public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
+        public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value, BasicAttackVitalityRule? vitalityRule = null)
         {
             var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
+            var previousValue = vitality.Value;
 
             var excessDamage = 0;
             var actualDamage = value;
@@ -189,14 +190,64 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 vitality.Value -= value;
             }
 
+            var currentValue = vitality.Value;
+            var triggeredStatuses = ResolveTriggeredStatuses(vitality, vitalityRule, previousValue, currentValue);
+
             return new CreatureTakeDamageResult
             {
                 Name = Name,
                 Value = actualDamage,
                 ExcessDamage = excessDamage,
                 Vitality = vitality.Name,
-                ActorId = Id
+                ActorId = Id,
+                PreviousValue = previousValue,
+                CurrentValue = currentValue,
+                MaxValue = vitality.MaxValue,
+                TriggeredStatuses = triggeredStatuses
             };
+        }
+
+        private static List<VitalityStatusChange> ResolveTriggeredStatuses(
+            Vitality vitality,
+            BasicAttackVitalityRule? rule,
+            int previousValue,
+            int currentValue)
+        {
+            var statuses = new List<VitalityStatusChange>();
+
+            if (rule == null || vitality.MaxValue <= 0 || previousValue <= currentValue)
+            {
+                return statuses;
+            }
+
+            var previousPercent = (decimal)previousValue * 100 / vitality.MaxValue;
+            var currentPercent = (decimal)currentValue * 100 / vitality.MaxValue;
+
+            if (!string.IsNullOrWhiteSpace(rule.StatusAtThirtyPercent) &&
+                previousPercent > 30m &&
+                currentPercent <= 30m)
+            {
+                statuses.Add(new VitalityStatusChange
+                {
+                    Vitality = vitality.Name,
+                    Status = rule.StatusAtThirtyPercent.Trim(),
+                    ThresholdPercent = 30
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(rule.StatusAtZero) &&
+                previousValue > 0 &&
+                currentValue <= 0)
+            {
+                statuses.Add(new VitalityStatusChange
+                {
+                    Vitality = vitality.Name,
+                    Status = rule.StatusAtZero.Trim(),
+                    ThresholdPercent = 0
+                });
+            }
+
+            return statuses;
         }
 
 

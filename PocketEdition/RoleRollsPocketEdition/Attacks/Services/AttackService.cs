@@ -3,6 +3,7 @@ using RoleRollsPocketEdition.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -10,6 +11,7 @@ using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Powers.Models;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Services;
+using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Attacks.Services;
 
@@ -38,8 +40,8 @@ public class AttackService : IAttackService, ITransientDependency
     {
         var attacker = await LoadCreature(attackerId);
         var target = await LoadCreature(input.TargetId);
-        var itemConfiguration = await LoadItemConfiguration(campaignId);
-        var command = BuildAttackCommand(itemConfiguration, input);
+        var attackConfiguration = await LoadAttackConfiguration(campaignId);
+        var command = BuildAttackCommand(attackConfiguration, input);
         var attackResult = attacker.Attack(target, command, _diceRoller);
         await _scenesService.ProcessAction(sceneId, attackResult);
     }
@@ -52,22 +54,31 @@ public class AttackService : IAttackService, ITransientDependency
         return creature;
     }
 
-    private async Task<ItemConfiguration> LoadItemConfiguration(Guid campaignId)
+    private async Task<AttackConfiguration> LoadAttackConfiguration(Guid campaignId)
     {
-        return await _context.Campaigns
+        var campaignTemplate = await _context.Campaigns
             .AsNoTracking()
             .Include(e => e.CampaignTemplate)
             .ThenInclude(e => e.ItemConfiguration)
+            .Include(e => e.CampaignTemplate)
+            .ThenInclude(e => e.Vitalities)
             .Where(e => e.Id == campaignId)
-            .Select(e => e.CampaignTemplate.ItemConfiguration)
+            .Select(e => e.CampaignTemplate)
             .FirstAsync();
+
+        return new AttackConfiguration
+        {
+            ItemConfiguration = campaignTemplate.ItemConfiguration,
+            BasicAttackVitalityRules = campaignTemplate.GetBasicAttackVitalityRules()
+        };
     }
 
-    private AttackCommand BuildAttackCommand(ItemConfiguration config, AttackInput input)
+    private AttackCommand BuildAttackCommand(AttackConfiguration config, AttackInput input)
     {
         return new AttackCommand
         {
-            ItemConfiguration = config,
+            ItemConfiguration = config.ItemConfiguration,
+            BasicAttackVitalityRules = config.BasicAttackVitalityRules.Select(rule => rule.Clone()).ToList(),
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.Defense,
             VitalityId = input.Vitality,
@@ -79,6 +90,12 @@ public class AttackService : IAttackService, ITransientDependency
             DamageAttribute = input.DamageAttribute,
         };
     }
+}
+
+public class AttackConfiguration
+{
+    public ItemConfiguration ItemConfiguration { get; set; } = null!;
+    public IReadOnlyList<BasicAttackVitalityRule> BasicAttackVitalityRules { get; set; } = [];
 }
 
 public class AttackInput
@@ -99,6 +116,7 @@ public class AttackCommand
 {
     public EquipableSlot WeaponSlot { get; set; }
     public ItemConfiguration ItemConfiguration { get; set; } = null!;
+    public List<BasicAttackVitalityRule> BasicAttackVitalityRules { get; set; } = [];
     public Guid? DefenseId { get; set; }
     public Property? HitProperty { get; set; }
     public Property? HitAttribute { get; set; }
@@ -117,12 +135,41 @@ public class AttackCommand
         throw new InvalidOperationException("Armor property is not configured for this campaign.");
 
     public Guid GetVitalityId =>
-        VitalityId?.Id ?? ItemConfiguration.BasicAttackTargetFirstVitality?.Id ??
+        GetBasicAttackVitalityRules.FirstOrDefault()?.Vitality?.Id ??
         throw new InvalidOperationException("Primary target vitality is not configured for this campaign.");
 
     public Guid GetSecondVitalityId =>
-        SecondVitalityId?.Id ?? ItemConfiguration.BasicAttackTargetSecondVitality?.Id ??
+        GetBasicAttackVitalityRules.Skip(1).FirstOrDefault()?.Vitality?.Id ??
         throw new InvalidOperationException("Secondary target vitality is not configured for this campaign.");
+
+    public IReadOnlyList<BasicAttackVitalityRule> GetBasicAttackVitalityRules
+    {
+        get
+        {
+            var configuredRules = BasicAttackVitalityRules
+                .Where(rule => rule.Vitality != null)
+                .Select(rule => rule.Clone())
+                .ToList();
+
+            if (VitalityId == null)
+            {
+                return configuredRules;
+            }
+
+            var overrideRule = configuredRules.FirstOrDefault(rule => rule.Vitality?.Id == VitalityId.Id) ??
+                               new BasicAttackVitalityRule
+                               {
+                                   Vitality = new Property(VitalityId.Id, VitalityId.Type ?? PropertyType.Vitality)
+                               };
+
+            var orderedRules = new List<BasicAttackVitalityRule> { overrideRule };
+            orderedRules.AddRange(configuredRules
+                .Where(rule => rule.Vitality?.Id != overrideRule.Vitality?.Id)
+                .Select(rule => rule.Clone()));
+
+            return orderedRules;
+        }
+    }
 
     public List<Guid> CombatManeuverIds { get; set; } = [];
     public Property? BlockProperty { get; set; }
@@ -139,4 +186,5 @@ public class AttackResult
     public int DamageBonus { get; set; }
     public int NumberOfRollSuccesses { get; set; }
     public int Difficulty { get; set; }
+    public List<VitalityStatusChange> TriggeredStatuses { get; set; } = [];
 }

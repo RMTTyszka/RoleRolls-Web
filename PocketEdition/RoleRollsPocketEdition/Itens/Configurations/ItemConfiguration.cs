@@ -16,8 +16,6 @@ public class ItemConfiguration : Entity
         {
             ArmorDefense1 = templateItemConfiguration.ArmorDefense1;
             ArmorDefense2 = templateItemConfiguration.ArmorDefense2;
-            BasicAttackTargetFirstVitality = templateItemConfiguration.BasicAttackTargetFirstVitality;
-            BasicAttackTargetSecondVitality = templateItemConfiguration.BasicAttackTargetSecondVitality;
             MeleeLightWeaponHitProperty = templateItemConfiguration.MeleeLightWeaponHitProperty;
             MeleeMediumWeaponHitProperty = templateItemConfiguration.MeleeMediumWeaponHitProperty;
             MeleeHeavyWeaponHitProperty = templateItemConfiguration.MeleeHeavyWeaponHitProperty;
@@ -44,7 +42,6 @@ public class ItemConfiguration : Entity
     public Guid CampaignTemplateId { get; set; }
     public Guid? ArmorDefense1 { get; set; }
     public Guid? ArmorDefense2 { get; set; }
-    public Property? BasicAttackTargetFirstVitality { get; set; }
     public Property? MeleeLightWeaponHitProperty { get; set; }
     public Property? MeleeMediumWeaponHitProperty { get; set; }
     public Property? MeleeHeavyWeaponHitProperty { get; set; }
@@ -57,7 +54,7 @@ public class ItemConfiguration : Entity
     public Property? RangedLightWeaponDamageProperty { get; set; }
     public Property? RangedMediumWeaponDamageProperty { get; set; }
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
-    public Property? BasicAttackTargetSecondVitality { get; set; }
+
     public Property? BlockProperty { get; set; }
 
     public void Update(ItemConfigurationModel model)
@@ -76,8 +73,6 @@ public class ItemConfiguration : Entity
         RangedLightWeaponDamageProperty = model.RangedLightWeaponDamageProperty;
         RangedMediumWeaponDamageProperty = model.RangedMediumWeaponDamageProperty;
         RangedHeavyWeaponDamageProperty = model.RangedHeavyWeaponDamageProperty;
-        BasicAttackTargetFirstVitality = model.BasicAttackTargetFirstVitality;
-        BasicAttackTargetSecondVitality = model.BasicAttackTargetSecondVitality;
         BlockProperty = model.BlockProperty;
     }
 

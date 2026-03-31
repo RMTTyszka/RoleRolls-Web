@@ -15,12 +15,18 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Id = vitality.Id;
             Name = vitality.Name;
             Formula = vitality.Formula;
+            BasicAttackOrder = vitality.BasicAttackOrder;
+            StatusAtThirtyPercent = vitality.StatusAtThirtyPercent;
+            StatusAtZero = vitality.StatusAtZero;
             FormulaTokens = vitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Formula { get; set; }
+        public int? BasicAttackOrder { get; set; }
+        public string? StatusAtThirtyPercent { get; set; }
+        public string? StatusAtZero { get; set; }
         public List<FormulaToken> FormulaTokens { get; set; } = new();
 
     }

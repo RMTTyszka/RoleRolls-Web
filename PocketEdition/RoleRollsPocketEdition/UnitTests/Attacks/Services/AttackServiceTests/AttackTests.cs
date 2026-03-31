@@ -7,8 +7,8 @@ using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
 using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
+using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;
@@ -105,6 +105,83 @@ public class AttackTests
         // Assert
         result.Success.Should().BeTrue();
         result.TotalDamage.Should().Be(10);
+    }
+
+    [Fact(DisplayName = "Basic attack should cascade through configured vitality order")]
+    public void T14()
+    {
+        // Arrange
+        var campaignTemplate = LandOfHeroesTemplate.Template;
+        campaignTemplate.Vitalities.First(v => v.Id == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral])
+            .BasicAttackOrder = 1;
+        campaignTemplate.Vitalities.First(v => v.Id == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life])
+            .BasicAttackOrder = 2;
+        campaignTemplate.Vitalities.First(v => v.Id == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Mana])
+            .BasicAttackOrder = 3;
+
+        var hitPropertyId = LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon];
+        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
+
+        var attacker = new BaseCreature(campaignTemplate, "").Creature;
+        var defender = new BaseCreature(campaignTemplate, "").Creature;
+
+        var moral = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral]);
+        var life = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life]);
+        var mana = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Mana]);
+        moral.Value = 1;
+        life.Value = 1;
+        var manaBeforeAttack = mana.Value;
+
+        var input = new AttackCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = campaignTemplate.ItemConfiguration,
+            BasicAttackVitalityRules = campaignTemplate.GetBasicAttackVitalityRules().Select(rule => rule.Clone())
+                .ToList(),
+            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
+            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
+            Luck = 0,
+            Advantage = 0
+        };
+
+        var dice = Substitute.For<IDiceRoller>();
+        dice.Roll(Arg.Any<int>()).Returns(callInfo => callInfo.Arg<int>());
+
+        // Act
+        var result = attacker.Attack(defender, input, dice);
+
+        // Assert
+        result.Success.Should().BeTrue();
+        moral.Value.Should().Be(0);
+        life.Value.Should().Be(0);
+        mana.Value.Should().BeLessThan(manaBeforeAttack);
+    }
+
+    [Fact(DisplayName = "TakeDamage should trigger 30% and 0% statuses when crossing thresholds")]
+    public void T15()
+    {
+        // Arrange
+        var campaignTemplate = LandOfHeroesTemplate.Template;
+        var creature = new BaseCreature(campaignTemplate, "").Creature;
+        var moralVitalityId = LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral];
+        var moral = creature.Vitalities.First(v => v.VitalityTemplateId == moralVitalityId);
+        var rule = new BasicAttackVitalityRule
+        {
+            Vitality = new Property(moralVitalityId, PropertyType.Vitality),
+            StatusAtThirtyPercent = "Abalada",
+            StatusAtZero = "Sangrando"
+        };
+
+        // Act
+        var result = creature.TakeDamage(moralVitalityId, moral.Value, rule);
+
+        // Assert
+        result.TriggeredStatuses.Select(status => status.Status)
+            .Should()
+            .BeEquivalentTo(["Abalada", "Sangrando"]);
+        result.TriggeredStatuses.Select(status => status.ThresholdPercent)
+            .Should()
+            .BeEquivalentTo([30, 0]);
     }
 
     [Fact(DisplayName = "Light weapon attacking light armor")]

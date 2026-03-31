@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ItemConfigurationService } from './item-configuration.service';
 import { firstValueFrom } from 'rxjs';
@@ -40,7 +40,7 @@ export class CampaignItemConfigurationComponent {
   public defenses: any[] = [];
   public attributes: any[] = [];
   public subcriptionManager = new SubscriptionManager();
-  private disabled: boolean;
+  public disabled: boolean = false;
   constructor(private itemConfigurationService: ItemConfigurationService,
               private route: ActivatedRoute,
               public authService: AuthenticationService,
@@ -82,7 +82,6 @@ export class CampaignItemConfigurationComponent {
       };
     });
     this.form.addControl('armorPropertyTitle', new FormControl('Armor Property'));
-    this.form.addControl('basicAttackTargetFirstVitalityTitle', new FormControl('Basic Attack First Vitality'));
     this.form.addControl('meleeLightWeaponHitPropertyTitle', new FormControl('Melee Light Weapon Hit Property'));
     this.form.addControl('meleeMediumWeaponHitPropertyTitle', new FormControl('Melee Medium Weapon Hit Property'));
     this.form.addControl('meleeHeavyWeaponHitPropertyTitle', new FormControl('Melee Heavy Weapon Hit Property'));
@@ -95,11 +94,9 @@ export class CampaignItemConfigurationComponent {
     this.form.addControl('rangedLightWeaponDamagePropertyTitle', new FormControl('Ranged Light Weapon Damage Property'));
     this.form.addControl('rangedMediumWeaponDamagePropertyTitle', new FormControl('Ranged Medium Weapon Damage Property'));
     this.form.addControl('rangedHeavyWeaponDamagePropertyTitle', new FormControl('Ranged Heavy Weapon Damage Property'));
-    this.form.addControl('basicAttackTargetSecondVitalityTitle', new FormControl('Basic Attack Second Vitality'));
-
   }
   public async save(): Promise<void> {
-    const configuration = this.form.value as ItemConfigurationModel;
+    const configuration = this.form.getRawValue() as ItemConfigurationModel;
     await firstValueFrom(this.itemConfigurationService.update(this.campaign.id, configuration));
   }
 

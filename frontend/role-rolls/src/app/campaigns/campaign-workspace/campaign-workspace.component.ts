@@ -18,6 +18,7 @@ import {
 
 @Component({
   selector: 'rr-campaign-workspace',
+  standalone: true,
   imports: [
     TabPanel,
     CampaignItemConfigurationComponent,

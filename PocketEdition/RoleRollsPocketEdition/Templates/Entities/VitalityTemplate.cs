@@ -17,11 +17,17 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Id = vitality.Id;
             Name = vitality.Name;
             Formula = vitality.Formula;
+            BasicAttackOrder = vitality.BasicAttackOrder;
+            StatusAtThirtyPercent = vitality.StatusAtThirtyPercent;
+            StatusAtZero = vitality.StatusAtZero;
             FormulaTokens = vitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
         }
 
         public string Name { get; set; }
         public string Formula { get; set; }
+        public int? BasicAttackOrder { get; set; }
+        public string? StatusAtThirtyPercent { get; set; }
+        public string? StatusAtZero { get; set; }
         public List<FormulaToken> FormulaTokens { get; set; } = new();
         public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
@@ -31,7 +37,25 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
             Name = vitalityModel.Name;
             Formula = vitalityModel.Formula;
+            BasicAttackOrder = vitalityModel.BasicAttackOrder;
+            StatusAtThirtyPercent = vitalityModel.StatusAtThirtyPercent;
+            StatusAtZero = vitalityModel.StatusAtZero;
             FormulaTokens = vitalityModel.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
+        }
+
+        public BasicAttackVitalityRule? ToBasicAttackVitalityRule()
+        {
+            if (!BasicAttackOrder.HasValue || BasicAttackOrder <= 0)
+            {
+                return null;
+            }
+
+            return new BasicAttackVitalityRule
+            {
+                Vitality = new Property(Id, PropertyType.Vitality),
+                StatusAtThirtyPercent = StatusAtThirtyPercent,
+                StatusAtZero = StatusAtZero
+            };
         }
     }
 }

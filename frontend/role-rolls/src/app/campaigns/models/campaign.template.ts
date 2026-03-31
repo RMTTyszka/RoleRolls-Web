@@ -45,6 +45,9 @@ export interface SpecificSkillsTemplate extends Entity {
 export interface VitalityTemplate extends Entity {
   name: string
   formula: string;
+  basicAttackOrder?: number | null;
+  statusAtThirtyPercent?: string | null;
+  statusAtZero?: string | null;
   formulaTokens: FormulaToken[];
 }
 export interface DefenseTemplate extends Entity {

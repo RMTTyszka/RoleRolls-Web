@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoleRollsPocketEdition.Infrastructure;
@@ -11,9 +12,11 @@ using RoleRollsPocketEdition.Infrastructure;
 namespace RoleRollsPocketEdition.Migrations
 {
     [DbContext(typeof(RoleRollsDbContext))]
-    partial class RoleRollsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260331135906_AddBasicAttackVitalityRulesAndStatuses")]
+    partial class AddBasicAttackVitalityRulesAndStatuses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -630,6 +633,10 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<Guid?>("ArmorDefense2")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("BasicAttackVitalityRulesData")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("BasicAttackVitalityRules");
+
                     b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
@@ -1174,9 +1181,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("BasicAttackOrder")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("CampaignTemplateId")
                         .HasColumnType("uuid");
 
@@ -1189,14 +1193,6 @@ namespace RoleRollsPocketEdition.Migrations
                         .HasColumnType("jsonb");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.Property<string>("StatusAtThirtyPercent")
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
-
-                    b.Property<string>("StatusAtZero")
                         .HasMaxLength(450)
                         .HasColumnType("character varying(450)");
 
@@ -1646,6 +1642,44 @@ namespace RoleRollsPocketEdition.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetFirstVitality", b1 =>
+                        {
+                            b1.Property<Guid>("ItemConfigurationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int?>("Type")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ItemConfigurationId");
+
+                            b1.ToTable("ItemConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemConfigurationId");
+                        });
+
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BasicAttackTargetSecondVitality", b1 =>
+                        {
+                            b1.Property<Guid>("ItemConfigurationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int?>("Type")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ItemConfigurationId");
+
+                            b1.ToTable("ItemConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemConfigurationId");
+                        });
+
                     b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "BlockProperty", b1 =>
                         {
                             b1.Property<Guid>("ItemConfigurationId")
@@ -1892,6 +1926,10 @@ namespace RoleRollsPocketEdition.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ItemConfigurationId");
                         });
+
+                    b.Navigation("BasicAttackTargetFirstVitality");
+
+                    b.Navigation("BasicAttackTargetSecondVitality");
 
                     b.Navigation("BlockProperty");
 

@@ -6,7 +6,6 @@ export class ItemConfigurationModel implements Entity {
   public armorProperty?: Property | null;
   public armorDefense1?: string | null;
   public armorDefense2?: string | null;
-  public basicAttackTargetFirstVitality?: Property | null;
   public meleeLightWeaponHitProperty?: Property | null;
   public meleeMediumWeaponHitProperty?: Property | null;
   public meleeHeavyWeaponHitProperty?: Property | null;
@@ -19,6 +18,5 @@ export class ItemConfigurationModel implements Entity {
   public rangedLightWeaponDamageProperty?: Property | null;
   public rangedMediumWeaponDamageProperty?: Property | null;
   public rangedHeavyWeaponDamageProperty?: Property | null;
-  public basicAttackTargetSecondVitality?: Property | null;
   public blockProperty?: Property | null;
 }

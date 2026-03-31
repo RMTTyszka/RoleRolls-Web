@@ -152,6 +152,8 @@ public partial class Creature
             : new PropertyValue();
         var block = ArmorDefinition.TotalBlock(targetArmorCategory, target.Level) +
                     blockPropertyValue.Value + blockPropertyValue.Bonus;
+        var vitalityRules = ResolveBasicAttackVitalityRules(input);
+        var triggeredStatuses = new List<VitalityStatusChange>();
 
         var totalDamage = 0;
         for (var i = 0; i < hits; i++)
@@ -163,10 +165,11 @@ public partial class Creature
             var damage = 1 + Math.Max(chunkDamage + damageBonusPerHit - block, 0);
 
             totalDamage += damage;
-
-            var result = target.TakeDamage(input.GetVitalityId, damage);
-            if (result.ExcessDamage > 0)
-                target.TakeDamage(input.GetSecondVitalityId, result.ExcessDamage);
+            var hitStatuses = ApplyBasicAttackDamage(target, damage, vitalityRules);
+            if (hitStatuses.Count > 0)
+            {
+                triggeredStatuses.AddRange(hitStatuses);
+            }
         }
 
         var success = hits > 0;
@@ -179,7 +182,8 @@ public partial class Creature
             Success = success,
             Block = block,
             DamageBonus = damageBonusPerHit,
-            NumberOfRollSuccesses = hits
+            NumberOfRollSuccesses = hits,
+            TriggeredStatuses = triggeredStatuses
         };
     }
 

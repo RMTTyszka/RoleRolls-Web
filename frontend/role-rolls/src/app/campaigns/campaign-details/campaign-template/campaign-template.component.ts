@@ -142,6 +142,9 @@ export class CampaignTemplateComponent {
       id: null,
       name: null,
       formula: null,
+      basicAttackOrder: null,
+      statusAtThirtyPercent: null,
+      statusAtZero: null,
       formulaTokens: []
     } as VitalityTemplate);
     createForm(this.defenseForm, {
@@ -303,14 +306,12 @@ export class CampaignTemplateComponent {
 
   public addVitality() {
     if (this.disabled) return;
-    const vitality = this.vitalityForm.value as VitalityTemplate;
-    vitality.formula = vitality.formula ?? '';
-    vitality.formulaTokens = vitality.formulaTokens ?? [];
+    const vitality = this.normalizeVitalityForPersistence(this.vitalityForm.value as VitalityTemplate);
     this.service.addVitality(this.campaign.id, vitality)
       .subscribe(() => {
         const formArray = this.vitalities;
         const newFormGroup = new FormGroup({});
-        createForm(newFormGroup, this.vitalityForm.value as Entity);
+        createForm(newFormGroup, vitality as Entity);
         this.ensureFormulaTokensControl(newFormGroup);
         formArray.controls.push(newFormGroup);
         this.vitalityForm.reset();
@@ -321,7 +322,7 @@ export class CampaignTemplateComponent {
 
   public updateVitality(vitalityControl: FormGroup) {
     if (this.disabled) return;
-    const vitality = vitalityControl.value as VitalityTemplate;
+    const vitality = this.normalizeVitalityForPersistence(vitalityControl.value as VitalityTemplate);
     vitality.formulaTokens = (vitality.formulaTokens ?? []).map((token, index) => ({
       ...token,
       order: index
@@ -438,6 +439,22 @@ export class CampaignTemplateComponent {
       callback();
     });
     this.formulaAutoSaveTimers.set(group, timer);
+  }
+
+  private normalizeVitalityForPersistence(vitality: VitalityTemplate): VitalityTemplate {
+    const normalizedOrder = Number(vitality.basicAttackOrder);
+    const basicAttackOrder = Number.isFinite(normalizedOrder) && normalizedOrder > 0
+      ? Math.floor(normalizedOrder)
+      : null;
+
+    return {
+      ...vitality,
+      formula: vitality.formula ?? '',
+      formulaTokens: vitality.formulaTokens ?? [],
+      basicAttackOrder,
+      statusAtThirtyPercent: vitality.statusAtThirtyPercent?.trim() || null,
+      statusAtZero: vitality.statusAtZero?.trim() || null
+    };
   }
 
 

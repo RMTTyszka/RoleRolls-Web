@@ -3,6 +3,7 @@ import { CampaignWorkspaceComponent } from '@app/campaigns/campaign-workspace/ca
 
 @Component({
   selector: 'rr-campaign-details',
+  standalone: true,
   templateUrl: './campaign-details.component.html',
   imports: [
     CampaignWorkspaceComponent

@@ -162,6 +162,24 @@
                 <button (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
               </p-inputgroup-addon>
             </div>
+            <div class="grid grid-cols-1 gap-2 mt-2 md:grid-cols-3">
+              <input type="number"
+                     min="1"
+                     pInputText
+                     placeholder="Basic Attack Order"
+                     formControlName="basicAttackOrder"
+                     (blur)="updateVitality(vitality)">
+              <input type="text"
+                     pInputText
+                     placeholder="Status at 30%"
+                     formControlName="statusAtThirtyPercent"
+                     (blur)="updateVitality(vitality)">
+              <input type="text"
+                     pInputText
+                     placeholder="Status at 0%"
+                     formControlName="statusAtZero"
+                     (blur)="updateVitality(vitality)">
+            </div>
             <rr-formula-builder
               class="block mt-2"
               [ngModel]="vitality.get('formulaTokens')?.value"

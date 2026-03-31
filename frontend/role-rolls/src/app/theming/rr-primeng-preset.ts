@@ -1,5 +1,6 @@
 import { definePreset  } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
+import { color } from 'chart.js/types/helpers';
 
 const RrPrimengPreset = definePreset(Aura as any, {
   primitive: {
@@ -322,6 +323,9 @@ const RrPrimengPreset = definePreset(Aura as any, {
           800: '#30596c',
           900: '#30596c',
           950: '#30596c',
+        },
+        danger: {
+          color: ''
         },
         secondary: {
           0: '#f4f4f4',

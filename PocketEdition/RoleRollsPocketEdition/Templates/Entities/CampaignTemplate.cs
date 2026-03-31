@@ -69,6 +69,21 @@ namespace RoleRollsPocketEdition.Templates.Entities
             return creature;
         }
 
+        public IReadOnlyList<BasicAttackVitalityRule> GetBasicAttackVitalityRules()
+        {
+            return Vitalities
+                .Select(vitality => new
+                {
+                    Vitality = vitality,
+                    Rule = vitality.ToBasicAttackVitalityRule()
+                })
+                .Where(entry => entry.Rule is not null)
+                .OrderBy(entry => entry.Vitality.BasicAttackOrder)
+                .ThenBy(entry => entry.Vitality.Name)
+                .Select(entry => entry.Rule!)
+                .ToList();
+        }
+
 
         public async Task AddAttributeAsync(AttributeTemplateModel attribute, RoleRollsDbContext _dbContext)
         {
