@@ -168,8 +168,16 @@ public class AttackTests
         var rule = new BasicAttackVitalityRule
         {
             Vitality = new Property(moralVitalityId, PropertyType.Vitality),
-            StatusAtThirtyPercent = "Abalada",
-            StatusAtZero = "Sangrando"
+            ConditionAtThirtyPercent = new BasicAttackConditionRule
+            {
+                Condition = new Property(Guid.NewGuid(), PropertyType.CreatureCondition),
+                Name = "Abalada"
+            },
+            ConditionAtZero = new BasicAttackConditionRule
+            {
+                Condition = new Property(Guid.NewGuid(), PropertyType.CreatureCondition),
+                Name = "Sangrando"
+            }
         };
 
         // Act

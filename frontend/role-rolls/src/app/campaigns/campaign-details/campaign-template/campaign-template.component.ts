@@ -15,6 +15,7 @@ import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {
   AttributeTemplate,
+  CreatureCondition,
   DefenseTemplate,
   VitalityTemplate,
   SpecificSkillsTemplate,
@@ -26,6 +27,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
 import {
   PropertyByIdSelectorComponent
 } from '@app/components/property-by-id-selector/property-by-id-selector.component';
+import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import {
   FormulaBuilderComponent
 } from '@app/components/formula-builder/formula-builder.component';
@@ -33,6 +35,8 @@ import {
   FormulaToken
 } from '@app/campaigns/models/formula-token.model';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { Bonus, Property } from '@app/models/bonuses/bonus';
+import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -48,6 +52,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputText,
     NgForOf,
     PropertyByIdSelectorComponent,
+    PropertySelectorComponent,
     FormulaBuilderComponent,
     InputGroupAddonModule
   ],
@@ -59,6 +64,7 @@ export class CampaignTemplateComponent {
   public skillForm = new FormGroup({});
   public specificSkillForm = new FormGroup({});
   public defenseForm = new FormGroup({});
+  public creatureConditionForm = new FormGroup({});
   public vitalityForm = new FormGroup({});
   public isLoading = true;
   public campaign!: Campaign;
@@ -82,6 +88,11 @@ export class CampaignTemplateComponent {
   public get skills(): FormArray<FormGroup> {
     return this.form?.get('campaignTemplate.skills') as FormArray<FormGroup>;
   }
+
+  public get creatureConditions(): FormArray<FormGroup> {
+    return this.form?.get('campaignTemplate.creatureConditions') as FormArray<FormGroup>;
+  }
+
   public get defenses(): FormArray<FormGroup> {
     return this.form?.get('campaignTemplate.defenses') as FormArray<FormGroup>;
   }
@@ -122,6 +133,11 @@ export class CampaignTemplateComponent {
       ...vitality,
       formulaTokens: vitality.formulaTokens ?? []
     }));
+    this.campaign.campaignTemplate.creatureConditions = (this.campaign.campaignTemplate.creatureConditions ?? [])
+      .map(condition => ({
+        ...condition,
+        bonuses: condition.bonuses ?? []
+      }));
     this.form = getAsForm(this.campaign)
     this.normalizeFormulaTokenControls();
     createForm(this.attributeForm, {
@@ -143,10 +159,16 @@ export class CampaignTemplateComponent {
       name: null,
       formula: null,
       basicAttackOrder: null,
-      statusAtThirtyPercent: null,
-      statusAtZero: null,
+      conditionAtThirtyPercent: null,
+      conditionAtZero: null,
       formulaTokens: []
     } as VitalityTemplate);
+    createForm(this.creatureConditionForm, {
+      id: null,
+      name: null,
+      description: null,
+      bonuses: []
+    } as CreatureCondition);
     createForm(this.defenseForm, {
       id: null,
       name: null,
@@ -160,6 +182,7 @@ export class CampaignTemplateComponent {
     this.skillForm.get('id').setValue(uuidv4() as never);
     this.specificSkillForm.get('id').setValue(uuidv4() as never);
     this.vitalityForm.get('id').setValue(uuidv4() as never);
+    this.creatureConditionForm.get('id').setValue(uuidv4() as never);
     this.defenseForm.get('id').setValue(uuidv4() as never);
 
     this.buildSkills();
@@ -173,6 +196,7 @@ export class CampaignTemplateComponent {
         console.log(this.skillForm.disabled)
       })
       this.vitalityForm.disable();
+      this.creatureConditionForm.disable();
       this.skills.controls.forEach((control) => control.disable());
       this.form.get('name').enable();
     }
@@ -441,6 +465,74 @@ export class CampaignTemplateComponent {
     this.formulaAutoSaveTimers.set(group, timer);
   }
 
+  public addCreatureCondition() {
+    if (this.disabled) return;
+    const creatureCondition = this.normalizeCreatureConditionForPersistence(
+      this.creatureConditionForm.value as CreatureCondition);
+    this.service.addCreatureCondition(this.campaign.id, creatureCondition)
+      .subscribe(() => {
+        const formArray = this.creatureConditions;
+        const newFormGroup = new FormGroup({});
+        createForm(newFormGroup, creatureCondition as Entity);
+        formArray.controls.push(newFormGroup);
+        this.creatureConditionForm.reset();
+        this.creatureConditionForm.get('id')?.setValue(uuidv4() as never);
+      });
+  }
+
+  public updateCreatureCondition(conditionControl: FormGroup) {
+    if (this.disabled) return;
+    const creatureCondition = this.normalizeCreatureConditionForPersistence(
+      conditionControl.value as CreatureCondition);
+    this.service.updateCreatureCondition(this.campaign.id, creatureCondition.id, creatureCondition)
+      .subscribe();
+  }
+
+  public removeCreatureCondition(conditionControl: FormGroup, index: number) {
+    if (this.disabled) return;
+    const creatureCondition = conditionControl.value as CreatureCondition;
+    this.service.removeCreatureCondition(this.campaign.id, creatureCondition.id)
+      .subscribe(() => {
+        this.creatureConditions.removeAt(index);
+        this.vitalities.controls.forEach(vitalityControl => {
+          const currentThirty = vitalityControl.get('conditionAtThirtyPercent')?.value as Property | null;
+          if (currentThirty?.id === creatureCondition.id) {
+            vitalityControl.get('conditionAtThirtyPercent')?.setValue(null);
+            this.updateVitality(vitalityControl);
+          }
+
+          const currentZero = vitalityControl.get('conditionAtZero')?.value as Property | null;
+          if (currentZero?.id === creatureCondition.id) {
+            vitalityControl.get('conditionAtZero')?.setValue(null);
+            this.updateVitality(vitalityControl);
+          }
+        });
+      });
+  }
+
+  public onCreatureConditionBonusUpdated(conditionControl: FormGroup, action: EntityActionData<Bonus>) {
+    const bonuses = [...((conditionControl.get('bonuses')?.value as Bonus[]) ?? [])];
+    switch (action.action) {
+      case EditorAction.create:
+        bonuses.push(action.entity);
+        break;
+      case EditorAction.update: {
+        const index = bonuses.findIndex(bonus => bonus.id === action.entity.id);
+        if (index >= 0) {
+          bonuses[index] = action.entity;
+        }
+        break;
+      }
+      case EditorAction.delete:
+        conditionControl.get('bonuses')?.setValue(bonuses.filter(bonus => bonus.id !== action.entity.id));
+        this.updateCreatureCondition(conditionControl);
+        return;
+    }
+
+    conditionControl.get('bonuses')?.setValue(bonuses);
+    this.updateCreatureCondition(conditionControl);
+  }
+
   private normalizeVitalityForPersistence(vitality: VitalityTemplate): VitalityTemplate {
     const normalizedOrder = Number(vitality.basicAttackOrder);
     const basicAttackOrder = Number.isFinite(normalizedOrder) && normalizedOrder > 0
@@ -452,8 +544,28 @@ export class CampaignTemplateComponent {
       formula: vitality.formula ?? '',
       formulaTokens: vitality.formulaTokens ?? [],
       basicAttackOrder,
-      statusAtThirtyPercent: vitality.statusAtThirtyPercent?.trim() || null,
-      statusAtZero: vitality.statusAtZero?.trim() || null
+      conditionAtThirtyPercent: this.normalizeConditionProperty(vitality.conditionAtThirtyPercent),
+      conditionAtZero: this.normalizeConditionProperty(vitality.conditionAtZero)
+    };
+  }
+
+  private normalizeCreatureConditionForPersistence(creatureCondition: CreatureCondition): CreatureCondition {
+    return {
+      ...creatureCondition,
+      name: creatureCondition.name?.trim() ?? '',
+      description: creatureCondition.description?.trim() ?? '',
+      bonuses: creatureCondition.bonuses ?? []
+    };
+  }
+
+  private normalizeConditionProperty(condition: Property | null | undefined): Property | null {
+    if (!condition?.id) {
+      return null;
+    }
+
+    return {
+      id: condition.id,
+      type: PropertyType.CreatureCondition
     };
   }
 

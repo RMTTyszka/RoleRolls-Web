@@ -169,16 +169,22 @@
                      placeholder="Basic Attack Order"
                      formControlName="basicAttackOrder"
                      (blur)="updateVitality(vitality)">
-              <input type="text"
-                     pInputText
-                     placeholder="Status at 30%"
-                     formControlName="statusAtThirtyPercent"
-                     (blur)="updateVitality(vitality)">
-              <input type="text"
-                     pInputText
-                     placeholder="Status at 0%"
-                     formControlName="statusAtZero"
-                     (blur)="updateVitality(vitality)">
+              <rr-property-selector
+                placeholder="Condition at 30%"
+                formControlName="conditionAtThirtyPercent"
+                [campaign]="campaign"
+                [propertyType]="[PropertyType.CreatureCondition]"
+                [cleanable]="true"
+                (ngModelChange)="updateVitality(vitality)">
+              </rr-property-selector>
+              <rr-property-selector
+                placeholder="Condition at 0%"
+                formControlName="conditionAtZero"
+                [campaign]="campaign"
+                [propertyType]="[PropertyType.CreatureCondition]"
+                [cleanable]="true"
+                (ngModelChange)="updateVitality(vitality)">
+              </rr-property-selector>
             </div>
             <rr-formula-builder
               class="block mt-2"

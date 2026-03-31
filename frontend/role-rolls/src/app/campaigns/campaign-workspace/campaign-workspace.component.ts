@@ -15,6 +15,9 @@ import { EncountersComponent } from '@app/encounters/components/encounters/encou
 import {
   CampaignSessionPanelComponent
 } from '@app/campaign-session/campaign-session-panel/campaign-session-panel.component';
+import {
+  CampaignCreatureConditionsComponent
+} from '@app/campaigns/campaign-details/campaign-creature-conditions/campaign-creature-conditions.component';
 
 @Component({
   selector: 'rr-campaign-workspace',
@@ -32,7 +35,8 @@ import {
     ArchetypesComponent,
     CampaignCreaturesComponent,
     EncountersComponent,
-    CampaignSessionPanelComponent
+    CampaignSessionPanelComponent,
+    CampaignCreatureConditionsComponent
   ],
   templateUrl: './campaign-workspace.component.html',
   styleUrl: './campaign-workspace.component.scss'

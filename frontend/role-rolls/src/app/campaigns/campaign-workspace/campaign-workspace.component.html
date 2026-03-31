@@ -11,6 +11,7 @@
     <p-tab value="encounters">Encounters</p-tab>
     <p-tab value="itens">Itens</p-tab>
     <p-tab value="item-configuration">Item Configuration</p-tab>
+    <p-tab value="creature-conditions">Creature Conditions</p-tab>
   </p-tablist>
 
   <p-tabpanels>
@@ -31,6 +32,15 @@
           <rr-campaign-template></rr-campaign-template>
         } @placeholder {
           <div class="p-4 text-sm text-surface-500">Loading creature template...</div>
+        }
+      }
+    </p-tabpanel>
+    <p-tabpanel value="creature-conditions">
+      @if (activeTab === 'creature-conditions') {
+        @defer (when activeTab === 'creature-conditions') {
+          <rr-campaign-creature-conditions></rr-campaign-creature-conditions>
+        } @placeholder {
+          <div class="p-4 text-sm text-surface-500">Loading creature conditions...</div>
         }
       }
     </p-tabpanel>

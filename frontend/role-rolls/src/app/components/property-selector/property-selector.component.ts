@@ -1,7 +1,6 @@
 import {Component, computed, forwardRef, input} from '@angular/core';
 import {
   ControlValueAccessor,
-  FormGroupDirective,
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule
@@ -11,7 +10,7 @@ import { RROption } from '@app/models/RROption';
 import { PropertyType } from '@app/campaigns/models/propertyType';
 import { Campaign } from '@app/campaigns/models/campaign';
 import {
-  AttributeTemplate, DefenseTemplate, VitalityTemplate,
+  AttributeTemplate, CreatureCondition, DefenseTemplate, VitalityTemplate,
   SpecificSkillsTemplate,
   SkillTemplate
 } from '@app/campaigns/models/campaign.template';
@@ -41,7 +40,7 @@ import {Creature} from '@app/campaigns/models/creature';
 })
 export class PropertySelectorComponent implements ControlValueAccessor {
   public _value: Property | null = null;
-  public campaign = input.required<Campaign>();
+  public campaign = input<Campaign>();
   public creature = input<Creature>();
   public propertyType = input.required<PropertyType[]>();
   public placeholder = input<string>();
@@ -61,6 +60,7 @@ export class PropertySelectorComponent implements ControlValueAccessor {
               .concat(this.specificSkills())
               .concat(this.defenses())
               .concat(this.vitalities())
+              .concat(this.creatureConditions())
           );
           break;
         case PropertyType.Attribute:
@@ -78,27 +78,33 @@ export class PropertySelectorComponent implements ControlValueAccessor {
         case PropertyType.Vitality:
           options = options.concat(this.vitalities());
           break;
+        case PropertyType.CreatureCondition:
+          options = options.concat(this.creatureConditions());
+          break;
       }
     });
     return options;
   });
 
   public attributes = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.attributes.map((a: AttributeTemplate) => ({
+    const attributes = this.campaign()?.campaignTemplate?.attributes ?? [];
+    return attributes.map((a: AttributeTemplate) => ({
       label: a.name,
       value: { id: a.id, type: PropertyType.Attribute }
     }));
   });
 
   public skills = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.skills.map((a: SkillTemplate) => ({
+    const skills = this.campaign()?.campaignTemplate?.skills ?? [];
+    return skills.map((a: SkillTemplate) => ({
       label: a.name,
       value: { id: a.id, type: PropertyType.Skill }
     }));
   });
 
   public specificSkills = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.skills.flatMap((s: SkillTemplate) =>
+    const skills = this.campaign()?.campaignTemplate?.skills ?? [];
+    return skills.flatMap((s: SkillTemplate) =>
       s.specificSkillTemplates.map((a: SpecificSkillsTemplate) => ({
         label: a.name,
         value: { id: a.id, type: PropertyType.SpecificSkill }
@@ -107,16 +113,26 @@ export class PropertySelectorComponent implements ControlValueAccessor {
   });
 
   public defenses = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.defenses.map((a: DefenseTemplate) => ({
+    const defenses = this.campaign()?.campaignTemplate?.defenses ?? [];
+    return defenses.map((a: DefenseTemplate) => ({
       label: a.name,
       value: { id: a.id, type: PropertyType.Defense }
     }));
   });
 
   public vitalities = computed<RROption<Property>[]>(() => {
-    return this.campaign().campaignTemplate.vitalities.map((a: VitalityTemplate) => ({
+    const vitalities = this.campaign()?.campaignTemplate?.vitalities ?? [];
+    return vitalities.map((a: VitalityTemplate) => ({
       label: a.name,
       value: { id: a.id, type: PropertyType.Vitality }
+    }));
+  });
+
+  public creatureConditions = computed<RROption<Property>[]>(() => {
+    const creatureConditions = this.campaign()?.campaignTemplate?.creatureConditions ?? [];
+    return creatureConditions.map((a: CreatureCondition) => ({
+      label: a.name,
+      value: { id: a.id, type: PropertyType.CreatureCondition }
     }));
   });
 

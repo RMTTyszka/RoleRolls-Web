@@ -18,16 +18,16 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Name = vitality.Name;
             Formula = vitality.Formula;
             BasicAttackOrder = vitality.BasicAttackOrder;
-            StatusAtThirtyPercent = vitality.StatusAtThirtyPercent;
-            StatusAtZero = vitality.StatusAtZero;
+            ConditionAtThirtyPercent = vitality.ConditionAtThirtyPercent;
+            ConditionAtZero = vitality.ConditionAtZero;
             FormulaTokens = vitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
         }
 
         public string Name { get; set; }
         public string Formula { get; set; }
         public int? BasicAttackOrder { get; set; }
-        public string? StatusAtThirtyPercent { get; set; }
-        public string? StatusAtZero { get; set; }
+        public Property? ConditionAtThirtyPercent { get; set; }
+        public Property? ConditionAtZero { get; set; }
         public List<FormulaToken> FormulaTokens { get; set; } = new();
         public Guid CampaignTemplateId { get; set; }
         public CampaignTemplate CampaignTemplate { get; set; }
@@ -38,12 +38,14 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Name = vitalityModel.Name;
             Formula = vitalityModel.Formula;
             BasicAttackOrder = vitalityModel.BasicAttackOrder;
-            StatusAtThirtyPercent = vitalityModel.StatusAtThirtyPercent;
-            StatusAtZero = vitalityModel.StatusAtZero;
+            ConditionAtThirtyPercent = vitalityModel.ConditionAtThirtyPercent;
+            ConditionAtZero = vitalityModel.ConditionAtZero;
             FormulaTokens = vitalityModel.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
         }
 
-        public BasicAttackVitalityRule? ToBasicAttackVitalityRule()
+        public BasicAttackVitalityRule? ToBasicAttackVitalityRule(
+            CreatureCondition? conditionAtThirtyPercent,
+            CreatureCondition? conditionAtZero)
         {
             if (!BasicAttackOrder.HasValue || BasicAttackOrder <= 0)
             {
@@ -53,8 +55,22 @@ namespace RoleRollsPocketEdition.Templates.Entities
             return new BasicAttackVitalityRule
             {
                 Vitality = new Property(Id, PropertyType.Vitality),
-                StatusAtThirtyPercent = StatusAtThirtyPercent,
-                StatusAtZero = StatusAtZero
+                ConditionAtThirtyPercent = conditionAtThirtyPercent == null
+                    ? null
+                    : new BasicAttackConditionRule
+                    {
+                        Condition = new Property(conditionAtThirtyPercent.Id, PropertyType.CreatureCondition),
+                        Name = conditionAtThirtyPercent.Name,
+                        Description = conditionAtThirtyPercent.Description
+                    },
+                ConditionAtZero = conditionAtZero == null
+                    ? null
+                    : new BasicAttackConditionRule
+                    {
+                        Condition = new Property(conditionAtZero.Id, PropertyType.CreatureCondition),
+                        Name = conditionAtZero.Name,
+                        Description = conditionAtZero.Description
+                    }
             };
         }
     }

@@ -223,26 +223,30 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             var previousPercent = (decimal)previousValue * 100 / vitality.MaxValue;
             var currentPercent = (decimal)currentValue * 100 / vitality.MaxValue;
 
-            if (!string.IsNullOrWhiteSpace(rule.StatusAtThirtyPercent) &&
+            if (!string.IsNullOrWhiteSpace(rule.ConditionAtThirtyPercent?.Name) &&
                 previousPercent > 30m &&
                 currentPercent <= 30m)
             {
                 statuses.Add(new VitalityStatusChange
                 {
+                    ConditionId = rule.ConditionAtThirtyPercent?.Condition?.Id,
                     Vitality = vitality.Name,
-                    Status = rule.StatusAtThirtyPercent.Trim(),
+                    Status = rule.ConditionAtThirtyPercent!.Name.Trim(),
+                    Description = rule.ConditionAtThirtyPercent.Description ?? string.Empty,
                     ThresholdPercent = 30
                 });
             }
 
-            if (!string.IsNullOrWhiteSpace(rule.StatusAtZero) &&
+            if (!string.IsNullOrWhiteSpace(rule.ConditionAtZero?.Name) &&
                 previousValue > 0 &&
                 currentValue <= 0)
             {
                 statuses.Add(new VitalityStatusChange
                 {
+                    ConditionId = rule.ConditionAtZero?.Condition?.Id,
                     Vitality = vitality.Name,
-                    Status = rule.StatusAtZero.Trim(),
+                    Status = rule.ConditionAtZero!.Name.Trim(),
+                    Description = rule.ConditionAtZero.Description ?? string.Empty,
                     ThresholdPercent = 0
                 });
             }
@@ -529,6 +533,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 PropertyType.Defense => Defenses.FirstOrDefault(d =>
                         d.DefenseTemplateId == property.Id || d.Id == property.Id)
                     ?.Name ?? "Defesa",
+                PropertyType.CreatureCondition => "Condicao",
                 _ => AttributeName() ?? "Propriedade"
             };
         }

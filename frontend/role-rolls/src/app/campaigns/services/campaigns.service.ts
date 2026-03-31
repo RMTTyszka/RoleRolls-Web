@@ -25,6 +25,7 @@ import { BaseCrudService } from '../../services/base-service/base-crud-service';
 import {
   AttributeTemplate,
   CampaignTemplate,
+  CreatureCondition,
   DefenseTemplate,
   VitalityTemplate,
   SpecificSkillsTemplate,
@@ -127,9 +128,24 @@ export class CampaignsService {
    public updateVitality(campaignId: string, vitalityId: string, vitality: VitalityTemplate): Observable<never> {
     return this.http.put<never>(`${this.completePath}/${campaignId}/vitalities/${vitalityId}`, vitality);
    }
-   public removeVitality(campaignId: string, vitalityId: string): Observable<never> {
+  public removeVitality(campaignId: string, vitalityId: string): Observable<never> {
     return this.http.delete<never>(`${this.completePath}/${campaignId}/vitalities/${vitalityId}`);
    }
+
+  public addCreatureCondition(campaignId: string, creatureCondition: CreatureCondition): Observable<never> {
+    return this.http.post<never>(`${this.completePath}/${campaignId}/creature-conditions`, creatureCondition);
+  }
+
+  public updateCreatureCondition(campaignId: string, creatureConditionId: string,
+    creatureCondition: CreatureCondition): Observable<never> {
+    return this.http.put<never>(
+      `${this.completePath}/${campaignId}/creature-conditions/${creatureConditionId}`,
+      creatureCondition);
+  }
+
+  public removeCreatureCondition(campaignId: string, creatureConditionId: string): Observable<never> {
+    return this.http.delete<never>(`${this.completePath}/${campaignId}/creature-conditions/${creatureConditionId}`);
+  }
 
    public addDefense(campaignId: string, defense: DefenseTemplate) {
     return this.http.post<never>(`${this.completePath}/${campaignId}/defenses`, defense);

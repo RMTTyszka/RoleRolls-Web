@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Templates.Dtos
@@ -16,8 +17,8 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Name = vitality.Name;
             Formula = vitality.Formula;
             BasicAttackOrder = vitality.BasicAttackOrder;
-            StatusAtThirtyPercent = vitality.StatusAtThirtyPercent;
-            StatusAtZero = vitality.StatusAtZero;
+            ConditionAtThirtyPercent = vitality.ConditionAtThirtyPercent;
+            ConditionAtZero = vitality.ConditionAtZero;
             FormulaTokens = vitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? new List<FormulaToken>();
         }
 
@@ -25,8 +26,8 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public string Name { get; set; }
         public string Formula { get; set; }
         public int? BasicAttackOrder { get; set; }
-        public string? StatusAtThirtyPercent { get; set; }
-        public string? StatusAtZero { get; set; }
+        public Property? ConditionAtThirtyPercent { get; set; }
+        public Property? ConditionAtZero { get; set; }
         public List<FormulaToken> FormulaTokens { get; set; } = new();
 
     }

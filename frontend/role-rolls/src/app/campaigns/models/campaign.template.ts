@@ -5,6 +5,7 @@ import {ItemConfigurationModel} from '@app/campaigns/models/item-configuration-m
 import {
   FormulaToken
 } from '@app/campaigns/models/formula-token.model';
+import { Property, Bonus } from '@app/models/bonuses/bonus';
 
 export class CampaignTemplate implements Entity {
   public id: string;
@@ -15,6 +16,7 @@ export class CampaignTemplate implements Entity {
   public attributes: AttributeTemplate[] = [];
   public skills: SkillTemplate[] = [];
   // Removed back-compat getter; use skills.filter(s => !s.attributeId) where needed
+  public creatureConditions: CreatureCondition[] = [];
   public vitalities: VitalityTemplate[] = [];
   public defenses: DefenseTemplate[] = [];
   public archetypes: Archetype[] = [];
@@ -46,9 +48,15 @@ export interface VitalityTemplate extends Entity {
   name: string
   formula: string;
   basicAttackOrder?: number | null;
-  statusAtThirtyPercent?: string | null;
-  statusAtZero?: string | null;
+  conditionAtThirtyPercent?: Property | null;
+  conditionAtZero?: Property | null;
   formulaTokens: FormulaToken[];
+}
+
+export interface CreatureCondition extends Entity {
+  name: string;
+  description: string;
+  bonuses: Bonus[];
 }
 export interface DefenseTemplate extends Entity {
   formula: string;

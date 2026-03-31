@@ -1,0 +1,71 @@
+@if (isLoading) {
+  <div class="p-4 text-sm text-surface-500">Loading creature conditions...</div>
+} @else {
+  <form [formGroup]="form">
+    <p-panel [toggleable]="true">
+      <ng-template #header>
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <span class="p-panel-title">Creature Conditions</span>
+          <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" [formGroup]="creatureConditionForm">
+            <ng-container *ngIf="!disabled">
+              <p-fieldset class="w-full md:min-w-64">
+                <input
+                  class="w-full"
+                  type="text"
+                  pInputText
+                  placeholder="Condition Name"
+                  formControlName="name"
+                  required
+                  (keydown.enter)="addCreatureCondition()">
+              </p-fieldset>
+              <button
+                [disabled]="disabled"
+                pButton
+                type="button"
+                icon="pi pi-plus"
+                class="p-button-primary w-full md:w-auto"
+                (click)="addCreatureCondition()"></button>
+            </ng-container>
+          </div>
+        </div>
+      </ng-template>
+      <div formGroupName="campaignTemplate">
+        <div formArrayName="creatureConditions">
+          <div *ngFor="let condition of creatureConditions.controls; let i=index" class="pb-3">
+            <div [formGroup]="condition">
+              <div class="p-inputgroup">
+                <input
+                  type="text"
+                  pInputText
+                  placeholder="Name"
+                  formControlName="name"
+                  required
+                  (blur)="updateCreatureCondition(condition)">
+                <p-inputgroup-addon *ngIf="!disabled">
+                  <button
+                    (click)="removeCreatureCondition(condition, i)"
+                    pButton
+                    type="button"
+                    icon="pi pi-minus"></button>
+                </p-inputgroup-addon>
+              </div>
+              <textarea
+                class="w-full mt-2"
+                cols="10"
+                pTextarea
+                placeholder="Description"
+                formControlName="description"
+                (blur)="updateCreatureCondition(condition)"></textarea>
+              <rr-bonuses
+                class="mt-2"
+                [bonuses]="condition.get('bonuses')?.value"
+                [campaign]="campaign"
+                (bonusUpdated)="onCreatureConditionBonusUpdated(condition, $event)">
+              </rr-bonuses>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+}

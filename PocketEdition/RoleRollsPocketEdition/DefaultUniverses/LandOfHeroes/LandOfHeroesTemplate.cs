@@ -31,6 +31,7 @@ public class LandOfHeroesTemplate
                 Default = true,
                 Attributes = BuildAttributes(),
                 Skills = BuildSkills(),
+                CreatureConditions = BuildCreatureConditions(),
                 Vitalities = BuildVitalities(),
                 Defenses = BuildDefenses(),
                 DamageTypes = BuildDamageTypes(),
@@ -53,7 +54,9 @@ public class LandOfHeroesTemplate
                 Name = "Life",
                 Formula = "10 + 4 * Vigor",
                 BasicAttackOrder = 2,
-                StatusAtThirtyPercent = "Debilitado",
+                ConditionAtThirtyPercent = new Property(
+                    ConditionIds[LandOfHeroesCondition.Debilitated],
+                    PropertyType.CreatureCondition),
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -81,8 +84,12 @@ public class LandOfHeroesTemplate
                 Name = "Moral",
                 Formula = "15 + 2 * Intuition",
                 BasicAttackOrder = 1,
-                StatusAtThirtyPercent = "Abalada",
-                StatusAtZero = "Sangrando",
+                ConditionAtThirtyPercent = new Property(
+                    ConditionIds[LandOfHeroesCondition.Shaken],
+                    PropertyType.CreatureCondition),
+                ConditionAtZero = new Property(
+                    ConditionIds[LandOfHeroesCondition.Bleeding],
+                    PropertyType.CreatureCondition),
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -128,6 +135,41 @@ public class LandOfHeroesTemplate
                         ManualValue = string.Empty
                     }
                 ]
+            }
+        ];
+    }
+
+    private static List<CreatureCondition> BuildCreatureConditions()
+    {
+        var templateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632");
+        return
+        [
+            new CreatureCondition
+            {
+                Id = ConditionIds[LandOfHeroesCondition.Shaken],
+                Name = "Shaken",
+                Description = "",
+                CampaignTemplateId = templateId,
+                CampaignTemplate = null,
+                Bonuses = []
+            },
+            new CreatureCondition
+            {
+                Id = ConditionIds[LandOfHeroesCondition.Bleeding],
+                Name = "Bleeding",
+                Description = "",
+                CampaignTemplateId = templateId,
+                CampaignTemplate = null,
+                Bonuses = []
+            },
+            new CreatureCondition
+            {
+                Id = ConditionIds[LandOfHeroesCondition.Debilitated],
+                Name = "Debilitated",
+                Description = "",
+                CampaignTemplateId = templateId,
+                CampaignTemplate = null,
+                Bonuses = []
             }
         ];
     }
@@ -342,6 +384,13 @@ public class LandOfHeroesTemplate
         { LandOfHeroesVitality.Life, Guid.Parse("F3B7E2A9-8D41-4A6D-9C50-1E6BFD5A4D23") },
         { LandOfHeroesVitality.Moral, Guid.Parse("7A92C5E3-4F8E-4C2E-98F7-5D3A1B8A6C91") },
         { LandOfHeroesVitality.Mana, Guid.Parse("A9B1C2D3-E4F5-6789-ABCD-0123456789AB") },
+    };
+
+    public static Dictionary<LandOfHeroesCondition, Guid> ConditionIds = new()
+    {
+        { LandOfHeroesCondition.Shaken, Guid.Parse("0B963A95-A54D-4A7A-AE2B-4CA296CB35A1") },
+        { LandOfHeroesCondition.Bleeding, Guid.Parse("0D2D2A6E-B618-4B8A-853F-747CD22F1D6C") },
+        { LandOfHeroesCondition.Debilitated, Guid.Parse("D87F992F-7F0B-47AB-B14D-17372AB6CF1A") }
     };
 
 

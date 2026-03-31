@@ -62,6 +62,9 @@ public class AttackService : IAttackService, ITransientDependency
             .ThenInclude(e => e.ItemConfiguration)
             .Include(e => e.CampaignTemplate)
             .ThenInclude(e => e.Vitalities)
+            .Include(e => e.CampaignTemplate)
+            .ThenInclude(e => e.CreatureConditions)
+            .ThenInclude(condition => condition.Bonuses)
             .Where(e => e.Id == campaignId)
             .Select(e => e.CampaignTemplate)
             .FirstAsync();

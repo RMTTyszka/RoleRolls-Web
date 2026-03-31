@@ -11,7 +11,14 @@ import { NgIf } from '@angular/common';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { PropertyType } from '@app/campaigns/models/propertyType';
-import { AttributeTemplate, SpecificSkillsTemplate, SkillTemplate } from '@app/campaigns/models/campaign.template';
+import {
+  AttributeTemplate,
+  CreatureCondition,
+  DefenseTemplate,
+  SpecificSkillsTemplate,
+  SkillTemplate,
+  VitalityTemplate
+} from '@app/campaigns/models/campaign.template';
 import { RROption } from '@app/models/RROption';
 
 @Component({
@@ -38,29 +45,47 @@ export class BonusesComponent {
   public campaign = input<Campaign>();
   public bonusesSignal: WritableSignal<Bonus[]> = signal(this.bonuses() || []);
   public properties = computed<RROption<any>[]>(() => {
-    const campaign = this.campaign();
+    const campaignTemplate = this.campaign()?.campaignTemplate;
+    if (!campaignTemplate) {
+      return [];
+    }
 
     // Mapeia os atributos
-    const attributes = campaign.campaignTemplate.attributes.map((a: AttributeTemplate) => ({
+    const attributes = (campaignTemplate.attributes ?? []).map((a: AttributeTemplate) => ({
       value: a.id,
       label: a.name
     } as RROption<any>));
 
     // Mapeia as habilidades
-    const skills = campaign.campaignTemplate.skills.map((s: SkillTemplate) => ({
+    const skills = (campaignTemplate.skills ?? []).map((s: SkillTemplate) => ({
       value: s.id,
       label: s.name
     } as RROption<any>));
 
     // Mapeia as habilidades menores (inclui skills com e sem atributo)
-    const specificSkills = campaign.campaignTemplate.skills.flatMap((s: SkillTemplate) =>
+    const specificSkills = (campaignTemplate.skills ?? []).flatMap((s: SkillTemplate) =>
       s.specificSkillTemplates.map((ms: SpecificSkillsTemplate) => ({
           value: ms.id,
           label: ms.name
         } as RROption<any>)));
 
+    const defenses = (campaignTemplate.defenses ?? []).map((d: DefenseTemplate) => ({
+      value: d.id,
+      label: d.name
+    } as RROption<any>));
+
+    const vitalities = (campaignTemplate.vitalities ?? []).map((v: VitalityTemplate) => ({
+      value: v.id,
+      label: v.name
+    } as RROption<any>));
+
+    const creatureConditions = (campaignTemplate.creatureConditions ?? []).map((c: CreatureCondition) => ({
+      value: c.id,
+      label: c.name
+    } as RROption<any>));
+
     // Combina todos os arrays
-    return [...attributes, ...skills, ...specificSkills];
+    return [...attributes, ...skills, ...specificSkills, ...defenses, ...vitalities, ...creatureConditions];
   });
   clonedBonuss: { [s: string]: Bonus } = {};
   constructor() {
@@ -140,7 +165,7 @@ export class BonusesComponent {
   getPropertyLabel(property: Property | null): string {
     if (!property) return ''; // Retorna uma string vazia se o property for nulo
 
-    const foundProperty = this.properties().find(opt => opt.value === property.id);
+    const foundProperty = this.properties().find(opt => opt.value?.id === property.id);
     return foundProperty ? foundProperty.label : '';
   }
 

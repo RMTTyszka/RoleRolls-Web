@@ -81,19 +81,29 @@ export class CampaignItemConfigurationComponent {
         label: d.name, value: d.id,
       };
     });
-    this.form.addControl('armorPropertyTitle', new FormControl('Armor Property'));
-    this.form.addControl('meleeLightWeaponHitPropertyTitle', new FormControl('Melee Light Weapon Hit Property'));
-    this.form.addControl('meleeMediumWeaponHitPropertyTitle', new FormControl('Melee Medium Weapon Hit Property'));
-    this.form.addControl('meleeHeavyWeaponHitPropertyTitle', new FormControl('Melee Heavy Weapon Hit Property'));
-    this.form.addControl('meleeLightWeaponDamagePropertyTitle', new FormControl('Melee Light Weapon Damage Property'));
-    this.form.addControl('meleeMediumWeaponDamagePropertyTitle', new FormControl('Melee Medium Weapon Damage Property'));
-    this.form.addControl('meleeHeavyWeaponDamagePropertyTitle', new FormControl('Melee Heavy Weapon Damage Property'));
-    this.form.addControl('rangedLightWeaponHitPropertyTitle', new FormControl('Ranged Light Weapon Hit Property'));
-    this.form.addControl('rangedMediumWeaponHitPropertyTitle', new FormControl('Ranged Medium Weapon Hit Property'));
-    this.form.addControl('rangedHeavyWeaponHitPropertyTitle', new FormControl('Ranged Heavy Weapon Hit Property'));
-    this.form.addControl('rangedLightWeaponDamagePropertyTitle', new FormControl('Ranged Light Weapon Damage Property'));
-    this.form.addControl('rangedMediumWeaponDamagePropertyTitle', new FormControl('Ranged Medium Weapon Damage Property'));
-    this.form.addControl('rangedHeavyWeaponDamagePropertyTitle', new FormControl('Ranged Heavy Weapon Damage Property'));
+    const readonlyTitleControls: Array<{ controlName: string; defaultValue: string }> = [
+      { controlName: 'armorPropertyTitle', defaultValue: 'Armor Property' },
+      { controlName: 'meleeLightWeaponHitPropertyTitle', defaultValue: 'Melee Light Weapon Hit Property' },
+      { controlName: 'meleeMediumWeaponHitPropertyTitle', defaultValue: 'Melee Medium Weapon Hit Property' },
+      { controlName: 'meleeHeavyWeaponHitPropertyTitle', defaultValue: 'Melee Heavy Weapon Hit Property' },
+      { controlName: 'meleeLightWeaponDamagePropertyTitle', defaultValue: 'Melee Light Weapon Damage Property' },
+      { controlName: 'meleeMediumWeaponDamagePropertyTitle', defaultValue: 'Melee Medium Weapon Damage Property' },
+      { controlName: 'meleeHeavyWeaponDamagePropertyTitle', defaultValue: 'Melee Heavy Weapon Damage Property' },
+      { controlName: 'rangedLightWeaponHitPropertyTitle', defaultValue: 'Ranged Light Weapon Hit Property' },
+      { controlName: 'rangedMediumWeaponHitPropertyTitle', defaultValue: 'Ranged Medium Weapon Hit Property' },
+      { controlName: 'rangedHeavyWeaponHitPropertyTitle', defaultValue: 'Ranged Heavy Weapon Hit Property' },
+      { controlName: 'rangedLightWeaponDamagePropertyTitle', defaultValue: 'Ranged Light Weapon Damage Property' },
+      { controlName: 'rangedMediumWeaponDamagePropertyTitle', defaultValue: 'Ranged Medium Weapon Damage Property' },
+      { controlName: 'rangedHeavyWeaponDamagePropertyTitle', defaultValue: 'Ranged Heavy Weapon Damage Property' }
+    ];
+
+    readonlyTitleControls.forEach(({ controlName, defaultValue }) => {
+      const existingValue = this.form.get(controlName)?.value;
+      this.form.setControl(controlName, new FormControl({
+        value: existingValue ?? defaultValue,
+        disabled: true
+      }));
+    });
   }
   public async save(): Promise<void> {
     const configuration = this.form.getRawValue() as ItemConfigurationModel;

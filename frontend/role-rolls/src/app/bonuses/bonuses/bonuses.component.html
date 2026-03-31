@@ -24,7 +24,7 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <input pInputText [(ngModel)]="bonus.name" class="w-full truncate"/>
+                <input pInputText [(ngModel)]="bonus.name" [ngModelOptions]="{standalone: true}" class="w-full truncate"/>
               </ng-template>
               <ng-template #output>{{ bonus.name }}</ng-template>
             </p-cellEditor>
@@ -32,7 +32,7 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <input pInputText [(ngModel)]="bonus.description" class="w-full truncate"/>
+                <input pInputText [(ngModel)]="bonus.description" [ngModelOptions]="{standalone: true}" class="w-full truncate"/>
               </ng-template>
               <ng-template #output>{{ bonus.description }}</ng-template>
             </p-cellEditor>
@@ -40,7 +40,7 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <input type="number" pInputText [(ngModel)]="bonus.value" class="w-full truncate"/>
+                <input type="number" pInputText [(ngModel)]="bonus.value" [ngModelOptions]="{standalone: true}" class="w-full truncate"/>
               </ng-template>
               <ng-template #output>{{ bonus.value }}</ng-template>
             </p-cellEditor>
@@ -52,6 +52,7 @@
                   [campaign]="campaign()"
                   [propertyType]="[PropertyType.All]"
                   [(ngModel)]="bonus.property"
+                  [ngModelOptions]="{standalone: true}"
                   class="w-full truncate">
                 </rr-property-selector>
               </ng-template>
@@ -63,7 +64,15 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <p-select [options]="valueTypes" [(ngModel)]="bonus.valueType" class="w-full truncate"></p-select>
+                <p-select
+                  [options]="valueTypes"
+                  optionLabel="label"
+                  optionValue="value"
+                  appendTo="body"
+                  [(ngModel)]="bonus.valueType"
+                  [ngModelOptions]="{standalone: true}"
+                  class="w-full truncate">
+                </p-select>
               </ng-template>
               <ng-template #output>{{ valueTypeLabel(bonus.valueType) }}</ng-template>
             </p-cellEditor>
@@ -71,7 +80,15 @@
           <td>
             <p-cellEditor>
               <ng-template #input>
-                <p-select [options]="bonusTypes" [(ngModel)]="bonus.type" class="w-full truncate"></p-select>
+                <p-select
+                  [options]="bonusTypes"
+                  optionLabel="label"
+                  optionValue="value"
+                  appendTo="body"
+                  [(ngModel)]="bonus.type"
+                  [ngModelOptions]="{standalone: true}"
+                  class="w-full truncate">
+                </p-select>
               </ng-template>
               <ng-template #output>{{ bonusTypeLabel(bonus.type) }}</ng-template>
             </p-cellEditor>

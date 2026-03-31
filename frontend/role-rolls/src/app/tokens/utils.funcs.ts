@@ -12,5 +12,5 @@ export function canEditCampaign(campaign: Campaign) {
 }
 
 export function canEditCampaignConfiguration(campaign: Campaign) {
-  return canEditCampaign(campaign) && !campaign.campaignTemplateId;
+  return canEditCampaign(campaign) && !campaign.campaignTemplate.default;
 }

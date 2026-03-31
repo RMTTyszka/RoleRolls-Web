@@ -29,6 +29,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
+                .Include(template => template.CreatureConditions)
+                .ThenInclude(condition => condition.Bonuses)
                 .Include(template => template.Vitalities)
                 .FirstOrDefaultAsync(template => template.Id == id)
                 ?? throw new InvalidOperationException($"Campaign template {id} was not found.");
@@ -60,6 +62,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .Include(template => template.Attributes)
                 .Include(template => template.Skills)
                 .ThenInclude(skill => skill.SpecificSkillTemplates)
+                .Include(template => template.CreatureConditions)
+                .ThenInclude(condition => condition.Bonuses)
                 .Include(template => template.Vitalities)
                 .FirstAsync(template => template.Id == id);
 
@@ -149,8 +153,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 vitalities.Formula = updatedVitality.Formula;
                 vitalities.FormulaTokens = updatedVitality.FormulaTokens?.Select(token => token.Clone()).ToList() ?? [];
                 vitalities.BasicAttackOrder = updatedVitality.BasicAttackOrder;
-                vitalities.StatusAtThirtyPercent = updatedVitality.StatusAtThirtyPercent;
-                vitalities.StatusAtZero = updatedVitality.StatusAtZero;
+                vitalities.ConditionAtThirtyPercent = updatedVitality.ConditionAtThirtyPercent;
+                vitalities.ConditionAtZero = updatedVitality.ConditionAtZero;
             }
 
             foreach (var vitality in vitalitiesToCreate)
@@ -161,6 +165,57 @@ namespace RoleRollsPocketEdition.Templates.Services
             foreach (var vitality in vitalitiesToDelete)
             {
                 template.Vitalities.Remove(vitality);
+            }
+
+            var conditionsToCreate = updatedTemplate.CreatureConditions
+                .Where(condition => !template.CreatureConditions.Select(c => c.Id).Contains(condition.Id))
+                .Select(condition => new CreatureCondition(condition))
+                .ToList();
+            var conditionsToUpdate = template.CreatureConditions
+                .Where(condition => updatedTemplate.CreatureConditions.Select(c => c.Id).Contains(condition.Id))
+                .ToList();
+            var conditionsToDelete = template.CreatureConditions
+                .Where(condition => !updatedTemplate.CreatureConditions.Select(c => c.Id).Contains(condition.Id))
+                .ToList();
+
+            foreach (var condition in conditionsToCreate)
+            {
+                condition.CampaignTemplate = template;
+                condition.CampaignTemplateId = template.Id;
+                template.CreatureConditions.Add(condition);
+            }
+
+            foreach (var condition in conditionsToUpdate)
+            {
+                var updatedCondition = updatedTemplate.CreatureConditions.First(c => c.Id == condition.Id);
+                condition.Update(updatedCondition);
+
+                var existingBonusById = condition.Bonuses.ToDictionary(bonus => bonus.Id);
+                var updatedBonusIds = updatedCondition.Bonuses.Select(bonus => bonus.Id).ToHashSet();
+
+                foreach (var bonusModel in updatedCondition.Bonuses)
+                {
+                    if (existingBonusById.TryGetValue(bonusModel.Id, out var existingBonus))
+                    {
+                        existingBonus.Update(bonusModel);
+                    }
+                    else
+                    {
+                        condition.Bonuses.Add(new Bonuses.Bonus(bonusModel));
+                    }
+                }
+
+                foreach (var bonus in condition.Bonuses.Where(b => !updatedBonusIds.Contains(b.Id)).ToList())
+                {
+                    condition.Bonuses.Remove(bonus);
+                    _dbContextl.Bonus.Remove(bonus);
+                }
+            }
+
+            foreach (var condition in conditionsToDelete)
+            {
+                template.CreatureConditions.Remove(condition);
+                _dbContextl.CreatureConditions.Remove(condition);
             }
 
             foreach (var attribute in attributesToCreate)
@@ -198,6 +253,10 @@ namespace RoleRollsPocketEdition.Templates.Services
             await _dbContextl.VitalityTemplates.AddRangeAsync(vitalitiesToCreate);
             _dbContextl.VitalityTemplates.UpdateRange(vitalitiesToUpdate);
             _dbContextl.VitalityTemplates.RemoveRange(vitalitiesToDelete);
+
+            await _dbContextl.CreatureConditions.AddRangeAsync(conditionsToCreate);
+            _dbContextl.CreatureConditions.UpdateRange(conditionsToUpdate);
+            _dbContextl.CreatureConditions.RemoveRange(conditionsToDelete);
 
             _dbContextl.CampaignTemplates.Update(template);
 

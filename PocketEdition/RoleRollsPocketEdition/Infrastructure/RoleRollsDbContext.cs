@@ -45,6 +45,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<SkillTemplate> SkillTemplates { get; set; }
         public DbSet<SpecificSkillTemplate> MinorSkillTemplates { get; set; }
         public DbSet<VitalityTemplate> VitalityTemplates { get; set; }
+        public DbSet<CreatureCondition> CreatureConditions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
@@ -218,6 +219,18 @@ namespace RoleRollsPocketEdition.Infrastructure
                 e.HasMany<SkillTemplate>(p => p.Skills)
                     .WithOne(s => s.CampaignTemplate)
                     .HasForeignKey(s => s.CampaignTemplateId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                e.HasMany(c => c.CreatureConditions)
+                    .WithOne(condition => condition.CampaignTemplate)
+                    .HasForeignKey(condition => condition.CampaignTemplateId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<CreatureCondition>(e =>
+            {
+                e.Navigation(condition => condition.Bonuses).AutoInclude();
+                e.HasMany(condition => condition.Bonuses)
+                    .WithOne()
                     .OnDelete(DeleteBehavior.Cascade);
             });
 

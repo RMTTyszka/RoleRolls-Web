@@ -5,6 +5,7 @@ using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
+using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
@@ -35,6 +36,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public List<SkillTemplate> Skills { get; set; } = [];
         public List<Campaign>? Campaigns { get; set; }
         public ICollection<VitalityTemplate> Vitalities { get; set; } = [];
+        public ICollection<CreatureCondition> CreatureConditions { get; set; } = [];
         public ICollection<DefenseTemplate> Defenses { get; set; } = [];
         public ICollection<CreatureType> CreatureTypes { get; set; } = [];
         public ICollection<PowerTemplate> CombatManeuvers { get; set; } = new List<PowerTemplate>();
@@ -46,6 +48,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
+            CreatureConditions = template.CreatureConditions
+                .Select(condition => new CreatureCondition(condition))
+                .ToList();
             Vitalities = template.Vitalities.Select(vitality => new VitalityTemplate(vitality)).ToList();
             ItemConfiguration = new ItemConfiguration(this, template.ItemConfiguration);
         }
@@ -71,17 +76,33 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public IReadOnlyList<BasicAttackVitalityRule> GetBasicAttackVitalityRules()
         {
+            var conditionsById = CreatureConditions.ToDictionary(condition => condition.Id);
+
             return Vitalities
                 .Select(vitality => new
                 {
                     Vitality = vitality,
-                    Rule = vitality.ToBasicAttackVitalityRule()
+                    Rule = vitality.ToBasicAttackVitalityRule(
+                        ResolveCondition(vitality.ConditionAtThirtyPercent, conditionsById),
+                        ResolveCondition(vitality.ConditionAtZero, conditionsById))
                 })
                 .Where(entry => entry.Rule is not null)
                 .OrderBy(entry => entry.Vitality.BasicAttackOrder)
                 .ThenBy(entry => entry.Vitality.Name)
                 .Select(entry => entry.Rule!)
                 .ToList();
+        }
+
+        private static CreatureCondition? ResolveCondition(
+            Property? conditionProperty,
+            IReadOnlyDictionary<Guid, CreatureCondition> conditionsById)
+        {
+            if (conditionProperty?.Id == null)
+            {
+                return null;
+            }
+
+            return conditionsById.GetValueOrDefault(conditionProperty.Id);
         }
 
 
@@ -191,6 +212,75 @@ namespace RoleRollsPocketEdition.Templates.Entities
             var vitality = Vitalities.First(vitality => vitality.Id == vitalityId);
             vitality.Update(vitalityModel);
             dbContext.VitalityTemplates.Update(vitality);
+        }
+
+        public async Task AddCreatureConditionAsync(CreatureConditionModel creatureConditionModel,
+            RoleRollsDbContext dbContext)
+        {
+            var condition = new CreatureCondition(creatureConditionModel)
+            {
+                CampaignTemplateId = Id,
+                CampaignTemplate = this
+            };
+            CreatureConditions.Add(condition);
+            await dbContext.AddAsync(condition);
+        }
+
+        public void UpdateCreatureCondition(Guid conditionId, CreatureConditionModel model, RoleRollsDbContext dbContext)
+        {
+            var condition = CreatureConditions.First(c => c.Id == conditionId);
+            condition.Update(model);
+
+            var existingBonusById = condition.Bonuses.ToDictionary(bonus => bonus.Id);
+            var modelBonusIds = model.Bonuses.Select(bonus => bonus.Id).ToHashSet();
+
+            foreach (var bonusModel in model.Bonuses)
+            {
+                if (existingBonusById.TryGetValue(bonusModel.Id, out var existingBonus))
+                {
+                    existingBonus.Update(bonusModel);
+                    dbContext.Bonus.Update(existingBonus);
+                }
+                else
+                {
+                    condition.Bonuses.Add(new Bonus(bonusModel));
+                }
+            }
+
+            var bonusesToRemove = condition.Bonuses
+                .Where(existingBonus => !modelBonusIds.Contains(existingBonus.Id))
+                .ToList();
+
+            foreach (var bonus in bonusesToRemove)
+            {
+                condition.Bonuses.Remove(bonus);
+                dbContext.Bonus.Remove(bonus);
+            }
+
+            dbContext.Update(condition);
+        }
+
+        public void RemoveCreatureCondition(Guid conditionId, RoleRollsDbContext dbContext)
+        {
+            var condition = CreatureConditions.First(condition => condition.Id == conditionId);
+            CreatureConditions.Remove(condition);
+
+            foreach (var vitality in Vitalities)
+            {
+                if (vitality.ConditionAtThirtyPercent?.Id == conditionId)
+                {
+                    vitality.ConditionAtThirtyPercent = null;
+                    dbContext.VitalityTemplates.Update(vitality);
+                }
+
+                if (vitality.ConditionAtZero?.Id == conditionId)
+                {
+                    vitality.ConditionAtZero = null;
+                    dbContext.VitalityTemplates.Update(vitality);
+                }
+            }
+
+            dbContext.Remove(condition);
         }
 
         public async Task<DefenseTemplateAdded> AddDefenseAsync(DefenseTemplateModel defense,

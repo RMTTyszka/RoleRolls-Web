@@ -23,6 +23,10 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Default = template.Default;
             Attributes = template.Attributes.OrderBy(e => e.Name).Select(attribute => new AttributeTemplateModel(attribute)).ToList();
             Skills = template.Skills.OrderBy(e => e.Name).Select(skill => new SkillTemplateModel(skill)).ToList();
+            CreatureConditions = template.CreatureConditions
+                .OrderBy(condition => condition.Name)
+                .Select(condition => new CreatureConditionModel(condition))
+                .ToList();
             Vitalities = template.Vitalities
                 .OrderBy(vitality => vitality.BasicAttackOrder ?? int.MaxValue)
                 .ThenBy(vitality => vitality.Name)
@@ -54,6 +58,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public virtual ICollection<AttributeTemplateModel> Attributes { get; set; }
         public ICollection<SkillTemplateModel> Skills { get; set; }
 
+        public ICollection<CreatureConditionModel> CreatureConditions { get; set; } = [];
         public ICollection<VitalityTemplateModel> Vitalities { get; set; }
         public ItemConfigurationModel ItemConfiguration { get; set; }
 
