@@ -3,11 +3,11 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, UntypedFormGrou
 import { ActivatedRoute } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 import { Fieldset } from 'primeng/fieldset';
-import { Panel } from 'primeng/panel';
 import { InputText } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Textarea } from 'primeng/textarea';
+import { TabsModule } from 'primeng/tabs';
 import { v4 as uuidv4 } from 'uuid';
 import { createForm, getAsForm } from '@app/tokens/EditorExtension';
 import { Campaign } from '@app/campaigns/models/campaign';
@@ -26,7 +26,7 @@ import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
     NgIf,
     NgForOf,
     Fieldset,
-    Panel,
+    TabsModule,
     InputText,
     ButtonDirective,
     InputGroupAddonModule,

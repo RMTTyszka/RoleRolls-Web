@@ -92,6 +92,16 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
                 .FirstAsync();
 
             campaign.CampaignTemplate.Vitalities = vitalities;
+
+            var creatureConditions = await _dbContext.Campaigns
+                .Include(c => c.CampaignTemplate)
+                .ThenInclude(t => t.CreatureConditions)
+                .ThenInclude(condition => condition.Bonuses)
+                .Where(e => e.Id == id)
+                .Select(e => e.CampaignTemplate.CreatureConditions)
+                .FirstAsync();
+
+            campaign.CampaignTemplate.CreatureConditions = creatureConditions;
             
             var creatureTypes = await _dbContext.Campaigns
                 .Include(c => c.CampaignTemplate)
@@ -309,6 +319,38 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
             _dbContext.CampaignTemplates.Update(creatureTemplate);
             await _dbContext.SaveChangesAsync();
 
+        }
+
+        public async Task AddCreatureCondition(Guid campaignId, CreatureConditionModel creatureCondition)
+        {
+            var campaign = await GetCampaignOrThrow(campaignId);
+            var creatureTemplate = await _dbContext.CampaignTemplates
+                .Include(template => template.CreatureConditions)
+                .ThenInclude(condition => condition.Bonuses)
+                .FirstAsync(template => template.Id == campaign.CampaignTemplateId);
+
+            await creatureTemplate.AddCreatureConditionAsync(creatureCondition, _dbContext);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveCreatureCondition(Guid campaignId, Guid creatureConditionId)
+        {
+            var campaign = await GetCampaignOrThrow(campaignId);
+            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
+            creatureTemplate.RemoveCreatureCondition(creatureConditionId, _dbContext);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateCreatureCondition(Guid campaignId, Guid creatureConditionId,
+            CreatureConditionModel creatureCondition)
+        {
+            var campaign = await GetCampaignOrThrow(campaignId);
+            var creatureTemplate = await _campaignRepository.GetCreatureTemplateAggregateAsync(campaign.CampaignTemplateId);
+            creatureTemplate.UpdateCreatureCondition(creatureConditionId, creatureCondition, _dbContext);
+            _dbContext.CampaignTemplates.Update(creatureTemplate);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<CampaignPlayerModel>> GetPlayersAsync(Guid campaignId)

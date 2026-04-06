@@ -69,6 +69,13 @@ public class LandOfHeroesLoader : IStartupTask
                 .Select(e => e.Vitalities)
                 .FirstAsync(cancellationToken);
 
+            var creatureConditions = await _dbContext.CampaignTemplates
+                .Include(t => t.CreatureConditions)
+                .ThenInclude(condition => condition.Bonuses)
+                .Where(e => e.Id == templateFromCode.Id)
+                .Select(e => e.CreatureConditions)
+                .FirstAsync(cancellationToken);
+
 
             var archetypes = await _dbContext.CampaignTemplates
                 .Include(t => t.Archetypes)
@@ -108,12 +115,15 @@ public class LandOfHeroesLoader : IStartupTask
             templateFromDb.Skills = skills;
             templateFromDb.Defenses = defenses;
             templateFromDb.Vitalities = vitalities;
+            templateFromDb.CreatureConditions = creatureConditions;
             await SynchronizeAttributes(templateFromDb, templateFromCode.Attributes, templateFromDb.Attributes,
                 _dbContext);
             await SynchronizeSkills(templateFromDb, templateFromCode.Skills,
                 templateFromDb.Skills, _dbContext);
             await SynchronizeItemConfiguration(templateFromDb, templateFromCode.ItemConfiguration,
                 templateFromDb.ItemConfiguration, _dbContext);
+            await SynchronizeCreatureConditions(templateFromDb, templateFromCode.CreatureConditions,
+                templateFromDb.CreatureConditions, _dbContext);
             await SynchronizeLives(templateFromDb, templateFromCode.Vitalities, templateFromDb.Vitalities, _dbContext);
             await SynchronizeDefenses(templateFromDb, templateFromCode.Defenses, templateFromDb.Defenses, _dbContext);
             await SynchronizeDamageTypes(templateFromDb, templateFromCode.DamageTypes, templateFromDb.DamageTypes,
@@ -263,6 +273,32 @@ public class LandOfHeroesLoader : IStartupTask
             fromDb.CampaignTemplateId = fromCode.CampaignTemplateId;
             fromDb.Update(ItemConfigurationModel.FromConfiguration(fromCode));
             context.ItemConfigurations.Update(fromDb);
+        }
+    }
+
+    private async Task SynchronizeCreatureConditions(
+        Templates.Entities.CampaignTemplate templateFromDb,
+        ICollection<CreatureCondition> fromCode,
+        ICollection<CreatureCondition> fromDb,
+        RoleRollsDbContext dbContext)
+    {
+        var dbConditions = fromDb.ToDictionary(condition => condition.Id);
+        var codeConditions = fromCode.ToDictionary(condition => condition.Id);
+
+        foreach (var codeCondition in fromCode)
+        {
+            if (!dbConditions.TryGetValue(codeCondition.Id, out var dbCondition))
+            {
+                await templateFromDb.AddCreatureConditionAsync(new CreatureConditionModel(codeCondition), dbContext);
+                continue;
+            }
+
+            templateFromDb.UpdateCreatureCondition(codeCondition.Id, new CreatureConditionModel(codeCondition), dbContext);
+        }
+
+        foreach (var dbCondition in fromDb.Where(condition => !codeConditions.ContainsKey(condition.Id)).ToList())
+        {
+            templateFromDb.RemoveCreatureCondition(dbCondition.Id, dbContext);
         }
     }
 

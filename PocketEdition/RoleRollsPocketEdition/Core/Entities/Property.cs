@@ -12,6 +12,7 @@ public enum PropertyType
     MinorSkill = 3,
     Defense = 4,
     Vitality = 5,
+    CreatureCondition = 6,
 }
 public enum PropertyValueOrigin
 {

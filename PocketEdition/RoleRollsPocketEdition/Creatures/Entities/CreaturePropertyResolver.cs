@@ -40,6 +40,11 @@ public partial class Creature
                 ProcessVitalityProperty(property.Id, result);
                 break;
 
+            case PropertyType.CreatureCondition:
+                result.Value = 0;
+                result.Bonus = 0;
+                break;
+
             default:
                 ProcessUnknownPropertyType(property, result, input);
                 break;

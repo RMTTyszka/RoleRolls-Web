@@ -6,199 +6,226 @@
     </div>
   </p-fieldset>
 
-  <!-- Attributes Panel -->
-  <p-panel [toggleable]="true">
-    <ng-template #header>
-      <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <span class="p-panel-title">Attributes</span>
-        <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="attributeForm" *ngIf="!isLoading">
-          <ng-container *ngIf="!disabled">
-            <p-fieldset class="w-full md:min-w-64">
-              <input class="w-full" type="text" pInputText placeholder="Attribute Name" formControlName="name" required (keydown.enter)="addAttribute()">
-            </p-fieldset>
-            <button pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addAttribute()" [disabled]="disabled"></button>
-          </ng-container>
+  <p-tabs [(value)]="activeTemplateTab">
+    <p-tablist>
+      <p-tab value="attributes">Attributes</p-tab>
+      <p-tab value="skills">Skills</p-tab>
+      <p-tab value="defenses">Defenses</p-tab>
+      <p-tab value="vitalities">Vitalities</p-tab>
+    </p-tablist>
+
+    <p-tabpanels>
+      <p-tabpanel value="attributes">
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <span class="text-lg font-semibold">Attributes</span>
+          <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="attributeForm" *ngIf="!isLoading">
+            <ng-container *ngIf="!disabled">
+              <p-fieldset class="w-full md:min-w-64">
+                <input class="w-full" type="text" pInputText placeholder="Attribute Name" formControlName="name" required (keydown.enter)="addAttribute()">
+              </p-fieldset>
+              <button pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addAttribute()" [disabled]="disabled"></button>
+            </ng-container>
+          </div>
         </div>
-      </div>
-    </ng-template>
-    <div formGroupName="campaignTemplate">
-      <div formArrayName="attributes">
-        <div *ngFor="let attribute of attributes.controls; let i=index">
-          <div [formGroup]="attribute">
-            <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateAttribute(attribute)">
-              <p-inputgroup-addon *ngIf="!disabled">
-                <button (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus"></button>
-              </p-inputgroup-addon>
+
+        <div formGroupName="campaignTemplate">
+          <div formArrayName="attributes">
+            <div *ngFor="let attribute of attributes.controls; let i=index">
+              <div [formGroup]="attribute">
+                <div class="p-inputgroup">
+                  <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateAttribute(attribute)">
+                  <p-inputgroup-addon *ngIf="!disabled">
+                    <button (click)="removeAttribute(attribute, i)" pButton type="button" icon="pi pi-minus"></button>
+                  </p-inputgroup-addon>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </p-panel>
+      </p-tabpanel>
 
-  <!-- Skills Panel (flat) -->
-  <p-panel [toggleable]="true">
-    <ng-template #header>
-      <div class="flex w-full items-center justify-between">
-        <span class="p-panel-title">Skills</span>
-      </div>
-    </ng-template>
-    <div formGroupName="campaignTemplate">
-      <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between" form [formGroup]="skillForm" *ngIf="!isLoading">
-        <div class="w-full md:w-1/2 p-inputgroup">
-          <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkillFromHeader()">
-          <p-inputgroup-addon>
-            <button pButton type="button" icon="pi pi-plus" (click)="addSkillFromHeader()"></button>
-          </p-inputgroup-addon>
-        </div>
-      </div>
-      <div formArrayName="skills">
-        <div *ngFor="let skill of skills.controls; let skillIndex=index">
-          <div form [formGroup]="skill">
-            <p-panel [toggleable]="true" [collapsed]="true" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
-              <ng-template #header>
-                <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                  <div class="w-full md:flex-1 p-inputgroup">
-                    <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSkillFlat(skill)">
-                    <p-inputgroup-addon *ngIf="!disabled">
-                      <button (click)="removeSkillFlat(skill, skillIndex)" pButton type="button" icon="pi pi-minus"></button>
-                    </p-inputgroup-addon>
-                  </div>
-                  <div form class="w-full md:w-96" [formGroup]="specificSkillForm">
-                    <div *ngIf="!disabled" class="p-inputgroup">
-                      <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addSpecificSkill(skill)">
-                      <p-inputgroup-addon>
-                        <button (click)="addSpecificSkill(skill)" pButton type="button" icon="pi pi-plus"></button>
+      <p-tabpanel value="skills">
+        <div formGroupName="campaignTemplate">
+          <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between" form [formGroup]="skillForm" *ngIf="!isLoading">
+            <div class="w-full md:w-1/2 p-inputgroup">
+              <input type="text" pInputText placeholder="Add skill" formControlName="name" required (keydown.enter)="addSkillFromHeader()">
+              <p-inputgroup-addon>
+                <button pButton type="button" icon="pi pi-plus" (click)="addSkillFromHeader()"></button>
+              </p-inputgroup-addon>
+            </div>
+          </div>
+
+          <p-tabs [(value)]="activeSkillTab" *ngIf="skills.controls.length > 0">
+            <p-tablist>
+              <p-tab *ngFor="let skill of skills.controls; let skillIndex=index" [value]="getSkillTabValue(skill, skillIndex)">
+                {{ getSkillTabLabel(skill, skillIndex) }}
+              </p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel *ngFor="let skill of skills.controls; let skillIndex=index" [value]="getSkillTabValue(skill, skillIndex)">
+                <div form [formGroup]="skill">
+                  <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div class="w-full md:flex-1 p-inputgroup">
+                      <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSkillFlat(skill)">
+                      <p-inputgroup-addon *ngIf="!disabled">
+                        <button (click)="removeSkillFlat(skill, skillIndex)" pButton type="button" icon="pi pi-minus"></button>
                       </p-inputgroup-addon>
                     </div>
-                  </div>
-                </div>
-              </ng-template>
-              <div class="w-full">
-                <div class="w-full" form [formGroup]="skill">
-                  <div *ngFor="let specificSkill of minorsSkillBySkill.get(skill.get('id').value).controls; let specificSkillIndex=index">
-                    <div [formGroup]="specificSkill" class="grid grid-cols-2 gap-4 justify-start">
-                      <rr-property-by-id-selector class="flex-auto" placeholder="Attribute" formControlName="attributeTemplateId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-by-id-selector>
-                      <div class="p-inputgroup">
-                        <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSpecificSkill(skill, specificSkill)">
-                        <p-inputgroup-addon *ngIf="!disabled">
-                          <button (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                    <div form class="w-full md:w-96" [formGroup]="specificSkillForm">
+                      <div *ngIf="!disabled" class="p-inputgroup">
+                        <input type="text" pInputText placeholder="add minor skill" formControlName="name" required (keydown.enter)="addSpecificSkill(skill)">
+                        <p-inputgroup-addon>
+                          <button (click)="addSpecificSkill(skill)" pButton type="button" icon="pi pi-plus"></button>
                         </p-inputgroup-addon>
                       </div>
                     </div>
                   </div>
+
+                  <div class="w-full mt-2">
+                    <div *ngFor="let specificSkill of (minorsSkillBySkill.get(skill.get('id')?.value)?.controls ?? []); let specificSkillIndex=index">
+                      <div [formGroup]="specificSkill" class="grid grid-cols-1 gap-2 justify-start md:grid-cols-2 md:gap-4">
+                        <rr-property-by-id-selector class="flex-auto" placeholder="Attribute" formControlName="attributeTemplateId" [campaign]="campaign" [propertyType]="[PropertyType.Attribute]"></rr-property-by-id-selector>
+                        <div class="p-inputgroup">
+                          <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateSpecificSkill(skill, specificSkill)">
+                          <p-inputgroup-addon *ngIf="!disabled">
+                            <button (click)="removeSpecificSkill(skill, specificSkill, specificSkillIndex)" pButton type="button" icon="pi pi-minus"></button>
+                          </p-inputgroup-addon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </p-panel>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+
+          <div *ngIf="skills.controls.length === 0" class="p-4 text-sm text-surface-500">
+            No skills added yet.
           </div>
         </div>
-      </div>
-    </div>
-  </p-panel>
+      </p-tabpanel>
 
-  <!-- Defenses Panel -->
-  <p-panel [toggleable]="true">
-    <ng-template #header>
-      <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <span class="p-panel-title">Defenses</span>
-        <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="defenseForm" *ngIf="!isLoading">
-          <ng-container *ngIf="!disabled">
-            <p-fieldset class="w-full md:min-w-64">
-              <input class="w-full" type="text" pInputText placeholder="Add Defense" formControlName="name" required (keydown.enter)="addDefense()">
-            </p-fieldset>
-            <button [disabled]="disabled" pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addDefense()"></button>
-          </ng-container>
-        </div>
-      </div>
-    </ng-template>
-    <div formGroupName="campaignTemplate">
-      <div formArrayName="defenses">
-        <div *ngFor="let defense of defenses.controls; let i=index" class="pb-3">
-          <div [formGroup]="defense">
-            <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
-              <p-inputgroup-addon *ngIf="!disabled">
-                <button (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus"></button>
-              </p-inputgroup-addon>
-            </div>
-            <rr-formula-builder
-              class="block"
-              [ngModel]="defense.get('formulaTokens')?.value"
-              (ngModelChange)="onDefenseFormulaTokensChanged(defense, $event)"
-              [ngModelOptions]="{standalone: true}"
-              [campaign]="campaign"
-              [disabled]="disabled"
-              (expressionChange)="onDefenseFormulaExpressionChanged(defense, $event)">
-            </rr-formula-builder>
+      <p-tabpanel value="defenses">
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <span class="text-lg font-semibold">Defenses</span>
+          <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="defenseForm" *ngIf="!isLoading">
+            <ng-container *ngIf="!disabled">
+              <p-fieldset class="w-full md:min-w-64">
+                <input class="w-full" type="text" pInputText placeholder="Add Defense" formControlName="name" required (keydown.enter)="addDefense()">
+              </p-fieldset>
+              <button [disabled]="disabled" pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addDefense()"></button>
+            </ng-container>
           </div>
         </div>
-      </div>
-    </div>
-  </p-panel>
 
-  <!-- Vitalities Panel -->
-  <p-panel [toggleable]="true">
-    <ng-template #header>
-      <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <span class="p-panel-title">Vitalities</span>
-        <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="vitalityForm" *ngIf="!isLoading">
-          <ng-container *ngIf="!disabled">
-            <p-fieldset class="w-full md:min-w-64">
-              <input class="w-full" type="text" pInputText placeholder="Add Vitality" formControlName="name" required (keydown.enter)="addVitality()">
-            </p-fieldset>
-            <button [disabled]="disabled" pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addVitality()"></button>
-          </ng-container>
-        </div>
-      </div>
-    </ng-template>
-    <div formGroupName="campaignTemplate">
-      <div formArrayName="vitalities">
-        <div *ngFor="let vitality of vitalities.controls; let i=index" style="padding-bottom: 8px;">
-          <div [formGroup]="vitality">
-            <div class="p-inputgroup">
-              <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateVitality(vitality)">
-              <p-inputgroup-addon *ngIf="!disabled">
-                <button (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
-              </p-inputgroup-addon>
-            </div>
-            <div class="grid grid-cols-1 gap-2 mt-2 md:grid-cols-3">
-              <input type="number"
-                     min="1"
-                     pInputText
-                     placeholder="Basic Attack Order"
-                     formControlName="basicAttackOrder"
-                     (blur)="updateVitality(vitality)">
-              <rr-property-selector
-                placeholder="Condition at 30%"
-                formControlName="conditionAtThirtyPercent"
-                [campaign]="campaign"
-                [propertyType]="[PropertyType.CreatureCondition]"
-                [cleanable]="true"
-                (ngModelChange)="updateVitality(vitality)">
-              </rr-property-selector>
-              <rr-property-selector
-                placeholder="Condition at 0%"
-                formControlName="conditionAtZero"
-                [campaign]="campaign"
-                [propertyType]="[PropertyType.CreatureCondition]"
-                [cleanable]="true"
-                (ngModelChange)="updateVitality(vitality)">
-              </rr-property-selector>
-            </div>
-            <rr-formula-builder
-              class="block mt-2"
-              [ngModel]="vitality.get('formulaTokens')?.value"
-              (ngModelChange)="onVitalityFormulaTokensChanged(vitality, $event)"
-              [ngModelOptions]="{standalone: true}"
-              [campaign]="campaign"
-              [disabled]="disabled"
-              (expressionChange)="onVitalityFormulaExpressionChanged(vitality, $event)">
-            </rr-formula-builder>
+        <div formGroupName="campaignTemplate">
+          <p-tabs [(value)]="activeDefenseTab" *ngIf="defenses.controls.length > 0">
+            <p-tablist>
+              <p-tab *ngFor="let defense of defenses.controls; let i=index" [value]="getDefenseTabValue(defense, i)">
+                {{ getDefenseTabLabel(defense, i) }}
+              </p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel *ngFor="let defense of defenses.controls; let i=index" [value]="getDefenseTabValue(defense, i)">
+                <div [formGroup]="defense">
+                  <div class="p-inputgroup">
+                    <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateDefense(defense)">
+                    <p-inputgroup-addon *ngIf="!disabled">
+                      <button (click)="removeDefense(defense, i)" pButton type="button" icon="pi pi-minus"></button>
+                    </p-inputgroup-addon>
+                  </div>
+                  <rr-formula-builder
+                    class="block"
+                    [ngModel]="defense.get('formulaTokens')?.value"
+                    (ngModelChange)="onDefenseFormulaTokensChanged(defense, $event)"
+                    [ngModelOptions]="{standalone: true}"
+                    [campaign]="campaign"
+                    [disabled]="disabled"
+                    (expressionChange)="onDefenseFormulaExpressionChanged(defense, $event)">
+                  </rr-formula-builder>
+                </div>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+
+          <div *ngIf="defenses.controls.length === 0" class="p-4 text-sm text-surface-500">
+            No defenses added yet.
           </div>
         </div>
-      </div>
-    </div>
-  </p-panel>
+      </p-tabpanel>
 
+      <p-tabpanel value="vitalities">
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <span class="text-lg font-semibold">Vitalities</span>
+          <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-end" form [formGroup]="vitalityForm" *ngIf="!isLoading">
+            <ng-container *ngIf="!disabled">
+              <p-fieldset class="w-full md:min-w-64">
+                <input class="w-full" type="text" pInputText placeholder="Add Vitality" formControlName="name" required (keydown.enter)="addVitality()">
+              </p-fieldset>
+              <button [disabled]="disabled" pButton type="button" icon="pi pi-plus" class="p-button-primary w-full md:w-auto" (click)="addVitality()"></button>
+            </ng-container>
+          </div>
+        </div>
+
+        <div formGroupName="campaignTemplate">
+          <p-tabs [(value)]="activeVitalityTab" *ngIf="vitalities.controls.length > 0">
+            <p-tablist>
+              <p-tab *ngFor="let vitality of vitalities.controls; let i=index" [value]="getVitalityTabValue(vitality, i)">
+                {{ getVitalityTabLabel(vitality, i) }}
+              </p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel *ngFor="let vitality of vitalities.controls; let i=index" [value]="getVitalityTabValue(vitality, i)">
+                <div [formGroup]="vitality">
+                  <div class="p-inputgroup">
+                    <input type="text" pInputText placeholder="Name" formControlName="name" required (blur)="updateVitality(vitality)">
+                    <p-inputgroup-addon *ngIf="!disabled">
+                      <button (click)="removeVitality(vitality, i)" pButton type="button" icon="pi pi-minus"></button>
+                    </p-inputgroup-addon>
+                  </div>
+                  <div class="grid grid-cols-1 gap-2 mt-2 md:grid-cols-3">
+                    <input type="number"
+                           min="1"
+                           pInputText
+                           placeholder="Basic Attack Order"
+                           formControlName="basicAttackOrder"
+                           (blur)="updateVitality(vitality)">
+                    <rr-property-selector
+                      placeholder="Condition at 30%"
+                      formControlName="conditionAtThirtyPercent"
+                      [campaign]="campaign"
+                      [propertyType]="[PropertyType.CreatureCondition]"
+                      [cleanable]="true"
+                      (ngModelChange)="updateVitality(vitality)">
+                    </rr-property-selector>
+                    <rr-property-selector
+                      placeholder="Condition at 0%"
+                      formControlName="conditionAtZero"
+                      [campaign]="campaign"
+                      [propertyType]="[PropertyType.CreatureCondition]"
+                      [cleanable]="true"
+                      (ngModelChange)="updateVitality(vitality)">
+                    </rr-property-selector>
+                  </div>
+                  <rr-formula-builder
+                    class="block mt-2"
+                    [ngModel]="vitality.get('formulaTokens')?.value"
+                    (ngModelChange)="onVitalityFormulaTokensChanged(vitality, $event)"
+                    [ngModelOptions]="{standalone: true}"
+                    [campaign]="campaign"
+                    [disabled]="disabled"
+                    (expressionChange)="onVitalityFormulaExpressionChanged(vitality, $event)">
+                  </rr-formula-builder>
+                </div>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+
+          <div *ngIf="vitalities.controls.length === 0" class="p-4 text-sm text-surface-500">
+            No vitalities added yet.
+          </div>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 </form>

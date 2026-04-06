@@ -110,6 +110,10 @@ public class CampaignSceneHistoryBuilderService : ICampaignSceneHistoryBuilderSe
                 .Select(a => a.Name)
                 .FirstAsync(),   
             PropertyType.All => string.Empty,
+            PropertyType.CreatureCondition => await _dbContext.CreatureConditions
+                .Where(e => e.Id == roll.Property.Id)
+                .Select(e => e.Name)
+                .FirstOrDefaultAsync() ?? string.Empty,
             _ => throw new ArgumentOutOfRangeException()
         } : "";
         return new RollSceneHistory

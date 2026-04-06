@@ -75,6 +75,13 @@ public enum LandOfHeroesVitality
     Mana = 2
 }
 
+public enum LandOfHeroesCondition
+{
+    Shaken = 0,
+    Bleeding = 1,
+    Debilitated = 2
+}
+
 public enum LandOfHeroesDefense
 {
     Evasion = 0

@@ -26,6 +26,9 @@ namespace RoleRollsPocketEdition.Campaigns.ApplicationServices
         Task AddVitality(Guid id, VitalityTemplateModel vitality);
         Task RemoveVitality(Guid id, Guid vitalityId);
         Task UpdateVitality(Guid id, Guid vitalityId, VitalityTemplateModel vitality);
+        Task AddCreatureCondition(Guid campaignId, CreatureConditionModel creatureCondition);
+        Task RemoveCreatureCondition(Guid campaignId, Guid creatureConditionId);
+        Task UpdateCreatureCondition(Guid campaignId, Guid creatureConditionId, CreatureConditionModel creatureCondition);
 
         Task<ValidationResult<InvitationResult>> AcceptInvite(Guid playerId, Guid invitationCode);
         Task<Guid> Invite(Guid campaignId);

@@ -8,7 +8,6 @@ import { AuthenticationService } from '../../../authentication/services/authenti
 import { CampaignsService } from '../../services/campaigns.service';
 import { Entity } from '../../../models/Entity.model';
 import { Fieldset } from 'primeng/fieldset';
-import { Panel } from 'primeng/panel';
 import { NgForOf, NgIf } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
@@ -37,6 +36,7 @@ import {
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Bonus, Property } from '@app/models/bonuses/bonus';
 import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
+import { TabsModule } from 'primeng/tabs';
 
 @Component({
   selector: ' rr-campaign-template',
@@ -46,7 +46,7 @@ import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
     ReactiveFormsModule,
     FormsModule,
     Fieldset,
-    Panel,
+    TabsModule,
     NgIf,
     ButtonDirective,
     InputText,
@@ -59,6 +59,10 @@ import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
   styleUrl: './campaign-template.component.scss'
 })
 export class CampaignTemplateComponent {
+  public activeTemplateTab = 'attributes';
+  public activeSkillTab = '';
+  public activeDefenseTab = '';
+  public activeVitalityTab = '';
   public form = new UntypedFormGroup({});
   public attributeForm = new FormGroup({});
   public skillForm = new FormGroup({});
@@ -186,6 +190,8 @@ export class CampaignTemplateComponent {
     this.defenseForm.get('id').setValue(uuidv4() as never);
 
     this.buildSkills();
+    this.syncActiveDefenseTab();
+    this.syncActiveVitalityTab();
     this.disabled = !this.authService.isMaster(this.campaign.masterId) || this.default;
     if (this.disabled) {
       this.form.disable();
@@ -245,6 +251,7 @@ export class CampaignTemplateComponent {
       const newFormGroup = new FormGroup({});
       createForm(newFormGroup, this.skillForm.value as Entity);
       formArray.controls.push(newFormGroup);
+      this.activeSkillTab = this.getSkillTabValue(newFormGroup, formArray.controls.length - 1);
       this.skillForm.reset();
       this.skillForm.get('id').setValue(uuidv4() as never);
       this.minorsSkillBySkill.set(skill.id, new FormArray([]));
@@ -285,6 +292,7 @@ export class CampaignTemplateComponent {
     const skill = skillControl.value as any;
     this.service.removeAttributelessSkill(this.campaign.id, skill).subscribe(() => {
       this.skills.removeAt(index);
+      this.syncActiveSkillTab();
     });
   }
   public removeAttributelessSkill(skillControl: FormGroup, index: number) {
@@ -338,6 +346,7 @@ export class CampaignTemplateComponent {
         createForm(newFormGroup, vitality as Entity);
         this.ensureFormulaTokensControl(newFormGroup);
         formArray.controls.push(newFormGroup);
+        this.activeVitalityTab = this.getVitalityTabValue(newFormGroup, formArray.controls.length - 1);
         this.vitalityForm.reset();
         this.vitalityForm.get('id').setValue(uuidv4() as never);
         this.resetFormulaTokensControl(this.vitalityForm);
@@ -363,6 +372,7 @@ export class CampaignTemplateComponent {
       .subscribe(() => {
         const formArray = this.vitalities;
         formArray.removeAt(index);
+        this.syncActiveVitalityTab();
       });
   }
 
@@ -378,6 +388,7 @@ export class CampaignTemplateComponent {
         createForm(newFormGroup, this.defenseForm.value as Entity);
         this.ensureFormulaTokensControl(newFormGroup);
         formArray.controls.push(newFormGroup);
+        this.activeDefenseTab = this.getDefenseTabValue(newFormGroup, formArray.controls.length - 1);
         this.defenseForm.reset();
         this.defenseForm.get('id')?.setValue(uuidv4() as never);
         this.resetFormulaTokensControl(this.defenseForm);
@@ -577,6 +588,7 @@ export class CampaignTemplateComponent {
       .subscribe(() => {
         const formArray = this.defenses;
         formArray.removeAt(index);
+        this.syncActiveDefenseTab();
       });
   }
 
@@ -589,6 +601,73 @@ export class CampaignTemplateComponent {
       (skillForm.get('specificSkillTemplates') as FormArray<FormGroup>).controls.forEach(ss => specificSkillsArray.push(ss));
       this.minorsSkillBySkill.set(skill.id, specificSkillsArray);
     });
+    this.syncActiveSkillTab();
+  }
+
+  public getSkillTabValue(skillControl: FormGroup, index: number): string {
+    return skillControl.get('id')?.value ?? `skill-${index}`;
+  }
+
+  public getSkillTabLabel(skillControl: FormGroup, index: number): string {
+    return skillControl.get('name')?.value?.trim() || `Skill ${index + 1}`;
+  }
+
+  public getDefenseTabValue(defenseControl: FormGroup, index: number): string {
+    return defenseControl.get('id')?.value ?? `defense-${index}`;
+  }
+
+  public getDefenseTabLabel(defenseControl: FormGroup, index: number): string {
+    return defenseControl.get('name')?.value?.trim() || `Defense ${index + 1}`;
+  }
+
+  public getVitalityTabValue(vitalityControl: FormGroup, index: number): string {
+    return vitalityControl.get('id')?.value ?? `vitality-${index}`;
+  }
+
+  public getVitalityTabLabel(vitalityControl: FormGroup, index: number): string {
+    return vitalityControl.get('name')?.value?.trim() || `Vitality ${index + 1}`;
+  }
+
+  private syncActiveSkillTab(): void {
+    const firstSkill = this.skills?.controls?.[0] as FormGroup | undefined;
+    if (!firstSkill) {
+      this.activeSkillTab = '';
+      return;
+    }
+
+    const availableValues = this.skills.controls
+      .map((skillControl, index) => this.getSkillTabValue(skillControl as FormGroup, index));
+    if (!availableValues.includes(this.activeSkillTab)) {
+      this.activeSkillTab = this.getSkillTabValue(firstSkill, 0);
+    }
+  }
+
+  private syncActiveDefenseTab(): void {
+    const firstDefense = this.defenses?.controls?.[0] as FormGroup | undefined;
+    if (!firstDefense) {
+      this.activeDefenseTab = '';
+      return;
+    }
+
+    const availableValues = this.defenses.controls
+      .map((defenseControl, index) => this.getDefenseTabValue(defenseControl as FormGroup, index));
+    if (!availableValues.includes(this.activeDefenseTab)) {
+      this.activeDefenseTab = this.getDefenseTabValue(firstDefense, 0);
+    }
+  }
+
+  private syncActiveVitalityTab(): void {
+    const firstVitality = this.vitalities?.controls?.[0] as FormGroup | undefined;
+    if (!firstVitality) {
+      this.activeVitalityTab = '';
+      return;
+    }
+
+    const availableValues = this.vitalities.controls
+      .map((vitalityControl, index) => this.getVitalityTabValue(vitalityControl as FormGroup, index));
+    if (!availableValues.includes(this.activeVitalityTab)) {
+      this.activeVitalityTab = this.getVitalityTabValue(firstVitality, 0);
+    }
   }
 
   async save() {
