@@ -105,7 +105,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
             var propertyValue = creature.GetPropertyValue(new PropertyInput(
                 input.Property, 
                 null
-            ));            var simulation = _simulationService.GetDc(propertyValue.Value, propertyValue.Bonus,
+            ));            var simulation = _simulationService.GetDc(propertyValue.Total, 0,
                 input.ExpectedChance, _diceRoller);
             return simulation;
         }

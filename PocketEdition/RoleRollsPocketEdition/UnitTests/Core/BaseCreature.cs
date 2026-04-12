@@ -25,7 +25,7 @@ public class BaseCreature
         {
             foreach (var skillSpecificSkill in skill.SpecificSkills)
             {
-                skillSpecificSkill.Points = 2;
+                skillSpecificSkill.Points = 1;
             }
         }
 

@@ -8,7 +8,6 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Templates;
-using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;
@@ -136,8 +135,7 @@ public class AttackTests
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = campaignTemplate.ItemConfiguration,
-            BasicAttackVitalityRules = campaignTemplate.GetBasicAttackVitalityRules().Select(rule => rule.Clone())
-                .ToList(),
+            BasicAttackVitalityRules = [],
             HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
             DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             Luck = 0,
@@ -154,10 +152,10 @@ public class AttackTests
         result.Success.Should().BeTrue();
         moral.Value.Should().Be(0);
         life.Value.Should().Be(0);
-        mana.Value.Should().BeLessThan(manaBeforeAttack);
+        mana.Value.Should().Be(manaBeforeAttack);
     }
 
-    [Fact(DisplayName = "TakeDamage should trigger 30% and 0% statuses when crossing thresholds")]
+    [Fact(DisplayName = "Vitality should expose a list of current conditions based on current value")]
     public void T15()
     {
         // Arrange
@@ -165,31 +163,20 @@ public class AttackTests
         var creature = new BaseCreature(campaignTemplate, "").Creature;
         var moralVitalityId = LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral];
         var moral = creature.Vitalities.First(v => v.VitalityTemplateId == moralVitalityId);
-        var rule = new BasicAttackVitalityRule
-        {
-            Vitality = new Property(moralVitalityId, PropertyType.Vitality),
-            ConditionAtThirtyPercent = new BasicAttackConditionRule
-            {
-                Condition = new Property(Guid.NewGuid(), PropertyType.CreatureCondition),
-                Name = "Abalada"
-            },
-            ConditionAtZero = new BasicAttackConditionRule
-            {
-                Condition = new Property(Guid.NewGuid(), PropertyType.CreatureCondition),
-                Name = "Sangrando"
-            }
-        };
 
-        // Act
-        var result = creature.TakeDamage(moralVitalityId, moral.Value, rule);
+        // Act/Assert - <= 30%
+        moral.Value = (int)Math.Floor(moral.MaxValue * 0.3m);
+        moral.CurrentConditions.Select(condition => condition.Name)
+            .Should()
+            .BeEquivalentTo(["Shaken"]);
+        moral.CurrentStatus.Should().Be("Shaken");
 
-        // Assert
-        result.TriggeredStatuses.Select(status => status.Status)
+        // Act/Assert - 0%
+        moral.Value = 0;
+        moral.CurrentConditions.Select(condition => condition.Name)
             .Should()
-            .BeEquivalentTo(["Abalada", "Sangrando"]);
-        result.TriggeredStatuses.Select(status => status.ThresholdPercent)
-            .Should()
-            .BeEquivalentTo([30, 0]);
+            .BeEquivalentTo(["Bleeding", "Shaken"]);
+        moral.CurrentStatus.Should().Be("Bleeding");
     }
 
     [Fact(DisplayName = "Light weapon attacking light armor")]

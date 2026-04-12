@@ -23,7 +23,7 @@ public class SkillAndAttributeRollTests
     private const int Seed = 123;
 
     private const int AttributeDiceBase = 3;
-    private const int SkillDiceBase = 2;
+    private const int SkillDiceBase = 1;
 
     private readonly ITestOutputHelper _output;
 
@@ -50,11 +50,11 @@ public class SkillAndAttributeRollTests
 
             _output.WriteLine($"Level {level:00} (Attr)");
             _output.WriteLine("    CD | percentual");
-            _output.WriteLine(FormatDcLines(attributeDcs));
+            _output.WriteLine(FormatDcLines(attributeDcs, attributeDice));
 
             _output.WriteLine($"Level {level:00} (Skill)");
             _output.WriteLine("    CD | percentual");
-            _output.WriteLine(FormatDcLines(skillDcs));
+            _output.WriteLine(FormatDcLines(skillDcs, skillDice));
         }
     }
 
@@ -205,9 +205,9 @@ public class SkillAndAttributeRollTests
             .ToList();
     }
 
-    private static string FormatDcLines(IEnumerable<DcResult> dcResults) =>
+    private static string FormatDcLines(IEnumerable<DcResult> dcResults, int dices) =>
         string.Join(Environment.NewLine, dcResults.Select(result =>
-            $"    {result.Complexity}/{result.Difficulty} | {result.Chance:P2}"));
+            $"    {result.Complexity}/{result.Difficulty} | {result.Chance:P2} | dices {dices}"));
 
     private static double SimulatedChance(int dice, int bonus, int difficulty, int complexity, int luck, int advantageDice = 0)
     {

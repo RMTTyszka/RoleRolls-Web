@@ -38,9 +38,9 @@ public partial class Creature
 
         var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
         var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
-        var totalHitBonus = hitValue.Bonus + gripStats.Hit +
+        var totalHitBonus = hitValue.Total +
                             attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
-        var attackSuccesses = hitValue.Value;
+        var attackSuccesses = hitValue.Total;
         var evadeComplexity = 10 + totalHitBonus;
 
         var defenseProperty = new Property(input.GetDefenseId1);
@@ -53,9 +53,9 @@ public partial class Creature
         var armorDefenseBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
         var armorBonus = chestArmor?.GetBonus ?? 0;
         var evadeRollCommand = new RollDiceCommand(
-            defenseValue.Value,
+            defenseValue.Total,
             defenseAdvantage + ResolveWeaponVsArmorAdvantage(weapon, armorCategory),
-            defenseValue.Bonus + defenseValue.Value + armorBonus + armorDefenseBonus,
+            defenseValue.Total + armorBonus + armorDefenseBonus,
             evadeComplexity,
             evadeComplexity,
             [],
@@ -73,10 +73,8 @@ public partial class Creature
             input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory),
             input.DamageAttribute
         ));
-        var vitalityRules = ResolveBasicAttackVitalityRules(input);
 
         var damages = new List<DamageRollResult>();
-        var triggeredStatuses = new List<VitalityStatusChange>();
         for (int i = 0; i < numberOfHits; i++)
         {
             var property = input.ItemConfiguration.BlockProperty;
@@ -85,12 +83,7 @@ public partial class Creature
             damage.ReducedDamage -= GetBasicBlock(propertyValue);
             damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
             damages.Add(damage);
-
-            var hitStatuses = ApplyBasicAttackDamage(this, damage.TotalDamage, vitalityRules);
-            if (hitStatuses.Count > 0)
-            {
-                triggeredStatuses.AddRange(hitStatuses);
-            }
+            ApplyBasicAttackDamage(this, damage.TotalDamage, input.VitalityId);
         }
 
         return new AttackResult
@@ -99,8 +92,7 @@ public partial class Creature
             Target = this,
             Weapon = weapon,
             TotalDamage = damages.Sum(d => d.ReducedDamage),
-            Success = numberOfHits <= 0,
-            TriggeredStatuses = triggeredStatuses
+            Success = numberOfHits <= 0
         };
     }
 
@@ -113,7 +105,7 @@ public partial class Creature
             armorCategory = armor.ArmorTemplate.Category;
         }
 
-        var total = ArmorDefinition.TotalBlock(armorCategory, Level) + blockProperty.Value + blockProperty.Bonus;
+        var total = ArmorDefinition.TotalBlock(armorCategory, Level) + blockProperty.Total;
         return Math.Max(total, 0);
     }
 

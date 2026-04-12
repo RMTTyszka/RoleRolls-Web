@@ -88,18 +88,20 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 creatureSkills.Add(new Skill(st, attributes));
             }
 
-            var creature = new Creature
+            var creature = new Creature();;
+            creature.Attributes = attributes;
+            creature.Vitalities = template.Vitalities.Select(vitalityTemplate =>
             {
-                Attributes = attributes,
-                Vitalities = template.Vitalities.Select(vitality => new Vitality(vitality)).ToList(),
-                Defenses = template.Defenses.Select(Defense.FromTemplate).ToList(),
-                CampaignId = campaignId,
-                CreatureTemplateId = template.Id,
-                Category = creatureCategory,
-                IsTemplate = isTemplate,
-                Skills = creatureSkills,
-                Id = Guid.NewGuid()
-            };
+                vitalityTemplate.CampaignTemplate ??= template;
+                return new Vitality(vitalityTemplate, creature);
+            }).ToList();
+            creature.Defenses = template.Defenses.Select(Defense.FromTemplate).ToList();
+            creature.CampaignId = campaignId;
+            creature.CreatureTemplateId = template.Id;
+            creature.Category = creatureCategory;
+            creature.IsTemplate = isTemplate;
+            creature.Skills = creatureSkills;
+            creature.Id = Guid.NewGuid();
             foreach (var vitality in creature.Vitalities)
             {
                 vitality.CalculateMaxValue(creature);
@@ -171,7 +173,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             return true;
         }
 
-        public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value, BasicAttackVitalityRule? vitalityRule = null)
+        public CreatureTakeDamageResult TakeDamage(Guid vitalityId, int value)
         {
             var vitality = Vitalities.First(vitality => vitality.VitalityTemplateId == vitalityId);
             var previousValue = vitality.Value;
@@ -191,7 +193,6 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
 
             var currentValue = vitality.Value;
-            var triggeredStatuses = ResolveTriggeredStatuses(vitality, vitalityRule, previousValue, currentValue);
 
             return new CreatureTakeDamageResult
             {
@@ -202,56 +203,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 ActorId = Id,
                 PreviousValue = previousValue,
                 CurrentValue = currentValue,
-                MaxValue = vitality.MaxValue,
-                TriggeredStatuses = triggeredStatuses
+                MaxValue = vitality.MaxValue
             };
-        }
-
-        private static List<VitalityStatusChange> ResolveTriggeredStatuses(
-            Vitality vitality,
-            BasicAttackVitalityRule? rule,
-            int previousValue,
-            int currentValue)
-        {
-            var statuses = new List<VitalityStatusChange>();
-
-            if (rule == null || vitality.MaxValue <= 0 || previousValue <= currentValue)
-            {
-                return statuses;
-            }
-
-            var previousPercent = (decimal)previousValue * 100 / vitality.MaxValue;
-            var currentPercent = (decimal)currentValue * 100 / vitality.MaxValue;
-
-            if (!string.IsNullOrWhiteSpace(rule.ConditionAtThirtyPercent?.Name) &&
-                previousPercent > 30m &&
-                currentPercent <= 30m)
-            {
-                statuses.Add(new VitalityStatusChange
-                {
-                    ConditionId = rule.ConditionAtThirtyPercent?.Condition?.Id,
-                    Vitality = vitality.Name,
-                    Status = rule.ConditionAtThirtyPercent!.Name.Trim(),
-                    Description = rule.ConditionAtThirtyPercent.Description ?? string.Empty,
-                    ThresholdPercent = 30
-                });
-            }
-
-            if (!string.IsNullOrWhiteSpace(rule.ConditionAtZero?.Name) &&
-                previousValue > 0 &&
-                currentValue <= 0)
-            {
-                statuses.Add(new VitalityStatusChange
-                {
-                    ConditionId = rule.ConditionAtZero?.Condition?.Id,
-                    Vitality = vitality.Name,
-                    Status = rule.ConditionAtZero!.Name.Trim(),
-                    Description = rule.ConditionAtZero.Description ?? string.Empty,
-                    ThresholdPercent = 0
-                });
-            }
-
-            return statuses;
         }
 
 
@@ -302,8 +255,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
         {
             var propertyValue = GetPropertyValue(new PropertyInput(property, overrideAttribute));
             return ExecuteRollWithValue(
-                propertyValue.Value,
-                propertyValue.Bonus,
+                propertyValue.Total,
+                0,
                 advantage,
                 bonus,
                 difficulty,
@@ -502,7 +455,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             }
 
             var propertyValue = GetPropertyValue(new PropertyInput(property));
-            var total = propertyValue.Value + propertyValue.Bonus;
+            var total = propertyValue.Total;
             return total.ToString(CultureInfo.InvariantCulture);
         }
 
@@ -680,10 +633,10 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             result.BonusModifier = attributeModifier;
             result.FlatBonus = flatBonus;
             result.MagicBonus = (weapon.GetBonus) * magicModifier;
-            result.AttributeBonus = damageProperty.Value * attributeModifier;
+            result.AttributeBonus = 0 * attributeModifier;
             damage += flatBonus;
             damage += (weapon.GetBonus) * magicModifier;
-            damage += damageProperty.Value * attributeModifier;
+            damage += damageProperty.GetValue * attributeModifier;
             Console.WriteLine($"LEVEL: {Level}. DAMAGE: {damage - result.DiceValue}");
             result.TotalDamage = damage;
             result.ReducedDamage = damage;

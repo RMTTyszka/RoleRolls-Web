@@ -3,7 +3,6 @@ using RoleRollsPocketEdition.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
-using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
@@ -60,19 +59,13 @@ public class AttackService : IAttackService, ITransientDependency
             .AsNoTracking()
             .Include(e => e.CampaignTemplate)
             .ThenInclude(e => e.ItemConfiguration)
-            .Include(e => e.CampaignTemplate)
-            .ThenInclude(e => e.Vitalities)
-            .Include(e => e.CampaignTemplate)
-            .ThenInclude(e => e.CreatureConditions)
-            .ThenInclude(condition => condition.Bonuses)
             .Where(e => e.Id == campaignId)
             .Select(e => e.CampaignTemplate)
             .FirstAsync();
 
         return new AttackConfiguration
         {
-            ItemConfiguration = campaignTemplate.ItemConfiguration,
-            BasicAttackVitalityRules = campaignTemplate.GetBasicAttackVitalityRules()
+            ItemConfiguration = campaignTemplate.ItemConfiguration
         };
     }
 
@@ -81,7 +74,6 @@ public class AttackService : IAttackService, ITransientDependency
         return new AttackCommand
         {
             ItemConfiguration = config.ItemConfiguration,
-            BasicAttackVitalityRules = config.BasicAttackVitalityRules.Select(rule => rule.Clone()).ToList(),
             WeaponSlot = input.WeaponSlot,
             DefenseId = input.Defense,
             VitalityId = input.Vitality,
@@ -98,7 +90,6 @@ public class AttackService : IAttackService, ITransientDependency
 public class AttackConfiguration
 {
     public ItemConfiguration ItemConfiguration { get; set; } = null!;
-    public IReadOnlyList<BasicAttackVitalityRule> BasicAttackVitalityRules { get; set; } = [];
 }
 
 public class AttackInput
@@ -189,5 +180,4 @@ public class AttackResult
     public int DamageBonus { get; set; }
     public int NumberOfRollSuccesses { get; set; }
     public int Difficulty { get; set; }
-    public List<VitalityStatusChange> TriggeredStatuses { get; set; } = [];
 }

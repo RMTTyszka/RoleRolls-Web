@@ -170,8 +170,8 @@ public partial class Creature
 
     private void ApplyBonuses(PropertyValue result, Property property)
     {
-        result.Value += GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property);
-        result.Bonus += GetTotalBonus(BonusApplication.Property, BonusType.Buff, property);
+        result.AddBonusValue(GetTotalBonus(BonusApplication.Property, BonusType.Advantage, property));
+        result.AddBonusBonus(GetTotalBonus(BonusApplication.Property, BonusType.Buff, property));
     }
 
     private int MaxAttributePoints => 4 + Level / 6;

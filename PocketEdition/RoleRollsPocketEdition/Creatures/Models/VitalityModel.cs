@@ -16,6 +16,10 @@ namespace RoleRollsPocketEdition.Creatures.Models
         public Guid VitalityTemplateId { get; set; }
         public string? FormulaDescription { get; set; }
         public string? FormulaExpression { get; set; }
+        public Guid? CurrentStatusConditionId { get; set; }
+        public string? CurrentStatus { get; set; }
+        public string? CurrentStatusDescription { get; set; }
+        public List<VitalityConditionModel> CurrentConditions { get; set; } = [];
 
         public VitalityModel(Vitality vitality, Creature creature)
         {
@@ -24,6 +28,16 @@ namespace RoleRollsPocketEdition.Creatures.Models
             MaxValue = vitality.MaxValue;
             Value = vitality.Value;
             Name = vitality.Name;
+            CurrentStatusConditionId = vitality.CurrentStatusConditionId;
+            CurrentStatus = vitality.CurrentStatus;
+            CurrentStatusDescription = vitality.CurrentStatusDescription;
+            CurrentConditions = vitality.CurrentConditions.Select(condition => new VitalityConditionModel
+            {
+                ConditionId = condition.ConditionId,
+                Name = condition.Name,
+                Description = condition.Description,
+                ThresholdPercent = condition.ThresholdPercent
+            }).ToList();
             var formulaDetails = creature.GetFormulaDetails(vitality.VitalityTemplate.Formula,
                 vitality.VitalityTemplate.FormulaTokens);
             FormulaDescription = formulaDetails.Description;

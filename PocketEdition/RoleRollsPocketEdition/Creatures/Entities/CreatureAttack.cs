@@ -27,9 +27,9 @@ public partial class Creature
 
         var hitValue = GetHitValue(input, weaponCategory);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId1);
-        var diceCount = Math.Max(0, hitValue.Value + hitValue.Bonus);
+        var diceCount = Math.Max(0, hitValue.Total);
         var attackerLevelBonus = Math.Max(Level - 1, 0);
-        var hitBonus = hitValue.Value + hitValue.Bonus + gripStats.Hit +
+        var hitBonus = hitValue.Total + gripStats.Hit +
                        GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) + attackerLevelBonus +
                        weaponLevelBonus;
 
@@ -151,9 +151,7 @@ public partial class Creature
             ? target.GetPropertyValue(new PropertyInput(blockProperty, input.BlockProperty))
             : new PropertyValue();
         var block = ArmorDefinition.TotalBlock(targetArmorCategory, target.Level) +
-                    blockPropertyValue.Value + blockPropertyValue.Bonus;
-        var vitalityRules = ResolveBasicAttackVitalityRules(input);
-        var triggeredStatuses = new List<VitalityStatusChange>();
+                    blockPropertyValue.Total;
 
         var totalDamage = 0;
         for (var i = 0; i < hits; i++)
@@ -165,11 +163,7 @@ public partial class Creature
             var damage = 1 + Math.Max(chunkDamage + damageBonusPerHit - block, 0);
 
             totalDamage += damage;
-            var hitStatuses = ApplyBasicAttackDamage(target, damage, vitalityRules);
-            if (hitStatuses.Count > 0)
-            {
-                triggeredStatuses.AddRange(hitStatuses);
-            }
+            ApplyBasicAttackDamage(target, damage, input.VitalityId);
         }
 
         var success = hits > 0;
@@ -182,8 +176,7 @@ public partial class Creature
             Success = success,
             Block = block,
             DamageBonus = damageBonusPerHit,
-            NumberOfRollSuccesses = hits,
-            TriggeredStatuses = triggeredStatuses
+            NumberOfRollSuccesses = hits
         };
     }
 

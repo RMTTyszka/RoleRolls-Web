@@ -21,8 +21,20 @@ public enum PropertyValueOrigin
 }
 public class PropertyValue
 {
-    public int Value { get; set; }
-    public int Bonus { get; set; }
+    public int Value { private get; set; }
+    public int GetValue => Value;
+    public int Bonus { private get; set; }
+
+    public void AddBonusValue(int bonus)
+    {
+        Value += bonus;
+    }   
+    public void AddBonusBonus(int bonus)
+    {
+        Bonus += bonus;
+    }
+
+    public int Total => Value + Bonus;
 }
 
 

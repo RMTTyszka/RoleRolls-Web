@@ -10,7 +10,6 @@ public class CreatureTakeDamageResult
     public int PreviousValue { get; set; }
     public int CurrentValue { get; set; }
     public int MaxValue { get; set; }
-    public List<VitalityStatusChange> TriggeredStatuses { get; set; } = [];
 }
 
 

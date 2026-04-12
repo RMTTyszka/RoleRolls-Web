@@ -156,12 +156,25 @@ namespace RoleRollsPocketEdition.Scenes.Services
 
         private static string BuildStatusDescription(AttackResult attackResult)
         {
-            if (attackResult.TriggeredStatuses.Count == 0)
+            var statuses = attackResult.Target.Vitalities
+                .SelectMany(vitality => vitality.CurrentConditions.Select(condition => new
+                {
+                    Vitality = vitality.Name,
+                    Status = condition.Name,
+                    condition.ThresholdPercent
+                }))
+                .Where(status => !string.IsNullOrWhiteSpace(status.Status))
+                .OrderBy(status => status.ThresholdPercent)
+                .ThenBy(status => status.Vitality)
+                .ThenBy(status => status.Status)
+                .ToList();
+
+            if (statuses.Count == 0)
             {
                 return string.Empty;
             }
 
-            return string.Join(" | ", attackResult.TriggeredStatuses.Select(status =>
+            return string.Join(" | ", statuses.Select(status =>
             {
                 var thresholdLabel = status.ThresholdPercent == 0 ? "0%" : $"{status.ThresholdPercent}%";
                 return $"{attackResult.Target.Name} is {status.Status} ({status.Vitality} <= {thresholdLabel})";
