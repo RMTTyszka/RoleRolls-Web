@@ -183,7 +183,7 @@ public class LandOfHeroesTemplate
             {
                 Id = DefenseIds[LandOfHeroesDefense.Evasion],
                 Name = "Evasion",
-                Formula = "10 + Evasion + DefenseBonus1 + ArmorBonus + (Level - 1)",
+                Formula = "19 / 2 + (Evasion * 3 / 4) + DefenseBonus1 + ArmorBonus + (Level - 1)",
                 CampaignTemplateId = templateId,
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -192,14 +192,14 @@ public class LandOfHeroesTemplate
                     {
                         Order = 0,
                         Type = FormulaTokenType.Manual,
-                        ManualValue = "10 + "
+                        ManualValue = "19 / 2 + ("
                     },
                     new FormulaToken
                     {
                         Order = 1,
                         Type = FormulaTokenType.Property,
                         Property = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
-                        ManualValue = " + "
+                        ManualValue = " * 3 / 4) + "
                     },
                     new FormulaToken
                     {

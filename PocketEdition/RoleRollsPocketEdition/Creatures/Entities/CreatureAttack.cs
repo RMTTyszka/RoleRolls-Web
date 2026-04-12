@@ -29,7 +29,7 @@ public partial class Creature
         var defenseValue = GetDefenseValue(target, input.GetDefenseId1);
         var diceCount = Math.Max(0, hitValue.Total);
         var attackerLevelBonus = Math.Max(Level - 1, 0);
-        var hitBonus = hitValue.Total + gripStats.Hit +
+        var hitBonus = gripStats.Hit +
                        GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) + attackerLevelBonus +
                        weaponLevelBonus;
 

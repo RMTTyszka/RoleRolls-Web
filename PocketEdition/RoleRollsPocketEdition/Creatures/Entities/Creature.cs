@@ -574,10 +574,24 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             try
             {
                 var result = dt.Compute(expression, string.Empty);
-                if (decimal.TryParse(result?.ToString() ?? "0", NumberStyles.Any, CultureInfo.InvariantCulture,
-                        out var decimalValue))
+                if (result is null || result is DBNull)
                 {
+                    return 0;
+                }
+
+                try
+                {
+                    var decimalValue = Convert.ToDecimal(result, CultureInfo.InvariantCulture);
                     return (int)Math.Round(decimalValue, MidpointRounding.AwayFromZero);
+                }
+                catch (FormatException)
+                {
+                    var text = result.ToString() ?? "0";
+                    if (decimal.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out var decimalValue) ||
+                        decimal.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimalValue))
+                    {
+                        return (int)Math.Round(decimalValue, MidpointRounding.AwayFromZero);
+                    }
                 }
             }
             catch (Exception e)
