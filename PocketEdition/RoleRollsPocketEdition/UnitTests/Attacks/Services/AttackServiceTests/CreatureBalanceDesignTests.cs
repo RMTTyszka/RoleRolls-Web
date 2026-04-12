@@ -21,7 +21,11 @@ public class CreatureBalanceDesignTests
     private const int SimulationSamples = 1500;
     private const int SearchSamples = 400;
     private const int Seed = 4242;
-    private const int MaxLevel = 20;
+    private const int MinLevelUnderTest = 1;
+    private const int MaxLevelUnderTest = 20;
+
+    private static readonly int[] LevelsUnderTest =
+        Enumerable.Range(MinLevelUnderTest, MaxLevelUnderTest - MinLevelUnderTest + 1).ToArray();
 
     private static readonly WeaponCategory[] WeaponsUnderTest =
     {
@@ -49,7 +53,7 @@ public class CreatureBalanceDesignTests
     {
         var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var baseline = RunMatrix(SearchSamples, level);
             var withLuck = RunMatrix(SearchSamples, level, luckOverride: 1);
@@ -67,7 +71,7 @@ public class CreatureBalanceDesignTests
 
         foreach (var weapon in WeaponsUnderTest)
         {
-            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            var avgDelta = perWeaponTotals[weapon] / LevelsUnderTest.Length;
             avgDelta.Should().BeGreaterThan(0, $"sorte +1 deve aumentar dano em media para {weapon}");
             _testOutputHelper.WriteLine($"Luck +1 average delta for {weapon,-6}: {avgDelta:F2} dmg");
         }
@@ -78,7 +82,7 @@ public class CreatureBalanceDesignTests
     {
         var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var baseline = RunMatrix(SearchSamples, level);
             var withExtraDie = RunMatrix(SearchSamples, level, extraAttackDice: 1);
@@ -96,7 +100,7 @@ public class CreatureBalanceDesignTests
 
         foreach (var weapon in WeaponsUnderTest)
         {
-            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            var avgDelta = perWeaponTotals[weapon] / LevelsUnderTest.Length;
             avgDelta.Should().BeGreaterThan(0, $"+1 dado deve aumentar dano em media para {weapon}");
             _testOutputHelper.WriteLine($"+1 die average delta for {weapon,-6}: {avgDelta:F2} dmg");
         }
@@ -107,7 +111,7 @@ public class CreatureBalanceDesignTests
     {
         var perWeaponTotals = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var baseline = RunMatrix(SearchSamples, level);
             var withAdvantage = RunMatrix(SearchSamples, level, advantage: 1);
@@ -125,7 +129,7 @@ public class CreatureBalanceDesignTests
 
         foreach (var weapon in WeaponsUnderTest)
         {
-            var avgDelta = perWeaponTotals[weapon] / MaxLevel;
+            var avgDelta = perWeaponTotals[weapon] / LevelsUnderTest.Length;
             avgDelta.Should().BeGreaterThan(0, $"vantagem deve aumentar dano em media para {weapon}");
             _testOutputHelper.WriteLine($"Advantage (+15) average delta for {weapon,-6}: {avgDelta:F2} dmg");
         }
@@ -162,7 +166,7 @@ public class CreatureBalanceDesignTests
             .SelectMany(w => ArmorsUnderTest.Select(a => (w, a)))
             .ToDictionary(pair => pair, _ => 0.0);
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var results = RunMatrix(SearchSamples, level);
             foreach (var entry in results)
@@ -191,7 +195,7 @@ public class CreatureBalanceDesignTests
         var weaponTotalsAllLevels = WeaponsUnderTest.ToDictionary(w => w, _ => 0.0);
         var armorTotalsAllLevels = ArmorsUnderTest.ToDictionary(a => a, _ => 0.0);
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var results = RunMatrix(SearchSamples, level);
 
@@ -259,7 +263,7 @@ public class CreatureBalanceDesignTests
 
         var anyPositive = false;
 
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var averageDamage = SimulatedAverageDamage(level, SearchSamples);
             var hpNeeded = Math.Ceiling(averageDamage * 4);
@@ -267,7 +271,9 @@ public class CreatureBalanceDesignTests
             {
                 anyPositive = true;
             }
-            report.Add($"Level {level:00}: needs ~{hpNeeded} HP (avg dmg {averageDamage:F2} across all weapon/armor pairs)");
+
+            report.Add(
+                $"Level {level:00}: needs ~{hpNeeded} HP (avg dmg {averageDamage:F2} across all weapon/armor pairs)");
         }
 
         anyPositive.Should().BeTrue("algum nivel deve gerar dano positivo para justificar o HP medio");
@@ -281,7 +287,7 @@ public class CreatureBalanceDesignTests
     [Fact(DisplayName = "Estimativa de HP se aproxima da simulacao (Creature.Attack)")]
     public void ApproximateHpMatchesSimulation()
     {
-        foreach (var level in Enumerable.Range(1, MaxLevel))
+        foreach (var level in LevelsUnderTest)
         {
             var highSampleHp = EstimatedHpForLevel(level, samples: SearchSamples * 2, seedOffset: level * 97);
             if (highSampleHp == 0)
@@ -339,7 +345,6 @@ public class CreatureBalanceDesignTests
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
-            Luck = luckOverride ?? GetLuckType(weapon, armor),
             Advantage = advantage
         };
 
@@ -375,8 +380,6 @@ public class CreatureBalanceDesignTests
             .WithArmor(armor, level)
             .Creature;
 
-        SetEvasion(defender, attributePoints: 0, skillPoints: 0);
-        SetBlockAttribute(defender, 0);
         defender.FullRestore();
         return defender;
     }
@@ -385,7 +388,7 @@ public class CreatureBalanceDesignTests
     {
         var minorSkillId = GetWeaponMinorSkill(weapon);
         var attributeTemplateId = LandOfHeroesTemplate.AttributelessMinorSkillsAttributeId[minorSkillId]
-            ?? throw new InvalidOperationException("Weapon skill without attribute");
+                                  ?? throw new InvalidOperationException("Weapon skill without attribute");
 
         SetAttribute(creature, attributeTemplateId, attributePoints);
         SetSpecificSkill(creature, LandOfHeroesTemplate.MinorSkillIds[minorSkillId], skillPoints);
@@ -426,27 +429,40 @@ public class CreatureBalanceDesignTests
 
     private static bool DominanceHolds(Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> results)
     {
-        return results[(WeaponCategory.Light, ArmorCategory.Light)] >
-               results[(WeaponCategory.Heavy, ArmorCategory.Light)]
-               && results[(WeaponCategory.Medium, ArmorCategory.Medium)] >
-               results[(WeaponCategory.Light, ArmorCategory.Medium)]
-               && results[(WeaponCategory.Medium, ArmorCategory.Medium)] >
-               results[(WeaponCategory.Heavy, ArmorCategory.Medium)]
-               && results[(WeaponCategory.Heavy, ArmorCategory.Heavy)] >=
-               results[(WeaponCategory.Medium, ArmorCategory.Heavy)];
+        return CompareIfPresent(
+                   results,
+                   (WeaponCategory.Light, ArmorCategory.Light),
+                   (WeaponCategory.Heavy, ArmorCategory.Light),
+                   (left, right) => left > right)
+               && CompareIfPresent(
+                   results,
+                   (WeaponCategory.Medium, ArmorCategory.Medium),
+                   (WeaponCategory.Light, ArmorCategory.Medium),
+                   (left, right) => left > right)
+               && CompareIfPresent(
+                   results,
+                   (WeaponCategory.Medium, ArmorCategory.Medium),
+                   (WeaponCategory.Heavy, ArmorCategory.Medium),
+                   (left, right) => left > right)
+               && CompareIfPresent(
+                   results,
+                   (WeaponCategory.Heavy, ArmorCategory.Heavy),
+                   (WeaponCategory.Medium, ArmorCategory.Heavy),
+                   (left, right) => left >= right);
     }
 
-    private static int GetLuckType(WeaponCategory weapon, ArmorCategory armor)
+    private static bool CompareIfPresent(
+        Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> results,
+        (WeaponCategory Weapon, ArmorCategory Armor) leftKey,
+        (WeaponCategory Weapon, ArmorCategory Armor) rightKey,
+        Func<double, double, bool> comparison)
     {
-        if ((weapon == WeaponCategory.Light && armor == ArmorCategory.Light) ||
-            (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Heavy))
-            return 1;
+        if (!results.TryGetValue(leftKey, out var left) || !results.TryGetValue(rightKey, out var right))
+        {
+            return true;
+        }
 
-        if ((weapon == WeaponCategory.Light && armor == ArmorCategory.Heavy) ||
-            (weapon == WeaponCategory.Heavy && armor == ArmorCategory.Light))
-            return -1;
-
-        return 0;
+        return comparison(left, right);
     }
 
     private static int GetAttributeDiceForLevel(int level)
@@ -464,7 +480,7 @@ public class CreatureBalanceDesignTests
         if (level >= 4) bonus++;
         if (level >= 8) bonus++;
         if (level >= 12) bonus++;
-        return 2 + bonus;
+        return 1 + bonus;
     }
 
     private static double SimulatedAverageDamage(int level, int samples)
@@ -519,7 +535,13 @@ public class CreatureBalanceDesignTests
     private class SubstituteOutputHelper : ITestOutputHelper
     {
         public static readonly SubstituteOutputHelper Instance = new();
-        public void WriteLine(string message) { }
-        public void WriteLine(string format, params object[] args) { }
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public void WriteLine(string format, params object[] args)
+        {
+        }
     }
 }

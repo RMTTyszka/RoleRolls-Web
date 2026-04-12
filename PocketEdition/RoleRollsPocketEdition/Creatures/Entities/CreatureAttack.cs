@@ -28,9 +28,9 @@ public partial class Creature
         var hitValue = GetHitValue(input, weaponCategory);
         var defenseValue = GetDefenseValue(target, input.GetDefenseId1);
         var diceCount = Math.Max(0, hitValue.Total);
-        var attackerLevelBonus = Math.Max(Level - 1, 0);
+        var levelDifferenceBonus = GetLevelDifferenceBonusAgainst(target);
         var hitBonus = hitValue.Total + gripStats.Hit +
-                       GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) + attackerLevelBonus +
+                       GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) + levelDifferenceBonus +
                        weaponLevelBonus;
 
         var armorCategory = target.Equipment.ArmorCategory;
@@ -67,7 +67,8 @@ public partial class Creature
         var tier = 1 + Math.Max(Level - 1, 0) / 2;
         var damageBonusPerHit = gripStats.BaseBonusDamage * tier + gripStats.Damage;
 
-        var result = ResolveSuccessfulAttack(target, weapon, difficulty, damageBonusPerHit, successes, armorCategory, input);
+        var result = ResolveSuccessfulAttack(target, weapon, difficulty, damageBonusPerHit, successes, armorCategory,
+            input);
         result.Difficulty = difficulty;
         result.NumberOfRollSuccesses = roll.NumberOfRollSuccesses;
         return result;
@@ -91,6 +92,8 @@ public partial class Creature
         var property = input.ItemConfiguration.GetWeaponHitProperty(category);
         return GetPropertyValue(new PropertyInput(property, input.HitAttribute));
     }
+
+    private int GetLevelDifferenceBonusAgainst(Creature target) => Level - target.Level;
 
     private int GetDefenseValue(Creature target, Guid defenseId) => target.DefenseValue(defenseId);
 
@@ -160,7 +163,7 @@ public partial class Creature
                 .Take(difficulty)
                 .Sum();
 
-            var damage = 1 + Math.Max(chunkDamage + damageBonusPerHit - block, 0);
+            var damage = Math.Max(chunkDamage + damageBonusPerHit - block, 1);
 
             totalDamage += damage;
             ApplyBasicAttackDamage(target, damage, input.VitalityId);

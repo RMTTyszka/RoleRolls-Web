@@ -106,6 +106,21 @@ public class AttackTests
         result.TotalDamage.Should().Be(10);
     }
 
+    [Fact(DisplayName = "Evasion defense should not increase only because creature level increased")]
+    public void EvasionDefenseShouldNotIncreaseOnlyBecauseCreatureLevelChanged()
+    {
+        var defenseId = LandOfHeroesTemplate.DefenseIds[LandOfHeroesDefense.Evasion];
+        var creature = new BaseCreature(LandOfHeroesTemplate.Template, "").Creature;
+
+        var levelOneDefense = creature.DefenseValue(defenseId);
+
+        creature.Level = 10;
+
+        var levelTenDefense = creature.DefenseValue(defenseId);
+
+        levelTenDefense.Should().Be(levelOneDefense);
+    }
+
     [Fact(DisplayName = "Basic attack should cascade through configured vitality order")]
     public void T14()
     {
@@ -124,9 +139,12 @@ public class AttackTests
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
         var defender = new BaseCreature(campaignTemplate, "").Creature;
 
-        var moral = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral]);
-        var life = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life]);
-        var mana = defender.Vitalities.First(v => v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Mana]);
+        var moral = defender.Vitalities.First(v =>
+            v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral]);
+        var life = defender.Vitalities.First(v =>
+            v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life]);
+        var mana = defender.Vitalities.First(v =>
+            v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Mana]);
         moral.Value = 1;
         life.Value = 1;
         var manaBeforeAttack = mana.Value;
@@ -351,16 +369,13 @@ public class AttackTests
                     // var diceRoller = new DiceRoller();
                     var diceRoller = Substitute.For<IDiceRoller>();
                     diceRoller.Roll(20).Returns(19);
-                    diceRoller.Roll(6).Returns(6);
-                    diceRoller.Roll(8).Returns(8);
-                    diceRoller.Roll(12).Returns(12);
                     var newDiceRoller = new DiceRoller();
                     var totalDamage = 0;
                     var hits = 0m;
                     var weaponDifficult = 0;
                     for (var i = 0; i < TotalAttacks; i++)
                     {
-                        var result = attacker.Attack(defender, input, newDiceRoller, _testOutputHelper);
+                        var result = attacker.Attack(defender, input, diceRoller, _testOutputHelper);
                         totalDamage += result.TotalDamage;
                         hits += result.Success ? 1 : 0;
                         weaponDifficult = result.Difficulty;
@@ -387,7 +402,7 @@ public class AttackTests
         }
 
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
-        Assert.Equal(25, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(24, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
         Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
         Assert.Equal(9, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Heavy]);
         Assert.Equal(24, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Light]);

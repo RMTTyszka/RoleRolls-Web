@@ -50,7 +50,4 @@ public static class ArmorDefinition
     }
 
     public static int BaseLuck(ArmorCategory armorCategory) => 0;
-
-    public static int BaseComplexityWithArmor(ArmorCategory armorCategory, int defenderLevel) =>
-        BaseComplexity + DefenseBonus1(armorCategory) + Math.Max(defenderLevel - 1, 0);
 }

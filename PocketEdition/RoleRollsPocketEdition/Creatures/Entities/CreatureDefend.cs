@@ -38,8 +38,10 @@ public partial class Creature
 
         var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
         var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
+        var levelDifferenceBonus = attacker.GetLevelDifferenceBonusAgainst(this);
         var totalHitBonus = hitValue.Total +
-                            attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null);
+                            attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) +
+                            levelDifferenceBonus;
         var attackSuccesses = hitValue.Total;
         var evadeComplexity = 10 + totalHitBonus;
 
