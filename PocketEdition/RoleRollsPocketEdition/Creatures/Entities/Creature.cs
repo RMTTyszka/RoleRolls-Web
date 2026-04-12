@@ -342,13 +342,23 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             IEnumerable<FormulaToken> formulaTokens)
         {
             var orderedTokens = formulaTokens.OrderBy(token => token.Order).ToList();
+            var tokenResolutionMap = new Dictionary<FormulaToken, (string Description, string ResolvedValue)>();
+
+            foreach (var token in orderedTokens)
+            {
+                tokenResolutionMap[token] = (
+                    ResolveTokenDescription(token),
+                    ResolveTokenValue(token));
+            }
+
             var descriptionBuilder = new StringBuilder();
             var resolvedBuilder = new StringBuilder();
 
             foreach (var token in orderedTokens)
             {
-                descriptionBuilder.Append(ResolveTokenDescription(token));
-                resolvedBuilder.Append(ResolveTokenValue(token));
+                var tokenResolution = tokenResolutionMap[token];
+                descriptionBuilder.Append(tokenResolution.Description);
+                resolvedBuilder.Append(tokenResolution.ResolvedValue);
             }
 
             return (descriptionBuilder.ToString().Trim(), resolvedBuilder.ToString());
