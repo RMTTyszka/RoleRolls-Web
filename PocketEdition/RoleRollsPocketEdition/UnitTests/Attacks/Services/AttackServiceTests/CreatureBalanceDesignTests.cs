@@ -272,8 +272,24 @@ public class CreatureBalanceDesignTests
                 anyPositive = true;
             }
 
+            var creature = new BaseCreature(LandOfHeroesTemplate.Template, $"hp lvl {level}")
+                .WithLevel(level)
+                .Creature;
+            creature.FullRestore();
+
+            var basicAttackVitalities = creature.Vitalities
+                .Where(vitality => vitality.VitalityTemplate?.BasicAttackOrder is > 0)
+                .OrderBy(vitality => vitality.VitalityTemplate!.BasicAttackOrder)
+                .ThenBy(vitality => vitality.Name)
+                .ToList();
+
+            var basicAttackVitalitiesLog = string.Join(
+                " | ",
+                basicAttackVitalities.Select(vitality => $"{vitality.Name}: {vitality.MaxValue}"));
+            var basicAttackVitalitiesTotal = basicAttackVitalities.Sum(vitality => vitality.MaxValue);
+
             report.Add(
-                $"Level {level:00}: needs ~{hpNeeded} HP (avg dmg {averageDamage:F2} across all weapon/armor pairs)");
+                $"Level {level:00}: needs ~{hpNeeded} HP (avg dmg {averageDamage:F2} |[{basicAttackVitalitiesLog}] | total {basicAttackVitalitiesTotal}");
         }
 
         anyPositive.Should().BeTrue("algum nivel deve gerar dano positivo para justificar o HP medio");
@@ -281,6 +297,27 @@ public class CreatureBalanceDesignTests
         foreach (var line in report)
         {
             _testOutputHelper.WriteLine(line);
+        }
+    }
+
+    [Fact(DisplayName = "Loga todas as vitalities da criatura por nivel (Creature.Attack)")]
+    public void LogCreatureVitalitiesPerLevel()
+    {
+        foreach (var level in LevelsUnderTest)
+        {
+            var creature = new BaseCreature(LandOfHeroesTemplate.Template, $"hp lvl {level}")
+                .WithLevel(level)
+                .Creature;
+
+            creature.FullRestore();
+
+            var vitalitySummary = string.Join(
+                " | ",
+                creature.Vitalities
+                    .OrderBy(vitality => vitality.Name)
+                    .Select(vitality => $"{vitality.Name}: {vitality.MaxValue}"));
+
+            _testOutputHelper.WriteLine($"Level {level:00}: {vitalitySummary}");
         }
     }
 
