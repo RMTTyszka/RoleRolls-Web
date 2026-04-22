@@ -20,7 +20,9 @@ public enum FormulaCreatureValue
     Level = 1,
     DefenseBonus1 = 2,
     DefenseBonus2 = 3,
-    ArmorBonus = 4
+    ArmorBonus = 4,
+    Tier = 5,
+    Growth = 6
 }
 
 public enum FormulaEquipmentValue

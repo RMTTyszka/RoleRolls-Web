@@ -52,7 +52,7 @@ public class LandOfHeroesTemplate
             {
                 Id = VitalityIds[LandOfHeroesVitality.Life],
                 Name = "Life",
-                Formula = "10 + 4 * Vigor",
+                Formula = "4 * Vigor + 2 * Level + Growth",
                 BasicAttackOrder = 2,
                 ConditionAtThirtyPercent = new Property(
                     ConditionIds[LandOfHeroesCondition.Debilitated],
@@ -65,7 +65,7 @@ public class LandOfHeroesTemplate
                     {
                         Order = 0,
                         Type = FormulaTokenType.Manual,
-                        ManualValue = "10 + 4 * "
+                        ManualValue = "4 * "
                     },
                     new FormulaToken
                     {
@@ -73,6 +73,20 @@ public class LandOfHeroesTemplate
                         Type = FormulaTokenType.Property,
                         Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor],
                             PropertyType.Attribute),
+                        ManualValue = " + 2 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 2,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Level,
+                        ManualValue = " + "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 3,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Growth,
                         ManualValue = string.Empty
                     }
                 ]
@@ -82,7 +96,7 @@ public class LandOfHeroesTemplate
             {
                 Id = VitalityIds[LandOfHeroesVitality.Moral],
                 Name = "Moral",
-                Formula = "15 + 2 * Intuition",
+                Formula = "4 * Intuition + 2 * Level + Growth + 2 * Tier",
                 BasicAttackOrder = 1,
                 ConditionAtThirtyPercent = new Property(
                     ConditionIds[LandOfHeroesCondition.Shaken],
@@ -98,7 +112,7 @@ public class LandOfHeroesTemplate
                     {
                         Order = 0,
                         Type = FormulaTokenType.Manual,
-                        ManualValue = "15 + 2 * "
+                        ManualValue = "4 * "
                     },
                     new FormulaToken
                     {
@@ -106,6 +120,27 @@ public class LandOfHeroesTemplate
                         Type = FormulaTokenType.Property,
                         Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intuition],
                             PropertyType.Attribute),
+                        ManualValue = " + 2 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 2,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Level,
+                        ManualValue = " + "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 3,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Growth,
+                        ManualValue = " + 2 * "
+                    },
+                    new FormulaToken
+                    {
+                        Order = 4,
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Tier,
                         ManualValue = string.Empty
                     }
                 ]

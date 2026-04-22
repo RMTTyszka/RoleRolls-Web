@@ -514,6 +514,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                     ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.DefenseBonus2),
                 FormulaCreatureValue.ArmorBonus =>
                     ResolveEquipmentValue(EquipableSlot.Chest, FormulaEquipmentValue.LevelBonus),
+                FormulaCreatureValue.Tier => ResolveTier().ToString(CultureInfo.InvariantCulture),
+                FormulaCreatureValue.Growth => ResolveGrowth().ToString(CultureInfo.InvariantCulture),
                 _ => "0"
             };
         }
@@ -526,8 +528,21 @@ namespace RoleRollsPocketEdition.Creatures.Entities
                 FormulaCreatureValue.DefenseBonus1 or FormulaCreatureValue.ArmorDefenseBonus => "Bonus defesa 1",
                 FormulaCreatureValue.DefenseBonus2 => "Bonus defesa 2",
                 FormulaCreatureValue.ArmorBonus => "Bonus armadura",
+                FormulaCreatureValue.Tier => "Tier",
+                FormulaCreatureValue.Growth => "Growth",
                 _ => "Criatura"
             };
+        }
+
+        private int ResolveTier()
+        {
+            return 1 + Math.Max(Level - 1, 0) / 2;
+        }
+
+        private int ResolveGrowth()
+        {
+            var tier = ResolveTier();
+            return tier * tier / 2;
         }
 
         private string ResolveEquipmentValue(FormulaToken token)
