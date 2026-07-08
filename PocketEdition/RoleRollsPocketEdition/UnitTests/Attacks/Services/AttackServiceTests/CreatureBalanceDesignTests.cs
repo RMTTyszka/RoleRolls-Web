@@ -378,7 +378,7 @@ public class CreatureBalanceDesignTests
         var attacker = BuildAttacker(weapon, level, extraAttackDice);
         var defender = BuildDefender(armor, level);
 
-        var command = new AttackCommand
+        var command = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
@@ -388,7 +388,7 @@ public class CreatureBalanceDesignTests
         double total = 0;
         for (var i = 0; i < samples; i++)
         {
-            var result = attacker.Attack(defender, command, diceRoller);
+            var result = attacker.BasicAttack(defender, command, diceRoller);
             total += result.TotalDamage;
             defender.FullRestore();
         }

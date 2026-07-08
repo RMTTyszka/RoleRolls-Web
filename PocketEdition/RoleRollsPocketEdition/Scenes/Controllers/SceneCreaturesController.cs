@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Attacks.Models;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
@@ -11,13 +12,19 @@ namespace RoleRollsPocketEdition.Scenes.Controllers;
 public class SceneCreaturesController : ControllerBase
 {
     private readonly ILogger<SceneCreaturesController> _logger;
-    private readonly IAttackService _attackService;
+    private readonly IBasicAttackService _basicAttackService;
+    private readonly ISpecialAttackService _specialAttackService;
     private readonly IScenesService _scenesService;
 
-    public SceneCreaturesController(ILogger<SceneCreaturesController> logger, IAttackService attackService, IScenesService scenesService)
+    public SceneCreaturesController(
+        ILogger<SceneCreaturesController> logger,
+        IBasicAttackService basicAttackService,
+        ISpecialAttackService specialAttackService,
+        IScenesService scenesService)
     {
         _logger = logger;
-        _attackService = attackService;
+        _basicAttackService = basicAttackService;
+        _specialAttackService = specialAttackService;
         _scenesService = scenesService;
     }
     [HttpGet()]
@@ -45,11 +52,35 @@ public class SceneCreaturesController : ControllerBase
     public async Task RemoveCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId)
     {
         await _scenesService.RemoveCreature(campaignId, sceneId, creatureId);
-    }    
-    [HttpPost("{creatureId}/attacks")]
+    }
 
-    public async Task Attack([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] AttackInput input)
+    [HttpPost("{creatureId}/basic-attacks")]
+    public async Task<BasicAttackResponse> BasicAttack(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid creatureId,
+        [FromBody] BasicAttackInput input)
     {
-        await _attackService.Attack(campaignId, sceneId, creatureId, input);
-    }     
+        return await _basicAttackService.Attack(campaignId, sceneId, creatureId, input);
+    }
+
+    [HttpPost("{creatureId}/special-attacks")]
+    public async Task<SpecialAttackResponse> SpecialAttack(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid creatureId,
+        [FromBody] SpecialAttackInput input)
+    {
+        return await _specialAttackService.Attack(campaignId, sceneId, creatureId, input);
+    }
+
+    [HttpPost("{creatureId}/attacks")]
+    public async Task<BasicAttackResponse> Attack(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid creatureId,
+        [FromBody] BasicAttackInput input)
+    {
+        return await _basicAttackService.Attack(campaignId, sceneId, creatureId, input);
+    }
 }

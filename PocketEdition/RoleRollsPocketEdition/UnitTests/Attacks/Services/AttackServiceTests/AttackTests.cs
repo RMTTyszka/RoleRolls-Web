@@ -38,16 +38,12 @@ public class AttackTests
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
         var defender = new BaseCreature(campaignTemplate, "").Creature;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = campaignTemplate.ItemConfiguration,
-            HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = defensePropertyId,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
                 PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
@@ -57,7 +53,7 @@ public class AttackTests
         dice.Roll(20).Returns(10);
 
         // Act
-        var result = attacker.Attack(defender, input, dice);
+        var result = attacker.BasicAttack(defender, input, dice);
 
         // Assert
         result.Success.Should().BeFalse();
@@ -81,16 +77,12 @@ public class AttackTests
         var defender = new BaseCreature(campaignTemplate, "").Creature;
         ;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
-            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = null,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
                 PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
@@ -99,7 +91,7 @@ public class AttackTests
         var dice = Substitute.For<IDiceRoller>();
         dice.Roll(20).Returns(15);
         // Act
-        var result = attacker.Attack(defender, input, dice);
+        var result = attacker.BasicAttack(defender, input, dice);
 
         // Assert
         result.Success.Should().BeTrue();
@@ -149,13 +141,10 @@ public class AttackTests
         life.Value = 1;
         var manaBeforeAttack = mana.Value;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = campaignTemplate.ItemConfiguration,
-            BasicAttackVitalityRules = [],
-            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             Luck = 0,
             Advantage = 0
         };
@@ -164,7 +153,7 @@ public class AttackTests
         dice.Roll(Arg.Any<int>()).Returns(callInfo => callInfo.Arg<int>());
 
         // Act
-        var result = attacker.Attack(defender, input, dice);
+        var result = attacker.BasicAttack(defender, input, dice);
 
         // Assert
         result.Success.Should().BeTrue();
@@ -278,7 +267,7 @@ public class AttackTests
         result.TotalDamage.Should().Be(0);
     }
 
-    private AttackResult PerformBasicAttack(WeaponCategory weaponCategory, ArmorCategory armorCategory,
+    private BasicAttackResult PerformBasicAttack(WeaponCategory weaponCategory, ArmorCategory armorCategory,
         Guid hitPropertyId)
     {
         var campaignTemplate = LandOfHeroesTemplate.Template;
@@ -292,15 +281,11 @@ public class AttackTests
             .WithArmor(armorCategory, 1)
             .Creature;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
-            HitProperty = new Property(hitPropertyId, PropertyType.MinorSkill),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
                 PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
@@ -309,7 +294,7 @@ public class AttackTests
         var dice = Substitute.For<IDiceRoller>();
         dice.Roll(Arg.Any<int>()).Returns(callInfo => callInfo.Arg<int>());
 
-        return attacker.Attack(defender, input, dice);
+        return attacker.BasicAttack(defender, input, dice);
     }
 
     [Fact(DisplayName = "Full Level Test")]
@@ -358,7 +343,7 @@ public class AttackTests
                         .WithArmor(armorCategory, level)
                         .Creature;
 
-                    var input = new AttackCommand
+                    var input = new BasicAttackCommand
                     {
                         WeaponSlot = EquipableSlot.MainHand,
                         ItemConfiguration = campaignTemplate.ItemConfiguration,
@@ -375,7 +360,7 @@ public class AttackTests
                     var weaponDifficult = 0;
                     for (var i = 0; i < TotalAttacks; i++)
                     {
-                        var result = attacker.Attack(defender, input, diceRoller, _testOutputHelper);
+                        var result = attacker.BasicAttack(defender, input, diceRoller, _testOutputHelper);
                         totalDamage += result.TotalDamage;
                         hits += result.Success ? 1 : 0;
                         weaponDifficult = result.Difficulty;
@@ -402,186 +387,186 @@ public class AttackTests
         }
 
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
-        Assert.Equal(24, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(9, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(24, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(22, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(20, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(19, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(18, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(17, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(30, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(16, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(6, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(28, byLevelAndWeapon[2][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(20, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(12, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(16, byLevelAndWeapon[1][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(26, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(24, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(30, byLevelAndWeapon[1][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(23, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(23, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(28, byLevelAndWeapon[1][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(20, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(12, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(16, byLevelAndWeapon[2][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(26, byLevelAndWeapon[2][WeaponCategory.Medium][ArmorCategory.Light]);
         Assert.Equal(24, byLevelAndWeapon[2][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(20, byLevelAndWeapon[2][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(22, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(18, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(30, byLevelAndWeapon[3][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(30, byLevelAndWeapon[2][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(23, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(23, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(28, byLevelAndWeapon[2][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(28, byLevelAndWeapon[3][WeaponCategory.Light][ArmorCategory.Light]);
         Assert.Equal(16, byLevelAndWeapon[3][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(6, byLevelAndWeapon[3][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(28, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(20, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(22, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(18, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(16, byLevelAndWeapon[3][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(34, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(30, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(34, byLevelAndWeapon[3][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(28, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(27, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(31, byLevelAndWeapon[3][WeaponCategory.Heavy][ArmorCategory.Heavy]);
         Assert.Equal(35, byLevelAndWeapon[4][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(16, byLevelAndWeapon[4][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(3, byLevelAndWeapon[4][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(32, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(26, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(20, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(25, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(22, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(19, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(35, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(16, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(3, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(32, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(26, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(20, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(25, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(22, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(19, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(20, byLevelAndWeapon[4][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(20, byLevelAndWeapon[4][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(34, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(30, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(34, byLevelAndWeapon[4][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(28, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(27, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(31, byLevelAndWeapon[4][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(45, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(25, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(20, byLevelAndWeapon[5][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(42, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(36, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(38, byLevelAndWeapon[5][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(33, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(31, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(34, byLevelAndWeapon[5][WeaponCategory.Heavy][ArmorCategory.Heavy]);
         Assert.Equal(48, byLevelAndWeapon[6][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[6][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[6][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(38, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(30, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(30, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(26, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(44, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(48, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(38, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(30, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(30, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(26, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(44, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(54, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(42, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(32, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(33, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(28, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(46, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(54, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(42, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(32, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(33, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(28, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(46, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(60, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(46, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(34, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(36, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(30, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(48, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(60, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(20, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(4, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(46, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(34, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(22, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(36, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(30, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(48, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(77, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(78, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(57, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(41, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(68, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(54, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(77, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(78, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(57, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(41, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(68, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(54, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(84, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(84, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(60, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(44, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(72, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(56, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(84, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(84, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(60, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(44, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(72, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(56, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(91, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(90, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(63, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(47, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(76, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(58, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(91, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(24, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(5, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(90, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(63, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(36, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(47, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(76, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(58, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(112, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(28, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(6, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(99, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(69, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(39, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(104, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(84, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(64, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(112, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(28, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(6, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(99, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(69, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(39, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(104, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(84, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(64, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Heavy]);
-        Assert.Equal(120, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Light]);
-        Assert.Equal(28, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Medium]);
-        Assert.Equal(6, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Heavy]);
-        Assert.Equal(105, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Light]);
-        Assert.Equal(72, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Medium]);
-        Assert.Equal(39, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Heavy]);
-        Assert.Equal(110, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Light]);
-        Assert.Equal(88, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Medium]);
-        Assert.Equal(66, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(24, byLevelAndWeapon[6][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[6][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(60, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(51, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(54, byLevelAndWeapon[6][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(64, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(60, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(66, byLevelAndWeapon[6][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(60, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(30, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[7][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(72, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(60, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(60, byLevelAndWeapon[7][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(74, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(68, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(72, byLevelAndWeapon[7][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(70, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(35, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(21, byLevelAndWeapon[8][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(72, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(60, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(60, byLevelAndWeapon[8][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(74, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(68, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(72, byLevelAndWeapon[8][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(42, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(21, byLevelAndWeapon[9][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(69, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(66, byLevelAndWeapon[9][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(76, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(78, byLevelAndWeapon[9][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(42, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(21, byLevelAndWeapon[10][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(69, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(66, byLevelAndWeapon[10][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(84, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(76, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(78, byLevelAndWeapon[10][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(104, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(48, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(16, byLevelAndWeapon[11][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(124, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(100, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(92, byLevelAndWeapon[11][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(92, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(82, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(82, byLevelAndWeapon[11][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(117, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(54, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[12][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(124, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(100, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(92, byLevelAndWeapon[12][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(138, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(123, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(123, byLevelAndWeapon[12][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(135, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(63, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[13][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(140, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(112, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(100, byLevelAndWeapon[13][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(153, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(135, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(132, byLevelAndWeapon[13][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(135, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(63, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[14][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(140, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(112, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(100, byLevelAndWeapon[14][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(153, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(135, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(132, byLevelAndWeapon[14][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(153, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(72, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(18, byLevelAndWeapon[15][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(156, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(124, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(108, byLevelAndWeapon[15][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(168, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(147, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(141, byLevelAndWeapon[15][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(160, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(70, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(10, byLevelAndWeapon[16][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(190, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(150, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(130, byLevelAndWeapon[16][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(165, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(144, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(138, byLevelAndWeapon[16][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(180, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(80, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(10, byLevelAndWeapon[17][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(210, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(165, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(140, byLevelAndWeapon[17][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(180, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(156, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(147, byLevelAndWeapon[17][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(180, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(80, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(10, byLevelAndWeapon[18][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(210, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(165, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(140, byLevelAndWeapon[18][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(180, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(156, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(147, byLevelAndWeapon[18][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(200, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(90, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(10, byLevelAndWeapon[19][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(230, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(180, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(150, byLevelAndWeapon[19][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(195, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(168, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(156, byLevelAndWeapon[19][WeaponCategory.Heavy][ArmorCategory.Heavy]);
+        Assert.Equal(200, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Light]);
+        Assert.Equal(90, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Medium]);
+        Assert.Equal(10, byLevelAndWeapon[20][WeaponCategory.Light][ArmorCategory.Heavy]);
+        Assert.Equal(230, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Light]);
+        Assert.Equal(180, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Medium]);
+        Assert.Equal(150, byLevelAndWeapon[20][WeaponCategory.Medium][ArmorCategory.Heavy]);
+        Assert.Equal(195, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Light]);
+        Assert.Equal(168, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Medium]);
+        Assert.Equal(156, byLevelAndWeapon[20][WeaponCategory.Heavy][ArmorCategory.Heavy]);
     }
 
     [Fact(DisplayName = "Attack and Evade test")]
@@ -630,7 +615,7 @@ public class AttackTests
                         .WithArmor(armorCategory, level)
                         .Creature;
 
-                    var input = new AttackCommand
+                    var input = new BasicAttackCommand
                     {
                         WeaponSlot = EquipableSlot.MainHand,
                         ItemConfiguration = campaignTemplate.ItemConfiguration,
@@ -650,7 +635,7 @@ public class AttackTests
                     var hits = 0m;
                     for (var i = 0; i < TotalAttacks; i++)
                     {
-                        var result = attacker.Attack(defender, input, newDiceRoller, _testOutputHelper);
+                        var result = attacker.BasicAttack(defender, input, newDiceRoller, _testOutputHelper);
                         totalDamage += result.TotalDamage;
                         hits += result.Success ? 1 : 0;
                     }

@@ -132,29 +132,36 @@ namespace RoleRollsPocketEdition.Scenes.Services
             await _roleRollsDbContext.SaveChangesAsync();
         }
 
-        public async Task ProcessAction(Guid sceneId, AttackResult attackResult)
+        public async Task ProcessBasicAttackAction(Guid sceneId, BasicAttackResult attackResult)
         {
             var statusDescription = BuildStatusDescription(attackResult);
-            var baseDescription =
-                $"{attackResult.Attacker.Name} attacked {attackResult.Target.Name} with {attackResult.Weapon.Name} and caused {attackResult.TotalDamage} damage";
-
-            var result = new SceneAction
-            {
-                Description = string.IsNullOrWhiteSpace(statusDescription)
-                    ? baseDescription
-                    : $"{baseDescription} | {statusDescription}",
-                Id = Guid.NewGuid(),
-                ActorId = attackResult.Attacker.Id,
-                SceneId = sceneId
-            };
-            var history = await _campaignSceneHistoryBuilderService.BuildHistory(result);
-            _roleRollsDbContext.SceneActions.Add(result);
-            await _roleRollsDbContext.SaveChangesAsync();
-            await _sceneNotificationService.NotifyScene(sceneId, history);
-
+            var description = SceneActionDescriptionBuilder.BuildBasicAttackDescription(attackResult, statusDescription);
+            await PersistSceneAction(sceneId, attackResult.Attacker.Id, description);
         }
 
-        private static string BuildStatusDescription(AttackResult attackResult)
+        public async Task ProcessSpecialAttackAction(Guid sceneId, SpecialAttackResult attackResult)
+        {
+            var description = SceneActionDescriptionBuilder.BuildSpecialAttackDescription(attackResult);
+            await PersistSceneAction(sceneId, attackResult.Attacker.Id, description);
+        }
+
+        private async Task PersistSceneAction(Guid sceneId, Guid actorId, string description)
+        {
+            var action = new SceneAction
+            {
+                Description = description,
+                Id = Guid.NewGuid(),
+                ActorId = actorId,
+                SceneId = sceneId
+            };
+
+            var history = await _campaignSceneHistoryBuilderService.BuildHistory(action);
+            _roleRollsDbContext.SceneActions.Add(action);
+            await _roleRollsDbContext.SaveChangesAsync();
+            await _sceneNotificationService.NotifyScene(sceneId, history);
+        }
+
+        private static string BuildStatusDescription(BasicAttackResult attackResult)
         {
             var statuses = attackResult.Target.Vitalities
                 .SelectMany(vitality => vitality.CurrentConditions.Select(condition => new

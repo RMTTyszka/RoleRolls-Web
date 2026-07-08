@@ -212,14 +212,53 @@ A progressão oficial do sistema base ainda precisa ser descrita de forma única
 
 ## 8. Combate
 
-O combate do `RoleRolls` parte de uma cadeia clara:
+O `RoleRolls` não trata mais todo ataque como uma coisa só.
 
-1. o atacante gera sucessos contra uma defesa do alvo
-2. esses sucessos são organizados conforme a categoria da arma
-3. grupos válidos de sucesso viram hits
-4. cada hit gera dano
-5. o dano é mitigado
-6. o que sobra desgasta vitalidades
+O sistema base precisa distinguir dois fluxos ofensivos diferentes:
+
+- ataque básico
+- ataque especial
+
+### Ataque Básico
+
+O `ataque básico` é o fluxo de combate armado.
+
+Em regra de negócio:
+
+- usa arma equipada
+- usa categoria da arma
+- usa configuração da campanha para decidir qual propriedade entra no hit
+- usa configuração da campanha para decidir qual propriedade entra no dano
+- pode usar a defesa padrão configurada pela campanha ou um override explícito
+- transforma sucessos em hits
+- calcula dano automaticamente
+- aplica desgaste de vitalidades automaticamente
+- pode gerar status automáticos a partir dos thresholds de vitalidade
+
+### Ataque Especial
+
+O `ataque especial` é um teste ofensivo sem arma.
+
+Em regra de negócio:
+
+- não usa arma
+- não usa `WeaponSlot`
+- não usa categoria de arma
+- não usa configuração de item para escolher a ofensiva
+- sempre resolve `MinorSkill x Defense`
+- usa `difficulty = 1`
+- usa `complexity = valor atual da defesa alvo`
+- nunca calcula dano automaticamente
+- nunca desgasta vitalidade automaticamente
+- nunca aplica efeito automaticamente
+
+### Diferença Estrutural
+
+O `ataque básico` é um fluxo completo de combate armado, parametrizado pela campanha.
+
+O `ataque especial` é apenas a resolução do teste ofensivo.
+
+Depois do resultado do `ataque especial`, o mestre decide a consequência narrativa ou mecânica.
 
 ## 9. Categorias de Arma
 
@@ -354,7 +393,11 @@ Novamente: o motor define a estrutura. O universo define o conteúdo.
 
 ## 16. Mapeamento entre Ficha e Combate
 
-O sistema base não assume que toda arma usa sempre a mesma capacidade para acertar ou causar dano.
+O sistema base separa dois mapeamentos diferentes.
+
+### Ataque Básico
+
+O `ataque básico` não assume que toda arma usa sempre a mesma capacidade para acertar ou causar dano.
 
 Em vez disso, a campanha pode configurar:
 
@@ -363,11 +406,30 @@ Em vez disso, a campanha pode configurar:
 - qual propriedade entra como block
 - qual defesa a armadura referencia
 
-Esse é um ponto muito importante da regra de negócio do motor:
+Esse é um ponto muito importante da regra de negócio do motor base:
 
-o combate é parametrizado pela campanha.
+o `ataque básico` é parametrizado pela campanha.
 
-Ou seja, o sistema base define a estrutura do combate, mas deixa para a campanha decidir de onde o combate puxa seus valores.
+Ou seja, o sistema base define a estrutura do combate armado, mas deixa para a campanha decidir de onde esse combate puxa seus valores.
+
+### Ataque Especial
+
+O `ataque especial` não usa esse mapeamento por categoria de arma.
+
+Nele, o ponto de entrada já precisa vir explícito como:
+
+- `MinorSkill`
+- `Defense`
+- `Luck`
+- `Advantage`
+
+O motor resolve apenas o teste entre a `MinorSkill` escolhida e a `Defense` escolhida.
+
+### Diferença Estrutural
+
+No `ataque básico`, a campanha define de onde vêm os números ofensivos.
+
+No `ataque especial`, a ofensiva já nasce explícita como `MinorSkill x Defense`.
 
 ## 17. O Que Não É Regra Base do RoleRolls
 

@@ -22,7 +22,7 @@ public partial class Creature
         public Roll Roll { get; set; }
     }
 
-    public AttackResult Evade(Creature attacker, AttackCommand input, IDiceRoller diceRoller)
+    public BasicAttackResult Evade(Creature attacker, BasicAttackCommand input, IDiceRoller diceRoller)
     {
         var weapon = attacker.Equipment.GetItem(input.WeaponSlot) ?? new ItemInstance
         {
@@ -37,7 +37,7 @@ public partial class Creature
         var gripStats = GripTypeDefinition.Stats[attacker.Equipment.GripType];
 
         var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
-        var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty, input.HitAttribute));
+        var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty));
         var levelDifferenceBonus = attacker.GetLevelDifferenceBonusAgainst(this);
         var totalHitBonus = hitValue.Total +
                             attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) +
@@ -45,7 +45,7 @@ public partial class Creature
         var attackSuccesses = hitValue.Total;
         var evadeComplexity = 10 + totalHitBonus;
 
-        var defenseProperty = new Property(input.GetDefenseId1);
+        var defenseProperty = new Property(input.ResolvedDefenseId);
         var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
         var defenseAdvantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         var luck = input.Luck;
@@ -54,10 +54,12 @@ public partial class Creature
         var armorCategory = chestArmor?.ArmorTemplate?.Category ?? ArmorCategory.None;
         var armorDefenseBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
         var armorBonus = chestArmor?.GetBonus ?? 0;
+        var finalAdvantage = defenseAdvantage + ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
+        var finalBonus = defenseValue.Total + armorBonus + armorDefenseBonus;
         var evadeRollCommand = new RollDiceCommand(
             defenseValue.Total,
-            defenseAdvantage + ResolveWeaponVsArmorAdvantage(weapon, armorCategory),
-            defenseValue.Total + armorBonus + armorDefenseBonus,
+            finalAdvantage,
+            finalBonus,
             evadeComplexity,
             evadeComplexity,
             [],
@@ -72,15 +74,14 @@ public partial class Creature
         var numberOfHits = remainingSuccesses / hitDifficulty;
 
         var damageProperty = attacker.GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory),
-            input.DamageAttribute
+            input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory)
         ));
 
         var damages = new List<DamageRollResult>();
         for (int i = 0; i < numberOfHits; i++)
         {
             var property = input.ItemConfiguration.BlockProperty;
-            var propertyValue = attacker.GetPropertyValue(new PropertyInput(property, input.BlockProperty));
+            var propertyValue = attacker.GetPropertyValue(new PropertyInput(property));
             var damage = attacker.RollDamage(weapon, damageProperty, gripStats, diceRoller);
             damage.ReducedDamage -= GetBasicBlock(propertyValue);
             damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
@@ -88,11 +89,21 @@ public partial class Creature
             ApplyBasicAttackDamage(this, damage.TotalDamage, input.VitalityId);
         }
 
-        return new AttackResult
+        return new BasicAttackResult
         {
             Attacker = attacker,
             Target = this,
+            WeaponSlot = input.WeaponSlot,
             Weapon = weapon,
+            DefenseId = input.ResolvedDefenseId,
+            Complexity = evadeComplexity,
+            Difficulty = evadeComplexity,
+            NumberOfSuccesses = evadeRoll.NumberOfSuccesses,
+            NumberOfRollSuccesses = evadeRoll.NumberOfRollSuccesses,
+            Bonus = finalBonus,
+            Luck = luck,
+            Advantage = finalAdvantage,
+            RolledDices = evadeRoll.RolledDices,
             TotalDamage = damages.Sum(d => d.ReducedDamage),
             Success = numberOfHits <= 0
         };

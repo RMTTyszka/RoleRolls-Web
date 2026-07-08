@@ -47,8 +47,10 @@ Se outra IA for refatorar o motor, estes são os pontos de entrada mais importan
   Mutações granulares da configuração de campanha: atributos, skills, minor skills, defesas, vitalidades e condições.
 - `Rolls/RollService.cs`
   Entrada principal do fluxo de rolagem.
-- `Attacks/Services/AttackService.cs`
-  Entrada principal do fluxo de ataque.
+- `Attacks/Services/BasicAttackService.cs`
+  Entrada principal do fluxo de `basic attack`.
+- `Attacks/Services/SpecialAttackService.cs`
+  Entrada principal do fluxo de `special attack`.
 - `Campaigns/Repositories/CreatureRepository.cs`
   Carrega o aggregate completo da criatura para roll, ataque, dano e cura.
 - `Scenes/Controllers/SceneCreaturesController.cs`
@@ -85,8 +87,10 @@ Se a mudança mexer em `o que uma campanha pode definir`, o ponto de partida qua
   Contrato interno mínimo da rolagem.
 - `Rolls/Entities/Roll.cs`
   Regra base de sucessos, vantagem, sorte, complexity e difficulty.
-- `Attacks/Services/AttackService.cs`
-  Contratos de ataque expostos para o resto do sistema.
+- `Attacks/Services/BasicAttackService.cs`
+  Contratos e orquestração do `basic attack`.
+- `Attacks/Services/SpecialAttackService.cs`
+  Contratos e orquestração do `special attack`.
 - `Itens/Configurations/ItemConfiguration.cs`
   Mapeamento genérico entre categorias de arma, propriedades de hit, propriedades de dano, defesa da armadura e block.
 - `Bonuses/Bonus.cs`
@@ -259,27 +263,43 @@ Hoje progressão real de runtime e progressão de balanceamento não são a mesm
 
 ## 8. Combate
 
-### Entry points
+### Ataque Básico
 
 - `Scenes/Controllers/SceneCreaturesController.cs`
-  Endpoint HTTP para ataque em cena.
-- `Attacks/Services/AttackService.cs`
-  Orquestra o ataque.
-
-### Motor de combate
-
-- `Creatures/Entities/CreatureAttack.cs`
-  Regra principal de ataque, hits, dano e block.
+  Expõe `POST .../basic-attacks` e mantém `POST .../attacks` como alias legado do fluxo básico.
+- `Attacks/Services/BasicAttackService.cs`
+  Carrega atacante/alvo, resolve `ItemConfiguration` e chama o domínio do `basic attack`.
+- `Creatures/Entities/CreatureBasicAttack.cs`
+  Regra principal de hit, hits, dano e block do combate armado.
+- `Creatures/Entities/CreatureDefend.cs`
+  Fluxo de `Evade`, ainda ligado ao mesmo modelo de arma, defesa e dano do `basic attack`.
 - `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
-  Regra de aplicação do dano nas vitalidades.
-- `Creatures/Entities/Creature.cs`
-  `TakeDamage()` e `Heal()`.
-- `Creatures/Services/CreatureActionsService.cs`
-  Entrada de dano e cura manuais fora do fluxo de ataque.
+  Regra de aplicação automática do dano nas vitalidades.
+- `Itens/Configurations/ItemConfiguration.cs`
+  Diz qual `MinorSkill` ou propriedade cada categoria de arma usa no fluxo básico.
+
+### Ataque Especial
+
+- `Scenes/Controllers/SceneCreaturesController.cs`
+  Expõe `POST .../special-attacks`.
+- `Attacks/Services/SpecialAttackService.cs`
+  Carrega atacante/alvo, monta `SpecialAttackCommand` e chama o domínio do `special attack`.
+- `Creatures/Entities/CreatureSpecialAttack.cs`
+  Resolve apenas `MinorSkill x Defense`, sem arma, dano ou vitalidade.
+- `Scenes/Services/SceneActionDescriptionBuilder.cs`
+  Gera texto de histórico próprio para `special attack`, sem arma e sem dano.
+
+### Diferença estrutural
+
+`basic attack` depende de arma e de configuração de campanha.
+
+`special attack` não usa arma e resolve apenas `MinorSkill x Defense`.
 
 ### Observação de refatoração
 
-Se a mudança afetar a semântica do combate, o primeiro arquivo a ler é `CreatureAttack.cs`.
+Se a mudança afetar combate armado, o primeiro arquivo a ler é `CreatureBasicAttack.cs`.
+
+Se a mudança afetar ataque sem arma, o ponto de entrada é `CreatureSpecialAttack.cs`.
 
 ## 9. Categorias de Arma
 
@@ -327,14 +347,14 @@ Mudanças em `defesa` e `block` podem estar divididas entre fórmula configurada
 
 ### Arquivos principais
 
-- `Creatures/Entities/CreatureAttack.cs`
+- `Creatures/Entities/CreatureBasicAttack.cs`
   Transformação de sucessos em hits e hits em dano.
 - `Itens/GripType.cs`
   Dificuldade da arma e bônus base por grip.
 - `Itens/Configurations/ArmorDefinition.cs`
   Block total por armadura e nível.
-- `Attacks/Services/AttackService.cs`
-  Contratos de ataque e resultado.
+- `Attacks/Services/BasicAttackService.cs`
+  Contratos do `basic attack`.
 
 ### Arquivos auxiliares relacionados
 
@@ -343,7 +363,7 @@ Mudanças em `defesa` e `block` podem estar divididas entre fórmula configurada
 
 ### Observação de refatoração
 
-Se a refatoração for sobre `piso de dano`, `dano por margem`, `block` ou `quanto um hit gera`, o núcleo está em `CreatureAttack.cs` e `CreatureDefend.cs`.
+Se a refatoração for sobre `piso de dano`, `dano por margem`, `block` ou `quanto um hit gera`, o núcleo está em `CreatureBasicAttack.cs` e `CreatureDefend.cs`.
 
 ## 12. Vitalidades Configuráveis
 
@@ -374,8 +394,8 @@ Se a mudança for `a campanha deve poder modelar outro tipo de recurso`, comece 
   `GetBasicAttackVitalityRules()` resolve a ordem configurada no template.
 - `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
   Converte a ordem em aplicação real de dano.
-- `Attacks/Services/AttackService.cs`
-  `AttackCommand` aceita override de vitalidade principal.
+- `Attacks/Services/BasicAttackService.cs`
+  `BasicAttackCommand` carrega o alvo, a arma usada e o override opcional de vitalidade principal.
 
 ### Observação de refatoração
 
@@ -421,12 +441,19 @@ Se a mudança for sobre `o que uma condição pode carregar`, os arquivos centra
 
 - `Itens/Configurations/ItemConfiguration.cs`
   Define de onde cada categoria de arma puxa hit, dano, defesa e block.
-- `Attacks/Services/AttackService.cs`
-  `AttackInput` e `AttackCommand` carregam esses mapeamentos para o fluxo de ataque.
+- `Attacks/Services/BasicAttackService.cs`
+  `BasicAttackInput` e `BasicAttackCommand` carregam o contexto do combate armado.
 - `Creatures/Entities/CreaturePropertyResolver.cs`
   Resolve a propriedade escolhida em valor real.
-- `Creatures/Entities/CreatureAttack.cs`
-  Usa o mapeamento configurado para produzir o ataque.
+- `Creatures/Entities/CreatureBasicAttack.cs`
+  Usa o mapeamento configurado para produzir o `basic attack`.
+
+### Ataque Especial
+
+- `Attacks/Services/SpecialAttackService.cs`
+  `SpecialAttackInput` e `SpecialAttackCommand` carregam `MinorSkill x Defense`.
+- `Creatures/Entities/CreatureSpecialAttack.cs`
+  Resolve o teste sem consultar arma nem `ItemConfiguration`.
 
 ### Observação de refatoração
 
@@ -463,13 +490,15 @@ Se outra IA for refatorar o motor base, a ordem mais segura de leitura é esta:
 5. `Creatures/Entities/Creature.cs`
 6. `Creatures/Entities/CreaturePropertyResolver.cs`
 7. `Rolls/Entities/Roll.cs`
-8. `Attacks/Services/AttackService.cs`
-9. `Creatures/Entities/CreatureAttack.cs`
-10. `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
-11. `Creatures/Entities/Vitality.cs`
-12. `Itens/Configurations/ItemConfiguration.cs`
-13. `Itens/GripType.cs`
-14. `Bonuses/Bonus.cs`
-15. `Bonuses/IHaveBonuses.cs`
+8. `Attacks/Services/BasicAttackService.cs`
+9. `Attacks/Services/SpecialAttackService.cs`
+10. `Creatures/Entities/CreatureBasicAttack.cs`
+11. `Creatures/Entities/CreatureSpecialAttack.cs`
+12. `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
+13. `Creatures/Entities/Vitality.cs`
+14. `Itens/Configurations/ItemConfiguration.cs`
+15. `Itens/GripType.cs`
+16. `Bonuses/Bonus.cs`
+17. `Bonuses/IHaveBonuses.cs`
 
 Essa sequência permite entender primeiro a estrutura genérica do sistema, depois a resolução de propriedade e roll, e só então o combate e o desgaste.

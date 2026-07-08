@@ -39,16 +39,12 @@ public class EvadeTests
         var attacker = new BaseCreature(campaignTemplate, "").Creature;
         var defender = new BaseCreature(campaignTemplate, "").Creature;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = campaignTemplate.ItemConfiguration,
-            HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = defensePropertyId,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
                 PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
@@ -88,16 +84,12 @@ public class EvadeTests
         var defender = new BaseCreature(campaignTemplate, "").Creature;
         ;
 
-        var input = new AttackCommand
+        var input = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
-            HitAttribute = new Property(hitPropertyId, PropertyType.Attribute),
-            DamageAttribute = new Property(damagePropertyId, PropertyType.Attribute),
             DefenseId = defensePropertyId,
             VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            SecondVitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life],
                 PropertyType.Vitality),
             Luck = 0,
             Advantage = 0
@@ -160,7 +152,7 @@ public class EvadeTests
                         .WithArmor(armorCategory, level)
                         .Creature;
 
-                    var input = new AttackCommand
+                    var input = new BasicAttackCommand
                     {
                         WeaponSlot = EquipableSlot.MainHand,
                         ItemConfiguration = campaignTemplate.ItemConfiguration,
