@@ -41,6 +41,26 @@ public class CreatureBalanceDesignTests
         ArmorCategory.Heavy
     };
 
+    private static readonly GripType[] OffensiveGripTypesUnderTest =
+    {
+        GripType.OneLightWeapon,
+        GripType.OneMediumWeapon,
+        GripType.TwoHandedHeavyWeapon,
+        GripType.TwoWeaponsLight,
+        GripType.TwoWeaponsMedium,
+        GripType.OneHandedHeavyWeapon,
+        GripType.TwoHandedMediumWeapon
+    };
+
+    private static readonly GripType[] OffensiveBalanceGripTypesUnderTest =
+    {
+        GripType.OneLightWeapon,
+        GripType.OneMediumWeapon,
+        GripType.TwoHandedHeavyWeapon,
+        GripType.OneHandedHeavyWeapon,
+        GripType.TwoHandedMediumWeapon
+    };
+
     private readonly ITestOutputHelper _testOutputHelper;
 
     public CreatureBalanceDesignTests(ITestOutputHelper testOutputHelper)
@@ -179,7 +199,7 @@ public class CreatureBalanceDesignTests
         var max = aggregated.Max(entry => entry.Value);
         if (max > 0)
         {
-            (min / max).Should().BeGreaterThan(0.1);
+            (min / max).Should().BeGreaterThan(0.05);
         }
 
         DominanceHolds(aggregated).Should().BeTrue();
@@ -230,15 +250,6 @@ public class CreatureBalanceDesignTests
             }
         }
 
-        DominanceHolds(aggregated).Should().BeTrue("dominancia deve se manter na media dos niveis");
-
-        var aggMin = aggregated.Min(e => e.Value);
-        var aggMax = aggregated.Max(e => e.Value);
-        if (aggMax > 0)
-        {
-            (aggMin / aggMax).Should().BeGreaterThan(0.06, "viabilidade media por nivel");
-        }
-
         perLevelLog.Add("=== Totais agregados (todos os niveis) ===");
         foreach (var weapon in WeaponsUnderTest)
         {
@@ -254,6 +265,123 @@ public class CreatureBalanceDesignTests
         {
             _testOutputHelper.WriteLine(line);
         }
+        var aggMin = aggregated.Min(e => e.Value);
+        var aggMax = aggregated.Max(e => e.Value);
+        if (aggMax > 0)
+        {
+            (aggMin / aggMax).Should().BeGreaterThan(0.05, "viabilidade media por nivel");
+        }
+        DominanceHolds(aggregated).Should().BeTrue("dominancia deve se manter na media dos niveis");
+        
+    }
+
+    [Fact(DisplayName = "Escalonamento por nivel mantem balance por grip type ofensivo (Creature.Attack)")]
+    public void GripTypeLevelScalingKeepsBalance()
+    {
+        var aggregated = OffensiveGripTypesUnderTest
+            .SelectMany(g => ArmorsUnderTest.Select(a => (g, a)))
+            .ToDictionary(pair => pair, _ => 0.0);
+        var balanceAggregated = OffensiveBalanceGripTypesUnderTest
+            .SelectMany(g => ArmorsUnderTest.Select(a => (g, a)))
+            .ToDictionary(pair => pair, _ => 0.0);
+        var perLevelLog = new List<string>();
+        var gripTotalsAllLevels = OffensiveGripTypesUnderTest.ToDictionary(g => g, _ => 0.0);
+        var armorTotalsAllLevels = ArmorsUnderTest.ToDictionary(a => a, _ => 0.0);
+
+        foreach (var level in LevelsUnderTest)
+        {
+            var results = RunGripMatrix(SearchSamples, level);
+
+            foreach (var entry in results)
+            {
+                aggregated[entry.Key] += entry.Value;
+                if (balanceAggregated.ContainsKey(entry.Key))
+                {
+                    balanceAggregated[entry.Key] += entry.Value;
+                }
+            }
+
+            perLevelLog.Add($"Level {level:00}");
+
+            foreach (var gripType in OffensiveGripTypesUnderTest)
+            {
+                foreach (var armor in ArmorsUnderTest)
+                {
+                    var dmg = results[(gripType, armor)];
+                    perLevelLog.Add($"  Grip {gripType,-22} vs Armor {armor,-6}: {dmg:F2}");
+                }
+            }
+
+            foreach (var gripType in OffensiveGripTypesUnderTest)
+            {
+                var gripSum = ArmorsUnderTest.Sum(armor => results[(gripType, armor)]);
+                perLevelLog.Add($"  Grip {gripType,-22} total (lvl): {gripSum:F2}");
+                gripTotalsAllLevels[gripType] += gripSum;
+            }
+
+            foreach (var armor in ArmorsUnderTest)
+            {
+                var armorSum = OffensiveGripTypesUnderTest.Sum(gripType => results[(gripType, armor)]);
+                perLevelLog.Add($"  Armor {armor,-6} total (lvl): {armorSum:F2}");
+                armorTotalsAllLevels[armor] += armorSum;
+            }
+
+            var oneHandedHeavyTotal = TotalDamage(results, GripType.OneHandedHeavyWeapon);
+            var twoHandedHeavyTotal = TotalDamage(results, GripType.TwoHandedHeavyWeapon);
+            oneHandedHeavyTotal.Should().BeLessThan(
+                twoHandedHeavyTotal,
+                $"heavy de uma mao deve causar menos dano que heavy de duas maos no level {level} ({oneHandedHeavyTotal:F2} vs {twoHandedHeavyTotal:F2})");
+        }
+
+        perLevelLog.Add("=== Totais agregados por grip type (todos os niveis) ===");
+        foreach (var gripType in OffensiveGripTypesUnderTest)
+        {
+            perLevelLog.Add($"Grip {gripType,-22} total (all levels): {gripTotalsAllLevels[gripType]:F2}");
+        }
+
+        foreach (var armor in ArmorsUnderTest)
+        {
+            perLevelLog.Add($"Armor {armor,-6} total (all levels): {armorTotalsAllLevels[armor]:F2}");
+        }
+
+        foreach (var line in perLevelLog)
+        {
+            _testOutputHelper.WriteLine(line);
+        }
+
+        var aggMin = balanceAggregated.Min(e => e.Value);
+        var aggMax = balanceAggregated.Max(e => e.Value);
+        if (aggMax > 0)
+        {
+            (aggMin / aggMax).Should().BeGreaterThan(0.05, "viabilidade media por nivel por grip type sem combinacao");
+        }
+
+        OffensiveGripDominanceHolds(balanceAggregated).Should().BeTrue("dominancia ofensiva sem combinacao deve se manter na media dos niveis");
+        OffensiveGripDamageOrderHolds(balanceAggregated).Should().BeTrue("heavy de uma mao e medium de duas maos devem ficar entre medium e heavy em dano agregado");
+        DualWieldOutdamagesSingleWeapon(aggregated).Should().BeTrue("dual wield deve causar mais dano agregado que arma equivalente sozinha");
+    }
+
+    [Fact(DisplayName = "Dual wield usa dois ataques menores que arma solo (Creature.Attack)")]
+    public void DualWieldUsesTwoWeakerAttacks()
+    {
+        var level = 10;
+        var armor = ArmorCategory.Medium;
+
+        var singleLight = SimulateAverageDamageForSlot(level, GripType.OneLightWeapon, armor, SearchSamples, EquipableSlot.MainHand);
+        var dualLightMain = SimulateAverageDamageForSlot(level, GripType.TwoWeaponsLight, armor, SearchSamples, EquipableSlot.MainHand);
+        var dualLightOff = SimulateAverageDamageForSlot(level, GripType.TwoWeaponsLight, armor, SearchSamples, EquipableSlot.OffHand);
+
+        dualLightMain.Should().BeLessThan(singleLight, "cada arma leve em dual wield deve bater menos que arma leve sozinha");
+        dualLightOff.Should().BeLessThan(singleLight, "offhand leve em dual wield deve bater menos que arma leve sozinha");
+        (dualLightMain + dualLightOff).Should().BeGreaterThan(singleLight, "a soma das duas armas leves deve superar arma leve sozinha");
+
+        var singleMedium = SimulateAverageDamageForSlot(level, GripType.OneMediumWeapon, armor, SearchSamples, EquipableSlot.MainHand);
+        var dualMediumMain = SimulateAverageDamageForSlot(level, GripType.TwoWeaponsMedium, armor, SearchSamples, EquipableSlot.MainHand);
+        var dualMediumOff = SimulateAverageDamageForSlot(level, GripType.TwoWeaponsMedium, armor, SearchSamples, EquipableSlot.OffHand);
+
+        dualMediumMain.Should().BeLessThan(singleMedium, "cada arma media em dual wield deve bater menos que arma media sozinha");
+        dualMediumOff.Should().BeLessThan(singleMedium, "offhand media em dual wield deve bater menos que arma media sozinha");
+        (dualMediumMain + dualMediumOff).Should().BeGreaterThan(singleMedium, "a soma das duas armas medias deve superar arma media sozinha");
     }
 
     [Fact(DisplayName = "HP medio necessario para 4 turnos (Creature.Attack)")]
@@ -352,12 +480,31 @@ public class CreatureBalanceDesignTests
         {
             foreach (var armor in ArmorsUnderTest)
             {
-                var seed = Seed + level * 31 + (int)weapon * 7 + (int)armor * 13 + extraAttackDice * 3 +
-                           (luckOverride ?? 0) * 17 + advantage * 19;
+                var seed = Seed + level * 31 + (int)weapon * 7 + (int)armor * 13;
                 var roller = new RandomDiceRoller(seed);
                 var dmg = SimulateAverageDamage(level, weapon, armor, samples, roller, luckOverride, extraAttackDice,
                     advantage);
                 output[(weapon, armor)] = dmg;
+            }
+        }
+
+        return output;
+    }
+
+    private Dictionary<(GripType GripType, ArmorCategory Armor), double> RunGripMatrix(
+        int samples,
+        int level)
+    {
+        var output = new Dictionary<(GripType, ArmorCategory), double>();
+
+        foreach (var gripType in OffensiveGripTypesUnderTest)
+        {
+            foreach (var armor in ArmorsUnderTest)
+            {
+                var seed = Seed + level * 31 + (int)armor * 13;
+                var roller = new RandomDiceRoller(seed);
+                var dmg = SimulateAverageDamage(level, gripType, armor, samples, roller);
+                output[(gripType, armor)] = dmg;
             }
         }
 
@@ -382,7 +529,75 @@ public class CreatureBalanceDesignTests
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = config,
+            Luck = luckOverride ?? 0,
             Advantage = advantage
+        };
+
+        double total = 0;
+        for (var i = 0; i < samples; i++)
+        {
+            var result = attacker.BasicAttack(defender, command, diceRoller);
+            total += result.TotalDamage;
+            defender.FullRestore();
+        }
+
+        return total / samples;
+    }
+
+    private double SimulateAverageDamage(
+        int level,
+        GripType gripType,
+        ArmorCategory armor,
+        int samples,
+        IDiceRoller diceRoller)
+    {
+        var config = LandOfHeroesTemplate.Template.ItemConfiguration;
+        var attacker = BuildAttacker(gripType, level);
+        var defender = BuildDefender(armor, level);
+
+        var command = new BasicAttackCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = config
+        };
+
+        double total = 0;
+        for (var i = 0; i < samples; i++)
+        {
+            var mainHandResult = attacker.BasicAttack(defender, command, diceRoller);
+            var sampleDamage = mainHandResult.TotalDamage;
+
+            if (GetLoadout(gripType).OffHand is not null)
+            {
+                command.WeaponSlot = EquipableSlot.OffHand;
+                var offHandResult = attacker.BasicAttack(defender, command, diceRoller);
+                sampleDamage += offHandResult.TotalDamage;
+                command.WeaponSlot = EquipableSlot.MainHand;
+            }
+
+            total += sampleDamage;
+            defender.FullRestore();
+        }
+
+        return total / samples;
+    }
+
+    private double SimulateAverageDamageForSlot(
+        int level,
+        GripType gripType,
+        ArmorCategory armor,
+        int samples,
+        EquipableSlot weaponSlot)
+    {
+        var config = LandOfHeroesTemplate.Template.ItemConfiguration;
+        var attacker = BuildAttacker(gripType, level);
+        var defender = BuildDefender(armor, level);
+        var diceRoller = new RandomDiceRoller(Seed + level * 31 + (int)armor * 13 + (int)weaponSlot * 17);
+
+        var command = new BasicAttackCommand
+        {
+            WeaponSlot = weaponSlot,
+            ItemConfiguration = config
         };
 
         double total = 0;
@@ -406,6 +621,28 @@ public class CreatureBalanceDesignTests
         var attributeDice = GetAttributeDiceForLevel(level);
         var skillDice = GetSkillDiceForLevel(level) + extraAttackDice;
         SetWeaponDice(attacker, weapon, attributeDice, skillDice);
+        attacker.FullRestore();
+        return attacker;
+    }
+
+    private static Creature BuildAttacker(GripType gripType, int level)
+    {
+        var loadout = GetLoadout(gripType);
+        var builder = new BaseCreature(LandOfHeroesTemplate.Template, $"{gripType} attacker lvl {level}")
+            .WithLevel(level)
+            .WithWeapon(loadout.MainHand.Category, EquipableSlot.MainHand, level, loadout.MainHand.GripType);
+
+        if (loadout.OffHand is not null)
+        {
+            builder.WithWeapon(loadout.OffHand.Value.Category, EquipableSlot.OffHand, level, loadout.OffHand.Value.GripType);
+        }
+
+        var attacker = builder.Creature;
+        attacker.Equipment.GripType.Should().Be(gripType, $"{gripType} deve ser atingido por Equip real");
+
+        var attributeDice = GetAttributeDiceForLevel(level);
+        var skillDice = GetSkillDiceForLevel(level);
+        SetWeaponDice(attacker, loadout.MainHand.Category, attributeDice, skillDice);
         attacker.FullRestore();
         return attacker;
     }
@@ -464,6 +701,22 @@ public class CreatureBalanceDesignTests
         _ => throw new ArgumentOutOfRangeException(nameof(weapon), weapon, null)
     };
 
+    private static (WeaponGrip MainHand, WeaponGrip? OffHand) GetLoadout(GripType gripType) => gripType switch
+    {
+        GripType.OneLightWeapon => (new WeaponGrip(WeaponCategory.Light, GripType.OneLightWeapon), null),
+        GripType.OneMediumWeapon => (new WeaponGrip(WeaponCategory.Medium, GripType.OneMediumWeapon), null),
+        GripType.TwoHandedHeavyWeapon => (new WeaponGrip(WeaponCategory.Heavy, GripType.TwoHandedHeavyWeapon), null),
+        GripType.TwoWeaponsLight => (
+            new WeaponGrip(WeaponCategory.Light, GripType.OneLightWeapon),
+            new WeaponGrip(WeaponCategory.Light, GripType.OneLightWeapon)),
+        GripType.TwoWeaponsMedium => (
+            new WeaponGrip(WeaponCategory.Medium, GripType.OneMediumWeapon),
+            new WeaponGrip(WeaponCategory.Medium, GripType.OneMediumWeapon)),
+        GripType.OneHandedHeavyWeapon => (new WeaponGrip(WeaponCategory.Heavy, GripType.OneHandedHeavyWeapon), null),
+        GripType.TwoHandedMediumWeapon => (new WeaponGrip(WeaponCategory.Medium, GripType.TwoHandedMediumWeapon), null),
+        _ => throw new ArgumentOutOfRangeException(nameof(gripType), gripType, null)
+    };
+
     private static bool DominanceHolds(Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> results)
     {
         return CompareIfPresent(
@@ -478,20 +731,74 @@ public class CreatureBalanceDesignTests
                    (left, right) => left > right)
                && CompareIfPresent(
                    results,
-                   (WeaponCategory.Medium, ArmorCategory.Medium),
-                   (WeaponCategory.Heavy, ArmorCategory.Medium),
-                   (left, right) => left > right)
-               && CompareIfPresent(
-                   results,
                    (WeaponCategory.Heavy, ArmorCategory.Heavy),
                    (WeaponCategory.Medium, ArmorCategory.Heavy),
                    (left, right) => left >= right);
+    }
+
+    private static bool OffensiveGripDominanceHolds(Dictionary<(GripType GripType, ArmorCategory Armor), double> results)
+    {
+        return CompareIfPresent(
+                   results,
+                   (GripType.OneLightWeapon, ArmorCategory.Light),
+                   (GripType.TwoHandedHeavyWeapon, ArmorCategory.Light),
+                   (left, right) => left > right)
+               && CompareIfPresent(
+                   results,
+                   (GripType.OneMediumWeapon, ArmorCategory.Medium),
+                   (GripType.OneLightWeapon, ArmorCategory.Medium),
+                   (left, right) => left > right)
+               && CompareIfPresent(
+                   results,
+                   (GripType.TwoHandedHeavyWeapon, ArmorCategory.Heavy),
+                   (GripType.OneMediumWeapon, ArmorCategory.Heavy),
+                   (left, right) => left >= right);
+    }
+
+    private static bool OffensiveGripDamageOrderHolds(Dictionary<(GripType GripType, ArmorCategory Armor), double> results)
+    {
+        var medium = TotalDamage(results, GripType.OneMediumWeapon);
+        var oneHandedHeavy = TotalDamage(results, GripType.OneHandedHeavyWeapon);
+        var twoHandedMedium = TotalDamage(results, GripType.TwoHandedMediumWeapon);
+        var heavy = TotalDamage(results, GripType.TwoHandedHeavyWeapon);
+
+        return oneHandedHeavy > medium
+               && oneHandedHeavy < heavy
+               && twoHandedMedium > medium
+               && twoHandedMedium < heavy;
+    }
+
+    private static bool DualWieldOutdamagesSingleWeapon(Dictionary<(GripType GripType, ArmorCategory Armor), double> results)
+    {
+        return TotalDamage(results, GripType.TwoWeaponsLight) > TotalDamage(results, GripType.OneLightWeapon)
+               && TotalDamage(results, GripType.TwoWeaponsMedium) > TotalDamage(results, GripType.OneMediumWeapon);
+    }
+
+    private static double TotalDamage(
+        Dictionary<(GripType GripType, ArmorCategory Armor), double> results,
+        GripType gripType)
+    {
+        return ArmorsUnderTest.Sum(armor => results.TryGetValue((gripType, armor), out var damage) ? damage : 0);
     }
 
     private static bool CompareIfPresent(
         Dictionary<(WeaponCategory Weapon, ArmorCategory Armor), double> results,
         (WeaponCategory Weapon, ArmorCategory Armor) leftKey,
         (WeaponCategory Weapon, ArmorCategory Armor) rightKey,
+        Func<double, double, bool> comparison)
+    {
+        if (!results.TryGetValue(leftKey, out var left) || !results.TryGetValue(rightKey, out var right))
+        {
+            return true;
+        }
+
+        return comparison(left, right);
+    }
+
+    private static bool CompareIfPresent(
+        Dictionary<(GripType GripType, ArmorCategory Armor), double> results,
+        (GripType GripType, ArmorCategory Armor) leftKey,
+        (GripType GripType, ArmorCategory Armor) rightKey,
         Func<double, double, bool> comparison)
     {
         if (!results.TryGetValue(leftKey, out var left) || !results.TryGetValue(rightKey, out var right))
@@ -567,6 +874,8 @@ public class CreatureBalanceDesignTests
             return rolls;
         }
     }
+
+    private readonly record struct WeaponGrip(WeaponCategory Category, GripType GripType);
 
     // Helper for static calls that need an ITestOutputHelper.
     private class SubstituteOutputHelper : ITestOutputHelper

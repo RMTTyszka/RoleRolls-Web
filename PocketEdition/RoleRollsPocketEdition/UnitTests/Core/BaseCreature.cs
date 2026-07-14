@@ -53,12 +53,12 @@ public class BaseCreature
         Creature.FullRestore();
     }
 
-    public BaseCreature WithWeapon(WeaponCategory category, EquipableSlot slot, int level)
+    public BaseCreature WithWeapon(WeaponCategory category, EquipableSlot slot, int level, GripType? gripType = null)
     {
         var weapon = new ItemInstance
         {
             Template = new WeaponTemplate
-                { Category = category, DamageType = WeaponDamageType.Bludgeoning },
+                { Category = category, DamageType = WeaponDamageType.Bludgeoning, GripType = gripType },
             Level = level
         };
         Creature.AddItemToInventory(weapon);

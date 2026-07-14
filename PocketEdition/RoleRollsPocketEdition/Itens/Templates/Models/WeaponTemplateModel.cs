@@ -13,6 +13,7 @@ public class WeaponTemplateModel : EquipableTemplateModel
         var equipable = EquipableTemplateModel.FromTemplate<WeaponTemplateModel>(template);
         equipable.Category = template.Category;
         equipable.DamageType = template.DamageType;
+        equipable.GripType = template.GripType;
         equipable.IsRanged = template.IsRanged;
         equipable.Range = template.Range;
         return equipable;
@@ -20,6 +21,7 @@ public class WeaponTemplateModel : EquipableTemplateModel
 
     public WeaponCategory Category { get; set; }
     public WeaponDamageType DamageType { get; set; }
+    public GripType? GripType { get; set; }
     public bool IsRanged { get; set; }
     public string? Range { get; set; }
 }

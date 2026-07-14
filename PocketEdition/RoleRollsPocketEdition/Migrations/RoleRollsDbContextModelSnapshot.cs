@@ -1259,6 +1259,9 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Property<int>("DamageType")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("GripType")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsRanged")
                         .HasColumnType("boolean");
 

@@ -29,11 +29,11 @@ namespace RoleRollsPocketEdition.Itens
             {
                 [GripType.OneLightWeapon] = new GripTypeStats(1, 0, 3, 0, 0, 1, 0, 0),
                 [GripType.OneMediumWeapon] = new GripTypeStats(0, 0, 5, 0, 0, 2, 0, 0),
-                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(0, 2, 6, 0, 0, 3, 0, 0),
-                [GripType.TwoWeaponsLight] = new GripTypeStats(0, 4, 0, 2, 2, 1, 0, 0),
-                [GripType.TwoWeaponsMedium] = new GripTypeStats(1, 8, 2, 3, 2, 2, 0, 0),
-                [GripType.OneHandedHeavyWeapon] = new GripTypeStats(0, 10, 0, 4, 3, 2, 0, 0),
-                [GripType.TwoHandedMediumWeapon] = new GripTypeStats(2, 10, 0, 4, 4, 3, 0, 0),
+                [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(-1, 2, 8, 0, 0, 3, 0, 0),
+                [GripType.TwoWeaponsLight] = new GripTypeStats(-1, 0, 3, 2, 2, 1, 0, 0),
+                [GripType.TwoWeaponsMedium] = new GripTypeStats(0, 0, 4, 3, 2, 2, 0, 0),
+                [GripType.OneHandedHeavyWeapon] = new GripTypeStats(-1, 0, 8, 4, 3, 3, 0, 0),
+                [GripType.TwoHandedMediumWeapon] = new GripTypeStats(2, 8, 5, 4, 4, 3, 0, 0),
                 [GripType.OneLightShield] = new GripTypeStats(0, 4, 0, 2, 2, 1, 1, 0),
                 [GripType.OneMediumShield] = new GripTypeStats(1, 8, 0, 3, 2, 2, 2, -1),
                 [GripType.OneHeavyShield] = new GripTypeStats(3, 12, 0, 4, 4, 3, 3, -2),
@@ -50,9 +50,9 @@ namespace RoleRollsPocketEdition.Itens
 
             // OneLightWeapon combinations
             MainGripType[GripType.OneLightWeapon][GripType.OneLightWeapon] = GripType.TwoWeaponsLight;
-            MainGripType[GripType.OneLightWeapon][GripType.OneMediumWeapon] = GripType.TwoWeaponsLight;
+            MainGripType[GripType.OneLightWeapon][GripType.OneMediumWeapon] = GripType.TwoWeaponsMedium;
             MainGripType[GripType.OneLightWeapon][GripType.TwoWeaponsLight] = GripType.TwoWeaponsLight;
-            MainGripType[GripType.OneLightWeapon][GripType.TwoWeaponsMedium] = GripType.TwoWeaponsLight;
+            MainGripType[GripType.OneLightWeapon][GripType.TwoWeaponsMedium] = GripType.TwoWeaponsMedium;
             MainGripType[GripType.OneLightWeapon][GripType.TwoHandedHeavyWeapon] = null;
             MainGripType[GripType.OneLightWeapon][GripType.TwoHandedMediumWeapon] = null;
             MainGripType[GripType.OneLightWeapon][GripType.OneHandedHeavyWeapon] = null;
@@ -87,11 +87,24 @@ namespace RoleRollsPocketEdition.Itens
             MainGripType[GripType.TwoHandedHeavyWeapon][GripType.OneHeavyShield] = null;
             MainGripType[GripType.TwoHandedHeavyWeapon][GripType.None] = GripType.TwoHandedHeavyWeapon;
 
+            // TwoHandedMediumWeapon combinations
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneLightWeapon] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneMediumWeapon] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.TwoWeaponsLight] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.TwoWeaponsMedium] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.TwoHandedHeavyWeapon] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.TwoHandedMediumWeapon] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneHandedHeavyWeapon] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneLightShield] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneMediumShield] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.OneHeavyShield] = null;
+            MainGripType[GripType.TwoHandedMediumWeapon][GripType.None] = GripType.TwoHandedMediumWeapon;
+
             // TwoWeaponsLight combinations
             MainGripType[GripType.TwoWeaponsLight][GripType.OneLightWeapon] = GripType.TwoWeaponsLight;
-            MainGripType[GripType.TwoWeaponsLight][GripType.OneMediumWeapon] = GripType.TwoWeaponsLight;
+            MainGripType[GripType.TwoWeaponsLight][GripType.OneMediumWeapon] = GripType.TwoWeaponsMedium;
             MainGripType[GripType.TwoWeaponsLight][GripType.TwoWeaponsLight] = GripType.TwoWeaponsLight;
-            MainGripType[GripType.TwoWeaponsLight][GripType.TwoWeaponsMedium] = GripType.TwoWeaponsLight;
+            MainGripType[GripType.TwoWeaponsLight][GripType.TwoWeaponsMedium] = GripType.TwoWeaponsMedium;
             MainGripType[GripType.TwoWeaponsLight][GripType.TwoHandedHeavyWeapon] = null;
             MainGripType[GripType.TwoWeaponsLight][GripType.TwoHandedMediumWeapon] = null;
             MainGripType[GripType.TwoWeaponsLight][GripType.OneHandedHeavyWeapon] = null;

@@ -6,6 +6,7 @@ public class WeaponTemplate : EquipableTemplate
 {
     public WeaponCategory Category { get; set; }
     public WeaponDamageType DamageType { get; set; }
+    public GripType? GripType { get; set; }
     public bool IsRanged { get; set; }
     public string? Range { get; set; }
     public WeaponTemplate()
@@ -16,6 +17,7 @@ public class WeaponTemplate : EquipableTemplate
     {
         Category = item.Category;
         DamageType = item.DamageType;
+        GripType = item.GripType;
         IsRanged = item.IsRanged;
         Range = item.Range;
     }
@@ -25,6 +27,7 @@ public class WeaponTemplate : EquipableTemplate
         base.Update(item);
         Category = item.Category;
         DamageType = item.DamageType;
+        GripType = item.GripType;
         IsRanged = item.IsRanged;
         Range = item.Range;
     }

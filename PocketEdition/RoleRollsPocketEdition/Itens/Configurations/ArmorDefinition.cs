@@ -7,7 +7,7 @@ public static class ArmorDefinition
 {
     private const int BaseComplexity = 10;
 
-    public static int GetTier(int level) => 1 + Math.Max(level - 1, 0) / 2;
+    public static int GetTier(int level) => level;
 
     // AKA dodge/evasion: usado na complexidade do ataque.
     public static int DefenseBonus1(ArmorCategory armorCategory) => armorCategory switch

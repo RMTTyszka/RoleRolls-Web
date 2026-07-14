@@ -45,8 +45,10 @@ public partial class Creature
         var attackSuccesses = hitValue.Total;
         var evadeComplexity = 10 + totalHitBonus;
 
-        var defenseProperty = new Property(input.ResolvedDefenseId);
-        var defenseValue = GetPropertyValue(new PropertyInput(defenseProperty));
+        var defenseId = input.ResolvedDefenseId;
+        var defenseValue = Defenses.Any(d => d.Id == defenseId || d.DefenseTemplateId == defenseId)
+            ? new PropertyValue { Value = DefenseValue(defenseId) }
+            : GetPropertyValue(new PropertyInput(new Property(defenseId)));
         var defenseAdvantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         var luck = input.Luck;
         luck += ResolveWeaponVsArmorLuck(weapon, Equipment.ArmorCategory);

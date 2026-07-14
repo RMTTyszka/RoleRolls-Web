@@ -42,21 +42,10 @@ public class Equipment : Entity
             case EquipableSlot.MainHand:
                 if (item.Template is WeaponTemplate)
                 {
-                    var weaponTemplate = (WeaponTemplate)item.Template;
                     var equipedItem = MainHand;
 
                     MainHand = item;
-                    GripType = weaponTemplate.Category switch
-                    {
-                        WeaponCategory.None => GripType.None,
-                        WeaponCategory.Light => GripType.OneLightWeapon,
-                        WeaponCategory.Medium => GripType.OneMediumWeapon,
-                        WeaponCategory.Heavy => GripType.TwoHandedHeavyWeapon,
-                        WeaponCategory.LightShield => GripType.None,
-                        WeaponCategory.MediumShield => GripType.None,
-                        WeaponCategory.HeavyShield => GripType.None,
-                        _ => throw new ArgumentOutOfRangeException()
-                    };
+                    RefreshGripType();
                     return equipedItem;
                 }
 
@@ -84,6 +73,7 @@ public class Equipment : Entity
                 {
                     var equipedItem = OffHand;
                     OffHand = item;
+                    RefreshGripType();
                     return equipedItem;
                 }
 
@@ -122,6 +112,7 @@ public class Equipment : Entity
             { EquipableSlot.OffHand, () => OffHand = null },
         };
         unequipActions[slot]();
+        RefreshGripType();
     }
 
     public ItemInstance? GetItem(EquipableSlot slot)
@@ -148,6 +139,24 @@ public class Equipment : Entity
     // TODO
     [NotMapped] public List<Bonus> Bonuses => new List<Bonus>();
     public ArmorCategory ArmorCategory => Chest?.Template is ArmorTemplate armorTemplate ? armorTemplate.Category : ArmorCategory.None;
+
+    private void RefreshGripType()
+    {
+        var mainGripType = GetGripType(MainHand);
+        var offGripType = GetGripType(OffHand);
+
+        GripType = GripTypeDefinition.GetCombinedGripType(mainGripType, offGripType) ?? mainGripType;
+    }
+
+    private static GripType GetGripType(ItemInstance? item)
+    {
+        if (item?.Template is not WeaponTemplate weaponTemplate)
+        {
+            return GripType.None;
+        }
+
+        return weaponTemplate.GripType ?? GripTypeDefinition.GetGripTypeByWeaponCategory(weaponTemplate.Category);
+    }
 }
 
 

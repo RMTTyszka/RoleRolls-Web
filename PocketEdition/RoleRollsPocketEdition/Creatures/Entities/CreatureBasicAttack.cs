@@ -61,7 +61,7 @@ public partial class Creature
             .OrderByDescending(over => over)
             .ToList();
 
-        var tier = 1 + Math.Max(Level - 1, 0) / 2;
+        var tier = Level;
         var damageBonusPerHit = gripStats.BaseBonusDamage * tier + gripStats.Damage;
 
         var result = ResolveSuccessfulAttack(
