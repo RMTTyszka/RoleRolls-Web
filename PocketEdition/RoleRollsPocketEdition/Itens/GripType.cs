@@ -31,7 +31,7 @@ namespace RoleRollsPocketEdition.Itens
                 [GripType.OneMediumWeapon] = new GripTypeStats(0, 0, 5, 0, 0, 2, 0, 0),
                 [GripType.TwoHandedHeavyWeapon] = new GripTypeStats(-1, 2, 8, 0, 0, 3, 0, 0),
                 [GripType.TwoWeaponsLight] = new GripTypeStats(-1, 0, 3, 2, 2, 1, 0, 0),
-                [GripType.TwoWeaponsMedium] = new GripTypeStats(0, 0, 4, 3, 2, 2, 0, 0),
+                [GripType.TwoWeaponsMedium] = new GripTypeStats(-1, 0, 4, 3, 2, 2, 0, 0),
                 [GripType.OneHandedHeavyWeapon] = new GripTypeStats(-1, 0, 8, 4, 3, 3, 0, 0),
                 [GripType.TwoHandedMediumWeapon] = new GripTypeStats(2, 8, 5, 4, 4, 3, 0, 0),
                 [GripType.OneLightShield] = new GripTypeStats(0, 4, 0, 2, 2, 1, 1, 0),
