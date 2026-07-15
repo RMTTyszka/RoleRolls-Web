@@ -51,6 +51,8 @@ Se outra IA for refatorar o motor, estes são os pontos de entrada mais importan
   Entrada principal do fluxo de `basic attack`.
 - `Attacks/Services/SpecialAttackService.cs`
   Entrada principal do fluxo de `special attack`.
+- `Attacks/Services/EvadeService.cs`
+  Entrada da Evasion rolada pelo defensor.
 - `Campaigns/Repositories/CreatureRepository.cs`
   Carrega o aggregate completo da criatura para roll, ataque, dano e cura.
 - `Scenes/Controllers/SceneCreaturesController.cs`
@@ -92,7 +94,7 @@ Se a mudança mexer em `o que uma campanha pode definir`, o ponto de partida qua
 - `Attacks/Services/SpecialAttackService.cs`
   Contratos e orquestração do `special attack`.
 - `Itens/Configurations/ItemConfiguration.cs`
-  Mapeamento genérico entre categorias de arma, propriedades de hit, propriedades de dano, defesa da armadura e block.
+  Mapeamento genérico entre categorias de arma, propriedades de hit, propriedades de dano, defesa da armadura, block e Evasion.
 - `Bonuses/Bonus.cs`
   Modelo genérico de bônus.
 - `Bonuses/IHaveBonuses.cs`
@@ -118,7 +120,7 @@ Mudanças no núcleo do motor quase sempre atravessam mais de um desses arquivos
 - `Creatures/Entities/Skill.cs`
   Instancia a perícia na criatura.
 
-### Especializações
+### Especialidades
 
 - `Templates/Entities/SpecificSkillTemplate.cs`
   Define a especialização no template, inclusive atributo próprio quando houver.
@@ -269,12 +271,14 @@ Hoje progressão real de runtime e progressão de balanceamento não são a mesm
   Expõe `POST .../basic-attacks` e mantém `POST .../attacks` como alias legado do fluxo básico.
 - `Attacks/Services/BasicAttackService.cs`
   Carrega atacante/alvo, resolve `ItemConfiguration` e chama o domínio do `basic attack`.
+- `Attacks/Services/EvadeService.cs`
+  Carrega atacante, defensor e configuração da campanha para a Evasion iniciada pelo defensor.
 - `Creatures/Entities/CreatureBasicAttack.cs`
   Regra principal de hit, hits, dano e block do combate armado.
 - `Creatures/Entities/CreatureDefend.cs`
-  Fluxo de `Evade`, ainda ligado ao mesmo modelo de arma, defesa e dano do `basic attack`.
+  Regra de domínio da Evasion: dificuldade estática do atacante, dados do defensor, excessos, hits e dano.
 - `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
-  Regra de aplicação automática do dano nas vitalidades.
+  Regra compartilhada de aplicação automática do dano nas vitalidades para ataque básico e Evasion.
 - `Itens/Configurations/ItemConfiguration.cs`
   Diz qual `MinorSkill` ou propriedade cada categoria de arma usa no fluxo básico.
 
@@ -294,6 +298,9 @@ Hoje progressão real de runtime e progressão de balanceamento não são a mesm
 `basic attack` depende de arma e de configuração de campanha.
 
 `special attack` não usa arma e resolve apenas `MinorSkill x Defense`.
+
+`Evasion` depende de arma e configuração de campanha, mas somente o defensor
+rola dados; os valores do atacante formam a dificuldade estática.
 
 ### Observação de refatoração
 
@@ -355,11 +362,13 @@ Mudanças em `defesa` e `block` podem estar divididas entre fórmula configurada
   Block total por armadura e nível.
 - `Attacks/Services/BasicAttackService.cs`
   Contratos do `basic attack`.
+- `Attacks/Services/EvadeService.cs`
+  Contratos da Evasion e resultado público da ação defensiva.
 
 ### Arquivos auxiliares relacionados
 
 - `Creatures/Entities/CreatureDefend.cs`
-  Fluxo paralelo de `Evade`, importante porque também recalcula dano.
+  Fluxo de Evasion que converte falhas defensivas em excessos e reutiliza a cascata de vitalidades.
 
 ### Observação de refatoração
 
@@ -440,9 +449,11 @@ Se a mudança for sobre `o que uma condição pode carregar`, os arquivos centra
 ### Arquivos principais
 
 - `Itens/Configurations/ItemConfiguration.cs`
-  Define de onde cada categoria de arma puxa hit, dano, defesa e block.
+  Define de onde cada categoria de arma puxa hit, dano, defesa, block e a especialidade de Evasion.
 - `Attacks/Services/BasicAttackService.cs`
   `BasicAttackInput` e `BasicAttackCommand` carregam o contexto do combate armado.
+- `Attacks/Services/EvadeService.cs`
+  `EvadeInput` e `EvadeCommand` carregam o contexto da reação defensiva.
 - `Creatures/Entities/CreaturePropertyResolver.cs`
   Resolve a propriedade escolhida em valor real.
 - `Creatures/Entities/CreatureBasicAttack.cs`
@@ -491,14 +502,16 @@ Se outra IA for refatorar o motor base, a ordem mais segura de leitura é esta:
 6. `Creatures/Entities/CreaturePropertyResolver.cs`
 7. `Rolls/Entities/Roll.cs`
 8. `Attacks/Services/BasicAttackService.cs`
-9. `Attacks/Services/SpecialAttackService.cs`
-10. `Creatures/Entities/CreatureBasicAttack.cs`
-11. `Creatures/Entities/CreatureSpecialAttack.cs`
-12. `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
-13. `Creatures/Entities/Vitality.cs`
-14. `Itens/Configurations/ItemConfiguration.cs`
-15. `Itens/GripType.cs`
-16. `Bonuses/Bonus.cs`
-17. `Bonuses/IHaveBonuses.cs`
+9. `Attacks/Services/EvadeService.cs`
+10. `Attacks/Services/SpecialAttackService.cs`
+11. `Creatures/Entities/CreatureBasicAttack.cs`
+12. `Creatures/Entities/CreatureDefend.cs`
+13. `Creatures/Entities/CreatureSpecialAttack.cs`
+14. `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
+15. `Creatures/Entities/Vitality.cs`
+16. `Itens/Configurations/ItemConfiguration.cs`
+17. `Itens/GripType.cs`
+18. `Bonuses/Bonus.cs`
+19. `Bonuses/IHaveBonuses.cs`
 
 Essa sequência permite entender primeiro a estrutura genérica do sistema, depois a resolução de propriedade e roll, e só então o combate e o desgaste.

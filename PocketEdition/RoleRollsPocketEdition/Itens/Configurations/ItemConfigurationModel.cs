@@ -41,10 +41,12 @@ public class ItemConfigurationModel
             RangedMediumWeaponDamageProperty = templateItemConfiguration.RangedMediumWeaponDamageProperty,
             RangedHeavyWeaponDamageProperty = templateItemConfiguration.RangedHeavyWeaponDamageProperty,
             BlockProperty = templateItemConfiguration.BlockProperty,
+            EvadeProperty = templateItemConfiguration.EvadeProperty,
         };
     }
 
     public Property? BlockProperty { get; set; }
+    public Property? EvadeProperty { get; set; }
     public Guid? ArmorDefense1 { get; set; }
     public Guid? ArmorDefense2 { get; set; }
 }

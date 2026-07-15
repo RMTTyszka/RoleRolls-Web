@@ -32,14 +32,12 @@ Centralizar conflitos entre runtime, testes e docs auxiliares para facilitar fut
 - `Luck` do runtime mais simples que `Luck` dos modelos abstratos
 - `Attack` atual usa excessos acima da defesa agrupados por dificuldade da arma
 - testes antigos ainda esperam ataques com dano zero em cenarios onde o runtime atual tem piso minimo de dano
-- `Evade` aparece forte nos testes, mas o servico exposto usa `Attack`
 - `Mana` nao faz parte da ordem padrao de dano basico do template base
 - ha parametros expostos em `AttackCommand` que nao participam da resolucao principal
 
 ## Pendencias abertas
 
 - revisar o modelo de dano
-- decidir o papel real de `Evade` no fluxo de producao
 - decidir se os testes antigos devem virar historia do sistema ou contrato vivo
 - decidir se o resolver de `Skill` precisa refletir melhor a intuicao de atributo + pontos de skill
 

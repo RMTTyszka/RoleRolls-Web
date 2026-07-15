@@ -1,213 +1,151 @@
-using Newtonsoft.Json;
+using FluentAssertions;
 using NSubstitute;
 using RoleRollsPocketEdition.Attacks.Services;
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
 using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Itens.Configurations;
-using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;
-using Xunit.Abstractions;
-using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests;
 
 public class EvadeTests
 {
-    private const int TotalAttacks = 100;
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public EvadeTests(ITestOutputHelper testOutputHelper)
+    [Fact]
+    public void EvadeUsesAttackersHitValueForBaseDiceAndDifficulty()
     {
-        _testOutputHelper = testOutputHelper;
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker").Creature;
+        var defender = new BaseCreature(template, "defender").Creature;
+        attacker.Level = 3;
+        attacker.Equipment.GetItem(EquipableSlot.MainHand)!.Level = 4;
+        attacker.SpecificSkills.Single(skill =>
+                skill.SpecificSkillTemplateId == LandOfHeroesTemplate.MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon])
+            .Points = 2;
+
+        var command = new EvadeCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration
+        };
+
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(20, 20, 20, 20, 20);
+
+        var result = defender.Evade(attacker, command, diceRoller);
+
+        result.BaseDice.Should().Be(5);
+        result.Difficulty.Should().Be(19);
+        result.Success.Should().BeTrue();
+        result.Excesses.Should().BeEmpty();
     }
 
     [Fact]
-    public void Evade_ShouldCauseDamage_WhenDefenseFailsAllRolls()
+    public void EvadeTreatsTieAsZeroExcessAndBuildsMediumWeaponDamageFromTwoFailures()
     {
-        // Arrange
-        var campaignTemplate = LandOfHeroesTemplate.Template;
-        var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var defensePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility];
-        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-
-
-        var attacker = new BaseCreature(campaignTemplate, "").Creature;
-        var defender = new BaseCreature(campaignTemplate, "").Creature;
-
-        var input = new BasicAttackCommand
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker").Creature;
+        var defender = new BaseCreature(template, "defender").Creature;
+        var command = new EvadeCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
-            ItemConfiguration = campaignTemplate.ItemConfiguration,
-            DefenseId = defensePropertyId,
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            Luck = 0,
-            Advantage = 0
+            ItemConfiguration = template.ItemConfiguration
         };
+        var moral = defender.Vitalities.Single(vitality =>
+            vitality.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral]);
+        var life = defender.Vitalities.Single(vitality =>
+            vitality.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Life]);
+        moral.Value = 1;
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(20, 9, 2, 1);
 
-        var dice = Substitute.For<IDiceRoller>();
-        dice.Roll(20).Returns(2);
-        dice.Roll(8).Returns(8);
+        var result = defender.Evade(attacker, command, diceRoller);
 
-        // Act
-        var result = defender.Evade(attacker, input, dice);
+        result.KeptResults.Should().Equal(25, 14, 7, 6);
+        result.Excesses.Should().Equal(8, 7);
+        result.NumberOfHits.Should().Be(1);
+        result.Block.Should().Be(9);
+        result.DamageBonus.Should().Be(5);
+        result.TotalDamage.Should().Be(11);
+        result.Success.Should().BeFalse();
+        result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 10));
+        moral.Value.Should().Be(0);
+        life.Value.Should().Be(life.MaxValue - 10);
+    }
 
-        // Assert
-        Assert.False(result.Success);
-        Assert.True(result.TotalDamage > 0);
-        Assert.Equal(attacker, result.Attacker);
-        Assert.Equal(defender, result.Target);
-        Assert.NotNull(result.Weapon);
+    [Theory]
+    [InlineData(WeaponCategory.Light, 3)]
+    [InlineData(WeaponCategory.Medium, 1)]
+    [InlineData(WeaponCategory.Heavy, 1)]
+    public void EvadeGroupsExcessesByTheAttackersWeaponComplexity(WeaponCategory weaponCategory, int expectedHits)
+    {
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker")
+            .WithWeapon(weaponCategory, EquipableSlot.MainHand, level: 1)
+            .Creature;
+        var defender = new BaseCreature(template, "defender").Creature;
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(1, 2, 3, 20);
+
+        var result = defender.Evade(attacker, new EvadeCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration
+        }, diceRoller);
+
+        result.Excesses.Should().HaveCount(3);
+        result.NumberOfHits.Should().Be(expectedHits);
     }
 
     [Fact]
-    public void Evade_ShouldNegateAllHits_WhenDefenseSucceeds()
+    public void EvadeAdvantageAddsDiceButKeepsOnlyTheBestBaseDiceResults()
     {
-        // Arrange
-        var campaignTemplate = LandOfHeroesTemplate.Template;
-        var hitPropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var defensePropertyId = LandOfHeroesTemplate.DefenseIds[LandOfHeroesDefense.Evasion];
-        var damagePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Strength];
-        var config = new ItemConfiguration
-        {
-            MeleeMediumWeaponHitProperty = new Property(hitPropertyId, PropertyType.Attribute),
-            MeleeMediumWeaponDamageProperty = new Property(damagePropertyId, PropertyType.Attribute)
-        };
-
-        var attacker = new BaseCreature(campaignTemplate, "").Creature;
-        ;
-        var defender = new BaseCreature(campaignTemplate, "").Creature;
-        ;
-
-        var input = new BasicAttackCommand
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker").Creature;
+        var defender = new BaseCreature(template, "defender").Creature;
+        var command = new EvadeCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
-            ItemConfiguration = config,
-            DefenseId = defensePropertyId,
-            VitalityId = new Property(LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Moral],
-                PropertyType.Vitality),
-            Luck = 0,
-            Advantage = 0
+            ItemConfiguration = template.ItemConfiguration,
+            Advantage = 2
         };
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(20, 1, 2, 3, 4, 5);
 
-        var dice = Substitute.For<IDiceRoller>();
-        dice.Roll(20).Returns(18, 17, 19, 20);
-        dice.Roll(10).Returns(0);
-        // Act
-        var result = defender.Evade(attacker, input, dice);
+        var result = defender.Evade(attacker, command, diceRoller);
 
-        // Assert
-        Assert.True(result.Success);
-        Assert.Equal(0, result.TotalDamage);
+        result.BaseDice.Should().Be(4);
+        result.Advantage.Should().Be(2);
+        result.KeptResults.Should().Equal(25, 10, 9, 8);
     }
 
-    [Fact(DisplayName = "Full Level Test")]
-    public void T3()
+    [Fact]
+    public void EvadeLuckKeepsTheUsualDirectionOfHighResults()
     {
-        // Arrange
-        var campaignTemplate = LandOfHeroesTemplate.Template;
-        var byLevelAndWeapon = new Dictionary<int, Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>>();
-        var byLevelAndArmor = new Dictionary<int, Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>>();
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker").Creature;
+        var positiveLuckDefender = new BaseCreature(template, "positive").Creature;
+        var negativeLuckDefender = new BaseCreature(template, "negative").Creature;
+        var positiveLuckDice = Substitute.For<IDiceRoller>();
+        positiveLuckDice.Roll(20).Returns(1, 10, 11, 12, 20);
+        var negativeLuckDice = Substitute.For<IDiceRoller>();
+        negativeLuckDice.Roll(20).Returns(20, 10, 11, 12, 1);
 
-        foreach (var level in Enumerable.Range(1, 20))
+        var positiveLuckResult = positiveLuckDefender.Evade(attacker, new EvadeCommand
         {
-            //        if (level != 5) continue;
-            var byWeaponAndArmor = new Dictionary<WeaponCategory, Dictionary<ArmorCategory, int>>();
-            var byArmorAndWeapon = new Dictionary<ArmorCategory, Dictionary<WeaponCategory, int>>();
-            foreach (var weaponCategory in Enum.GetValues<WeaponCategory>())
-            {
-                if (weaponCategory is WeaponCategory.None or WeaponCategory.LightShield or WeaponCategory.MediumShield
-                    or WeaponCategory.HeavyShield
-                    //     or WeaponCategory.Medium 
-                    //    or WeaponCategory.Light 
-                    //    or WeaponCategory.Heavy
-                   )
-                {
-                    continue;
-                }
-
-                var attacker = new BaseCreature(campaignTemplate, $"{weaponCategory.ToString()} Level {level}")
-                    .WithLevel(level)
-                    .WithWeapon(weaponCategory, EquipableSlot.MainHand, level)
-                    .Creature;
-
-                var byArmor = new Dictionary<ArmorCategory, int>();
-
-                foreach (var armorCategory in Enum.GetValues<ArmorCategory>()
-                             .Where(e =>
-                                     e is not ArmorCategory.None
-                                 //     and not ArmorCategory.Medium
-                                 //     and not ArmorCategory.Heavy
-                                 //      and not ArmorCategory.Light
-                             )
-                        )
-                {
-                    var defender = new BaseCreature(campaignTemplate, $"{armorCategory.ToString()} Level {level}")
-                        .WithLevel(level)
-                        .WithArmor(armorCategory, level)
-                        .Creature;
-
-                    var input = new BasicAttackCommand
-                    {
-                        WeaponSlot = EquipableSlot.MainHand,
-                        ItemConfiguration = campaignTemplate.ItemConfiguration,
-                        Luck = 0,
-                        Advantage = 0
-                    };
-
-                    // var diceRoller = new DiceRoller();
-                    var diceRoller = Substitute.For<IDiceRoller>();
-                    diceRoller.Roll(20).Returns(2);
-                    diceRoller.Roll(6).Returns(6);
-                    diceRoller.Roll(8).Returns(8);
-                    diceRoller.Roll(12).Returns(12);
-                    var totalDamage = 0;
-                    var hits = 0m;
-                    var weaponDifficult = 0;
-                    for (var i = 0; i < TotalAttacks; i++)
-                    {
-                        var result = defender.Evade(attacker, input, diceRoller);
-                        totalDamage += result.TotalDamage;
-                        hits += result.Success ? 1 : 0;
-                        weaponDifficult = result.Difficulty;
-                    }
-
-                    totalDamage /= TotalAttacks;
-                    byArmor.Add(armorCategory, totalDamage);
-                    if (!byArmorAndWeapon.ContainsKey(armorCategory))
-                    {
-                        byArmorAndWeapon[armorCategory] = new Dictionary<WeaponCategory, int>();
-                    }
-
-                    byArmorAndWeapon[armorCategory].Add(weaponCategory, totalDamage);
-                }
-
-                byWeaponAndArmor.Add(weaponCategory, byArmor);
-            }
-
-            byLevelAndWeapon.Add(level, byWeaponAndArmor);
-            byLevelAndArmor.Add(level, byArmorAndWeapon);
-        }
-
-        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(byLevelAndWeapon, Formatting.Indented));
-        Assert.Equal(20, byLevelAndWeapon.Count);
-
-        var expectedWeapons = new[] { WeaponCategory.Light, WeaponCategory.Medium, WeaponCategory.Heavy };
-        var expectedArmors = new[] { ArmorCategory.Light, ArmorCategory.Medium, ArmorCategory.Heavy };
-
-        foreach (var byWeapon in byLevelAndWeapon.Values)
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration,
+            Luck = 1
+        }, positiveLuckDice);
+        var negativeLuckResult = negativeLuckDefender.Evade(attacker, new EvadeCommand
         {
-            Assert.Equal(expectedWeapons.OrderBy(w => w), byWeapon.Keys.OrderBy(w => w));
-            foreach (var byArmor in byWeapon.Values)
-            {
-                Assert.Equal(expectedArmors.OrderBy(a => a), byArmor.Keys.OrderBy(a => a));
-                Assert.All(byArmor.Values, damage => Assert.True(damage >= 0));
-            }
-        }
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration,
+            Luck = -1
+        }, negativeLuckDice);
+
+        positiveLuckResult.KeptResults.Should().Equal(25, 17, 16, 15);
+        negativeLuckResult.KeptResults.Should().Equal(17, 16, 15, 6);
     }
 }

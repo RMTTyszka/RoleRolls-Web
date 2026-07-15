@@ -10,6 +10,29 @@ namespace RoleRollsPocketEdition.UnitTests.Scenes.Services;
 public class SceneActionDescriptionBuilderTests
 {
     [Fact]
+    public void EvadeDescriptionShouldIdentifyDefenderAttackerHitsAndDamage()
+    {
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "Raider").Creature;
+        var defender = new BaseCreature(template, "Ari").Creature;
+        var result = new EvadeResult
+        {
+            Attacker = attacker,
+            Defender = defender,
+            Weapon = attacker.Equipment.MainHand!,
+            NumberOfHits = 1,
+            TotalDamage = 11
+        };
+        var description = SceneActionDescriptionBuilder.BuildEvadeDescription(result, string.Empty);
+
+        description.Should().Contain("Ari");
+        description.Should().Contain("Raider");
+        description.Should().Contain("Evasion");
+        description.Should().Contain("1 hits");
+        description.Should().Contain("11 damage");
+    }
+
+    [Fact]
     public void SpecialAttackDescriptionShouldNotMentionWeaponOrDamage()
     {
         var template = LandOfHeroesTemplate.Template;

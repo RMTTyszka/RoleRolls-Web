@@ -7,6 +7,19 @@ namespace RoleRollsPocketEdition.UnitTests.Attacks.Models;
 public class AttackContractTests
 {
     [Fact]
+    public void EvadeInputShouldContainOnlyDefenderControlledFields()
+    {
+        typeof(EvadeInput).GetProperties().Select(property => property.Name).Should().BeEquivalentTo(
+            "AttackerId",
+            "WeaponSlot",
+            "VitalityId",
+            "Luck",
+            "Advantage");
+
+        typeof(EvadeResponse).GetProperty(nameof(EvadeResponse.VitalityDamage)).Should().NotBeNull();
+    }
+
+    [Fact]
     public void BasicAttackContractsShouldNotExposeSpecialAttackFields()
     {
         typeof(BasicAttackInput).GetProperty(nameof(SpecialAttackInput.SpecialSkillId)).Should().BeNull();

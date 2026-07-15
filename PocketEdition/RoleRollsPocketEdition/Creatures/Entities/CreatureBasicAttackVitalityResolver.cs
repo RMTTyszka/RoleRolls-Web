@@ -1,4 +1,5 @@
 using RoleRollsPocketEdition.Core.Entities;
+using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Entities;
@@ -77,12 +78,13 @@ public partial class Creature
         return conditionsById.GetValueOrDefault(conditionProperty.Id);
     }
 
-    private static void ApplyBasicAttackDamage(
+    private static IReadOnlyList<CreatureTakeDamageResult> ApplyBasicAttackDamage(
         Creature target,
         int damage,
         Property? prioritizedVitality = null)
     {
         var remainingDamage = damage;
+        var damageResults = new List<CreatureTakeDamageResult>();
         var vitalityRules = target.ResolveBasicAttackVitalityRules(prioritizedVitality);
 
         foreach (var vitalityRule in vitalityRules)
@@ -98,7 +100,10 @@ public partial class Creature
             }
 
             var takeDamageResult = target.TakeDamage(vitalityRule.Vitality.Id, remainingDamage);
+            damageResults.Add(takeDamageResult);
             remainingDamage = takeDamageResult.ExcessDamage;
         }
+
+        return damageResults;
     }
 }

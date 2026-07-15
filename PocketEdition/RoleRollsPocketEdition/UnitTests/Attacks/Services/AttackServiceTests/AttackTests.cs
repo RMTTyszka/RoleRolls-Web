@@ -350,7 +350,6 @@ public class AttackTests
                         Luck = 0,
                         Advantage = 0
                     };
-
                     // var diceRoller = new DiceRoller();
                     var diceRoller = Substitute.For<IDiceRoller>();
                     diceRoller.Roll(20).Returns(19);
@@ -467,6 +466,13 @@ public class AttackTests
                         Luck = 0,
                         Advantage = 0
                     };
+                    var evadeInput = new EvadeCommand
+                    {
+                        WeaponSlot = EquipableSlot.MainHand,
+                        ItemConfiguration = campaignTemplate.ItemConfiguration,
+                        Luck = 0,
+                        Advantage = 0
+                    };
 
                     // var diceRoller = new DiceRoller();
                     var diceRoller = Substitute.For<IDiceRoller>();
@@ -488,7 +494,7 @@ public class AttackTests
                     for (var i = 0; i < TotalAttacks; i++)
                     {
                         diceRoller.Roll(20).Returns(2);
-                        var evasionResult = defender.Evade(attacker, input, newDiceRoller);
+                        var evasionResult = defender.Evade(attacker, evadeInput, newDiceRoller);
                         totalDamageEvasion += evasionResult.TotalDamage;
                     }
 

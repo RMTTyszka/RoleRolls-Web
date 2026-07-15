@@ -294,6 +294,7 @@ public class LandOfHeroesTemplate
         {
             ArmorDefense1 = DefenseIds[LandOfHeroesDefense.Evasion],
             BlockProperty = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Vigor]),
+            EvadeProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.Evasion], PropertyType.MinorSkill),
             MeleeLightWeaponHitProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.MeleeLightWeapon],
                 PropertyType.MinorSkill),
             MeleeMediumWeaponHitProperty = new Property(MinorSkillIds[LandOfHeroesMinorSkill.MeleeMediumWeapon],

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
@@ -5,134 +6,126 @@ using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens.Templates;
-using RoleRollsPocketEdition.Rolls.Commands;
-using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Rolls.Services;
 
 namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
-    public class EvadeResult
+    public EvadeResult Evade(Creature attacker, EvadeCommand input, IDiceRoller diceRoller)
     {
-        public Creature Defender { get; set; }
-        public Creature Attacker { get; set; }
-        public int EvadedHits { get; set; }
-        public int RemainingHits { get; set; }
-        public Roll Roll { get; set; }
-    }
-
-    public BasicAttackResult Evade(Creature attacker, BasicAttackCommand input, IDiceRoller diceRoller)
-    {
-        var weapon = attacker.Equipment.GetItem(input.WeaponSlot) ?? new ItemInstance
-        {
-            Template = new WeaponTemplate
-            {
-                Category = WeaponCategory.Medium,
-                DamageType = WeaponDamageType.Bludgeoning
-            }
-        };
-        var weaponTemplate = (WeaponTemplate)weapon.Template;
-        var weaponCategory = weaponTemplate.Category;
+        var weapon = attacker.GetWeaponOrDefault(input.WeaponSlot);
+        var weaponCategory = ((WeaponTemplate?)weapon.Template)?.Category ?? WeaponCategory.Light;
         var gripStats = GripTypeDefinition.Stats[attacker.Equipment.GripType];
+        var hitValue = attacker.GetHitValue(input.ItemConfiguration, weaponCategory);
+        var baseDice = Math.Max(0, hitValue.Total);
+        var offensiveBonus = hitValue.Total + gripStats.Hit +
+                             attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) +
+                             attacker.GetLevelDifferenceBonusAgainst(this) + weapon.LevelBonus;
+        var difficulty = 10 + offensiveBonus;
 
-        var hitProperty = input.ItemConfiguration.GetWeaponHitProperty(weaponCategory);
-        var hitValue = attacker.GetPropertyValue(new PropertyInput(hitProperty));
-        var levelDifferenceBonus = attacker.GetLevelDifferenceBonusAgainst(this);
-        var totalHitBonus = hitValue.Total +
-                            attacker.GetTotalBonus(BonusApplication.Hit, BonusType.Buff, null) +
-                            levelDifferenceBonus;
-        var attackSuccesses = hitValue.Total;
-        var evadeComplexity = 10 + totalHitBonus;
-
-        var defenseId = input.ResolvedDefenseId;
-        var defenseValue = Defenses.Any(d => d.Id == defenseId || d.DefenseTemplateId == defenseId)
-            ? new PropertyValue { Value = DefenseValue(defenseId) }
-            : GetPropertyValue(new PropertyInput(new Property(defenseId)));
-        var defenseAdvantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
-        var luck = input.Luck;
-        luck += ResolveWeaponVsArmorLuck(weapon, Equipment.ArmorCategory);
+        var evadeProperty = input.ItemConfiguration.EvadeProperty ??
+                            throw new InvalidOperationException("Evade property is not configured for this campaign.");
+        var evadeValue = GetPropertyValue(new PropertyInput(evadeProperty));
         var chestArmor = Equipment.Chest;
-        var armorCategory = chestArmor?.ArmorTemplate?.Category ?? ArmorCategory.None;
-        var armorDefenseBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
-        var armorBonus = chestArmor?.GetBonus ?? 0;
-        var finalAdvantage = defenseAdvantage + ResolveWeaponVsArmorAdvantage(weapon, armorCategory);
-        var finalBonus = defenseValue.Total + armorBonus + armorDefenseBonus;
-        var evadeRollCommand = new RollDiceCommand(
-            defenseValue.Total,
-            finalAdvantage,
-            finalBonus,
-            evadeComplexity,
-            evadeComplexity,
-            [],
-            luck
-        );
-        var evadeRoll = new Roll();
-        evadeRoll.Process(evadeRollCommand, diceRoller, 20);
+        var armorCategory = Equipment.ArmorCategory;
+        var armorEvasionBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
+        var armorLevelBonus = chestArmor?.LevelBonus ?? 0;
+        var evadeBonus = evadeValue.Total + armorEvasionBonus + armorLevelBonus +
+                          GetTotalBonus(BonusApplication.Evasion, BonusType.Buff, null);
+        var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
+        advantage = Math.Max(0, advantage);
+        var luck = input.Luck + attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);
 
-        var remainingSuccesses = Math.Max(0, attackSuccesses - evadeRoll.NumberOfSuccesses);
+        var rawRolls = RollDefensiveDice(baseDice + advantage, luck, diceRoller);
+        var allResults = rawRolls.Select(roll => roll + evadeBonus).ToList();
+        var keptResults = allResults
+            .OrderByDescending(result => result)
+            .Take(baseDice)
+            .ToList();
+        var excesses = keptResults
+            .Where(result => result < difficulty)
+            .Select(result => difficulty - result)
+            .OrderByDescending(excess => excess)
+            .ToList();
+        var hits = excesses.Count / gripStats.AttackDifficult;
+        var blockProperty = input.ItemConfiguration.BlockProperty;
+        var blockPropertyValue = blockProperty is null
+            ? new PropertyValue()
+            : GetPropertyValue(new PropertyInput(blockProperty));
+        var block = ArmorDefinition.TotalBlock(armorCategory, Level) + blockPropertyValue.Total;
+        var damageBonus = gripStats.BaseBonusDamage * attacker.Level + gripStats.Damage;
+        var totalDamage = 0;
+        var vitalityDamage = new List<CreatureTakeDamageResult>();
 
-        var hitDifficulty = gripStats.AttackDifficult;
-        var numberOfHits = remainingSuccesses / hitDifficulty;
-
-        var damageProperty = attacker.GetPropertyValue(new PropertyInput(
-            input.ItemConfiguration.GetWeaponDamageProperty(weaponCategory)
-        ));
-
-        var damages = new List<DamageRollResult>();
-        for (int i = 0; i < numberOfHits; i++)
+        for (var hitIndex = 0; hitIndex < hits; hitIndex++)
         {
-            var property = input.ItemConfiguration.BlockProperty;
-            var propertyValue = attacker.GetPropertyValue(new PropertyInput(property));
-            var damage = attacker.RollDamage(weapon, damageProperty, gripStats, diceRoller);
-            damage.ReducedDamage -= GetBasicBlock(propertyValue);
-            damage.ReducedDamage = Math.Max(1, damage.ReducedDamage);
-            damages.Add(damage);
-            ApplyBasicAttackDamage(this, damage.TotalDamage, input.VitalityId);
+            var chunkDamage = excesses
+                .Skip(hitIndex * gripStats.AttackDifficult)
+                .Take(gripStats.AttackDifficult)
+                .Sum();
+            var damage = Math.Max(chunkDamage + damageBonus - block, 1);
+
+            totalDamage += damage;
+            vitalityDamage.AddRange(ApplyBasicAttackDamage(this, damage, input.VitalityId));
         }
 
-        return new BasicAttackResult
+        return new EvadeResult
         {
             Attacker = attacker,
-            Target = this,
-            WeaponSlot = input.WeaponSlot,
+            Defender = this,
             Weapon = weapon,
-            DefenseId = input.ResolvedDefenseId,
-            Complexity = evadeComplexity,
-            Difficulty = evadeComplexity,
-            NumberOfSuccesses = evadeRoll.NumberOfSuccesses,
-            NumberOfRollSuccesses = evadeRoll.NumberOfRollSuccesses,
-            Bonus = finalBonus,
+            WeaponSlot = input.WeaponSlot,
+            BaseDice = baseDice,
+            Difficulty = difficulty,
+            EvadeBonus = evadeBonus,
             Luck = luck,
-            Advantage = finalAdvantage,
-            RolledDices = evadeRoll.RolledDices,
-            TotalDamage = damages.Sum(d => d.ReducedDamage),
-            Success = numberOfHits <= 0
+            Advantage = advantage,
+            RolledDices = JsonSerializer.Serialize(allResults),
+            KeptResults = keptResults,
+            Excesses = excesses,
+            NumberOfHits = hits,
+            Block = block,
+            DamageBonus = damageBonus,
+            TotalDamage = totalDamage,
+            VitalityDamage = vitalityDamage,
+            Success = hits == 0
         };
     }
 
     public int GetBasicBlock(PropertyValue blockProperty)
     {
-        var armor = Equipment.Chest;
-        var armorCategory = ArmorCategory.None;
-        if (armor is not null)
-        {
-            armorCategory = armor.ArmorTemplate.Category;
-        }
-
+        var armorCategory = Equipment.Chest?.ArmorTemplate?.Category ?? ArmorCategory.None;
         var total = ArmorDefinition.TotalBlock(armorCategory, Level) + blockProperty.Total;
         return Math.Max(total, 0);
     }
 
-    private int GetEvasionLuck()
+    private List<int> RollDefensiveDice(int numberOfDice, int luck, IDiceRoller diceRoller)
     {
-        var armorCategory = Equipment.ArmorCategory;
-        var evasion = ArmorDefinition.BaseLuck(armorCategory);
-        return evasion;
+        var rolls = Enumerable.Range(0, Math.Max(0, numberOfDice))
+            .Select(_ => diceRoller.Roll(20))
+            .ToList();
+
+        if (luck == 0)
+        {
+            return rolls;
+        }
+
+        var indicesToReroll = rolls
+            .Select((value, index) => new { value, index })
+            .OrderBy(pair => luck > 0 ? pair.value : -pair.value)
+            .Take(Math.Abs(luck))
+            .Select(pair => pair.index)
+            .ToList();
+
+        foreach (var index in indicesToReroll)
+        {
+            var reroll = diceRoller.Roll(20);
+            rolls[index] = luck > 0 ? Math.Max(rolls[index], reroll) : Math.Min(rolls[index], reroll);
+        }
+
+        return rolls;
     }
 
-    private static int ResolveWeaponVsArmorAdvantage(ItemInstance weapon, ArmorCategory armorCategory)
-    {
-        return 0;
-    }
+    private int GetEvasionLuck() => ArmorDefinition.BaseLuck(Equipment.ArmorCategory);
 }

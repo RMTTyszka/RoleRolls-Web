@@ -17,6 +17,12 @@ public class SceneCreaturesControllerRouteTests
         AssertRoute("Attack", "{creatureId}/attacks", typeof(BasicAttackInput), typeof(BasicAttackResponse));
     }
 
+    [Fact]
+    public void EvadeRouteShouldBeInitiatedByTheDefender()
+    {
+        AssertRoute("Evade", "{defenderId}/evades", typeof(EvadeInput), typeof(EvadeResponse));
+    }
+
     private static void AssertRoute(string methodName, string expectedTemplate, Type expectedInputType, Type expectedResponseType)
     {
         var method = typeof(SceneCreaturesController).GetMethod(methodName);

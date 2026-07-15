@@ -1694,6 +1694,25 @@ namespace RoleRollsPocketEdition.Migrations
                                 .HasForeignKey("ItemConfigurationId");
                         });
 
+                    b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "EvadeProperty", b1 =>
+                        {
+                            b1.Property<Guid>("ItemConfigurationId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int?>("Type")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ItemConfigurationId");
+
+                            b1.ToTable("ItemConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemConfigurationId");
+                        });
+
                     b.OwnsOne("RoleRollsPocketEdition.Core.Entities.Property", "MeleeHeavyWeaponDamageProperty", b1 =>
                         {
                             b1.Property<Guid>("ItemConfigurationId")
@@ -1925,6 +1944,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("BlockProperty");
 
                     b.Navigation("CampaignTemplate");
+
+                    b.Navigation("EvadeProperty");
 
                     b.Navigation("MeleeHeavyWeaponDamageProperty");
 

@@ -23,7 +23,7 @@ public partial class Creature
         var gripStats = GripTypeDefinition.Stats[Equipment.GripType];
         var weaponLevelBonus = weapon.LevelBonus;
 
-        var hitValue = GetHitValue(input, weaponCategory);
+        var hitValue = GetHitValue(input.ItemConfiguration, weaponCategory);
         var defenseId = input.ResolvedDefenseId;
         var defenseValue = GetDefenseValue(target, defenseId);
         var diceCount = Math.Max(0, hitValue.Total);
@@ -99,9 +99,9 @@ public partial class Creature
         };
     }
 
-    private PropertyValue GetHitValue(BasicAttackCommand input, WeaponCategory category)
+    private PropertyValue GetHitValue(ItemConfiguration itemConfiguration, WeaponCategory category)
     {
-        var property = input.ItemConfiguration.GetWeaponHitProperty(category);
+        var property = itemConfiguration.GetWeaponHitProperty(category);
         return GetPropertyValue(new PropertyInput(property));
     }
 

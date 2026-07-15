@@ -1,54 +1,83 @@
-# Evade E Defesas
+# Evasion e Defesas
 
-## Objetivo da secao
+## Objetivo da seção
 
-Documentar a defesa de `Evasion`, o metodo `Evade(...)` e o lugar que ele ocupa hoje no sistema base.
+Documentar a resolução de `Evasion` rolada pelo defensor e as duas formas de
+defesa usadas pelo motor: a Defesa estática do ataque básico e a ação defensiva
+iniciada pelo jogador.
 
-## Implementado hoje
+## Fluxos expostos
 
-- O template base define `Evasion = 10 + Evasion + DefenseBonus1 + ArmorBonus`.
-- `Creature.DefenseValue(...)` resolve defesas por formula.
-- O metodo `Evade(...)` existe dentro do aggregate `Creature`.
-- O fluxo principal do servico de ataque em producao chama `Attack(...)`, nao `Evade(...)`.
-- Dentro de `Evade(...)`, o sistema monta uma rolagem defensiva propria e compara o numero de sucessos defensivos com os sucessos ofensivos inferidos.
+- `POST .../creatures/{creatureId}/basic-attacks`: o jogador atacante rola o
+  ataque básico contra uma Defesa estática do alvo.
+- `POST .../creatures/{defenderId}/evades`: o jogador defensor resolve a
+  Evasion contra valores estáticos de um atacante.
 
-## Assumido por testes/balance
+`EvadeInput` aceita somente `AttackerId`, `WeaponSlot`, `VitalityId`, `Luck` e
+`Advantage`. A especialidade ofensiva, os bônus, a dificuldade, os dados e o
+dano são resolvidos no servidor.
 
-- `EvadeTests` trata `Evade(...)` como parte importante do contrato de combate.
-- Os testes cobrem dois cenarios diretos: falha total da defesa com dano positivo e sucesso da defesa com dano final zero.
-- Os testes tambem travam uma matriz numerica extensa de dano medio ao passar por `Evade(...)` em niveis e armaduras diferentes.
+## Resolução de Evasion
 
-## Divergencias e observacoes
+`EvadeService` carrega atacante, defensor e `ItemConfiguration` da campanha e
+chama `Creature.Evade(...)`. O domínio calcula:
 
-- O metodo `Evade(...)` e exercitado diretamente nos testes, mas nao e o caminho principal exposto pelo servico atual.
-- `Evade(...)` funciona hoje mais como um fluxo paralelo de resolucao do que como uma simples reacao ao `AttackResult` do metodo `Attack(...)`.
-- Isso torna a relacao entre `Attack` e `Evade` uma das areas mais sensiveis para revisao futura.
+```text
+dados-base = total da especialidade ofensiva do atacante
 
-## Fontes
+dificuldade = 10
+  + especialidade ofensiva
+  + hit do grip
+  + buffs de hit
+  + diferença de nível
+  + bônus de nível da arma
+```
 
-- `Creatures/Entities/Creature.cs:74-79`
-- `Creatures/Entities/CreatureDefend.cs:25-125`
-- `Attacks/Services/AttackService.cs:38-46`
-- `DefaultUniverses/LandOfHeroes/LandOfHeroesTemplate.cs:217-257`
-- `UnitTests/Attacks/Services/AttackServiceTests/EvadeTests.cs:29-387`
+O defensor rola um d20 para cada dado-base e soma:
 
-## Evasion no template base
+```text
+especialidade de Evasion configurada na campanha
++ bônus de Evasion da armadura
++ bônus de nível da armadura
++ buffs de Evasion
+```
 
-- Formula: `10 + Evasion + DefenseBonus1 + ArmorBonus`
-- O valor de `Evasion` dentro da formula vem da minor skill `Evasion`.
-- `DefenseBonus1` depende da armadura equipada no peito.
-- `ArmorBonus` vem do `LevelBonus` do item equipado no peito.
+Resultados maiores que a dificuldade evitam tentativas. Empates pertencem ao
+atacante, mas têm excesso zero. Resultados menores geram `dificuldade -
+resultado`; os excessos são ordenados, agrupados pela dificuldade da arma e
+convertidos em dano com o mesmo bloqueio, piso mínimo e resolvedor de
+vitalidades do ataque básico.
 
-## O que o metodo `Evade(...)` faz
+Vantagem adiciona dados e conserva os melhores resultados até a quantidade
+base. Sorte positiva rerrola os menores resultados; sorte negativa rerrola os
+maiores. Resultado alto permanece favorável.
 
-1. identifica a arma do atacante
-2. calcula um total de hit ofensivo
-3. infere quantos sucessos ofensivos precisam ser evitados
-4. roda uma rolagem defensiva separada
-5. converte sucessos restantes em hits e dano
+## Configuração de campanha
 
-## Relacao entre `Attack` e `Evade`
+`ItemConfiguration.EvadeProperty` define a propriedade defensiva usada pela
+Evasion. O Land of Heroes a configura como a especialidade `Evasion`.
 
-- `Attack(...)` e o caminho principal do servico de producao.
-- `Evade(...)` existe no aggregate e e validado por testes diretos.
-- Hoje, os dois metodos nao formam um unico pipeline integrado.
+Essa propriedade é persistida em `ItemConfigurations` pelas colunas
+`EvadeProperty_Id` e `EvadeProperty_Type`.
+
+## Resultado e histórico de cena
+
+`EvadeResponse` expõe atacante, defensor, arma, dados-base, dificuldade, bônus
+de Evasion, dados rolados, resultados conservados, excessos, hits, bloqueio,
+dano e as vitalidades desgastadas.
+
+`ScenesService.ProcessEvadeAction(...)` registra uma ação de cena cujo ator é o
+defensor. A descrição identifica defensor, atacante, arma, hits e dano, sem
+registrar uma rolagem escondida do atacante.
+
+## Arquivos principais
+
+- `Attacks/Models/EvadeInput.cs`
+- `Attacks/Models/EvadeResponse.cs`
+- `Attacks/Services/EvadeService.cs`
+- `Scenes/Controllers/SceneCreaturesController.cs`
+- `Creatures/Entities/CreatureDefend.cs`
+- `Creatures/Entities/CreatureBasicAttackVitalityResolver.cs`
+- `Itens/Configurations/ItemConfiguration.cs`
+- `DefaultUniverses/LandOfHeroes/LandOfHeroesTemplate.cs`
+- `UnitTests/Attacks/Services/AttackServiceTests/EvadeTests.cs`

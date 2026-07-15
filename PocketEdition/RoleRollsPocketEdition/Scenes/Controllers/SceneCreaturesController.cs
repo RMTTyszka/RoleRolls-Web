@@ -14,17 +14,20 @@ public class SceneCreaturesController : ControllerBase
     private readonly ILogger<SceneCreaturesController> _logger;
     private readonly IBasicAttackService _basicAttackService;
     private readonly ISpecialAttackService _specialAttackService;
+    private readonly IEvadeService _evadeService;
     private readonly IScenesService _scenesService;
 
     public SceneCreaturesController(
         ILogger<SceneCreaturesController> logger,
         IBasicAttackService basicAttackService,
         ISpecialAttackService specialAttackService,
+        IEvadeService evadeService,
         IScenesService scenesService)
     {
         _logger = logger;
         _basicAttackService = basicAttackService;
         _specialAttackService = specialAttackService;
+        _evadeService = evadeService;
         _scenesService = scenesService;
     }
     [HttpGet()]
@@ -72,6 +75,16 @@ public class SceneCreaturesController : ControllerBase
         [FromBody] SpecialAttackInput input)
     {
         return await _specialAttackService.Attack(campaignId, sceneId, creatureId, input);
+    }
+
+    [HttpPost("{defenderId}/evades")]
+    public async Task<EvadeResponse> Evade(
+        [FromRoute] Guid campaignId,
+        [FromRoute] Guid sceneId,
+        [FromRoute] Guid defenderId,
+        [FromBody] EvadeInput input)
+    {
+        return await _evadeService.Evade(campaignId, sceneId, defenderId, input);
     }
 
     [HttpPost("{creatureId}/attacks")]

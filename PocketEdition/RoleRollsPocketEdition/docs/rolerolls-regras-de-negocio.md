@@ -1,472 +1,371 @@
-# RoleRolls - Livro de Regras do Sistema Base
+# RoleRolls — Livro de Regras do Sistema Base
 
-## Propósito Deste Livro
+## Como usar este livro
 
-Este documento descreve o `RoleRolls` como sistema base.
+O `RoleRolls` é um motor de RPG em que a campanha define o conteúdo e o
+sistema base resolve as regras. Este livro ensina a usar a ficha, realizar
+testes, combater, aplicar desgaste e evoluir uma criatura.
 
-Ele não existe para explicar um cenário específico, uma classe específica, uma lista fixa de recursos ou um conjunto obrigatório de nomes. Ele existe para registrar as leis do motor genérico sobre o qual campanhas e universos podem ser construídos.
+Cada regra apresenta o procedimento geral e um exemplo do Land of Heroes, o
+universo padrão. Os nomes, fórmulas e listas desse exemplo mostram uma campanha
+concreta usando as estruturas do sistema.
 
-Ao ler este livro, a pergunta central deve ser sempre esta:
+## 1. A estrutura do jogo
 
-`o que pertence ao sistema base, e o que pertence à campanha?`
+O sistema base oferece:
 
-Este texto responde, em termos de regra de negócio:
+- atributos, perícias e especialidades para representar capacidades;
+- defesas, vitalidades e condições para representar proteção e estado;
+- testes de d20 resolvidos por complexidade, dificuldade e sucessos;
+- ataque básico, Evasion, bloqueio, dano e desgaste;
+- fórmulas para calcular recursos e valores da ficha.
 
-- o que o sistema sempre oferece
-- o que a campanha pode definir
-- como testes, defesas, vitalidades e combate funcionam no núcleo do motor
+A campanha define os atributos, as perícias, as especialidades, as defesas, as
+vitalidades, as condições, as fórmulas e as propriedades usadas por armas.
 
-## 1. A Natureza do RoleRolls
+### Exemplo: Land of Heroes
 
-O `RoleRolls` é um motor de RPG orientado à configuração.
+O Land of Heroes usa os atributos `Agility`, `Charisma`, `Intelligence`,
+`Intuition`, `Strength` e `Vigor`. Suas vitalidades são `Life`, `Moral` e
+`Mana`; sua defesa principal é `Evasion`.
 
-Ele não nasce preso a uma única fantasia de mundo. Em vez disso, ele entrega uma estrutura estável para que cada campanha determine o próprio conteúdo.
+## 2. A ficha da criatura
 
-Dentro dessa estrutura, uma campanha pode definir:
+### Atributos
 
-- atributos
-- perícias
-- especializações
-- defesas
-- vitalidades
-- condições
-- tipos de dano
-- tipos de criatura
-- arquétipos
-- manobras de combate
+Um atributo representa uma capacidade ampla. Ele fornece a base de uma
+especialidade ligada a ele e pode participar de fórmulas de defesa e
+vitalidade.
 
-Em termos simples, a lei fundamental do `RoleRolls` é a seguinte:
+Uma criatura começa no nível 1 com `1` ponto em cada atributo. O limite de um
+atributo é:
 
-o sistema base define a forma do jogo; a campanha define o conteúdo dessa forma.
+```text
+4 + piso(nível / 6)
+```
 
-## 2. As Leis Fixas do Motor
+### Perícias e especialidades
 
-Embora seja altamente configurável, o `RoleRolls` não é um motor vazio.
+Uma perícia reúne uma área de competência. Suas especialidades descrevem as
+ações concretas que a criatura realiza dentro dessa área.
 
-Ele possui um núcleo próprio de regra. Esse núcleo inclui:
+O valor de uma especialidade é:
 
-- ficha baseada em capacidades e especializações
-- testes resolvidos por sucessos
-- defesas configuráveis
-- vitalidades configuráveis com fórmulas
-- condições ligadas ao estado das vitalidades
-- combate com armas categorizadas
-- mitigação por defesa e por bloqueio
-- fórmulas dependentes de propriedades, nível e equipamento
+```text
+atributo ligado + pontos da especialidade + bônus aplicáveis
+```
 
-Isso significa que o sistema é genérico, mas não amorfo. Ele possui uma forma própria de pensar personagem, teste, conflito e consequência.
+No Land of Heroes, `Combat` é uma perícia. `MeleeMediumWeapon`, `Evasion` e
+`Concentrate` são especialidades de Combat. `Evasion` usa `Agility` como
+atributo ligado.
 
-## 3. A Estrutura da Ficha
+Uma personagem com `Agility 3` e `Evasion 2` possui total de Evasion `5` antes
+de bônus de equipamento e condições.
 
-Toda criatura no `RoleRolls` é construída sobre as mesmas camadas conceituais.
+### Defesas
 
-### 3.1. Atributos
+Uma defesa é o valor que uma ação ofensiva precisa alcançar ou superar. A
+campanha calcula esse valor por fórmula.
 
-Os atributos representam capacidades amplas.
+No Land of Heroes:
 
-Eles podem servir como base para testes e também podem alimentar fórmulas de defesa, vitalidade ou outras regras configuradas pela campanha.
+```text
+Evasion = 10 + Evasion + bônus de defesa da armadura + bônus de nível da armadura
+```
 
-O sistema base não fixa:
+Uma criatura com Evasion `5`, armadura leve (`+2`) e item de nível `0` possui
+Evasion estática `17`. Esse valor é usado quando a campanha resolve uma Defesa
+estática, como em ataques feitos por um jogador contra uma criatura controlada
+pelo mestre.
 
-- a quantidade de atributos
-- os nomes dos atributos
-- o significado exato de cada atributo
+### Vitalidades
 
-### 3.2. Perícias
+Vitalidades armazenam recursos que absorvem desgaste, dano ou consumo. Cada
+vitalidade possui uma fórmula de máximo, um valor atual e pode expor condições
+quando cruza limites.
 
-As perícias representam grandes áreas de competência.
+No Land of Heroes:
 
-Elas organizam a ficha em blocos amplos de atuação e servem como base estrutural para as especializações.
+```text
+Life  = 4 × Vigor + 2 × Level + Growth
+Moral = 4 × Intuition + 2 × Level + Growth + 2 × Tier
+Mana  = 10 + 2 × Intelligence
+```
 
-### 3.3. Especializações
+Uma criatura de nível 1 com `Vigor 3`, `Intuition 3` e `Intelligence 3` possui
+`Life 14`, `Moral 16` e `Mana 16`.
 
-As especializações representam o uso concreto da capacidade da criatura em ações específicas.
+### Condições
 
-Elas são o ponto em que a ficha deixa de falar apenas de competência ampla e passa a falar do tipo exato de ação que será resolvida.
+Condições expressam o estado atual de uma criatura. A campanha pode associar
+uma condição à faixa crítica de `30%` de uma vitalidade e outra ao valor `0`.
 
-### 3.4. Defesas
+No Land of Heroes:
 
-As defesas representam as barreiras que uma ação hostil precisa superar.
+- `Moral` em 30% ou menos expõe `Shaken`;
+- `Moral` em 0 expõe `Bleeding` e `Shaken`;
+- `Life` em 30% ou menos expõe `Debilitated`.
 
-O sistema base não exige uma única defesa universal. Cada campanha pode definir as defesas que fizerem sentido para seu estilo de jogo e para os tipos de confronto que deseja representar.
+## 3. Progressão
 
-### 3.5. Vitalidades
+Ao subir de nível, a criatura recebe pontos de especialidade em cada perícia.
+Esses pontos pertencem à perícia que os concedeu e são distribuídos apenas
+entre suas próprias especialidades.
 
-As vitalidades representam reservatórios que absorvem desgaste, dano ou consumo de recursos.
+Para uma perícia com `E` especialidades:
 
-As leis do sistema base são:
+```text
+reserva inicial = 2 + E
+pontos recebidos por nível = teto(E / 3)
+limite de uma especialidade = nível + 2
+```
 
-- a campanha pode criar as vitalidades que desejar
-- o nome das vitalidades não é fixo
-- a fórmula de cada vitalidade não é fixa
+### Exemplo: Land of Heroes
 
-Portanto, o `RoleRolls` não impõe uma lista universal de vitalidades. Ele impõe apenas a existência da categoria `vitalidade` como parte da estrutura do jogo.
+`Awareness` possui quatro especialidades. Ela começa com seis pontos para
+distribuir e concede dois pontos a cada nível. No nível 1, cada especialidade
+de Awareness aceita até três pontos.
 
-### 3.6. Condições
+`Combat` possui onze especialidades. Ela começa com treze pontos para
+distribuir e concede quatro pontos a cada nível. Os pontos de Combat fortalecem
+somente especialidades de Combat.
 
-As condições representam estados da criatura.
+Uma personagem de nível 1 pode distribuir os seis pontos de Awareness como
+`Observe 3`, `Listen 3`, `Search 0` e `Feeling 0`. Ao alcançar o nível 2, ela
+recebe mais dois pontos nessa reserva e o limite de cada especialidade passa a
+ser quatro.
 
-Elas podem expressar desgaste, comprometimento, colapso, enfraquecimento ou qualquer outro estado relevante para a campanha.
+## 4. Testes
 
-## 4. O Que a Campanha Pode Definir
+Todo teste segue seis passos:
 
-O `RoleRolls` foi criado para que a campanha escolha não apenas nomes, mas a própria anatomia da ficha.
+1. escolher a propriedade que representa a ação;
+2. determinar a quantidade de d20 e os bônus aplicáveis;
+3. definir a Complexidade de cada dado;
+4. definir a Dificuldade do teste completo;
+5. rolar os dados e contar sucessos;
+6. aplicar o efeito definido pela regra que iniciou o teste.
 
-Em termos de regra de negócio, a campanha pode decidir:
+### Complexidade e Dificuldade
 
-- quais atributos existem
-- quais perícias existem
-- quais especializações pertencem a cada perícia
-- se uma especialização usa o mesmo atributo da perícia ou outro atributo
-- quais defesas existem
-- quais vitalidades existem
-- qual fórmula calcula cada defesa
-- qual fórmula calcula cada vitalidade
-- quais condições existem
-- quais condições aparecem em faixas críticas de cada vitalidade
-- quais propriedades alimentam acerto, dano e bloqueio de cada categoria de arma
+Complexidade é o resultado que cada dado precisa alcançar para gerar um
+sucesso. Dificuldade é a quantidade de sucessos exigida pelo teste completo.
 
-Esta é uma das regras mais importantes do sistema:
+Cada resultado final igual ou maior que a Complexidade gera um sucesso. O teste
+é bem-sucedido quando o total de sucessos alcança a Dificuldade.
 
-o `RoleRolls` não entrega um mundo pronto; ele entrega um esqueleto configurável para mundos diferentes.
+```text
+sucessos de resolução = piso(total de sucessos / Dificuldade)
+```
 
-## 5. A Lei dos Testes
+### Exemplo: teste de especialidade
 
-Toda ação relevante do sistema segue a mesma lógica geral:
+Uma exploradora usa uma especialidade com total `5` para procurar uma passagem.
+O mestre define Complexidade `14` e Dificuldade `2`. Ela rola cinco d20 e obtém
+`10`, `14`, `17`, `7` e `20`.
 
-1. escolher a capacidade usada
-2. transformar essa capacidade em rolagem
-3. comparar os resultados com uma barreira
-4. contar sucessos
-5. transformar os sucessos em efeito
+Os resultados `14`, `17` e `20` geram três sucessos. Como a ação exigia dois,
+ela é bem-sucedida. A regra da cena pode usar o terceiro sucesso para aumentar
+a qualidade da descoberta.
 
-O sistema não responde apenas `deu certo?`.
+### Vantagem e Sorte
 
-Ele também responde `deu certo com quanta força?`.
+Vantagem adiciona dados à rolagem. Sorte positiva rerrola os menores dados e
+conserva os maiores; sorte negativa rerrola os maiores dados e conserva os
+menores. Em todos os testes, resultado alto é favorável.
 
-### 5.1. Sucesso
+Um resultado natural `20` que alcança a Complexidade é crítico. Um resultado
+natural `1` que fica abaixo da Complexidade é falha crítica.
 
-No `RoleRolls`, o total de sucessos importa.
+## 5. Ataque básico
 
-Isso significa que a intensidade do resultado pode ser tão importante quanto o simples fato de acertar ou falhar.
+O ataque básico resolve um ataque armado iniciado por um jogador. Ele usa a
+arma equipada, a categoria da arma, a especialidade ofensiva configurada pela
+campanha, a Defesa do alvo, bloqueio, dano e vitalidades.
 
-### 5.2. Complexidade
+### Procedimento
 
-Complexidade representa a barra que cada resultado individual precisa atingir.
+1. escolha a arma e a Defesa do alvo;
+2. obtenha a especialidade ofensiva da categoria da arma;
+3. role um d20 para cada ponto do total ofensivo;
+4. some o bônus ofensivo a cada dado;
+5. cada dado igual ou maior que a Defesa do alvo gera um sucesso;
+6. calcule o excesso de cada sucesso;
+7. agrupe excessos pela dificuldade da arma para formar hits;
+8. aplique dano, bloqueio e vitalidades para cada hit.
 
-Em linguagem de regra:
+O bônus ofensivo é:
 
-- ela mede a dificuldade de cada acerto individual dentro do teste
+```text
+total da especialidade ofensiva
++ bônus de hit do grip
++ buffs de hit
++ diferença de nível entre atacante e alvo
++ bônus de nível da arma
+```
 
-### 5.3. Dificuldade
+O excesso de um sucesso é:
 
-Dificuldade representa quantos sucessos o teste inteiro precisa acumular.
+```text
+resultado final do dado − Defesa do alvo
+```
 
-Em linguagem de regra:
+### Categorias de arma
 
-- ela mede quantos acertos válidos a ação precisa ter para funcionar
+As categorias determinam quantos sucessos formam um hit.
 
-### 5.4. Sucesso por Margem
+| Categoria | Sucessos por hit | Land of Heroes: bônus de hit | Bônus-base de dano por nível |
+|---|---:|---:|---:|
+| Leve | 1 | +1 | 3 |
+| Média | 2 | +0 | 5 |
+| Pesada, duas mãos | 3 | -1 | 8 |
 
-O sistema valoriza não apenas o acerto, mas também a margem acima da barreira.
+Os excessos são ordenados do maior para o menor. Cada grupo completo forma um
+hit; excessos fora de um grupo completo não formam hit.
 
-Essa margem é importante porque, especialmente no combate, ela pode alimentar a intensidade do resultado.
+### Dano e bloqueio
 
-### 5.5. Vantagem e Sorte
+Para cada hit:
 
-O motor base trabalha com modificadores que melhoram ou pioram a rolagem.
+```text
+dano = máximo(
+  soma dos excessos do grupo
+  + bônus de dano por hit
+  − bloqueio do alvo,
+  1
+)
+```
 
-As leis esperadas são:
+O bloqueio combina a proteção da armadura e a propriedade de bloqueio definida
+pela campanha. No Land of Heroes, essa propriedade é `Vigor`.
 
-- vantagem melhora a chance ou a qualidade do resultado
-- desvantagem piora a chance ou a qualidade do resultado
-- sorte positiva favorece o teste
-- sorte negativa atrapalha o teste
+| Armadura | Bônus de Evasion | Bloqueio da armadura |
+|---|---:|---:|
+| Leve | +2 | 2 + nível × 1 |
+| Média | +1 | 4 + nível × 2 |
+| Pesada | -1 | 4 + nível × 3 |
 
-## 6. A Lei das Fórmulas
+### Exemplo: ataque médio
 
-O `RoleRolls` não exige que defesa e vitalidade sejam valores estáticos.
+Uma guerreira de nível 1 possui `MeleeMediumWeapon 4` e usa arma média. O alvo
+tem Evasion `17`, `Vigor 2` e armadura leve. Nenhum dos lados possui bônus de
+nível ou buffs.
 
-O sistema base trabalha com fórmulas.
+O bônus ofensivo é `4`. A guerreira rola quatro dados: `15`, `13`, `9` e `4`.
+Os totais são `19`, `17`, `13` e `8`. Os dois primeiros dados geram sucessos
+com excessos `2` e `0`.
 
-Essas fórmulas podem depender de:
+A arma média agrupa os dois excessos em um hit. Seu bônus de dano por hit é
+`5`. O bloqueio do alvo é `3` da armadura leve mais `2` de Vigor, total `5`.
 
-- propriedades da criatura
-- valores ligados ao nível
-- valores ligados ao equipamento
-- valores manuais definidos pela campanha
+```text
+dano = máximo(2 + 0 + 5 − 5, 1) = 2
+```
 
-Isso significa que cada campanha pode definir a própria lógica de escalonamento.
+## 6. Evasion rolada pelo defensor
 
-Uma campanha pode, por exemplo, determinar que:
+Evasion resolve um ataque básico recebido por uma criatura controlada por
+jogador. O atacante fornece valores estáticos; o defensor realiza todos os
+d20 da resolução.
 
-- uma defesa cresce com um atributo
-- uma vitalidade cresce com nível
-- uma proteção cresce com equipamento
-- um recurso cresce com a combinação de vários fatores
+### Procedimento
 
-O sistema base não prende essa lógica a uma progressão única e universal.
+1. obtenha a arma e a especialidade ofensiva do atacante;
+2. calcule quantos dados o atacante rolaria em um ataque básico;
+3. calcule a Dificuldade de Evasion;
+4. o defensor rola essa quantidade de d20 de Evasion;
+5. some o bônus de Evasion a cada dado;
+6. transforme resultados que falharam em excessos;
+7. agrupe excessos pela dificuldade da arma;
+8. aplique dano, bloqueio e vitalidades.
 
-## 7. Progressão
+```text
+dados-base de Evasion = total da especialidade ofensiva do atacante
 
-O motor base possui nível e permite crescimento da ficha, mas ainda não apresenta uma única regra de progressão totalmente fechada e universal como verdade final de negócio.
+Dificuldade de Evasion = 10 + bônus ofensivo do atacante
 
-Hoje, o que pode ser afirmado com segurança é:
+resultado de Evasion = d20 + bônus de Evasion
+```
 
-- existe nível
-- existe crescimento da capacidade da criatura ao longo do nível
-- fórmulas podem depender de nível e de escalonadores derivados do nível
-- os testes de balanceamento estudam chance e dano com uma curva própria
+O bônus de Evasion usa a especialidade defensiva definida pela campanha, os
+bônus da armadura, o bônus de nível da armadura e buffs. No Land of Heroes, a
+especialidade é `Evasion`.
 
-### 7.1. Ponto em Aberto
+Um resultado de Evasion estritamente maior que a Dificuldade evita uma
+tentativa. Um resultado igual favorece o atacante e gera excesso `0`. Um
+resultado menor gera:
 
-A progressão oficial do sistema base ainda precisa ser descrita de forma única e definitiva, sem depender apenas da curva usada nos testes de balanceamento.
+```text
+excesso = Dificuldade de Evasion − resultado de Evasion
+```
 
-## 8. Combate
+Vantagem adiciona dados à rolagem defensiva; o defensor conserva somente os
+melhores resultados até completar a quantidade-base. Sorte segue a regra geral
+do sistema e favorece resultados altos quando é positiva.
 
-O `RoleRolls` não trata mais todo ataque como se fosse a mesma coisa.
+### Exemplo: Evasion contra arma média
 
-O sistema base distingue dois fluxos ofensivos:
+Um inimigo usa arma média e possui total ofensivo `4`. Seus bônus de arma e de
+efeito somam `3`, portanto seu bônus ofensivo total é `7`. O defensor rola
+quatro d20 de Evasion contra Dificuldade `17`.
 
-- ataque básico
-- ataque especial
+Uma personagem com `Agility 3`, `Evasion 2` e armadura leve possui bônus de
+Evasion `7`. Ela rola `20`, `15`, `12` e `8`, obtendo `27`, `22`, `19` e `15`.
 
-Essa distinção é estrutural.
+Os três primeiros resultados evitam tentativas. O quarto gera excesso `2`. A
+arma média exige dois excessos para formar hit, então o ataque termina sem
+dano. Se duas falhas produzirem excessos `5` e `2`, elas formam um hit com
+excesso total `7` antes de aplicar bônus de dano e bloqueio.
 
-### 8.1. Ataque Básico
+## 7. Ataque especial
 
-O ataque básico é o fluxo de combate armado.
+O ataque especial resolve um teste ofensivo que poderes, magias, manobras e
+outras regras usam para aplicar seus próprios efeitos.
 
-Suas leis são:
+O jogador escolhe uma especialidade, uma Defesa do alvo, Sorte e Vantagem. O
+motor rola a especialidade escolhida contra a Defesa indicada com Dificuldade
+`1`. A Defesa atual do alvo é a Complexidade.
 
-- usa arma equipada
-- usa categoria da arma
-- usa configuração da campanha para decidir qual propriedade entra no acerto
-- usa configuração da campanha para decidir qual propriedade entra no dano
-- pode usar a defesa padrão configurada pela campanha ou uma substituição explícita
-- transforma sucessos em acertos
-- calcula dano automaticamente
-- aplica desgaste de vitalidades automaticamente
-- pode gerar condições automáticas a partir dos limites de vitalidade
+O resultado informa sucessos, dados, bônus, especialidade e Defesa. A regra
+que iniciou a ação aplica a consequência correspondente, como dano de magia,
+condição, duração, deslocamento ou outro efeito.
 
-### 8.2. Ataque Especial
+### Exemplo: magia de medo
 
-O ataque especial é um teste ofensivo sem arma.
+Uma conjuradora possui total `5` na especialidade usada pela magia. Ela usa um
+ataque especial contra Evasion `17` e recebe bônus `5` em cada dado. Seus
+resultados brutos são `12`, `9`, `7`, `4` e `2`; os totais são `17`, `14`,
+`12`, `9` e `7`.
 
-Suas leis são:
+O resultado `17` gera um sucesso e satisfaz a Dificuldade `1`. A magia aplica
+o efeito de medo definido em sua própria regra.
 
-- não usa arma
-- não usa espaço de arma
-- não usa categoria de arma
-- não usa configuração de item para escolher a ofensiva
-- sempre resolve Especialização Menor contra Defesa
-- usa dificuldade igual a 1
-- usa complexidade igual ao valor atual da defesa alvo
-- nunca calcula dano automaticamente
-- nunca desgasta vitalidade automaticamente
-- nunca aplica efeito automaticamente
+## 8. Vitalidades, desgaste e condições
 
-### 8.3. Diferença Estrutural
+O ataque básico e a Evasion aplicam cada hit na ordem de vitalidades da
+campanha. Quando uma vitalidade chega a zero, o dano restante segue para a
+próxima vitalidade da ordem.
 
-O ataque básico é um fluxo completo de combate armado, parametrizado pela campanha.
+No Land of Heroes, a ordem padrão é:
 
-O ataque especial é apenas a resolução do teste ofensivo.
+1. `Moral`;
+2. `Life`.
 
-Depois do resultado do ataque especial, o mestre decide a consequência narrativa ou mecânica.
+Um hit de dano `20` contra uma criatura com `Moral 6` e `Life 14` reduz Moral
+a `0`, transfere `14` de dano para Life e deixa Life em `0`. As condições de
+Moral e Life são atualizadas pelos seus limites.
 
-## 9. Categorias de Arma
+## 9. Sequência de jogo
 
-O sistema base já trabalha com categorias de arma.
+Em uma cena, use esta sequência:
 
-Entre as categorias centrais do material atual, aparecem:
+1. descreva a intenção da criatura;
+2. escolha a especialidade, a arma ou a regra que representa a ação;
+3. defina Defesa, Complexidade e Dificuldade quando a regra pedir;
+4. realize o teste correspondente;
+5. transforme sucessos, excessos e hits no efeito da ação;
+6. atualize dano, vitalidades e condições;
+7. registre a consequência na cena e continue a ficção.
 
-- leve
-- média
-- pesada
-
-No `RoleRolls`, a categoria da arma não serve apenas para nomear equipamento. Ela altera a forma como os sucessos ofensivos se convertem em acertos.
-
-Isso cria identidades de combate distintas:
-
-- uma arma pode favorecer a frequência de acertos
-- outra pode exigir mais sucessos por acerto
-- outra pode concentrar mais peso em menos acertos
-
-Essa lógica pertence ao sistema base, não a um universo específico.
-
-## 10. Defesa e Bloqueio
-
-O sistema distingue duas camadas de mitigação.
-
-### 10.1. Defesa
-
-A defesa responde à pergunta:
-
-`o golpe conseguiu me acertar?`
-
-### 10.2. Bloqueio
-
-O bloqueio responde à pergunta:
-
-`depois de acertar, quanto do impacto ainda sobra?`
-
-Essa separação permite que a campanha modele alvos que:
-
-- evitam melhor o acerto
-- resistem melhor ao dano
-- ou equilibram as duas coisas
-
-## 11. Dano e Mitigação
-
-No desenho atual do sistema, o dano nasce do sucesso ofensivo que sobreviveu à defesa.
-
-Depois disso, o dano ainda passa por mitigação.
-
-Em termos de regra, o sistema separa três perguntas:
-
-1. o golpe passou?
-2. com quanta força ele passou?
-3. quanto dessa força sobreviveu à proteção do alvo?
-
-### 11.1. Ponto em Aberto
-
-O tema mais sensível aqui é o piso de dano.
-
-O projeto ainda preserva uma tensão entre duas leituras possíveis:
-
-- uma leitura em que um acerto válido sempre gera ao menos algum dano
-- outra leitura em que um acerto pequeno ainda pode terminar em dano zero
-
-Esse ponto ainda precisa de definição formal antes de uma refatoração técnica mais profunda.
-
-## 12. Vitalidades Configuráveis
-
-Este é um dos pilares do sistema.
-
-O `RoleRolls` não depende de uma lista fixa de vitalidades.
-
-Uma campanha pode:
-
-- criar as vitalidades que quiser
-- escolher o nome de cada uma
-- escolher a fórmula de cada uma
-- decidir quais entram no fluxo de desgaste de um ataque básico
-- decidir em que ordem esse desgaste acontece
-
-Em regra de negócio, isso significa que vitalidade é uma categoria configurável, não uma lista fechada.
-
-## 13. Ordem de Desgaste
-
-As vitalidades podem participar de uma ordem de consumo para ataque básico.
-
-Isso significa que o dano não precisa cair sempre em um único recurso.
-
-O sistema permite que a campanha estabeleça uma sequência como:
-
-- primeiro desgasta esta vitalidade
-- depois, se sobrar dano, desgasta a próxima
-- depois, se ainda sobrar dano, desgasta a seguinte
-
-O sistema base suporta esse modelo de desgaste em camadas.
-
-## 14. Condições por Faixa de Vitalidade
-
-O sistema base permite ligar condições ao estado crítico de uma vitalidade.
-
-Hoje, a estrutura genérica observada suporta ao menos dois gatilhos de negócio por vitalidade:
-
-- uma condição em faixa crítica de `30 porcento`
-- uma condição em `0`
-
-Em linguagem de livro de regras:
-
-o sistema consegue transformar desgaste numérico em estado narrativo e funcional.
-
-## 15. Condições como Regra de Estado
-
-Uma condição no `RoleRolls` é um estado nomeado da criatura.
-
-Ela pode carregar:
-
-- nome
-- descrição
-- bônus ou penalidades
-
-Isso permite que cada campanha use condições para representar:
-
-- fadiga
-- ferimento
-- medo
-- instabilidade
-- enfraquecimento
-- qualquer outro estado relevante
-
-Mais uma vez, a lei é a mesma:
-
-o sistema define a estrutura; a campanha define o conteúdo.
-
-## 16. Mapeamento entre Ficha e Combate
-
-O sistema base separa dois mapeamentos ofensivos diferentes.
-
-### 16.1. Mapeamento do Ataque Básico
-
-O ataque básico não assume que toda arma usa sempre a mesma capacidade para acertar ou causar dano.
-
-Em vez disso, a campanha pode configurar:
-
-- qual propriedade alimenta o acerto de cada categoria de arma
-- qual propriedade alimenta o dano de cada categoria de arma
-- qual propriedade entra como bloqueio
-- qual defesa a armadura referencia
-
-Esta é uma regra central do motor:
-
-o ataque básico é parametrizado pela campanha.
-
-O sistema define a estrutura do combate armado, e a campanha decide de onde o combate puxa seus valores.
-
-### 16.2. Mapeamento do Ataque Especial
-
-O ataque especial não usa esse mapeamento por categoria de arma.
-
-Nele, o ponto de entrada já precisa vir explícito como:
-
-- especialização menor
-- defesa
-- sorte
-- vantagem
-
-O motor resolve apenas o teste entre a especialização menor escolhida e a defesa escolhida.
-
-### 16.3. Diferença Estrutural
-
-No ataque básico, a campanha define de onde vêm os números ofensivos.
-
-No ataque especial, a ofensiva já nasce explícita como especialização menor contra defesa.
-
-## 17. O Que Não É Regra Base
-
-As seguintes coisas não devem ser tratadas como lei universal do `RoleRolls`:
-
-- nomes específicos de vitalidade de um universo
-- nomes específicos de atributo de um universo
-- uma tabela única de progressão de um universo
-- uma lista única de condições de um universo
-- uma leitura única de mundo, magia, cultura ou fantasia
-
-Tudo isso pertence a campanhas e universos construídos sobre o sistema base.
-
-## 18. Síntese do Sistema
-
-Em sua forma mais direta, o `RoleRolls` base é:
-
-- um motor de RPG configurável por campanha
-- uma ficha formada por capacidades, especializações, defesas e vitalidades
-- um sistema de testes resolvido por sucessos
-- um conjunto de fórmulas configuráveis para escalar recursos e defesas
-- um modelo de combate estruturado por acerto, mitigação e desgaste
-- um sistema de vitalidades configuráveis com ordem de consumo configurável
-- um sistema de condições ligadas ao estado das vitalidades
-
-Este é o núcleo da regra de negócio do `RoleRolls`, sem confundir o sistema base com qualquer universo padrão específico.
+O sistema base organiza a resolução. A campanha usa essa estrutura para criar
+suas próprias criaturas, perigos, poderes, itens e histórias.

@@ -29,6 +29,7 @@ public class ItemConfiguration : Entity
             RangedMediumWeaponDamageProperty = templateItemConfiguration.RangedMediumWeaponDamageProperty;
             RangedHeavyWeaponDamageProperty = templateItemConfiguration.RangedHeavyWeaponDamageProperty;
             BlockProperty = templateItemConfiguration.BlockProperty;
+            EvadeProperty = templateItemConfiguration.EvadeProperty;
         }
     }
 
@@ -56,6 +57,7 @@ public class ItemConfiguration : Entity
     public Property? RangedHeavyWeaponDamageProperty { get; set; }
 
     public Property? BlockProperty { get; set; }
+    public Property? EvadeProperty { get; set; }
 
     public void Update(ItemConfigurationModel model)
     {
@@ -74,6 +76,7 @@ public class ItemConfiguration : Entity
         RangedMediumWeaponDamageProperty = model.RangedMediumWeaponDamageProperty;
         RangedHeavyWeaponDamageProperty = model.RangedHeavyWeaponDamageProperty;
         BlockProperty = model.BlockProperty;
+        EvadeProperty = model.EvadeProperty;
     }
 
     public Property? GetWeaponHitProperty(WeaponCategory weaponCategory)

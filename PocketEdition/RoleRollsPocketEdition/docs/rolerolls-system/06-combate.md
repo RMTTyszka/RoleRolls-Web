@@ -2,14 +2,14 @@
 
 ## Objetivo da secao
 
-Explicar como o metodo `Creature.Attack(...)` transforma valor de hit em sucessos, hits, block e dano aplicado ao alvo.
+Explicar como o método `Creature.BasicAttack(...)` transforma valor de hit em sucessos, hits, block e dano aplicado ao alvo.
 
 ## Implementado hoje
 
-- O servico de ataque monta um `AttackCommand` e chama `Creature.Attack(...)`.
+- O serviço de ataque monta um `BasicAttackCommand` e chama `Creature.BasicAttack(...)`.
 - A arma efetiva vem do slot pedido no comando; se nao houver arma equipada, o metodo cai em uma arma padrao `Medium` contundente.
 - O hit usa a `HitProperty` obtida por `ItemConfiguration.GetWeaponHitProperty(weaponCategory)`.
-- Na pratica, o fluxo principal nao usa `AttackCommand.HitProperty` para escolher a propriedade de hit.
+- Na prática, o fluxo principal usa a propriedade de hit configurada para a categoria da arma.
 - A defesa do alvo entra como `complexity`.
 - Cada sucesso guarda o excesso `totalRolado - complexity` quando esse valor e maior ou igual a zero.
 - Os sucessos sao agrupados pela dificuldade da arma.
@@ -26,13 +26,13 @@ Explicar como o metodo `Creature.Attack(...)` transforma valor de hit em sucesso
 ## Divergencias e observacoes
 
 - Alguns testes antigos ainda esperam `Success = true` com `TotalDamage = 0` em combinacoes basicas de arma x armadura.
-- O runtime atual aplica piso minimo `1` por hit em `Creature.Attack(...)`.
+- O runtime atual aplica piso mínimo `1` por hit em `Creature.BasicAttack(...)`.
 - O modelo de dano atual parte diretamente dos excessos acima da defesa e por isso esta no centro das pendencias de design.
 
 ## Fontes
 
-- `Attacks/Services/AttackService.cs:72-87`
-- `Creatures/Entities/CreatureAttack.cs:18-184`
+- `Attacks/Services/BasicAttackService.cs`
+- `Creatures/Entities/CreatureBasicAttack.cs`
 - `Itens/GripType.cs:20-225`
 - `Itens/Configurations/ArmorDefinition.cs:6-53`
 - `UnitTests/Attacks/Services/AttackServiceTests/AttackTests.cs:29-313`
@@ -40,9 +40,9 @@ Explicar como o metodo `Creature.Attack(...)` transforma valor de hit em sucesso
 
 ## Fluxo do servico
 
-1. `AttackService` carrega atacante, alvo e `ItemConfiguration`.
-2. O servico monta `AttackCommand`.
-3. O servico chama `attacker.Attack(target, command, diceRoller)`.
+1. `BasicAttackService` carrega atacante, alvo e `ItemConfiguration`.
+2. O serviço monta `BasicAttackCommand`.
+3. O serviço chama `attacker.BasicAttack(target, command, diceRoller)`.
 4. O resultado do ataque vira `SceneAction` processada pelo fluxo de cena.
 
 ## Escolha da arma e do grip
@@ -52,7 +52,7 @@ Explicar como o metodo `Creature.Attack(...)` transforma valor de hit em sucesso
 - Para o baseline principal:
   - `OneLightWeapon`: hit `+1`, bonus base de dano `3`, dificuldade `1`
   - `OneMediumWeapon`: hit `+0`, bonus base de dano `5`, dificuldade `2`
-  - `TwoHandedHeavyWeapon`: hit `+0`, bonus base de dano `6`, dificuldade `3`
+  - `TwoHandedHeavyWeapon`: hit `-1`, bônus base de dano `8`, dificuldade `3`
 
 ## Calculo de hit
 
@@ -114,6 +114,6 @@ No runtime atual, empate com a defesa ainda conta como sucesso; o efeito final s
 
 ## Divergencias atuais do modelo de dano
 
-- O dano hoje nasce do excesso acima da defesa, nao de uma rolagem de dano independente por hit no fluxo principal de `Attack(...)`.
+- O dano hoje nasce do excesso acima da defesa, não de uma rolagem de dano independente por hit no fluxo principal de `BasicAttack(...)`.
 - Isso aproxima acerto e dano em uma mesma estrutura matematica.
 - Os testes antigos que esperam dano zero em acertos basicos nao refletem integralmente o comportamento atual do metodo.

@@ -134,7 +134,7 @@ namespace RoleRollsPocketEdition.Scenes.Services
 
         public async Task ProcessBasicAttackAction(Guid sceneId, BasicAttackResult attackResult)
         {
-            var statusDescription = BuildStatusDescription(attackResult);
+            var statusDescription = BuildStatusDescription(attackResult.Target);
             var description = SceneActionDescriptionBuilder.BuildBasicAttackDescription(attackResult, statusDescription);
             await PersistSceneAction(sceneId, attackResult.Attacker.Id, description);
         }
@@ -143,6 +143,13 @@ namespace RoleRollsPocketEdition.Scenes.Services
         {
             var description = SceneActionDescriptionBuilder.BuildSpecialAttackDescription(attackResult);
             await PersistSceneAction(sceneId, attackResult.Attacker.Id, description);
+        }
+
+        public async Task ProcessEvadeAction(Guid sceneId, EvadeResult evadeResult)
+        {
+            var statusDescription = BuildStatusDescription(evadeResult.Defender);
+            var description = SceneActionDescriptionBuilder.BuildEvadeDescription(evadeResult, statusDescription);
+            await PersistSceneAction(sceneId, evadeResult.Defender.Id, description);
         }
 
         private async Task PersistSceneAction(Guid sceneId, Guid actorId, string description)
@@ -161,9 +168,9 @@ namespace RoleRollsPocketEdition.Scenes.Services
             await _sceneNotificationService.NotifyScene(sceneId, history);
         }
 
-        private static string BuildStatusDescription(BasicAttackResult attackResult)
+        private static string BuildStatusDescription(Creature target)
         {
-            var statuses = attackResult.Target.Vitalities
+            var statuses = target.Vitalities
                 .SelectMany(vitality => vitality.CurrentConditions.Select(condition => new
                 {
                     Vitality = vitality.Name,
@@ -184,7 +191,7 @@ namespace RoleRollsPocketEdition.Scenes.Services
             return string.Join(" | ", statuses.Select(status =>
             {
                 var thresholdLabel = status.ThresholdPercent == 0 ? "0%" : $"{status.ThresholdPercent}%";
-                return $"{attackResult.Target.Name} is {status.Status} ({status.Vitality} <= {thresholdLabel})";
+                return $"{target.Name} is {status.Status} ({status.Vitality} <= {thresholdLabel})";
             }));
         }
     }
