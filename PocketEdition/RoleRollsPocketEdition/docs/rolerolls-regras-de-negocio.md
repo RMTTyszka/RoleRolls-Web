@@ -340,7 +340,56 @@ resultados brutos são `12`, `9`, `7`, `4` e `2`; os totais são `17`, `14`,
 O resultado `17` gera um sucesso e satisfaz a Dificuldade `1`. A magia aplica
 o efeito de medo definido em sua própria regra.
 
-## 8. Vitalidades, desgaste e condições
+## 8. Área de ameaça e ataque de oportunidade
+
+Uma criatura portando uma arma corpo a corpo ameaça um raio de `1,5 m` ao seu
+redor. Uma criatura portando somente uma arma de ataque a distância não possui
+área de ameaça.
+
+Uma arma específica, como uma arma de haste, ou uma habilidade ou poder pode
+aumentar essa área. A regra específica informa o novo alcance e prevalece sobre
+o valor padrão.
+
+### Gatilho
+
+Uma criatura provoca ataque de oportunidade quando se desloca dentro da área de
+ameaça de outra criatura e um trecho desse deslocamento não reduz a distância
+até a criatura que ameaça. Deslocar-se lateralmente ou afastar-se satisfaz esse
+gatilho.
+
+Uma criatura pode entrar na área e continuar aproximando-se sem provocar o
+ataque. Se, depois de entrar, ela mudar a direção para mover-se de lado ou para
+longe, provoca o ataque nesse ponto do deslocamento.
+
+Atacar outra criatura adjacente sem se deslocar não provoca ataque de
+oportunidade.
+
+### Resolução e limite
+
+A criatura que ameaça pode realizar um Ataque Básico com a arma corpo a corpo
+que concede a área de ameaça. Para esta regra, o ataque tem sucesso quando a
+resolução forma ao menos um hit.
+
+Cada criatura pode realizar no máximo um ataque de oportunidade por rodada.
+Uma habilidade ou poder pode alterar esse limite.
+
+Se o ataque tiver sucesso, o deslocamento que o provocou é interrompido no
+local em que a criatura se encontra. Se falhar, o deslocamento continua.
+Habilidades ou poderes podem interromper o deslocamento mesmo quando o ataque
+falha, caso seu texto o determine.
+
+### Exemplo: mudar direção dentro da área
+
+Uma combatente com espada ameaça `1,5 m`. Uma exploradora entra nessa área e
+segue em direção à combatente: não provoca ataque de oportunidade. Ainda dentro
+da área, a exploradora muda a direção e tenta atravessar ao lado da combatente:
+ela provoca o ataque. Se a combatente formar ao menos um hit, o movimento da
+exploradora termina; caso contrário, ela continua o movimento.
+
+Se uma criatura já adjacente à combatente atacar outro inimigo ao seu lado, sem
+se deslocar, não há ataque de oportunidade.
+
+## 9. Vitalidades, desgaste e condições
 
 O ataque básico e a Evasion aplicam cada hit na ordem de vitalidades da
 campanha. Quando uma vitalidade chega a zero, o dano restante segue para a
@@ -355,7 +404,7 @@ Um hit de dano `20` contra uma criatura com `Moral 6` e `Life 14` reduz Moral
 a `0`, transfere `14` de dano para Life e deixa Life em `0`. As condições de
 Moral e Life são atualizadas pelos seus limites.
 
-## 9. Sequência de jogo
+## 10. Sequência de jogo
 
 Em uma cena, use esta sequência:
 
