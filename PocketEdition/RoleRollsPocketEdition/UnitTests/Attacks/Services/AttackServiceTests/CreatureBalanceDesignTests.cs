@@ -369,7 +369,7 @@ public class CreatureBalanceDesignTests
     }
 
     [Theory(DisplayName = "Loga diferenca de dano por grip type e nivel para perfil inicial (Creature.Attack)")]
-    [InlineData(2, 1)]
+    [InlineData(2, 3)]
     public void GripTypeDamageDifferenceByLevelIsReported(int initialAttributePoints, int initialSpecificSkillPoints)
     {
         foreach (var level in LevelsUnderTest)
