@@ -168,11 +168,22 @@ Os resultados `14`, `17` e `20` geram três sucessos. Como a ação exigia dois,
 ela é bem-sucedida. A regra da cena pode usar o terceiro sucesso para aumentar
 a qualidade da descoberta.
 
-### Vantagem e Sorte
+### Modificadores de rolagem
 
-Vantagem adiciona dados à rolagem. Sorte positiva rerrola os menores dados e
-conserva os maiores; sorte negativa rerrola os maiores dados e conserva os
-menores. Em todos os testes, resultado alto é favorável.
+Cada modificador possui magnitude `N`. Vantagem `+N` adiciona `N` dados à
+rolagem; Desvantagem `+N` remove `N` dados, até o mínimo de `0`. Vantagem e
+Desvantagem se cancelam antes da rolagem.
+
+Sorte `+N` permite rolar novamente os `N` menores resultados e conservar o
+maior resultado de cada nova rolagem. Azar `-N` faz o oposto: rola novamente os
+`N` maiores resultados e conserva o menor resultado de cada nova rolagem.
+
+Buff `+N` soma `N` ao valor estático da aplicação indicada. Debuff `+N`
+subtrai `N` desse valor. Buffs e Debuffs da mesma aplicação são somados.
+
+As aplicações são: **Acerto**, para rolagens ofensivas; **Evasion**, para
+rolagens defensivas; e **propriedade**, quando uma habilidade identifica outra
+rolagem. Em todos os testes, resultado alto é favorável.
 
 Um resultado natural `20` que alcança a Complexidade é crítico. Um resultado
 natural `1` que fica abaixo da Complexidade é falha crítica.
@@ -262,7 +273,28 @@ A arma média agrupa os dois excessos em um hit. Seu bônus de dano por hit é
 dano = máximo(2 + 0 + 5 − 5, 1) = 2
 ```
 
-## 6. Evasion rolada pelo defensor
+## 6. Manobras de combate
+
+Manobras são escolhas de combate. Uma manobra **instantânea** modifica o
+próximo ataque básico dentro da Ação de Ataque. Uma manobra de **Ação Completa**
+consome essa ação. Os modificadores seguem a seção anterior.
+
+| Manobra | Ação e duração | Alvos | Efeito |
+| --- | --- | --- | --- |
+| Tiro Aberto (Open Shot) | Ação de Ataque; instantânea | Usuário | Vantagem Acerto `+2`. |
+| Ataque Completo (Full Attack) | Ação de Ataque; instantânea | Usuário | Vantagem Acerto `+1`; Desvantagem Evasion `+1`; Debuff Evasion `+1`. |
+| Ataque Parcial (Partial Attack) | Ação de Ataque; instantânea | Usuário | Desvantagem Acerto `+1`. |
+| Ataque Cauteloso (Cautious Attack) | Ação de Ataque; instantânea | Usuário | Desvantagem Acerto `+1`; Vantagem Evasion `+1`. |
+| Ataque Auxiliar (Auxiliar Attack) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
+| Defesa Total (Full Defense) | Ação Completa; 1 turno | Usuário | Desvantagem Acerto `+3`; Vantagem Evasion `+2`; Buff Evasion `+2`. |
+| Cobrir Aliado (Cover Ally) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+1`. Alvo: Vantagem Evasion `+1`. |
+| Cobertura Total de Aliado (Full Cover Ally) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
+
+Exemplo: com Ataque Cauteloso, a criatura rola um dado a menos para Acerto e
+um dado a mais para Evasion. Com Defesa Total, também soma `+2` ao resultado de
+Evasion: o Buff soma dois ao bônus estático de Evasion; não cria dados extras.
+
+## 7. Evasion rolada pelo defensor
 
 Evasion resolve um ataque básico recebido por uma criatura controlada por
 jogador. O atacante fornece valores estáticos; o defensor realiza todos os
@@ -299,9 +331,10 @@ resultado menor gera:
 excesso = Dificuldade de Evasion − resultado de Evasion
 ```
 
-Vantagem adiciona dados à rolagem defensiva; o defensor conserva somente os
-melhores resultados até completar a quantidade-base. Sorte segue a regra geral
-do sistema e favorece resultados altos quando é positiva.
+Vantagem, Desvantagem, Sorte, Azar, Buffs e Debuffs seguem a regra geral de
+modificadores. Quando Vantagem cria dados extras na Evasion, o defensor
+conserva somente os melhores resultados até completar a quantidade-base;
+resultado alto permanece favorável.
 
 ### Exemplo: Evasion contra arma média
 
@@ -317,7 +350,7 @@ arma média exige dois excessos para formar hit, então o ataque termina sem
 dano. Se duas falhas produzirem excessos `5` e `2`, elas formam um hit com
 excesso total `7` antes de aplicar bônus de dano e bloqueio.
 
-## 7. Ataque especial
+## 8. Ataque especial
 
 O ataque especial resolve um teste ofensivo que poderes, magias, manobras e
 outras regras usam para aplicar seus próprios efeitos.
@@ -340,7 +373,7 @@ resultados brutos são `12`, `9`, `7`, `4` e `2`; os totais são `17`, `14`,
 O resultado `17` gera um sucesso e satisfaz a Dificuldade `1`. A magia aplica
 o efeito de medo definido em sua própria regra.
 
-## 8. Área de ameaça e ataque de oportunidade
+## 9. Área de ameaça e ataque de oportunidade
 
 Uma criatura portando uma arma corpo a corpo ameaça um raio de `1,5 m` ao seu
 redor. Uma criatura portando somente uma arma de ataque a distância não possui
@@ -389,7 +422,7 @@ exploradora termina; caso contrário, ela continua o movimento.
 Se uma criatura já adjacente à combatente atacar outro inimigo ao seu lado, sem
 se deslocar, não há ataque de oportunidade.
 
-## 9. Vitalidades, desgaste e condições
+## 10. Vitalidades, desgaste e condições
 
 O ataque básico e a Evasion aplicam cada hit na ordem de vitalidades da
 campanha. Quando uma vitalidade chega a zero, o dano restante segue para a
@@ -404,7 +437,7 @@ Um hit de dano `20` contra uma criatura com `Moral 6` e `Life 14` reduz Moral
 a `0`, transfere `14` de dano para Life e deixa Life em `0`. As condições de
 Moral e Life são atualizadas pelos seus limites.
 
-## 10. Sequência de jogo
+## 11. Sequência de jogo
 
 Em uma cena, use esta sequência:
 
