@@ -41,6 +41,13 @@ public class CreatureBalanceDesignTests
         ArmorCategory.Heavy
     };
 
+    private static readonly GripType[] StandardOffensiveGripTypesUnderTest =
+    {
+        GripType.OneLightWeapon,
+        GripType.OneMediumWeapon,
+        GripType.TwoHandedHeavyWeapon
+    };
+
     private static readonly GripType[] OffensiveGripTypesUnderTest =
     {
         GripType.OneLightWeapon,
@@ -361,6 +368,38 @@ public class CreatureBalanceDesignTests
         DualWieldOutdamagesSingleWeapon(aggregated).Should().BeTrue("dual wield deve causar mais dano agregado que arma equivalente sozinha");
     }
 
+    [Theory(DisplayName = "Loga diferenca de dano por grip type e nivel para perfil inicial (Creature.Attack)")]
+    [InlineData(2, 1)]
+    public void GripTypeDamageDifferenceByLevelIsReported(int initialAttributePoints, int initialSpecificSkillPoints)
+    {
+        foreach (var level in LevelsUnderTest)
+        {
+            var referenceResults = RunGripMatrix(SearchSamples, level, StandardOffensiveGripTypesUnderTest,
+                initialAttributePoints: 3,
+                initialSpecificSkillPoints: 1);
+            var scenarioResults = RunGripMatrix(SearchSamples, level, StandardOffensiveGripTypesUnderTest,
+                initialAttributePoints,
+                initialSpecificSkillPoints);
+
+            _testOutputHelper.WriteLine($"Level {level:00} | Profile {initialAttributePoints}/{initialSpecificSkillPoints} vs 3/1");
+            foreach (var gripType in StandardOffensiveGripTypesUnderTest)
+            {
+                foreach (var armor in ArmorsUnderTest)
+                {
+                    var referenceDamage = referenceResults[(gripType, armor)];
+                    var scenarioDamage = scenarioResults[(gripType, armor)];
+                    var difference = scenarioDamage - referenceDamage;
+                    var differencePercentage = referenceDamage == 0
+                        ? 0
+                        : difference / referenceDamage * 100;
+
+                    _testOutputHelper.WriteLine(
+                        $"  Grip {gripType,-22} | Armor {armor,-6} | Reference {referenceDamage:F2} | Scenario {scenarioDamage:F2} | Delta {difference:F2} ({differencePercentage:F2}%)");
+                }
+            }
+        }
+    }
+
     [Fact(DisplayName = "Dual wield usa dois ataques menores que arma solo (Creature.Attack)")]
     public void DualWieldUsesTwoWeakerAttacks()
     {
@@ -493,17 +532,21 @@ public class CreatureBalanceDesignTests
 
     private Dictionary<(GripType GripType, ArmorCategory Armor), double> RunGripMatrix(
         int samples,
-        int level)
+        int level,
+        IReadOnlyCollection<GripType>? gripTypes = null,
+        int initialAttributePoints = 3,
+        int initialSpecificSkillPoints = 1)
     {
         var output = new Dictionary<(GripType, ArmorCategory), double>();
 
-        foreach (var gripType in OffensiveGripTypesUnderTest)
+        foreach (var gripType in gripTypes ?? OffensiveGripTypesUnderTest)
         {
             foreach (var armor in ArmorsUnderTest)
             {
                 var seed = Seed + level * 31 + (int)armor * 13;
                 var roller = new RandomDiceRoller(seed);
-                var dmg = SimulateAverageDamage(level, gripType, armor, samples, roller);
+                var dmg = SimulateAverageDamage(level, gripType, armor, samples, roller, initialAttributePoints,
+                    initialSpecificSkillPoints);
                 output[(gripType, armor)] = dmg;
             }
         }
@@ -549,10 +592,12 @@ public class CreatureBalanceDesignTests
         GripType gripType,
         ArmorCategory armor,
         int samples,
-        IDiceRoller diceRoller)
+        IDiceRoller diceRoller,
+        int initialAttributePoints = 3,
+        int initialSpecificSkillPoints = 1)
     {
         var config = LandOfHeroesTemplate.Template.ItemConfiguration;
-        var attacker = BuildAttacker(gripType, level);
+        var attacker = BuildAttacker(gripType, level, initialAttributePoints, initialSpecificSkillPoints);
         var defender = BuildDefender(armor, level);
 
         var command = new BasicAttackCommand
@@ -625,7 +670,8 @@ public class CreatureBalanceDesignTests
         return attacker;
     }
 
-    private static Creature BuildAttacker(GripType gripType, int level)
+    private static Creature BuildAttacker(GripType gripType, int level, int initialAttributePoints = 3,
+        int initialSpecificSkillPoints = 1)
     {
         var loadout = GetLoadout(gripType);
         var builder = new BaseCreature(LandOfHeroesTemplate.Template, $"{gripType} attacker lvl {level}")
@@ -640,8 +686,8 @@ public class CreatureBalanceDesignTests
         var attacker = builder.Creature;
         attacker.Equipment.GripType.Should().Be(gripType, $"{gripType} deve ser atingido por Equip real");
 
-        var attributeDice = GetAttributeDiceForLevel(level);
-        var skillDice = GetSkillDiceForLevel(level);
+        var attributeDice = GetAttributeDiceForLevel(level, initialAttributePoints);
+        var skillDice = GetSkillDiceForLevel(level, initialSpecificSkillPoints);
         SetWeaponDice(attacker, loadout.MainHand.Category, attributeDice, skillDice);
         attacker.FullRestore();
         return attacker;
@@ -809,22 +855,22 @@ public class CreatureBalanceDesignTests
         return comparison(left, right);
     }
 
-    private static int GetAttributeDiceForLevel(int level)
+    private static int GetAttributeDiceForLevel(int level, int initialAttributePoints = 3)
     {
         var bonus = 0;
         if (level >= 6) bonus++;
         if (level >= 11) bonus++;
         if (level >= 16) bonus++;
-        return 3 + bonus;
+        return initialAttributePoints + bonus;
     }
 
-    private static int GetSkillDiceForLevel(int level)
+    private static int GetSkillDiceForLevel(int level, int initialSpecificSkillPoints = 1)
     {
         var bonus = 0;
         if (level >= 4) bonus++;
         if (level >= 8) bonus++;
         if (level >= 12) bonus++;
-        return 1 + bonus;
+        return initialSpecificSkillPoints + bonus;
     }
 
     private static double SimulatedAverageDamage(int level, int samples)

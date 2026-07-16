@@ -117,6 +117,7 @@
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.ApproximateHpMatchesSimulation&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.AdvantageBoostsDamagePerWeaponPerLevel&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeLevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeDamageDifferenceByLevelIsReported&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>
