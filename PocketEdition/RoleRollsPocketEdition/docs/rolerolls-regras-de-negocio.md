@@ -451,3 +451,26 @@ Em uma cena, use esta sequência:
 
 O sistema base organiza a resolução. A campanha usa essa estrutura para criar
 suas próprias criaturas, perigos, poderes, itens e histórias.
+
+## 12. Ações da criatura
+
+No início de cada turno próprio, uma criatura recupera uma **Ação de
+Movimento**, uma **Ação de Ataque** e uma **Ação Imediata**. Usar uma dessas
+ações não consome as outras.
+
+Uma Ação Imediata somente pode ser usada quando uma regra apresenta seu
+gatilho. A criatura pode usar no máximo uma Ação Imediata por turno, exceto
+quando uma regra aumentar esse limite.
+
+Uma regra que concede Ação Imediata deve identificar um destes tipos:
+
+- **Ação Imediata de Interrupção:** resolve antes da ação que a causou. A ação
+  causadora continua ou não conforme o efeito da Interrupção.
+- **Ação Imediata de Reação:** resolve depois que a ação que a causou termina.
+  Ela não altera uma consequência já resolvida, salvo quando sua própria regra
+  declarar isso.
+
+Esta regra não classifica automaticamente poderes, manobras ou o ataque de
+oportunidade existentes como Reação ou Interrupção. Cada regra existente mantém
+seu funcionamento atual até receber classificação explícita em uma mudança
+posterior.
