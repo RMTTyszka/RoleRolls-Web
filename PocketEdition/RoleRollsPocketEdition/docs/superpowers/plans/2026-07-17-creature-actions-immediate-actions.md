@@ -51,7 +51,7 @@ seu funcionamento atual até receber classificação explícita em uma mudança
 posterior.
 ```
 
-- [ ] **Step 2: Confirm all required mechanics occur once**
+- [ ] **Step 2: Confirm all required mechanics occur in section 12**
 
 Run: `rg -n "^## 12\. Ações da criatura$|Ação de Movimento|Ação de Ataque|Ação Imediata|Ação Imediata de Interrupção|Ação Imediata de Reação|no máximo uma Ação Imediata por turno" docs/rolerolls-regras-de-negocio.md`
 
