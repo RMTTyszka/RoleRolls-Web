@@ -279,16 +279,16 @@ Manobras são escolhas de combate. Uma manobra **instantânea** modifica o
 próximo ataque básico dentro da Ação de Ataque. Uma manobra de **Ação Completa**
 consome essa ação. Os modificadores seguem a seção anterior.
 
-| Manobra | Ação e duração | Alvos | Efeito |
-| --- | --- | --- | --- |
-| Tiro Aberto (Open Shot) | Ação de Ataque; instantânea | Usuário | Vantagem Acerto `+2`. |
-| Ataque Completo (Full Attack) | Ação de Ataque; instantânea | Usuário | Vantagem Acerto `+1`; Desvantagem Evasion `+1`; Debuff Evasion `+1`. |
-| Ataque Parcial (Partial Attack) | Ação de Ataque; instantânea | Usuário | Desvantagem Acerto `+1`. |
-| Ataque Cauteloso (Cautious Attack) | Ação de Ataque; instantânea | Usuário | Desvantagem Acerto `+1`; Vantagem Evasion `+1`. |
-| Ataque Auxiliar (Auxiliar Attack) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
-| Defesa Total (Full Defense) | Ação Completa; 1 turno | Usuário | Desvantagem Acerto `+3`; Vantagem Evasion `+2`; Buff Evasion `+2`. |
-| Cobrir Aliado (Cover Ally) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+1`. Alvo: Vantagem Evasion `+1`. |
-| Cobertura Total de Aliado (Full Cover Ally) | Ação de Ataque; instantânea | Usuário e alvo | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
+| Manobra | Ação e duração | Efeito |
+| --- | --- | --- |
+| Tiro Livre (Open Shot) | Ação de Ataque; instantânea | Vantagem Acerto `+2`. |
+| Ataque Completo (Full Attack) | Ação de Ataque; instantânea | Vantagem Acerto `+1`; Desvantagem Evasion `+1`; Debuff Evasion `+1`. |
+| Ataque Parcial (Partial Attack) | Ação de Ataque; instantânea | Desvantagem Acerto `+1`. |
+| Ataque Cauteloso (Cautious Attack) | Ação de Ataque; instantânea | Desvantagem Acerto `+1`; Vantagem Evasion `+1`. |
+| Ataque Auxiliar (Auxiliar Attack) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
+| Defesa Total (Full Defense) | Ação Completa; 1 turno | Desvantagem Acerto `+3`; Vantagem Evasion `+2`; Buff Evasion `+2`. |
+| Cobrir Aliado (Cover Ally) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+1`. Alvo: Vantagem Evasion `+1`. |
+| Cobertura Total de Aliado (Full Cover Ally) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
 
 Exemplo: com Ataque Cauteloso, a criatura rola um dado a menos para Acerto e
 um dado a mais para Evasion. Com Defesa Total, também soma `+2` ao resultado de
