@@ -12,6 +12,8 @@ namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
+    private const int EvasionPenalty = 2;
+
     public EvadeResult Evade(Creature attacker, EvadeCommand input, IDiceRoller diceRoller)
     {
         var weapon = attacker.GetWeaponOrDefault(input.WeaponSlot);
@@ -32,7 +34,7 @@ public partial class Creature
         var armorEvasionBonus = chestArmor?.GetDefenseBonus1() ?? ArmorDefinition.DefenseBonus1(armorCategory);
         var armorLevelBonus = chestArmor?.LevelBonus ?? 0;
         var evadeBonus = evadeValue.Total + armorEvasionBonus + armorLevelBonus +
-                          GetTotalBonus(BonusApplication.Evasion, BonusType.Buff, null);
+                          GetTotalBonus(BonusApplication.Evasion, BonusType.Buff, null) - EvasionPenalty;
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         advantage = Math.Max(0, advantage);
         var luck = input.Luck + attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);

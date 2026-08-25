@@ -37,6 +37,7 @@ public class EvadeTests
 
         result.BaseDice.Should().Be(5);
         result.Difficulty.Should().Be(19);
+        result.EvadeBonus.Should().Be(3);
         result.Success.Should().BeTrue();
         result.Excesses.Should().BeEmpty();
     }
@@ -62,16 +63,16 @@ public class EvadeTests
 
         var result = defender.Evade(attacker, command, diceRoller);
 
-        result.KeptResults.Should().Equal(25, 14, 7, 6);
-        result.Excesses.Should().Equal(8, 7);
+        result.KeptResults.Should().Equal(23, 12, 5, 4);
+        result.Excesses.Should().Equal(10, 9, 2);
         result.NumberOfHits.Should().Be(1);
         result.Block.Should().Be(9);
         result.DamageBonus.Should().Be(5);
-        result.TotalDamage.Should().Be(11);
+        result.TotalDamage.Should().Be(15);
         result.Success.Should().BeFalse();
-        result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 10));
+        result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 14));
         moral.Value.Should().Be(0);
-        life.Value.Should().Be(life.MaxValue - 10);
+        life.Value.Should().Be(life.MaxValue - 14);
     }
 
     [Theory]
@@ -117,7 +118,7 @@ public class EvadeTests
 
         result.BaseDice.Should().Be(4);
         result.Advantage.Should().Be(2);
-        result.KeptResults.Should().Equal(25, 10, 9, 8);
+        result.KeptResults.Should().Equal(23, 8, 7, 6);
     }
 
     [Fact]
@@ -145,7 +146,7 @@ public class EvadeTests
             Luck = -1
         }, negativeLuckDice);
 
-        positiveLuckResult.KeptResults.Should().Equal(25, 17, 16, 15);
-        negativeLuckResult.KeptResults.Should().Equal(17, 16, 15, 6);
+        positiveLuckResult.KeptResults.Should().Equal(23, 15, 14, 13);
+        negativeLuckResult.KeptResults.Should().Equal(15, 14, 13, 4);
     }
 }
