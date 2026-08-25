@@ -43,7 +43,7 @@ public class EvadeTests
     }
 
     [Fact]
-    public void EvadeTreatsTieAsZeroExcessAndBuildsMediumWeaponDamageFromTwoFailures()
+    public void EvadeBuildsMediumWeaponDamageFromFailures()
     {
         var template = LandOfHeroesTemplate.Template;
         var attacker = new BaseCreature(template, "attacker").Creature;
@@ -73,6 +73,27 @@ public class EvadeTests
         result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 14));
         moral.Value.Should().Be(0);
         life.Value.Should().Be(life.MaxValue - 14);
+    }
+
+    [Fact]
+    public void EvadeTreatsTieAsSuccessfulDefense()
+    {
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker").Creature;
+        var defender = new BaseCreature(template, "defender").Creature;
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(20, 20, 20, 11);
+
+        var result = defender.Evade(attacker, new EvadeCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration
+        }, diceRoller);
+
+        result.Difficulty.Should().Be(14);
+        result.KeptResults.Should().Contain(14);
+        result.Excesses.Should().BeEmpty();
+        result.Success.Should().BeTrue();
     }
 
     [Theory]

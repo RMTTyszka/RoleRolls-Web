@@ -320,12 +320,11 @@ resultado de Evasion = d20 + bônus de Evasion
 ```
 
 O bônus de Evasion usa a especialidade defensiva definida pela campanha, os
-bônus da armadura, o bônus de nível da armadura e buffs. No Land of Heroes, a
-especialidade é `Evasion`.
+bônus da armadura, o bônus de nível da armadura, buffs e uma penalidade fixa
+de `−2`. No Land of Heroes, a especialidade é `Evasion`.
 
-Um resultado de Evasion estritamente maior que a Dificuldade evita uma
-tentativa. Um resultado igual favorece o atacante e gera excesso `0`. Um
-resultado menor gera:
+Um resultado de Evasion maior ou igual à Dificuldade evita uma tentativa. O
+empate favorece o defensor. Um resultado menor gera:
 
 ```text
 excesso = Dificuldade de Evasion − resultado de Evasion
@@ -343,9 +342,11 @@ efeito somam `3`, portanto seu bônus ofensivo total é `7`. O defensor rola
 quatro d20 de Evasion contra Dificuldade `17`.
 
 Uma personagem com `Agility 3`, `Evasion 2` e armadura leve possui bônus de
-Evasion `7`. Ela rola `20`, `15`, `12` e `8`, obtendo `27`, `22`, `19` e `15`.
+Evasion `5`, após a penalidade de `−2`. Ela rola `20`, `15`, `12` e `8`,
+obtendo `25`, `20`, `17` e `13`.
 
-Os três primeiros resultados evitam tentativas. O quarto gera excesso `2`. A
+Os três primeiros resultados evitam tentativas; o terceiro é um empate. O
+quarto gera excesso `4`. A
 arma média exige dois excessos para formar hit, então o ataque termina sem
 dano. Se duas falhas produzirem excessos `5` e `2`, elas formam um hit com
 excesso total `7` antes de aplicar bônus de dano e bloqueio.
