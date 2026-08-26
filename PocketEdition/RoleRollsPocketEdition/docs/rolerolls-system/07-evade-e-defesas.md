@@ -40,13 +40,15 @@ especialidade de Evasion configurada na campanha
 + bônus de Evasion da armadura
 + bônus de nível da armadura
 + buffs de Evasion
+- 1
 ```
 
-Resultados maiores que a dificuldade evitam tentativas. Empates pertencem ao
-atacante, mas têm excesso zero. Resultados menores geram `dificuldade -
-resultado`; os excessos são ordenados, agrupados pela dificuldade da arma e
-convertidos em dano com o mesmo bloqueio, piso mínimo e resolvedor de
-vitalidades do ataque básico.
+Somente resultados maiores que a dificuldade evitam tentativas. O empate
+favorece o atacante: ele gera excesso `0`, conta para formar um hit pela
+dificuldade da arma e não acrescenta dano por excesso. Resultados menores
+geram `dificuldade - resultado`; os excessos são ordenados, agrupados pela
+dificuldade da arma e convertidos em dano com o mesmo bloqueio, piso mínimo e
+resolvedor de vitalidades do ataque básico.
 
 Vantagem adiciona dados e conserva os melhores resultados até a quantidade
 base. Sorte positiva rerrola os menores resultados; sorte negativa rerrola os
