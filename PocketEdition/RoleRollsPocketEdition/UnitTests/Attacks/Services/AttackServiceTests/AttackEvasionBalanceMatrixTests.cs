@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using FluentAssertions;
 using RoleRollsPocketEdition.Attacks.Services;
@@ -56,20 +57,35 @@ public class AttackEvasionBalanceMatrixTests
 
     private List<ComparisonRow> BuildComparisonMatrix()
     {
-        var rows = new List<ComparisonRow>();
-        foreach (var weapon in WeaponCategories)
-        {
-            foreach (var armor in ArmorCategories)
-            {
-                foreach (var level in Enumerable.Range(1, 20))
-                {
-                    rows.Add(new ComparisonRow(level, weapon, armor, "Attack", SimulateAttack(level, weapon, armor)));
-                    rows.Add(new ComparisonRow(level, weapon, armor, "Evasion", SimulateEvasion(level, weapon, armor)));
-                }
-            }
-        }
+        var rows = new ConcurrentBag<ComparisonRow>();
+        var categories = WeaponCategories.SelectMany(weapon =>
+            ArmorCategories.Select(armor => (Weapon: weapon, Armor: armor)));
 
-        return rows;
+        Parallel.ForEach(categories, category =>
+        {
+            foreach (var level in Enumerable.Range(1, 20))
+            {
+                rows.Add(new ComparisonRow(
+                    level,
+                    category.Weapon,
+                    category.Armor,
+                    "Attack",
+                    SimulateAttack(level, category.Weapon, category.Armor)));
+                rows.Add(new ComparisonRow(
+                    level,
+                    category.Weapon,
+                    category.Armor,
+                    "Evasion",
+                    SimulateEvasion(level, category.Weapon, category.Armor)));
+            }
+        });
+
+        return rows
+            .OrderBy(row => Array.IndexOf(WeaponCategories, row.Weapon))
+            .ThenBy(row => Array.IndexOf(ArmorCategories, row.Armor))
+            .ThenBy(row => row.Level)
+            .ThenBy(row => row.PlayerAction)
+            .ToList();
     }
 
     private static RuntimeProfile SimulateAttack(int level, WeaponCategory weapon, ArmorCategory armor)
