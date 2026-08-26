@@ -12,7 +12,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
-    private const int EvasionPenalty = 2;
+    private const int EvasionPenalty = 1;
 
     public EvadeResult Evade(Creature attacker, EvadeCommand input, IDiceRoller diceRoller)
     {
@@ -46,7 +46,7 @@ public partial class Creature
             .Take(baseDice)
             .ToList();
         var excesses = keptResults
-            .Where(result => result < difficulty)
+            .Where(result => result <= difficulty)
             .Select(result => difficulty - result)
             .OrderByDescending(excess => excess)
             .ToList();

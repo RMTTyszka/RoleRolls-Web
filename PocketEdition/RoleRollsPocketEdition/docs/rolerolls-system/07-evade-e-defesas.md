@@ -40,12 +40,13 @@ especialidade de Evasion configurada na campanha
 + bônus de Evasion da armadura
 + bônus de nível da armadura
 + buffs de Evasion
-- 2
+- 1
 ```
 
-Resultados maiores ou iguais à dificuldade evitam tentativas. Portanto, o
-empate favorece quem rola, neste caso o defensor. Resultados menores geram
-`dificuldade - resultado`; os excessos são ordenados, agrupados pela
+Somente resultados maiores que a dificuldade evitam tentativas. O empate
+favorece o atacante: ele gera excesso `0`, conta para formar um hit pela
+dificuldade da arma e não acrescenta dano por excesso. Resultados menores
+geram `dificuldade - resultado`; os excessos são ordenados, agrupados pela
 dificuldade da arma e convertidos em dano com o mesmo bloqueio, piso mínimo e
 resolvedor de vitalidades do ataque básico.
 
