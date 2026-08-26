@@ -11,15 +11,17 @@ using Xunit.Abstractions;
 
 namespace RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests;
 
-public class AttackEvasionComparisonTests
+public class AttackEvasionBalanceMatrixTests
 {
     private const int SamplesPerLevel = 10_000;
     private const int Seed = 4242;
     private static readonly WeaponCategory[] WeaponCategories =
         [WeaponCategory.Light, WeaponCategory.Medium, WeaponCategory.Heavy];
+    private static readonly ArmorCategory[] ArmorCategories =
+        [ArmorCategory.Light, ArmorCategory.Medium, ArmorCategory.Heavy];
     private readonly ITestOutputHelper _output;
 
-    public AttackEvasionComparisonTests(ITestOutputHelper output)
+    public AttackEvasionBalanceMatrixTests(ITestOutputHelper output)
     {
         _output = output;
     }
@@ -29,26 +31,26 @@ public class AttackEvasionComparisonTests
     {
         var rows = BuildComparisonMatrix();
 
-        rows.Should().HaveCount(20 * 2 * WeaponCategories.Length);
-        rows.Select(row => row.Weapon).Should().Equal(
-            WeaponCategories.SelectMany(weapon => Enumerable.Repeat(weapon, 20 * 2)));
+        rows.Should().HaveCount(20 * 2 * WeaponCategories.Length * ArmorCategories.Length);
+        rows.Select(row => (row.Weapon, row.Armor)).Should().Equal(
+            WeaponCategories.SelectMany(weapon => ArmorCategories.SelectMany(armor =>
+                Enumerable.Repeat((weapon, armor), 20 * 2))));
 
-        foreach (var row in rows)
-        {
-            _output.WriteLine(row.Format());
-        }
+        LogComparisonMatrix(rows);
 
         foreach (var attackRow in rows.Where(row => row.PlayerAction == "Attack"))
         {
             var evasionRow = rows.Single(row =>
                 row.Weapon == attackRow.Weapon &&
+                row.Armor == attackRow.Armor &&
                 row.Level == attackRow.Level &&
                 row.PlayerAction == "Evasion");
 
             attackRow.Profile.HitChance.Should().BeApproximately(
                 evasionRow.Profile.HitChance,
                 0.03,
-                $"Attack e Evasion devem ter a mesma chance de acerto com arma {attackRow.Weapon} no nível {attackRow.Level}");
+                $"Attack e Evasion devem ter a mesma chance de acerto com arma {attackRow.Weapon}, " +
+                $"armadura {attackRow.Armor}, no nível {attackRow.Level}");
         }
     }
 
@@ -57,26 +59,29 @@ public class AttackEvasionComparisonTests
         var rows = new List<ComparisonRow>();
         foreach (var weapon in WeaponCategories)
         {
-            foreach (var level in Enumerable.Range(1, 20))
+            foreach (var armor in ArmorCategories)
             {
-                rows.Add(new ComparisonRow(level, weapon, "Attack", SimulateAttack(level, weapon)));
-                rows.Add(new ComparisonRow(level, weapon, "Evasion", SimulateEvasion(level, weapon)));
+                foreach (var level in Enumerable.Range(1, 20))
+                {
+                    rows.Add(new ComparisonRow(level, weapon, armor, "Attack", SimulateAttack(level, weapon, armor)));
+                    rows.Add(new ComparisonRow(level, weapon, armor, "Evasion", SimulateEvasion(level, weapon, armor)));
+                }
             }
         }
 
         return rows;
     }
 
-    private static RuntimeProfile SimulateAttack(int level, WeaponCategory weapon)
+    private static RuntimeProfile SimulateAttack(int level, WeaponCategory weapon, ArmorCategory armor)
     {
-        var attacker = BuildCreature("attacker", level, weapon);
-        var defender = BuildCreature("defender", level, WeaponCategory.Medium);
+        var attacker = BuildCreature("attacker", level, weapon, ArmorCategory.Medium);
+        var defender = BuildCreature("defender", level, WeaponCategory.Medium, armor);
         var command = new BasicAttackCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = LandOfHeroesTemplate.Template.ItemConfiguration
         };
-        var diceRoller = new RandomDiceRoller(Seed + level + (int)weapon * 100);
+        var diceRoller = new RandomDiceRoller(Seed + level + (int)weapon * 100 + (int)armor * 1_000);
         BasicAttackResult? firstResult = null;
         var hits = 0;
 
@@ -93,16 +98,16 @@ public class AttackEvasionComparisonTests
             hits / (double)SamplesPerLevel);
     }
 
-    private static RuntimeProfile SimulateEvasion(int level, WeaponCategory weapon)
+    private static RuntimeProfile SimulateEvasion(int level, WeaponCategory weapon, ArmorCategory armor)
     {
-        var attacker = BuildCreature("attacker", level, weapon);
-        var defender = BuildCreature("defender", level, WeaponCategory.Medium);
+        var attacker = BuildCreature("attacker", level, weapon, ArmorCategory.Medium);
+        var defender = BuildCreature("defender", level, WeaponCategory.Medium, armor);
         var command = new EvadeCommand
         {
             WeaponSlot = EquipableSlot.MainHand,
             ItemConfiguration = LandOfHeroesTemplate.Template.ItemConfiguration
         };
-        var diceRoller = new RandomDiceRoller(Seed + level + (int)weapon * 100);
+        var diceRoller = new RandomDiceRoller(Seed + level + (int)weapon * 100 + (int)armor * 1_000);
         EvadeResult? firstResult = null;
         var hits = 0;
 
@@ -118,12 +123,35 @@ public class AttackEvasionComparisonTests
             hits / (double)SamplesPerLevel);
     }
 
-    private static Creature BuildCreature(string name, int level, WeaponCategory weapon) =>
+    private static Creature BuildCreature(string name, int level, WeaponCategory weapon, ArmorCategory armor) =>
         new BaseCreature(LandOfHeroesTemplate.Template, name)
             .WithLevel(level)
             .WithWeapon(weapon, EquipableSlot.MainHand, level)
-            .WithArmor(ArmorCategory.Medium, level)
+            .WithArmor(armor, level)
             .Creature;
+
+    private void LogComparisonMatrix(IEnumerable<ComparisonRow> rows)
+    {
+        foreach (var categoryRows in rows.GroupBy(row => (row.Weapon, row.Armor)))
+        {
+            _output.WriteLine($"=== Weapon: {categoryRows.Key.Weapon} | Armor: {categoryRows.Key.Armor} ===");
+            _output.WriteLine("Level | Attack                                   | Evasion");
+
+            foreach (var levelRows in categoryRows.GroupBy(row => row.Level))
+            {
+                var attack = levelRows.Single(row => row.PlayerAction == "Attack");
+                var evasion = levelRows.Single(row => row.PlayerAction == "Evasion");
+                _output.WriteLine(
+                    $"L{levelRows.Key:00}   | {FormatProfile(attack.Profile, "hit"),-40} | " +
+                    FormatProfile(evasion.Profile, "NPC hit"));
+            }
+
+            _output.WriteLine(string.Empty);
+        }
+    }
+
+    private static string FormatProfile(RuntimeProfile profile, string hitLabel) =>
+        $"{profile.BaseDice}d20+{profile.Bonus} vs {profile.Difficulty} ({hitLabel} {profile.HitChance:P1})";
 
     private readonly record struct RuntimeProfile(
         int BaseDice,
@@ -134,17 +162,9 @@ public class AttackEvasionComparisonTests
     private readonly record struct ComparisonRow(
         int Level,
         WeaponCategory Weapon,
+        ArmorCategory Armor,
         string PlayerAction,
-        RuntimeProfile Profile)
-    {
-        public string Format()
-        {
-            var hitLabel = PlayerAction == "Evasion" ? "NPC hit" : "hit";
-            return $"{PlayerAction} | L{Level:00} | {Weapon}/Medium | " +
-                   $"{Profile.BaseDice}d20+{Profile.Bonus} vs {Profile.Difficulty} " +
-                   $"({hitLabel} {Profile.HitChance:P1})";
-        }
-    }
+        RuntimeProfile Profile);
 
     private sealed class RandomDiceRoller(int seed) : IDiceRoller
     {

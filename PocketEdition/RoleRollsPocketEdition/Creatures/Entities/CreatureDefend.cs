@@ -37,7 +37,7 @@ public partial class Creature
                           GetTotalBonus(BonusApplication.Evasion, BonusType.Buff, null) - EvasionPenalty;
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         advantage = Math.Max(0, advantage);
-        var luck = input.Luck + attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);
+        var luck = input.Luck - attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);
 
         var rawRolls = RollDefensiveDice(baseDice + advantage, luck, diceRoller);
         var allResults = rawRolls.Select(roll => roll + evadeBonus).ToList();

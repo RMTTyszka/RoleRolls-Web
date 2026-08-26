@@ -100,6 +100,35 @@ public class EvadeTests
     }
 
     [Theory]
+    [InlineData(WeaponCategory.Light, ArmorCategory.Light, -1)]
+    [InlineData(WeaponCategory.Light, ArmorCategory.Heavy, 1)]
+    [InlineData(WeaponCategory.Heavy, ArmorCategory.Light, 1)]
+    [InlineData(WeaponCategory.Heavy, ArmorCategory.Heavy, -1)]
+    public void EvadeInvertsTheAttackersWeaponArmorLuck(
+        WeaponCategory weaponCategory,
+        ArmorCategory armorCategory,
+        int expectedLuck)
+    {
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker")
+            .WithWeapon(weaponCategory, EquipableSlot.MainHand, level: 1)
+            .Creature;
+        var defender = new BaseCreature(template, "defender")
+            .WithArmor(armorCategory, level: 1)
+            .Creature;
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(10);
+
+        var result = defender.Evade(attacker, new EvadeCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration
+        }, diceRoller);
+
+        result.Luck.Should().Be(expectedLuck);
+    }
+
+    [Theory]
     [InlineData(WeaponCategory.Light, 3)]
     [InlineData(WeaponCategory.Medium, 1)]
     [InlineData(WeaponCategory.Heavy, 1)]
