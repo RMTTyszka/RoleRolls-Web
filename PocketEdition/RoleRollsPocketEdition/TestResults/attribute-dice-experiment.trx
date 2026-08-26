@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f53eaed2-ea85-49ae-80a5-132af1965a31" name="Pichau@DESKTOP-UF85B9U 2026-08-25 11:19:21" runUser="DESKTOP-UF85B9U\Pichau" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-08-25T11:19:21.3910041-03:00" queuing="2026-08-25T11:19:21.3910042-03:00" start="2026-08-25T11:19:20.4893120-03:00" finish="2026-08-25T11:19:21.3944883-03:00" />
+  <TestSettings name="default" id="32656422-3627-415e-b5c6-e79d2581dacd">
+    <Deployment runDeploymentRoot="Pichau_DESKTOP-UF85B9U_2026-08-25_11_19_21" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5f27d224-965d-47e9-8e7e-1970cfe57796" testId="dd740a30-5ecb-191c-7664-50ca54b3b704" testName="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests.ProposedAttackUsesLinkedAttributeOnlyForPoolAndWeaponSkillOnlyForRollBonus" computerName="DESKTOP-UF85B9U" duration="00:00:00.0600750" startTime="2026-08-25T11:19:20.9665819-03:00" endTime="2026-08-25T11:19:21.0310055-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f27d224-965d-47e9-8e7e-1970cfe57796" />
+    <UnitTestResult executionId="143702ee-9095-4b07-83be-d380ff5cd5b4" testId="3e31522d-633c-55af-5ea6-f73873de95ae" testName="Matriz experimental: atributo como dados e especializacao como bonus" computerName="DESKTOP-UF85B9U" duration="00:00:00.2812797" startTime="2026-08-25T11:19:21.0379574-03:00" endTime="2026-08-25T11:19:21.3133271-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="143702ee-9095-4b07-83be-d380ff5cd5b4">
+      <Output>
+        <StdOut>Attack | L01 | Medium/Medium | current 4d20+4 vs 15 (die 50,0%, hit 68,3%) | proposal 3d20+1 vs 15 (die 35,0%, hit 28,5%)&#xD;
+Evasion | L01 | Medium/Medium | current 4d20+5 vs 14 (die 60,0%, hit 52,7%) | proposal 3d20+2 vs 14 (die 45,0%, hit 58,1%)&#xD;
+Attack | L02 | Medium/Medium | current 4d20+5 vs 16 (die 50,0%, hit 69,1%) | proposal 3d20+2 vs 16 (die 35,0%, hit 28,3%)&#xD;
+Evasion | L02 | Medium/Medium | current 4d20+6 vs 15 (die 60,0%, hit 51,8%) | proposal 3d20+3 vs 15 (die 45,0%, hit 57,6%)&#xD;
+Attack | L03 | Medium/Medium | current 4d20+5 vs 16 (die 50,0%, hit 68,3%) | proposal 3d20+2 vs 16 (die 35,0%, hit 28,0%)&#xD;
+Evasion | L03 | Medium/Medium | current 4d20+6 vs 15 (die 60,0%, hit 52,0%) | proposal 3d20+3 vs 15 (die 45,0%, hit 56,9%)&#xD;
+Attack | L04 | Medium/Medium | current 5d20+7 vs 18 (die 50,0%, hit 81,2%) | proposal 3d20+4 vs 18 (die 35,0%, hit 28,3%)&#xD;
+Evasion | L04 | Medium/Medium | current 5d20+8 vs 17 (die 60,0%, hit 66,6%) | proposal 3d20+5 vs 17 (die 45,0%, hit 57,4%)&#xD;
+Attack | L05 | Medium/Medium | current 5d20+7 vs 18 (die 50,0%, hit 80,9%) | proposal 3d20+4 vs 18 (die 35,0%, hit 28,1%)&#xD;
+Evasion | L05 | Medium/Medium | current 5d20+8 vs 17 (die 60,0%, hit 66,0%) | proposal 3d20+5 vs 17 (die 45,0%, hit 57,3%)&#xD;
+Attack | L06 | Medium/Medium | current 6d20+9 vs 20 (die 50,0%, hit 89,3%) | proposal 4d20+5 vs 20 (die 30,0%, hit 35,2%)&#xD;
+Evasion | L06 | Medium/Medium | current 6d20+10 vs 19 (die 60,0%, hit 76,8%) | proposal 4d20+6 vs 19 (die 40,0%, hit 82,9%)&#xD;
+Attack | L07 | Medium/Medium | current 6d20+9 vs 20 (die 50,0%, hit 88,9%) | proposal 4d20+5 vs 20 (die 30,0%, hit 34,5%)&#xD;
+Evasion | L07 | Medium/Medium | current 6d20+10 vs 19 (die 60,0%, hit 77,5%) | proposal 4d20+6 vs 19 (die 40,0%, hit 82,2%)&#xD;
+Attack | L08 | Medium/Medium | current 7d20+11 vs 22 (die 50,0%, hit 93,7%) | proposal 4d20+7 vs 22 (die 30,0%, hit 35,0%)&#xD;
+Evasion | L08 | Medium/Medium | current 7d20+12 vs 21 (die 60,0%, hit 83,9%) | proposal 4d20+8 vs 21 (die 40,0%, hit 81,9%)&#xD;
+Attack | L09 | Medium/Medium | current 7d20+11 vs 22 (die 50,0%, hit 94,1%) | proposal 4d20+7 vs 22 (die 30,0%, hit 35,2%)&#xD;
+Evasion | L09 | Medium/Medium | current 7d20+12 vs 21 (die 60,0%, hit 84,5%) | proposal 4d20+8 vs 21 (die 40,0%, hit 82,3%)&#xD;
+Attack | L10 | Medium/Medium | current 7d20+12 vs 23 (die 50,0%, hit 93,8%) | proposal 4d20+8 vs 23 (die 30,0%, hit 34,3%)&#xD;
+Evasion | L10 | Medium/Medium | current 7d20+13 vs 22 (die 60,0%, hit 84,1%) | proposal 4d20+9 vs 22 (die 40,0%, hit 81,3%)&#xD;
+Attack | L11 | Medium/Medium | current 8d20+13 vs 24 (die 50,0%, hit 96,3%) | proposal 5d20+8 vs 24 (die 25,0%, hit 36,8%)&#xD;
+Evasion | L11 | Medium/Medium | current 8d20+14 vs 23 (die 60,0%, hit 89,7%) | proposal 5d20+9 vs 23 (die 35,0%, hit 94,8%)&#xD;
+Attack | L12 | Medium/Medium | current 9d20+15 vs 26 (die 50,0%, hit 97,8%) | proposal 5d20+10 vs 26 (die 25,0%, hit 36,5%)&#xD;
+Evasion | L12 | Medium/Medium | current 9d20+16 vs 25 (die 60,0%, hit 92,2%) | proposal 5d20+11 vs 25 (die 35,0%, hit 94,8%)&#xD;
+Attack | L13 | Medium/Medium | current 9d20+15 vs 26 (die 50,0%, hit 97,9%) | proposal 5d20+10 vs 26 (die 25,0%, hit 36,2%)&#xD;
+Evasion | L13 | Medium/Medium | current 9d20+16 vs 25 (die 60,0%, hit 92,9%) | proposal 5d20+11 vs 25 (die 35,0%, hit 95,0%)&#xD;
+Attack | L14 | Medium/Medium | current 9d20+16 vs 27 (die 50,0%, hit 98,3%) | proposal 5d20+11 vs 27 (die 25,0%, hit 37,4%)&#xD;
+Evasion | L14 | Medium/Medium | current 9d20+17 vs 26 (die 60,0%, hit 93,3%) | proposal 5d20+12 vs 26 (die 35,0%, hit 94,6%)&#xD;
+Attack | L15 | Medium/Medium | current 9d20+16 vs 27 (die 50,0%, hit 98,2%) | proposal 5d20+11 vs 27 (die 25,0%, hit 37,3%)&#xD;
+Evasion | L15 | Medium/Medium | current 9d20+17 vs 26 (die 60,0%, hit 92,8%) | proposal 5d20+12 vs 26 (die 35,0%, hit 94,9%)&#xD;
+Attack | L16 | Medium/Medium | current 10d20+18 vs 29 (die 50,0%, hit 98,8%) | proposal 6d20+12 vs 29 (die 20,0%, hit 34,2%)&#xD;
+Evasion | L16 | Medium/Medium | current 10d20+19 vs 28 (die 60,0%, hit 95,6%) | proposal 6d20+13 vs 28 (die 30,0%, hit 98,8%)&#xD;
+Attack | L17 | Medium/Medium | current 10d20+18 vs 29 (die 50,0%, hit 99,0%) | proposal 6d20+12 vs 29 (die 20,0%, hit 35,1%)&#xD;
+Evasion | L17 | Medium/Medium | current 10d20+19 vs 28 (die 60,0%, hit 95,6%) | proposal 6d20+13 vs 28 (die 30,0%, hit 99,1%)&#xD;
+Attack | L18 | Medium/Medium | current 10d20+19 vs 30 (die 50,0%, hit 99,0%) | proposal 6d20+13 vs 30 (die 20,0%, hit 34,5%)&#xD;
+Evasion | L18 | Medium/Medium | current 10d20+20 vs 29 (die 60,0%, hit 95,5%) | proposal 6d20+14 vs 29 (die 30,0%, hit 99,0%)&#xD;
+Attack | L19 | Medium/Medium | current 10d20+19 vs 30 (die 50,0%, hit 98,9%) | proposal 6d20+13 vs 30 (die 20,0%, hit 33,9%)&#xD;
+Evasion | L19 | Medium/Medium | current 10d20+20 vs 29 (die 60,0%, hit 95,3%) | proposal 6d20+14 vs 29 (die 30,0%, hit 99,0%)&#xD;
+Attack | L20 | Medium/Medium | current 10d20+20 vs 31 (die 50,0%, hit 99,1%) | proposal 6d20+14 vs 31 (die 20,0%, hit 34,7%)&#xD;
+Evasion | L20 | Medium/Medium | current 10d20+21 vs 30 (die 60,0%, hit 95,2%) | proposal 6d20+15 vs 30 (die 30,0%, hit 99,1%)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="05a91603-f9b5-44d3-b1c7-af01cfa01866" testId="2ed323fe-d3c0-9a06-1f6f-b5581248e052" testName="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests.ProposedEvasionUsesConfiguredLinkedAttributeOnlyForPoolAndEvasionSkillOnlyForRollBonus" computerName="DESKTOP-UF85B9U" duration="00:00:00.0011084" startTime="2026-08-25T11:19:21.3139518-03:00" endTime="2026-08-25T11:19:21.3139891-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05a91603-f9b5-44d3-b1c7-af01cfa01866" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Matriz experimental: atributo como dados e especializacao como bonus" storage="c:\git\rolerolls-web\pocketedition\rolerollspocketedition\bin\debug\net10.0\rolerollspocketedition.dll" id="3e31522d-633c-55af-5ea6-f73873de95ae">
+      <Execution id="143702ee-9095-4b07-83be-d380ff5cd5b4" />
+      <TestMethod codeBase="C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\bin\Debug\net10.0\RoleRollsPocketEdition.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests" name="LogsCurrentAndProposedCombatProfilesAcrossLevelsWeaponsAndArmor" />
+    </UnitTest>
+    <UnitTest name="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests.ProposedEvasionUsesConfiguredLinkedAttributeOnlyForPoolAndEvasionSkillOnlyForRollBonus" storage="c:\git\rolerolls-web\pocketedition\rolerollspocketedition\bin\debug\net10.0\rolerollspocketedition.dll" id="2ed323fe-d3c0-9a06-1f6f-b5581248e052">
+      <Execution id="05a91603-f9b5-44d3-b1c7-af01cfa01866" />
+      <TestMethod codeBase="C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\bin\Debug\net10.0\RoleRollsPocketEdition.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests" name="ProposedEvasionUsesConfiguredLinkedAttributeOnlyForPoolAndEvasionSkillOnlyForRollBonus" />
+    </UnitTest>
+    <UnitTest name="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests.ProposedAttackUsesLinkedAttributeOnlyForPoolAndWeaponSkillOnlyForRollBonus" storage="c:\git\rolerolls-web\pocketedition\rolerollspocketedition\bin\debug\net10.0\rolerollspocketedition.dll" id="dd740a30-5ecb-191c-7664-50ca54b3b704">
+      <Execution id="5f27d224-965d-47e9-8e7e-1970cfe57796" />
+      <TestMethod codeBase="C:\Git\RoleRolls-Web\PocketEdition\RoleRollsPocketEdition\bin\Debug\net10.0\RoleRollsPocketEdition.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests" name="ProposedAttackUsesLinkedAttributeOnlyForPoolAndWeaponSkillOnlyForRollBonus" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="dd740a30-5ecb-191c-7664-50ca54b3b704" executionId="5f27d224-965d-47e9-8e7e-1970cfe57796" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3e31522d-633c-55af-5ea6-f73873de95ae" executionId="143702ee-9095-4b07-83be-d380ff5cd5b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ed323fe-d3c0-9a06-1f6f-b5581248e052" executionId="05a91603-f9b5-44d3-b1c7-af01cfa01866" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Resultados que não estão em uma lista" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Todos os resultados carregados" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.0)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: RoleRollsPocketEdition&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  RoleRollsPocketEdition&#xD;
+[xUnit.net 00:00:00.15]   Starting:    RoleRollsPocketEdition&#xD;
+     Warning:&#xD;
+     The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and&#xD;
+     the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for&#xD;
+     non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.&#xD;
+     Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.&#xD;
+     A paid commercial license supports the development and continued increasing support of&#xD;
+     Fluent Assertions users under both commercial and community licenses. Help us&#xD;
+     keep Fluent Assertions at the forefront of unit testing.&#xD;
+     For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/&#xD;
+[xUnit.net 00:00:00.52]   Finished:    RoleRollsPocketEdition&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

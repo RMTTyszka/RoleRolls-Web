@@ -599,10 +599,11 @@ namespace RoleRollsPocketEdition.Creatures.Entities
             try
             {
                 var result = dt.Compute(expression, string.Empty);
-                if (decimal.TryParse(result?.ToString() ?? "0", NumberStyles.Any, CultureInfo.InvariantCulture,
+                var resultText = Convert.ToString(result, CultureInfo.InvariantCulture) ?? "0";
+                if (decimal.TryParse(resultText, NumberStyles.Any, CultureInfo.InvariantCulture,
                         out var decimalValue))
                 {
-                    return (int)Math.Round(decimalValue, MidpointRounding.AwayFromZero);
+                    return (int)Math.Floor(decimalValue);
                 }
             }
             catch (Exception e)

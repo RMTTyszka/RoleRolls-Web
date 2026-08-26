@@ -94,30 +94,40 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelper_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frmttyszka_003FAppData_003FRoaming_003FJetBrains_003FRider2026_002E1_003Fresharper_002Dhost_003FSourcesCache_003F228bff957d5b9f32cfbedd8bf82a5d3e862ec3e051593a67913b95ae288287_003FThrowHelper_002Ecs_002Fz_003A2_002D1/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUseMiddlewareExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003FPichau_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F2b6a8c2f9d9f4a358698c657db0f9f4f4b8a0_003F13_003Fe75157bb_003FUseMiddlewareExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWebApplicationBuilder_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003Frmttyszka_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Ff23fbbfb5fbc45a3996fcf17454973d51b920_003Ff1_003F16f2fa8b_003FWebApplicationBuilder_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	
-	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=957004ae_002D3550_002D4273_002D8139_002D7c8e7204fc33/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="When an attack succeeded, the defender take damage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4e67c106_002Da454_002D46a2_002Dbb41_002D0c0404653b09/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Matriz compara Attack e Evasion pelo runtime" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T2&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.SkillAndAttributeDcTests.DcPerLevelStaysNearFiftyPercent&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.MatchingWeightsAreOptimal&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.HitPointsNeededForFourRounds&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.DcPerLevelStaysNearFiftyPercent&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.AdvantageImprovesSuccessRateNearFiftyPercent&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T14&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T15&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T5&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T6&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T3&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.LogCreatureVitalitiesPerLevel&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.ApproximateHpMatchesSimulation&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.AdvantageBoostsDamagePerWeaponPerLevel&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeLevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeDamageDifferenceByLevelIsReported&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackEvasionBalanceMatrixTests.MatrixKeepsAttackAndEvasionHitChancesBalanced&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=957004ae_002D3550_002D4273_002D8139_002D7c8e7204fc33/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="When an attack succeeded, the defender take damage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T2&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.SkillAndAttributeDcTests.DcPerLevelStaysNearFiftyPercent&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.MatchingWeightsAreOptimal&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.HitPointsNeededForFourRounds&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.LevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.RpgBalanceDesignTests.BalanceEnvelopeAndCounters&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.DcPerLevelStaysNearFiftyPercent&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Rolls.SkillAndAttributeRollTests.AdvantageImprovesSuccessRateNearFiftyPercent&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T14&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T15&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T5&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T6&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttackTests.T3&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.LogCreatureVitalitiesPerLevel&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.ApproximateHpMatchesSimulation&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.AdvantageBoostsDamagePerWeaponPerLevel&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeLevelScalingKeepsBalance&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.CreatureBalanceDesignTests.GripTypeDamageDifferenceByLevelIsReported&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests.ProposedAttackUsesLinkedAttributeOnlyForPoolAndWeaponSkillOnlyForRollBonus&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F7123585-A846-4825-9BF8-D74A0EDD4D8B::net10.0::RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests.AttributeDiceSkillBonusExperimentTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;F7123585-A846-4825-9BF8-D74A0EDD4D8B/d:UnitTests/d:Attacks/d:Services/d:AttackServiceTests/f:AttributeDiceSkillBonusExperimentTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>

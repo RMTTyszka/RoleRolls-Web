@@ -12,6 +12,12 @@ Explicar como o sistema transforma uma capacidade da ficha em valor jogavel e co
 - Condicoes, por si so, nao viram numero jogavel direto.
 - Depois do valor-base, o sistema ainda pode aplicar bonus adicionais.
 
+## Arredondamento das formulas
+
+- O resultado final de toda formula e um numero inteiro arredondado sempre para baixo (`floor`).
+- Exemplos: `5 / 2 = 2`, `3 / 2 = 1` e `-6 / 5 = -2`.
+- Essa regra vale depois de avaliar a expressao inteira; nao se arredonda cada termo isoladamente.
+
 ## Assumido por testes/balance
 
 - Os testes costumam simplificar essa leitura transformando atributo e pericia em pools abstratas de dados.
