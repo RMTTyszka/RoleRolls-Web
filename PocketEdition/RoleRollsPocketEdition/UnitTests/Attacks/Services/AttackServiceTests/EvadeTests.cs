@@ -37,7 +37,7 @@ public class EvadeTests
 
         result.BaseDice.Should().Be(5);
         result.Difficulty.Should().Be(19);
-        result.EvadeBonus.Should().Be(3);
+        result.EvadeBonus.Should().Be(4);
         result.Success.Should().BeTrue();
         result.Excesses.Should().BeEmpty();
     }
@@ -63,26 +63,26 @@ public class EvadeTests
 
         var result = defender.Evade(attacker, command, diceRoller);
 
-        result.KeptResults.Should().Equal(23, 12, 5, 4);
-        result.Excesses.Should().Equal(10, 9, 2);
+        result.KeptResults.Should().Equal(24, 13, 6, 5);
+        result.Excesses.Should().Equal(9, 8, 1);
         result.NumberOfHits.Should().Be(1);
         result.Block.Should().Be(9);
         result.DamageBonus.Should().Be(5);
-        result.TotalDamage.Should().Be(15);
+        result.TotalDamage.Should().Be(13);
         result.Success.Should().BeFalse();
-        result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 14));
+        result.VitalityDamage.Select(damage => (damage.Vitality, damage.Value)).Should().Equal(("Moral", 1), ("Life", 12));
         moral.Value.Should().Be(0);
-        life.Value.Should().Be(life.MaxValue - 14);
+        life.Value.Should().Be(life.MaxValue - 12);
     }
 
     [Fact]
-    public void EvadeTreatsTieAsSuccessfulDefense()
+    public void EvadeTreatsTieAsAnAttackSuccess()
     {
         var template = LandOfHeroesTemplate.Template;
         var attacker = new BaseCreature(template, "attacker").Creature;
         var defender = new BaseCreature(template, "defender").Creature;
         var diceRoller = Substitute.For<IDiceRoller>();
-        diceRoller.Roll(20).Returns(20, 20, 20, 11);
+        diceRoller.Roll(20).Returns(20, 20, 10, 10);
 
         var result = defender.Evade(attacker, new EvadeCommand
         {
@@ -91,9 +91,41 @@ public class EvadeTests
         }, diceRoller);
 
         result.Difficulty.Should().Be(14);
-        result.KeptResults.Should().Contain(14);
-        result.Excesses.Should().BeEmpty();
-        result.Success.Should().BeTrue();
+        result.EvadeBonus.Should().Be(4);
+        result.KeptResults.Should().Equal(24, 24, 14, 14);
+        result.Excesses.Should().Equal(0, 0);
+        result.NumberOfHits.Should().Be(1);
+        result.TotalDamage.Should().Be(1);
+        result.Success.Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData(WeaponCategory.Light, ArmorCategory.Light, -1)]
+    [InlineData(WeaponCategory.Light, ArmorCategory.Heavy, 1)]
+    [InlineData(WeaponCategory.Heavy, ArmorCategory.Light, 1)]
+    [InlineData(WeaponCategory.Heavy, ArmorCategory.Heavy, -1)]
+    public void EvadeInvertsTheAttackersWeaponArmorLuck(
+        WeaponCategory weaponCategory,
+        ArmorCategory armorCategory,
+        int expectedLuck)
+    {
+        var template = LandOfHeroesTemplate.Template;
+        var attacker = new BaseCreature(template, "attacker")
+            .WithWeapon(weaponCategory, EquipableSlot.MainHand, level: 1)
+            .Creature;
+        var defender = new BaseCreature(template, "defender")
+            .WithArmor(armorCategory, level: 1)
+            .Creature;
+        var diceRoller = Substitute.For<IDiceRoller>();
+        diceRoller.Roll(20).Returns(10);
+
+        var result = defender.Evade(attacker, new EvadeCommand
+        {
+            WeaponSlot = EquipableSlot.MainHand,
+            ItemConfiguration = template.ItemConfiguration
+        }, diceRoller);
+
+        result.Luck.Should().Be(expectedLuck);
     }
 
     [Theory]
@@ -139,7 +171,7 @@ public class EvadeTests
 
         result.BaseDice.Should().Be(4);
         result.Advantage.Should().Be(2);
-        result.KeptResults.Should().Equal(23, 8, 7, 6);
+        result.KeptResults.Should().Equal(24, 9, 8, 7);
     }
 
     [Fact]
@@ -167,7 +199,7 @@ public class EvadeTests
             Luck = -1
         }, negativeLuckDice);
 
-        positiveLuckResult.KeptResults.Should().Equal(23, 15, 14, 13);
-        negativeLuckResult.KeptResults.Should().Equal(15, 14, 13, 4);
+        positiveLuckResult.KeptResults.Should().Equal(24, 16, 15, 14);
+        negativeLuckResult.KeptResults.Should().Equal(16, 15, 14, 5);
     }
 }

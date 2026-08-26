@@ -12,7 +12,7 @@ namespace RoleRollsPocketEdition.Creatures.Entities;
 
 public partial class Creature
 {
-    private const int EvasionPenalty = 2;
+    private const int EvasionPenalty = 1;
 
     public EvadeResult Evade(Creature attacker, EvadeCommand input, IDiceRoller diceRoller)
     {
@@ -37,7 +37,7 @@ public partial class Creature
                           GetTotalBonus(BonusApplication.Evasion, BonusType.Buff, null) - EvasionPenalty;
         var advantage = Math.Max(input.Advantage, GetTotalBonus(BonusApplication.Evasion, BonusType.Advantage, null));
         advantage = Math.Max(0, advantage);
-        var luck = input.Luck + attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);
+        var luck = input.Luck - attacker.ResolveWeaponVsArmorLuck(weapon, armorCategory);
 
         var rawRolls = RollDefensiveDice(baseDice + advantage, luck, diceRoller);
         var allResults = rawRolls.Select(roll => roll + evadeBonus).ToList();
@@ -46,7 +46,7 @@ public partial class Creature
             .Take(baseDice)
             .ToList();
         var excesses = keptResults
-            .Where(result => result < difficulty)
+            .Where(result => result <= difficulty)
             .Select(result => difficulty - result)
             .OrderByDescending(excess => excess)
             .ToList();
