@@ -7,10 +7,6 @@ namespace RoleRollsPocketEdition.Creatures.Dtos
     {
         public CreatureCategory? CreatureCategory { get; set; }
         public bool? OnlyTemplates { get; set; }
-
-        public GetAllCampaignCreaturesInput()
-        {
-        }
     }
 }
 

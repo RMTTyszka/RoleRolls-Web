@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
-using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
@@ -14,12 +11,10 @@ using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Configurations;
-using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Commands;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.Scenes.Entities;
-using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Creatures.Entities

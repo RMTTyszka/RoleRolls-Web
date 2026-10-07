@@ -1,4 +1,4 @@
-import { Component, computed, forwardRef, input } from '@angular/core';
+import { Component, computed, forwardRef, input, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
 import { Property } from '@app/models/bonuses/bonus';
@@ -29,6 +29,7 @@ import { SelectModule } from 'primeng/select';
       multi: true
     }
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'flex'
   }

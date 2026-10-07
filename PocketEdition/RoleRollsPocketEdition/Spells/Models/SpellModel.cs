@@ -1,4 +1,4 @@
-using RoleRollsPocketEdition.Core.Entities;
+using System.Text;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Spells.Entities;
 
@@ -15,7 +15,7 @@ public class SpellModel : IEntityDto
     {
         get
         {
-            var sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(Name))
             {
                 sb.AppendLine($"## {Name}");

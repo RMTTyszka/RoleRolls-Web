@@ -82,40 +82,36 @@
         </ng-container>
       </div>
       <div class="token-row__actions flex gap-1">
-        <button
-          pButton
+        <p-button
           type="button"
           icon="pi pi-arrow-up"
           (click)="moveToken(i, -1)"
           [disabled]="disabled || i === 0">
-        </button>
-        <button
-          pButton
+        </p-button>
+        <p-button
           type="button"
           icon="pi pi-arrow-down"
           (click)="moveToken(i, 1)"
           [disabled]="disabled || i === tokens.length - 1">
-        </button>
-        <button
-          pButton
+        </p-button>
+        <p-button
           type="button"
           icon="pi pi-trash"
-          class="p-button-danger"
+          styleClass="p-button-danger"
           (click)="removeToken(i)"
           [disabled]="disabled">
-        </button>
+        </p-button>
       </div>
     </div>
 
     <div class="flex flex-wrap items-center gap-2 border-t surface-border pt-3">
-      <button
-        pButton
+      <p-button
         type="button"
         icon="pi pi-plus"
-        class="p-button-rounded"
+        styleClass="p-button-rounded"
         (click)="addToken()"
         [disabled]="disabled">
-      </button>
+      </p-button>
     </div>
 
     <div class="text-sm surface-ground border-round p-2" *ngIf="descriptionPreview">
@@ -127,7 +123,7 @@
   <ng-template #emptyState>
     <div class="flex flex-col gap-2">
       <p class="text-sm text-color-secondary m-0">Nenhum passo definido para esta formula.</p>
-      <button pButton type="button" label="Adicionar linha" (click)="addToken()" [disabled]="disabled"></button>
+      <p-button type="button" label="Adicionar linha" (click)="addToken()" [disabled]="disabled"></p-button>
     </div>
   </ng-template>
 </div>

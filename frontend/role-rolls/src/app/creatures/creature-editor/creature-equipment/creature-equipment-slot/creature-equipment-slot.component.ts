@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { ItemModel } from '@app/campaigns/models/item-model';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
@@ -9,7 +9,7 @@ import {EquipableSlot} from '@app/models/itens/equipable-slot';
 import {debounceTime} from 'rxjs/operators';
 import { NgIf, NgStyle } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import {InputGroup} from 'primeng/inputgroup';
@@ -21,12 +21,13 @@ import {InputGroup} from 'primeng/inputgroup';
     InputText,
     FormsModule,
     NgStyle,
-    ButtonDirective,
+    ButtonModule,
     Tooltip,
     InputGroupAddonModule,
     InputGroup
   ],
   templateUrl: './creature-equipment-slot.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-equipment-slot.component.scss'
 })
 export class CreatureEquipmentSlotComponent {

@@ -9,7 +9,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             SpecificSkillTemplates = new List<SpecificSkillTemplateModel>();
         }
 
-        public SkillTemplateModel(SkillTemplate skill) : base()
+        public SkillTemplateModel(SkillTemplate skill)
         {
             Id = skill.Id;
             Name = skill.Name;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RollHistoryDto } from '@app/campaigns/models/roll-history-dto';
 import { ActionHistoryDto } from '@app/campaigns/models/action-history-dto';
 import { HistoryType } from '@app/campaigns/models/history-type';
@@ -14,6 +14,7 @@ import { NgClass, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
     NgIf
   ],
   templateUrl: './log-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './log-details.component.scss'
 })
 export class LogDetailsComponent {

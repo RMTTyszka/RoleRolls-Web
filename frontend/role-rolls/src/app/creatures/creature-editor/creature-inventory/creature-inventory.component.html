@@ -28,8 +28,8 @@
     <ng-template #body let-item let-index>
       <tr>
         <td style="width: 5px;">
-          <button pButton type="button" pTooltip="Remove" icon="pi pi-times" [class]="'p-button-danger'" (click)="remove(item, index)" style="margin-right: 4px;"></button>
-          <button *ngIf="item.template.type !== itemType.Consumable" pButton type="button" pTooltip="Equip" icon="fas fa-tshirt" [class]="'p-button-primary'" (click)="equip(item, index)" style="margin-right: 4px;"></button>
+          <p-button type="button" pTooltip="Remove" icon="pi pi-times" [styleClass]="'p-button-danger'" (click)="remove(item, index)" [style]="{ 'margin-right': '4px' }"></p-button>
+          <p-button *ngIf="item.template.type !== itemType.Consumable" type="button" pTooltip="Equip" icon="fas fa-tshirt" [styleClass]="'p-button-primary'" (click)="equip(item, index)" [style]="{ 'margin-right': '4px' }"></p-button>
         </td>
         <td>{{ item.name }}</td>
         <td>{{ item.level }}</td>

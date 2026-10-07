@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CampaignPlayer } from '@app/campaigns/models/CampaignPlayer.model';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { MenuItem } from 'primeng/api';
@@ -19,7 +19,7 @@ import { SceneLogComponent } from '@app/campaign-session/scene-log/scene-log.com
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Toolbar } from 'primeng/toolbar';
 import { SceneBoardComponent } from '@app/campaign-session/scene-board/scene-board.component';
@@ -33,12 +33,13 @@ import { SceneBoardComponent } from '@app/campaign-session/scene-board/scene-boa
     SceneLogComponent,
     FormsModule,
     NgIf,
-    ButtonDirective,
+    ButtonModule,
     InputText,
     Toolbar,
     SceneBoardComponent
   ],
   templateUrl: './campaign-session-panel.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-session-panel.component.scss'
 })
 export class CampaignSessionPanelComponent implements OnDestroy {

@@ -12,7 +12,7 @@
       </div>
       <div class="flex w-full justify-end md:w-auto">
         <div class="flex">
-          <button *ngFor="let action of headerActions" pButton type="button" [icon]="action.icon" class="p-button-secondary" (click)="action.callBack(null)"></button>
+          <p-button *ngFor="let action of headerActions" type="button" [icon]="action.icon" styleClass="p-button-secondary" (click)="action.callBack(null)"></p-button>
         </div>
       </div>
     </div>
@@ -30,10 +30,10 @@
     <tr [pSelectableRow]="entity">
       <td *ngIf="actions.length > 0" [ngStyle]="actionsWidth()" class="flex gap-1">
         <div *ngFor="let action of actions" class="flex">
-          <button *ngIf="action.condition(entity)" pButton type="button"
+          <p-button *ngIf="action.condition(entity)" type="button"
                   [pTooltip]=action.tooltip [icon]="action.icon"
-                  [class]="action.csClass || 'p-button-primary'"
-                  (click)="action.callBack(entity, $event.target)"></button>
+                  [styleClass]="action.csClass || 'p-button-primary'"
+                  (click)="action.callBack(entity, $event.target)"></p-button>
         </div>
       </td>
       <td *ngFor="let column of columns()">{{resolve(column.property, entity)}}</td>

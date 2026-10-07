@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ItemConfigurationService } from './item-configuration.service';
 import { firstValueFrom } from 'rxjs';
@@ -29,6 +29,7 @@ import { canEditCampaignConfiguration } from '@app/tokens/utils.funcs';
     InputGroupAddonModule,
     InputGroup
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-item-configuration.component.scss'
 })
 export class CampaignItemConfigurationComponent {

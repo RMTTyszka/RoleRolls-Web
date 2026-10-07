@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {RollInput} from '@app/campaigns/models/RollInput';
 import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {getAsForm} from '@app/tokens/EditorExtension';
@@ -10,7 +10,7 @@ import {CampaignsService} from '@app/campaigns/services/campaigns.service';
 import {InputNumber} from 'primeng/inputnumber';
 import {NgIf} from '@angular/common';
 import {InputText} from 'primeng/inputtext';
-import {ButtonDirective} from 'primeng/button';
+import {ButtonModule} from 'primeng/button';
 import {FormFieldWrapperComponent} from '@app/components/form-field-wrapper/form-field-wrapper.component';
 import {FieldTitleDirective} from '@app/components/form-field-wrapper/field-title.directive';
 import {AutoCompleteModule} from 'primeng/autocomplete';
@@ -29,7 +29,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputNumber,
     NgIf,
     InputText,
-    ButtonDirective,
+    ButtonModule,
     FormFieldWrapperComponent,
     FieldTitleDirective,
     AutoCompleteModule,
@@ -41,6 +41,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
   ],
   templateUrl: './roll-dice.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './roll-dice.component.scss'
 })
 export class RollDiceComponent {

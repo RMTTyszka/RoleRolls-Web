@@ -6,11 +6,12 @@ import {
   effect,
   inject,
   input,
-  signal
+  signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { Creature } from '@app/campaigns/models/creature';
@@ -47,12 +48,13 @@ interface SceneBoardSnapshot {
 @Component({
   selector: 'rr-scene-board',
   imports: [
-    ButtonDirective,
+    ButtonModule,
     FormsModule,
     NgIf,
   ],
   providers: [SceneBoardService],
   templateUrl: './scene-board.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './scene-board.component.scss'
 })
 export class SceneBoardComponent implements AfterViewInit {

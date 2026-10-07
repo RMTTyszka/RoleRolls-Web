@@ -1,5 +1,4 @@
 ﻿using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Rolls.Entities;
 
 namespace RoleRollsPocketEdition.Rolls
 {

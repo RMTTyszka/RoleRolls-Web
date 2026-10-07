@@ -1,7 +1,4 @@
-using RoleRollsPocketEdition.Campaigns.Entities;
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
-using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Powers.Models;

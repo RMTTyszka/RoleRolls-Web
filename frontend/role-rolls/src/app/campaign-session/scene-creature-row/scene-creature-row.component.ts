@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
@@ -21,7 +21,7 @@ import {
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { CreatureEditorComponent } from '@app/creatures/creature-editor/creature-editor.component';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
 import { PopoverModule } from 'primeng/popover';
 import { TieredMenu } from 'primeng/tieredmenu';
@@ -40,7 +40,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
 @Component({
   selector: 'rr-scene-creature-row',
   imports: [
-    ButtonDirective,
+    ButtonModule,
     NgIf,
     PopoverModule,
     TieredMenu,
@@ -54,6 +54,7 @@ import { PropertyType } from '@app/campaigns/models/propertyType';
     InputGroupAddonModule,
   ],
   templateUrl: './scene-creature-row.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './scene-creature-row.component.scss'
 })
 export class SceneCreatureRowComponent {

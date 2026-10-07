@@ -62,7 +62,7 @@ namespace RoleRollsPocketEdition.Rolls.Entities
             ProcessRolls(baseRolls);
 
             RolledDices = JsonSerializer.Serialize(baseRolls.Select(r => r + Bonus).ToList());
-            this.DateTime = DateTime.UtcNow;
+            DateTime = DateTime.UtcNow;
             return this;
         }
 

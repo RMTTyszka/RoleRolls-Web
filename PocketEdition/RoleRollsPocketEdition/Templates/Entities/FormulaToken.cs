@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.Templates.Entities.Json;
 
 namespace RoleRollsPocketEdition.Templates.Entities;
 
-[System.Text.Json.Serialization.JsonConverter(typeof(FormulaTokenTypeJsonConverter))]
+[JsonConverter(typeof(FormulaTokenTypeJsonConverter))]
 public enum FormulaTokenType
 {
     Property = 0,

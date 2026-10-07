@@ -1,9 +1,9 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { Component, effect, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { Select } from 'primeng/select';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 
 import { CampaignSessionService } from '@app/campaign-session/campaign-session.service';
 import { CreatureSelectComponent } from '@app/campaign-session/creature-select/creature-select.component';
@@ -37,13 +37,14 @@ import { getAsForm } from '@app/tokens/EditorExtension';
     CreatureSelectComponent,
     PropertyByIdSelectorComponent,
     PropertySelectorComponent,
-    ButtonDirective,
+    ButtonModule,
     FormFieldWrapperComponent,
     FieldTitleDirective,
     AdvantageSelectComponent,
     LuckSelectComponent
   ],
   templateUrl: './attack.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './attack.component.scss'
 })
 export class AttackComponent {

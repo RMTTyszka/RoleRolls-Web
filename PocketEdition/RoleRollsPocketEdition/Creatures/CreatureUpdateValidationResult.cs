@@ -1,5 +1,4 @@
 ﻿using RoleRollsPocketEdition.Creatures.Entities;
-using RoleRollsPocketEdition.Creatures.Models;
 
 namespace RoleRollsPocketEdition.Creatures;
 

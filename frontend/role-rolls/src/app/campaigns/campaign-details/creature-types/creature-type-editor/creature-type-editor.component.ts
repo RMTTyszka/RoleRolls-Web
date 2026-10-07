@@ -1,4 +1,4 @@
-import { Component, computed, input, signal, WritableSignal } from '@angular/core';
+import { Component, computed, input, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -27,6 +27,7 @@ import { firstValueFrom } from 'rxjs';
     BonusesComponent
   ],
   templateUrl: './creature-type-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-type-editor.component.scss'
 })
 export class CreatureTypeEditorComponent {

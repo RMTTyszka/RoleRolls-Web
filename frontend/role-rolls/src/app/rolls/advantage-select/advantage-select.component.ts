@@ -1,4 +1,4 @@
-import { Component, forwardRef, model } from '@angular/core';
+import { Component, forwardRef, model, ChangeDetectionStrategy } from '@angular/core';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { Property } from '@app/models/bonuses/bonus';
@@ -9,6 +9,7 @@ import { RROption } from '@app/models/RROption';
   imports: [SelectButtonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './advantage-select.component.html',
   styleUrl: './advantage-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

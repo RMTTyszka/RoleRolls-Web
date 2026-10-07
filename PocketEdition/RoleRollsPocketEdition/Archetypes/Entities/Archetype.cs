@@ -4,8 +4,8 @@ using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Infrastructure;
-using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.Spells.Entities;
+using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.Archetypes.Entities;
 

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InstantiateItemInput } from '@app/models/itens/instances/instantiate-item-input';
 import { ItemTemplateModel } from '@app/models/itens/ItemTemplateModel';
@@ -12,10 +12,11 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   imports: [
     ReactiveFormsModule,
     InputText,
-    ButtonDirective,
+    ButtonModule,
     InputGroupAddonModule
   ],
   templateUrl: './confirm-name-and-level-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './confirm-name-and-level-item.component.scss'
 })
 export class ConfirmNameAndLevelItemComponent {

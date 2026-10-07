@@ -1,5 +1,4 @@
 using RoleRollsPocketEdition.Bonuses;
-using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Templates.Entities;

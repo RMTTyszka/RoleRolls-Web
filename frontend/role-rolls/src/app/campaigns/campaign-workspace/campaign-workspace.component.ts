@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import {
   CampaignItemConfigurationComponent
@@ -39,6 +39,7 @@ import {
     CampaignCreatureConditionsComponent
   ],
   templateUrl: './campaign-workspace.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-workspace.component.scss'
 })
 export class CampaignWorkspaceComponent {

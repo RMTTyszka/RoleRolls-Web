@@ -1,10 +1,10 @@
-import { Component, computed, effect, EventEmitter, input, Output, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, input, Output, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Bonus, BonusType, BonusValueType, Property } from '@app/models/bonuses/bonus';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Toolbar } from 'primeng/toolbar';
 import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
 import { NgIf } from '@angular/common';
@@ -28,13 +28,14 @@ import { RROption } from '@app/models/RROption';
     FormsModule,
     SelectModule,
     InputText,
-    ButtonDirective,
+    ButtonModule,
     Toolbar,
     NgIf,
     PropertySelectorComponent
   ],
   templateUrl: './bonuses.component.html',
   styleUrl: './bonuses.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     'class': 'flex-grow-1 flex flex-col'
   }

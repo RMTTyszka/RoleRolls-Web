@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { Archetype, ArchetypePowerDescription } from '@app/models/archetypes/archetype';
 import { Fieldset } from 'primeng/fieldset';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { Textarea } from 'primeng/textarea';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import {Campaign} from '@app/campaigns/models/campaign';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/markdown-viewer.component';
 import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/markdown-editor.component';
 
@@ -22,9 +22,10 @@ import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/
     Textarea,
     MarkdownEditorComponent,
     MarkdownViewerComponent,
-    ButtonDirective
+    ButtonModule
   ],
   templateUrl: './archetype-power-descriptions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './archetype-power-descriptions.component.scss'
 })
 export class ArchetypePowerDescriptionsComponent {

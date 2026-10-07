@@ -30,13 +30,13 @@ public class SceneCreaturesController : ControllerBase
         _evadeService = evadeService;
         _scenesService = scenesService;
     }
-    [HttpGet()]
+    [HttpGet]
 
     public async Task<List<CreatureModel>> GetCreatures([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromQuery] CreatureCategory creatureCategory)
     {
         return await _scenesService.GetCreatures(campaignId, sceneId, creatureCategory);
     }        
-    [HttpPost()]
+    [HttpPost]
 
     public async Task AddHeroes([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromBody] List<SceneCreatureModel> creatureModels)
     {

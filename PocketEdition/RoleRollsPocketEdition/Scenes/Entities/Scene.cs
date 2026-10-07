@@ -14,8 +14,8 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         public Scene(Guid campaignId, SceneModel sceneModel)
         {
             CampaignId = campaignId;
-            this.Id = sceneModel.Id;
-            this.Name = sceneModel.Name;
+            Id = sceneModel.Id;
+            Name = sceneModel.Name;
         }
 
         public Guid CampaignId { get; set; }

@@ -1,5 +1,5 @@
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Archetypes.Entities;
+using RoleRollsPocketEdition.Core.Entities;
 
 namespace RoleRollsPocketEdition.Spells.Entities;
 

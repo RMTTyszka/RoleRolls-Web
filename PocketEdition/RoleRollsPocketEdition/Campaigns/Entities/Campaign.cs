@@ -1,9 +1,7 @@
 using RoleRollsPocketEdition.Campaigns.Models;
 using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Encounters;
 using RoleRollsPocketEdition.Encounters.Entities;
 using RoleRollsPocketEdition.Infrastructure;
-using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 

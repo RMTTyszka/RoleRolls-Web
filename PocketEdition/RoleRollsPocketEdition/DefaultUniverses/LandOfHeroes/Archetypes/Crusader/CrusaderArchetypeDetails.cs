@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public static partial class CrusaderArchetypeDetails
+public static class CrusaderArchetypeDetails
 {
     public static Archetype CrusaderArchetype =>
         new()

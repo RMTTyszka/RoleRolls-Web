@@ -1,10 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Core.EntityFramework;
 using RoleRollsPocketEdition.Core.Extensions;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Creatures.Services;
 using RoleRollsPocketEdition.Encounters.Entities;

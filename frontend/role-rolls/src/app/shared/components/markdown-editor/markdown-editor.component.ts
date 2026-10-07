@@ -8,7 +8,8 @@ import {
   ViewChild,
   booleanAttribute,
   forwardRef,
-  inject
+  inject,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -32,6 +33,7 @@ type CodeMirrorRuntime = {
   imports: [MarkdownViewerComponent],
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

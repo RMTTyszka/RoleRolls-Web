@@ -1,7 +1,5 @@
 using RoleRollsPocketEdition.Archetypes.Models;
-using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Powers.Entities;
 
 namespace RoleRollsPocketEdition.Archetypes.Entities;
 

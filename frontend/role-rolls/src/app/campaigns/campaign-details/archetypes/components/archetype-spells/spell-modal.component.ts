@@ -1,4 +1,4 @@
-﻿import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Spell } from '@app/models/spells/spell';
 import { MarkdownViewerComponent } from '@app/shared/components/markdown-viewer/markdown-viewer.component';
@@ -9,13 +9,14 @@ import { InputText } from 'primeng/inputtext';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { canEditTemplate } from '@app/tokens/utils.funcs';
 import { Campaign } from '@app/campaigns/models/campaign';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { MarkdownEditorComponent } from '@app/shared/components/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'rr-spell-modal',
   standalone: true,
-  imports: [CommonModule, MarkdownViewerComponent, ReactiveFormsModule, FloatLabel, InputText, ButtonDirective, MarkdownEditorComponent],
+  imports: [CommonModule, MarkdownViewerComponent, ReactiveFormsModule, FloatLabel, InputText, ButtonModule, MarkdownEditorComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
   <div *ngIf="!editing()" (click)="tryEdit()" class="border rounded-md p-3" style="height: 70vh; overflow:auto">
     <rr-markdown-viewer [markdown]="spell.mdDescription"></rr-markdown-viewer>

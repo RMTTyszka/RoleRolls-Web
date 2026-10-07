@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, Input, Output, Signal } from '@angular/core';
+import { Component, effect, EventEmitter, Input, Output, Signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { EditorAction } from '@app/models/EntityActionData';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { CampaignItemTemplatesService } from '../services/campaign-item-template
 import { CampaignEditorDetailsServiceService } from '../../services/campaign-editor-details-service.service';
 import { Campaign } from '../../../models/campaign';
 import { Panel } from 'primeng/panel';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { NgIf } from '@angular/common';
 import { Checkbox } from 'primeng/checkbox';
@@ -37,13 +37,14 @@ import { EquipableSlot } from '@app/models/itens/equipable-slot';
   templateUrl: './campaign-item-creator.component.html',
   imports: [
     Panel,
-    ButtonDirective,
+    ButtonModule,
     ReactiveFormsModule,
     Select,
     NgIf,
     Checkbox,
     InputText
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-item-creator.component.scss'
 })
 export class CampaignItemCreatorComponent {

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 import { Fieldset } from 'primeng/fieldset';
 import { InputText } from 'primeng/inputtext';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Textarea } from 'primeng/textarea';
 import { TabsModule } from 'primeng/tabs';
@@ -28,12 +28,13 @@ import { EditorAction, EntityActionData } from '@app/models/EntityActionData';
     Fieldset,
     TabsModule,
     InputText,
-    ButtonDirective,
+    ButtonModule,
     InputGroupAddonModule,
     Textarea,
     BonusesComponent
   ],
   templateUrl: './campaign-creature-conditions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-creature-conditions.component.scss'
 })
 export class CampaignCreatureConditionsComponent {

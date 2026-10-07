@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
 import { SubscriptionManager } from '@app/tokens/subscription-manager';
 import { AuthenticationService } from '@app/authentication/services/authentication.service';
@@ -14,7 +14,7 @@ import { CreatureSelectComponent } from '@app/campaign-session/creature-select/c
 import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Campaign } from '@app/campaigns/models/campaign';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { EncountersService } from '@app/encounters/services/encounters.service';
 import { Encounter } from '@app/encounters/models/encounter';
 
@@ -26,9 +26,10 @@ import { Encounter } from '@app/encounters/models/encounter';
       NgForOf,
       CreatureSelectComponent,
       NgIf,
-      ButtonDirective
+      ButtonModule
     ],
     templateUrl: './scene-creatures.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './scene-creatures.component.scss'
   })
 export class SceneCreaturesComponent {

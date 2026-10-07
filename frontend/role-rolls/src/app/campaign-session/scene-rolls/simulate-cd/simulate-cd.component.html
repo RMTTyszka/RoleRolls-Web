@@ -7,11 +7,11 @@
           <button  pButton type="button" [disabled]="true">%</button>
         </p-inputgroup-addon>
         <p-inputgroup-addon>
-          <button (click)="simulate()" pButton type="button" icon="fas fa-calculator" class="p-button-secondary" [disabled]="calculating"></button>
+          <p-button (click)="simulate()" type="button" icon="fas fa-calculator" styleClass="p-button-secondary" [disabled]="calculating"></p-button>
         </p-inputgroup-addon>
     </ng-template>
   </rr-form-field-wrapper>
-  <p-progressSpinner class="w-1/6" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressSpinner>
+  <p-progressspinner class="w-1/6" [style]="{width: '28px', height: '28px'}" *ngIf="calculating"></p-progressspinner>
 </div>
 
 

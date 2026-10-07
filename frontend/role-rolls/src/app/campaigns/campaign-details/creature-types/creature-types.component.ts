@@ -1,4 +1,4 @@
-import {Component, EventEmitter, signal} from '@angular/core';
+import {Component, EventEmitter, signal, ChangeDetectionStrategy} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from "@app/components/grid/grid.component";
 import {CreatureType} from '@app/models/creatureTypes/creature-type';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,6 +18,7 @@ import { canEditTemplate } from '@app/tokens/utils.funcs';
         GridComponent
     ],
   templateUrl: './creature-types.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-types.component.scss'
 })
 export class CreatureTypesComponent {

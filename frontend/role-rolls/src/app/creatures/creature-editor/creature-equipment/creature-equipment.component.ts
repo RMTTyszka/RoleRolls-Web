@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {EquipableSlot} from '@app/models/itens/equipable-slot';
 import {UntypedFormGroup} from '@angular/forms';
 import {
@@ -13,6 +13,7 @@ import {NgForOf} from '@angular/common';
     NgForOf
   ],
   templateUrl: './creature-equipment.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-equipment.component.scss'
 })
 export class CreatureEquipmentComponent {

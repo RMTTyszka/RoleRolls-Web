@@ -26,7 +26,7 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
         {
             return await _campaignsService.GetAsync(campaignId);
         }    
-        [HttpGet()]
+        [HttpGet]
         public async Task<PagedResult<CampainView>> GetListAsync([FromQuery] PagedRequestInput input)
         {
             return await _campaignsService.GetListAsync(input);

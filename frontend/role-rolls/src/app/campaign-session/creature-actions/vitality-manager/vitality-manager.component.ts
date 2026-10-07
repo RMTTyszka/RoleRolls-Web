@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {CampaignSessionService} from '@app/campaign-session/campaign-session.service';
 import {Campaign} from '@app/campaigns/models/campaign';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
@@ -10,7 +10,7 @@ import {CampaignsService} from '@app/campaigns/services/campaigns.service';
 import {TakeDamageApiInput} from '@app/campaign-session/creature-actions/models/TakeDamageApiInput';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
@@ -20,12 +20,13 @@ import { InputText } from 'primeng/inputtext';
   imports: [
     FormsModule,
     NgForOf,
-    ButtonDirective,
+    ButtonModule,
     Divider,
     InputNumberModule,
     InputText
   ],
   templateUrl: './vitality-manager.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './vitality-manager.component.scss'
 })
 export class VitalityManagerComponent {

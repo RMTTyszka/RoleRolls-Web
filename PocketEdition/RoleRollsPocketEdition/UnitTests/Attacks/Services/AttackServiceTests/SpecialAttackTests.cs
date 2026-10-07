@@ -2,7 +2,6 @@ using FluentAssertions;
 using NSubstitute;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;

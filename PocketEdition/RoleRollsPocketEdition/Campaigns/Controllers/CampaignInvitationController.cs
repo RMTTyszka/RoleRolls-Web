@@ -21,7 +21,7 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
         public async Task<ActionResult> AcceptInvitationAsync([FromBody] AcceptInvitationInput input)
         {
             var result = await _campaignsService.AcceptInvite(_currentUser.User.Id, input.InvitationCode);
-            if (result.Result == Dtos.InvitationResult.Ok) {
+            if (result.Result == InvitationResult.Ok) {
                 return Ok();
             }
             return new UnprocessableEntityObjectResult(result.Result);

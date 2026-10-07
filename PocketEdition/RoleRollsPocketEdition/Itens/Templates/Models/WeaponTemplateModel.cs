@@ -4,13 +4,9 @@ namespace RoleRollsPocketEdition.Itens.Templates.Models;
 
 public class WeaponTemplateModel : EquipableTemplateModel
 {
-    public WeaponTemplateModel() : base()
-    {
-        
-    }
     public static WeaponTemplateModel FromTemplate(WeaponTemplate template)
     {
-        var equipable = EquipableTemplateModel.FromTemplate<WeaponTemplateModel>(template);
+        var equipable = FromTemplate<WeaponTemplateModel>(template);
         equipable.Category = template.Category;
         equipable.DamageType = template.DamageType;
         equipable.GripType = template.GripType;

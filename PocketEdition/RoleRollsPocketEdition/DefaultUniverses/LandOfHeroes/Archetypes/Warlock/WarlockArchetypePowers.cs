@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Powers.Entities;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 

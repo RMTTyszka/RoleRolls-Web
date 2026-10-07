@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Dtos;
@@ -17,17 +18,17 @@ namespace RoleRollsPocketEdition.Templates.Services
 
         public async Task<CreatureTemplateValidationResult> Create(CampaignTemplateModel template)
         {
-            var creatureTemplate = new CampaignTemplate(template);
             var validation = ValidateInput(template);
             if (validation != CreatureTemplateValidationResult.Ok)
             {
                 return validation;
             }
 
+            var creatureTemplate = new CampaignTemplate(template);
             await _dbContextl.CampaignTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
-        }
             return CreatureTemplateValidationResult.Ok;
+        }
 
         public async Task<CampaignTemplateModel> Get(Guid id)
         {
@@ -75,8 +76,8 @@ namespace RoleRollsPocketEdition.Templates.Services
                 .FirstAsync(template => template.Id == id);
 
             template.Name = updatedTemplate.Name;
-
             template.IniciativePropertyId = updatedTemplate.IniciativePropertyId;
+
             var attributesToCreate = updatedTemplate.Attributes
                 .Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id))
                 .Select(attribute => new AttributeTemplate(attribute))
@@ -209,7 +210,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                     }
                     else
                     {
-                        condition.Bonuses.Add(new Bonuses.Bonus(bonusModel));
+                        condition.Bonuses.Add(new Bonus(bonusModel));
                     }
                 }
 
@@ -275,7 +276,6 @@ namespace RoleRollsPocketEdition.Templates.Services
 
         internal static CreatureTemplateValidationResult ValidateInput(CampaignTemplateModel template)
         {
-            return CreatureTemplateValidationResult.Ok;
             if (!template.IniciativePropertyId.HasValue)
             {
                 return CreatureTemplateValidationResult.Ok;
@@ -296,6 +296,7 @@ namespace RoleRollsPocketEdition.Templates.Services
                 return CreatureTemplateValidationResult.InvalidIniciativeProperty;
             }
 
+            return CreatureTemplateValidationResult.Ok;
         }
     }
 }

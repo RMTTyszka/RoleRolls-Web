@@ -1,4 +1,4 @@
-import { Component, computed, effect, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, computed, effect, EventEmitter, input, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { PagedOutput } from '@app/models/PagedOutput';
 import { safeCast } from '@app/tokens/utils.funcs';
 import { Tooltip } from 'primeng/tooltip';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { GetListInput } from '@app/tokens/get-list-input';
 import { InputText } from 'primeng/inputtext';
 import {Observable} from 'rxjs';
@@ -19,7 +19,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   imports: [
     TableModule,
     Tooltip,
-    ButtonDirective,
+    ButtonModule,
     NgStyle,
     NgForOf,
     NgIf,
@@ -28,6 +28,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     'class': 'min-h-300'
   }

@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Campaigns.ApplicationServices;
@@ -10,12 +8,10 @@ using RoleRollsPocketEdition.CreatureTypes.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Models;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Spells;
-using RoleRollsPocketEdition.Spells.Entities;
 using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Itens.Configurations;
-using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Spells.Entities;
 using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
 
@@ -103,11 +99,11 @@ public class LandOfHeroesLoader : IStartupTask
                 .Include(c => c.ItemConfiguration)
                 .Where(e => e.Id == templateFromCode.Id)
                 .Select(e => e.ItemConfiguration)
-            templateFromDb.IniciativePropertyId = templateFromCode.IniciativePropertyId;
                 .FirstAsync(cancellationToken);
 
             templateFromDb.Name = templateFromCode.Name;
             templateFromDb.Default = templateFromCode.Default;
+            templateFromDb.IniciativePropertyId = templateFromCode.IniciativePropertyId;
             templateFromDb.ItemConfiguration = itemConfiguration;
             templateFromDb.DamageTypes = damageTypes;
             templateFromDb.CreatureTypes = creatureTypes;
@@ -174,7 +170,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeSkills(Templates.Entities.CampaignTemplate templateFromDb,
+    private async Task SynchronizeSkills(CampaignTemplate templateFromDb,
         List<SkillTemplate> fromCode, List<SkillTemplate> fromDb, RoleRollsDbContext context)
     {
         var dbSkills = fromDb.ToDictionary(s => s.Id);
@@ -203,7 +199,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeAttributes(Templates.Entities.CampaignTemplate templateFromDb,
+    private async Task SynchronizeAttributes(CampaignTemplate templateFromDb,
         List<AttributeTemplate> fromCode,
         List<AttributeTemplate> fromDb, RoleRollsDbContext context)
     {
@@ -260,7 +256,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeItemConfiguration(Templates.Entities.CampaignTemplate templateFromDb,
+    private async Task SynchronizeItemConfiguration(CampaignTemplate templateFromDb,
         ItemConfiguration fromCode,
         ItemConfiguration fromDb, RoleRollsDbContext context)
     {
@@ -278,7 +274,7 @@ public class LandOfHeroesLoader : IStartupTask
     }
 
     private async Task SynchronizeCreatureConditions(
-        Templates.Entities.CampaignTemplate templateFromDb,
+        CampaignTemplate templateFromDb,
         ICollection<CreatureCondition> fromCode,
         ICollection<CreatureCondition> fromDb,
         RoleRollsDbContext dbContext)
@@ -304,7 +300,7 @@ public class LandOfHeroesLoader : IStartupTask
     }
 
     private async Task SynchronizeLives(
-        Templates.Entities.CampaignTemplate creatureFromDb,
+        CampaignTemplate creatureFromDb,
         ICollection<VitalityTemplate> fromCode,
         ICollection<VitalityTemplate> fromDb, RoleRollsDbContext dbContext)
     {
@@ -331,7 +327,7 @@ public class LandOfHeroesLoader : IStartupTask
     }
 
     private async Task SynchronizeDefenses(
-        Templates.Entities.CampaignTemplate templateFromDb,
+        CampaignTemplate templateFromDb,
         ICollection<DefenseTemplate>? fromCode,
         ICollection<DefenseTemplate> fromDb,
         RoleRollsDbContext dbContext)
@@ -359,7 +355,7 @@ public class LandOfHeroesLoader : IStartupTask
     }
 
     private async Task SynchronizeCreatureTypes(
-        Templates.Entities.CampaignTemplate campaignFromDb,
+        CampaignTemplate campaignFromDb,
         ICollection<CreatureType> fromCode,
         ICollection<CreatureType> fromDb,
         RoleRollsDbContext dbContext)
@@ -389,7 +385,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeDamageTypes(Templates.Entities.CampaignTemplate creatureFromDb,
+    private async Task SynchronizeDamageTypes(CampaignTemplate creatureFromDb,
         ICollection<DamageType> fromCode,
         ICollection<DamageType> fromDb, RoleRollsDbContext context)
     {
@@ -416,7 +412,7 @@ public class LandOfHeroesLoader : IStartupTask
         }
     }
 
-    private async Task SynchronizeAllArchetypeSpells(Templates.Entities.CampaignTemplate templateFromDb,
+    private async Task SynchronizeAllArchetypeSpells(CampaignTemplate templateFromDb,
         RoleRollsDbContext dbContext)
     {
         foreach (var archetype in templateFromDb.Archetypes)

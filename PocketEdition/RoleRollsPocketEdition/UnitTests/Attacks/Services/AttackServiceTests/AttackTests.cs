@@ -3,16 +3,13 @@ using Newtonsoft.Json;
 using NSubstitute;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
 using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;
 using Xunit;
 using Xunit.Abstractions;
-using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.UnitTests.Attacks.Services.AttackServiceTests;
 
@@ -175,14 +172,14 @@ public class AttackTests
         moral.Value = (int)Math.Floor(moral.MaxValue * 0.3m);
         moral.CurrentConditions.Select(condition => condition.Name)
             .Should()
-            .BeEquivalentTo(["Shaken"]);
+            .BeEquivalentTo("Shaken");
         moral.CurrentStatus.Should().Be("Shaken");
 
         // Act/Assert - 0%
         moral.Value = 0;
         moral.CurrentConditions.Select(condition => condition.Name)
             .Should()
-            .BeEquivalentTo(["Bleeding", "Shaken"]);
+            .BeEquivalentTo("Bleeding", "Shaken");
         moral.CurrentStatus.Should().Be("Bleeding");
     }
 

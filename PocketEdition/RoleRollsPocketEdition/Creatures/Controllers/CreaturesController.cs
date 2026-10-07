@@ -50,7 +50,7 @@ namespace RoleRollsPocketEdition.Creatures.Controllers
             {
                 Response.Headers.AccessControlAllowHeaders = "Location";
                 Response.Headers.AccessControlExposeHeaders = "Location";
-                return CreatedAtAction(nameof(GetAsync), new { campaignId = campaignId, creatureId = result.Creature.Id }, null); 
+                return CreatedAtAction(nameof(GetAsync), new { campaignId, creatureId = result.Creature.Id }, null);
             }
 
             return new UnprocessableEntityObjectResult(result);

@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using RoleRollsPocketEdition.Bonuses.Models;
-using RoleRollsPocketEdition.Core.Abstractions;
-using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Archetypes.Validations;
 using RoleRollsPocketEdition.Bonuses;
+using RoleRollsPocketEdition.Bonuses.Models;
+using RoleRollsPocketEdition.Core.Abstractions;
+using RoleRollsPocketEdition.Core.Dtos;
 using RoleRollsPocketEdition.Infrastructure;
 
 namespace RoleRollsPocketEdition.Archetypes.Services;

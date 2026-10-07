@@ -1,7 +1,5 @@
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Powers.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers
 {

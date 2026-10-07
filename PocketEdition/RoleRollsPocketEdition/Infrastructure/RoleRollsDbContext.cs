@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Unicode;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
@@ -24,10 +19,10 @@ using RoleRollsPocketEdition.Itens.Templates;
 using RoleRollsPocketEdition.Powers.Entities;
 using RoleRollsPocketEdition.Rolls.Entities;
 using RoleRollsPocketEdition.Scenes.Entities;
+using RoleRollsPocketEdition.Scenes.Models;
+using RoleRollsPocketEdition.Spells.Entities;
 using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.Templates.Entities.Json;
-using RoleRollsPocketEdition.Spells.Entities;
-using RoleRollsPocketEdition.Scenes.Models;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.Infrastructure
@@ -47,12 +42,12 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<VitalityTemplate> VitalityTemplates { get; set; }
         public DbSet<CreatureCondition> CreatureConditions { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<SceneInitiativeEntry> SceneInitiativeEntries { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
         public DbSet<Scene> CampaignScenes { get; set; }
         public DbSet<SceneBoard> SceneBoards { get; set; }
         public DbSet<SceneCreature> SceneCreatures { get; set; }
+        public DbSet<SceneInitiativeEntry> SceneInitiativeEntries { get; set; }
         public DbSet<CampaignPlayer> CampaignPlayers { get; set; }
         public DbSet<PowerTemplate> PowerTemplates { get; set; }
         public DbSet<Defense> Defenses { get; set; }
@@ -199,6 +194,11 @@ namespace RoleRollsPocketEdition.Infrastructure
                 entity.HasOne(board => board.Scene)
                     .WithOne(scene => scene.Board)
                     .HasForeignKey<SceneBoard>(board => board.SceneId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(board => board.SceneId)
+                    .IsUnique();
+            });
+
             modelBuilder.Entity<SceneInitiativeEntry>(entity =>
             {
                 entity.HasOne(entry => entry.Scene)
@@ -206,11 +206,6 @@ namespace RoleRollsPocketEdition.Infrastructure
                     .HasForeignKey(entry => entry.SceneId)
                     .OnDelete(DeleteBehavior.Cascade);
                 entity.HasIndex(entry => new { entry.SceneId, entry.CreatureId })
-                    .IsUnique();
-            });
-
-                    .OnDelete(DeleteBehavior.Cascade);
-                entity.HasIndex(board => board.SceneId)
                     .IsUnique();
             });
 

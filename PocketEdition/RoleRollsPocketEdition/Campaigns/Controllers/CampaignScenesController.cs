@@ -55,7 +55,7 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
             var result = await _rollService.RollAsync(campaignId, sceneId, input);
             Response.Headers.AccessControlAllowHeaders = "Location";
             Response.Headers.AccessControlExposeHeaders = "Location";
-            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, id = result.Id, sceneId = sceneId }, result);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId, id = result.Id, sceneId }, result);
         }    
         [HttpPost("{sceneId}/creatures/{creatureId}/rolls")]
         public async Task<IActionResult> RollDiceForCreature([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] RollInput input)
@@ -63,7 +63,7 @@ namespace RoleRollsPocketEdition.Campaigns.Controllers
             var result = await _rollService.RollAsync(campaignId, sceneId, creatureId, input);
             Response.Headers.AccessControlAllowHeaders = "Location";
             Response.Headers.AccessControlExposeHeaders = "Location";
-            return CreatedAtAction(nameof(GetRoll), new { campaignId = campaignId, rollId = result.Id , sceneId  = sceneId }, result);
+            return CreatedAtAction(nameof(GetRoll), new { campaignId, rollId = result.Id , sceneId }, result);
         }        
         [HttpPost("{sceneId}/creatures/{creatureId}/roll-simulations")]
         public async Task<IActionResult> SimulateCd([FromRoute] Guid campaignId, [FromRoute] Guid sceneId, [FromRoute] Guid creatureId, [FromBody] SimulateCdInput input)

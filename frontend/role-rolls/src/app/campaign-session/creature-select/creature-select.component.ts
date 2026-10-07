@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AutoComplete } from 'primeng/autocomplete';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { tap } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
   ],
   templateUrl: './creature-select.component.html',
   styleUrl: './creature-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'flex',
   }

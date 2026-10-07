@@ -1,5 +1,4 @@
 using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.Infrastructure;
 using RoleRollsPocketEdition.Templates.Dtos;
 using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 

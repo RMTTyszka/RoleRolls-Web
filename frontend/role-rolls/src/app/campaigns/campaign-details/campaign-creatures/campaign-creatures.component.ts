@@ -1,4 +1,4 @@
-import {Component, EventEmitter, input, signal} from '@angular/core';
+import {Component, EventEmitter, input, signal, ChangeDetectionStrategy} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from '@app/components/grid/grid.component';
 import {Campaign} from '@app/campaigns/models/campaign';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -19,6 +19,7 @@ import { canEditCampaign } from '@app/tokens/utils.funcs';
     GridComponent
   ],
   templateUrl: './campaign-creatures.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-creatures.component.scss'
 })
 export class CampaignCreaturesComponent {

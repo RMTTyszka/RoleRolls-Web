@@ -17,9 +17,9 @@
                             [creatureType]="CreatureCategory.Enemy"
                             (creatureSelected)="addCreature($event)">
         </rr-creature-select>
-        <button pButton icon="pi pi-plus"
+        <p-button icon="pi pi-plus"
                 *ngIf="creatureCategory() === CreatureCategory.Enemy && isMaster()"
-                (click)="selectEncounter()">Encounter</button>
+                (click)="selectEncounter()">Encounter</p-button>
       </div>
     </div>
   </ng-template>

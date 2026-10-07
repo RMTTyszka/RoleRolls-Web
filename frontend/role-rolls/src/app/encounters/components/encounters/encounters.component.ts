@@ -1,4 +1,4 @@
-import {Component, effect, EventEmitter, signal} from '@angular/core';
+import {Component, effect, EventEmitter, signal, ChangeDetectionStrategy} from '@angular/core';
 import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -16,6 +16,7 @@ import { canEditCampaign } from '@app/tokens/utils.funcs';
     GridComponent
   ],
   templateUrl: './encounters.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './encounters.component.scss'
 })
 export class EncountersComponent {

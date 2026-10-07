@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { finalize, Subject } from 'rxjs';
 import { SimulateCdInput } from '@app/campaigns/models/SimulateCdInput';
 import { CampaignScene } from '@app/campaigns/models/campaign-scene-model';
@@ -9,7 +9,7 @@ import { SimulateCdResult } from '@app/campaigns/models/simulate-cd-result';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { NgIf } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-title.directive';
@@ -23,7 +23,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     ProgressSpinner,
     TableModule,
     FormsModule,
-    ButtonDirective,
+    ButtonModule,
     NgIf,
     InputNumberModule,
     FormFieldWrapperComponent,
@@ -33,6 +33,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
   ],
   templateUrl: './simulate-cd.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './simulate-cd.component.scss'
 })
 export class SimulateCdComponent {

@@ -6,12 +6,12 @@
           <p-select class="flex-1" [(ngModel)]="selectedScene" [options]="scenes" optionLabel="name" (onChange)="selectScene($event.value)"></p-select>
           <div class="p-inputgroup w-auto" *ngIf="isMaster">
             <input type="text" pInputText placeholder="Add Scene" [(ngModel)]="newSceneName" class="border rounded px-2 py-1 flex-1">
-            <button pButton type="button" icon="pi pi-plus" class="p-button-primary" (click)="newScene()"></button>
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-primary" (click)="newScene()"></p-button>
           </div>
         </div>
         <div class="flex space-x-2">
-          <button *ngIf="isMaster" pButton label="Invite" icon="pi pi-plus" class="p-button-secondary" (click)="invitePlayer()" #invitationButton></button>
-          <button *ngIf="!notInvited || isMaster" pButton label="Create Hero" icon="pi pi-plus" class="p-button-secondary" (click)="createHero()"></button>
+          <p-button *ngIf="isMaster" label="Invite" icon="pi pi-plus" styleClass="p-button-secondary" (click)="invitePlayer()" #invitationButton></p-button>
+          <p-button *ngIf="!notInvited || isMaster" label="Create Hero" icon="pi pi-plus" styleClass="p-button-secondary" (click)="createHero()"></p-button>
         </div>
       </div>
     </p-toolbar>

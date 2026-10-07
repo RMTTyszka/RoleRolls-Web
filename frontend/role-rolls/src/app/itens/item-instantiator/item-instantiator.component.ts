@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Panel } from 'primeng/panel';
 import { RadioButton } from 'primeng/radiobutton';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
@@ -38,6 +38,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputGroupAddonModule
   ],
   templateUrl: './item-instantiator.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './item-instantiator.component.scss'
 })
 export class ItemInstantiatorComponent {

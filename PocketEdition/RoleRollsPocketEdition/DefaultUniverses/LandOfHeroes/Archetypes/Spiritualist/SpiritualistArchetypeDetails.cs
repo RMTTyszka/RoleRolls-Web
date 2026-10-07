@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public static partial class SpiritualistArchetypeDetails
+public static class SpiritualistArchetypeDetails
 {
     public static Archetype SpiritualistArchetype =>
         new()

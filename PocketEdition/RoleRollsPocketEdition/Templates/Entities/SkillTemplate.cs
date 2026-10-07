@@ -11,7 +11,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         {
         }
 
-        public SkillTemplate(AttributeTemplate? attributeTemplate, SkillTemplateModel skill) : base()
+        public SkillTemplate(AttributeTemplate? attributeTemplate, SkillTemplateModel skill)
         {
             Id = skill.Id;
             Name = skill.Name;

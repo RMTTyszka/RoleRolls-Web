@@ -1,9 +1,9 @@
-﻿import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Archetype } from '@app/models/archetypes/archetype';
 import { CommonModule } from '@angular/common';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Spell } from '@app/models/spells/spell';
 import { SpellModalComponent } from './spell-modal.component';
 import { Campaign } from '@app/campaigns/models/campaign';
@@ -11,7 +11,8 @@ import { Campaign } from '@app/campaigns/models/campaign';
 @Component({
   selector: 'rr-archetype-spells',
   standalone: true,
-  imports: [CommonModule, ButtonDirective],
+  imports: [CommonModule, ButtonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './archetype-spells.component.html'
 })
 export class ArchetypeSpellsComponent {

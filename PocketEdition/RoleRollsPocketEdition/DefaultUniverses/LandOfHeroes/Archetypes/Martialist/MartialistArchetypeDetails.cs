@@ -5,7 +5,7 @@ using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Ski
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public static partial class MartialistArchetypeDetails
+public static class MartialistArchetypeDetails
 {
     public static Archetype MartialistArchetype =>
         new()

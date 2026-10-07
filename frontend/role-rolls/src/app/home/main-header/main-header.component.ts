@@ -1,9 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
 import { SelectItem } from 'primeng/api';
 import { NgIf, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ButtonDirective, ButtonIcon } from 'primeng/button';
+import { ButtonModule, ButtonIcon } from 'primeng/button';
 
 @Component({
   selector: 'rr-main-header',
@@ -11,10 +11,11 @@ import { ButtonDirective, ButtonIcon } from 'primeng/button';
     TitleCasePipe,
     NgIf,
     RouterLink,
-    ButtonDirective,
+    ButtonModule,
     ButtonIcon
   ],
   templateUrl: './main-header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './main-header.component.scss'
 })
 export class MainHeaderComponent {

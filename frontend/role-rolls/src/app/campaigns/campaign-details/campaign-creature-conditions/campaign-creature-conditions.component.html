@@ -22,13 +22,12 @@
                     required
                     (keydown.enter)="addCreatureCondition()">
                 </p-fieldset>
-                <button
+                <p-button
                   [disabled]="disabled"
-                  pButton
                   type="button"
                   icon="pi pi-plus"
-                  class="p-button-primary w-full md:w-auto"
-                  (click)="addCreatureCondition()"></button>
+                  styleClass="p-button-primary w-full md:w-auto"
+                  (click)="addCreatureCondition()"></p-button>
               </ng-container>
             </div>
           </div>
@@ -46,11 +45,10 @@
                       required
                       (blur)="updateCreatureCondition(condition)">
                     <p-inputgroup-addon *ngIf="!disabled">
-                      <button
+                      <p-button
                         (click)="removeCreatureCondition(condition, i)"
-                        pButton
                         type="button"
-                        icon="pi pi-minus"></button>
+                        icon="pi pi-minus"></p-button>
                     </p-inputgroup-addon>
                   </div>
                   <textarea
@@ -62,7 +60,7 @@
                     (blur)="updateCreatureCondition(condition)"></textarea>
                   <rr-bonuses
                     class="mt-2"
-                    [bonuses]="condition.get('bonuses')?.value"
+                    [bonuses]="$safeNavigationMigration(condition.get('bonuses')?.value)"
                     [campaign]="campaign"
                     (bonusUpdated)="onCreatureConditionBonusUpdated(condition, $event)">
                   </rr-bonuses>

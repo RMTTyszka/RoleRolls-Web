@@ -1,4 +1,3 @@
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.DefaultUniverses.Global.CombatManeuvers;
 using RoleRollsPocketEdition.Powers.Entities;
 

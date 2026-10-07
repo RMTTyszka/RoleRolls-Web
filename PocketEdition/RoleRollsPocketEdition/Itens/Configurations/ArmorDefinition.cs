@@ -1,6 +1,3 @@
-using System;
-using RoleRollsPocketEdition.Itens;
-
 namespace RoleRollsPocketEdition.Itens.Configurations;
 
 public static class ArmorDefinition

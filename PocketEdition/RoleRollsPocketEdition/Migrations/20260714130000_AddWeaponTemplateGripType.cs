@@ -1,8 +1,8 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using RoleRollsPocketEdition.Infrastructure;
-
-#nullable disable
 
 namespace RoleRollsPocketEdition.Migrations
 {

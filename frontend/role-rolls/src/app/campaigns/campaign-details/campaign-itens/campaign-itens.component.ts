@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RRColumns } from '@app/components/grid/grid.component';
 import { EditorAction } from '@app/models/EntityActionData';
@@ -9,7 +9,7 @@ import { CampaignEditorDetailsServiceService } from '../services/campaign-editor
 import { Campaign } from '../../models/campaign';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
 import { Tooltip } from 'primeng/tooltip';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { RadioButton } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
@@ -36,7 +36,7 @@ import { canEditCampaignConfiguration } from '@app/tokens/utils.funcs';
     TableModule,
     NgStyle,
     Tooltip,
-    ButtonDirective,
+    ButtonModule,
     RadioButton,
     FormsModule,
     InputText,
@@ -45,6 +45,7 @@ import { canEditCampaignConfiguration } from '@app/tokens/utils.funcs';
     NgIf,
     InputGroupAddonModule
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-itens.component.scss'
 })
 export class CampaignItensComponent {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RoleRollsPocketEdition.Archetypes.Models;
 using RoleRollsPocketEdition.Archetypes.Services;
+using RoleRollsPocketEdition.Archetypes.Validations;
 using RoleRollsPocketEdition.Bonuses.Models;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Archetypes.Models;
-using RoleRollsPocketEdition.Archetypes.Validations;
 
 namespace RoleRollsPocketEdition.Templates.Controllers
 {

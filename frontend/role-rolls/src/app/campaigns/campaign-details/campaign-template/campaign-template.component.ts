@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { createForm, getAsForm } from '../../../tokens/EditorExtension';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Campaign } from '../../models/campaign';
@@ -9,7 +9,7 @@ import { CampaignsService } from '../../services/campaigns.service';
 import { Entity } from '../../../models/Entity.model';
 import { Fieldset } from 'primeng/fieldset';
 import { NgForOf, NgIf } from '@angular/common';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import {ActivatedRoute} from '@angular/router';
 import {
@@ -48,7 +48,7 @@ import { TabsModule } from 'primeng/tabs';
     Fieldset,
     TabsModule,
     NgIf,
-    ButtonDirective,
+    ButtonModule,
     InputText,
     NgForOf,
     PropertyByIdSelectorComponent,
@@ -56,6 +56,7 @@ import { TabsModule } from 'primeng/tabs';
     FormulaBuilderComponent,
     InputGroupAddonModule
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-template.component.scss'
 })
 export class CampaignTemplateComponent {

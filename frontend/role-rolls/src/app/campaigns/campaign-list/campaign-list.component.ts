@@ -1,4 +1,4 @@
-import { Component, EventEmitter, signal, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, signal, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { Popover } from 'primeng/popover';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
@@ -16,6 +16,7 @@ import { CampaignView } from '@app/models/campaigns/campaign-view';
 import {GetListInput} from '@app/tokens/get-list-input';
 import {PagedOutput} from '@app/models/PagedOutput';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'rr-campaign-list',
@@ -25,9 +26,11 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     FormsModule,
     CdkCopyToClipboard,
     GridComponent,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    ButtonModule
   ],
   templateUrl: './campaign-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-list.component.scss'
 })
 export class CampaignListComponent {

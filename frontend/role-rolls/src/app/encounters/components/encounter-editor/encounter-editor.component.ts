@@ -1,4 +1,4 @@
-import {Component, computed, EventEmitter, signal, WritableSignal} from '@angular/core';
+import {Component, computed, EventEmitter, signal, WritableSignal, ChangeDetectionStrategy} from '@angular/core';
 import {Fieldset} from "primeng/fieldset";
 import {InputText} from "primeng/inputtext";
 import {NgIf} from "@angular/common";
@@ -17,7 +17,7 @@ import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
 import {CreatureSelectTableComponent} from '@app/creatures/creature-select-table/creature-select-table.component';
 import {GridComponent, RRColumns, RRHeaderAction, RRTableAction} from '@app/components/grid/grid.component';
 import {GetListInput} from '@app/tokens/get-list-input';
-import {ButtonDirective} from 'primeng/button';
+import {ButtonModule} from 'primeng/button';
 import {IftaLabelModule} from 'primeng/iftalabel';
 import {PagedOutput} from '@app/models/PagedOutput';
 import {CreatureDetailsService} from '@app/creatures/creature-details.service';
@@ -30,10 +30,11 @@ import {CreatureDetailsService} from '@app/creatures/creature-details.service';
     NgIf,
     ReactiveFormsModule,
     GridComponent,
-    ButtonDirective,
+    ButtonModule,
     IftaLabelModule
   ],
   templateUrl: './encounter-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './encounter-editor.component.scss'
 })
 export class EncounterEditorComponent {

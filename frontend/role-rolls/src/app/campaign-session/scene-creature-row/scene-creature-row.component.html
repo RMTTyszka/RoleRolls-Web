@@ -1,6 +1,6 @@
 <div class="p-inputgroup">
   <p-inputgroup-addon>
-    <button pButton icon="pi pi-minus" *ngIf="isMaster" (click)="removeCreature(creature)"></button>
+    <p-button icon="pi pi-minus" *ngIf="isMaster" (click)="removeCreature(creature)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon>
     <button pButton class="p-button-secondary" (click)='editCreature(creature)'>
@@ -13,35 +13,35 @@
     </p-inputgroup-addon>
   </ng-container>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
-    <button pButton icon="fas fa-dice-d20" pTooltip="Roll dice"
-            (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></button>
+    <p-button icon="fas fa-dice-d20" pTooltip="Roll dice"
+            (click)="selectCreatureForRoll(creature); rollPanel.toggle($event)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
-    <button pButton icon="pi pi-map-marker" pTooltip="Add token to board"
-            (click)="addTokenToBoard(creature)"></button>
+    <p-button icon="pi pi-map-marker" pTooltip="Add token to board"
+            (click)="addTokenToBoard(creature)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
-    <button pButton icon="fas fa-tint" pTooltip="Damage/Heal"
-            (click)="takeDamage(creature)"></button>
+    <p-button icon="fas fa-tint" pTooltip="Damage/Heal"
+            (click)="takeDamage(creature)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
-    <button pButton icon="fa-sword" pTooltip="Attack"
-            (click)="attack(creature)"></button>
+    <p-button icon="fa-sword" pTooltip="Attack"
+            (click)="attack(creature)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster">
-    <button pButton icon="fas fa-calculator" pTooltip="Simulate CD"
-            (click)="selectCreatureForSimulateCd(creature); simulateCdPanel.toggle($event)"></button>
+    <p-button icon="fas fa-calculator" pTooltip="Simulate CD"
+            (click)="selectCreatureForSimulateCd(creature); simulateCdPanel.toggle($event)"></p-button>
   </p-inputgroup-addon>
   <p-inputgroup-addon *ngIf="isMaster || isOwner(creature)">
-    <button pButton icon="fas fa-dice" pTooltip="Quick Roll"
-            (click)="quickRoll(creature)"></button>
+    <p-button icon="fas fa-dice" pTooltip="Quick Roll"
+            (click)="quickRoll(creature)"></p-button>
   </p-inputgroup-addon>
 
 </div>
 
 
-    <p-tieredMenu #rollPanel [model]="rollOptions" [popup]="true" ></p-tieredMenu>
-<p-tieredMenu #simulateCdPanel [model]="simluateCdOptions" [popup]="true"></p-tieredMenu>
+    <p-tieredmenu #rollPanel [model]="rollOptions" [popup]="true" ></p-tieredmenu>
+<p-tieredmenu #simulateCdPanel [model]="simluateCdOptions" [popup]="true"></p-tieredmenu>
 <p-drawer [(visible)]="displayRollSidebar" position="right" [modal]="false" appendTo="body" [style]="{width:'60em'}">
   <rr-roll-dice [rollInputEmitter]="rollInputEmitter" [rollResultEmitter]="rollResultEmitter" [campaign]="campaign" [scene]="scene"></rr-roll-dice>
 </p-drawer>
@@ -51,7 +51,7 @@
 </p-drawer>
 <p-drawer [dismissible]="false"
           [(visible)]="displayAttackSidebar"
-          [header]="attacker()?.name"
+          [header]="$safeNavigationMigration(attacker()?.name)"
           [closeOnEscape]="true" (onHide)="attack(null)" position="right" [modal]="false" [style]="{width:'60em'}"
 >
   <rr-attack

@@ -1,17 +1,14 @@
 using RoleRollsPocketEdition.Archetypes.Entities;
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
-using RoleRollsPocketEdition.CreatureTypes.Entities;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Bestiary;
 using RoleRollsPocketEdition.Damages.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
+using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Bestiary;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.CombatManeuvers;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Races;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
-using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Itens;
-using RoleRollsPocketEdition.Powers.Entities;
+using RoleRollsPocketEdition.Itens.Configurations;
 using RoleRollsPocketEdition.Templates.Entities;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
@@ -25,10 +22,10 @@ public class LandOfHeroesTemplate
             var template = new CampaignTemplate
             {
                 Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
-                IniciativePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility],
                 Name = "Land Of Heroes",
                 ArchetypeTitle = "Archetype",
                 CreatureTypeTitle = "Creature Types",
+                IniciativePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility],
                 Default = true,
                 Attributes = BuildAttributes(),
                 Skills = BuildSkills(),
@@ -151,7 +148,7 @@ public class LandOfHeroesTemplate
             {
                 Id = VitalityIds[LandOfHeroesVitality.Mana],
                 Name = "Mana",
-                Formula = "10 + 2 * Intelligence",
+                Formula = "2 + Level / 6",
                 CampaignTemplateId = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
                 CampaignTemplate = null,
                 FormulaTokens =
@@ -160,15 +157,14 @@ public class LandOfHeroesTemplate
                     {
                         Order = 0,
                         Type = FormulaTokenType.Manual,
-                        ManualValue = "10 + 2 * "
+                        ManualValue = "2 + "
                     },
                     new FormulaToken
                     {
                         Order = 1,
-                        Type = FormulaTokenType.Property,
-                        Property = new Property(LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Intelligence],
-                            PropertyType.Attribute),
-                        ManualValue = string.Empty
+                        Type = FormulaTokenType.Creature,
+                        CreatureValue = FormulaCreatureValue.Level,
+                        ManualValue = " / 6"
                     }
                 ]
             }

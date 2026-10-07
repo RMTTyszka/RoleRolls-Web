@@ -1,7 +1,6 @@
 using RoleRollsPocketEdition.Campaigns;
 using RoleRollsPocketEdition.Core.Abstractions;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Creatures.Models;
 using RoleRollsPocketEdition.Infrastructure;
 

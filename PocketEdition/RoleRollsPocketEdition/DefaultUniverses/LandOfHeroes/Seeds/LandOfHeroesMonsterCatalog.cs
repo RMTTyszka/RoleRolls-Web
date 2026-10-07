@@ -1,6 +1,5 @@
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.Seeds;
 

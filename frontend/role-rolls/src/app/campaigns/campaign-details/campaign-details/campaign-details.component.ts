@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CampaignWorkspaceComponent } from '@app/campaigns/campaign-workspace/campaign-workspace.component';
 
 @Component({
@@ -8,6 +8,7 @@ import { CampaignWorkspaceComponent } from '@app/campaigns/campaign-workspace/ca
   imports: [
     CampaignWorkspaceComponent
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './campaign-details.component.scss'
 })
 export class CampaignDetailsComponent {}

@@ -1,11 +1,7 @@
 using RoleRollsPocketEdition.Creatures.Entities;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Itens.Templates;
-using RoleRollsPocketEdition.Templates.Dtos;
 using RoleRollsPocketEdition.Templates.Entities;
-using Attribute = RoleRollsPocketEdition.Creatures.Entities.Attribute;
 
 namespace RoleRollsPocketEdition.UnitTests.Core;
 
@@ -42,7 +38,7 @@ public class BaseCreature
         
         var armor = new ItemInstance
         {
-            Template = new ArmorTemplate()
+            Template = new ArmorTemplate
                 { Category = ArmorCategory.Medium },
             Level = 1,
             Id = Guid.NewGuid()
@@ -69,7 +65,7 @@ public class BaseCreature
     {
         var armor = new ItemInstance
         {
-            Template = new ArmorTemplate()
+            Template = new ArmorTemplate
                 { Category = category },
             Level = level
         };

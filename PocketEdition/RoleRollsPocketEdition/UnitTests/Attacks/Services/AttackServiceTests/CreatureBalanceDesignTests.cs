@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using RoleRollsPocketEdition.Attacks.Services;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Attributes;
-using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Rolls.Services;
 using RoleRollsPocketEdition.UnitTests.Core;

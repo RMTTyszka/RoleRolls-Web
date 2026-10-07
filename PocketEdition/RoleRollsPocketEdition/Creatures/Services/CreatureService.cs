@@ -3,7 +3,6 @@ using RoleRollsPocketEdition.Campaigns;
 using RoleRollsPocketEdition.Campaigns.Repositories;
 using RoleRollsPocketEdition.Core.Authentication.Application.Services;
 using RoleRollsPocketEdition.Core.Dtos;
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Creatures.Dtos;
 using RoleRollsPocketEdition.Creatures.Entities;
@@ -103,8 +102,7 @@ namespace RoleRollsPocketEdition.Creatures.Services
         {
             var creature = await _creatureRepository.GetFullCreature(creatureId);
             var propertyValue = creature.GetPropertyValue(new PropertyInput(
-                input.Property, 
-                null
+                input.Property
             ));            var simulation = _simulationService.GetDc(propertyValue.Total, 0,
                 input.ExpectedChance, _diceRoller);
             return simulation;

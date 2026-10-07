@@ -1,5 +1,4 @@
 using FluentAssertions;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Templates.Entities;
 using RoleRollsPocketEdition.UnitTests.Core;
@@ -9,6 +8,19 @@ namespace RoleRollsPocketEdition.UnitTests.Creatures.Entities;
 
 public class CreatureFormulaTests
 {
+    [Theory]
+    [InlineData(1, 2)]
+    [InlineData(6, 3)]
+    [InlineData(12, 4)]
+    public void Mana_ShouldUseLevelBasedFormula(int level, int expectedMana)
+    {
+        var creature = new BaseCreature(LandOfHeroesTemplate.Template, "").WithLevel(level).Creature;
+        var mana = creature.Vitalities.Single(v =>
+            v.VitalityTemplateId == LandOfHeroesTemplate.VitalityIds[LandOfHeroesVitality.Mana]);
+
+        mana.MaxValue.Should().Be(expectedMana);
+    }
+
     [Theory]
     [InlineData("5 / 2", 2)]
     [InlineData("3 / 2", 1)]

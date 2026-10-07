@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using RoleRollsPocketEdition.Itens;
 using Xunit;
 using Xunit.Abstractions;

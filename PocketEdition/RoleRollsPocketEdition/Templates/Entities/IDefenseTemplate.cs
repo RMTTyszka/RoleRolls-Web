@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace RoleRollsPocketEdition.Templates.Entities;
 
 public interface IDefenseTemplate

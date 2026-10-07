@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { marked } from 'marked';
@@ -11,6 +11,7 @@ import DOMPurify from 'dompurify';
   template: `
     <div class="rr-markdown" [innerHTML]="sanitizedHtml"></div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
     :host {

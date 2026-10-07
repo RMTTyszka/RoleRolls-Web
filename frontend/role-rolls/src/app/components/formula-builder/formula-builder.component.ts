@@ -6,14 +6,15 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { PropertySelectorComponent } from '@app/components/property-selector/property-selector.component';
@@ -44,13 +45,14 @@ type EquipmentValueOption = {
   imports: [
     CommonModule,
     FormsModule,
-    ButtonDirective,
+    ButtonModule,
     InputText,
     SelectModule,
     PropertySelectorComponent
   ],
   templateUrl: './formula-builder.component.html',
   styleUrl: './formula-builder.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

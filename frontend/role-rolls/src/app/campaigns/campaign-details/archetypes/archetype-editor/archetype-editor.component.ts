@@ -1,4 +1,4 @@
-﻿import { Component, computed, signal, WritableSignal } from '@angular/core';
+﻿import { Component, computed, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DynamicDialogConfig} from 'primeng/dynamicdialog';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -15,6 +15,7 @@ import { firstValueFrom } from 'rxjs';
 import { Archetype } from '@app/models/archetypes/archetype';
 import { ArchetypesService } from '@services/archetypes/archetypes.service';
 import { TabsModule } from 'primeng/tabs';
+import { ButtonModule } from 'primeng/button';
 import {
   ArchetypeDetailsComponent
 } from '@app/campaigns/campaign-details/archetypes/components/archetype-details/archetype-details.component';
@@ -32,10 +33,12 @@ import { ArchetypeSpellsComponent } from '@app/campaigns/campaign-details/archet
     NgIf,
     BonusesComponent,
     TabsModule,
+    ButtonModule,
     ArchetypeDetailsComponent,
     ArchetypePowerDescriptionsComponent,
     ArchetypeSpellsComponent  ],
   templateUrl: './archetype-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./archetype-editor.component.scss']
 })
 export class ArchetypeEditorComponent {

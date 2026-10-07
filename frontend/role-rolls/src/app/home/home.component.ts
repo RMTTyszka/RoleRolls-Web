@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { CampaignListComponent } from '../campaigns/campaign-list/campaign-list.component';
@@ -14,6 +14,7 @@ import { CampaignListComponent } from '../campaigns/campaign-list/campaign-list.
     CampaignListComponent
   ],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {

@@ -3,11 +3,10 @@ using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Skills;
-using RoleRollsPocketEdition.Archetypes.Models;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Archetypes;
 
-public static partial class WarlockArchetypeDetails
+public static class WarlockArchetypeDetails
 {
     private static string GetStructuredPowerDescription(string powerName)
     {

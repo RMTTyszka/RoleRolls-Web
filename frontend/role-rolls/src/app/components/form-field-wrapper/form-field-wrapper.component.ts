@@ -4,7 +4,8 @@ import {
   ContentChild,
   ContentChildren,
   Input, QueryList,
-  TemplateRef
+  TemplateRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgForOf, NgTemplateOutlet } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
@@ -18,6 +19,7 @@ import { FieldTitleDirective } from '@app/components/form-field-wrapper/field-ti
     InputText
   ],
   templateUrl: './form-field-wrapper.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-field-wrapper.component.scss'
 })
 export class FormFieldWrapperComponent implements AfterContentInit {

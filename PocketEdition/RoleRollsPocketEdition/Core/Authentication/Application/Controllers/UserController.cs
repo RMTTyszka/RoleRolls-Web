@@ -16,7 +16,7 @@ namespace RoleRollsPocketEdition.Core.Authentication.Application.Controllers
             _userService = userService;
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
             await _userService.CreateAsync(user);

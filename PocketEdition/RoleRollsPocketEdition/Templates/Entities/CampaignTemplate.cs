@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using RoleRollsPocketEdition.Archetypes;
 using RoleRollsPocketEdition.Archetypes.Entities;
 using RoleRollsPocketEdition.Archetypes.Models;
+using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Campaigns.Entities;
 using RoleRollsPocketEdition.Campaigns.Events.Defenses;
 using RoleRollsPocketEdition.Campaigns.Models;
-using RoleRollsPocketEdition.Bonuses;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.CreatureTypes.Entities;
@@ -22,9 +20,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public string Name { get; set; } = "";
         public bool Default { get; set; }
-        public Guid? IniciativePropertyId { get; set; }
         public string CreatureTypeTitle { get; set; } = "";
         public string ArchetypeTitle { get; set; } = "";
+        public Guid? IniciativePropertyId { get; set; }
 
         public int MaxAttributePoints => 5;
 
@@ -46,9 +44,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public CampaignTemplate(CampaignTemplateModel template) : this()
         {
-            IniciativePropertyId = template.IniciativePropertyId;
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
+            IniciativePropertyId = template.IniciativePropertyId;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();
             CreatureConditions = template.CreatureConditions
                 .Select(condition => new CreatureCondition(condition))
@@ -122,7 +120,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
             var skills = Skills.Where(skill => skill.AttributeTemplateId == attributeId).ToList();
             foreach (var skill in skills)
             {
-                this.Skills.Remove(skill);
+                Skills.Remove(skill);
                 foreach (var minorSkill in skill.SpecificSkillTemplates)
                 {
                     skill.SpecificSkillTemplates.Remove(minorSkill);
@@ -153,7 +151,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
         public void RemoveSkill(Guid skillId, RoleRollsDbContext dbContext)
         {
             var skill = Skills.First(skill => skill.Id == skillId);
-            this.Skills.Remove(skill);
+            Skills.Remove(skill);
             dbContext.SkillTemplates.Remove(skill);
         }
 
@@ -163,9 +161,9 @@ namespace RoleRollsPocketEdition.Templates.Entities
             var skill = new SkillTemplate(attribute, skillModel)
             {
                 CampaignTemplate = this,
-                CampaignTemplateId = this.Id
+                CampaignTemplateId = Id
             };
-            this.Skills.Add(skill);
+            Skills.Add(skill);
             await dbContext.SkillTemplates.AddAsync(skill);
         }
 

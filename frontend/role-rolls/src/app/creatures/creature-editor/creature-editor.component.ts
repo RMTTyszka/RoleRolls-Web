@@ -1,4 +1,4 @@
-﻿import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
 import { EditorAction } from '@app/models/EntityActionData';
@@ -31,7 +31,7 @@ import {
 } from '@app/creatures/creature-editor/creature-inventory/creature-inventory.component';
 import { InputText } from 'primeng/inputtext';
 import { Tooltip } from 'primeng/tooltip';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import {
   PropertyByIdSelectorComponent
 } from '@app/components/property-by-id-selector/property-by-id-selector.component';
@@ -54,6 +54,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputGroupAddonModule,
   ],
   templateUrl: './creature-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-editor.component.scss'
 })
 export class CreatureEditorComponent {

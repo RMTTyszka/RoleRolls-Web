@@ -1,8 +1,7 @@
+using System.Text;
 using RoleRollsPocketEdition.Archetypes.Entities;
-using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Core.Extensions;
 using RoleRollsPocketEdition.Powers.Entities;
-using RoleRollsPocketEdition.Powers.Models;
 
 namespace RoleRollsPocketEdition.Archetypes.Models;
 
@@ -56,7 +55,7 @@ public class PowerDescriptionModel : IEntityDto
     {
         get
         {
-            var sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
 
             if (!string.IsNullOrWhiteSpace(Name))
             {

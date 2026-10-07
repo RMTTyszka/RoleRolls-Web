@@ -1,4 +1,4 @@
-import { Component, input, signal, WritableSignal } from '@angular/core';
+import { Component, input, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Campaign } from '@app/campaigns/models/campaign';
 import { GridComponent, RRColumns, RRHeaderAction } from '@app/components/grid/grid.component';
@@ -16,6 +16,7 @@ import { CreatureCategory } from '@app/campaigns/models/CreatureCategory';
     GridComponent
   ],
   templateUrl: './creature-select-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-select-table.component.scss'
 })
 export class CreatureSelectTableComponent {

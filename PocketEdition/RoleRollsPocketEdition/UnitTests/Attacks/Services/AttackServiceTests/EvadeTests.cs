@@ -1,7 +1,6 @@
 using FluentAssertions;
 using NSubstitute;
 using RoleRollsPocketEdition.Attacks.Services;
-using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates;
 using RoleRollsPocketEdition.Itens;
 using RoleRollsPocketEdition.Rolls.Services;

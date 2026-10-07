@@ -1,4 +1,4 @@
-import { Component, forwardRef, model } from '@angular/core';
+import { Component, forwardRef, model, ChangeDetectionStrategy } from '@angular/core';
 import { SelectButton, SelectButtonModule } from "primeng/selectbutton";
 import { Property } from '@app/models/bonuses/bonus';
 import { RROption } from '@app/models/RROption';
@@ -11,6 +11,7 @@ import { AdvantageSelectComponent } from '@app/rolls/advantage-select/advantage-
 
   templateUrl: './luck-select.component.html',
   styleUrl: './luck-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

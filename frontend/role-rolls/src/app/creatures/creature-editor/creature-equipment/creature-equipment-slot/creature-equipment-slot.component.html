@@ -4,7 +4,7 @@
     <input  pInputText ="value" [ngModel]="item.name" [disabled]="true">
   </p-inputgroup-addon>
   <p-inputgroup-addon>
-    <button *ngIf="!item.name" [ngStyle]="{opacity: 0}"  pButton icon="pi pi-times" class="p-button-danger" disabled></button>
-    <button *ngIf="item.name"  pButton icon="pi pi-times" class="p-button-danger" pTooltip="Unequip" (click)="unequip(item)"></button>
+    <p-button *ngIf="!item.name" [ngStyle]="{opacity: 0}" icon="pi pi-times" styleClass="p-button-danger" disabled></p-button>
+    <p-button *ngIf="item.name" icon="pi pi-times" styleClass="p-button-danger" pTooltip="Unequip" (click)="unequip(item)"></p-button>
   </p-inputgroup-addon>
 </p-inputgroup>

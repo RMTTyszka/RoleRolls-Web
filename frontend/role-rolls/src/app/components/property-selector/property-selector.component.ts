@@ -1,4 +1,4 @@
-import {Component, computed, forwardRef, input} from '@angular/core';
+import {Component, computed, forwardRef, input, ChangeDetectionStrategy} from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -34,6 +34,7 @@ import {Creature} from '@app/campaigns/models/creature';
       multi: true
     }
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'flex'
   }

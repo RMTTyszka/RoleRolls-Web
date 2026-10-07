@@ -4,13 +4,9 @@ namespace RoleRollsPocketEdition.Itens.Templates.Models;
 
 public class ArmorTemplateModel : EquipableTemplateModel
 {
-    public ArmorTemplateModel() : base()
-    {
-        
-    }
     public static ArmorTemplateModel FromTemplate(ArmorTemplate template)
     {
-        var armor = EquipableTemplateModel.FromTemplate<ArmorTemplateModel>(template);
+        var armor = FromTemplate<ArmorTemplateModel>(template);
         armor.Category = template.Category;
         return armor;
     }

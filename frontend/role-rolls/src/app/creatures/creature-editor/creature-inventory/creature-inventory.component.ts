@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { EquipInput } from '@app/models/creatures/equip-input';
 import { firstValueFrom } from 'rxjs';
 import {EquipableSlot} from '@app/models/itens/equipable-slot';
@@ -20,7 +20,7 @@ import {
   CreatureEquipmentComponent
 } from '@app/creatures/creature-editor/creature-equipment/creature-equipment.component';
 import { TableModule } from 'primeng/table';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { NgIf } from '@angular/common';
 import { Tooltip } from 'primeng/tooltip';
 
@@ -30,11 +30,12 @@ import { Tooltip } from 'primeng/tooltip';
     Panel,
     CreatureEquipmentComponent,
     TableModule,
-    ButtonDirective,
+    ButtonModule,
     NgIf,
     Tooltip
   ],
   templateUrl: './creature-inventory.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './creature-inventory.component.scss'
 })
 export class CreatureInventoryComponent {

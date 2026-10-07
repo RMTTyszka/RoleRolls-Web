@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { EditorAction } from "../../models/EntityActionData";
 import { Checkbox } from "primeng/checkbox";
 import { Fieldset } from "primeng/fieldset";
@@ -11,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 import { getAsForm, ultraPatchValue } from '../../tokens/EditorExtension';
 import { CampaignCreatorControls } from './campaign-creator-form-controls';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Toolbar } from 'primeng/toolbar';
 import { CampaignsService } from '../services/campaigns.service';
 import { firstValueFrom } from 'rxjs';
@@ -26,11 +26,12 @@ import { Campaign } from '../models/campaign';
     InputText,
     ReactiveFormsModule,
     Select,
-    ButtonDirective,
+    ButtonModule,
     Toolbar
   ],
   templateUrl: './campaign-creator.component.html',
   styleUrl: './campaign-creator.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class CampaignCreatorComponent {

@@ -7,7 +7,7 @@
     </div>
   </ng-template>
   <ng-template #footer>
-    <button pButton [label]="'Save'" (click)="save()" [disabled]="!canSave"></button>
+    <p-button [label]="'Save'" (click)="save()" [disabled]="!canSave"></p-button>
   </ng-template>
   <form [formGroup]="form">
     <div class="flex flex-col gap-2">

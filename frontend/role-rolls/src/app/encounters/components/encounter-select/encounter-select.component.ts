@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, signal, WritableSignal, ChangeDetectionStrategy} from '@angular/core';
 import {GridComponent, RRColumns} from '@app/components/grid/grid.component';
 import {CreatureCategory} from '@app/campaigns/models/CreatureCategory';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -16,6 +16,7 @@ import {Encounter} from '@app/encounters/models/encounter';
     GridComponent
   ],
   templateUrl: './encounter-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './encounter-select.component.scss'
 })
 export class EncounterSelectComponent {

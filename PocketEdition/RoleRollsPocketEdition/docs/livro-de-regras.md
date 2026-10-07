@@ -17,7 +17,7 @@ O sistema base oferece:
 - atributos, perícias e especialidades para representar capacidades;
 - defesas, vitalidades e condições para representar proteção e estado;
 - testes de d20 resolvidos por complexidade, dificuldade e sucessos;
-- ataque básico, Evasion, bloqueio, dano e desgaste;
+- ataque básico, Evasão, bloqueio, dano e desgaste;
 - fórmulas para calcular recursos e valores da ficha.
 
 A campanha define os atributos, as perícias, as especialidades, as defesas, as
@@ -25,9 +25,9 @@ vitalidades, as condições, as fórmulas e as propriedades usadas por armas.
 
 ### Exemplo: Land of Heroes
 
-O Land of Heroes usa os atributos `Agility`, `Charisma`, `Intelligence`,
-`Intuition`, `Strength` e `Vigor`. Suas vitalidades são `Life`, `Moral` e
-`Mana`; sua defesa principal é `Evasion`.
+O Land of Heroes usa os atributos Agilidade, Carisma, Inteligência, Intuição,
+Força e Vigor. Suas vitalidades são Vida, Moral e Mana; sua defesa principal é
+Evasão.
 
 ## 2. A ficha da criatura
 
@@ -37,12 +37,21 @@ Um atributo representa uma capacidade ampla. Ele fornece a base de uma
 especialidade ligada a ele e pode participar de fórmulas de defesa e
 vitalidade.
 
-Uma criatura começa no nível 1 com `1` ponto em cada atributo. O limite de um
-atributo é:
+O RoleRolls limita os pontos de um atributo por nível:
 
 ```text
-4 + piso(nível / 6)
+3 + piso(nível / 6)
 ```
+
+Portanto, o teto é `3` nos níveis 1–5, `4` nos níveis 6–11, `5` nos níveis
+12–17 e `6` nos níveis 18–20. O sistema recomenda começar com `2` pontos por
+atributo. A campanha, porém, define o orçamento total, o piso e qualquer regra
+de criação específica.
+
+No Land of Heroes, por exemplo, a personagem distribui exatamente `12` pontos
+entre seis atributos, com mínimo `1` e máximo `3` no nível 1. Consulte o
+[Livro de Campanha do Land of Heroes](land-of-heroes/livro-de-regras.md) para
+as regras completas dessa campanha.
 
 ### Perícias e especialidades
 
@@ -55,11 +64,11 @@ O valor de uma especialidade é:
 atributo ligado + pontos da especialidade + bônus aplicáveis
 ```
 
-No Land of Heroes, `Combat` é uma perícia. `MeleeMediumWeapon`, `Evasion` e
-`Concentrate` são especialidades de Combat. `Evasion` usa `Agility` como
-atributo ligado.
+No Land of Heroes, Combate é uma perícia. Arma Corpo a Corpo Média, Evasão e
+Concentração são especialidades de Combate. Evasão usa Agilidade como atributo
+ligado.
 
-Uma personagem com `Agility 3` e `Evasion 2` possui total de Evasion `5` antes
+Uma personagem com Agilidade `3` e Evasão `2` possui total de Evasão `5` antes
 de bônus de equipamento e condições.
 
 ### Defesas
@@ -70,11 +79,11 @@ campanha calcula esse valor por fórmula.
 No Land of Heroes:
 
 ```text
-Evasion = 10 + Evasion + bônus de defesa da armadura + bônus de nível da armadura
+Evasão = 10 + Evasão + bônus de defesa da armadura + bônus de nível da armadura
 ```
 
-Uma criatura com Evasion `5`, armadura leve (`+2`) e item de nível `0` possui
-Evasion estática `17`. Esse valor é usado quando a campanha resolve uma Defesa
+Uma criatura com Evasão `5`, armadura leve (`+2`) e item de nível `0` possui
+Evasão estática `17`. Esse valor é usado quando a campanha resolve uma Defesa
 estática, como em ataques feitos por um jogador contra uma criatura controlada
 pelo mestre.
 
@@ -87,13 +96,13 @@ quando cruza limites.
 No Land of Heroes:
 
 ```text
-Life  = 4 × Vigor + 2 × Level + Growth
-Moral = 4 × Intuition + 2 × Level + Growth + 2 × Tier
-Mana  = 10 + 2 × Intelligence
+Vida = 4 × Vigor + 2 × Nível + Crescimento
+Moral = 4 × Intuição + 2 × Nível + Crescimento + 2 × Grau
+Mana = 2 + nível / 6
 ```
 
-Uma criatura de nível 1 com `Vigor 3`, `Intuition 3` e `Intelligence 3` possui
-`Life 14`, `Moral 16` e `Mana 16`.
+Uma criatura de nível 1 com Vigor `3` e Intuição `3` possui Vida `14`, Moral
+`16` e Mana `2`.
 
 ### Condições
 
@@ -102,9 +111,9 @@ uma condição à faixa crítica de `30%` de uma vitalidade e outra ao valor `0`
 
 No Land of Heroes:
 
-- `Moral` em 30% ou menos expõe `Shaken`;
-- `Moral` em 0 expõe `Bleeding` e `Shaken`;
-- `Life` em 30% ou menos expõe `Debilitated`.
+- Moral em 30% ou menos expõe Abalado;
+- Moral em 0 expõe Sangrando e Abalado;
+- Vida em 30% ou menos expõe Debilitado.
 
 ## 3. Progressão
 
@@ -122,16 +131,16 @@ limite de uma especialidade = nível + 2
 
 ### Exemplo: Land of Heroes
 
-`Awareness` possui quatro especialidades. Ela começa com seis pontos para
+Percepção possui quatro especialidades. Ela começa com seis pontos para
 distribuir e concede dois pontos a cada nível. No nível 1, cada especialidade
-de Awareness aceita até três pontos.
+de Percepção aceita até três pontos.
 
-`Combat` possui onze especialidades. Ela começa com treze pontos para
-distribuir e concede quatro pontos a cada nível. Os pontos de Combat fortalecem
-somente especialidades de Combat.
+Combate possui onze especialidades. Ela começa com treze pontos para
+distribuir e concede quatro pontos a cada nível. Os pontos de Combate fortalecem
+somente especialidades de Combate.
 
-Uma personagem de nível 1 pode distribuir os seis pontos de Awareness como
-`Observe 3`, `Listen 3`, `Search 0` e `Feeling 0`. Ao alcançar o nível 2, ela
+Uma personagem de nível 1 pode distribuir os seis pontos de Percepção como
+Observar `3`, Ouvir `3`, Procurar `0` e Sentir `0`. Ao alcançar o nível 2, ela
 recebe mais dois pontos nessa reserva e o limite de cada especialidade passa a
 ser quatro.
 
@@ -155,7 +164,7 @@ Cada resultado final igual ou maior que a Complexidade gera um sucesso. O teste
 é bem-sucedido quando o total de sucessos alcança a Dificuldade.
 
 ```text
-sucessos de resolução = piso(total de sucessos / Dificuldade)
+sucessos de resolução = total de sucessos / Dificuldade
 ```
 
 ### Exemplo: teste de especialidade
@@ -170,18 +179,24 @@ a qualidade da descoberta.
 
 ### Modificadores de rolagem
 
-Cada modificador possui magnitude `N`. Vantagem `+N` adiciona `N` dados à
-rolagem; Desvantagem `+N` remove `N` dados, até o mínimo de `0`. Vantagem e
-Desvantagem se cancelam antes da rolagem.
+Estados de rolagem usam um grau em algarismo romano: `I` corresponde a um,
+`II` a dois e assim por diante. Vantagem adiciona à rolagem a quantidade de
+dados indicada pelo grau. No ataque básico e em Evasão, se houver Vantagem
+no comando e em um bônus, vale o maior grau; os graus não se somam.
 
-Sorte `+N` permite rolar novamente os `N` menores resultados e conservar o
-maior resultado de cada nova rolagem. Azar `-N` faz o oposto: rola novamente os
-`N` maiores resultados e conserva o menor resultado de cada nova rolagem.
+Sorte e Azar rerrolam a quantidade de dados indicada pelo grau. Sorte rerrola
+os menores resultados e conserva o maior de cada par; Azar rerrola os maiores
+e conserva o menor. Internamente, Sorte é positiva e Azar é negativo.
 
-Buff `+N` soma `N` ao valor estático da aplicação indicada. Debuff `+N`
-subtrai `N` desse valor. Buffs e Debuffs da mesma aplicação são somados.
+Bônus `+N` soma `N` ao valor estático da aplicação indicada. Penalidade `-N`
+subtrai `N` desse valor. Bônus de Acerto e Evasão participam do ataque básico
+e de Evasão.
 
-As aplicações são: **Acerto**, para rolagens ofensivas; **Evasion**, para
+Desvantagem e Penalidade pertencem ao modelo de bônus e podem aparecer em
+manobras. No sistema atual, os caminhos de ataque básico e Evasão não os
+consultam; portanto não removem dados nem subtraem valores nesses fluxos.
+
+As aplicações são: **Acerto**, para rolagens ofensivas; **Evasão**, para
 rolagens defensivas; e **propriedade**, quando uma habilidade identifica outra
 rolagem. Em todos os testes, resultado alto é favorável.
 
@@ -237,18 +252,20 @@ ficam registrados na cena.
 4. some o bônus ofensivo a cada dado;
 5. cada dado igual ou maior que a Defesa do alvo gera um sucesso;
 6. calcule o excesso de cada sucesso;
-7. agrupe excessos pela dificuldade da arma para formar hits;
-8. aplique dano, bloqueio e vitalidades para cada hit.
+7. agrupe excessos pela dificuldade da empunhadura para formar acertos;
+8. aplique dano, bloqueio e vitalidades para cada acerto.
 
 O bônus ofensivo é:
 
 ```text
 total da especialidade ofensiva
-+ bônus de hit do grip
-+ buffs de hit
++ bônus de Acerto da empunhadura
++ Bônus de Acerto
 + diferença de nível entre atacante e alvo
 + bônus de nível da arma
 ```
+
+O bônus de nível da arma é o nível do item dividido por `2`.
 
 O excesso de um sucesso é:
 
@@ -256,53 +273,99 @@ O excesso de um sucesso é:
 resultado final do dado − Defesa do alvo
 ```
 
-### Categorias de arma
+### Empunhaduras de arma
 
-As categorias determinam quantos sucessos formam um hit.
+O equipamento determina a empunhadura efetiva pelas armas das mãos principal e
+secundária. Quando o modelo de uma arma define uma empunhadura, ela tem
+precedência. Sem essa definição, arma leve usa empunhadura leve de uma mão,
+arma média usa empunhadura média de uma mão, arma pesada usa empunhadura
+pesada de duas mãos, e cada categoria de escudo usa a empunhadura equivalente.
 
-| Categoria | Sucessos por hit | Land of Heroes: bônus de hit | Bônus-base de dano por nível |
-|---|---:|---:|---:|
-| Leve | 1 | +1 | 3 |
-| Média | 2 | +0 | 5 |
-| Pesada, duas mãos | 3 | -1 | 8 |
+| Empunhadura efetiva | Bônus de Acerto | Bônus fixo por acerto | Bônus por nível do atacante | Sucessos por acerto |
+|---|---:|---:|---:|---:|
+| Arma leve, uma mão | +1 | 0 | 3 | 1 |
+| Arma média, uma mão | +0 | 0 | 5 | 2 |
+| Arma pesada, duas mãos | -1 | 2 | 8 | 3 |
+| Duas armas leves | -1 | 0 | 3 | 1 |
+| Duas armas médias | -1 | 0 | 4 | 2 |
+| Arma pesada, uma mão | -1 | 0 | 8 | 3 |
+| Arma média, duas mãos | +2 | 8 | 5 | 3 |
+| Escudo leve | +0 | 4 | 0 | 1 |
+| Escudo médio | +1 | 8 | 0 | 2 |
+| Escudo pesado | +3 | 12 | 0 | 3 |
 
 Os excessos são ordenados do maior para o menor. Cada grupo completo forma um
-hit; excessos fora de um grupo completo não formam hit.
+acerto; excessos fora de um grupo completo não formam acerto.
 
 ### Dano e bloqueio
 
-Para cada hit:
+O bônus de dano por acerto é:
+
+```text
+bônus de dano por acerto = bônus fixo da empunhadura
+  + (bônus da empunhadura por nível × nível do atacante)
+```
+
+Para cada acerto:
 
 ```text
 dano = máximo(
   soma dos excessos do grupo
-  + bônus de dano por hit
+  + bônus de dano por acerto
   − bloqueio do alvo,
   1
 )
 ```
 
+Cada acerto causa no mínimo `1` ponto de dano depois de aplicar o bloqueio.
+
 O bloqueio combina a proteção da armadura e a propriedade de bloqueio definida
 pela campanha. No Land of Heroes, essa propriedade é `Vigor`.
 
-| Armadura | Bônus de Evasion | Bloqueio da armadura |
-|---|---:|---:|
-| Leve | +2 | 2 + nível × 1 |
-| Média | +1 | 4 + nível × 2 |
-| Pesada | -1 | 4 + nível × 3 |
+| Armadura | Bônus de Evasão | Bloqueio-base | Bloqueio por nível |
+|---|---:|---:|---:|
+| Nenhuma | +0 | 0 | 0 |
+| Leve | +2 | 2 | 1 |
+| Média | +1 | 4 | 2 |
+| Pesada | -1 | 4 | 3 |
 
-### Exemplo: ataque médio
+O nível desta fórmula é o do defensor:
 
-Uma guerreira de nível 1 possui `MeleeMediumWeapon 4` e usa arma média. O alvo
-tem Evasion `17`, `Vigor 2` e armadura leve. Nenhum dos lados possui bônus de
-nível ou buffs.
+```text
+bloqueio = bloqueio-base
+  + (bloqueio por nível × nível do defensor)
+  + propriedade de bloqueio da campanha
+```
 
+### Sorte por arma e armadura
+
+Durante o ataque básico e a Evasão, a categoria da arma do atacante pode
+alterar a Sorte da rolagem conforme a armadura do defensor. A matriz usa a
+categoria da arma, não a empunhadura. Todas as combinações ausentes são
+neutras; armas médias, escudos e armas sem categoria não alteram a Sorte.
+
+| Arma | Armadura leve | Armadura média | Armadura pesada | Sem armadura |
+|---|---|---|---|---|
+| Leve | Sorte I | Neutro | Azar I | Neutro |
+| Média | Neutro | Neutro | Neutro | Neutro |
+| Pesada | Azar I | Neutro | Sorte I | Neutro |
+| Escudo | Neutro | Neutro | Neutro | Neutro |
+
+### Exemplo: ataque com arma média
+
+Uma guerreira de nível 1 possui Arma Corpo a Corpo Média `4` e usa arma média. O alvo
+tem Evasão `17`, Vigor `2` e armadura leve. Nenhum dos lados possui bônus de
+nível ou bônus.
+
+Arma média sem empunhadura explícita usa empunhadura média de uma mão: bônus de
+Acerto `+0`, bônus fixo `0`, bônus por nível `5` e dois sucessos por acerto.
 O bônus ofensivo é `4`. A guerreira rola quatro dados: `15`, `13`, `9` e `4`.
 Os totais são `19`, `17`, `13` e `8`. Os dois primeiros dados geram sucessos
 com excessos `2` e `0`.
 
-A arma média agrupa os dois excessos em um hit. Seu bônus de dano por hit é
-`5`. O bloqueio do alvo é `3` da armadura leve mais `2` de Vigor, total `5`.
+A empunhadura agrupa os dois excessos em um acerto. Seu bônus de dano por
+acerto é `5`. O bloqueio do alvo é `2 + (1 × 1)` da armadura leve mais `2` de
+Vigor, total `5`.
 
 ```text
 dano = máximo(2 + 0 + 5 − 5, 1) = 2
@@ -316,22 +379,23 @@ consome essa ação. Os modificadores seguem a seção anterior.
 
 | Manobra | Ação e duração | Efeito |
 | --- | --- | --- |
-| Tiro Livre (Open Shot) | Ação de Ataque; instantânea | Vantagem Acerto `+2`. |
-| Ataque Completo (Full Attack) | Ação de Ataque; instantânea | Vantagem Acerto `+1`; Desvantagem Evasion `+1`; Debuff Evasion `+1`. |
-| Ataque Parcial (Partial Attack) | Ação de Ataque; instantânea | Desvantagem Acerto `+1`. |
-| Ataque Cauteloso (Cautious Attack) | Ação de Ataque; instantânea | Desvantagem Acerto `+1`; Vantagem Evasion `+1`. |
-| Ataque Auxiliar (Auxiliar Attack) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
-| Defesa Total (Full Defense) | Ação Completa; 1 turno | Desvantagem Acerto `+3`; Vantagem Evasion `+2`; Buff Evasion `+2`. |
-| Cobrir Aliado (Cover Ally) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+1`. Alvo: Vantagem Evasion `+1`. |
-| Cobertura Total de Aliado (Full Cover Ally) | Ação de Ataque; instantânea | Usuário: Desvantagem Acerto `+3`. Alvo: Vantagem Evasion `+2`. |
+| Tiro Livre | Ação de Ataque; instantânea | Vantagem de Acerto II. |
+| Ataque Completo | Ação de Ataque; instantânea | Vantagem de Acerto I; Desvantagem de Evasão I; Penalidade de Evasão `-1`. |
+| Ataque Parcial | Ação de Ataque; instantânea | Desvantagem de Acerto I. |
+| Ataque Cauteloso | Ação de Ataque; instantânea | Desvantagem de Acerto I; Vantagem de Evasão I. |
+| Ataque Auxiliar | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Evasão II. |
+| Defesa Total | Ação Completa; 1 turno | Desvantagem de Acerto III; Vantagem de Evasão II; Bônus de Evasão `+2`. |
+| Cobrir Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto I. Alvo: Vantagem de Evasão I. |
+| Cobertura Total de Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Evasão II. |
 
 Exemplo: com Ataque Cauteloso, a criatura rola um dado a menos para Acerto e
-um dado a mais para Evasion. Com Defesa Total, também soma `+2` ao resultado de
-Evasion: o Buff soma dois ao bônus estático de Evasion; não cria dados extras.
+um dado a mais para Evasão. Com Defesa Total, também aplica Bônus de Evasão
+`+2` ao resultado de Evasão: o Bônus soma dois ao bônus estático de Evasão;
+não cria dados extras.
 
-## 7. Evasion rolada pelo defensor
+## 7. Evasão rolada pelo defensor
 
-Evasion resolve um ataque básico recebido por uma criatura controlada por
+Evasão resolve um ataque básico recebido por uma criatura controlada por
 jogador. O atacante fornece valores estáticos; o defensor realiza todos os
 d20 da resolução.
 
@@ -339,51 +403,57 @@ d20 da resolução.
 
 1. obtenha a arma e a especialidade ofensiva do atacante;
 2. calcule quantos dados o atacante rolaria em um ataque básico;
-3. calcule a Dificuldade de Evasion;
-4. o defensor rola essa quantidade de d20 de Evasion;
-5. some o bônus de Evasion a cada dado;
+3. calcule a Dificuldade de Evasão;
+4. o defensor rola essa quantidade de d20 de Evasão;
+5. some o bônus de Evasão a cada dado;
 6. transforme resultados que falharam em excessos;
-7. agrupe excessos pela dificuldade da arma;
-8. aplique dano, bloqueio e vitalidades.
+7. agrupe excessos pela dificuldade da empunhadura;
+8. aplique dano, bloqueio e vitalidades para cada acerto.
 
 ```text
-dados-base de Evasion = total da especialidade ofensiva do atacante
+dados-base de Evasão = total da especialidade ofensiva do atacante
 
-Dificuldade de Evasion = 10 + bônus ofensivo do atacante
+Dificuldade de Evasão = 10 + bônus ofensivo do atacante
 
-resultado de Evasion = d20 + bônus de Evasion
+bônus de Evasão = total da especialidade defensiva
+  + bônus da armadura
+  + nível do peitoral / 2
+  + Bônus de Evasão
+
+resultado de Evasão = d20 + bônus de Evasão
 ```
 
-O bônus de Evasion usa a especialidade defensiva definida pela campanha, os
-bônus da armadura, o bônus de nível da armadura, buffs e uma penalidade fixa
-de `−1`. No Land of Heroes, a especialidade é `Evasion`.
+O peitoral é o item que fornece o bônus de nível de Evasão. A armadura não
+fornece Sorte própria. No Land of Heroes, a especialidade defensiva é
+Evasão.
 
-Um resultado de Evasion maior que a Dificuldade evita uma tentativa. O empate
-favorece o atacante, conta para formar um hit e gera excesso `0`. Um resultado
+Um resultado de Evasão maior que a Dificuldade evita uma tentativa. O empate
+favorece o atacante, conta para formar um acerto e gera excesso `0`. Um resultado
 menor gera:
 
 ```text
-excesso = Dificuldade de Evasion − resultado de Evasion
+excesso = Dificuldade de Evasão − resultado de Evasão
 ```
 
-Vantagem, Desvantagem, Sorte, Azar, Buffs e Debuffs seguem a regra geral de
-modificadores. Quando Vantagem cria dados extras na Evasion, o defensor
-conserva somente os melhores resultados até completar a quantidade-base;
-resultado alto permanece favorável.
+Quando Vantagem cria dados extras na Evasão, o defensor conserva somente os
+melhores resultados até completar a quantidade-base; resultado alto permanece
+favorável. Sorte e Azar também seguem a regra geral, inclusive a matriz entre
+arma e armadura. Desvantagem e Penalidade não são consultadas pelo fluxo atual.
 
-### Exemplo: Evasion contra arma média
+### Exemplo: Evasão contra arma média
 
 Um inimigo usa arma média e possui total ofensivo `4`. Seus bônus de arma e de
 efeito somam `3`, portanto seu bônus ofensivo total é `7`. O defensor rola
-quatro d20 de Evasion contra Dificuldade `17`.
+quatro d20 de Evasão contra Dificuldade `17`.
 
-Uma personagem com `Agility 3`, `Evasion 2` e armadura leve possui bônus de
-Evasion `6`, após a penalidade de `−1`. Ela rola `20`, `15`, `11` e `8`,
-obtendo `26`, `21`, `17` e `14`.
+Uma personagem com Agilidade `3`, Evasão `2` e armadura leve possui bônus de
+Evasão `7`: `5` da especialidade e `+2` da armadura. Ela rola `20`, `15`,
+`12` e `8`, obtendo `27`, `22`, `19` e `15`.
 
-Os dois primeiros resultados evitam tentativas. O terceiro é um empate e gera
-excesso `0`; o quarto gera excesso `3`. A arma média agrupa esses dois
-resultados em um hit com excesso total `3` antes de aplicar bônus de dano e
+Os três primeiros resultados evitam tentativas. O quarto gera excesso `2`. A
+empunhadura média de uma mão exige dois excessos para formar um acerto, então o
+ataque termina sem dano. Se duas falhas produzirem excessos `5` e `2`, elas
+formam um acerto com excesso total `7` antes de aplicar bônus de dano e
 bloqueio.
 
 ## 8. Ataque especial
@@ -402,7 +472,7 @@ condição, duração, deslocamento ou outro efeito.
 ### Exemplo: magia de medo
 
 Uma conjuradora possui total `5` na especialidade usada pela magia. Ela usa um
-ataque especial contra Evasion `17` e recebe bônus `5` em cada dado. Seus
+ataque especial contra Evasão `17` e recebe bônus `5` em cada dado. Seus
 resultados brutos são `12`, `9`, `7`, `4` e `2`; os totais são `17`, `14`,
 `12`, `9` e `7`.
 
@@ -437,7 +507,7 @@ oportunidade.
 
 A criatura que ameaça pode realizar um Ataque Básico com a arma corpo a corpo
 que concede a área de ameaça. Para esta regra, o ataque tem sucesso quando a
-resolução forma ao menos um hit.
+resolução forma ao menos um acerto.
 
 Cada criatura pode realizar no máximo um ataque de oportunidade por rodada.
 Uma habilidade ou poder pode alterar esse limite.
@@ -452,7 +522,7 @@ falha, caso seu texto o determine.
 Uma combatente com espada ameaça `1,5 m`. Uma exploradora entra nessa área e
 segue em direção à combatente: não provoca ataque de oportunidade. Ainda dentro
 da área, a exploradora muda a direção e tenta atravessar ao lado da combatente:
-ela provoca o ataque. Se a combatente formar ao menos um hit, o movimento da
+ela provoca o ataque. Se a combatente formar ao menos um acerto, o movimento da
 exploradora termina; caso contrário, ela continua o movimento.
 
 Se uma criatura já adjacente à combatente atacar outro inimigo ao seu lado, sem
@@ -460,18 +530,18 @@ se deslocar, não há ataque de oportunidade.
 
 ## 10. Vitalidades, desgaste e condições
 
-O ataque básico e a Evasion aplicam cada hit na ordem de vitalidades da
+O ataque básico e a Evasão aplicam cada acerto na ordem de vitalidades da
 campanha. Quando uma vitalidade chega a zero, o dano restante segue para a
 próxima vitalidade da ordem.
 
 No Land of Heroes, a ordem padrão é:
 
-1. `Moral`;
-2. `Life`.
+1. Moral;
+2. Vida.
 
-Um hit de dano `20` contra uma criatura com `Moral 6` e `Life 14` reduz Moral
-a `0`, transfere `14` de dano para Life e deixa Life em `0`. As condições de
-Moral e Life são atualizadas pelos seus limites.
+Um acerto que causa `20` de dano contra uma criatura com Moral `6` e Vida `14`
+reduz Moral a `0`, transfere `14` de dano para Vida e deixa Vida em `0`. As
+condições de Moral e Vida são atualizadas pelos seus limites.
 
 ## 11. Sequência de jogo
 
@@ -481,7 +551,7 @@ Em uma cena, use esta sequência:
 2. escolha a especialidade, a arma ou a regra que representa a ação;
 3. defina Defesa, Complexidade e Dificuldade quando a regra pedir;
 4. realize o teste correspondente;
-5. transforme sucessos, excessos e hits no efeito da ação;
+5. transforme sucessos, excessos e acertos no efeito da ação;
 6. atualize dano, vitalidades e condições;
 7. registre a consequência na cena e continue a ficção.
 

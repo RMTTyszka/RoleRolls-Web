@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using RoleRollsPocketEdition.Core.Entities;
 using RoleRollsPocketEdition.Creatures.Entities;
 using RoleRollsPocketEdition.Templates.Dtos;

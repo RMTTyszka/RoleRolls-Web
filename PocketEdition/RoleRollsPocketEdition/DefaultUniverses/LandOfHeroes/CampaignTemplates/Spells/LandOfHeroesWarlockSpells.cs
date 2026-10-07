@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using RoleRollsPocketEdition.Spells.Entities;
 
 namespace RoleRollsPocketEdition.DefaultUniverses.LandOfHeroes.CampaignTemplates.Spells;

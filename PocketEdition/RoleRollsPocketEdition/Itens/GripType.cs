@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 namespace RoleRollsPocketEdition.Itens
 {
     public enum GripType

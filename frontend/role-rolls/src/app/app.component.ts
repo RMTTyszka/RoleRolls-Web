@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { Toast } from 'primeng/toast';
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, MainHeaderComponent, Toast],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {

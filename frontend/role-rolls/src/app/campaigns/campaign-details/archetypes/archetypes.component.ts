@@ -1,4 +1,4 @@
-import {Component, EventEmitter, signal} from '@angular/core';
+import {Component, EventEmitter, signal, ChangeDetectionStrategy} from '@angular/core';
 import {GridComponent, RRColumns, RRHeaderAction} from "@app/components/grid/grid.component";
 import {ActivatedRoute, Router} from '@angular/router';
 import {Campaign} from '@app/campaigns/models/campaign';
@@ -18,6 +18,7 @@ import { canEditTemplate } from '@app/tokens/utils.funcs';
         GridComponent
     ],
   templateUrl: './archetypes.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './archetypes.component.scss'
 })
 export class ArchetypesComponent {

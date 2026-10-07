@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Card } from 'primeng/card';
 import { LogDetailsComponent } from '@app/campaign-session/scene-log/log-details/log-details.component';
 import {DatePipe, NgForOf} from '@angular/common';
@@ -21,6 +21,7 @@ import {Panel} from 'primeng/panel';
     Panel
   ],
   templateUrl: './scene-log.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './scene-log.component.scss'
 })
 export class SceneLogComponent {
