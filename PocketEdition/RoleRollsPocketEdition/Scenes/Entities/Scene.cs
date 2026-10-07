@@ -23,6 +23,7 @@ namespace RoleRollsPocketEdition.Scenes.Entities
         public ICollection<SceneAction> Actions { get; set; } = new List<SceneAction>();
         public SceneBoard? Board { get; set; }
         public ICollection<SceneCreature> Creatures { get; set; } = new List<SceneCreature>();
+        public ICollection<SceneInitiativeEntry> Initiative { get; set; } = new List<SceneInitiativeEntry>();
         public ICollection<Roll> Rolls { get; set; } = new List<Roll>();
 
         public string Name { get; set; }

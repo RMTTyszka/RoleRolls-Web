@@ -25,6 +25,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
     public async Task<List<Creature>> GetFullCreatures(List<Guid> ids)
     {
         var creatures = await _dbContext.Creatures
+            .Include(creature => creature.Bonuses)
             .Include(creature => creature.Attributes)
             .Include(creature => creature.Vitalities)
             .ThenInclude(vitality => vitality.VitalityTemplate)
@@ -78,6 +79,7 @@ public class CreatureRepository : ICreatureRepository, ITransientDependency
     {
         var query = _dbContext.Creatures
             .AsSplitQuery()
+            .Include(creature => creature.Bonuses)
             .Include(creature => creature.Skills)
             .ThenInclude(skill => skill.SpecificSkills)
             .Include(creature => creature.Attributes)

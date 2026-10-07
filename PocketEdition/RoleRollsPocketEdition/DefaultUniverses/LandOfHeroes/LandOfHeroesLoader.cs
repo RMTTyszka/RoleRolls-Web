@@ -103,6 +103,7 @@ public class LandOfHeroesLoader : IStartupTask
                 .Include(c => c.ItemConfiguration)
                 .Where(e => e.Id == templateFromCode.Id)
                 .Select(e => e.ItemConfiguration)
+            templateFromDb.IniciativePropertyId = templateFromCode.IniciativePropertyId;
                 .FirstAsync(cancellationToken);
 
             templateFromDb.Name = templateFromCode.Name;

@@ -194,6 +194,41 @@ O ataque básico resolve um ataque armado iniciado por um jogador. Ele usa a
 arma equipada, a categoria da arma, a especialidade ofensiva configurada pela
 campanha, a Defesa do alvo, bloqueio, dano e vitalidades.
 
+### Turnos e rodadas
+
+Um **turno** é a oportunidade individual de uma criatura agir. No início do
+seu turno, ela recupera as ações descritas neste livro.
+
+Uma **rodada** é um ciclo completo de iniciativa: começa com a primeira
+criatura na ordem e termina quando cada criatura participante teve um turno.
+A iniciativa determina essa ordem. Se uma criatura for derrotada antes de seu
+turno, ela não age; ainda assim, a rodada parcial conta como uma rodada.
+
+Para medir um combate, conte as rodadas iniciadas até a derrota. O dano médio
+por rodada de uma criatura é o dano total que ela causou dividido pelo total
+de rodadas do combate.
+
+### Iniciativa
+
+Cada template de campanha define `IniciativePropertyId`: o ID da propriedade
+que determina iniciativa. Ele pode apontar para atributo, perícia,
+especialidade, Defesa ou vitalidade; o tipo é resolvido pela propriedade que a
+criatura possui.
+
+Para cada criatura participante, obtenha o valor total dessa propriedade,
+incluindo seus bônus aplicáveis, e role `max(1, 1 + valor da propriedade)`
+d20. A iniciativa da criatura é apenas o maior dado rolado.
+
+A ordem fica do maior score para o menor. Em empate de score, age primeiro
+quem tiver maior valor da propriedade. Persistindo empate, role novamente
+somente para as criaturas empatadas, com a mesma quantidade de d20, até
+definir a ordem. O score original não muda por causa desse desempate.
+
+Cada cena mantém uma única lista de iniciativa ativa. Ela pode ser rolada
+para todos os participantes, receber uma criatura com rolagem individual ou
+remover uma criatura; posição, score, valor da propriedade e dados iniciais
+ficam registrados na cena.
+
 ### Procedimento
 
 1. escolha a arma e a Defesa do alvo;

@@ -984,6 +984,40 @@ namespace RoleRollsPocketEdition.Migrations
                     b.ToTable("SceneCreatures");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneInitiativeEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DiceResults")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PropertyValue")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("SceneId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SceneId", "CreatureId")
+                        .IsUnique();
+
+                    b.ToTable("SceneInitiativeEntries");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Spells.Entities.Spell", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1082,6 +1116,9 @@ namespace RoleRollsPocketEdition.Migrations
 
                     b.Property<bool>("Default")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid?>("IniciativePropertyId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .HasMaxLength(450)
@@ -2109,6 +2146,17 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Scene");
                 });
 
+            modelBuilder.Entity("RoleRollsPocketEdition.Scenes.Entities.SceneInitiativeEntry", b =>
+                {
+                    b.HasOne("RoleRollsPocketEdition.Scenes.Entities.Scene", "Scene")
+                        .WithMany("Initiative")
+                        .HasForeignKey("SceneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scene");
+                });
+
             modelBuilder.Entity("RoleRollsPocketEdition.Spells.Entities.SpellCircle", b =>
                 {
                     b.HasOne("RoleRollsPocketEdition.Spells.Entities.Spell", "Spell")
@@ -2327,6 +2375,8 @@ namespace RoleRollsPocketEdition.Migrations
                     b.Navigation("Board");
 
                     b.Navigation("Creatures");
+
+                    b.Navigation("Initiative");
 
                     b.Navigation("Rolls");
                 });

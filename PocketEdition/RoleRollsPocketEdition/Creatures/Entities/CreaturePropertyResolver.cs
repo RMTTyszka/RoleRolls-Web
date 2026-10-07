@@ -77,9 +77,9 @@ public partial class Creature
 
     private void ProcessSkillProperty(Guid skillId, PropertyValue result, PropertyInput input)
     {
-        var skill = Skills.First(sk => sk.Id == skillId);
-        
-        result.Value = GetAttributeValue(null, input);
+        var skill = Skills.First(sk => sk.Id == skillId || sk.SkillTemplateId == skillId);
+
+        result.Value = skill.Points;
         
         result.Bonus = 0;
     }
@@ -149,9 +149,11 @@ public partial class Creature
 
     private bool TryProcessAsSkill(Property property, PropertyValue result, PropertyInput input)
     {
-        var skill = Skills.FirstOrDefault(sk => sk.Id == property.Id);
-        
-        result.Value = GetAttributeValue(null, input);
+        var skill = Skills.FirstOrDefault(sk => sk.Id == property.Id || sk.SkillTemplateId == property.Id);
+        if (skill is null)
+            return false;
+
+        result.Value = skill.Points;
         result.Bonus = 0;
         return true;
     }

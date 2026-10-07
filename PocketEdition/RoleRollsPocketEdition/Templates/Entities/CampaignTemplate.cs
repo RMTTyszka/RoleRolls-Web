@@ -22,6 +22,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
     {
         public string Name { get; set; } = "";
         public bool Default { get; set; }
+        public Guid? IniciativePropertyId { get; set; }
         public string CreatureTypeTitle { get; set; } = "";
         public string ArchetypeTitle { get; set; } = "";
 
@@ -45,6 +46,7 @@ namespace RoleRollsPocketEdition.Templates.Entities
 
         public CampaignTemplate(CampaignTemplateModel template) : this()
         {
+            IniciativePropertyId = template.IniciativePropertyId;
             Name = template.Name;
             TotalAttributePoints = template.TotalAttributePoints;
             Attributes = template.Attributes.Select(attribute => new AttributeTemplate(attribute)).ToList();

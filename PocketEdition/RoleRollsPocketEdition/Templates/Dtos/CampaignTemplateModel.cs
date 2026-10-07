@@ -18,6 +18,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
             Name = template.Name;
             CreatureTypeTitle = template.CreatureTypeTitle;
             ArchetypeTitle = template.ArchetypeTitle;
+            IniciativePropertyId = template.IniciativePropertyId;
             TotalAttributePoints = template.TotalAttributePoints;
             MaxAttributePoints = template.MaxAttributePoints;
             Default = template.Default;
@@ -51,6 +52,7 @@ namespace RoleRollsPocketEdition.Templates.Dtos
         public List<ArchetypeModel> Archetypes { get; set; } = [];
 
         public Guid Id { get; set; }
+        public Guid? IniciativePropertyId { get; set; }
         public string? Name { get; set; }
         public int MaxAttributePoints { get; init; }
         public int TotalAttributePoints { get; set; }

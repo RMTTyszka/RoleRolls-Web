@@ -3,7 +3,8 @@ namespace RoleRollsPocketEdition.Templates.Dtos
     public enum CreatureTemplateValidationResult
     {
         Ok = 0,
-        SkillWithoutAttribute = 1
+        SkillWithoutAttribute = 1,
+        InvalidIniciativeProperty = 2
     }
 }
 

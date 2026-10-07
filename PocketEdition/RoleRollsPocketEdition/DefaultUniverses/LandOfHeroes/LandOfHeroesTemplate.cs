@@ -25,6 +25,7 @@ public class LandOfHeroesTemplate
             var template = new CampaignTemplate
             {
                 Id = Guid.Parse("985C54E0-C742-49BC-A3E0-8DD2D6CE2632"),
+                IniciativePropertyId = LandOfHeroesAttributes.AttributeIds[LandOfHeroesAttribute.Agility],
                 Name = "Land Of Heroes",
                 ArchetypeTitle = "Archetype",
                 CreatureTypeTitle = "Creature Types",

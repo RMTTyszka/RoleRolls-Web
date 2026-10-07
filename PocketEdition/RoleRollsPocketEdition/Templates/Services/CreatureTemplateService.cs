@@ -15,12 +15,19 @@ namespace RoleRollsPocketEdition.Templates.Services
             _dbContextl = dbContextl;
         }
 
-        public async Task Create(CampaignTemplateModel template)
+        public async Task<CreatureTemplateValidationResult> Create(CampaignTemplateModel template)
         {
             var creatureTemplate = new CampaignTemplate(template);
+            var validation = ValidateInput(template);
+            if (validation != CreatureTemplateValidationResult.Ok)
+            {
+                return validation;
+            }
+
             await _dbContextl.CampaignTemplates.AddAsync(creatureTemplate);
             await _dbContextl.SaveChangesAsync();
         }
+            return CreatureTemplateValidationResult.Ok;
 
         public async Task<CampaignTemplateModel> Get(Guid id)
         {
@@ -69,6 +76,7 @@ namespace RoleRollsPocketEdition.Templates.Services
 
             template.Name = updatedTemplate.Name;
 
+            template.IniciativePropertyId = updatedTemplate.IniciativePropertyId;
             var attributesToCreate = updatedTemplate.Attributes
                 .Where(attribute => !template.Attributes.Select(a => a.Id).Contains(attribute.Id))
                 .Select(attribute => new AttributeTemplate(attribute))
@@ -265,9 +273,29 @@ namespace RoleRollsPocketEdition.Templates.Services
             return CreatureTemplateValidationResult.Ok;
         }
 
-        private CreatureTemplateValidationResult ValidateInput(CampaignTemplateModel template)
+        internal static CreatureTemplateValidationResult ValidateInput(CampaignTemplateModel template)
         {
             return CreatureTemplateValidationResult.Ok;
+            if (!template.IniciativePropertyId.HasValue)
+            {
+                return CreatureTemplateValidationResult.Ok;
+            }
+
+            var attributes = template.Attributes ?? [];
+            var skills = template.Skills ?? [];
+            var defenses = template.Defenses ?? [];
+            var vitalities = template.Vitalities ?? [];
+            var propertyIds = attributes.Select(attribute => attribute.Id)
+                .Concat(skills.Select(skill => skill.Id))
+                .Concat(skills.SelectMany(skill => skill.SpecificSkillTemplates ?? []).Select(skill => skill.Id))
+                .Concat(defenses.Select(defense => defense.Id))
+                .Concat(vitalities.Select(vitality => vitality.Id));
+
+            if (!propertyIds.Contains(template.IniciativePropertyId.Value))
+            {
+                return CreatureTemplateValidationResult.InvalidIniciativeProperty;
+            }
+
         }
     }
 }

@@ -28,9 +28,14 @@ namespace RoleRollsPocketEdition.Templates.Controllers
             return await _creatureTemplateService.GetDefaults(input);
         }
         [HttpPost("")]
-        public Task Create([FromBody] CampaignTemplateModel template) 
+        public async Task<IActionResult> Create([FromBody] CampaignTemplateModel template)
         {
-            return _creatureTemplateService.Create(template);
+            var result = await _creatureTemplateService.Create(template);
+            if (result != CreatureTemplateValidationResult.Ok)
+            {
+                return new UnprocessableEntityObjectResult(result);
+            }
+            return Ok();
         }      
         [HttpPut("{id}")]
         public async Task<IActionResult>Update([FromRoute] Guid id, [FromBody] CampaignTemplateModel template) 

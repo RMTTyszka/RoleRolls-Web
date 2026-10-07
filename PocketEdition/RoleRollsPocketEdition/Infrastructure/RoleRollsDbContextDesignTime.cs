@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace RoleRollsPocketEdition.Infrastructure;
 
-public class RoleRollsDbContextDesignTime
+public class RoleRollsDbContextDesignTime : IDesignTimeDbContextFactory<RoleRollsDbContext>
 {
     public RoleRollsDbContext CreateDbContext(string[] args)
     {

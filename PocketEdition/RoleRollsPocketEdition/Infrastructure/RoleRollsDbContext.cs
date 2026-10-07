@@ -47,6 +47,7 @@ namespace RoleRollsPocketEdition.Infrastructure
         public DbSet<VitalityTemplate> VitalityTemplates { get; set; }
         public DbSet<CreatureCondition> CreatureConditions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SceneInitiativeEntry> SceneInitiativeEntries { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Roll> Rolls { get; set; }
         public DbSet<Scene> CampaignScenes { get; set; }
@@ -198,6 +199,16 @@ namespace RoleRollsPocketEdition.Infrastructure
                 entity.HasOne(board => board.Scene)
                     .WithOne(scene => scene.Board)
                     .HasForeignKey<SceneBoard>(board => board.SceneId)
+            modelBuilder.Entity<SceneInitiativeEntry>(entity =>
+            {
+                entity.HasOne(entry => entry.Scene)
+                    .WithMany(scene => scene.Initiative)
+                    .HasForeignKey(entry => entry.SceneId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(entry => new { entry.SceneId, entry.CreatureId })
+                    .IsUnique();
+            });
+
                     .OnDelete(DeleteBehavior.Cascade);
                 entity.HasIndex(board => board.SceneId)
                     .IsUnique();
