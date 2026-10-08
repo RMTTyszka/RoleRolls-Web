@@ -17,7 +17,7 @@ O sistema base oferece:
 - atributos, perícias e especialidades para representar capacidades;
 - defesas, vitalidades e condições para representar proteção e estado;
 - testes de d20 resolvidos por complexidade, dificuldade e sucessos;
-- ataque básico, Evasão, bloqueio, dano e desgaste;
+- ataque básico, Esquiva, bloqueio, dano e desgaste;
 - fórmulas para calcular recursos e valores da ficha.
 
 A campanha define os atributos, as perícias, as especialidades, as defesas, as
@@ -27,7 +27,7 @@ vitalidades, as condições, as fórmulas e as propriedades usadas por armas.
 
 O Land of Heroes usa os atributos Agilidade, Carisma, Inteligência, Intuição,
 Força e Vigor. Suas vitalidades são Vida, Moral e Mana; sua defesa principal é
-Evasão.
+Esquiva.
 
 ## 2. A ficha da criatura
 
@@ -79,11 +79,13 @@ campanha calcula esse valor por fórmula.
 No Land of Heroes:
 
 ```text
-Evasão = 10 + Evasão + bônus de defesa da armadura + bônus de nível da armadura
+Esquiva = 10 + Evasão + bônus de defesa da armadura + bônus de nível da armadura
 ```
 
+Esquiva é a defesa; Evasão é a especialidade de Combate usada em seu cálculo.
+
 Uma criatura com Evasão `5`, armadura leve (`+2`) e item de nível `0` possui
-Evasão estática `17`. Esse valor é usado quando a campanha resolve uma Defesa
+Esquiva estática `17`. Esse valor é usado quando a campanha resolve uma Defesa
 estática, como em ataques feitos por um jogador contra uma criatura controlada
 pelo mestre.
 
@@ -203,7 +205,7 @@ a qualidade da descoberta.
 
 Estados de rolagem usam um grau em algarismo romano: `I` corresponde a um,
 `II` a dois e assim por diante. Vantagem adiciona à rolagem a quantidade de
-dados indicada pelo grau. No ataque básico e em Evasão, se houver Vantagem
+dados indicada pelo grau. No ataque básico e em Esquiva, se houver Vantagem
 no comando e em um bônus, vale o maior grau; os graus não se somam.
 
 Sorte e Azar rerrolam a quantidade de dados indicada pelo grau. Sorte rerrola
@@ -211,14 +213,14 @@ os menores resultados e conserva o maior de cada par; Azar rerrola os maiores
 e conserva o menor. Internamente, Sorte é positiva e Azar é negativo.
 
 Bônus `+N` soma `N` ao valor estático da aplicação indicada. Penalidade `-N`
-subtrai `N` desse valor. Bônus de Acerto e Evasão participam do ataque básico
-e de Evasão.
+subtrai `N` desse valor. Bônus de Acerto e Esquiva participam do ataque básico
+e de Esquiva.
 
 Desvantagem e Penalidade pertencem ao modelo de bônus e podem aparecer em
-manobras. No sistema atual, os caminhos de ataque básico e Evasão não os
+manobras. No sistema atual, os caminhos de ataque básico e Esquiva não os
 consultam; portanto não removem dados nem subtraem valores nesses fluxos.
 
-As aplicações são: **Acerto**, para rolagens ofensivas; **Evasão**, para
+As aplicações são: **Acerto**, para rolagens ofensivas; **Esquiva**, para
 rolagens defensivas; e **propriedade**, quando uma habilidade identifica outra
 rolagem. Em todos os testes, resultado alto é favorável.
 
@@ -301,7 +303,8 @@ O equipamento determina a empunhadura efetiva pelas armas das mãos principal e
 secundária. Quando o modelo de uma arma define uma empunhadura, ela tem
 precedência. Sem essa definição, arma leve usa empunhadura leve de uma mão,
 arma média usa empunhadura média de uma mão, arma pesada usa empunhadura
-pesada de duas mãos, e cada categoria de escudo usa a empunhadura equivalente.
+pesada de duas mãos. A tabela mostra as empunhaduras exibidas nesta versão do
+livro.
 
 | Empunhadura efetiva | Bônus de Acerto | Bônus fixo por acerto | Bônus por nível do atacante | Sucessos por acerto |
 |---|---:|---:|---:|---:|
@@ -310,11 +313,20 @@ pesada de duas mãos, e cada categoria de escudo usa a empunhadura equivalente.
 | Arma pesada, duas mãos | -1 | 2 | 8 | 3 |
 | Duas armas leves | -1 | 0 | 3 | 1 |
 | Duas armas médias | -1 | 0 | 4 | 2 |
+
+<!--
+GripTypes ocultos temporariamente na apresentação do livro. Preserve estes
+valores para reativação; o enum, os cálculos e os itens existentes não mudam.
+Cada categoria de escudo usa a empunhadura equivalente.
+
+| Empunhadura efetiva | Bônus de Acerto | Bônus fixo por acerto | Bônus por nível do atacante | Sucessos por acerto |
+|---|---:|---:|---:|---:|
 | Arma pesada, uma mão | -1 | 0 | 8 | 3 |
 | Arma média, duas mãos | +2 | 8 | 5 | 3 |
 | Escudo leve | +0 | 4 | 0 | 1 |
 | Escudo médio | +1 | 8 | 0 | 2 |
 | Escudo pesado | +3 | 12 | 0 | 3 |
+-->
 
 Os excessos são ordenados do maior para o menor. Cada grupo completo forma um
 acerto; excessos fora de um grupo completo não formam acerto.
@@ -344,7 +356,7 @@ Cada acerto causa no mínimo `1` ponto de dano depois de aplicar o bloqueio.
 O bloqueio combina a proteção da armadura e a propriedade de bloqueio definida
 pela campanha. No Land of Heroes, essa propriedade é `Vigor`.
 
-| Armadura | Bônus de Evasão | Bloqueio-base | Bloqueio por nível |
+| Armadura | Bônus de Esquiva | Bloqueio-base | Bloqueio por nível |
 |---|---:|---:|---:|
 | Nenhuma | +0 | 0 | 0 |
 | Leve | +2 | 2 | 1 |
@@ -361,7 +373,7 @@ bloqueio = bloqueio-base
 
 ### Sorte por arma e armadura
 
-Durante o ataque básico e a Evasão, a categoria da arma do atacante pode
+Durante o ataque básico e a Esquiva, a categoria da arma do atacante pode
 alterar a Sorte da rolagem conforme a armadura do defensor. A matriz usa a
 categoria da arma, não a empunhadura. Todas as combinações ausentes são
 neutras; armas médias, escudos e armas sem categoria não alteram a Sorte.
@@ -376,7 +388,7 @@ neutras; armas médias, escudos e armas sem categoria não alteram a Sorte.
 ### Exemplo: ataque com arma média
 
 Uma guerreira de nível 1 possui Arma Corpo a Corpo Média `4` e usa arma média. O alvo
-tem Evasão `17`, Vigor `2` e armadura leve. Nenhum dos lados possui bônus de
+tem Esquiva `17`, Vigor `2` e armadura leve. Nenhum dos lados possui bônus de
 nível ou bônus.
 
 Arma média sem empunhadura explícita usa empunhadura média de uma mão: bônus de
@@ -402,22 +414,22 @@ consome essa ação. Os modificadores seguem a seção anterior.
 | Manobra | Ação e duração | Efeito |
 | --- | --- | --- |
 | Tiro Livre | Ação de Ataque; instantânea | Vantagem de Acerto II. |
-| Ataque Completo | Ação de Ataque; instantânea | Vantagem de Acerto I; Desvantagem de Evasão I; Penalidade de Evasão `-1`. |
+| Ataque Completo | Ação de Ataque; instantânea | Vantagem de Acerto I; Desvantagem de Esquiva I; Penalidade de Esquiva `-1`. |
 | Ataque Parcial | Ação de Ataque; instantânea | Desvantagem de Acerto I. |
-| Ataque Cauteloso | Ação de Ataque; instantânea | Desvantagem de Acerto I; Vantagem de Evasão I. |
-| Ataque Auxiliar | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Evasão II. |
-| Defesa Total | Ação Completa; 1 turno | Desvantagem de Acerto III; Vantagem de Evasão II; Bônus de Evasão `+2`. |
-| Cobrir Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto I. Alvo: Vantagem de Evasão I. |
-| Cobertura Total de Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Evasão II. |
+| Ataque Cauteloso | Ação de Ataque; instantânea | Desvantagem de Acerto I; Vantagem de Esquiva I. |
+| Ataque Auxiliar | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Esquiva II. |
+| Defesa Total | Ação Completa; 1 turno | Desvantagem de Acerto III; Vantagem de Esquiva II; Bônus de Esquiva `+2`. |
+| Cobrir Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto I. Alvo: Vantagem de Esquiva I. |
+| Cobertura Total de Aliado | Ação de Ataque; instantânea | Usuário: Desvantagem de Acerto III. Alvo: Vantagem de Esquiva II. |
 
 Exemplo: com Ataque Cauteloso, a criatura rola um dado a menos para Acerto e
-um dado a mais para Evasão. Com Defesa Total, também aplica Bônus de Evasão
-`+2` ao resultado de Evasão: o Bônus soma dois ao bônus estático de Evasão;
+um dado a mais para Esquiva. Com Defesa Total, também aplica Bônus de Esquiva
+`+2` ao resultado de Esquiva: o Bônus soma dois ao bônus estático de Esquiva;
 não cria dados extras.
 
-## 7. Evasão rolada pelo defensor
+## 7. Esquiva rolada pelo defensor
 
-Evasão resolve um ataque básico recebido por uma criatura controlada por
+Esquiva resolve um ataque básico recebido por uma criatura controlada por
 jogador. O atacante fornece valores estáticos; o defensor realiza todos os
 d20 da resolução.
 
@@ -425,51 +437,51 @@ d20 da resolução.
 
 1. obtenha a arma e a especialidade ofensiva do atacante;
 2. calcule quantos dados o atacante rolaria em um ataque básico;
-3. calcule a Dificuldade de Evasão;
-4. o defensor rola essa quantidade de d20 de Evasão;
-5. some o bônus de Evasão a cada dado;
+3. calcule a Dificuldade de Esquiva;
+4. o defensor rola essa quantidade de d20 de Esquiva;
+5. some o bônus de Esquiva a cada dado;
 6. transforme resultados que falharam em excessos;
 7. agrupe excessos pela dificuldade da empunhadura;
 8. aplique dano, bloqueio e vitalidades para cada acerto.
 
 ```text
-dados-base de Evasão = total da especialidade ofensiva do atacante
+dados-base de Esquiva = total da especialidade ofensiva do atacante
 
-Dificuldade de Evasão = 10 + bônus ofensivo do atacante
+Dificuldade de Esquiva = 10 + bônus ofensivo do atacante
 
-bônus de Evasão = total da especialidade defensiva
+bônus de Esquiva = total da especialidade defensiva
   + bônus da armadura
   + nível do peitoral / 2
-  + Bônus de Evasão
+  + Bônus de Esquiva
 
-resultado de Evasão = d20 + bônus de Evasão
+resultado de Esquiva = d20 + bônus de Esquiva
 ```
 
-O peitoral é o item que fornece o bônus de nível de Evasão. A armadura não
+O peitoral é o item que fornece o bônus de nível de Esquiva. A armadura não
 fornece Sorte própria. No Land of Heroes, a especialidade defensiva é
 Evasão.
 
-Um resultado de Evasão maior que a Dificuldade evita uma tentativa. O empate
+Um resultado de Esquiva maior que a Dificuldade evita uma tentativa. O empate
 favorece o atacante, conta para formar um acerto e gera excesso `0`. Um resultado
 menor gera:
 
 ```text
-excesso = Dificuldade de Evasão − resultado de Evasão
+excesso = Dificuldade de Esquiva − resultado de Esquiva
 ```
 
-Quando Vantagem cria dados extras na Evasão, o defensor conserva somente os
+Quando Vantagem cria dados extras na Esquiva, o defensor conserva somente os
 melhores resultados até completar a quantidade-base; resultado alto permanece
 favorável. Sorte e Azar também seguem a regra geral, inclusive a matriz entre
 arma e armadura. Desvantagem e Penalidade não são consultadas pelo fluxo atual.
 
-### Exemplo: Evasão contra arma média
+### Exemplo: Esquiva contra arma média
 
 Um inimigo usa arma média e possui total ofensivo `4`. Seus bônus de arma e de
 efeito somam `3`, portanto seu bônus ofensivo total é `7`. O defensor rola
-quatro d20 de Evasão contra Dificuldade `17`.
+quatro d20 de Esquiva contra Dificuldade `17`.
 
 Uma personagem com Agilidade `3`, Evasão `2` e armadura leve possui bônus de
-Evasão `7`: `5` da especialidade e `+2` da armadura. Ela rola `20`, `15`,
+Esquiva `7`: `5` da especialidade e `+2` da armadura. Ela rola `20`, `15`,
 `12` e `8`, obtendo `27`, `22`, `19` e `15`.
 
 Os três primeiros resultados evitam tentativas. O quarto gera excesso `2`. A
@@ -494,7 +506,7 @@ condição, duração, deslocamento ou outro efeito.
 ### Exemplo: magia de medo
 
 Uma conjuradora possui total `5` na especialidade usada pela magia. Ela usa um
-ataque especial contra Evasão `17` e recebe bônus `5` em cada dado. Seus
+ataque especial contra Esquiva `17` e recebe bônus `5` em cada dado. Seus
 resultados brutos são `12`, `9`, `7`, `4` e `2`; os totais são `17`, `14`,
 `12`, `9` e `7`.
 
@@ -552,7 +564,7 @@ se deslocar, não há ataque de oportunidade.
 
 ## 10. Vitalidades, desgaste e condições
 
-O ataque básico e a Evasão aplicam cada acerto na ordem de vitalidades da
+O ataque básico e a Esquiva aplicam cada acerto na ordem de vitalidades da
 campanha. Quando uma vitalidade chega a zero, o dano restante segue para a
 próxima vitalidade da ordem.
 

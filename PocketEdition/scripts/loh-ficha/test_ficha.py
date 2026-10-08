@@ -1,6 +1,7 @@
 """Integration checks: the printed sheet must follow its Markdown source."""
 
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -66,6 +67,20 @@ class SheetTests(unittest.TestCase):
                 self.assertNotIn("2 + nível / 6", printed)
                 self.assertIn("Acrobacia aérea", printed)
 
+    def test_dodge_defense_is_distinct_from_evasion_specialty(self):
+        self.generate()
+        reader = PdfReader(self.pdf)
+        combat_page = reader.pages[0].extract_text()
+        skills_page = reader.pages[1].extract_text()
+        self.assertIn("ESQUIVA ESTÁTICA", combat_page)
+        self.assertNotIn("EVASÃO ESTÁTICA", combat_page)
+        self.assertIn("10 + Evasão +", combat_page)
+        self.assertIn("Evasão", skills_page)
+        self.assertNotIn("Esquiva", skills_page)
+        self.assertIn("Esquiva = 10 + Evasão +", self.base_source)
+        self.assertIn("## 7. Esquiva rolada pelo defensor", self.base_source)
+        self.assertIn("### Esquiva e bloqueio", self.source)
+
     def test_check_detects_stale_book(self):
         self.generate()
         self.assertEqual(self.run_generator("--check").returncode, 0)
@@ -73,6 +88,18 @@ class SheetTests(unittest.TestCase):
         result = self.run_generator("--check")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("desatualizado", result.stderr)
+
+    def test_book_temporarily_hides_unused_grip_types(self):
+        section = self.base_source.split("### Empunhaduras de arma", 1)[1].split("### Dano e bloqueio", 1)[0]
+        visible = re.sub(r"<!--.*?-->", "", section, flags=re.S)
+        for name in ["Arma pesada, uma mão", "Arma média, duas mãos",
+                     "Escudo leve", "Escudo médio", "Escudo pesado"]:
+            with self.subTest(name=name):
+                self.assertIn(f"| {name} |", section, "Preserve o tipo oculto para reativação")
+                self.assertNotIn(f"| {name} |", visible)
+        for name in ["Arma leve, uma mão", "Arma média, uma mão",
+                     "Arma pesada, duas mãos", "Duas armas leves", "Duas armas médias"]:
+            self.assertIn(f"| {name} |", visible)
 
     def test_derived_rules_exist_only_in_base_book(self):
         self.assertIn("| Valor derivado | Fórmula |", self.base_source)

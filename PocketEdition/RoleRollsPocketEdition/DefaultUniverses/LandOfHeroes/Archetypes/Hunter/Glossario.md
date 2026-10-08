@@ -39,7 +39,7 @@
 ## Posturas Animais
 - **Macaco**: Suporta escaladas e deslocamentos em galhos, ganhando bonus ao atacar de alturas irregulares.
 - **Salto do Macaco**: Conversao da postura em um salto rapido que permite reposicionamento sem provocar ataques de oportunidade.
-- **Lontra**: Favorece nado, mergulho e respiracao prolongada debaixo d'agua, alem de bonus de evasao em ambientes aquaticos.
+- **Lontra**: Favorece nado, mergulho e respiração prolongada debaixo d'água, além de bônus de Esquiva em ambientes aquáticos.
 - **Salto da Lontra**: Disparo aquatico que projeta o cacador para fora da agua com velocidade, permitindo atacar no mesmo turno.
 - **Camaleao**: Postura de furtividade total; mimetiza cores do ambiente e melhora testes para passar despercebido em observacao direta.
 - **Camuflagem Aprimorada**: Evolucao da postura do camaleao, permitindo mover-se lentamente sem perder invisibilidade parcial.

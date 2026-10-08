@@ -4,7 +4,7 @@
 
 Land of Heroes é uma campanha do RoleRolls. Este livro define suas escolhas
 oficiais: criação de personagem, atributos, perícias, opções, equipamentos e
-conjurações. As regras de resolução — testes, ataque, Evasão, dano, ações e
+conjurações. As regras de resolução — testes, ataque, Esquiva, dano, ações e
 vitalidades — estão no [Livro de Regras do RoleRolls](../livro-de-regras.md) e
 não são repetidas aqui.
 
@@ -66,17 +66,17 @@ ligado.
 
 ## 3. Defesas, vitalidades e condições
 
-### Evasão e bloqueio
+### Esquiva e bloqueio
 
-A defesa da campanha é **Evasão**. Sua fórmula é:
+A defesa da campanha é **Esquiva**. Sua fórmula é:
 
 ```text
 10 + Evasão + bônus de defesa do peitoral + bônus de nível do peitoral
 ```
 
-Evasão usa a especialidade Evasão, ligada a Agilidade. O bloqueio usa Vigor
+Esquiva usa a especialidade **Evasão**, ligada a Agilidade. O bloqueio usa Vigor
 como propriedade da criatura. Veja resolução, armaduras e empunhaduras nas
-seções de combate e Evasão do [Livro do RoleRolls](../livro-de-regras.md).
+seções de combate e Esquiva do [Livro do RoleRolls](../livro-de-regras.md).
 
 ### Vitalidades
 
@@ -115,7 +115,7 @@ Marcial, Arcano, Fogo, Gelo, Eletricidade, Ácido, Necrótico e Radiante.
 
 ## 4. Combate e equipamento
 
-As regras de ataque, Evasão, dano, bloqueio, sorte por arma e armadura, área de
+As regras de ataque, Esquiva, dano, bloqueio, sorte por arma e armadura, área de
 ameaça e ações estão no [Livro do RoleRolls](../livro-de-regras.md). Land of
 Heroes usa as opções a seguir.
 
@@ -257,7 +257,7 @@ campos individuais. Eles não criam regras adicionais nem limites de uso.
 | 1 | Identidade | Nome do herói; Jogador; Raça / tipo; Arquétipo; Nível; Crescimento; Grau |
 | 1 | Atributos | Total |
 | 1 | Vitalidades | Atual; Máximo |
-| 1 | Defesa e bloqueio | Evasão estática; Bloqueio |
+| 1 | Defesa e bloqueio | Esquiva estática; Bloqueio |
 | 1 | Condições | Outras condições |
 | 1 | Ataques e ações de combate | Arma / ação; Tipo; Acerto; Dano; Alcance; Efeito / observação |
 | 1 | Recursos e resistências | Moedas / recursos; Resistir Ferimento; Resistir Maldição; Resistir Veneno ou Doença |
@@ -277,7 +277,7 @@ Jogador e nome identificam a ficha, sem efeito mecânico próprio.
 separado o orçamento de 12 pontos dos bônus inatos de raça.
 
 **Vitalidades e defesa:** Atual registra o recurso restante; Máximo registra
-o resultado da fórmula. Evasão estática é a defesa calculada na seção 3;
+o resultado da fórmula. Esquiva estática é a defesa calculada na seção 3;
 ela não deve ser confundida com os pontos da especialidade Evasão. Bloqueio
 registra o valor calculado com Vigor, armadura e nível do defensor conforme o
 livro-base. A marcação de uma condição segue seu gatilho na seção 3.

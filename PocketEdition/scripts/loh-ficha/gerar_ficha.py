@@ -1,6 +1,6 @@
 """Generate the two-page paper sheet from the campaign and system rulebooks.
 
-All rule text comes from ordinary Markdown tables and the Evasion code block.
+All rule text comes from ordinary Markdown tables and the dodge code block.
 This file owns only layout, font selection, source checks and PDF generation.
 """
 
@@ -105,9 +105,9 @@ class Rules:
         vitalities = table(section(source, "Vitalidades"), ("Vitalidade", "Fórmula máxima", "Ordem no dano básico"))
         derived = table(section(base_source, "Grau, crescimento e arredondamento"), ("Valor derivado", "Fórmula"))
         conditions = table(section(source, "Condições"), ("Estado", "Gatilho"))
-        defense_match = re.search(r"```text\s*\n(.*?)\n```", section(source, "Evasão e bloqueio"), re.S)
+        defense_match = re.search(r"```text\s*\n(.*?)\n```", section(source, "Esquiva e bloqueio"), re.S)
         if not defense_match:
-            raise ValueError("Fórmula de Evasão ausente no livro")
+            raise ValueError("Fórmula de Esquiva ausente no livro")
         fields = table(section(source, "Campos e organização"), ("Página", "Bloco", "Campos"))
         keyed = {row["Bloco"]: [value.strip() for value in row["Campos"].split(";")] for row in fields}
         return cls(title_match.group(1), attributes, skills, vitalities, derived,
