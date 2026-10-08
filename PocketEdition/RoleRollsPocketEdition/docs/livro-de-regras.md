@@ -117,6 +117,28 @@ No Land of Heroes:
 
 ## 3. Progressão
 
+### Grau, crescimento e arredondamento
+
+O RoleRolls disponibiliza Grau (`Tier`) e Crescimento (`Growth`) como valores
+derivados do nível. Eles não são pontos distribuídos pelo jogador. Cada
+campanha escolhe se os utiliza e em quais fórmulas; sua definição e seu
+cálculo pertencem ao sistema base. Para criaturas de nível 1 ou superior:
+
+| Valor derivado | Fórmula |
+|---|---|
+| Grau (`Tier`) | `1 + piso((nível - 1) / 2)` |
+| Crescimento (`Growth`) | `piso(Grau × Grau / 2)` |
+
+`piso` significa arredondar para baixo. No nível 1, Grau é `1` e Crescimento
+é `0`. Esses valores podem participar de fórmulas de defesa, vitalidade e
+outros recursos definidos pela campanha.
+
+O resultado final de toda fórmula numérica é arredondado para baixo, depois
+de avaliar a expressão inteira. Não arredonde cada termo isoladamente.
+Por exemplo, `5 / 2` resulta em `2` e `-6 / 5` resulta em `-2`.
+
+### Pontos de especialidade
+
 Ao subir de nível, a criatura recebe pontos de especialidade em cada perícia.
 Esses pontos pertencem à perícia que os concedeu e são distribuídos apenas
 entre suas próprias especialidades.

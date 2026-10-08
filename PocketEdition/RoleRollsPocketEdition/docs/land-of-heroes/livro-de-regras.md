@@ -55,8 +55,8 @@ RoleRolls](../livro-de-regras.md). Esta é a árvore oficial do Land of Heroes.
 | Vigor | Sobrevivência (`Survival`) | Fome, Clima Frio, Clima Quente |
 | Inteligência | Tratamento (`Treatment`) | Ferimento, Veneno, Maldição, Doença |
 | Força | Atletismo (`Athletics`) | Natação, Corrida, Escalada, Salto |
-| Variável | Combate (`Combat`) | Armas corpo a corpo leves, médias e pesadas; armas à distância leves, médias e pesadas; Evasão; Concentração; Causar Maldição, Ferimento e Veneno ou Doença |
-| Variável | Resistência (`Resistance`) | Resistir Ferimento, Maldição e Veneno ou Doença |
+| Variável | Combate (`Combat`) | Armas corpo a corpo leves; Armas corpo a corpo médias; Armas corpo a corpo pesadas; Armas à distância leves; Armas à distância médias; Armas à distância pesadas; Evasão; Concentração; Causar Maldição; Causar Ferimento; Causar Veneno ou Doença |
+| Variável | Resistência (`Resistance`) | Resistir Ferimento; Resistir Maldição; Resistir Veneno ou Doença |
 
 Combate e Resistência não têm um único atributo ligado. Cada especialidade
 dessas perícias usa o seu atributo configurado. Em especial: Evasão e armas
@@ -82,12 +82,23 @@ seções de combate e Evasão do [Livro do RoleRolls](../livro-de-regras.md).
 
 | Vitalidade | Fórmula máxima | Ordem no dano básico |
 |---|---|---:|
-| Vida (`Life`) | `4 × Vigor + 2 × nível + Growth` | 2 |
-| Moral (`Moral`) | `4 × Intuição + 2 × nível + Growth + 2 × Tier` | 1 |
+| Vida (`Life`) | `4 × Vigor + 2 × nível + Crescimento` | 2 |
+| Moral (`Moral`) | `4 × Intuição + 2 × nível + Crescimento + 2 × Grau` | 1 |
 | Mana (`Mana`) | `2 + nível / 6` | — |
 
 Moral recebe dano antes de Vida. Mana não participa da ordem padrão de dano
 básico.
+
+### Uso de Grau e Crescimento
+
+Land of Heroes usa Crescimento em Vida e Moral, e Grau em Moral, conforme
+as fórmulas da tabela de Vitalidades. A definição e o cálculo desses valores,
+assim como o arredondamento das fórmulas, são regras do RoleRolls: consulte
+[Grau, crescimento e arredondamento](../livro-de-regras.md#grau-crescimento-e-arredondamento)
+no livro-base. Nesta campanha, Mana é `2` no nível 1 e `3` no nível 6 ao aplicar
+esse arredondamento à fórmula de Mana.
+
+### Condições
 
 | Estado | Gatilho |
 |---|---|
@@ -227,3 +238,106 @@ define deslocamentos e classes de armadura usados pelos efeitos.
 Os detalhes de cada conjuração ficam na página vinculada. Poderes que não têm
 texto próprio ainda são apresentados somente pela progressão de seu arquétipo;
 este livro não atribui efeitos que a campanha não definiu.
+
+## 8. Ficha para impressão
+
+A ficha oficial é um template em branco, estático, em duas páginas A4
+verticais. Os espaços destinam-se ao preenchimento à mão. Os nomes,
+especialidades, fórmulas e gatilhos da campanha vêm deste livro; Grau e
+Crescimento vêm do livro-base referenciado. Uma alteração em qualquer dessas
+fontes deve ser refletida na próxima geração do PDF.
+
+### Campos e organização
+
+As listas abaixo definem os campos de registro. Separadores `;` distinguem
+campos individuais. Eles não criam regras adicionais nem limites de uso.
+
+| Página | Bloco | Campos |
+|---|---|---|
+| 1 | Identidade | Nome do herói; Jogador; Raça / tipo; Arquétipo; Nível; Crescimento; Grau |
+| 1 | Atributos | Total |
+| 1 | Vitalidades | Atual; Máximo |
+| 1 | Defesa e bloqueio | Evasão estática; Bloqueio |
+| 1 | Condições | Outras condições |
+| 1 | Ataques e ações de combate | Arma / ação; Tipo; Acerto; Dano; Alcance; Efeito / observação |
+| 1 | Recursos e resistências | Moedas / recursos; Resistir Ferimento; Resistir Maldição; Resistir Veneno ou Doença |
+| 1 | Anotações rápidas | Anotações rápidas |
+| 2 | Perícias e especialidades | Disponíveis; Pontos; Total |
+| 2 | Equipamentos | Mão principal; Mão secundária; Cabeça; Peitoral; Braços; Mãos; Cintura; Pés; Pescoço; Anel esquerdo; Anel direito; Outros |
+| 2 | Inventário | Item; Quantidade; Peso / valor |
+| 2 | Poderes, magias e habilidades | Nome; Custo; Efeito / descrição |
+| 2 | História, traços e aparência | História, traços e aparência |
+| 2 | Anotações de sessão | Anotações de sessão |
+
+**Identidade:** raça/tipo e arquétipo registram as opções das seções 5 e 6;
+Grau e Crescimento usam as fórmulas do livro-base referenciado na seção 3.
+Jogador e nome identificam a ficha, sem efeito mecânico próprio.
+
+**Atributos:** registre o total após os bônus aplicáveis. Na criação, mantenha
+separado o orçamento de 12 pontos dos bônus inatos de raça.
+
+**Vitalidades e defesa:** Atual registra o recurso restante; Máximo registra
+o resultado da fórmula. Evasão estática é a defesa calculada na seção 3;
+ela não deve ser confundida com os pontos da especialidade Evasão. Bloqueio
+registra o valor calculado com Vigor, armadura e nível do defensor conforme o
+livro-base. A marcação de uma condição segue seu gatilho na seção 3.
+
+**Perícias:** Disponíveis registra os pontos ainda não distribuídos da reserva
+da perícia. Pontos registra somente os pontos investidos na especialidade;
+Total registra atributo ligado + pontos + bônus aplicáveis, conforme o
+livro-base. A reserva da perícia não é somada novamente ao Total.
+
+**Ataques e resistências:** os campos resumem os valores usados nas regras
+de combate e nos poderes. Acerto e Dano registram os valores e modificadores
+aplicáveis à arma/ação; não substituem a resolução por dados, excessos e
+empunhadura do livro-base. As resistências repetem os totais das respectivas
+especialidades para consulta rápida. Tipo e Alcance registram os dados da
+arma/ação; Efeito / observação registra modificadores e consequências.
+
+**Equipamentos e inventário:** equipamentos registram os onze espaços usados
+pelo RoleRolls. Outros serve para anotações de equipamento, sem criar um
+espaço adicional com bônus. Quantidade, Peso / valor e Moedas / recursos são
+registros livres; esta ficha não estabelece moeda, carga máxima ou regras de
+sobrecarga. O bloco Inventário lista os itens carregados.
+
+**Poderes e ficção:** Nome, Custo e Efeito / descrição resumem as habilidades
+adquiridas e suas regras de referência. Os espaços para história, traços,
+aparência e anotações são livres e não concedem bônus automaticamente.
+
+### Atualização do PDF
+
+O gerador mantido em `PocketEdition/scripts/loh-ficha/gerar_ficha.py` lê
+diretamente este Markdown e o [Livro do RoleRolls](../livro-de-regras.md) em
+UTF-8 e incorpora fontes com acentuação no PDF. As fórmulas de Grau e
+Crescimento são lidas da seção **Grau, crescimento e arredondamento** do
+livro-base; os campos e as escolhas de campanha são lidos daqui. Não existe
+uma segunda lista de fórmulas ou especialidades no gerador.
+
+A partir de `PocketEdition`, execute:
+
+```powershell
+powershell -NoProfile -File scripts/loh-ficha/gerar-ficha.ps1
+```
+
+O comando atualiza `output/pdf/ficha-land-of-heroes-template.pdf`. Editar o
+livro, por si só, não regrava o PDF: execute novamente o comando após uma
+mudança. Para conferir se a ficha corresponde aos dois livros e ao gerador
+atuais:
+
+```powershell
+powershell -NoProfile -File scripts/loh-ficha/gerar-ficha.ps1 -Check
+```
+
+Uma fórmula de campanha pode ser alterada na tabela de Vitalidades, por
+exemplo na linha de Mana. Grau e Crescimento devem ser alterados somente em
+sua tabela no livro-base. O gerador imprime cada fórmula de sua fonte; não
+exige copiar a fórmula para outro arquivo. Preserve os cabeçalhos das tabelas
+e das subseções lidas pelo gerador. Se faltar uma seção obrigatória ou o
+conteúdo exceder o espaço das duas páginas, a geração falha com uma mensagem
+em vez de produzir uma ficha incompleta ou cortada.
+
+Toda informação necessária à ficha deve estar explicada
+neste livro ou na regra do livro-base que ele referencia antes de entrar no
+PDF. Regras novas devem ser acrescentadas ao livro antes da regeneração.
+Mudanças no comportamento do aplicativo continuam exigindo implementação
+própria; este comando atualiza o artefato de impressão.
